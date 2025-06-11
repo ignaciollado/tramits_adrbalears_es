@@ -3,6 +3,7 @@ import { GrantApplicationFormComponent } from './xecs/grant-application-form/gra
 
 export const routes: Routes = [
   { path: 'home', component: GrantApplicationFormComponent },
+  { path: 'grant-subsidies-application-form', component: GrantApplicationFormComponent},
   { path: 'contact', component: GrantApplicationFormComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: GrantApplicationFormComponent }

@@ -1,1 +1,22 @@
-<p>grant-application-form works!</p>
+<form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()">
+  <label for="programa">Programa de ayuda:</label>
+  <select id="programa" formControlName="programa">
+    <option value="">Seleccione un programa</option>
+    <option *ngFor="let prog of programas" [value]="prog">{{ prog }}</option>
+  </select>
+  <div *ngIf="ayudaForm.get('programa')?.invalid && ayudaForm.get('programa')?.touched">
+    Seleccione un programa.
+  </div>
+
+  <label for="documentos">Subir documentos (PDF o imagen):</label>
+  <input type="file" id="documentos" (change)="onFileChange($event)" multiple accept=".pdf,image/*" />
+  <div *ngIf="ayudaForm.get('documentos')?.invalid && ayudaForm.get('documentos')?.touched">
+    Debe subir al menos un documento válido.
+  </div>
+
+  <ul>
+    <li *ngFor="let file of archivosSubidos">{{ file.name }}</li>
+  </ul>
+
+  <button type="submit" [disabled]="ayudaForm.invalid">Enviar solicitud</button>
+</form>

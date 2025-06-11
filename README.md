@@ -40,5 +40,7 @@ this app uses reactive forms
 
 ## Visual styling
 
-for the visual styling w'are using the Angular Material library
+for the visual styling we're using the Angular Material library
+# Installation
+ng add @angular/material
 
