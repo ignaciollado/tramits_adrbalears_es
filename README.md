@@ -34,3 +34,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 npm install @ngx-translate/core @ngx-translate/http-loader
 
+## Forms type
+
+this app uses reactive forms
+
+## Visual styling
+
+for the visual styling w'are using the Angular Material library
+
