@@ -19,9 +19,10 @@ interface SolicitudAyudaForm {
 export class GrantApplicationFormComponent {
 
 ayudaForm = this.fb.group({
-  programa: this.fb.control<string | null>(null, Validators.required),
+  programa: this.fb.control<string[] | null>([], Validators.required),
   documentos: this.fb.control<File[] | null>(null, Validators.required)
 });
+
 
 
 programas = [
@@ -49,10 +50,12 @@ onFileChange(event: Event) {
 
 onSubmit(): void {
   if (this.ayudaForm.valid) {
-    const datos: any = this.ayudaForm.value;
-    console.log('Datos enviados:', datos);
+    const datos = this.ayudaForm.value;
+    console.log('Programas seleccionados:', datos.programa);
+    console.log('Archivos subidos:', datos.documentos);
   }
 }
+
 
 }
 
