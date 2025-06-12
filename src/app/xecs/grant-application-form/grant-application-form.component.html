@@ -1,11 +1,69 @@
 <form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
 
-<mat-form-field appearance="fill">
- <mat-label>Programa de ayuda:</mat-label>
-<mat-select id="programa" formControlName="programa" multiple>
- <mat-option *ngFor="let prog of programas" [value]="prog">{{ prog }}</mat-option>
-</mat-select>
-</mat-form-field>
+<div class="example-action-buttons">
+  <button matButton (click)="accordion().openAll()">Expand All</button>
+  <button matButton (click)="accordion().closeAll()">Collapse All</button>
+</div>
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>RGPD y documentación</mat-panel-title>
+      <mat-panel-description>
+         <mat-icon>policy</mat-icon>Condiciones del RGPD y <mat-icon>file_copy</mat-icon>documentación requerida
+        
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <section class="example-section">
+      <mat-checkbox class="example-margin" formControlName="acceptRGPD">RGPD</mat-checkbox>
+    </section>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Programas de ayuda</mat-panel-title>
+      <mat-panel-description>
+        Seleccione uno o varios programas de ayuda
+        <mat-icon>map</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Programa de ayuda:</mat-label>
+      <mat-select id="programa" formControlName="programa" multiple>
+        <mat-option *ngFor="let prog of programas" [value]="prog">{{ prog }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Tipo de solicitante </mat-panel-title>
+      <mat-panel-description>
+        Indique el tipo de organización
+        <mat-icon>corporate_fare</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-radio-group aria-label="Select an option">
+      <mat-radio-button value="1">Option 1</mat-radio-button>
+      <mat-radio-button value="2">Option 2</mat-radio-button>
+      <mat-radio-button value="3">Option 3</mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly />
+    </mat-form-field>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+
+
+
+
+
 
 <mat-form-field appearance="fill" class="full-width">
   <mat-label>Subir documentos (PDF o imagen)</mat-label>

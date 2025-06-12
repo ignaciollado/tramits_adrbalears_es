@@ -1,25 +1,35 @@
 
-import { Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component, viewChild} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-
+import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, 
+    MatButtonModule, MatSelectModule, MatExpansionModule, 
+    MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideNativeDateAdapter()],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })
 export class GrantApplicationFormComponent {
-
+accordion = viewChild.required(MatAccordion);
 ayudaForm = this.fb.group({
   programa: this.fb.control<string[] | null>([], Validators.required),
-  documentos: this.fb.control<File[] | null>(null, Validators.required)
+  documentos: this.fb.control<File[] | null>(null, Validators.required),
+  acceptRGPD: this.fb.control<boolean | null>(null, Validators.required)
 });
 
 
