@@ -5,7 +5,7 @@
   <button matButton (click)="accordion().closeAll()">Collapse All</button>
 </div>
 <mat-accordion class="example-headers-align" multi>
-  <mat-expansion-panel>
+  <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
     <mat-expansion-panel-header>
       <mat-panel-title>RGPD y documentación</mat-panel-title>
       <mat-panel-description>
@@ -19,7 +19,7 @@
     </section>
   </mat-expansion-panel>
 
-  <mat-expansion-panel disabled>
+  <mat-expansion-panel [disabled]="!rgpdAccepted">
     <mat-expansion-panel-header>
       <mat-panel-title>Programas de ayuda</mat-panel-title>
       <mat-panel-description>
@@ -36,7 +36,7 @@
     </mat-form-field>
   </mat-expansion-panel>
 
-  <mat-expansion-panel disabled>
+  <mat-expansion-panel [disabled]="!rgpdAccepted">
     <mat-expansion-panel-header>
       <mat-panel-title> Tipo de solicitante </mat-panel-title>
       <mat-panel-description>
@@ -45,16 +45,10 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-radio-group aria-label="Select an option">
-      <mat-radio-button value="1">Option 1</mat-radio-button>
-      <mat-radio-button value="2">Option 2</mat-radio-button>
-      <mat-radio-button value="3">Option 3</mat-radio-button>
+      <mat-radio-button value="autonomo">Autónomo</mat-radio-button>
+      <mat-radio-button value="pequenya">Pequeña empresa</mat-radio-button>
+      <mat-radio-button value="mediana">Mediana empresa</mat-radio-button>
     </mat-radio-group>
-
-    <mat-form-field>
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly />
-    </mat-form-field>
-    <mat-datepicker #picker></mat-datepicker>
   </mat-expansion-panel>
 </mat-accordion>
 
