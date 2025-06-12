@@ -26,10 +26,11 @@ ayudaForm = this.fb.group({
 
 
 programas = [
- 'Programa 1: Innovación Tecnológica',
- 'Programa 2: Sostenibilidad Agraria',
- 'Programa 3: Desarrollo Rural',
- 'Programa 4: Apoyo a Jóvenes Agricultores'
+ "«IDigital», estratègia per impulsar la digitalització en la indústria de les Illes Balears.",
+ "«IExporta», estratègia per impulsar la internacionalització de les empreses industrials de les Illes Balears.",
+ "«ISostenibilitat», Identificació i càlcul de les emissions de gasos amb efecte d'hivernacle de l'organització.",
+ "«ISostenibilitat», Identificació i càlcul de les emissions de gasos d'efecte d'hivernacle de producte.",
+ "«IGestió», estratègia per impulsar la implantació d'eines de gestió avançada i optimització de processos de la indústria de les Illes Balears."
 ];
 
 archivosSubidos: File[] = [];
