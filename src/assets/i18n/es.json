@@ -4,5 +4,10 @@
     "XECSAPPFORM": "XECS: formulario de solicitud de ayuda y/o subvención",
     "ISBAAPPFORM": "ISBA: formulario de solicitud de ayuda y/o subvención",
     "ILSAPPFORM": "ILS: formulario de solicitud de ayuda y/o subvención"
+  },
+  "XECS": {
+    "RGPD": "RGPD y documentación",
+    "EXPANDALL": "Expandir todo",
+    "COLAPSEALL": "Encoger todo"
   }
 }

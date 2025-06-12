@@ -15,6 +15,12 @@ mat-dialog-content{
   display: grid;
   gap: 1rem;
   grid-template-rows: auto auto;
+
+}
+
+section {
+  padding: 1rem;
+  border-radius: 1rem;
 }
 
 .docs-section{

@@ -14,13 +14,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, 
     MatButtonModule, MatSelectModule, MatExpansionModule, 
-    MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule, MatDialogModule],
+    MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule, MatDialogModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
   templateUrl: './grant-application-form.component.html',
@@ -90,10 +91,10 @@ openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questi
   dialogConfig.panelClass = "dialog-customization"
   dialogConfig.backdropClass = "popupBackdropClass"
   dialogConfig.position = {
-    'top': '2rem',
-    'right': '5rem'
+    'top': '10%',
+    'left': '10%'
   };
-  dialogConfig.width='100%',
+  dialogConfig.width='90%',
   dialogConfig.data = {
     questionText: questionText, toolTipText: toolTipText, doc1: doc1, doc2: doc2
   };

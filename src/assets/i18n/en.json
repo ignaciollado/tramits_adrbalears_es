@@ -4,5 +4,10 @@
     "XECSAPPFORM": "XECS: grant and subsidy application form",
     "ISBAAPPFORM": "ISBA: grant and subsidy application form",
     "ILSAPPFORM": "ILS: grant and subsidy application form"
+  },
+  "XECS": {
+    "RGPD": "RGPD and documentation",
+    "EXPANDALL": "Expand all",
+    "COLAPSEALL": "Colapse all"
   }
 }

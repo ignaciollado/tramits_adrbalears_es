@@ -1,14 +1,14 @@
 <form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
 
 <div class="example-action-buttons">
-  <button matButton ngClass="btn-green btn" (click)="accordion().openAll()">Expand All</button>
-  <button matButton ngClass="btn-green btn" (click)="accordion().closeAll()">Collapse All</button>
+  <button matButton ngClass="btn-green btn" (click)="accordion().openAll()">{{ 'XECS.EXPANDALL' | translate }}</button>
+  <button matButton ngClass="btn-green btn" (click)="accordion().closeAll()">{{ 'XECS.COLAPSEALL' | translate }}</button>
 </div>
 <mat-accordion class="example-headers-align" multi>
   <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        RGPD y documentación
+        {{ 'XECS.RGPD' | translate }}
       </mat-panel-title>
       <mat-panel-description>
          <mat-icon>policy</mat-icon>Condiciones del RGPD y <mat-icon>file_copy</mat-icon>documentación requerida
