@@ -1,5 +1,8 @@
 {
   "HEADER": {
-    "TITLE": "Bienvenido"
+    "TITLE": "Bienvenido",
+    "XECSAPPFORM": "XECS: formulario de solicitud de ayuda y/o subvención",
+    "ISBAAPPFORM": "ISBA: formulario de solicitud de ayuda y/o subvención",
+    "ILSAPPFORM": "ILS: formulario de solicitud de ayuda y/o subvención"
   }
 }

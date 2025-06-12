@@ -1,5 +1,8 @@
 {
   "HEADER": {
-    "TITLE": "Welcome"
+    "TITLE": "Welcome",
+    "XECSAPPFORM": "XECS: grant and subsidy application form",
+    "ISBAAPPFORM": "ISBA: grant and subsidy application form",
+    "ILSAPPFORM": "ILS: grant and subsidy application form"
   }
 }
