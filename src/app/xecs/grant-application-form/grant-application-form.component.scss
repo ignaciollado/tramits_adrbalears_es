@@ -44,6 +44,13 @@ form {
   }
 }
 
+mat-icon {
+  &:hover {
+    cursor: pointer;
+    background-color: #0098cb;
+  }
+}
+
 ul {
   list-style: none;
   padding: 0;

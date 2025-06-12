@@ -84,7 +84,7 @@ onFileChange(event: Event): void {
 
 openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
   const dialogConfig = new MatDialogConfig();
-
+  console.log ("opendialog")
   dialogConfig.disableClose = false
   dialogConfig.autoFocus = true
   dialogConfig.panelClass = "dialog-customization"
