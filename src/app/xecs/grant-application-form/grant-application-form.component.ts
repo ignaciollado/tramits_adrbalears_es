@@ -1,18 +1,17 @@
 
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
-
-interface SolicitudAyudaForm {
-  programa: string | null;
-  documentos: File[] | null;
-}
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })
@@ -37,7 +36,7 @@ archivosSubidos: File[] = [];
 
 constructor(private fb: FormBuilder) {}
 
-onFileChange(event: Event) {
+/* onFileChange(event: Event) {
  const input = event.target as HTMLInputElement;
  if (input.files) {
   const files = Array.from(input.files);
@@ -47,13 +46,24 @@ onFileChange(event: Event) {
  this.archivosSubidos = validFiles;
  this.ayudaForm.patchValue({ documentos: validFiles });
 }
- }
+ } */
 
 onSubmit(): void {
   if (this.ayudaForm.valid) {
     const datos = this.ayudaForm.value;
     console.log('Programas seleccionados:', datos.programa);
     console.log('Archivos subidos:', datos.documentos);
+  }
+}
+
+get nombresArchivos(): string {
+  return this.archivosSubidos.map(f => f.name).join(', ');
+}
+
+onFileChange(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.archivosSubidos = Array.from(input.files);
   }
 }
 

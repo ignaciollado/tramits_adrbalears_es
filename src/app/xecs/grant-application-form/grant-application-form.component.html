@@ -1,22 +1,40 @@
-<form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()">
-  <label for="programa">Programa de ayuda:</label>
-  <select id="programa" formControlName="programa" multiple>
-    <!-- <option value="">Seleccione un programa</option> -->
-    <option *ngFor="let prog of programas" [value]="prog">{{ prog }}</option>
-  </select>
-  <div *ngIf="ayudaForm.get('programa')?.invalid && ayudaForm.get('programa')?.touched">
-    Seleccione un programa.
-  </div>
+<form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
 
-  <label for="documentos">Subir documentos (PDF o imagen):</label>
-  <input type="file" id="documentos" (change)="onFileChange($event)" multiple accept=".pdf,image/*" />
-  <div *ngIf="ayudaForm.get('documentos')?.invalid && ayudaForm.get('documentos')?.touched">
-    Debe subir al menos un documento válido.
-  </div>
+<mat-form-field appearance="fill">
+ <mat-label>Programa de ayuda:</mat-label>
+<mat-select id="programa" formControlName="programa" multiple>
+ <mat-option *ngFor="let prog of programas" [value]="prog">{{ prog }}</mat-option>
+</mat-select>
+</mat-form-field>
 
-  <ul>
-    <li *ngFor="let file of archivosSubidos">{{ file.name }}</li>
-  </ul>
+<mat-form-field appearance="fill" class="full-width">
+  <mat-label>Subir documentos (PDF o imagen)</mat-label>
+  <input
+    type="text"
+    matInput
+    [value]="nombresArchivos"
+    placeholder="Selecciona archivos"
+    readonly
+    (click)="fileInput.click()"
+  />
+</mat-form-field>
 
-  <button type="submit" [disabled]="ayudaForm.invalid">Enviar solicitud</button>
+<input
+  #fileInput
+  type="file"
+  (change)="onFileChange($event)"
+  multiple
+  accept=".pdf,image/*"
+  hidden
+/>
+
+<button mat-raised-button color="primary" (click)="fileInput.click()">
+  Seleccionar archivos
+</button>
+
+<ul *ngIf="archivosSubidos.length > 0">
+  <li *ngFor="let file of archivosSubidos">{{ file.name }}</li>
+</ul>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="ayudaForm.invalid">Enviar solicitud</button>
 </form>
