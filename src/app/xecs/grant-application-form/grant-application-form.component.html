@@ -1,8 +1,8 @@
 <form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
 
 <div class="example-action-buttons">
-  <button matButton (click)="accordion().openAll()">Expand All</button>
-  <button matButton (click)="accordion().closeAll()">Collapse All</button>
+  <button matButton ngClass="btn" (click)="accordion().openAll()">Expand All</button>
+  <button matButton ngClass="btn" (click)="accordion().closeAll()">Collapse All</button>
 </div>
 <mat-accordion class="example-headers-align" multi>
   <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">

@@ -35,6 +35,15 @@ button {
   }
 }
 
+.btn {
+  margin-bottom: .5rem;
+  background-color: transparent;
+  color: #007c5a;
+  &:hover {
+    color: #fff;
+  }
+}
+
 ul {
   list-style: none;
   padding: 0;

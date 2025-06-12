@@ -1,0 +1,23 @@
+img{
+    width: 300px;
+    height: auto;
+}
+
+.dialog-customization{
+  background-color: aqua;
+}
+
+.popupBackdropClass {
+  background-color:yellow
+}
+
+mat-dialog-content{
+  display: grid;
+  gap: 1rem;
+  grid-template-rows: auto auto;
+}
+
+.docs-section{
+  display: grid;
+  grid-template-columns: 50% 50%;
+}

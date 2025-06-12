@@ -1,5 +1,5 @@
 
-import {ChangeDetectionStrategy, Component, viewChild, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, viewChild, signal, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -12,13 +12,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, 
     MatButtonModule, MatSelectModule, MatExpansionModule, 
-    MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule],
+    MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule, MatDialogModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
   templateUrl: './grant-application-form.component.html',
@@ -26,6 +28,7 @@ import { MatRadioModule } from '@angular/material/radio';
 })
 
 export class GrantApplicationFormComponent {
+readonly dialog = inject(MatDialog);  
 step = signal(0);
 ayudaForm: FormGroup  
 accordion = viewChild.required(MatAccordion)
@@ -45,10 +48,9 @@ ngOnInit(): void {
  });
 }
 
-  setStep(index: number) {
-    this.step.set(index);
-  }
-
+setStep(index: number) {
+  this.step.set(index);
+}
 
 programas = [
  "«IDigital», estratègia per impulsar la digitalització en la indústria de les Illes Balears.",
@@ -59,18 +61,6 @@ programas = [
 ];
 
 archivosSubidos: File[] = [];
-
-/* onFileChange(event: Event) {
- const input = event.target as HTMLInputElement;
- if (input.files) {
-  const files = Array.from(input.files);
-  const validFiles = files.filter(file =>
- ['application/pdf', 'image/png', 'image/jpeg'].includes(file.type)
- );
- this.archivosSubidos = validFiles;
- this.ayudaForm.patchValue({ documentos: validFiles });
-}
- } */
 
 onSubmit(): void {
   if (this.ayudaForm.valid) {
@@ -89,6 +79,24 @@ onFileChange(event: Event): void {
   if (input.files) {
     this.archivosSubidos = Array.from(input.files);
   }
+}
+
+openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
+  const dialogConfig = new MatDialogConfig();
+
+  dialogConfig.disableClose = false
+  dialogConfig.autoFocus = true
+  dialogConfig.panelClass = "dialog-customization"
+  dialogConfig.backdropClass = "popupBackdropClass"
+  dialogConfig.position = {
+    'top': '2rem',
+    'right': '5rem'
+  };
+  dialogConfig.width='100%',
+  dialogConfig.data = {
+    questionText: questionText, toolTipText: toolTipText, doc1: doc1, doc2: doc2
+  };
+  this.dialog.open(ConfirmDialogComponent, dialogConfig);
 }
 
 
