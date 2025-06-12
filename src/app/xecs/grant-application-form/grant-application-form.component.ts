@@ -28,11 +28,12 @@ import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.comp
 })
 
 export class GrantApplicationFormComponent {
-readonly dialog = inject(MatDialog);  
-step = signal(0);
+readonly dialog = inject(MatDialog)
+step = signal(0)
 ayudaForm: FormGroup  
 accordion = viewChild.required(MatAccordion)
 rgpdAccepted = false
+introText: string = "getting intro text..."
 
 constructor (private fb: FormBuilder) {
 this.ayudaForm = this.fb.group({

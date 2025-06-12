@@ -1,21 +1,23 @@
 <form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
 
 <div class="example-action-buttons">
-  <button matButton ngClass="btn" (click)="accordion().openAll()">Expand All</button>
-  <button matButton ngClass="btn" (click)="accordion().closeAll()">Collapse All</button>
+  <button matButton ngClass="btn-green btn" (click)="accordion().openAll()">Expand All</button>
+  <button matButton ngClass="btn-green btn" (click)="accordion().closeAll()">Collapse All</button>
 </div>
 <mat-accordion class="example-headers-align" multi>
   <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
     <mat-expansion-panel-header>
-      <mat-panel-title>RGPD y documentación</mat-panel-title>
+      <mat-panel-title>
+        RGPD y documentación
+      </mat-panel-title>
       <mat-panel-description>
          <mat-icon>policy</mat-icon>Condiciones del RGPD y <mat-icon>file_copy</mat-icon>documentación requerida
-        
       </mat-panel-description>
     </mat-expansion-panel-header>
 
     <section class="example-section">
-      <mat-checkbox class="example-margin" formControlName="acceptRGPD">RGPD</mat-checkbox>
+      <mat-checkbox formControlName="acceptRGPD">RGPD</mat-checkbox><button mat-flat-button type="button" ngClass="btn"
+    (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', introText, '', '')"><mat-icon style="color: #ff9310;">info</mat-icon></button>
     </section>
   </mat-expansion-panel>
 

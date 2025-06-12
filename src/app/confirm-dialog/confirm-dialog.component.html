@@ -1,22 +1,4 @@
 <h2 mat-dialog-title>{{data.questionText}}</h2>
-<!-- <mat-dialog-content>
-    <div [innerHTML]="data.toolTipText"></div>
-    <div>
-        <ng-container *ngIf="data.doc1" class="docs-section">
-            <a *ngIf="isPdf1; else imageFile1" href="../../../assets/answers_images/{{data.doc1}}" target="_self">{{data.doc1}}</a>
-            <ng-template #imageFile1>
-                <img src='../../../assets/answers_images/{{data.doc1}}' alt=''/>
-            </ng-template>
-        </ng-container >
-
-        <ng-container *ngIf="data.doc2">
-            <a *ngIf="isPdf2; else imageFile2" href="../../../assets/answers_images/{{data.doc2}}" target="_self">{{data.doc2}}</a>
-            <ng-template #imageFile2>
-                <img src='../../../assets/answers_images/{{data.doc2}}' alt=''/>
-            </ng-template>
-        </ng-container >
-    </div>
-</mat-dialog-content> -->
 
 <mat-dialog-content>
     <div [innerHTML]="data.toolTipText"></div>
