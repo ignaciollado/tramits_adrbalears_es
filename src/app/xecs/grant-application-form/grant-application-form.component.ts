@@ -1,7 +1,7 @@
 
-import {ChangeDetectionStrategy, Component, viewChild, signal, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, viewChild, signal, inject, ViewEncapsulation} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,7 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule, MatAccordion } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
@@ -26,7 +26,7 @@ import { HttpClient } from '@angular/common/http'
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
   templateUrl: './grant-application-form.component.html',
-  styleUrl: './grant-application-form.component.scss'
+  styleUrl: './grant-application-form.component.scss',
 })
 
 export class GrantApplicationFormComponent {
@@ -39,11 +39,12 @@ rgpdAccepted = false
 introText: string = "getting intro text..."
 
 constructor (private fb: FormBuilder, private http: HttpClient) {
-this.ayudaForm = this.fb.group({
-    programa: this.fb.control<string[] | null>([], Validators.required),
+this.ayudaForm = this.fb.group ({
+    opc_programa: this.fb.array([], Validators.required),
     documentos: this.fb.control<File[] | null>(null, Validators.required),
-    acceptRGPD: this.fb.control<boolean | null>(false, Validators.required)
-  });
+    acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
+    tipoSolicitante: this.fb.control<string | null>(null, Validators.required)
+});
 
 this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })
  .subscribe({
@@ -75,7 +76,7 @@ archivosSubidos: File[] = [];
 onSubmit(): void {
   if (this.ayudaForm.valid) {
     const datos = this.ayudaForm.value;
-    console.log('Programas seleccionados:', datos.programa);
+    console.log('Programas seleccionados:', datos.opc_programa);
     console.log('Archivos subidos:', datos.documentos);
   }
 }
@@ -107,5 +108,35 @@ openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questi
   };
   this.dialog.open(PopUpDialogComponent, dialogConfig);
 }
+
+/* onCheckboxChange(event: MatCheckboxChange) {
+  const selected: string[] = this.ayudaForm.get('opc_programa')?.value || [];
+  if (event.checked) {
+    selected.push(event.source.value);
+  } else {
+    const index = selected.indexOf(event.source.value);
+    if (index >= 0) {
+      selected.splice(index, 1);
+    }
+  }
+  this.ayudaForm.get('opc_programa')?.setValue(selected);
+} */
+
+onCheckboxChange(event: MatCheckboxChange) {
+  const formArray: FormArray = this.ayudaForm.get('opc_programa') as FormArray;
+  if (event.checked) {
+    formArray.push(new FormControl(event.source.value));
+  } else {
+    const index = formArray.controls.findIndex(ctrl => ctrl.value === event.source.value);
+    if (index >= 0) {
+      formArray.removeAt(index);
+    }
+  }
+  console.log (this.ayudaForm.value)
+}
+
+
+
+
 }
 

@@ -12,6 +12,7 @@
          <mat-icon>policy</mat-icon>Condiciones del RGPD y <mat-icon>file_copy</mat-icon>documentación requerida
       </mat-panel-description>
     </mat-expansion-panel-header>
+
     <section class="rgpd-section">
       <mat-checkbox formControlName="acceptRGPD">
         <label>He leído y acepto la <a href="../../../assets/data/politica_privacidad.html" target="_blank">Política de Privacidad</a>. 
@@ -32,12 +33,21 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Programa de ayuda:</mat-label>
-      <mat-select id="programa" formControlName="programa" multiple>
-        <mat-option *ngFor="let prog of programas" [value]="prog">{{ prog }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+<mat-label>Programa de ayuda:</mat-label>
+<div class="checkbox-group">
+  <mat-checkbox
+    *ngFor="let prog of programas"
+    [value]="prog"
+    (change)="onCheckboxChange($event)"
+    [checked]="ayudaForm.get('opc_programa')?.value.includes(prog)">
+    {{ prog }}
+  </mat-checkbox>
+</div>
+<mat-error *ngIf="ayudaForm.get('opc_programa')?.invalid && ayudaForm.get('opc_programa')?.touched">
+  Debes seleccionar al menos un programa.
+</mat-error>
+
+
   </mat-expansion-panel>
 
   <mat-expansion-panel [disabled]="!rgpdAccepted">
@@ -48,7 +58,7 @@
         <mat-icon>corporate_fare</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <mat-radio-group aria-label="Select an option">
+    <mat-radio-group aria-label="Select an option" formControlName="tipoSolicitante">
       <mat-radio-button value="autonomo">Autónomo</mat-radio-button>
       <mat-radio-button value="pequenya">Pequeña empresa</mat-radio-button>
       <mat-radio-button value="mediana">Mediana empresa</mat-radio-button>

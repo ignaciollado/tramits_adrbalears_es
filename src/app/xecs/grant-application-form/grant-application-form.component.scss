@@ -69,3 +69,13 @@ div.ng-invalid.ng-touched {
   color: #d9534f;
   font-size: 0.875rem;
 }
+
+.checkbox-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+
+.checkbox-margin {
+  width: 100%;
+}
