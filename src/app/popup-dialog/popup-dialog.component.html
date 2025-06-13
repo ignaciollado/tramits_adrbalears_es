@@ -1,0 +1,44 @@
+<section>
+
+
+<h2 mat-dialog-title>{{data.questionText}}</h2>
+
+<mat-dialog-content>
+    <section [innerHTML]="data.toolTipText"></section>
+    <section>
+        <!--         <ng-container *ngIf="data.doc1" class="docs-section">
+            <a *ngIf="isPdf1; else imageFile1" href="../../assets_auto/answers_images/{{data.doc1}}" target="_self">{{data.doc1}}</a>
+            <ng-template #imageFile1>
+                <img src='../../answers_images/{{data.doc1}}' alt=''/>
+            </ng-template>
+        </ng-container > -->
+        <ng-container @if data.doc1>
+            @if (isPdf1) {
+                <a href="../../assets_auto/answers_images/{{data.doc1}}" target="_self">{{data.doc1}}</a>
+            } @else {
+                <img src="../../answers_images/{{data.doc1}}" alt="" />
+            }
+        </ng-container>   
+
+        <!--         <ng-container *ngIf="data.doc2">
+            <a *ngIf="isPdf2; else imageFile2" href="../../assets_auto/answers_images/{{data.doc2}}" target="_self">{{data.doc2}}</a>
+            <ng-template #imageFile2>
+                <img src='../../assets_auto/answers_images/{{data.doc2}}' alt=''/>
+            </ng-template>
+        </ng-container > -->
+        <ng-container @If data.doc2>
+            @if (isPdf2) {
+                <a href="../../assets_auto/answers_images/{{data.doc2}}" target="_self">{{data.doc2}}</a>
+            } @else {
+                <img src='../../assets_auto/answers_images/{{data.doc2}}' alt=''/>
+            }
+        </ng-container >        
+    </section>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button color="primary" [mat-dialog-close]>Close</button>
+    <button *ngIf="confirmDialog" color="warn" mat-raised-button (click)="onCommand()">Delete</button>
+</mat-dialog-actions>
+
+</section>

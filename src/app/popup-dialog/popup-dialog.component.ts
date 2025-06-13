@@ -7,16 +7,16 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-confirm-dialog',
   standalone: true,
   imports: [MatDialogContent, MatDialogActions, MatDialogClose, MatButtonModule],
-  templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.scss']
+  templateUrl: './popup-dialog.component.html',
+  styleUrls: ['./popup-dialog.component.scss']
 })
 
-export class ConfirmDialogComponent {
+export class PopUpDialogComponent {
   isPdf1: boolean = false
   isPdf2: boolean = false
   confirmDialog?: boolean = false
 
-  constructor( public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+  constructor( public dialogRef: MatDialogRef<PopUpDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {questionText:string, toolTipText: string, doc1: string, doc2: string, confirmDialog?: boolean}
     ) {
 

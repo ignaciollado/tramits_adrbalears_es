@@ -13,7 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog.component';
+import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -85,7 +85,6 @@ onFileChange(event: Event): void {
 
 openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
   const dialogConfig = new MatDialogConfig();
-  console.log ("opendialog")
   dialogConfig.disableClose = false
   dialogConfig.autoFocus = true
   dialogConfig.panelClass = "dialog-customization"
@@ -98,9 +97,7 @@ openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questi
   dialogConfig.data = {
     questionText: questionText, toolTipText: toolTipText, doc1: doc1, doc2: doc2
   };
-  this.dialog.open(ConfirmDialogComponent, dialogConfig);
+  this.dialog.open(PopUpDialogComponent, dialogConfig);
 }
-
-
 }
 

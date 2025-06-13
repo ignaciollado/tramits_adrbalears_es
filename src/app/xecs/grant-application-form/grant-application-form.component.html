@@ -7,17 +7,15 @@
 <mat-accordion class="example-headers-align" multi>
   <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
     <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ 'XECS.RGPD' | translate }}
-      </mat-panel-title>
+      <mat-panel-title>{{ 'XECS.RGPD' | translate }}</mat-panel-title>
       <mat-panel-description>
          <mat-icon>policy</mat-icon>Condiciones del RGPD y <mat-icon>file_copy</mat-icon>documentación requerida
       </mat-panel-description>
     </mat-expansion-panel-header>
 
     <section class="example-section">
-      <mat-checkbox formControlName="acceptRGPD">RGPD</mat-checkbox>
-      <mat-icon (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', introText, '', '')" style="color: #ff9310;">info</mat-icon>
+      <mat-checkbox formControlName="acceptRGPD"> <a href='../../../assets/data/clausulaProteccionDatos-es.html'>RGPD</a></mat-checkbox>
+      <mat-icon (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')" style="color: #ff9310;">info</mat-icon>
     </section>
   </mat-expansion-panel>
 
