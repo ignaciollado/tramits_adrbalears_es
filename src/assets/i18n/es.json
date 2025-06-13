@@ -9,5 +9,62 @@
     "RGPD": "RGPD y documentación",
     "EXPANDALL": "Expandir todo",
     "COLAPSEALL": "Encoger todo"
+  },
+  "ILS": {
+    "RGPD": {
+      "RGPD": "RGPD",
+      "TITLE": "RGPD y documentación",
+      "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
+      "READ-AND-ACCEPTS": "He leído y acepto las condiciones del",
+      "ABBR": "Reglamento general de protección de datos",
+      "REQUIRED-DOCS": {
+        "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación relacionada con el cumplimiento de los requisitos:",
+        "DOC-1": "Escritura de constitución de la empresa.",
+        "DOC-2": {
+          "PART-1": "El certificado de alta del ",
+          "PART-2": "industrial"
+        },
+        "DOC-3": "Informes de cálculo de la huella de carbono: <a href=''>Informe resumen</a> + <a href=''>Informe de inventario</a> de GEH según la norma ISO 14.064-1. o certificado de verificación ISO 14064-1.",
+        "DOC-4": "Compromiso de reducción de las emisiones de gases de efecto invernadero: <a href=''>Modelo de ejemplo</a>.",
+        "DOC-5": "Certificado itinerario formativo.",
+        "IAEABBR": "Impuesto de actividades empresariales",
+        "IAE": "IAE"
+      },
+      "OPTIONAL-DOCS": {
+        "INFO": "Otra documentación opcional:",
+        "DOC-1": "Memoria técnica de la actividad.",
+        "DOC-2": {
+          "PART-1": "El",
+          "PART-2": "de la empresa"
+        },
+        "DOC-3": "Logotipo de la empresa en formato WEBP, JPEG o SVG.",
+        "CIFABBR": "Código de identificación fiscal",
+        "CIF": "CIF"
+      },
+      "AUTORIZATION": {
+        "INFO": {
+          "PART-1": "AUTORIZACIONES: ",
+          "PART-2": "la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que ",
+          "PART-3": "pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la ",
+          "PART-4": "y la ",
+          "PART-5": " excepto en caso de denegación expresa. En este caso, el beneficiario deberá aportar la siguiente documentación:"
+        },
+        "DOC-1": " del solicitante i/o de la persona autorizada y los documentos acreditativos, si es necesario.",
+        "DOC-2": "Certificado de estar al corriente de pago con la ",
+        "DOC-3": "Certificado de estar al corriente de pago con la ",
+        "ADRBALEARSABBR": "Agència de desenvolupament regional de les Illes Balears",
+        "ATIBABBR": "Agencia Tributaria de las Islas Baleares",
+        "TGSSABBR": "Tesorería General de la Seguridad Social",
+        "NIFABBR": "Número de identificación fiscal",
+        "NIF": "NIF"
+      },
+      "NOTIFICATION": {
+        "INFO": "Al finalizar de este asistente recibirá, por correo electrónico, un documento en formato PDF que contendrá:",
+        "DOC-1": "Una declaración responsable.",
+        "DOC-2": "Una solicitud de adhesión al programa ILS."
+      }
+    },
+    "EXPANDALL": "Expandir todo",
+    "COLAPSEALL": "Encoger todo"
   }
 }
