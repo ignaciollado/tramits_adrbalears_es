@@ -41,6 +41,12 @@ introText: string = "getting intro text..."
 constructor (private fb: FormBuilder, private http: HttpClient) {
 this.ayudaForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
+    nif: this.fb.control('', Validators.required),
+    denom_interesado: this.fb.control('', Validators.required),
+    domicilio: this.fb.control('', Validators.required),
+    cpostal: this.fb.control ('', Validators.required),
+    localidad: this.fb.control('', Validators.required),
+    telefono_cont: this.fb.control(''),
     documentos: this.fb.control<File[] | null>(null),
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
     tipoSolicitante: this.fb.control<string | null>(null, Validators.required)
