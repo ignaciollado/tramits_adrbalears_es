@@ -41,7 +41,7 @@ introText: string = "getting intro text..."
 constructor (private fb: FormBuilder, private http: HttpClient) {
 this.ayudaForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
-    documentos: this.fb.control<File[] | null>(null, Validators.required),
+    documentos: this.fb.control<File[] | null>(null),
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
     tipoSolicitante: this.fb.control<string | null>(null, Validators.required)
 });
@@ -76,6 +76,7 @@ archivosSubidos: File[] = [];
 onSubmit(): void {
   if (this.ayudaForm.valid) {
     const datos = this.ayudaForm.value;
+    console.log (datos)
     console.log('Programas seleccionados:', datos.opc_programa);
     console.log('Archivos subidos:', datos.documentos);
   }
@@ -109,19 +110,6 @@ openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questi
   this.dialog.open(PopUpDialogComponent, dialogConfig);
 }
 
-/* onCheckboxChange(event: MatCheckboxChange) {
-  const selected: string[] = this.ayudaForm.get('opc_programa')?.value || [];
-  if (event.checked) {
-    selected.push(event.source.value);
-  } else {
-    const index = selected.indexOf(event.source.value);
-    if (index >= 0) {
-      selected.splice(index, 1);
-    }
-  }
-  this.ayudaForm.get('opc_programa')?.setValue(selected);
-} */
-
 onCheckboxChange(event: MatCheckboxChange) {
   const formArray: FormArray = this.ayudaForm.get('opc_programa') as FormArray;
   if (event.checked) {
@@ -132,11 +120,6 @@ onCheckboxChange(event: MatCheckboxChange) {
       formArray.removeAt(index);
     }
   }
-  console.log (this.ayudaForm.value)
 }
-
-
-
-
 }
 

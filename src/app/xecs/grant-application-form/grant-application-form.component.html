@@ -66,13 +66,6 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-
-
-
-
-
-
-
 <mat-form-field appearance="fill" class="full-width">
   <mat-label>Subir documentos (PDF o imagen)</mat-label>
   <input
@@ -102,5 +95,5 @@
   <li *ngFor="let file of archivosSubidos">{{ file.name }}</li>
 </ul>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="ayudaForm.invalid">Enviar solicitud</button>
+  <button mat-raised-button color="accent" type="submit" [disabled]="ayudaForm.invalid">Enviar solicitud</button>
 </form>
