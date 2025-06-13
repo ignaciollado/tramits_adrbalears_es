@@ -8,8 +8,8 @@
 
   "XECS": {
     "RGPD": "RGPD i documentació",
-    "EXPANDALL": "Expandir tot",
-    "COLAPSEALL": "Encongir tot"
+    "EXPANDALL": "Veure tot",
+    "COLAPSEALL": "Ocultar tot"
   }
 
 }

@@ -1,10 +1,10 @@
 <form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
 
-<div class="example-action-buttons">
+<div class="action-buttons">
   <button matButton ngClass="btn-green btn" (click)="accordion().openAll()">{{ 'XECS.EXPANDALL' | translate }}</button>
   <button matButton ngClass="btn-green btn" (click)="accordion().closeAll()">{{ 'XECS.COLAPSEALL' | translate }}</button>
 </div>
-<mat-accordion class="example-headers-align" multi>
+<mat-accordion class="headers-align" multi>
   <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'XECS.RGPD' | translate }}</mat-panel-title>
@@ -12,11 +12,15 @@
          <mat-icon>policy</mat-icon>Condiciones del RGPD y <mat-icon>file_copy</mat-icon>documentación requerida
       </mat-panel-description>
     </mat-expansion-panel-header>
-
-    <section class="example-section">
-      <mat-checkbox formControlName="acceptRGPD"> <a href='../../../assets/data/clausulaProteccionDatos-es.html'>RGPD</a></mat-checkbox>
-      <mat-icon (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')" style="color: #ff9310;">info</mat-icon>
+    <section class="rgpd-section">
+      <mat-checkbox formControlName="acceptRGPD">
+        <label>He leído y acepto la <a href="../../../assets/data/politica_privacidad.html" target="_blank">Política de Privacidad</a>. 
+          Los datos personales proporcionados serán tratados por ADR Balears como responsable del tratamiento, con la finalidad de gestionar su solicitud. 
+          Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la política de privacidad.<mat-icon (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')" style="color: #ff9310;">info</mat-icon>
+        </label>
+      </mat-checkbox>
     </section>
+    <section [innerHTML]="htmlContent"></section>
   </mat-expansion-panel>
 
   <mat-expansion-panel [disabled]="!rgpdAccepted">

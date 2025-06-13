@@ -7,7 +7,7 @@
   },
   "XECS": {
     "RGPD": "RGPD y documentación",
-    "EXPANDALL": "Expandir todo",
-    "COLAPSEALL": "Encoger todo"
+    "EXPANDALL": "Ver todo",
+    "COLAPSEALL": "Ocultar todo"
   }
 }

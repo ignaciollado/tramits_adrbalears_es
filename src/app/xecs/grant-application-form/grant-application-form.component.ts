@@ -14,7 +14,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'app-grant-application-form',
@@ -30,18 +31,25 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 export class GrantApplicationFormComponent {
 readonly dialog = inject(MatDialog)
+htmlContent: string = ''
 step = signal(0)
 ayudaForm: FormGroup  
 accordion = viewChild.required(MatAccordion)
 rgpdAccepted = false
 introText: string = "getting intro text..."
 
-constructor (private fb: FormBuilder) {
+constructor (private fb: FormBuilder, private http: HttpClient) {
 this.ayudaForm = this.fb.group({
-  programa: this.fb.control<string[] | null>([], Validators.required),
-  documentos: this.fb.control<File[] | null>(null, Validators.required),
-  acceptRGPD: this.fb.control<boolean | null>(false, Validators.required)
-});
+    programa: this.fb.control<string[] | null>([], Validators.required),
+    documentos: this.fb.control<File[] | null>(null, Validators.required),
+    acceptRGPD: this.fb.control<boolean | null>(false, Validators.required)
+  });
+
+this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })
+ .subscribe({
+    next: (html) => this.htmlContent = html,
+    error: () => this.htmlContent = '<p>Error al cargar el contenido.</p>'
+ });
 }
 
 ngOnInit(): void {
