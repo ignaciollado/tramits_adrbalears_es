@@ -1,5 +1,5 @@
 
-import {ChangeDetectionStrategy, Component, viewChild, signal, inject, ViewEncapsulation} from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';

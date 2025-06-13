@@ -64,6 +64,51 @@
       <mat-radio-button value="mediana">Mediana empresa</mat-radio-button>
     </mat-radio-group>
   </mat-expansion-panel>
+  <mat-expansion-panel [disabled]="!rgpdAccepted">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Interesado </mat-panel-title>
+      <mat-panel-description>
+        Indique algunos datos concretos del interesado
+        <mat-icon>person</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+  <mat-form-field appearance="fill">
+    <mat-label>NIF</mat-label>
+    <input matInput formControlName="nif" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Denominación del interesado</mat-label>
+    <input matInput formControlName="denom_interesado" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Domicilio</mat-label>
+    <input matInput formControlName="domicilio" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Código Postal</mat-label>
+    <input matInput formControlName="cpostal" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Localidad</mat-label>
+    <input matInput formControlName="localidad" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Teléfono de contacto</mat-label>
+    <input matInput formControlName="telefono_cont" />
+  </mat-form-field>
+
+
+  <div>
+    <label for="documentos">Documentos:</label>
+    <input type="file" id="documentos" (change)="onFileChange($event)" multiple />
+  </div>
+  </mat-expansion-panel>
 </mat-accordion>
 
 <mat-form-field appearance="fill" class="full-width">
