@@ -89,3 +89,8 @@ div.ng-invalid.ng-touched {
     display: grid;
   }
 }
+
+.authorization-checkboxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

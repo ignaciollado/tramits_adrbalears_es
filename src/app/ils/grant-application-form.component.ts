@@ -42,6 +42,10 @@ export class IlsGrantApplicationFormComponent {
 
   epigrafesIAE: any[] = []
 
+  checkboxID: boolean = true
+  checkboxATIB: boolean = true
+
+
   constructor(private dataService: DataService, private customValidator: CustomValidatorsService, private fb: FormBuilder) {
     this.ilsForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
@@ -52,13 +56,18 @@ export class IlsGrantApplicationFormComponent {
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
       localidad: this.fb.control<string>({ value: '', disabled: true }),
       tel_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9), Validators.minLength(9)]),
-      iae: this.fb.control<any>('', [Validators.required]),
+      codigoIAE: this.fb.control<any>('', [Validators.required]),
       sitio_web_empresa: this.fb.control<string>('', []),
       video_empresa: this.fb.control<string>('', []),
       nom_representante: this.fb.control<string>('', [Validators.required]),
       nif_representante: this.fb.control<string>('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.customValidator.dniNieValidator()]),
       tel_representante: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9)]),
-      mail_representante: this.fb.control<string>('', [Validators.required, Validators.email])
+      mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
+      // Nombres temporales
+      checkboxID: this.fb.control<boolean>(true),
+      checkboxATIB: this.fb.control<boolean>(true),
+      file_enviardocumentoIdentificacion: this.fb.control<string>(''),
+      file_certificadoATIB: this.fb.control<string>('')
 
     })
 
@@ -90,6 +99,15 @@ export class IlsGrantApplicationFormComponent {
         return name ? this._filter(name as string) : this.options.slice();
       })
     );
+
+    // Pendiente de input files.
+    this.ilsForm.get('checkboxID')?.valueChanges.subscribe((value: boolean) => {
+      this.checkboxID = value
+    })
+
+    this.ilsForm.get('checkboxATIB')?.valueChanges.subscribe((value: boolean) => {
+      this.checkboxATIB = value
+    })
   }
 
   onSubmit(): void {

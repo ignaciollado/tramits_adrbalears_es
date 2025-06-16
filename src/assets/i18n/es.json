@@ -41,7 +41,7 @@
         "CIFABBR": "Código de identificación fiscal",
         "CIF": "CIF"
       },
-      "AUTORIZATION": {
+      "AUTHORIZATION": {
         "INFO": {
           "PART-1": "AUTORIZACIONES: ",
           "PART-2": "la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que ",
@@ -136,6 +136,13 @@
         "LABEL": "Dirección electrónica a efectos de notificaciones",
         "ERROR": "La dirección electrónica introducida no es válida."
       }  
+    },
+    "AUTHORIZATIONS": {
+      "TITLE": "Autorizaciones",
+      "DESCRIPTION": "Indique su consentimiento/disconformidad en las siguientes autorizaciones.",
+      "AUTHORIZATION-ID": "Doy mi consentimiento para que ADR Balears pueda comprobar de oficio la identificación de la persona solicitante y/o la persona autorizada para la empresa. En caso de denegación expresa del consentimiento, adjunto el NIF del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario.",
+      "AUTHORIZATION-ATIB": "Certificado de la Agencia Tributaria de las Islas Baleares (ATIB) de estar al corriente de las obligaciones tributarias con la comunidad autónoma de las Islas Baleares.",
+      "NO-AUTHORIZATED": "Al estar en disconformidad, por favor, adjunte los archivos indicados en la información del consentimiento."
     },
     "EXPANDALL": "Expandir todo",
     "COLAPSEALL": "Encoger todo"

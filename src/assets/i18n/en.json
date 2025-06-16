@@ -41,7 +41,7 @@
         "CIFABBR": "Tax identification number",
         "CIF": "TIN"
       },
-      "AUTORIZATION": {
+      "AUTHORIZATION": {
         "INFO": {
           "PART-1": "Authorizations:",
           "PART-2": "the request implies the authorization (article 28.2 of Law 39/2015) so that ",
@@ -136,6 +136,13 @@
         "LABEL": "E-mail address for notification purposes",
         "ERROR": "The e-mail address entered is not valid."
       }
+    },
+    "AUTHORIZATIONS": {
+      "TITLE": "Authorizations",
+      "DESCRIPTION": "Indicate your consent/non-consent on the following authorizations.",
+      "AUTHORIZATION-ID": "I give my consent so that ADR Balears can check ex officio the identification of the applicant and/or the authorized person for the company. In case of express refusal of consent, I attach the NIF of the applicant and/or the authorized person and supporting documents, if necessary.",
+      "AUTHORIZATION-ATIB": "Certificate from the Tax Agency of the Balearic Islands (ATIB) of being up to date with tax obligations with the autonomous community of the Balearic Islands.",
+      "NO-AUTHORIZATED": "If you disagree, please attach the files indicated in the consent information."
     },
     "EXPANDALL": "Expand all",
     "COLAPSEALL": "Colapse all"
