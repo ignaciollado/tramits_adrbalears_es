@@ -64,6 +64,19 @@
         "DOC-2": "Una solicitud de adhesión al programa ILS."
       }
     },
+    "BUSINESS-TYPE": {
+      "TITLE": "Tipo de solicitante",
+      "DESCRIPTION": "Seleccione la opción que represente el tipo de empresa.",
+      "SELF-EMPLOYED": "Autónomo",
+      "SMALL": {
+        "NAME": "Pequeña empresa",
+        "INFO": "Se considera pequeña empresa la que tiene menos de 50 trabajadores y/o trabajadoras, un volumen de negocio anual o un balance general anual que no supere los 10 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto y otras empresas que no cumplen los requisitos para ser considerada PYME de acuerdo con el anexo I del Reglamento (CE) n.º 651/2014 de la Comisión Europea."
+      },
+      "MEDIUM": {
+        "NAME": "Mediana empresa",
+        "INFO": "Se considera mediana empresa la que tiene entre 50 y 250 trabajadores y/o trabajadoras, un volumen de negocio anual entre 10 y 50 millones de euros o un balance general anual entre 10 y 43 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto. Otras empresas que no cumplen los requisitos anteriores."
+      }
+    },
     "EXPANDALL": "Expandir todo",
     "COLAPSEALL": "Encoger todo"
   }

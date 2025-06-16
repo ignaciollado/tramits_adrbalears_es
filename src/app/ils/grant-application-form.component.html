@@ -6,7 +6,7 @@
             }}</button>
     </div>
     <mat-accordion ngClass="example-headers-align" multi>
-        <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
+        <mat-expansion-panel [expanded]="step() === 0">
             <mat-expansion-panel-header>
                 <mat-panel-title>{{'ILS.RGPD.TITLE' | translate}}</mat-panel-title>
                 <mat-panel-description>
@@ -20,7 +20,9 @@
                     <p>{{'ILS.RGPD.REQUIRED-DOCS.INFO' | translate}}</p>
                     <ul>
                         <li>{{'ILS.RGPD.REQUIRED-DOCS.DOC-1' | translate}}</li>
-                        <li>{{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-1' | translate}}<abbr title="{{'ILS.RGPD.REQUIRED-DOCS.IAEABBR' | translate}}">{{'ILS.RGPD.REQUIRED-DOCS.IAE' | translate}}</abbr> {{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-2' | translate}}</li>
+                        <li>{{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-1' | translate}}<abbr
+                                title="{{'ILS.RGPD.REQUIRED-DOCS.IAEABBR' | translate}}">{{'ILS.RGPD.REQUIRED-DOCS.IAE'
+                                | translate}}</abbr> {{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-2' | translate}}</li>
                         <li [innerHTML]="'ILS.RGPD.REQUIRED-DOCS.DOC-3' | translate"></li>
                         <li [innerHTML]="'ILS.RGPD.REQUIRED-DOCS.DOC-4' | translate"></li>
                         <li>{{'ILS.RGPD.REQUIRED-DOCS.DOC-5' | translate}}</li>
@@ -28,15 +30,27 @@
                     <p>{{'ILS.RGPD.OPTIONAL-DOCS.INFO' | translate}}</p>
                     <ul>
                         <li>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-1' | translate}}</li>
-                        <li>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-1' | translate}} <abbr title="{{'ILS.RGPD.OPTIONAL-DOCS.CIFABBR' | translate}}">{{'ILS.RGPD.OPTIONAL-DOCS.CIF' | translate}}</abbr> {{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-2' | translate}}</li>
+                        <li>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-1' | translate}} <abbr
+                                title="{{'ILS.RGPD.OPTIONAL-DOCS.CIFABBR' | translate}}">{{'ILS.RGPD.OPTIONAL-DOCS.CIF'
+                                | translate}}</abbr> {{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-2' | translate}}</li>
                         <li>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-3' | translate}}</li>
                     </ul>
 
-                    <p><strong>{{'ILS.RGPD.AUTORIZATION.INFO.PART-1' | translate}}</strong> {{'ILS.RGPD.AUTORIZATION.INFO.PART-2' | translate}}<abbr title="{{'ILS.RGPD.AUTORIZATION.ADRBALEARSABBR' | translate}}">ADR Balears</abbr> {{'ILS.RGPD.AUTORIZATION.INFO.PART-3' | translate}}<abbr title="{{'ILS.RGPD.AUTORIZATION.ATIBABBR' | translate}}">ATIB</abbr> {{'ILS.RGPD.AUTORIZATION.INFO.PART-4' | translate}}<abbr title="{{'ILS.RGPD.AUTORIZATION.TGSSABBR' | translate}}">TGSS</abbr>, {{'ILS.RGPD.AUTORIZATION.INFO.PART-5' | translate}}</p>
+                    <p><strong>{{'ILS.RGPD.AUTORIZATION.INFO.PART-1' | translate}}</strong>
+                        {{'ILS.RGPD.AUTORIZATION.INFO.PART-2' | translate}}<abbr
+                            title="{{'ILS.RGPD.AUTORIZATION.ADRBALEARSABBR' | translate}}">ADR Balears</abbr>
+                        {{'ILS.RGPD.AUTORIZATION.INFO.PART-3' | translate}}<abbr
+                            title="{{'ILS.RGPD.AUTORIZATION.ATIBABBR' | translate}}">ATIB</abbr>
+                        {{'ILS.RGPD.AUTORIZATION.INFO.PART-4' | translate}}<abbr
+                            title="{{'ILS.RGPD.AUTORIZATION.TGSSABBR' | translate}}">TGSS</abbr>,
+                        {{'ILS.RGPD.AUTORIZATION.INFO.PART-5' | translate}}</p>
                     <ul>
-                        <li><abbr title="{{'ILS.RGPD.AUTORIZATION.NIFABBR' | translate}}">{{'ILS.RGPD.AUTORIZATION.NIF' | translate}}</abbr> {{'ILS.RGPD.AUTORIZATION.DOC-1' | translate}}</li>
-                        <li>{{'ILS.RGPD.AUTORIZATION.DOC-2' | translate}}<abbr title="{{'ILS.RGPD.AUTORIZATION.ATIBABBR' | translate}}">ATIB</abbr>.</li>
-                        <li>{{'ILS.RGPD.AUTORIZATION.DOC-3' | translate}}<abbr title="{{'ILS.RGPD.AUTORIZATION.TGSSABBR' | translate}}">TGSS</abbr>.</li>
+                        <li><abbr title="{{'ILS.RGPD.AUTORIZATION.NIFABBR' | translate}}">{{'ILS.RGPD.AUTORIZATION.NIF'
+                                | translate}}</abbr> {{'ILS.RGPD.AUTORIZATION.DOC-1' | translate}}</li>
+                        <li>{{'ILS.RGPD.AUTORIZATION.DOC-2' | translate}}<abbr
+                                title="{{'ILS.RGPD.AUTORIZATION.ATIBABBR' | translate}}">ATIB</abbr>.</li>
+                        <li>{{'ILS.RGPD.AUTORIZATION.DOC-3' | translate}}<abbr
+                                title="{{'ILS.RGPD.AUTORIZATION.TGSSABBR' | translate}}">TGSS</abbr>.</li>
                     </ul>
                     <p>{{'ILS.RGPD.NOTIFICATION.INFO' | translate}}</p>
                     <ul>
@@ -46,5 +60,35 @@
                 </section>
             </section>
         </mat-expansion-panel>
+
+        <!-- Pendiente de revisar tras añadir el resto de accordions-->
+        <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1">
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{'ILS.BUSINESS-TYPE.TITLE' | translate}}</mat-panel-title>
+                <mat-panel-description>
+                    {{'ILS.BUSINESS-TYPE.DESCRIPTION' | translate}}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <section ngClass="section-applicant-type">
+                <section>
+                    <mat-radio-group formControlName="tipo_solicitante" (ngModelChange)="changeNIFValidator()">
+                        <mat-radio-button value="autonomo">{{'ILS.BUSINESS-TYPE.SELF-EMPLOYED' | translate}}</mat-radio-button>
+                        <mat-radio-button value="pequenya">{{'ILS.BUSINESS-TYPE.SMALL.NAME' | translate}}*</mat-radio-button>
+                        <mat-radio-button value="mediana">{{'ILS.BUSINESS-TYPE.MEDIUM.NAME' | translate}}*</mat-radio-button>
+                    </mat-radio-group>
+                </section>
+                <section>
+                    <p><strong>*{{'ILS.BUSINESS-TYPE.SMALL.NAME' | translate}}</strong>: {{'ILS.BUSINESS-TYPE.SMALL.INFO' | translate}}</p>
+                    <p><strong>*{{'ILS.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</strong>: {{'ILS.BUSINESS-TYPE.MEDIUM.INFO' | translate}}</p>
+                </section>
+            </section>
+        </mat-expansion-panel>
+
+
+        <mat-expansion-panel>Datos generales</mat-expansion-panel>
+        <mat-expansion-panel>Canal de notificación</mat-expansion-panel>
+        <mat-expansion-panel>Autorizaciones (Desmarcado -> Input)</mat-expansion-panel>
+        <mat-expansion-panel>Declaración responsable (checkboxs marcados por defecto y readonly)</mat-expansion-panel>
+        <mat-expansion-panel>Documentación requerida y opcional (10 M máx)</mat-expansion-panel>
     </mat-accordion>
 </form>

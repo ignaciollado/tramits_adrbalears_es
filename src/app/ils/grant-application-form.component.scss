@@ -68,3 +68,8 @@ div.ng-invalid.ng-touched {
   color: #d9534f;
   font-size: 0.875rem;
 }
+
+.section-applicant-type {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
 import { CustomValidatorsService } from '../Services/custom-validators.service';
 import { DataService } from '../Services/data.service';
+import {MatTooltipModule} from '@angular/material/tooltip'
 
 
 @Component({
@@ -19,7 +20,7 @@ import { DataService } from '../Services/data.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule,
-    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule, TranslateModule],
+    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule, TranslateModule, MatTooltipModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })
@@ -30,12 +31,10 @@ export class IlsGrantApplicationFormComponent {
   accordion = viewChild.required(MatAccordion)
 
   rgpdAccepted = false
-
-  autorizationFullText: string = ""
-
   constructor(private dataService: DataService, private customValidator: CustomValidatorsService, private fb: FormBuilder) {
     this.ilsForm = this.fb.group({
-      acceptRGPD: this.fb.control<boolean | null>(false, Validators.required)
+      acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
+      tipo_solicitante: this.fb.control<string>('', Validators.required)
     })
   }
 
@@ -51,6 +50,11 @@ export class IlsGrantApplicationFormComponent {
 
   setStep(index: number) {
     this.step.set(index)
+  }
+
+  // Validador cambiante según el tipo de solicitante
+  changeNIFValidator(): void {
+    console.log(this.ilsForm.get('tipo_solicitante')?.value)
   }
 
 }

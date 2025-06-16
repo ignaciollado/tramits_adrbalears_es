@@ -64,6 +64,19 @@
         "DOC-2": "Una sol·licitud d'adhesió al programa ILS."
       }
     },
+    "BUSINESS-TYPE": {
+      "TITLE": "Tipus de sol·licitant",
+      "DESCRIPTION": "Seleccioni l'opció que representi el tipus d'empresa",
+      "SELF-EMPLOYED": "Autònom",
+      "SMALL": {
+        "NAME": "Petita empresa",
+        "INFO": "Es considera petita empresa la que té menys de 50 treballadors i/o treballadores, un volum de negoci anual o un balanç general anual que no superi els 10 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot. Altres empreses que no compleixen els requisists per ser considerada PIME d'acord amb l'anexx I del Reglament (CE) núm. 651/2014 de la Comissió Europea."
+      },
+      "MEDIUM": {
+        "NAME": "Mitjana empresa",
+        "INFO": "Es considera mitjana empresa la que té entre 50 i 250 treballadors i/o treballadores, un volum de negoci anual entre 10 i 50 milions d'euros o un balanç general anual entre 10 i 43 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot. Altres empreses que no compleixen els requisits anteriors."
+      }
+    },
     "EXPANDALL": "Expandir tot",
     "COLAPSEALL": "Encongir tot"
   }
