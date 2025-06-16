@@ -124,6 +124,19 @@
         }
       }
     },
+    "NOTIFICATION-CHANNEL": {
+      "TITLE": "Canal de notificación",
+      "DESCRIPTION": "Introduzca sus datos de contacto para recibir notificaciones.",
+      "INFO": "De acuerdo con el apartado 17 de la convocatoria, las notificaciones y las comunicaciones a la persona solicitante se llevarán a cabo por vía telemática a la dirección de correo electrónico que haya designado la persona solicitante a efectos de notificaciones en este formulario de solicitud. Los avisos de la puesta a disposición de la notificación a la Carpeta Ciudadana del <a href=''>Punto de Acceso General electrónico (Mi carpeta)</a> se enviarán a la dirección de correo que se han designado en los datos del declarante.",
+      "PHONE": {
+        "LABEL": "Teléfono móvil del solicitante o del representante",
+        "ERROR": "El teléfono móvil introducido no es válido."
+      },
+      "EMAIL": {
+        "LABEL": "Dirección electrónica a efectos de notificaciones",
+        "ERROR": "La dirección electrónica introducida no es válida."
+      }  
+    },
     "EXPANDALL": "Expandir todo",
     "COLAPSEALL": "Encoger todo"
   }

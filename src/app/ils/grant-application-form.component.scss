@@ -79,3 +79,13 @@ div.ng-invalid.ng-touched {
   grid-template-columns: 1fr 1fr;
   column-gap: 10px;
 }
+
+.notification-channel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+
+  .inputs {
+    display: grid;
+  }
+}

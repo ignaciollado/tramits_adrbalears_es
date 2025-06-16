@@ -124,6 +124,19 @@
         }
       }
     },
+    "NOTIFICATION-CHANNEL": {
+      "TITLE": "Canal de notificació",
+      "DESCRIPTION": "Introdueixi les seves dades de contacte per a rebre notificacions.",
+      "INFO": "D'acord amb l'apartat 17 de la convocatòria, les notificacions i les comunicacions a la persona sol·licitant es duran a terme per via telemàtica a l'adreça de correu electrònic que hagi designat la persona sol·licitant a efectes de notificacions en aquest formulari de sol·licitut. Els avisos de la posada a disposició de la notificació a la Carpeta Ciutadana del <a href=''>Punto de Acceso General electrónico (Mi carpeta)</a> s'enviaran a l'adreça de correu electrònic que heu designat a les dades del declarant.",
+      "PHONE": {
+        "LABEL": "Telèfon mòbil del sol·licitant o del representant",
+        "ERROR": "El telèfon mòbil introduït no és vàlid."
+      },
+      "EMAIL": {
+        "LABEL": "Adreça electrònica a efectes de notificacions",
+        "ERROR": "L'adreça electrònica introduïda no és vàlida."
+      }
+    },
     "EXPANDALL": "Expandir tot",
     "COLAPSEALL": "Encongir tot"
   }

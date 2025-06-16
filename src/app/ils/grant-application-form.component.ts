@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
@@ -9,12 +10,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
+import { map, Observable, startWith } from 'rxjs';
 import { CustomValidatorsService } from '../Services/custom-validators.service';
 import { DataService } from '../Services/data.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatAutocompleteModule } from '@angular/material/autocomplete'
-import { map, Observable, startWith } from 'rxjs';
 
 
 @Component({
@@ -57,6 +57,8 @@ export class IlsGrantApplicationFormComponent {
       video_empresa: this.fb.control<string>('', []),
       nom_representante: this.fb.control<string>('', [Validators.required]),
       nif_representante: this.fb.control<string>('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.customValidator.dniNieValidator()]),
+      tel_representante: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9)]),
+      mail_representante: this.fb.control<string>('', [Validators.required, Validators.email])
 
     })
 

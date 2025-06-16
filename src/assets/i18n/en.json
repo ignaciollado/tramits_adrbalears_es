@@ -77,7 +77,7 @@
         "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights. Other companies that do not meet the above requirements."
       }
     },
-"GENERAL-DATA": {
+    "GENERAL-DATA": {
       "TITLE": "General data",
       "DESCRIPTION": "Enter your personal data.",
       "APPLICANT": {
@@ -88,7 +88,7 @@
         "CIF": {
           "LABEL": "Applicant's VAT number",
           "ERROR": "The VAT number entered is not valid."
-        }  
+        }
       },
       "COMPANY-NAME": {
         "LABEL": "Name or company name",
@@ -114,7 +114,7 @@
       "WEBSITE": "Company website",
       "PRESENTATION-VIDEO": "URL of the company's presentation video (published on Youtube or Vimeo)",
       "REPRESENTATIVE": {
-        "NAME" : {
+        "NAME": {
           "LABEL": "Name of legal representative",
           "ERROR": "The name of the legal representative entered is not valid."
         },
@@ -122,6 +122,19 @@
           "LABEL": "DNI/NIE of the legal representative",
           "ERROR": "The DNI/NIE of the legal representative entered is not valid."
         }
+      }
+    },
+    "NOTIFICATION-CHANNEL": {
+      "TITLE": "Notification channel",
+      "DESCRIPTION": "Enter your contact information to receive notifications.",
+      "INFO": "In accordance with section 17 of the call, notifications and communications to the applicant will be carried out telematically to the e-mail address designated by the applicant for notification purposes in this application form. Notices of the availability of the notification to the Citizen Folder of the <a href=''>Punto de Acceso General electrónico (Mi carpeta)</a> will be sent to the e-mail address designated in the declarant's data.",
+      "PHONE": {
+        "LABEL": "Applicant's or representative's phone number",
+        "ERROR": "The phone number entered is not valid."
+      },
+      "EMAIL": {
+        "LABEL": "E-mail address for notification purposes",
+        "ERROR": "The e-mail address entered is not valid."
       }
     },
     "EXPANDALL": "Expand all",
