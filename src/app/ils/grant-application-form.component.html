@@ -1,12 +1,12 @@
-<form [formGroup]="ilsForm" ngClass="form">
+<form [formGroup]="ilsForm" ngClass="form" (ngSubmit)="onSubmit()">
     <div class="example-action-buttons">
-        <button matButton ngClass="btn-green btn" (click)="accordion().openAll()">{{ 'ILS.EXPANDALL' | translate
+        <button matButton type="button" ngClass="btn-green btn" (click)="accordion().openAll()">{{ 'ILS.EXPANDALL' | translate
             }}</button>
-        <button matButton ngClass="btn-green btn" (click)="accordion().closeAll()">{{ 'ILS.COLAPSEALL' | translate
+        <button matButton type="button" ngClass="btn-green btn" (click)="accordion().closeAll()">{{ 'ILS.COLAPSEALL' | translate
             }}</button>
     </div>
     <mat-accordion ngClass="example-headers-align" multi>
-        <mat-expansion-panel [expanded]="step() === 0">
+        <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
             <mat-expansion-panel-header>
                 <mat-panel-title>{{'ILS.RGPD.TITLE' | translate}}</mat-panel-title>
                 <mat-panel-description>
@@ -60,8 +60,6 @@
                 </section>
             </section>
         </mat-expansion-panel>
-
-        <!-- Pendiente de revisar tras añadir el resto de accordions-->
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1">
             <mat-expansion-panel-header>
                 <mat-panel-title>{{'ILS.BUSINESS-TYPE.TITLE' | translate}}</mat-panel-title>
@@ -85,10 +83,80 @@
         </mat-expansion-panel>
 
 
-        <mat-expansion-panel>Datos generales</mat-expansion-panel>
+        <mat-expansion-panel [disabled]="(!rgpdAccepted || !businessTypeChoosed)" [expanded]="step() === 2">
+            <mat-expansion-panel-header>
+                <mat-panel-title>{{'ILS.GENERAL-DATA.TITLE' | translate}}</mat-panel-title>
+                <mat-panel-description>{{'ILS.GENERAL-DATA.DESCRIPTION' | translate}}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <section ngClass="personal-data">
+                <mat-form-field>
+                    <mat-label *ngIf="businessType === 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.LABEL' | translate}}</mat-label>
+                    <mat-label *ngIf="businessType !== 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.CIF.LABEL' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="nif" maxlength="9" (blur)="cleanBlank($event)">
+                    <mat-error *ngIf="ilsForm.get('nif')?.errors && businessType ==='autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.ERROR' | translate}}</mat-error>
+                    <mat-error *ngIf="ilsForm.get('nif')?.errors && businessType !=='autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.CIF.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.COMPANY-NAME.LABEL' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="denom_interesado" (blur)="cleanBlank($event)">
+                    <mat-error *ngIf="ilsForm.get('denom_interesado')?.errors">{{'ILS.GENERAL-DATA.COMPANY-NAME.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.ADDRESS.LABEL' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="domicilio" (blur)="cleanBlank($event)">
+                    <mat-error *ngIf="ilsForm.get('domicilio')?.errors">{{'ILS.GENERAL-DATA.ADDRESS.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.ZIPCODE.LABEL' | translate}}</mat-label>
+                    <input matInput (ngModelChange)="selectedValue()" type="text" formControlName="cpostal" maxlength="5" minlength="5" [matAutocomplete]="auto" (blur)="cleanBlank($event)">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="ilsForm.get('cpostal')?.errors">{{'ILS.GENERAL-DATA.ZIPCODE.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.TOWN' | translate}}</mat-label>
+                    <input matInput formControlName="localidad">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.CONTACT-PHONE.LABEL' | translate}}</mat-label>
+                    <input matInput type="tel" formControlName="tel_cont" (blur)="cleanBlank($event)" minlength="9" maxlength="9">
+                    <mat-error *ngIf="ilsForm.get('tel_cont')?.errors">{{'ILS.GENERAL-DATA.CONTACT-PHONE.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.BAT-EPIGRAPH.LABEL' | translate}}</mat-label>
+                    <mat-select formControlName="iae">
+                        <mat-option *ngFor="let epigrafe of epigrafesIAE;" [value]="epigrafe.value">{{epigrafe.label}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="ilsForm.get('iae')?.errors">{{'ILS.GENERAL-DATA.BAT-EPIGRAPH.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.WEBSITE' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="sitio_web_empresa" (blur)="cleanBlank($event)">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.PRESENTATION-VIDEO' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="video_empresa" (blur)="cleanBlank($event)">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.REPRESENTATIVE.NAME.LABEL' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="nom_representante" (blur)="cleanBlank($event)">
+                    <mat-error *ngIf="ilsForm.get('nom_representante')?.errors">{{'ILS.GENERAL-DATA.REPRESENTATIVE.NAME.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ILS.GENERAL-DATA.REPRESENTATIVE.NIF.LABEL' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="nif_representante" minlength="9" maxlength="9" (blur)="cleanBlank($event)">
+                    <mat-error *ngIf="ilsForm.get('nif_representante')?.errors">{{'ILS.GENERAL-DATA.REPRESENTATIVE.NIF.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+            </section>
+        </mat-expansion-panel>
+
         <mat-expansion-panel>Canal de notificación</mat-expansion-panel>
         <mat-expansion-panel>Autorizaciones (Desmarcado -> Input)</mat-expansion-panel>
         <mat-expansion-panel>Declaración responsable (checkboxs marcados por defecto y readonly)</mat-expansion-panel>
         <mat-expansion-panel>Documentación requerida y opcional (10 M máx)</mat-expansion-panel>
     </mat-accordion>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="ilsForm.invalid">Enviar solicitud</button>
 </form>

@@ -77,6 +77,53 @@
         "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights. Other companies that do not meet the above requirements."
       }
     },
+"GENERAL-DATA": {
+      "TITLE": "General data",
+      "DESCRIPTION": "Enter your personal data.",
+      "APPLICANT": {
+        "NIF": {
+          "LABEL": "Applicant's DNI/NIE",
+          "ERROR": "The DNI/NIE entered is not valid."
+        },
+        "CIF": {
+          "LABEL": "Applicant's VAT number",
+          "ERROR": "The VAT number entered is not valid."
+        }  
+      },
+      "COMPANY-NAME": {
+        "LABEL": "Name or company name",
+        "ERROR": "The name or company name entered is not valid."
+      },
+      "ADDRESS": {
+        "LABEL": "Applicant's postal address",
+        "ERROR": "The postal address entered is not valid."
+      },
+      "ZIPCODE": {
+        "LABEL": "Applicant's zip code [five digits].",
+        "ERROR": "The zip code entered is not valid."
+      },
+      "TOWN": "Town",
+      "CONTACT-PHONE": {
+        "LABEL": "Applicant's contact phone number",
+        "ERROR": "The contact phone number entered is not valid."
+      },
+      "BAT-EPIGRAPH": {
+        "LABEL": "BAT epigraph",
+        "ERROR": "The BAT epigraph entered is not valid."
+      },
+      "WEBSITE": "Company website",
+      "PRESENTATION-VIDEO": "URL of the company's presentation video (published on Youtube or Vimeo)",
+      "REPRESENTATIVE": {
+        "NAME" : {
+          "LABEL": "Name of legal representative",
+          "ERROR": "The name of the legal representative entered is not valid."
+        },
+        "NIF": {
+          "LABEL": "DNI/NIE of the legal representative",
+          "ERROR": "The DNI/NIE of the legal representative entered is not valid."
+        }
+      }
+    },
     "EXPANDALL": "Expand all",
     "COLAPSEALL": "Colapse all"
   }

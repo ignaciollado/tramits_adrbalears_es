@@ -73,3 +73,9 @@ div.ng-invalid.ng-touched {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
+
+.personal-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+}

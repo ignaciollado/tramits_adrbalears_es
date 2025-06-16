@@ -115,8 +115,6 @@ export class CustomValidatorsService {
         }
       }
 
-      console.log(validData)
-
       if (validData != null) {
         this.isSettingValues.next(true)
         control.setValue(validData, { emitEvent: false})

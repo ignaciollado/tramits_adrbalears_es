@@ -77,6 +77,53 @@
         "INFO": "Es considera mitjana empresa la que té entre 50 i 250 treballadors i/o treballadores, un volum de negoci anual entre 10 i 50 milions d'euros o un balanç general anual entre 10 i 43 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot. Altres empreses que no compleixen els requisits anteriors."
       }
     },
+    "GENERAL-DATA": {
+      "TITLE": "Dades generals",
+      "DESCRIPTION": "Introdueixi les seves dades personals.",
+      "APPLICANT": {
+        "NIF": {
+          "LABEL": "DNI/NIE del sol·licitant",
+          "ERROR": "El DNI/NIE introduït no és vàlid."
+        },
+        "CIF": {
+          "LABEL": "CIF del sol·licitant",
+          "ERROR": "El CIF introduït no és vàlid."
+        }
+      },
+      "COMPANY-NAME": {
+        "LABEL": "Nom o raó social",
+        "ERROR": "El nom o raó social introduït no és vàlid."
+      },
+      "ADDRESS": {
+        "LABEL": "Adreça postal del sol·licitant",
+        "ERROR": "L'adreça postal introduïda no és vàlida."
+      },
+      "ZIPCODE": {
+        "LABEL": "Codi postal del sol·licitant [cinc dígits]",
+        "ERROR": "El codi postal del sol·licitant introduït no és vàlid."
+      },
+      "TOWN": "Població",
+      "CONTACT-PHONE": {
+        "LABEL": "Telèfon de contacte del sol·licitant",
+        "ERROR": "El telèfon de contacte introduït no és vàlid."
+      },
+      "BAT-EPIGRAPH": {
+        "LABEL": "Epígraf IAE",
+        "ERROR": "L'epígraf IAE introduït no és vàlid."
+      },
+      "WEBSITE": "Lloc web de l'empresa",
+      "PRESENTATION-VIDEO": "La URL del vídeo de presentació de l'empresa (publicat a Youtube o a Vimeo)",
+      "REPRESENTATIVE": {
+        "NAME": {
+          "LABEL": "Nom del representant legal",
+          "ERROR": "El nom del representant legal introduït no és vàlid."
+        },
+        "NIF": {
+          "LABEL": "DNI/NIE del representant legal",
+          "ERROR": "El DNI/NIE del representant legal introduït no És vàlid."
+        }
+      }
+    },
     "EXPANDALL": "Expandir tot",
     "COLAPSEALL": "Encongir tot"
   }

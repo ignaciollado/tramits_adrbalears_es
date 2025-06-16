@@ -77,6 +77,53 @@
         "INFO": "Se considera mediana empresa la que tiene entre 50 y 250 trabajadores y/o trabajadoras, un volumen de negocio anual entre 10 y 50 millones de euros o un balance general anual entre 10 y 43 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto. Otras empresas que no cumplen los requisitos anteriores."
       }
     },
+    "GENERAL-DATA": {
+      "TITLE": "Datos generales",
+      "DESCRIPTION": "Introduzca sus datos personales.",
+      "APPLICANT": {
+        "NIF": {
+          "LABEL": "DNI/NIE del solicitante",
+          "ERROR": "El DNI/NIE introducido no es válido."
+        },
+        "CIF": {
+          "LABEL": "CIF del solicitante",
+          "ERROR": "El CIF introducido no es válido."
+        }  
+      },
+      "COMPANY-NAME": {
+        "LABEL": "Nombre o razón social",
+        "ERROR": "El nombre o razón social introducido no es válido."
+      },
+      "ADDRESS": {
+        "LABEL": "Dirección postal del solicitante",
+        "ERROR": "La dirección postal introducida no es válida."
+      },
+      "ZIPCODE": {
+        "LABEL": "Código postal del solicitante [cinco dígitos]",
+        "ERROR": "El código postal introducido no es válido."
+      },
+      "TOWN": "Población",
+      "CONTACT-PHONE": {
+        "LABEL": "Teléfono de contacto del solicitante",
+        "ERROR": "El teléfono de contacto introducido no es válido."
+      },
+      "BAT-EPIGRAPH": {
+        "LABEL": "Epígrafe IAE",
+        "ERROR": "El epígrafe IAE introducido no es válido."
+      },
+      "WEBSITE": "Sitio web de la empresa",
+      "PRESENTATION-VIDEO": "La URL del video de presentación de la empresa (publicado en Youtube o en Vimeo)",
+      "REPRESENTATIVE": {
+        "NAME" : {
+          "LABEL": "Nombre del representante legal",
+          "ERROR": "El nombre del representante legal introducido no es válido."
+        },
+        "NIF": {
+          "LABEL": "DNI/NIE del representante legal",
+          "ERROR": "El DNI/NIE del representante legal introducido no es válido."
+        }
+      }
+    },
     "EXPANDALL": "Expandir todo",
     "COLAPSEALL": "Encoger todo"
   }
