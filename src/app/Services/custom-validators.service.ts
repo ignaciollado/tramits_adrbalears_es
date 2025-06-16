@@ -109,11 +109,13 @@ export class CustomValidatorsService {
         const validControlDigit: number = (10 - (totalSum % 10) == 10) ? 0 : (10 - (totalSum % 10))
 
         if (this.numberControlDigit.includes(initialLetter)) {
-          validData = `${initialLetter}${cifNumeration}${validControlDigit}`.toString() // Valor numérico
+          validData = `${initialLetter}${cifNumeration.join("")}${validControlDigit}`.toString() // Valor numérico
         } else if (this.letterControlDigit.includes(initialLetter)) {
-          validData = `${initialLetter}${cifNumeration}${this.controlDigitList[validControlDigit]}`.toString() // Valor alfabético
+          validData = `${initialLetter}${cifNumeration.join("")}${this.controlDigitList[validControlDigit]}`.toString() // Valor alfabético
         }
       }
+
+      console.log(validData)
 
       if (validData != null) {
         this.isSettingValues.next(true)
