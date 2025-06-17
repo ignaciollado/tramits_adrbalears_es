@@ -14,8 +14,8 @@ form {
   grid-template-columns: 1fr;
 }
 
-.btn-green {
-  background-color: #007c5a;
+.btn-adr {
+  background-color: #0098ce;
   color: white;
   padding: 0.75rem 1.5rem;
   border: none;
@@ -25,7 +25,7 @@ form {
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #005f44;
+    background-color: #0098ce;
   }
 
   &:disabled {
@@ -37,7 +37,7 @@ form {
 .btn {
   margin-bottom: .5rem;
   background-color: transparent;
-  color: #007c5a;
+  color: #00405e;
   &:hover {
     color: #fff;
   }

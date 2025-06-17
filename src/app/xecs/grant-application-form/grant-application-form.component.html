@@ -1,8 +1,8 @@
 <form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
 
 <div class="action-buttons">
-  <button matButton ngClass="btn-green btn" (click)="accordion().openAll()">{{ 'XECS.EXPANDALL' | translate }}</button>
-  <button matButton ngClass="btn-green btn" (click)="accordion().closeAll()">{{ 'XECS.COLAPSEALL' | translate }}</button>
+  <button matButton ngClass="btn-adr btn" (click)="accordion().openAll()">{{ 'XECS.EXPANDALL' | translate }}</button>
+  <button matButton ngClass="btn-adr btn" (click)="accordion().closeAll()">{{ 'XECS.COLAPSEALL' | translate }}</button>
 </div>
 <mat-accordion class="headers-align" multi>
   <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
