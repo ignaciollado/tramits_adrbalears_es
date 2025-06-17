@@ -24,7 +24,7 @@
     <section [innerHTML]="htmlContent"></section>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [disabled]="!rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.PROGRAM' | translate }}</mat-panel-title>
       <mat-panel-description>
@@ -48,11 +48,11 @@
       </mat-error>
     </mat-expansion-panel>
 
-    <mat-expansion-panel [disabled]="!rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
       <mat-expansion-panel-header>
         <mat-panel-title>{{ 'FORM.SOLICITORTYPE' | translate }}</mat-panel-title>
         <mat-panel-description>
-          Indique el tipo de organización
+          {{ 'FORM.ORGANIZATIONTYPE' | translate }}
         <mat-icon>corporate_fare</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
@@ -63,7 +63,7 @@
       </mat-radio-group>
     </mat-expansion-panel>
 
-    <mat-expansion-panel [disabled]="!rgpdAccepted">
+    <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
       <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.SOLICITOR' | translate }}</mat-panel-title>
       <mat-panel-description>
@@ -89,17 +89,20 @@
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.ZIPCODE' | translate }}</mat-label>
-        <input matInput formControlName="cpostal" required />
+        <input matInput formControlName="zipCode" required maxlength="5" minlength="5" [matAutocomplete]="auto" (blur)="selecteZipValue()"/>
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredZipCodes | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
+          </mat-autocomplete>        
       </mat-form-field>      
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.TOWN' | translate }}</mat-label>
-        <input matInput formControlName="localidad" required/>
+        <input matInput formControlName="town" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.CONTACTPHONE' | translate }}</mat-label>
-        <input matInput formControlName="telefono_cont" />
+        <input matInput formControlName="telefono_cont" maxlength="9" minlength="9"/>
       </mat-form-field>
 
       <mat-form-field appearance="fill" class="full-width">
@@ -125,7 +128,47 @@
       <ul *ngIf="archivosSubidos.length > 0">
         <li *ngFor="let file of archivosSubidos">{{ file.name }}</li>
       </ul>
-    </mat-expansion-panel>
+  </mat-expansion-panel>
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+      <mat-expansion-panel-header>
+      <mat-panel-title>{{ 'FORM.NOTIFICATIONCHANEL' | translate }}</mat-panel-title>
+      <mat-panel-description>
+        <mat-icon>mail</mat-icon>
+      </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.NOTIFICATIONMOBILE' | translate }}</mat-label>
+        <input matInput formControlName="tel_representante" required maxlength="9" minlength="9" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.NOTIFICATIONMAIL' | translate }}</mat-label>
+        <input matInput formControlName="mail_representante" />
+      </mat-form-field>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ 'FORM.CONSULTANTDATA' | translate }}</mat-panel-title>
+      <mat-panel-description>
+        <mat-icon>person_raised_hand</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.CONSULTANTCOMPANY' | translate }}</mat-label>
+        <input matInput formControlName="empresa_consultor" required maxlength="9" minlength="9" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.CONSULTANTNAME' | translate }}</mat-label>
+        <input matInput formControlName="nom_consultor" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.CONSULTANTPHONE' | translate }}</mat-label>
+        <input matInput formControlName="tel_consultor" required maxlength="9" minlength="9" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.CONSULTANTMAIL' | translate }}</mat-label>
+        <input matInput formControlName="mail_consultor" />
+      </mat-form-field>      
+  </mat-expansion-panel>
 </mat-accordion>
 <button mat-raised-button color="accent" type="submit" [disabled]="ayudaForm.invalid">{{ 'FORM.SEND' | translate }}</button>
 </form>

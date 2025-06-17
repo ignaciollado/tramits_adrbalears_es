@@ -2,6 +2,7 @@
 import { ChangeDetectionStrategy, Component, viewChild, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,15 +14,19 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
+import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
+import { CommonService } from '../../Services/common.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, 
-    MatButtonModule, MatSelectModule, MatExpansionModule, 
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
+    MatButtonModule, MatSelectModule, MatExpansionModule, MatAutocompleteModule,
     MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule, MatDialogModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
@@ -30,28 +35,38 @@ import { HttpClient } from '@angular/common/http'
 })
 
 export class GrantApplicationFormComponent {
-readonly dialog = inject(MatDialog)
-htmlContent: string = ''
-step = signal(0)
-ayudaForm: FormGroup  
-accordion = viewChild.required(MatAccordion)
-rgpdAccepted = false
-introText: string = "getting intro text..."
+  readonly dialog = inject(MatDialog)
+  htmlContent: string = ''
+  step = signal(0)
+  ayudaForm: FormGroup  
+  accordion = viewChild.required(MatAccordion)
+  rgpdAccepted = false
+  introText: string = "getting intro text..."
+  filteredZipCodes: Observable<ZipCodesIBDTO[]> | undefined;
+  zipCodes: ZipCodesIBDTO[] = [];
 
-constructor (private fb: FormBuilder, private http: HttpClient) {
-this.ayudaForm = this.fb.group ({
+  constructor (private fb: FormBuilder, private http: HttpClient, private commonService: CommonService,     private snackBar: MatSnackBar,) {
+  this.ayudaForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
-    nif: this.fb.control('', Validators.required),
+    nif: this.fb.control('',[ Validators.required, Validators.pattern('^[0-9]+[A-Za-z]$')]),
     denom_interesado: this.fb.control('', Validators.required),
     domicilio: this.fb.control({value: '', disabled: false}, Validators.required),
-    cpostal: this.fb.control ('', Validators.required),
-    localidad: this.fb.control({value: '', disabled: true}, Validators.required),
-    telefono_cont: this.fb.control(''),
+    zipCode: this.fb.control ('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+    town: this.fb.control({value: '', disabled: true}, Validators.required),
+    telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]*$')]),
     documentos: this.fb.control<File[] | null>(null),
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
-    tipoSolicitante: this.fb.control<string | null>(null, Validators.required)
-});
-
+    tipoSolicitante: this.fb.control<string | null>(null, Validators.required),
+    nom_representante:  this.fb.control<string | null>(''),
+    nif_representante: this.fb.control<string | null>('', [Validators.required, Validators.pattern('^[0-9]+[A-Za-z]$')]),
+    tel_representante: this.fb.control<string | null>('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+    mail_representante: this.fb.control<string | null>('', [Validators.required, Validators.email]),
+    empresa_consultor: this.fb.control<string | null>(''),
+    nom_consultor: this.fb.control<string | null>(''),
+    tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]*$')),
+    mail_consultor: this.fb.control<string | null>('', Validators.email)
+  });
+this.getAllZipCodes()
 this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })
  .subscribe({
     next: (html) => this.htmlContent = html,
@@ -63,6 +78,14 @@ ngOnInit(): void {
  this.ayudaForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
  this.rgpdAccepted = value;
  });
+    
+ this.filteredZipCodes = this.ayudaForm.get('zipCode')?.valueChanges.pipe(
+      startWith(''),
+      map((value) => {
+        const name = typeof value === 'string' ? value : value;
+        return name ? this._filter(name as string) : this.zipCodes.slice();
+      })
+    ); 
 }
 
 setStep(index: number) {
@@ -127,6 +150,40 @@ onCheckboxChange(event: MatCheckboxChange) {
       formArray.removeAt(index);
     }
   }
+}
+
+selecteZipValue() {
+    const zipCodeForm = this.ayudaForm.get('zipCode')?.value
+    if (zipCodeForm) {
+      this.ayudaForm.get('town')?.setValue(zipCodeForm['town'])
+    }
+}
+
+displayFn(zpCode: ZipCodesIBDTO): string {
+  return zpCode && zpCode.zipCode ? zpCode.zipCode : '';
+}
+
+private _filter(name: string): ZipCodesIBDTO[] {
+  const filterValue = name;
+  return this.zipCodes.filter((zipCode:any) =>
+    zipCode.zipCode.includes(filterValue)
+  );
+}
+
+private getAllZipCodes() {
+  this.commonService.getZipCodes().subscribe((zpCodes: ZipCodesIBDTO[]) => {
+      const zpCodesFiltered: ZipCodesIBDTO[] = zpCodes.filter((zpCode: ZipCodesIBDTO) => zpCode.deleted_at?.toString() === "0000-00-00 00:00:00")
+       this.zipCodes = zpCodesFiltered; 
+      }, (error) => { this.showSnackBar(error) });
+}
+    
+private showSnackBar(error: string): void {
+    this.snackBar.open(error, 'Close', {
+      duration: 10000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
+      panelClass: ['custom-snackbar'],
+    });
 }
 }
 

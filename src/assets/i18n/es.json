@@ -6,8 +6,17 @@
     "ILSAPPFORM": "ILS: formulario de solicitud de ayuda y/o subvención"
   },
   "FORM": {
-    "SEND": "Enviar",
-    "SELECTFILES": "Seleccionar documentos"
+    "PROGRAM": "Selecione el/los programas de ayuda que solicita",
+    "ORGANIZATIONTYPE": "Indique el tipo de organización",
+    "SOLICITOR": "Interesado",
+    "SOLICITORTYPE": "Tipos de solicitante",
+    "SOLICITORNAME": "Nombre del interesado",
+    "ADDRESS": "Dirección postal",
+    "ZIPCODE": "Código postal",
+    "TOWN": "Localidad",
+    "CONTACTPHONE": "Teléfono de contacto",
+    "NOTIFICATIONCHANEL": "Canal de nofitificación",
+    "SEND": "Enviar"
   },  
   "XECS": {
     "RGPD": "RGPD y documentación",

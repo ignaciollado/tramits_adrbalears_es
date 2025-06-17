@@ -8,6 +8,7 @@
 
   "FORM": {
     "PROGRAM": "Seleccionau el programa d'ajuda que sol·licitau",
+    "ORGANIZATIONTYPE": "Indiqui el tipus d'organització",
     "SOLICITOR": "Interessat",
     "SOLICITORTYPE": "Tipus de sol·licitant",
     "SOLICITORNAME": "Nom del interessat",
@@ -15,6 +16,7 @@
     "ZIPCODE": "Codi postal",
     "TOWN": "Localitat",
     "CONTACTPHONE": "Telèfon de contacte",
+    "NOTIFICATIONCHANEL": "Canal de nofitificació",
     "SEND": "Enviar"
   },
   
@@ -28,5 +30,4 @@
     "EXPANDALL": "Veure tot",
     "COLAPSEALL": "Ocultar tot"
   }
-
 }
