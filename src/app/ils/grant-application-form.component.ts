@@ -67,7 +67,12 @@ export class IlsGrantApplicationFormComponent {
       checkboxID: this.fb.control<boolean>(true),
       checkboxATIB: this.fb.control<boolean>(true),
       file_enviardocumentoIdentificacion: this.fb.control<string>(''),
-      file_certificadoATIB: this.fb.control<string>('')
+      file_certificadoATIB: this.fb.control<string>(''),
+      
+      declaracion_responsable_i: this.fb.control<boolean>(true),
+      declaracion_responsable_v: this.fb.control<boolean>(true),
+      declaracion_responsable_vii: this.fb.control<boolean>(true),
+      declaracion_responsable_ix: this.fb.control<boolean>(true)
 
     })
 

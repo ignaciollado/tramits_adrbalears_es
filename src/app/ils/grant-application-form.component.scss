@@ -82,15 +82,25 @@ div.ng-invalid.ng-touched {
 
 .notification-channel {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 20px;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
 
   .inputs {
     display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
   }
 }
 
 .authorization-checkboxes {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+.declaration-checkboxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 5px;
+  row-gap: 15px;
+  align-items: baseline;
 }

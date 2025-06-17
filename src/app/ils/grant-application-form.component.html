@@ -9,10 +9,10 @@
     </div>
     <mat-accordion ngClass="example-headers-align" multi>
         <!-- RGPD -->
-        <!-- <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)"> -->
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
+        <!-- <mat-expansion-panel> -->
             <mat-expansion-panel-header>
-                <mat-panel-title>{{'ILS.RGPD.TITLE' | translate}}</mat-panel-title>
+                <mat-panel-title><h3>{{'ILS.RGPD.TITLE' | translate}}</h3></mat-panel-title>
                 <mat-panel-description>
                     {{'ILS.RGPD.DESCRIPTION' | translate}}
                 </mat-panel-description>
@@ -67,7 +67,7 @@
         <!-- Tipo de solicitante -->
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1">
             <mat-expansion-panel-header>
-                <mat-panel-title>{{'ILS.BUSINESS-TYPE.TITLE' | translate}}</mat-panel-title>
+                <mat-panel-title><h3>{{'ILS.BUSINESS-TYPE.TITLE' | translate}}</h3></mat-panel-title>
                 <mat-panel-description>
                     {{'ILS.BUSINESS-TYPE.DESCRIPTION' | translate}}
                 </mat-panel-description>
@@ -94,7 +94,7 @@
         <!-- Datos personales -->
         <mat-expansion-panel [disabled]="(!rgpdAccepted || !businessTypeChoosed)">
             <mat-expansion-panel-header>
-                <mat-panel-title>{{'ILS.GENERAL-DATA.TITLE' | translate}}</mat-panel-title>
+                <mat-panel-title><h3>{{'ILS.GENERAL-DATA.TITLE' | translate}}</h3></mat-panel-title>
                 <mat-panel-description>{{'ILS.GENERAL-DATA.DESCRIPTION' | translate}}</mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="personal-data">
@@ -184,10 +184,13 @@
         <!-- Canal de notificaciones-->
         <mat-expansion-panel [disabled]="!rgpdAccepted">
             <mat-expansion-panel-header>
-                <mat-panel-title>{{'ILS.NOTIFICATION-CHANNEL.TITLE' | translate}}</mat-panel-title>
+                <mat-panel-title><h3>{{'ILS.NOTIFICATION-CHANNEL.TITLE' | translate}}</h3></mat-panel-title>
                 <mat-panel-description>{{'ILS.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}}</mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="notification-channel">
+                <section>
+                    <p [innerHTML]="'ILS.NOTIFICATION-CHANNEL.INFO' | translate"></p>
+                </section>
                 <section ngClass="inputs">
                     <mat-form-field>
                         <mat-label>{{'ILS.NOTIFICATION-CHANNEL.PHONE.LABEL' | translate}}</mat-label>
@@ -205,16 +208,13 @@
                             translate}}</mat-error>
                     </mat-form-field>
                 </section>
-                <section>
-                    <p [innerHTML]="'ILS.NOTIFICATION-CHANNEL.INFO' | translate"></p>
-                </section>
             </section>
         </mat-expansion-panel>
 
         <!-- Autorizaciones. (Desmarcado -> Input file). Pendiente implementar input file.-->
         <mat-expansion-panel [disabled]="!rgpdAccepted">
             <mat-expansion-panel-header>
-                <mat-panel-title>{{'ILS.AUTHORIZATIONS.TITLE' | translate}}</mat-panel-title>
+                <mat-panel-title><h3>{{'ILS.AUTHORIZATIONS.TITLE' | translate}}</h3></mat-panel-title>
                 <mat-panel-description>{{'ILS.AUTHORIZATIONS.DESCRIPTION' | translate}}</mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="authorization-checkboxes">
@@ -237,7 +237,19 @@
             </section>
         </mat-expansion-panel>
 
-        <mat-expansion-panel>Declaración responsable (checkboxs marcados por defecto y readonly)</mat-expansion-panel>
+        <!-- Declaración responsable-->
+        <mat-expansion-panel [disabled]="!rgpdAccepted">
+            <mat-expansion-panel-header>
+                <mat-panel-title><h3>{{'ILS.DECLARATIONS.TITLE' | translate}}</h3></mat-panel-title>
+                <mat-panel-description>{{'ILS.DECLARATIONS.DESCRIPTION' | translate}}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <section ngClass="declaration-checkboxes">
+                <mat-checkbox formControlName="declaracion_responsable_i" (click)="$event.preventDefault()">1. {{'ILS.DECLARATIONS.DECLARATION-1' | translate}}</mat-checkbox>
+                <mat-checkbox formControlName="declaracion_responsable_v" (click)="$event.preventDefault()">2. {{'ILS.DECLARATIONS.DECLARATION-2' | translate}}</mat-checkbox>
+                <mat-checkbox formControlName="declaracion_responsable_vii" (click)="$event.preventDefault()">3. {{'ILS.DECLARATIONS.DECLARATION-3' | translate}}</mat-checkbox>
+                <mat-checkbox formControlName="declaracion_responsable_ix" (click)="$event.preventDefault()">4. {{'ILS.DECLARATIONS.DECLARATION-4' | translate}}</mat-checkbox>
+            </section>
+        </mat-expansion-panel>
         <mat-expansion-panel>Documentación requerida y opcional (10 M máx)</mat-expansion-panel>
     </mat-accordion>
 

@@ -144,6 +144,14 @@
       "AUTHORIZATION-ATIB": "Certificate from the Tax Agency of the Balearic Islands (ATIB) of being up to date with tax obligations with the autonomous community of the Balearic Islands.",
       "NO-AUTHORIZATED": "If you disagree, please attach the files indicated in the consent information."
     },
+    "DECLARATIONS": {
+      "TITLE": "Responsible declaration",
+      "DESCRIPTION": "Please read the following responsible statements.",
+      "DECLARATION-1": "That the company has an active production line in the Balearic Islands",
+      "DECLARATION-2": "That I have sufficient representation capacity, duly accredited, to carry out the indicated procedure.",
+      "DECLARATION-3": "That the beneficiary entity is registered in the Industrial Registry or in the Mining Registry of the Balearic Islands, if applicable.",
+      "DECLARATION-4": "That the information contained in this document is true, that I meet all the requirements of the call for applications, and that I submit the corresponding documentation, in accordance with the resolution of the call for applications."
+    },
     "EXPANDALL": "Expand all",
     "COLAPSEALL": "Colapse all"
   }

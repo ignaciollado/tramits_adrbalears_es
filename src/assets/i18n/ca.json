@@ -144,6 +144,14 @@
       "AUTHORIZATION-ATIB": "Certificat de l'Agència Tributària de les illes Balears (ATIB) d'estar al corrent de les obligacions tributàries amb la comunitat autònoma de les illes Balears.",
       "NO-AUTHORIZATED": "En estar en disconformitat, si us plau, adjunti els arxius indicats en la informació del consentiment."
     },
+    "DECLARATIONS": {
+      "TITLE": "Declaració responsable",
+      "DESCRIPTION": "Llegeixi les següents declaracions responsables.",
+      "DECLARATION-1": "Que l'empresa compta amb una línia de producció activa a les Illes Balears.",
+      "DECLARATION-2": "Que disposo de la capacitat de representació suficient, degudament acreditada, per dur a terme la tramitació indicada.",
+      "DECLARATION-3": "Que l'entitat beneficiària està inscrita en el Registre Industrial o en el Registre Miner de les Illes Balears, si escau.",
+      "DECLARATION-4": "Que les dades consignades en aquest document són certes, que complesc amb tots el requisits exigits en la convocatòria, i que presento adjunta la documentació corresponent, d'acord amb la resolució de la convocatòria."
+    },
     "EXPANDALL": "Expandir tot",
     "COLAPSEALL": "Encongir tot"
   }

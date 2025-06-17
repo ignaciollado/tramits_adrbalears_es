@@ -144,6 +144,14 @@
       "AUTHORIZATION-ATIB": "Certificado de la Agencia Tributaria de las Islas Baleares (ATIB) de estar al corriente de las obligaciones tributarias con la comunidad autónoma de las Islas Baleares.",
       "NO-AUTHORIZATED": "Al estar en disconformidad, por favor, adjunte los archivos indicados en la información del consentimiento."
     },
+    "DECLARATIONS": {
+      "TITLE": "Declaración responsable",
+      "DESCRIPTION": "Lea las siguientes declaraciones responsables.",
+      "DECLARATION-1": "Que la empresa cuenta con una línea de producción activa en las Islas Baleares.",
+      "DECLARATION-2": "Que dispongo de la capacidad de representación suficiente, debidamente acreditada, para llevar a cabo la tramitación indicada.",
+      "DECLARATION-3": "Que la entidad beneficiaria está inscrita en el Registro Industrial o en el Registro Minero de las Islas Baleares, si procede.",
+      "DECLARATION-4": "Que los datos consignados en este documento son ciertos, que cumplo con todos los requisitos exigidos en la convocatoria, y que presento adjunta la documentación correspondiente, de acuerdo con la resolución de la convocatoria."
+    },
     "EXPANDALL": "Expandir todo",
     "COLAPSEALL": "Encoger todo"
   }
