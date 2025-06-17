@@ -5,6 +5,10 @@
     "ISBAAPPFORM": "ISBA: grant and subsidy application form",
     "ILSAPPFORM": "ILS: grant and subsidy application form"
   },
+  "FORM": {
+    "SEND": "Send",
+    "SELECTFILES": "Select files"
+  },
   "XECS": {
     "RGPD": "RGPD and documentation",
     "EXPANDALL": "Show all",

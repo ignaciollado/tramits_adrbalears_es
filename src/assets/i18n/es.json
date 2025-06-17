@@ -5,6 +5,10 @@
     "ISBAAPPFORM": "ISBA: formulario de solicitud de ayuda y/o subvención",
     "ILSAPPFORM": "ILS: formulario de solicitud de ayuda y/o subvención"
   },
+  "FORM": {
+    "SEND": "Enviar",
+    "SELECTFILES": "Seleccionar documentos"
+  },  
   "XECS": {
     "RGPD": "RGPD y documentación",
     "EXPANDALL": "Ver todo",

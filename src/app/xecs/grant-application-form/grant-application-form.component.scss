@@ -58,6 +58,7 @@ ul {
 
   li {
     background-color: #e6f2ef;
+    color: #000000;
     padding: 0.5rem;
     margin-bottom: 0.5rem;
     border-radius: 4px;
@@ -77,5 +78,15 @@ div.ng-invalid.ng-touched {
 }
 
 .checkbox-margin {
+  width: 100%;
+}
+
+mat-form-field {
+  display: block;
+  width: 100%;
+  margin-bottom: 16px; /* Espaciado entre campos */
+}
+
+.full-width {
   width: 100%;
 }

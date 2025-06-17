@@ -6,6 +6,23 @@
     "ILSAPPFORM": "ILS: formulari de sol·licitud d'ajut i/o subvenció"
   },
 
+  "FORM": {
+    "PROGRAM": "Seleccionau el programa d'ajuda que sol·licitau",
+    "SOLICITOR": "Interessat",
+    "SOLICITORTYPE": "Tipus de sol·licitant",
+    "SOLICITORNAME": "Nom del interessat",
+    "ADDRESS": "Domicili",
+    "ZIPCODE": "Codi postal",
+    "TOWN": "Localitat",
+    "CONTACTPHONE": "Telèfon de contacte",
+    "SEND": "Enviar"
+  },
+  
+  "FILES": {
+    "UPLOADFILES": "Carregar documents",
+    "SELECTFILES": "Seleccionar documents (PDF o imatge)"
+  },
+
   "XECS": {
     "RGPD": "RGPD i documentació",
     "EXPANDALL": "Veure tot",

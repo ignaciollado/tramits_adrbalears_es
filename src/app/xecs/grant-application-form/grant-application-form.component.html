@@ -26,119 +26,106 @@
 
   <mat-expansion-panel [disabled]="!rgpdAccepted">
     <mat-expansion-panel-header>
-      <mat-panel-title>Programas de ayuda</mat-panel-title>
+      <mat-panel-title>{{ 'FORM.PROGRAM' | translate }}</mat-panel-title>
       <mat-panel-description>
         Seleccione uno o varios programas de ayuda
         <mat-icon>map</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-<mat-label>Programa de ayuda:</mat-label>
-<div class="checkbox-group">
-  <mat-checkbox
-    *ngFor="let prog of programas"
-    [value]="prog"
-    (change)="onCheckboxChange($event)"
-    [checked]="ayudaForm.get('opc_programa')?.value.includes(prog)">
-    {{ prog }}
-  </mat-checkbox>
-</div>
-<mat-error *ngIf="ayudaForm.get('opc_programa')?.invalid && ayudaForm.get('opc_programa')?.touched">
-  Debes seleccionar al menos un programa.
-</mat-error>
+   <!--  <mat-label>Programa de ayuda:</mat-label> -->
+      <div class="checkbox-group">
+        <mat-checkbox
+          *ngFor="let prog of programas"
+          [value]="prog"
+          (change)="onCheckboxChange($event)"
+          [checked]="ayudaForm.get('opc_programa')?.value.includes(prog)">
+          {{ prog }}
+        </mat-checkbox>
+      </div>
+      <mat-error *ngIf="ayudaForm.get('opc_programa')?.invalid && ayudaForm.get('opc_programa')?.touched">
+        Debes seleccionar al menos un programa.
+      </mat-error>
+    </mat-expansion-panel>
 
-
-  </mat-expansion-panel>
-
-  <mat-expansion-panel [disabled]="!rgpdAccepted">
-    <mat-expansion-panel-header>
-      <mat-panel-title> Tipo de solicitante </mat-panel-title>
-      <mat-panel-description>
-        Indique el tipo de organización
+    <mat-expansion-panel [disabled]="!rgpdAccepted">
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{ 'FORM.SOLICITORTYPE' | translate }}</mat-panel-title>
+        <mat-panel-description>
+          Indique el tipo de organización
         <mat-icon>corporate_fare</mat-icon>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <mat-radio-group aria-label="Select an option" formControlName="tipoSolicitante">
-      <mat-radio-button value="autonomo">Autónomo</mat-radio-button>
-      <mat-radio-button value="pequenya">Pequeña empresa</mat-radio-button>
-      <mat-radio-button value="mediana">Mediana empresa</mat-radio-button>
-    </mat-radio-group>
-  </mat-expansion-panel>
-  <mat-expansion-panel [disabled]="!rgpdAccepted">
-    <mat-expansion-panel-header>
-      <mat-panel-title> Interesado </mat-panel-title>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-radio-group aria-label="Select an option" formControlName="tipoSolicitante">
+        <mat-radio-button value="autonomo">Autónomo</mat-radio-button>
+        <mat-radio-button value="pequenya">Pequeña empresa</mat-radio-button>
+        <mat-radio-button value="mediana">Mediana empresa</mat-radio-button>
+      </mat-radio-group>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [disabled]="!rgpdAccepted">
+      <mat-expansion-panel-header>
+      <mat-panel-title>{{ 'FORM.SOLICITOR' | translate }}</mat-panel-title>
       <mat-panel-description>
         Indique algunos datos concretos del interesado
         <mat-icon>person</mat-icon>
       </mat-panel-description>
-    </mat-expansion-panel-header>
+      </mat-expansion-panel-header>
 
-  <mat-form-field appearance="fill">
-    <mat-label>NIF</mat-label>
-    <input matInput formControlName="nif" required />
-  </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>NIF</mat-label>
+        <input matInput formControlName="nif" required />
+      </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Denominación del interesado</mat-label>
-    <input matInput formControlName="denom_interesado" required />
-  </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.SOLICITORNAME' | translate }}</mat-label>
+        <input matInput formControlName="denom_interesado" required />
+      </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Domicilio</mat-label>
-    <input matInput formControlName="domicilio" required />
-  </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.ADDRESS' | translate }}</mat-label>
+        <input matInput formControlName="domicilio" required />
+      </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Código Postal</mat-label>
-    <input matInput formControlName="cpostal" required />
-  </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.ZIPCODE' | translate }}</mat-label>
+        <input matInput formControlName="cpostal" required />
+      </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Localidad</mat-label>
-    <input matInput formControlName="localidad" required />
-  </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.TOWN' | translate }}</mat-label>
+        <input matInput formControlName="localidad" required />
+      </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Teléfono de contacto</mat-label>
-    <input matInput formControlName="telefono_cont" />
-  </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.CONTACTPHONE' | translate }}</mat-label>
+        <input matInput formControlName="telefono_cont" />
+      </mat-form-field>
 
-
-  <div>
-    <label for="documentos">Documentos:</label>
-    <input type="file" id="documentos" (change)="onFileChange($event)" multiple />
-  </div>
-  </mat-expansion-panel>
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>{{ 'FILES.SELECTFILES' | translate }}</mat-label>
+        <input
+          type="text"
+          matInput
+          [value]="nombresArchivos"
+          placeholder="{{ 'FILES.SELECTFILES' | translate }}"
+          readonly
+          (click)="fileInput.click()"
+        />
+      </mat-form-field>
+      <input
+        #fileInput
+        type="file"
+        (change)="onFileChange($event)"
+        multiple
+        accept=".pdf,image/*"
+        hidden
+      />
+      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
+      <ul *ngIf="archivosSubidos.length > 0">
+        <li *ngFor="let file of archivosSubidos">{{ file.name }}</li>
+      </ul>
+    </mat-expansion-panel>
 </mat-accordion>
-
-<mat-form-field appearance="fill" class="full-width">
-  <mat-label>Subir documentos (PDF o imagen)</mat-label>
-  <input
-    type="text"
-    matInput
-    [value]="nombresArchivos"
-    placeholder="Selecciona archivos"
-    readonly
-    (click)="fileInput.click()"
-  />
-</mat-form-field>
-
-<input
-  #fileInput
-  type="file"
-  (change)="onFileChange($event)"
-  multiple
-  accept=".pdf,image/*"
-  hidden
-/>
-
-<button mat-raised-button color="primary" (click)="fileInput.click()">
-  Seleccionar archivos
-</button>
-
-<ul *ngIf="archivosSubidos.length > 0">
-  <li *ngFor="let file of archivosSubidos">{{ file.name }}</li>
-</ul>
-
-  <button mat-raised-button color="accent" type="submit" [disabled]="ayudaForm.invalid">Enviar solicitud</button>
+<button mat-raised-button color="accent" type="submit" [disabled]="ayudaForm.invalid">{{ 'FORM.SEND' | translate }}</button>
 </form>

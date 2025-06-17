@@ -96,6 +96,7 @@ onFileChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {
     this.archivosSubidos = Array.from(input.files);
+    console.log ("this.archivosSubidos", this.archivosSubidos)
   }
 }
 
