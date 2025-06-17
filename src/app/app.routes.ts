@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
 import { GrantApplicationFormComponent } from './xecs/grant-application-form/grant-application-form.component';
-import { IsbaGrantApplicationFormComponent } from './isba/grant-application-form.component';
+import { IsbaGrantApplicationFormComponent } from './isba/grant-application-form/grant-application-form.component';
 
 import { HomeComponent } from './home.component';
 import { Component } from '@angular/core';
-import { IlsGrantApplicationFormComponent } from './ils/grant-application-form.component';
+import { IlsGrantApplicationFormComponent } from './ils/grant-application-form/grant-application-form.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
