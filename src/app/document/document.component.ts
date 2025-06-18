@@ -2,7 +2,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { DocumentService } from '../../Services/document.service';
+import { DocumentService } from '../Services/document.service';
 import { HttpEventType } from '@angular/common/http';
 
 @Component({
@@ -16,12 +16,12 @@ export class DocumentComponent implements OnInit {
   documents: any[] = [];
   selectedFiles: File[] = [];
   foldername: string = '';
-  subfolderId: number;
+  subfolderId: number | undefined;
   message: string = '';
   progress: number = 0
 
-  @Input() id: string;
-  @Input() origin: string;
+  @Input() id: string | undefined;
+  @Input() origin: string | undefined;
 
   constructor(private documentService: DocumentService, private snackBar: MatSnackBar, private dialog: MatDialog) { }
 

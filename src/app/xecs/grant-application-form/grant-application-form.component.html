@@ -32,9 +32,7 @@
         <mat-icon>map</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-
-   <!--  <mat-label>Programa de ayuda:</mat-label> -->
-      <div class="checkbox-group">
+      <section class="checkbox-group">
         <mat-checkbox
           *ngFor="let prog of programas"
           [value]="prog"
@@ -42,11 +40,11 @@
           [checked]="ayudaForm.get('opc_programa')?.value.includes(prog)">
           {{ prog }}
         </mat-checkbox>
-      </div>
+      </section>
       <mat-error *ngIf="ayudaForm.get('opc_programa')?.invalid && ayudaForm.get('opc_programa')?.touched">
         Debes seleccionar al menos un programa.
       </mat-error>
-    </mat-expansion-panel>
+  </mat-expansion-panel>
 
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
       <mat-expansion-panel-header>
@@ -61,9 +59,9 @@
         <mat-radio-button value="pequenya">Pequeña empresa</mat-radio-button>
         <mat-radio-button value="mediana">Mediana empresa</mat-radio-button>
       </mat-radio-group>
-    </mat-expansion-panel>
+  </mat-expansion-panel>
 
-    <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
       <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.SOLICITOR' | translate }}</mat-panel-title>
       <mat-panel-description>
@@ -104,31 +102,8 @@
         <mat-label>{{ 'FORM.CONTACTPHONE' | translate }}</mat-label>
         <input matInput formControlName="telefono_cont" maxlength="9" minlength="9"/>
       </mat-form-field>
-
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>{{ 'FILES.SELECTFILES' | translate }}</mat-label>
-        <input
-          type="text"
-          matInput
-          [value]="nombresArchivos"
-          placeholder="{{ 'FILES.SELECTFILES' | translate }}"
-          readonly
-          (click)="fileInput.click()"
-        />
-      </mat-form-field>
-      <input
-        #fileInput
-        type="file"
-        (change)="onFileChange($event)"
-        multiple
-        accept=".pdf,image/*"
-        hidden
-      />
-      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
-      <ul *ngIf="archivosSubidos.length > 0">
-        <li *ngFor="let file of archivosSubidos">{{ file.name }}</li>
-      </ul>
   </mat-expansion-panel>
+  
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
       <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.NOTIFICATIONCHANEL' | translate }}</mat-panel-title>
@@ -145,6 +120,7 @@
         <input matInput formControlName="mail_representante" />
       </mat-form-field>
   </mat-expansion-panel>
+
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.CONSULTANTDATA' | translate }}</mat-panel-title>
@@ -168,6 +144,145 @@
         <mat-label>{{ 'FORM.CONSULTANTMAIL' | translate }}</mat-label>
         <input matInput formControlName="mail_consultor" />
       </mat-form-field>      
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ 'FORM.ATTACHEDDOCUMENTATION' | translate }}</mat-panel-title>
+      <mat-panel-description>
+        Indique los documentos que desea enviarnos
+        <mat-icon>file_copy</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+  <section ngClass="memoria-tecnica">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'FILES.SELECTFILESMEMTEC' | translate }}</mat-label>
+          <input
+            type="text"
+            matInput
+            [value]="memoriaTecnicaFileNames"
+            placeholder="{{ 'FILES.SELECTFILESMEMTEC' | translate }}"
+            readonly
+            (click)="file_memoriaTecnica.click()"
+        />
+      </mat-form-field>
+      <input
+        #file_memoriaTecnica
+        type="file"
+        (change)="onFileMemoriaTecnicaChange($event)"
+        multiple
+        accept=".pdf"
+        hidden />
+      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
+      <ul *ngIf="file_memoriaTecnicaUploaded.length > 0">
+        <li *ngFor="let file of file_memoriaTecnicaUploaded">{{ file.name }}</li>
+      </ul>
+  </section>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'FORM.BANKNAME' | translate }}</mat-label>
+    <input matInput formControlName="nom_entidad" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'FORM.BANKADDRESS' | translate }}</mat-label>
+    <input matInput formControlName="domicilio_sucursal" />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'FORM.BANKBICSWIFT' | translate }}</mat-label>
+    <input matInput formControlName="codigo_BIC_SWIFT" />
+  </mat-form-field>
+  <mat-radio-group aria-label="Select an option" formControlName="opcion_banco">
+    <mat-radio-button value="1">Opciò 1 - IBAN del compte per a Espanya</mat-radio-button>
+    <mat-radio-button value="2">Opciò 2 - Número del compte d'altres països</mat-radio-button>
+  </mat-radio-group>
+  <mat-form-field appearance="fill">
+    <mat-label>{{ 'FORM.BANKCC' | translate }}</mat-label>
+    <input matInput formControlName="cc" />
+  </mat-form-field>    
+  <section ngClass="certificado-iae">
+      <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'FILES.SELECTFILESCERTIAE' | translate }}</mat-label>
+          <input
+            type="text"
+            matInput
+            [value]="certificadoIAEFileNames"
+            placeholder="{{ 'FILES.SELECTFILESCERTIAE' | translate }}"
+            readonly
+            (click)="file_certificadoIAE.click()"/>
+      </mat-form-field>
+      <input
+        #file_certificadoIAE
+        type="file"
+        (change)="onFileCertificadoIAEChange($event)"
+        multiple
+        accept=".pdf"
+        hidden />
+      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
+      <ul *ngIf="file_certificadoIAEUploaded.length > 0">
+        <li *ngFor="let file of file_certificadoIAEUploaded">{{ file.name }}</li>
+      </ul>
+  </section>
+  <section ngClass="copia-nif">
+      <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'FILES.SELECTFILESNIF' | translate }}</mat-label>
+          <input
+            type="text"
+            matInput
+            [value]="nifEmpresaFileNames"
+            placeholder="{{ 'FILES.SELECTFILESNIF' | translate }}"
+            readonly
+            (click)="file_nifEmpresa.click()"/>
+      </mat-form-field>
+      <input
+        #file_nifEmpresa
+        type="file"
+        (change)="onFileNifEmpresaChange($event)"
+        multiple
+        accept=".pdf"
+        hidden />
+      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
+      <ul *ngIf="file_nifEmpresaUploaded.length > 0">
+        <li *ngFor="let file of file_nifEmpresaUploaded">{{ file.name }}</li>
+      </ul>
+  </section> 
+  </mat-expansion-panel>  
+   
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ 'FORM.AUTORIZATIONS' | translate }}</mat-panel-title>
+      <mat-panel-description>
+        Autorizaciones
+        <mat-icon>license</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+      <section class="checkbox-group">
+        <mat-checkbox
+          *ngFor="let author of authorizations"
+          [value]="author"
+          (change)="onCheckboxChange($event)"
+          [checked]="ayudaForm.get('opc_authorrama')?.value.includes(author)">
+          {{ author }}
+        </mat-checkbox>
+      </section>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+     <mat-expansion-panel-header>
+      <mat-panel-title>{{ 'FORM.RESPONSIBLEDECLARATION' | translate }}</mat-panel-title>
+      <mat-panel-description>
+        Declaración responsable
+        <mat-icon>license</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>   
+      <section class="checkbox-group">
+        <mat-checkbox
+          *ngFor="let responsibleDeclaration of responsibleDeclarations"
+          [value]="responsibleDeclaration"
+          (change)="onCheckboxChange($event)"
+          [checked]="ayudaForm.get('opc_responsibleDeclarationrama')?.value.includes(responsibleDeclaration)">
+          {{ responsibleDeclaration }}
+        </mat-checkbox>
+      </section>
   </mat-expansion-panel>
 </mat-accordion>
 <button mat-raised-button color="accent" type="submit" [disabled]="ayudaForm.invalid">{{ 'FORM.SEND' | translate }}</button>

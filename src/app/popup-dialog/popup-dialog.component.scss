@@ -15,8 +15,17 @@ mat-dialog-content{
   display: grid;
   gap: 1rem;
   grid-template-rows: auto auto;
-
 }
+
+mat-dialog-actions {
+  .mdc-button {
+    color: #fff;
+  }
+}
+
+section {
+    color: #fff;
+  }
 
 section {
   padding: 1rem;

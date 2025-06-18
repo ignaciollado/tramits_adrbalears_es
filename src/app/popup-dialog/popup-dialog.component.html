@@ -4,7 +4,7 @@
 <h2 mat-dialog-title>{{data.questionText}}</h2>
 
 <mat-dialog-content>
-    <section [innerHTML]="data.toolTipText"></section>
+    <section [innerHTML]="data.toolTipText" ngClass="dialog-title"></section>
     <section>
         <ng-container @if data.doc1>
             @if (isPdf1) {

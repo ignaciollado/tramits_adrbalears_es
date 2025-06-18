@@ -14,19 +14,20 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
-    MatButtonModule, MatSelectModule, MatExpansionModule, MatAutocompleteModule,
+    MatButtonModule, MatSelectModule, MatExpansionModule, MatAutocompleteModule, AppComponent,
     MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule, MatDialogModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
@@ -64,7 +65,11 @@ export class GrantApplicationFormComponent {
     empresa_consultor: this.fb.control<string | null>(''),
     nom_consultor: this.fb.control<string | null>(''),
     tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]*$')),
-    mail_consultor: this.fb.control<string | null>('', Validators.email)
+    mail_consultor: this.fb.control<string | null>('', Validators.email),
+    file_memoriaTecnica: this.fb.control<string | null>('', Validators.required),
+    file_certificadoIAE: this.fb.control<string | null>('', Validators.required),
+    file_nifEmpresa: this.fb.control<string | null>('', Validators.required)
+
   });
 this.getAllZipCodes()
 this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })
@@ -100,7 +105,29 @@ programas = [
  "«IGestió», estratègia per impulsar la implantació d'eines de gestió avançada i optimització de processos de la indústria de les Illes Balears."
 ];
 
-archivosSubidos: File[] = [];
+authorizations = [
+  "Document identificatiu de la persona sol·licitant o persona autoritzada per l’empresa en representació de la mateixa.",
+  "Certificat de l'Agència Tributària de les Illes Balears (ATIB) d'estar al corrent de les obligacions tributàries amb la comunitat autònoma de les Illes Balears.",
+  "Certificat de la Tesorería General de la Seguridad Social (TGSS) d'estar al corrent de pagament de les seves obligacions."
+]
+
+responsibleDeclarations = [
+  "I) Que complesc el reglament (UE) núm.1407/2013 de la Comissió de 18 de desembre de 2013, relatiu a l’aplicació dels articles 107 i 108 del Tractat de Funcionament de la Unió Europea de les ajudes de minimis i el reglament (UE) 2023/2831 de la comissió, de 13 de desembre de 2023, relatiu a l’aplicació dels articles 107 i 108 del Tractat.",
+  "II) Que durant els exercicis fiscals 2022, 2023 i 2024 he rebut un import total d’ajuts de minimis de:",
+  "III) Que no he rebut ajuts o subvencions d’altres administracions públiques, o d’altres ens públics o privats, nacionals o internacionals que, aïlladament o en concurrència, superi el 100 % del cost de l’activitat que hagi de desenvolupar l’empresa beneficiària.",
+  "IV) Que dispòs de la capacitat de representació suficient, degudament acreditada, per dur a terme la tramitació indicada.",
+  "V) Que no em trob en cap de les circumstàncies especificades a l’article 10 del Decret legislatiu 2/2005, de 28 de desembre, pel qual s’aprova el Text refós de la Llei de subvencions, que s’ha d’incloure en la sol·licitud.",
+  "VI) Que l’entitat beneficiària està inscrita en el Registre Industrial o en el Registre Miner de les Illes Balears, si escau.",
+  "VII) Que complesc amb les exigències establertes per la normativa en matèria de seguretat industrial i minera, i qualsevol altra que hi sigui aplicable; en el cas de les empreses industrials s’ha d’incloure en la sol·licitud. ",
+  "VIII) Que les dades consignades en aquest document són certes, que complesc amb tots els requisits exigits en la convocatòria, i que presento adjunta la documentació corresponent, d’acord amb la resolució de la convocatòria.",
+  "IX) Que el consultor compleix amb el punts 7.2 i 7.3 de la convocatòria.",
+  "X)  Que he iniciat, en un temps superior a dos anys, una activitat econòmica en el territori de les Illes Balears, amb domicili a les Illes Balears, i que no supero els paràmetres de la condició de pime.",
+  "XI) Que no tinc la consideració d’empresa en crisi d’acord amb l’article 2.18 del Reglament ( UE) 651/2014 de la comissió de dia 17 de juny de 2014."
+]
+
+file_memoriaTecnicaUploaded: File[] = []
+file_certificadoIAEUploaded: File[] = []
+file_nifEmpresaUploaded: File[] = []
 
 onSubmit(): void {
   if (this.ayudaForm.valid) {
@@ -111,15 +138,36 @@ onSubmit(): void {
   }
 }
 
-get nombresArchivos(): string {
-  return this.archivosSubidos.map(f => f.name).join(', ');
+get memoriaTecnicaFileNames(): string {
+  return this.file_memoriaTecnicaUploaded.map(f => f.name).join(', ')
 }
-
-onFileChange(event: Event): void {
+onFileMemoriaTecnicaChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {
-    this.archivosSubidos = Array.from(input.files);
-    console.log ("this.archivosSubidos", this.archivosSubidos)
+    this.file_memoriaTecnicaUploaded = Array.from(input.files);
+    console.log ("this.file_memoriaTecnicaUploaded", this.file_memoriaTecnicaUploaded)
+  }
+}
+
+get certificadoIAEFileNames(): string {
+  return this.file_certificadoIAEUploaded.map(f => f.name).join(', ')
+}
+onFileCertificadoIAEChange(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.file_certificadoIAEUploaded = Array.from(input.files);
+    console.log ("this.file_certificadoIAEUploaded", this.file_certificadoIAEUploaded)
+  }
+}
+
+get nifEmpresaFileNames(): string {
+  return this.file_nifEmpresaUploaded.map(f => f.name).join(', ')
+}
+onFileNifEmpresaChange(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.file_nifEmpresaUploaded = Array.from(input.files);
+    console.log ("this.file_nifEmpresaUploaded", this.file_nifEmpresaUploaded)
   }
 }
 
