@@ -14,51 +14,49 @@
                 <mat-panel-title>
                     <h3>{{'ILS.RGPD.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>
-                    {{'ILS.RGPD.DESCRIPTION' | translate}}
-                </mat-panel-description>
+                <mat-panel-description>{{'ILS.RGPD.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">policy</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section>
                 <mat-checkbox formControlName="acceptRGPD">{{'ILS.RGPD.READ-AND-ACCEPTS' | translate}} <abbr
                         title="{{'ILS.ABBR.RGPD.TITLE' | translate}}">{{'ILS.ABBR.RGPD.ABBR' | translate}}</abbr></mat-checkbox>
                 <section>
-                    <p>{{'ILS.RGPD.REQUIRED-DOCS.INFO' | translate}}</p>
-                    <ul>
-                        <li>{{'ILS.RGPD.REQUIRED-DOCS.DOC-1' | translate}}</li>
-                        <li>{{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-1' | translate}}<abbr
-                                title="{{'ILS.ABBR.BAT.TITLE' | translate}}">{{'ILS.ABBR.BAT.ABBR' | translate}}</abbr> {{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-2' | translate}}</li>
-                        <li [innerHTML]="'ILS.RGPD.REQUIRED-DOCS.DOC-3' | translate"></li>
-                        <li [innerHTML]="'ILS.RGPD.REQUIRED-DOCS.DOC-4' | translate"></li>
-                        <li>{{'ILS.RGPD.REQUIRED-DOCS.DOC-5' | translate}}</li>
-                    </ul>
-                    <p>{{'ILS.RGPD.OPTIONAL-DOCS.INFO' | translate}}</p>
-                    <ul>
-                        <li>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-1' | translate}}</li>
-                        <li>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-1' | translate}} <abbr
-                                title="{{'ILS.ABBR.CIF.TITLE' | translate}}">{{'ILS.ABBR.CIF.ABBR' | translate}}</abbr> {{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-2' | translate}}</li>
-                        <li>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-3' | translate}}</li>
-                    </ul>
+                    <dl>
+                        <dt>{{'ILS.RGPD.REQUIRED-DOCS.INFO' | translate}}</dt>
+                        <dd>{{'ILS.RGPD.REQUIRED-DOCS.DOC-1' | translate}}</dd>
+                        <dd>{{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-1' | translate}}<abbr
+                                title="{{'ILS.ABBR.BAT.TITLE' | translate}}">{{'ILS.ABBR.BAT.ABBR' | translate}}</abbr> {{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-2' | translate}}</dd>
+                        <dd [innerHTML]="'ILS.RGPD.REQUIRED-DOCS.DOC-3' | translate"></dd>
+                        <dd [innerHTML]="'ILS.RGPD.REQUIRED-DOCS.DOC-4' | translate"></dd>
+                        <dd>{{'ILS.RGPD.REQUIRED-DOCS.DOC-5' | translate}}</dd>
+                    </dl>
+                    <dl>
+                        <dt>{{'ILS.RGPD.OPTIONAL-DOCS.INFO' | translate}}</dt>
+                        <dd>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-1' | translate}}</dd>
+                        <dd>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-1' | translate}} <abbr
+                                title="{{'ILS.ABBR.CIF.TITLE' | translate}}">{{'ILS.ABBR.CIF.ABBR' | translate}}</abbr> {{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-2' | translate}}</dd>
+                        <dd>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-3' | translate}}</dd>
+                    </dl>
 
-                    <p><strong>{{'ILS.RGPD.AUTHORIZATION.INFO.PART-1' | translate}}</strong>
-                        {{'ILS.RGPD.AUTHORIZATION.INFO.PART-2' | translate}}<abbr
-                            title="{{'ILS.ABBR.ADRBALEARS' | translate}}">ADR Balears</abbr>
-                        {{'ILS.RGPD.AUTHORIZATION.INFO.PART-3' | translate}}<abbr
-                            title="{{'ILS.ABBR.ATIB' | translate}}">ATIB</abbr>
-                        {{'ILS.RGPD.AUTHORIZATION.INFO.PART-4' | translate}}<abbr
-                            title="{{'ILS.ABBR.TGSS' | translate}}">TGSS</abbr>,
-                        {{'ILS.RGPD.AUTHORIZATION.INFO.PART-5' | translate}}</p>
-                    <ul>
-                        <li><abbr title="{{'ILS.ABBR.NIF.TITLE' | translate}}">{{'ILS.ABBR.NIF.ABBR' | translate}}</abbr> {{'ILS.RGPD.AUTHORIZATION.DOC-1' | translate}}</li>
-                        <li>{{'ILS.RGPD.AUTHORIZATION.DOC-2' | translate}}<abbr
-                                title="{{'ILS.ABBR.ATIB' | translate}}">ATIB</abbr>.</li>
-                        <li>{{'ILS.RGPD.AUTHORIZATION.DOC-3' | translate}}<abbr
-                                title="{{'ILS.ABBR.TGSS' | translate}}">TGSS</abbr>.</li>
-                    </ul>
-                    <p>{{'ILS.RGPD.NOTIFICATION.INFO' | translate}}</p>
-                    <ul>
-                        <li>{{'ILS.RGPD.NOTIFICATION.DOC-1' | translate}}</li>
-                        <li>{{'ILS.RGPD.NOTIFICATION.DOC-2' | translate}}</li>
-                    </ul>
+                    <dl>
+                        <dt><strong>{{'ILS.RGPD.AUTHORIZATION.INFO.PART-1' | translate}}</strong>
+                            {{'ILS.RGPD.AUTHORIZATION.INFO.PART-2' | translate}}<abbr
+                                title="{{'ILS.ABBR.ADRBALEARS' | translate}}">ADR Balears</abbr>
+                            {{'ILS.RGPD.AUTHORIZATION.INFO.PART-3' | translate}}<abbr
+                                title="{{'ILS.ABBR.ATIB' | translate}}">ATIB</abbr>
+                            {{'ILS.RGPD.AUTHORIZATION.INFO.PART-4' | translate}}<abbr
+                                title="{{'ILS.ABBR.TGSS' | translate}}">TGSS</abbr>,
+                            {{'ILS.RGPD.AUTHORIZATION.INFO.PART-5' | translate}}</dt>
+                        <dd><abbr title="{{'ILS.ABBR.NIF.TITLE' | translate}}">{{'ILS.ABBR.NIF.ABBR' | translate}}</abbr> {{'ILS.RGPD.AUTHORIZATION.DOC-1' | translate}}</dd>
+                        <dd>{{'ILS.RGPD.AUTHORIZATION.DOC-2' | translate}}<abbr
+                                title="{{'ILS.ABBR.ATIB' | translate}}">ATIB</abbr>.</dd>
+                        <dd>{{'ILS.RGPD.AUTHORIZATION.DOC-3' | translate}}<abbr
+                                title="{{'ILS.ABBR.TGSS' | translate}}">TGSS</abbr>.</dd>
+                    </dl>
+                    <dl>
+                        <dt>{{'ILS.RGPD.NOTIFICATION.INFO' | translate}}</dt>
+                        <dd>{{'ILS.RGPD.NOTIFICATION.DOC-1' | translate}}</dd>
+                        <dd>{{'ILS.RGPD.NOTIFICATION.DOC-2' | translate}}</dd>
+                    </dl>
                 </section>
             </section>
         </mat-expansion-panel>
@@ -69,19 +67,14 @@
                 <mat-panel-title>
                     <h3>{{'ILS.BUSINESS-TYPE.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>
-                    {{'ILS.BUSINESS-TYPE.DESCRIPTION' | translate}}
-                </mat-panel-description>
+                <mat-panel-description>{{'ILS.BUSINESS-TYPE.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">corporate_fare</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="section-applicant-type">
                 <section>
                     <mat-radio-group formControlName="tipo_solicitante" (ngModelChange)="changeNIFValidator()">
-                        <mat-radio-button value="autonomo">{{'ILS.BUSINESS-TYPE.SELF-EMPLOYED' |
-                            translate}}</mat-radio-button>
-                        <mat-radio-button value="pequenya">{{'ILS.BUSINESS-TYPE.SMALL.NAME' |
-                            translate}}*</mat-radio-button>
-                        <mat-radio-button value="mediana">{{'ILS.BUSINESS-TYPE.MEDIUM.NAME' |
-                            translate}}*</mat-radio-button>
+                        <mat-radio-button value="autonomo">{{'ILS.BUSINESS-TYPE.SELF-EMPLOYED' | translate}}</mat-radio-button>
+                        <mat-radio-button value="pequenya">{{'ILS.BUSINESS-TYPE.SMALL.NAME' | translate}}*</mat-radio-button>
+                        <mat-radio-button value="mediana">{{'ILS.BUSINESS-TYPE.MEDIUM.NAME' | translate}}*</mat-radio-button>
                     </mat-radio-group>
                 </section>
                 <section>
@@ -92,13 +85,14 @@
                 </section>
             </section>
         </mat-expansion-panel>
+
         <!-- Datos personales -->
         <mat-expansion-panel [disabled]="(!rgpdAccepted || !businessTypeChoosed)" [expanded]="step() === 2">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.GENERAL-DATA.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.GENERAL-DATA.DESCRIPTION' | translate}}</mat-panel-description>
+                <mat-panel-description>{{'ILS.GENERAL-DATA.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">person</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="personal-data">
                 <mat-form-field>
@@ -190,7 +184,7 @@
                 <mat-panel-title>
                     <h3>{{'ILS.NOTIFICATION-CHANNEL.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}}</mat-panel-description>
+                <mat-panel-description>{{'ILS.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">email</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="notification-channel">
                 <section>
@@ -222,7 +216,7 @@
                 <mat-panel-title>
                     <h3>{{'ILS.AUTHORIZATIONS.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.AUTHORIZATIONS.DESCRIPTION' | translate}}</mat-panel-description>
+                <mat-panel-description>{{'ILS.AUTHORIZATIONS.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">gavel</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="authorization-checkboxes">
                 <section>
@@ -271,7 +265,7 @@
                 <mat-panel-title>
                     <h3>{{'ILS.DECLARATIONS.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.DECLARATIONS.DESCRIPTION' | translate}}</mat-panel-description>
+                <mat-panel-description>{{'ILS.DECLARATIONS.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">menu_book</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="declaration-checkboxes">
                 <mat-checkbox formControlName="declaracion_responsable_i" (click)="$event.preventDefault()">1.
@@ -291,7 +285,7 @@
                 <mat-panel-title>
                     <h3>{{'ILS.DOCUMENTATION.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.DOCUMENTATION.DESCRIPTION' | translate}}</mat-panel-description>
+                <mat-panel-description>{{'ILS.DOCUMENTATION.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">attachment</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section>
                 <p [innerHTML]="'ILS.DOCUMENTATION.INFO.FORMAT-INFO' | translate"></p>
@@ -336,8 +330,8 @@
                         <input #file_certificado_IAE type="file" (change)="onFileChange($event, 'file_certificado_IAE')" hidden accept=".pdf">
                     </section>
                     <section>
-                        <mat-radio-group ngClass="file-input">
-                            <mat-radio-button (click)="onOptionSelected('option1')" value="option1">{{'ILS.DOCUMENTATION.REQUIRED.INPUT-RADIO.OPTION-1' | translate}}</mat-radio-button>
+                        <mat-radio-group ngClass="file-input" formControlName="radioGroupFile">
+                            <mat-radio-button value="option1">{{'ILS.DOCUMENTATION.REQUIRED.INPUT-RADIO.OPTION-1' | translate}}</mat-radio-button>
                             <section *ngIf="radioOptionDocs === 'option1'">
                                 <section ngClass="file-input">
                                     <mat-form-field floatLabel="always">
@@ -372,7 +366,7 @@
                                     <input #file_informeInventarioIls type="file" (change)="onFileChange($event, 'file_informeInventarioIls')" accept=".pdf" hidden>
                                 </section>
                             </section>
-                            <mat-radio-button value="option2" (click)="onOptionSelected('option2')">{{'ILS.DOCUMENTATION.REQUIRED.INPUT-RADIO.OPTION-2' | translate}}</mat-radio-button>
+                            <mat-radio-button value="option2">{{'ILS.DOCUMENTATION.REQUIRED.INPUT-RADIO.OPTION-2' | translate}}</mat-radio-button>
                             <section *ngIf="radioOptionDocs==='option2'">
                                 <section ngClass="file-input">
                                     <mat-form-field floatLabel="always">
