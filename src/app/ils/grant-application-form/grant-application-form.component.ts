@@ -13,8 +13,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, startWith } from 'rxjs';
-import { CustomValidatorsService } from '../Services/custom-validators.service';
-import { DataService } from '../Services/data.service';
+import { DataService } from '../../Services/data.service';
+import { CustomValidatorsService } from '../../Services/custom-validators.service';
 
 
 @Component({
