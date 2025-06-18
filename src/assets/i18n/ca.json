@@ -12,11 +12,9 @@
   },
   "ILS": {
     "RGPD": {
-      "RGPD": "RGPD",
       "TITLE": "RGPD i documentació",
       "DESCRIPTION": "Condicions del RGPD i documentació requerida.",
       "READ-AND-ACCEPTS": "He llegit i accepto les condicions del",
-      "ABBR": "Reglament general de protecció de dades",
       "REQUIRED-DOCS": {
         "INFO": "Abans de començar, és recomanable tenir preparada la següent documentació relacionada amb el compliment dels requisits:",
         "DOC-1": "Escriptura de constitució de l'empresa.",
@@ -26,9 +24,7 @@
         },
         "DOC-3": "Informes de càlcul de la petjada de carboni: <a href=''>Informe resum</a> + <a href=''>Informe d'inventari</a> de GEH segons la norma ISO 14.064-1. o certificat de verificació ISO 14064-1.",
         "DOC-4": "Compromís de reducció de les emissions de gasos d'efecte hivernacle<a href=''>Model d'exemple</a>.",
-        "DOC-5": "Certificat itinerari formatiu.",
-        "IAEABBR": "Impost d'activitats empresarials",
-        "IAE": "IAE"
+        "DOC-5": "Certificat itinerari formatiu."
       },
       "OPTIONAL-DOCS": {
         "INFO": "Altra documentació opcional:",
@@ -37,9 +33,7 @@
           "PART-1": "El",
           "PART-2": "de l'empresa"
         },
-        "DOC-3": "Logotip de l'empresa en format WEBP, JPEG o SVG.",
-        "CIFABBR": "Codi d'identificació fiscal",
-        "CIF": "CIF"
+        "DOC-3": "Logotip de l'empresa en format WEBP, JPEG o SVG."
       },
       "AUTHORIZATION": {
         "INFO": {
@@ -51,12 +45,7 @@
         },
         "DOC-1": " del sol·licitant i/o de la persona autoritzada i els documents acreditatius, si és necessari.",
         "DOC-2": "Certificat d'estar al corrent de pagament amb l'",
-        "DOC-3": "Certificat d'estar al corrent de pagament amb la",
-        "ADRBALEARSABBR": "Agència de desenvolupament regional de les Illes Balears",
-        "ATIBABBR": "Agència Tributaria de les Illes Balears",
-        "TGSSABBR": "Tresoreria General de la Seguretat Social",
-        "NIFABBR": "Número d'identificació fiscal",
-        "NIF": "NIF"
+        "DOC-3": "Certificat d'estar al corrent de pagament amb la"
       },
       "NOTIFICATION": {
         "INFO": "En finalitzar d'aquest assistent rebrà, per correu electrònic, un document en format PDF que contindrà:",
@@ -140,9 +129,9 @@
     "AUTHORIZATIONS": {
       "TITLE": "Autoritzacions",
       "DESCRIPTION": "Indiqui el seu consentiment/disconformitat en les següents autoritzacions.",
-      "AUTHORIZATION-ID": "Don el meu consentiment perquè l'ADR Balears pugui comprovar d'ofici la identificació de la persona sol·licitant i/o la persona autoritzada per l’empresa. En cas de denegació expressa del consentiment, adjunt el NIF del sol·licitant i/o de la persona autoritzada i els documents acreditatius, si s'escau.",
+      "AUTHORIZATION-ID": "Don el meu consentiment perquè l'ADR Balears pugui comprovar d'ofici la identificació de la persona sol·licitant i/o la persona autoritzada per l'empresa. En cas de denegació expressa del consentiment, adjunt el NIF del sol·licitant i/o de la persona autoritzada i els documents acreditatius, si s'escau.",
       "AUTHORIZATION-ATIB": "Certificat de l'Agència Tributària de les illes Balears (ATIB) d'estar al corrent de les obligacions tributàries amb la comunitat autònoma de les illes Balears.",
-      "NO-AUTHORIZATED": "En estar en disconformitat, si us plau, adjunti els arxius indicats en la informació del consentiment."
+      "NO-AUTHORIZATED": "En estar en disconformitat, si us plau, adjunti l'arxiu prèviament indicat. [.pdf]"
     },
     "DECLARATIONS": {
       "TITLE": "Declaració responsable",
@@ -151,6 +140,66 @@
       "DECLARATION-2": "Que disposo de la capacitat de representació suficient, degudament acreditada, per dur a terme la tramitació indicada.",
       "DECLARATION-3": "Que l'entitat beneficiària està inscrita en el Registre Industrial o en el Registre Miner de les Illes Balears, si escau.",
       "DECLARATION-4": "Que les dades consignades en aquest document són certes, que complesc amb tots el requisits exigits en la convocatòria, i que presento adjunta la documentació corresponent, d'acord amb la resolució de la convocatòria."
+    },
+    "DOCUMENTATION": {
+      "TITLE": "Documentació requerida i opcional",
+      "DESCRIPTION": "Adjunti els documents sol·licitats a continuació.",
+      "INFO": {
+        "FORMAT-INFO": "Perquè s'acceptin els documents adjuntats, aquests han de ser del format indicat posteriorment i amb un màxim de grandària de <strong>10MB</strong>. A més, a continuació, s'indicaran algunes ajudes per a realitzar amb facilitat aquesta pujada de documents:",
+        "CTRL-INFO": "Quan els arxius <strong>no</strong> estiguin seguits en la carpeta o no estiguin dins de la mateixa carpeta, premi la tecla <strong>CTRL</strong> i, sense deixar anar, marqui amb el ratolí els arxius corresponents.",
+        "SHIFT-INFO": "Quan els arxius <strong>si</strong> estiguin seguits en la mateixa carpeta, premi la tecla <strong>SHIFT</strong> i, sense deixar anar, i prement el ratolí, marqui el primer i l'últim arxiu, de tal forma que es quedin tots seleccionats."
+      },
+      "REQUIRED": {
+        "INFO": "Documentació relacionada amb el compliment dels requisits.",
+        "CONSTITUTION": "Escriptura de constitució de l'empresa. [.pdf]",
+        "BAT": {
+          "PART-1": "Certificat del ",
+          "PART-2": "actualitzat. [.pdf]"
+        },
+        "INPUT-RADIO": {
+          "OPTION-1": "Presentar informes de càlcul de la petjada de carboni: Informe resum + Informe d'inventari de GEH segons la norma ISO 14.064-1.",
+          "OPTION-2": "Presentar certificat de verificació ISO 14064-1."
+        },
+        "SUMMARY": "Informe resum de la petjada de carboni. [.pdf]",
+        "INVENTORY": "Informe d'inventari de GEH segons la norma ISO 14.064-1. [.pdf]",
+        "ISO-VERIFICATION": "Certificat de verificació ISO 14064-1. [.pdf]",
+        "GREENHOUSE-REDUCTION": "Compromís de reducció de les emissions de gasos de l'efecte d'hivernacle. [.pdf]",
+        "TRAINING-ITINERARY": "Certificat d'haver realitzat l'itinerari formatiu. [.pdf]"
+      },
+      "OPTIONAL": {
+        "INFO": "Altra documentació opcional",
+        "TECHNICAL-MEMORY": "Document descriptiu de l'empresa i de la seva activitat. [.pdf]",
+        "CIF": {
+          "PART-1": "El ",
+          "PART-2": " de l'empresa. [.pdf]"
+        },
+        "LOGO": "Logotip de l'empresa que apareixerà en el nostre apartat d'empreses adherides. [.webp, .jpeg, .svg]"
+      }
+    },
+    "FILE": {
+      "ERROR": "L'arxiu pujat no és vàlid a causa d'un format incorrecte o una grandària que excedeix el màxim permès.",
+      "UPLOAD": "Pujar arxiu"
+    },
+    "ABBR": {
+      "RGPD": {
+        "TITLE": "Reglament general de protecció de dades",
+        "ABBR": "RGPD"
+      },
+      "BAT": {
+        "TITLE": "Impost d'activitats empresarials",
+        "ABBR": "IAE"
+      },
+      "CIF": {
+        "TITLE": "Codi d'Identificació Fiscal",
+        "ABBR": "CIF"
+      },
+      "ADRBALEARS": "Agència de desenvolupament regional de les Illes Balears",
+      "ATIB": "Agència Tributària de les Illes Balears",
+      "TGSS": "Tresoreria General de la Seguretat Social",
+      "NIF": {
+        "TITLE": "Número d'identificació fiscal",
+        "ABBR": "NIF"
+      }
     },
     "EXPANDALL": "Expandir tot",
     "COLAPSEALL": "Encongir tot"

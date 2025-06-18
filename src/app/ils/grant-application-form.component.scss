@@ -94,7 +94,7 @@ div.ng-invalid.ng-touched {
 
 .authorization-checkboxes {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  row-gap: 10px;
 }
 
 .declaration-checkboxes {
@@ -103,4 +103,13 @@ div.ng-invalid.ng-touched {
   column-gap: 5px;
   row-gap: 15px;
   align-items: baseline;
+}
+
+.documentation-form {
+  display: grid;
+  row-gap: 5px;
+}
+
+.file-input {
+  display: grid;
 }

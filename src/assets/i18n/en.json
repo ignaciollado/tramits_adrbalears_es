@@ -12,11 +12,9 @@
   },
   "ILS": {
     "RGPD": {
-      "RGPD": "GDPR",
       "TITLE": "GDPR and documentation",
       "DESCRIPTION": "GDPR conditions and required documentation.",
       "READ-AND-ACCEPTS": "I have read and accept the terms and conditions of the",
-      "ABBR": "General Data Protection Regulation",
       "REQUIRED-DOCS": {
         "INFO": "Before starting, it is advisable to have the following compliance documentation ready:",
         "DOC-1": "Deed of incorporation of the company.",
@@ -26,9 +24,7 @@
         },
         "DOC-3": "Carbon footprint calculation reports: <a href=''>Summary Report</a> + <a href=''>Inventory report</a> GEH according to ISO 14.064-1. or ISO 14064-1 verification certificate.",
         "DOC-4": "Commitment to reduce greenhouse gas emissions: <a href=''>Sample model</a>.",
-        "DOC-5": "Training itinerary certificate.",
-        "IAEABBR": "Business activity tax",
-        "IAE": "BAT"
+        "DOC-5": "Training itinerary certificate."
       },
       "OPTIONAL-DOCS": {
         "INFO": "Other optional documentation:",
@@ -37,9 +33,7 @@
           "PART-1": "The",
           "PART-2": "of the company"
         },
-        "DOC-3": "Company logo in WEBP, JPEG or SVG format.",
-        "CIFABBR": "Tax identification number",
-        "CIF": "TIN"
+        "DOC-3": "Company logo in WEBP, JPEG or SVG format."
       },
       "AUTHORIZATION": {
         "INFO": {
@@ -51,12 +45,7 @@
         },
         "DOC-1": " of the applicant and/or authorized person and supporting documents, if necessary.",
         "DOC-2": "Certificate of being up to date of payment with the ",
-        "DOC-3": "Certificate of being up to date with the ",
-        "ADRBALEARSABBR": "Agència de desenvolupament regional de les Illes Balears",
-        "ATIBABBR": "Balearic Islands Tax Agency",
-        "TGSSABBR": "General Treasury of the Social Security",
-        "NIFABBR": "Tax identification number",
-        "NIF": "TIN"
+        "DOC-3": "Certificate of being up to date with the "
       },
       "NOTIFICATION": {
         "INFO": "At the end of this wizard you will receive, by e-mail, a PDF document containing:",
@@ -142,7 +131,7 @@
       "DESCRIPTION": "Indicate your consent/non-consent on the following authorizations.",
       "AUTHORIZATION-ID": "I give my consent so that ADR Balears can check ex officio the identification of the applicant and/or the authorized person for the company. In case of express refusal of consent, I attach the NIF of the applicant and/or the authorized person and supporting documents, if necessary.",
       "AUTHORIZATION-ATIB": "Certificate from the Tax Agency of the Balearic Islands (ATIB) of being up to date with tax obligations with the autonomous community of the Balearic Islands.",
-      "NO-AUTHORIZATED": "If you disagree, please attach the files indicated in the consent information."
+      "NO-AUTHORIZATED": "If you disagree, please attach the file previously indicated. [.pdf]"
     },
     "DECLARATIONS": {
       "TITLE": "Responsible declaration",
@@ -151,6 +140,66 @@
       "DECLARATION-2": "That I have sufficient representation capacity, duly accredited, to carry out the indicated procedure.",
       "DECLARATION-3": "That the beneficiary entity is registered in the Industrial Registry or in the Mining Registry of the Balearic Islands, if applicable.",
       "DECLARATION-4": "That the information contained in this document is true, that I meet all the requirements of the call for applications, and that I submit the corresponding documentation, in accordance with the resolution of the call for applications."
+    },
+    "DOCUMENTATION": {
+      "TITLE": "Required and optional documentation",
+      "DESCRIPTION": "Please attach the documents requested below.",
+      "INFO": {
+        "FORMAT-INFO": "In order for the attached documents to be accepted, they must be in the format indicated below and with a maximum size of <strong>10MB</strong>. In addition, below you will find some aids to help you upload documents easily:",
+        "CTRL-INFO": "When the files are <strong>not</strong> in a row in the folder or are not in the same folder, press the <strong>CTRL</strong> key and, without releasing it, mark the corresponding files with the mouse.",
+        "SHIFT-INFO": "When the files are <strong>in</strong> a row in the same folder, press the <strong>SHIFT</strong> key and, without releasing and using the mouse, mark the first and the last file, so that they are all selected."
+      },
+      "REQUIRED": {
+        "INFO": "Documentation related to compliance with the requirements.",
+        "CONSTITUTION": "Deed of incorporation of the company. [.pdf]",
+        "BAT": {
+          "PART-1": "Updated ",
+          "PART-2": " certificate. [.pdf]"
+        },
+        "INPUT-RADIO": {
+          "OPTION-1": "Submit carbon footprint calculation reports: Summary Report + GEH Inventory Report according to ISO 14.064-1.",
+          "OPTION-2": "Submit ISO 14064-1 verification certificate."
+        },
+        "SUMMARY": "Carbon footprint summary report. [.pdf]",
+        "INVENTORY": "GEH inventory report according to ISO 14.064-1. [.pdf]",
+        "ISO-VERIFICATION": "Verification certificate ISO 14064-1. [.pdf]",
+        "GREENHOUSE-REDUCTION": "Commitment to reduce greenhouse gas emissions. [.pdf]",
+        "TRAINING-ITINERARY": "Certificate of having completed the training itinerary. [.pdf]"
+      },
+      "OPTIONAL": {
+        "INFO": "Other optional documentation",
+        "TECHNICAL-MEMORY": "Descriptive document of the company and its activity. [.pdf]",
+        "CIF": {
+          "PART-1": "The ",
+          "PART-2": " of the company. [.pdf]"
+        },
+        "LOGO": "Logo of the company that will appear in our section of adhered companies. [.webp, .jpeg, .svg]."
+      }
+    },
+    "FILE": {
+      "ERROR": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed.",
+      "UPLOAD": "Upload file"
+    },
+    "ABBR": {
+      "RGPD": {
+        "TITLE": "General Data Protection Regulation",
+        "ABBR": "GDPR"
+      },
+      "BAT": {
+        "TITLE": "Business activity tax",
+        "ABBR": "BAT"
+      },
+      "CIF": {
+        "TITLE": "Tax Identification Number",
+        "ABBR": "TIN"
+      },
+      "ADRBALEARS": "Agència de desenvolupament regional de les Illes Balears",
+      "ATIB": "Balearic Islands Tax Agency",
+      "TGSS": "General Treasury of the Social Security",
+      "NIF": {
+        "TITLE": "Tax Identification Number",
+        "ABBR": "TIN"
+      }
     },
     "EXPANDALL": "Expand all",
     "COLAPSEALL": "Colapse all"
