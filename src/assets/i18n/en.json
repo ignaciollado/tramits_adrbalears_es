@@ -31,6 +31,7 @@
     "BANKBICSWIFT": "BIC / SWIFT code",
     "CCOPTION1": "Option 1 - IBAN of the account for Spain (ES99999999999999999999999)",
     "CCOPTION2": "Option 2 - Overseas account number (9999999999999999999999999)",
+    "AUTHORISATIONS": "Authorisations",
     "SEND": "Send"
   },
   "FILES": {
