@@ -13,8 +13,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, startWith } from 'rxjs';
-import { DataService } from '../../Services/data.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
+import { DataService } from '../../Services/data.service';
 
 
 @Component({
@@ -30,21 +30,12 @@ import { CustomValidatorsService } from '../../Services/custom-validators.servic
 export class IlsGrantApplicationFormComponent {
   step = signal(0)
   ilsForm: FormGroup
-  accordion = viewChild.required(MatAccordion)
+  radioOptionDocs: string = ""
   rgpdAccepted = false
-
   businessType: string = "";
   businessTypeChoosed: boolean = false // Para evitar problemas de validadores customs
 
-  zipCodeList: any[] = []
-  filteredOptions: Observable<any[]> | undefined;
-  options: any[] = []
-
-  epigrafesIAE: any[] = []
-
-  checkboxID: boolean = true
-  checkboxATIB: boolean = true
-
+  // Files
   fileNames: { [key: string]: string } = {
     file_enviardocumentoIdentificacion: "",
     file_certificadoATIB: "",
@@ -59,13 +50,21 @@ export class IlsGrantApplicationFormComponent {
     file_nifEmpresa: "",
     file_logotipoEmpresaIls: ""
   }
-
   // 10 MB máximos
   maxFileSizeBytes: number = 10 * 1024 * 1024
 
-  radioOptionDocs: string = ""
+  // Checkboxes
+  checkboxID: boolean = true
+  checkboxATIB: boolean = true
+
+  // Datos externos
+  zipCodeList: any[] = []
+  options: any[] = []
+  filteredOptions: Observable<any[]> | undefined;
+  epigrafesIAE: any[] = []
 
 
+  accordion = viewChild.required(MatAccordion)
   constructor(private dataService: DataService, private customValidator: CustomValidatorsService, private fb: FormBuilder) {
     this.ilsForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
@@ -97,6 +96,7 @@ export class IlsGrantApplicationFormComponent {
       // Documentación
       file_escritura_empresa: this.fb.control<File | null>(null, [Validators.required]),
       file_certificado_IAE: this.fb.control<File | null>(null, [Validators.required]),
+      radioGroupFile: this.fb.control(null, [Validators.required]),
       file_informeResumenIls: this.fb.control<File | null>(null), // Primera opción radio
       file_informeInventarioIls: this.fb.control<File | null>(null), // Primera opción radio
       file_certificado_verificacion_ISO: this.fb.control<File | null>(null), // Segunda opción radio
@@ -138,13 +138,19 @@ export class IlsGrantApplicationFormComponent {
       })
     );
 
-    // Lógica para añadir/quitar validator required en docs autorizaciones
+    // Validadores dinámicos con checkboxes (Autorizaciones)
     this.ilsForm.get('checkboxID')?.valueChanges.subscribe((value: boolean) => {
       this.applyConditionalValidator("checkboxID", "file_enviardocumentoIdentificacion", value)
     });
 
     this.ilsForm.get('checkboxATIB')?.valueChanges.subscribe((value: boolean) => {
       this.applyConditionalValidator('checkboxATIB', 'file_certificadoATIB', value)
+    })
+
+    // Validadores dinámicos con radio-buttons (Documentación requerida)
+    this.ilsForm.get('radioGroupFile')?.valueChanges.subscribe((value: string) => {
+      this.radioOptionDocs = value;
+      this.applyRadioConditionalValidators(value)
     })
   }
 
@@ -169,45 +175,6 @@ export class IlsGrantApplicationFormComponent {
     }
   }
 
-  // Validadores dinámicos y borrado de datos tras seleccionar en el radio de docs.
-  onOptionSelected(option: string): void {
-    const isOption1 = option === 'option1';
-  
-    const option1Fields = ['file_informeResumenIls', 'file_informeInventarioIls'];
-    const option2Fields = ['file_certificado_verificacion_ISO'];
-  
-    option1Fields.forEach(field => {
-      this.ilsForm.get(field)?.setValidators(isOption1 ? Validators.required : null);
-      this.ilsForm.get(field)?.setValue(isOption1 ? this.ilsForm.get(field)?.value : null);
-      this.ilsForm.get(field)?.updateValueAndValidity();
-    });
-  
-    option2Fields.forEach(field => {
-      this.ilsForm.get(field)?.setValidators(isOption1 ? null : Validators.required);
-      this.ilsForm.get(field)?.setValue(isOption1 ? null : this.ilsForm.get(field)?.value);
-      this.ilsForm.get(field)?.updateValueAndValidity();
-    });
-  
-    this.radioOptionDocs = option;
-  }
-
-  private applyConditionalValidator(checkboxName: string, fileControlName: string, checked: boolean): void {
-    const fileControl = this.ilsForm.get(fileControlName)
-
-    if (checked === false) {
-      fileControl?.setValidators([Validators.required])
-    } else {
-      fileControl?.clearValidators();
-      fileControl?.setValue(null)
-    }
-
-    fileControl?.updateValueAndValidity();
-  }
-
-  setStep(index: number) {
-    this.step.set(index)
-  }
-
   // Cambio de custom-validator según tipo solicitante
   changeNIFValidator(): void {
     const nifControl = this.ilsForm.get('nif')
@@ -229,6 +196,48 @@ export class IlsGrantApplicationFormComponent {
     this.setStep(2);
   }
 
+  // Validador con checkboxes
+  private applyConditionalValidator(checkboxName: string, fileControlName: string, checked: boolean): void {
+    const fileControl = this.ilsForm.get(fileControlName)
+
+    if (checked === false) {
+      fileControl?.setValidators([Validators.required])
+    } else {
+      fileControl?.clearValidators();
+      fileControl?.setValue(null)
+    }
+
+    checkboxName === "checkboxID" ? this.checkboxID = checked : this.checkboxATIB = checked
+
+    fileControl?.updateValueAndValidity();
+  }
+
+  // Validador con radio
+  private applyRadioConditionalValidators(option: string): void {
+    const isOption1 = option === 'option1';
+
+    const option1Fields = ['file_informeResumenIls', 'file_informeInventarioIls'];
+    const option2Fields = ['file_certificado_verificacion_ISO'];
+
+    option1Fields.forEach(field => {
+      const control = this.ilsForm.get(field)
+      control?.setValidators(isOption1 ? Validators.required : null);
+      control?.setValue(isOption1 ? control?.value : null);
+      control?.updateValueAndValidity();
+    });
+
+    option2Fields.forEach(field => {
+      const control = this.ilsForm.get(field)
+      control?.setValidators(isOption1 ? null : Validators.required);
+      control?.setValue(isOption1 ? null : control?.value);
+      control?.updateValueAndValidity();
+    });
+  }
+
+  setStep(index: number) {
+    this.step.set(index)
+  }
+
   // Limpieza espacios en blanco
   cleanBlank(event: any) {
     const inputElement = (event.target as HTMLInputElement)
@@ -247,6 +256,4 @@ export class IlsGrantApplicationFormComponent {
     const filterValue = name;
     return this.options.filter((option) => option.zipCode.includes(filterValue))
   }
-
-
 }
