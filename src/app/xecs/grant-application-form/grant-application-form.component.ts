@@ -22,12 +22,13 @@ import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../../app.component';
+import { NifValidatorService } from '../../Services/nif-validator-service';
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
-    MatButtonModule, MatSelectModule, MatExpansionModule, MatAutocompleteModule, AppComponent,
+    MatButtonModule, MatSelectModule, MatExpansionModule, MatAutocompleteModule, 
     MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule, MatDialogModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
@@ -46,10 +47,10 @@ export class GrantApplicationFormComponent {
   filteredZipCodes: Observable<ZipCodesIBDTO[]> | undefined;
   zipCodes: ZipCodesIBDTO[] = [];
 
-  constructor (private fb: FormBuilder, private http: HttpClient, private commonService: CommonService,     private snackBar: MatSnackBar,) {
+  constructor (private fb: FormBuilder, private http: HttpClient, private commonService: CommonService, private nifValidator: NifValidatorService, private snackBar: MatSnackBar) {
   this.ayudaForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
-    nif: this.fb.control('',[ Validators.required, Validators.pattern('^[0-9]+[A-Za-z]$')]),
+    nif: this.fb.control('', [Validators.required,  Validators.minLength(9), Validators.maxLength(9), this.nifValidator.validateNifOrCif()]),
     denom_interesado: this.fb.control('', Validators.required),
     domicilio: this.fb.control({value: '', disabled: false}, Validators.required),
     zipCode: this.fb.control ('', [Validators.required, Validators.pattern('^[0-9]*$')]),

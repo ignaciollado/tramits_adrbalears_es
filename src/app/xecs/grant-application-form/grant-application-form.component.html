@@ -72,7 +72,11 @@
 
       <mat-form-field appearance="fill">
         <mat-label>NIF</mat-label>
-        <input matInput formControlName="nif" required />
+        <input matInput formControlName="nif" minlength="9" maxlength="9" />
+        <mat-error *ngIf="ayudaForm.get('nif')?.hasError('invalidNifOrCif')">
+  El NIF o CIF introducido no es válido.
+</mat-error>
+
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -350,4 +354,10 @@
   </mat-expansion-panel>
 </mat-accordion>
 <button mat-raised-button color="accent" type="submit" [disabled]="ayudaForm.invalid">{{ 'FORM.SEND' | translate }}</button>
+<section ngClass="ayudaform-value">
+  {{ ayudaForm.value | json}}
+</section>
+<section ngClass="ayudaform-status">
+  {{ ayudaForm.status | json}}
+</section>
 </form>
