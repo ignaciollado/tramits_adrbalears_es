@@ -91,7 +91,7 @@
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.ZIPCODE' | translate }}</mat-label>
-        <input matInput formControlName="zipCode" required maxlength="5" minlength="5" [matAutocomplete]="auto" (blur)="selecteZipValue()"/>
+        <input matInput formControlName="zipCode" maxlength="5" minlength="5" [matAutocomplete]="auto" (blur)="selecteZipValue()"/>
           <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
             <mat-option *ngFor="let option of filteredZipCodes | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
           </mat-autocomplete>        
