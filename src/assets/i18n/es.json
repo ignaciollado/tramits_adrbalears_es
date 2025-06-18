@@ -32,6 +32,8 @@
     "CCOPTION1": "Opción 1 - IBAN de la cuenta para España (ES99999999999999999999999)",
     "CCOPTION2": "Opción 2 - Número de la cuenta de otros países (9999999999999999999999999)",
     "AUTHORISATIONS": "Autorizaciones",
+    "RESPONSIBLEDECLARATION": "Declaración responsable",
+
     "SEND": "Enviar"
   },
   "FILES": {
