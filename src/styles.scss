@@ -6,3 +6,13 @@ body {
   margin: auto;
   width: 100%;
 }
+
+a {
+  color: #0098ce;
+
+  &:hover {
+    color: #00405e;
+  }
+}
+
+

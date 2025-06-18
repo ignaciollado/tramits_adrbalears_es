@@ -5,6 +5,31 @@
     "ISBAAPPFORM": "ISBA: formulari de sol·licitud d'ajut i/o subvenció",
     "ILSAPPFORM": "ILS: formulari de sol·licitud d'ajut i/o subvenció"
   },
+
+  "FORM": {
+    "PROGRAM": "Seleccionau el programa d'ajuda que sol·licitau",
+    "ORGANIZATIONTYPE": "Indiqui el tipus d'organització",
+    "SOLICITOR": "Interessat",
+    "SOLICITORTYPE": "Tipus de sol·licitant",
+    "SOLICITORNAME": "Nom del interessat",
+    "ADDRESS": "Adreça postal",
+    "ZIPCODE": "Codi postal",
+    "TOWN": "Localitat",
+    "CONTACTPHONE": "Telèfon de contacte",
+    "NOTIFICATIONCHANEL": "Canal de nofitificació",
+    "CONSULTANTDATA": "Dades del consultor",
+    "ATTACHEDDOCUMENTATION": "Documentaciò adjuntada",
+    "SEND": "Enviar"
+  },
+  
+  "FILES": {
+    "UPLOADFILES": "Carregar documents",
+    "SELECTFILES": "Seleccionar documents (PDF o imatge)",
+    "SELECTFILESMEMTEC": "Descripció de l’empresa i de l’activitat",
+    "SELECTFILESCERTIAE": "Certificat de l’IAE actualitzat",
+    "SELECTFILESNIF": "Còpia del NIF de l'empresa"
+  },
+
   "XECS": {
     "RGPD": "RGPD i documentació",
     "EXPANDALL": "Expandir tot",

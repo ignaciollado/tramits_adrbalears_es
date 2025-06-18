@@ -5,6 +5,19 @@
     "ISBAAPPFORM": "ISBA: grant and subsidy application form",
     "ILSAPPFORM": "ILS: grant and subsidy application form"
   },
+  "FORM": {
+    "PROGRAM": "Select the support programme(s) you are applying for",
+    "ORGANIZATIONTYPE": "Indicate the type of organisation",
+    "SOLICITOR": "Person concerned",
+    "SOLICITORTYPE": "Type of applicant",
+    "SOLICITORNAME": "Name of the person concerned",
+    "ADDRESS": "Postal address",
+    "ZIPCODE": "Postcode",
+    "TOWN": "Town",
+    "CONTACTPHONE": "Contact telephone number",
+    "NOTIFICATIONCHANEL": "Notification channel",
+    "SEND": "Send"
+  },
   "XECS": {
     "RGPD": "RGPD and documentation",
     "EXPANDALL": "Expand all",
