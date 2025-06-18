@@ -14,7 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -106,13 +106,14 @@ ngOnInit(): void {
  this.rgpdAccepted = value;
  });
     
- this.filteredZipCodes = this.ayudaForm.get('zipCode')?.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        const name = typeof value === 'string' ? value : value;
-        return name ? this._filter(name as string) : this.zipCodes.slice();
-      })
-    ); 
+this.filteredZipCodes = this.ayudaForm.get('zipCode')!.valueChanges.pipe(
+  startWith(''),
+  map(value => {
+    const input = typeof value === 'string' ? value : value?.zipCode || '';
+    return input ? this._filter(input) : this.zipCodes.slice();
+  })
+);
+ 
 }
 
 setStep(index: number) {
@@ -120,11 +121,11 @@ setStep(index: number) {
 }
 
 programas = [
- "«IDigital», estratègia per impulsar la digitalització en la indústria de les Illes Balears.",
- "«IExporta», estratègia per impulsar la internacionalització de les empreses industrials de les Illes Balears.",
- "«ISostenibilitat», Identificació i càlcul de les emissions de gasos amb efecte d'hivernacle de l'organització.",
- "«ISostenibilitat», Identificació i càlcul de les emissions de gasos d'efecte d'hivernacle de producte.",
- "«IGestió», estratègia per impulsar la implantació d'eines de gestió avançada i optimització de processos de la indústria de les Illes Balears."
+  "«IDigital», estratègia per impulsar la digitalització en la indústria de les Illes Balears.",
+  "«IExporta», estratègia per impulsar la internacionalització de les empreses industrials de les Illes Balears.",
+  "«ISostenibilitat», Identificació i càlcul de les emissions de gasos amb efecte d'hivernacle de l'organització.",
+  "«ISostenibilitat», Identificació i càlcul de les emissions de gasos d'efecte d'hivernacle de producte.",
+  "«IGestió», estratègia per impulsar la implantació d'eines de gestió avançada i optimització de processos de la indústria de les Illes Balears."
 ];
 
 authorizations = [
@@ -222,19 +223,20 @@ onCheckboxChange(event: MatCheckboxChange) {
   }
 }
 
-selecteZipValue() {
-    const zipCodeForm = this.ayudaForm.get('zipCode')?.value
-    if (zipCodeForm) {
-      this.ayudaForm.get('town')?.setValue(zipCodeForm['town'])
-    }
+selecteZipValue(event: MatAutocompleteSelectedEvent): void {
+  const selected = event.option.value;
+  if (selected && selected.zipCode) {
+    this.ayudaForm.get('zipCode')?.setValue(selected.zipCode, { emitEvent: false });
+    this.ayudaForm.get('town')?.setValue(selected.town);
+  }
 }
 
-displayFn(zpCode: ZipCodesIBDTO): string {
-  return zpCode && zpCode.zipCode ? zpCode.zipCode : '';
+displayFn(zip: any): string {
+  return typeof zip === 'object' && zip ? zip.zipCode : zip;
 }
 
-private _filter(name: string): ZipCodesIBDTO[] {
-  const filterValue = name;
+private _filter(filterValue: string): ZipCodesIBDTO[] {
+  
   return this.zipCodes.filter((zipCode:any) =>
     zipCode.zipCode.includes(filterValue)
   );

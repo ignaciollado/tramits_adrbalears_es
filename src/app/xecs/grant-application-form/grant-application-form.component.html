@@ -91,8 +91,10 @@
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.ZIPCODE' | translate }}</mat-label>
-        <input matInput formControlName="zipCode" maxlength="5" minlength="5" [matAutocomplete]="auto" (blur)="selecteZipValue()"/>
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <input matInput formControlName="zipCode" maxlength="5" minlength="5" [matAutocomplete]="auto"/>
+          <mat-autocomplete #auto="matAutocomplete" 
+          [displayWith]="displayFn" 
+          (optionSelected)="selecteZipValue($event)">
             <mat-option *ngFor="let option of filteredZipCodes | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
           </mat-autocomplete>        
       </mat-form-field>      
@@ -357,7 +359,11 @@
 <section ngClass="ayudaform-value">
   {{ ayudaForm.value | json}}
 </section>
-<section ngClass="ayudaform-status">
-  {{ ayudaForm.status | json}}
+<section class="ayudaform-status">
+  {{ ayudaForm.get('zipCode')?.errors | json }}
 </section>
+
+<!-- <section ngClass="ayudaform-status">
+  {{ ayudaForm.status | json}}
+</section> -->
 </form>
