@@ -117,6 +117,8 @@ this.filteredZipCodes = this.ayudaForm.get('zipCode')!.valueChanges.pipe(
 
 const opcionBancoControl = this.ayudaForm.get('opcion_banco');
 const ccControl = this.ayudaForm.get('cc');
+const codigo_BIC_SWIFTControl = this.ayudaForm.get('codigo_BIC_SWIFT')
+
 
 opcionBancoControl?.valueChanges.subscribe((valor) => {
  
@@ -148,6 +150,10 @@ ccControl?.valueChanges.subscribe((valor) => {
  if (opcionBancoControl?.value === '1' && valor !== valor?.toUpperCase()) {
     ccControl.setValue(valor.toUpperCase(), { emitEvent: false });
  }
+});
+
+codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
+  codigo_BIC_SWIFTControl.setValue(valor.toUpperCase(), { emitEvent: false });
 });
 
 }

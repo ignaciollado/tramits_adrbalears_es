@@ -19,6 +19,8 @@
     "NOTIFICATIONCHANEL": "Canal de nofitificació",
     "CONSULTANTDATA": "Dades del consultor",
     "ATTACHEDDOCUMENTATION": "Documentaciò adjuntada",
+    "CCOPTION1": "Opciò 1 - IBAN del compte per a Espanya",
+    "CCOPTION2": "Opciò 2 - Número del compte d'altres països",
     "SEND": "Enviar"
   },
   

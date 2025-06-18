@@ -16,6 +16,8 @@
     "TOWN": "Localidad",
     "CONTACTPHONE": "Teléfono de contacto",
     "NOTIFICATIONCHANEL": "Canal de nofitificación",
+    "CCOPTION1": "Opción 1 - IBAN de la cuenta para España",
+    "CCOPTION2": "Opción 2 - Número de la cuenta de otros países",    
     "SEND": "Enviar"
   },  
   "XECS": {
