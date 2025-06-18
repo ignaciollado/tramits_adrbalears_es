@@ -209,8 +209,8 @@
     <input matInput formControlName="codigo_BIC_SWIFT" minlength="11" maxlength="11" />
   </mat-form-field>
   <mat-radio-group aria-label="Select an option" formControlName="opcion_banco">
-    <mat-radio-button value="1">Opciò 1 - IBAN del compte per a Espanya</mat-radio-button>
-    <mat-radio-button value="2">Opciò 2 - Número del compte d'altres països</mat-radio-button>
+    <mat-radio-button value="1">{{ 'FORM.CCOPTION1' | translate }}</mat-radio-button>
+    <mat-radio-button value="2">{{ 'FORM.CCOPTION2' | translate }}</mat-radio-button>
   </mat-radio-group>
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKCC' | translate }}</mat-label>
