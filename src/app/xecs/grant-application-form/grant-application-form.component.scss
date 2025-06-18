@@ -89,16 +89,22 @@ mat-form-field {
 .full-width {
   width: 100%;
 }
+.info-container {
+  position: sticky;
+  top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+  z-index: 1000;
+}
+
 .ayudaform-value {
-  position: fixed; // o 'sticky' si prefieres que se mueva con el scroll dentro de un contenedor
-  top: 6rem;
-  left: 1rem;
-  background-color: #e0f0ff; // azul claro
+  background-color: #e0f0ff;
   color: #000;
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
   max-width: 300px;
   font-size: 0.85rem;
   overflow-wrap: break-word;
@@ -106,15 +112,11 @@ mat-form-field {
 }
 
 .ayudaform-status {
-  /* position: fixed; */
-  top: 6rem; // ajusta según la altura de .ayudaform-value
-  right: 1rem;
-  background-color: #fff9c4; // amarillo claro
+  background-color: #fff9c4;
   color: #000;
   padding: 0.75rem 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  z-index: 999;
   max-width: 600px;
   font-size: 0.85rem;
   overflow-wrap: break-word;
@@ -122,7 +124,9 @@ mat-form-field {
 
   .sin-errores {
     background-color: green;
-    color: #ffff;
+    color: #fff;
   }
 }
+
+
 

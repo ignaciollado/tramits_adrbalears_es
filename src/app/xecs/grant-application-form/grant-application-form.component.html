@@ -369,13 +369,16 @@
   </mat-expansion-panel>
 </mat-accordion>
 <button mat-raised-button color="accent" type="submit" [disabled]="ayudaForm.invalid">{{ 'FORM.SEND' | translate }}</button>
+</form>
+
+<section ngClass="info-container">
 <section ngClass="ayudaform-value">
   {{ ayudaForm.value | json}}
 </section>
+
 <section class="ayudaform-status">
   <h3>Estado general del formulario:</h3>
   <p><strong>{{ ayudaForm.status }}</strong></p>
-
   <h4>Errores por campo:</h4>
   <div *ngFor="let control of ayudaForm.controls | keyvalue">
     <div style="margin-bottom: 1em;">
@@ -388,4 +391,4 @@
     </div>
   </div>
 </section>
-</form>
+</section>
