@@ -68,8 +68,29 @@ export class GrantApplicationFormComponent {
     mail_consultor: this.fb.control<string | null>('', Validators.email),
     file_memoriaTecnica: this.fb.control<string | null>('', Validators.required),
     file_certificadoIAE: this.fb.control<string | null>('', Validators.required),
-    file_nifEmpresa: this.fb.control<string | null>('', Validators.required)
+    file_nifEmpresa: this.fb.control<string | null>('', Validators.required),
 
+
+    nom_entidad: this.fb.control<string | null>('', Validators.required),
+    domicilio_sucursal: this.fb.control<string | null>('', Validators.required),
+    codigo_BIC_SWIFT: this.fb.control<string | null>('', Validators.required),
+    opcion_banco: this.fb.control<string | null>(''),
+    cc: this.fb.control<string | null>('', Validators.required),
+
+    consentimientocopiaNIF: this.fb.control<string | null>('true', Validators.required),
+    consentimiento_certificadoATIB: this.fb.control<string | null>('true', Validators.required),
+    consentimiento_certificadoSegSoc: this.fb.control<string | null>('true', Validators.required),
+
+    declaracion_responsable_i: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_ii: this.fb.control<string | null>(''),
+    declaracion_responsable_iv: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_v: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_vi: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_vii: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_viii: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_ix: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_x: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_xi: this.fb.control<string | null>({ value: 'true', disabled: true }),
   });
 this.getAllZipCodes()
 this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })

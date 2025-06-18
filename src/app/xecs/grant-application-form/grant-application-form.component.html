@@ -246,7 +246,7 @@
       </ul>
   </section> 
   </mat-expansion-panel>  
-   
+
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.AUTORIZATIONS' | translate }}</mat-panel-title>
@@ -257,11 +257,22 @@
     </mat-expansion-panel-header>
       <section class="checkbox-group">
         <mat-checkbox
-          *ngFor="let author of authorizations"
-          [value]="author"
+          formControlName = "consentimientocopiaNIF"
           (change)="onCheckboxChange($event)"
-          [checked]="ayudaForm.get('opc_authorrama')?.value.includes(author)">
-          {{ author }}
+          >
+          {{ authorizations[0] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "consentimiento_certificadoATIB"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ authorizations[1] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "consentimiento_certificadoSegSoc"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ authorizations[2] }}
         </mat-checkbox>
       </section>
   </mat-expansion-panel>
@@ -276,12 +287,65 @@
     </mat-expansion-panel-header>   
       <section class="checkbox-group">
         <mat-checkbox
-          *ngFor="let responsibleDeclaration of responsibleDeclarations"
-          [value]="responsibleDeclaration"
+          formControlName = "declaracion_responsable_i"
           (change)="onCheckboxChange($event)"
-          [checked]="ayudaForm.get('opc_responsibleDeclarationrama')?.value.includes(responsibleDeclaration)">
-          {{ responsibleDeclaration }}
+          >
+          {{ responsibleDeclarations[0] }}
         </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_ii"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[1] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_iv"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[2] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_v"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[3] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_vi"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[4] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_vii"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[5] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_viii"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[6] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_ix"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[7] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_x"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[8] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_xi"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[9] }}
+        </mat-checkbox>        
       </section>
   </mat-expansion-panel>
 </mat-accordion>
