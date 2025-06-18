@@ -50,18 +50,18 @@ export class GrantApplicationFormComponent {
   constructor (private fb: FormBuilder, private http: HttpClient, private commonService: CommonService, private nifValidator: NifValidatorService, private snackBar: MatSnackBar) {
   this.ayudaForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
-    nif: this.fb.control('', [Validators.required,  Validators.minLength(9), Validators.maxLength(9), this.nifValidator.validateNifOrCif()]),
+    nif: this.fb.control('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.nifValidator.validateNifOrCif()]),
     denom_interesado: this.fb.control('', Validators.required),
     domicilio: this.fb.control({value: '', disabled: false}, Validators.required),
     zipCode: this.fb.control ('', [Validators.required, Validators.pattern('^07[0-9]{3}$')]),
     town: this.fb.control({value: '', disabled: true}, Validators.required),
     telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
-    documentos: this.fb.control<File[] | null>(null),
+  
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
     tipoSolicitante: this.fb.control<string | null>(null, Validators.required),
     nom_representante:  this.fb.control<string | null>(''),
-    nif_representante: this.fb.control<string | null>('', [Validators.required, Validators.pattern('^[0-9]+[A-Za-z]$')]),
-    tel_representante: this.fb.control<string | null>('', [Validators.required, Validators.pattern('^[0-9]{9}$')]),
+    nif_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]+[A-Za-z]$')]),
+    tel_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]{9}$')]),
     mail_representante: this.fb.control<string | null>('', [Validators.required, Validators.email]),
     empresa_consultor: this.fb.control<string | null>(''),
     nom_consultor: this.fb.control<string | null>(''),
@@ -74,9 +74,9 @@ export class GrantApplicationFormComponent {
 
     nom_entidad: this.fb.control<string | null>('', Validators.required),
     domicilio_sucursal: this.fb.control<string | null>('', Validators.required),
-    codigo_BIC_SWIFT: this.fb.control<string | null>('', Validators.required),
-    opcion_banco: this.fb.control<string | null>(''),
-    cc: this.fb.control<string | null>('', Validators.required),
+    codigo_BIC_SWIFT: this.fb.control<string | null>('', [Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/)]),
+    opcion_banco: this.fb.control<string | null>('', Validators.required),
+    cc: this.fb.control<string | null>({value: '', disabled: true}, [Validators.required, Validators.minLength(25), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
 
     consentimientocopiaNIF: this.fb.control<string | null>('true', Validators.required),
     consentimiento_certificadoATIB: this.fb.control<string | null>('true', Validators.required),
@@ -113,8 +113,45 @@ this.filteredZipCodes = this.ayudaForm.get('zipCode')!.valueChanges.pipe(
     return input ? this._filter(input) : this.zipCodes.slice();
   })
 );
+
+
+const opcionBancoControl = this.ayudaForm.get('opcion_banco');
+const ccControl = this.ayudaForm.get('cc');
+
+opcionBancoControl?.valueChanges.subscribe((valor) => {
  
+ ccControl?.enable()
+
+ if (valor === '1') {
+ // Patrón para IBAN español (por ejemplo: empieza por ES y 22 dígitos)
+  ccControl?.setValidators([
+  Validators.required,
+  Validators.minLength(25),
+  Validators.maxLength(25),
+  Validators.pattern(/^ES\d{23}$/)
+ ]);
+ } else if (valor === '2') {
+ // Patrón para cuentas internacionales (ejemplo genérico sin espacios)
+  ccControl?.setValidators([
+  Validators.required,
+  Validators.minLength(25),
+  Validators.maxLength(25),
+  Validators.pattern(/^\S+$/)
+ ]);
+ }
+
+  ccControl?.updateValueAndValidity();
+  });
+
+
+ccControl?.valueChanges.subscribe((valor) => {
+ if (opcionBancoControl?.value === '1' && valor !== valor?.toUpperCase()) {
+    ccControl.setValue(valor.toUpperCase(), { emitEvent: false });
+ }
+});
+
 }
+
 
 setStep(index: number) {
   this.step.set(index);

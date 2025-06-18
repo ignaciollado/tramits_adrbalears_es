@@ -74,8 +74,8 @@
         <mat-label>NIF</mat-label>
         <input matInput formControlName="nif" minlength="9" maxlength="9" />
         <mat-error *ngIf="ayudaForm.get('nif')?.hasError('invalidNifOrCif')">
-  El NIF o CIF introducido no es válido.
-</mat-error>
+            El NIF o CIF introducido no es válido.
+        </mat-error>
 
       </mat-form-field>
 
@@ -108,6 +108,15 @@
         <mat-label>{{ 'FORM.CONTACTPHONE' | translate }}</mat-label>
         <input matInput formControlName="telefono_cont" maxlength="9" minlength="9"/>
       </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.NOMREPRESENTANTE' | translate }}</mat-label>
+        <input matInput formControlName="nom_representante" maxlength="9" minlength="9"/>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.NIFREPRESENTANTE' | translate }}</mat-label>
+        <input matInput formControlName="nif_representante" maxlength="9" minlength="9"/>
+      </mat-form-field>       
   </mat-expansion-panel>
   
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
@@ -167,6 +176,7 @@
           <input
             type="text"
             matInput
+                        
             [value]="memoriaTecnicaFileNames"
             placeholder="{{ 'FILES.SELECTFILESMEMTEC' | translate }}"
             readonly
@@ -175,6 +185,7 @@
       </mat-form-field>
       <input
         #file_memoriaTecnica
+        formControlName = "file_memoriaTecnica"
         type="file"
         (change)="onFileMemoriaTecnicaChange($event)"
         multiple
@@ -195,7 +206,7 @@
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKBICSWIFT' | translate }}</mat-label>
-    <input matInput formControlName="codigo_BIC_SWIFT" />
+    <input matInput formControlName="codigo_BIC_SWIFT" minlength="11" maxlength="11" />
   </mat-form-field>
   <mat-radio-group aria-label="Select an option" formControlName="opcion_banco">
     <mat-radio-button value="1">Opciò 1 - IBAN del compte per a Espanya</mat-radio-button>
@@ -203,14 +214,14 @@
   </mat-radio-group>
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKCC' | translate }}</mat-label>
-    <input matInput formControlName="cc" />
+    <input matInput formControlName="cc" minlength="25" maxlength="25" />
   </mat-form-field>    
   <section ngClass="certificado-iae">
       <mat-form-field appearance="fill" class="full-width">
           <mat-label>{{ 'FILES.SELECTFILESCERTIAE' | translate }}</mat-label>
           <input
             type="text"
-            matInput
+            matInput         
             [value]="certificadoIAEFileNames"
             placeholder="{{ 'FILES.SELECTFILESCERTIAE' | translate }}"
             readonly
@@ -218,6 +229,7 @@
       </mat-form-field>
       <input
         #file_certificadoIAE
+        formControlName = "file_certificadoIAE"           
         type="file"
         (change)="onFileCertificadoIAEChange($event)"
         multiple
@@ -241,6 +253,7 @@
       </mat-form-field>
       <input
         #file_nifEmpresa
+        formControlName = "file_nifEmpresa"        
         type="file"
         (change)="onFileNifEmpresaChange($event)"
         multiple
@@ -360,10 +373,19 @@
   {{ ayudaForm.value | json}}
 </section>
 <section class="ayudaform-status">
-  {{ ayudaForm.get('zipCode')?.errors | json }}
-</section>
+  <h3>Estado general del formulario:</h3>
+  <p><strong>{{ ayudaForm.status }}</strong></p>
 
-<!-- <section ngClass="ayudaform-status">
-  {{ ayudaForm.status | json}}
-</section> -->
+  <h4>Errores por campo:</h4>
+  <div *ngFor="let control of ayudaForm.controls | keyvalue">
+    <div style="margin-bottom: 1em;">
+      <strong>Campo:</strong> {{ control.key }}<br />
+      <strong>Estado:</strong> {{ control.value.status }}<br />
+      <strong>Valor actual:</strong> {{ control.value.value }}<br />
+      <strong>Errores:</strong>
+      <pre *ngIf="control.value.errors">{{ control.value.errors | json }}</pre>
+      <span ngClass="sin-errores" *ngIf="!control.value.errors">Sin errores</span>
+    </div>
+  </div>
+</section>
 </form>
