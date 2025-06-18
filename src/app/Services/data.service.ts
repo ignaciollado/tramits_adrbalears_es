@@ -7,21 +7,9 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class DataService {
   private urlAPIMock: string;
-  private urlAPIIbrelleu: string;
 
   constructor(private http: HttpClient) {
     this.urlAPIMock = '../../assets/json'
-    this.urlAPIIbrelleu = 'https://data.ibrelleu.es/public/index.php'
-  }
-
-  // Zipcode
-  getZipCodes(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.urlAPIIbrelleu}/zipcodes`).pipe(
-      catchError(error => {
-        console.error('Error en getZipCodes(): ', error)
-        return throwError(() => error)
-      })
-    )
   }
 
   // IAE

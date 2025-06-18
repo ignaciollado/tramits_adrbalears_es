@@ -13,6 +13,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, startWith } from 'rxjs';
+import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
+import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { DataService } from '../../Services/data.service';
 
@@ -58,14 +60,14 @@ export class IlsGrantApplicationFormComponent {
   checkboxATIB: boolean = true
 
   // Datos externos
-  zipCodeList: any[] = []
-  options: any[] = []
-  filteredOptions: Observable<any[]> | undefined;
+  zipCodeList: ZipCodesIBDTO[] = []
+  options: ZipCodesIBDTO[] = []
+  filteredOptions: Observable<ZipCodesIBDTO[]> | undefined;
   epigrafesIAE: any[] = []
 
 
   accordion = viewChild.required(MatAccordion)
-  constructor(private dataService: DataService, private customValidator: CustomValidatorsService, private fb: FormBuilder) {
+  constructor(private dataService: DataService, private commonService: CommonService , private customValidator: CustomValidatorsService, private fb: FormBuilder) {
     this.ilsForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
       tipo_solicitante: this.fb.control<string>('', Validators.required),
@@ -109,12 +111,6 @@ export class IlsGrantApplicationFormComponent {
 
     })
 
-    this.dataService.getZipCodes().subscribe((zipcodes: any[]) => {
-      const filteredZipcodes = zipcodes.filter((zipcode: any) => zipcode.deleted_at.toString() === "0000-00-00 00:00:00")
-      this.zipCodeList = filteredZipcodes
-      this.options = filteredZipcodes
-    })
-
     this.dataService.getAllMockIAE().subscribe((epigrafesIAE: any[]) => {
       this.epigrafesIAE = epigrafesIAE
     })
@@ -152,6 +148,8 @@ export class IlsGrantApplicationFormComponent {
       this.radioOptionDocs = value;
       this.applyRadioConditionalValidators(value)
     })
+
+    this.loadZipcodes()
   }
 
   onSubmit(): void {
@@ -194,6 +192,14 @@ export class IlsGrantApplicationFormComponent {
     nifControl?.updateValueAndValidity()
     this.businessTypeChoosed = true
     this.setStep(2);
+  }
+
+  private loadZipcodes(): void {
+    this.commonService.getZipCodes().subscribe((zipcodes: ZipCodesIBDTO[]) => {
+      const filteredZipcodes: ZipCodesIBDTO[] = zipcodes.filter((zipcode: ZipCodesIBDTO) => zipcode.deleted_at?.toString() === "0000-00-00 00:00:00")
+      this.zipCodeList = filteredZipcodes
+      this.options = filteredZipcodes
+    })
   }
 
   // Validador con checkboxes
