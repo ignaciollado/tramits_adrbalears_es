@@ -14,7 +14,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -22,12 +22,13 @@ import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppComponent } from '../../app.component';
+import { NifValidatorService } from '../../Services/nif-validator-service';
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
-    MatButtonModule, MatSelectModule, MatExpansionModule, MatAutocompleteModule, AppComponent,
+    MatButtonModule, MatSelectModule, MatExpansionModule, MatAutocompleteModule, 
     MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule, MatDialogModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
@@ -46,30 +47,51 @@ export class GrantApplicationFormComponent {
   filteredZipCodes: Observable<ZipCodesIBDTO[]> | undefined;
   zipCodes: ZipCodesIBDTO[] = [];
 
-  constructor (private fb: FormBuilder, private http: HttpClient, private commonService: CommonService,     private snackBar: MatSnackBar,) {
+  constructor (private fb: FormBuilder, private http: HttpClient, private commonService: CommonService, private nifValidator: NifValidatorService, private snackBar: MatSnackBar) {
   this.ayudaForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
-    nif: this.fb.control('',[ Validators.required, Validators.pattern('^[0-9]+[A-Za-z]$')]),
+    nif: this.fb.control('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.nifValidator.validateNifOrCif()]),
     denom_interesado: this.fb.control('', Validators.required),
     domicilio: this.fb.control({value: '', disabled: false}, Validators.required),
-    zipCode: this.fb.control ('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+    zipCode: this.fb.control ('', [Validators.required, Validators.pattern('^07[0-9]{3}$')]),
     town: this.fb.control({value: '', disabled: true}, Validators.required),
-    telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]*$')]),
-    documentos: this.fb.control<File[] | null>(null),
+    telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
+  
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
     tipoSolicitante: this.fb.control<string | null>(null, Validators.required),
     nom_representante:  this.fb.control<string | null>(''),
-    nif_representante: this.fb.control<string | null>('', [Validators.required, Validators.pattern('^[0-9]+[A-Za-z]$')]),
-    tel_representante: this.fb.control<string | null>('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+    nif_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]+[A-Za-z]$')]),
+    tel_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]{9}$')]),
     mail_representante: this.fb.control<string | null>('', [Validators.required, Validators.email]),
     empresa_consultor: this.fb.control<string | null>(''),
     nom_consultor: this.fb.control<string | null>(''),
-    tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]*$')),
+    tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]{9}$')),
     mail_consultor: this.fb.control<string | null>('', Validators.email),
     file_memoriaTecnica: this.fb.control<string | null>('', Validators.required),
     file_certificadoIAE: this.fb.control<string | null>('', Validators.required),
-    file_nifEmpresa: this.fb.control<string | null>('', Validators.required)
+    file_nifEmpresa: this.fb.control<string | null>('', Validators.required),
 
+
+    nom_entidad: this.fb.control<string | null>('', Validators.required),
+    domicilio_sucursal: this.fb.control<string | null>('', Validators.required),
+    codigo_BIC_SWIFT: this.fb.control<string | null>('', [Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/)]),
+    opcion_banco: this.fb.control<string | null>('', Validators.required),
+    cc: this.fb.control<string | null>({value: '', disabled: true}, [Validators.required, Validators.minLength(25), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
+
+    consentimientocopiaNIF: this.fb.control<string | null>('true', Validators.required),
+    consentimiento_certificadoATIB: this.fb.control<string | null>('true', Validators.required),
+    consentimiento_certificadoSegSoc: this.fb.control<string | null>('true', Validators.required),
+
+    declaracion_responsable_i: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_ii: this.fb.control<string | null>(''),
+    declaracion_responsable_iv: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_v: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_vi: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_vii: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_viii: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_ix: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_x: this.fb.control<string | null>({ value: 'true', disabled: true }),
+    declaracion_responsable_xi: this.fb.control<string | null>({ value: 'true', disabled: true }),
   });
 this.getAllZipCodes()
 this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })
@@ -84,25 +106,69 @@ ngOnInit(): void {
  this.rgpdAccepted = value;
  });
     
- this.filteredZipCodes = this.ayudaForm.get('zipCode')?.valueChanges.pipe(
-      startWith(''),
-      map((value) => {
-        const name = typeof value === 'string' ? value : value;
-        return name ? this._filter(name as string) : this.zipCodes.slice();
-      })
-    ); 
+this.filteredZipCodes = this.ayudaForm.get('zipCode')!.valueChanges.pipe(
+  startWith(''),
+  map(value => {
+    const input = typeof value === 'string' ? value : value?.zipCode || '';
+    return input ? this._filter(input) : this.zipCodes.slice();
+  })
+);
+
+
+const opcionBancoControl = this.ayudaForm.get('opcion_banco');
+const ccControl = this.ayudaForm.get('cc');
+const codigo_BIC_SWIFTControl = this.ayudaForm.get('codigo_BIC_SWIFT')
+
+
+opcionBancoControl?.valueChanges.subscribe((valor) => {
+ 
+ ccControl?.enable()
+
+ if (valor === '1') {
+ // Patrón para IBAN español (por ejemplo: empieza por ES y 22 dígitos)
+  ccControl?.setValidators([
+  Validators.required,
+  Validators.minLength(25),
+  Validators.maxLength(25),
+  Validators.pattern(/^ES\d{23}$/)
+ ]);
+ } else if (valor === '2') {
+ // Patrón para cuentas internacionales (ejemplo genérico sin espacios)
+  ccControl?.setValidators([
+  Validators.required,
+  Validators.minLength(25),
+  Validators.maxLength(25),
+  Validators.pattern(/^\S+$/)
+ ]);
+ }
+
+  ccControl?.updateValueAndValidity();
+  });
+
+
+ccControl?.valueChanges.subscribe((valor) => {
+ if (opcionBancoControl?.value === '1' && valor !== valor?.toUpperCase()) {
+    ccControl.setValue(valor.toUpperCase(), { emitEvent: false });
+ }
+});
+
+codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
+  codigo_BIC_SWIFTControl.setValue(valor.toUpperCase(), { emitEvent: false });
+});
+
 }
+
 
 setStep(index: number) {
   this.step.set(index);
 }
 
 programas = [
- "«IDigital», estratègia per impulsar la digitalització en la indústria de les Illes Balears.",
- "«IExporta», estratègia per impulsar la internacionalització de les empreses industrials de les Illes Balears.",
- "«ISostenibilitat», Identificació i càlcul de les emissions de gasos amb efecte d'hivernacle de l'organització.",
- "«ISostenibilitat», Identificació i càlcul de les emissions de gasos d'efecte d'hivernacle de producte.",
- "«IGestió», estratègia per impulsar la implantació d'eines de gestió avançada i optimització de processos de la indústria de les Illes Balears."
+  "«IDigital», estratègia per impulsar la digitalització en la indústria de les Illes Balears.",
+  "«IExporta», estratègia per impulsar la internacionalització de les empreses industrials de les Illes Balears.",
+  "«ISostenibilitat», Identificació i càlcul de les emissions de gasos amb efecte d'hivernacle de l'organització.",
+  "«ISostenibilitat», Identificació i càlcul de les emissions de gasos d'efecte d'hivernacle de producte.",
+  "«IGestió», estratègia per impulsar la implantació d'eines de gestió avançada i optimització de processos de la indústria de les Illes Balears."
 ];
 
 authorizations = [
@@ -200,19 +266,20 @@ onCheckboxChange(event: MatCheckboxChange) {
   }
 }
 
-selecteZipValue() {
-    const zipCodeForm = this.ayudaForm.get('zipCode')?.value
-    if (zipCodeForm) {
-      this.ayudaForm.get('town')?.setValue(zipCodeForm['town'])
-    }
+selecteZipValue(event: MatAutocompleteSelectedEvent): void {
+  const selected = event.option.value;
+  if (selected && selected.zipCode) {
+    this.ayudaForm.get('zipCode')?.setValue(selected.zipCode, { emitEvent: false });
+    this.ayudaForm.get('town')?.setValue(selected.town);
+  }
 }
 
-displayFn(zpCode: ZipCodesIBDTO): string {
-  return zpCode && zpCode.zipCode ? zpCode.zipCode : '';
+displayFn(zip: any): string {
+  return typeof zip === 'object' && zip ? zip.zipCode : zip;
 }
 
-private _filter(name: string): ZipCodesIBDTO[] {
-  const filterValue = name;
+private _filter(filterValue: string): ZipCodesIBDTO[] {
+  
   return this.zipCodes.filter((zipCode:any) =>
     zipCode.zipCode.includes(filterValue)
   );

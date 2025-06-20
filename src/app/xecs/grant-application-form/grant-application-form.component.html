@@ -72,7 +72,11 @@
 
       <mat-form-field appearance="fill">
         <mat-label>NIF</mat-label>
-        <input matInput formControlName="nif" required />
+        <input matInput formControlName="nif" minlength="9" maxlength="9" />
+        <mat-error *ngIf="ayudaForm.get('nif')?.hasError('invalidNifOrCif')">
+            El NIF o CIF introducido no es válido.
+        </mat-error>
+
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -87,8 +91,10 @@
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.ZIPCODE' | translate }}</mat-label>
-        <input matInput formControlName="zipCode" required maxlength="5" minlength="5" [matAutocomplete]="auto" (blur)="selecteZipValue()"/>
-          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <input matInput formControlName="zipCode" maxlength="5" minlength="5" [matAutocomplete]="auto"/>
+          <mat-autocomplete #auto="matAutocomplete" 
+          [displayWith]="displayFn" 
+          (optionSelected)="selecteZipValue($event)">
             <mat-option *ngFor="let option of filteredZipCodes | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
           </mat-autocomplete>        
       </mat-form-field>      
@@ -102,6 +108,15 @@
         <mat-label>{{ 'FORM.CONTACTPHONE' | translate }}</mat-label>
         <input matInput formControlName="telefono_cont" maxlength="9" minlength="9"/>
       </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.NOMREPRESENTANTE' | translate }}</mat-label>
+        <input matInput formControlName="nom_representante" maxlength="9" minlength="9"/>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'FORM.NIFREPRESENTANTE' | translate }}</mat-label>
+        <input matInput formControlName="nif_representante" maxlength="9" minlength="9"/>
+      </mat-form-field>       
   </mat-expansion-panel>
   
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
@@ -161,6 +176,7 @@
           <input
             type="text"
             matInput
+                        
             [value]="memoriaTecnicaFileNames"
             placeholder="{{ 'FILES.SELECTFILESMEMTEC' | translate }}"
             readonly
@@ -169,6 +185,7 @@
       </mat-form-field>
       <input
         #file_memoriaTecnica
+        formControlName = "file_memoriaTecnica"
         type="file"
         (change)="onFileMemoriaTecnicaChange($event)"
         multiple
@@ -189,22 +206,22 @@
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKBICSWIFT' | translate }}</mat-label>
-    <input matInput formControlName="codigo_BIC_SWIFT" />
+    <input matInput formControlName="codigo_BIC_SWIFT" minlength="11" maxlength="11" />
   </mat-form-field>
   <mat-radio-group aria-label="Select an option" formControlName="opcion_banco">
-    <mat-radio-button value="1">Opciò 1 - IBAN del compte per a Espanya</mat-radio-button>
-    <mat-radio-button value="2">Opciò 2 - Número del compte d'altres països</mat-radio-button>
+    <mat-radio-button value="1">{{ 'FORM.CCOPTION1' | translate }}</mat-radio-button>
+    <mat-radio-button value="2">{{ 'FORM.CCOPTION2' | translate }}</mat-radio-button>
   </mat-radio-group>
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKCC' | translate }}</mat-label>
-    <input matInput formControlName="cc" />
+    <input matInput formControlName="cc" minlength="25" maxlength="25" />
   </mat-form-field>    
   <section ngClass="certificado-iae">
       <mat-form-field appearance="fill" class="full-width">
           <mat-label>{{ 'FILES.SELECTFILESCERTIAE' | translate }}</mat-label>
           <input
             type="text"
-            matInput
+            matInput         
             [value]="certificadoIAEFileNames"
             placeholder="{{ 'FILES.SELECTFILESCERTIAE' | translate }}"
             readonly
@@ -212,6 +229,7 @@
       </mat-form-field>
       <input
         #file_certificadoIAE
+        formControlName = "file_certificadoIAE"           
         type="file"
         (change)="onFileCertificadoIAEChange($event)"
         multiple
@@ -235,6 +253,7 @@
       </mat-form-field>
       <input
         #file_nifEmpresa
+        formControlName = "file_nifEmpresa"        
         type="file"
         (change)="onFileNifEmpresaChange($event)"
         multiple
@@ -246,10 +265,10 @@
       </ul>
   </section> 
   </mat-expansion-panel>  
-   
+
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
     <mat-expansion-panel-header>
-      <mat-panel-title>{{ 'FORM.AUTORIZATIONS' | translate }}</mat-panel-title>
+      <mat-panel-title>{{ 'FORM.AUTHORISATIONS' | translate }}</mat-panel-title>
       <mat-panel-description>
         Autorizaciones
         <mat-icon>license</mat-icon>
@@ -257,11 +276,22 @@
     </mat-expansion-panel-header>
       <section class="checkbox-group">
         <mat-checkbox
-          *ngFor="let author of authorizations"
-          [value]="author"
+          formControlName = "consentimientocopiaNIF"
           (change)="onCheckboxChange($event)"
-          [checked]="ayudaForm.get('opc_authorrama')?.value.includes(author)">
-          {{ author }}
+          >
+          {{ authorizations[0] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "consentimiento_certificadoATIB"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ authorizations[1] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "consentimiento_certificadoSegSoc"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ authorizations[2] }}
         </mat-checkbox>
       </section>
   </mat-expansion-panel>
@@ -276,14 +306,89 @@
     </mat-expansion-panel-header>   
       <section class="checkbox-group">
         <mat-checkbox
-          *ngFor="let responsibleDeclaration of responsibleDeclarations"
-          [value]="responsibleDeclaration"
+          formControlName = "declaracion_responsable_i"
           (change)="onCheckboxChange($event)"
-          [checked]="ayudaForm.get('opc_responsibleDeclarationrama')?.value.includes(responsibleDeclaration)">
-          {{ responsibleDeclaration }}
+          >
+          {{ responsibleDeclarations[0] }}
         </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_ii"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[1] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_iv"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[2] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_v"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[3] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_vi"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[4] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_vii"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[5] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_viii"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[6] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_ix"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[7] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_x"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[8] }}
+        </mat-checkbox>
+        <mat-checkbox
+          formControlName = "declaracion_responsable_xi"
+          (change)="onCheckboxChange($event)"
+          >
+          {{ responsibleDeclarations[9] }}
+        </mat-checkbox>        
       </section>
   </mat-expansion-panel>
 </mat-accordion>
 <button mat-raised-button color="accent" type="submit" [disabled]="ayudaForm.invalid">{{ 'FORM.SEND' | translate }}</button>
 </form>
+
+<section ngClass="info-container">
+<section ngClass="ayudaform-value">
+  {{ ayudaForm.value | json}}
+</section>
+
+<section class="ayudaform-status">
+  <h3>Estado general del formulario:</h3>
+  <p><strong>{{ ayudaForm.status }}</strong></p>
+  <h4>Errores por campo:</h4>
+  <div *ngFor="let control of ayudaForm.controls | keyvalue">
+    <div style="margin-bottom: 1em;">
+      <strong>Campo:</strong> {{ control.key }}<br />
+      <strong>Estado:</strong> {{ control.value.status }}<br />
+      <strong>Valor actual:</strong> {{ control.value.value }}<br />
+      <strong>Errores:</strong>
+      <pre *ngIf="control.value.errors">{{ control.value.errors | json }}</pre>
+      <span ngClass="sin-errores" *ngIf="!control.value.errors">Sin errores</span>
+    </div>
+  </div>
+</section>
+</section>
