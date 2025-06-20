@@ -15,7 +15,7 @@
 
     <section class="rgpd-section">
       <mat-checkbox formControlName="acceptRGPD">
-        <label>He leído y acepto la <a href="../../../assets/data/politica_privacidad.html" target="_blank">Política de Privacidad</a>. 
+        <label>He leído y acepto la <mat-icon (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')" style="color: #ff9310;">info</mat-icon>. 
           Los datos personales proporcionados serán tratados por ADR Balears como responsable del tratamiento, con la finalidad de gestionar su solicitud. 
           Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la política de privacidad.<mat-icon (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')" style="color: #ff9310;">info</mat-icon>
         </label>
