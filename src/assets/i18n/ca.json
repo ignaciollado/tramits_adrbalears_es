@@ -47,7 +47,201 @@
 
   "XECS": {
     "RGPD": "RGPD i documentació",
-    "EXPANDALL": "Veure tot",
-    "COLAPSEALL": "Ocultar tot"
+    "EXPANDALL": "Expandir tot",
+    "COLAPSEALL": "Encongir tot"
+  },
+  "ILS": {
+    "RGPD": {
+      "TITLE": "RGPD i documentació",
+      "DESCRIPTION": "Condicions del RGPD i documentació requerida.",
+      "READ-AND-ACCEPTS": "He llegit i accepto les condicions del",
+      "REQUIRED-DOCS": {
+        "INFO": "Abans de començar, és recomanable tenir preparada la següent documentació relacionada amb el compliment dels requisits:",
+        "DOC-1": "Escriptura de constitució de l'empresa.",
+        "DOC-2": {
+          "PART-1": "El certificat d'alta d'",
+          "PART-2": "industrial"
+        },
+        "DOC-3": "Informes de càlcul de la petjada de carboni: <a href=''>Informe resum</a> + <a href=''>Informe d'inventari</a> de GEH segons la norma ISO 14.064-1. o certificat de verificació ISO 14064-1.",
+        "DOC-4": "Compromís de reducció de les emissions de gasos d'efecte hivernacle<a href=''>Model d'exemple</a>.",
+        "DOC-5": "Certificat itinerari formatiu."
+      },
+      "OPTIONAL-DOCS": {
+        "INFO": "Altra documentació opcional:",
+        "DOC-1": "Memòria tècnica de l'activitat.",
+        "DOC-2": {
+          "PART-1": "El",
+          "PART-2": "de l'empresa"
+        },
+        "DOC-3": "Logotip de l'empresa en format WEBP, JPEG o SVG."
+      },
+      "AUTHORIZATION": {
+        "INFO": {
+          "PART-1": "AUTORITZACIONS: ",
+          "PART-2": "la sol·licitud implica l'autorització (article 28.2 de la Llei 39/2015) perquè l'",
+          "PART-3": "pugui comprovar d'ofici que el sol·licitant està al corrent de les obligacions amb ",
+          "PART-4": "i la ",
+          "PART-5": " excepte en cas de denegació expressa. En aquest cas, el beneficiari haurà d'aportar la següent documentació:"
+        },
+        "DOC-1": " del sol·licitant i/o de la persona autoritzada i els documents acreditatius, si és necessari.",
+        "DOC-2": "Certificat d'estar al corrent de pagament amb l'",
+        "DOC-3": "Certificat d'estar al corrent de pagament amb la"
+      },
+      "NOTIFICATION": {
+        "INFO": "En finalitzar d'aquest assistent rebrà, per correu electrònic, un document en format PDF que contindrà:",
+        "DOC-1": "Una declaració responsable.",
+        "DOC-2": "Una sol·licitud d'adhesió al programa ILS."
+      }
+    },
+    "BUSINESS-TYPE": {
+      "TITLE": "Tipus de sol·licitant",
+      "DESCRIPTION": "Seleccioni l'opció que representi el tipus d'empresa",
+      "SELF-EMPLOYED": "Autònom",
+      "SMALL": {
+        "NAME": "Petita empresa",
+        "INFO": "Es considera petita empresa la que té menys de 50 treballadors i/o treballadores, un volum de negoci anual o un balanç general anual que no superi els 10 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot. Altres empreses que no compleixen els requisists per ser considerada PIME d'acord amb l'anexx I del Reglament (CE) núm. 651/2014 de la Comissió Europea."
+      },
+      "MEDIUM": {
+        "NAME": "Mitjana empresa",
+        "INFO": "Es considera mitjana empresa la que té entre 50 i 250 treballadors i/o treballadores, un volum de negoci anual entre 10 i 50 milions d'euros o un balanç general anual entre 10 i 43 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot. Altres empreses que no compleixen els requisits anteriors."
+      }
+    },
+    "GENERAL-DATA": {
+      "TITLE": "Dades generals",
+      "DESCRIPTION": "Introdueixi les seves dades personals.",
+      "APPLICANT": {
+        "NIF": {
+          "LABEL": "DNI/NIE del sol·licitant",
+          "ERROR": "El DNI/NIE introduït no és vàlid."
+        },
+        "CIF": {
+          "LABEL": "CIF del sol·licitant",
+          "ERROR": "El CIF introduït no és vàlid."
+        }
+      },
+      "COMPANY-NAME": {
+        "LABEL": "Nom o raó social",
+        "ERROR": "El nom o raó social introduït no és vàlid."
+      },
+      "ADDRESS": {
+        "LABEL": "Adreça postal del sol·licitant",
+        "ERROR": "L'adreça postal introduïda no és vàlida."
+      },
+      "ZIPCODE": {
+        "LABEL": "Codi postal del sol·licitant [cinc dígits]",
+        "ERROR": "El codi postal del sol·licitant introduït no és vàlid."
+      },
+      "TOWN": "Població",
+      "CONTACT-PHONE": {
+        "LABEL": "Telèfon de contacte del sol·licitant",
+        "ERROR": "El telèfon de contacte introduït no és vàlid."
+      },
+      "BAT-EPIGRAPH": {
+        "LABEL": "Epígraf IAE",
+        "ERROR": "L'epígraf IAE introduït no és vàlid."
+      },
+      "WEBSITE": "Lloc web de l'empresa",
+      "PRESENTATION-VIDEO": "La URL del vídeo de presentació de l'empresa (publicat a Youtube o a Vimeo)",
+      "REPRESENTATIVE": {
+        "NAME": {
+          "LABEL": "Nom del representant legal",
+          "ERROR": "El nom del representant legal introduït no és vàlid."
+        },
+        "NIF": {
+          "LABEL": "DNI/NIE del representant legal",
+          "ERROR": "El DNI/NIE del representant legal introduït no És vàlid."
+        }
+      }
+    },
+    "NOTIFICATION-CHANNEL": {
+      "TITLE": "Canal de notificació",
+      "DESCRIPTION": "Introdueixi les seves dades de contacte per a rebre notificacions.",
+      "INFO": "D'acord amb l'apartat 17 de la convocatòria, les notificacions i les comunicacions a la persona sol·licitant es duran a terme per via telemàtica a l'adreça de correu electrònic que hagi designat la persona sol·licitant a efectes de notificacions en aquest formulari de sol·licitut. Els avisos de la posada a disposició de la notificació a la Carpeta Ciutadana del <a href=''>Punto de Acceso General electrónico (Mi carpeta)</a> s'enviaran a l'adreça de correu electrònic que heu designat a les dades del declarant.",
+      "PHONE": {
+        "LABEL": "Telèfon mòbil del sol·licitant o del representant",
+        "ERROR": "El telèfon mòbil introduït no és vàlid."
+      },
+      "EMAIL": {
+        "LABEL": "Adreça electrònica a efectes de notificacions",
+        "ERROR": "L'adreça electrònica introduïda no és vàlida."
+      }
+    },
+    "AUTHORIZATIONS": {
+      "TITLE": "Autoritzacions",
+      "DESCRIPTION": "Indiqui el seu consentiment/disconformitat en les següents autoritzacions.",
+      "AUTHORIZATION-ID": "Don el meu consentiment perquè l'ADR Balears pugui comprovar d'ofici la identificació de la persona sol·licitant i/o la persona autoritzada per l'empresa. En cas de denegació expressa del consentiment, adjunt el NIF del sol·licitant i/o de la persona autoritzada i els documents acreditatius, si s'escau.",
+      "AUTHORIZATION-ATIB": "Certificat de l'Agència Tributària de les illes Balears (ATIB) d'estar al corrent de les obligacions tributàries amb la comunitat autònoma de les illes Balears.",
+      "NO-AUTHORIZATED": "En estar en disconformitat, si us plau, adjunti l'arxiu prèviament indicat. [.pdf]"
+    },
+    "DECLARATIONS": {
+      "TITLE": "Declaració responsable",
+      "DESCRIPTION": "Llegeixi les següents declaracions responsables.",
+      "DECLARATION-1": "Que l'empresa compta amb una línia de producció activa a les Illes Balears.",
+      "DECLARATION-2": "Que disposo de la capacitat de representació suficient, degudament acreditada, per dur a terme la tramitació indicada.",
+      "DECLARATION-3": "Que l'entitat beneficiària està inscrita en el Registre Industrial o en el Registre Miner de les Illes Balears, si escau.",
+      "DECLARATION-4": "Que les dades consignades en aquest document són certes, que complesc amb tots el requisits exigits en la convocatòria, i que presento adjunta la documentació corresponent, d'acord amb la resolució de la convocatòria."
+    },
+    "DOCUMENTATION": {
+      "TITLE": "Documentació requerida i opcional",
+      "DESCRIPTION": "Adjunti els documents sol·licitats a continuació.",
+      "INFO": {
+        "FORMAT-INFO": "Perquè s'acceptin els documents adjuntats, aquests han de ser del format indicat posteriorment i amb un màxim de grandària de <strong>10MB</strong>. A més, a continuació, s'indicaran algunes ajudes per a realitzar amb facilitat aquesta pujada de documents:",
+        "CTRL-INFO": "Quan els arxius <strong>no</strong> estiguin seguits en la carpeta o no estiguin dins de la mateixa carpeta, premi la tecla <strong>CTRL</strong> i, sense deixar anar, marqui amb el ratolí els arxius corresponents.",
+        "SHIFT-INFO": "Quan els arxius <strong>si</strong> estiguin seguits en la mateixa carpeta, premi la tecla <strong>SHIFT</strong> i, sense deixar anar, i prement el ratolí, marqui el primer i l'últim arxiu, de tal forma que es quedin tots seleccionats."
+      },
+      "REQUIRED": {
+        "INFO": "Documentació relacionada amb el compliment dels requisits.",
+        "CONSTITUTION": "Escriptura de constitució de l'empresa. [.pdf]",
+        "BAT": {
+          "PART-1": "Certificat del ",
+          "PART-2": "actualitzat. [.pdf]"
+        },
+        "INPUT-RADIO": {
+          "OPTION-1": "Presentar informes de càlcul de la petjada de carboni: Informe resum + Informe d'inventari de GEH segons la norma ISO 14.064-1.",
+          "OPTION-2": "Presentar certificat de verificació ISO 14064-1."
+        },
+        "SUMMARY": "Informe resum de la petjada de carboni. [.pdf]",
+        "INVENTORY": "Informe d'inventari de GEH segons la norma ISO 14.064-1. [.pdf]",
+        "ISO-VERIFICATION": "Certificat de verificació ISO 14064-1. [.pdf]",
+        "GREENHOUSE-REDUCTION": "Compromís de reducció de les emissions de gasos de l'efecte d'hivernacle. [.pdf]",
+        "TRAINING-ITINERARY": "Certificat d'haver realitzat l'itinerari formatiu. [.pdf]"
+      },
+      "OPTIONAL": {
+        "INFO": "Altra documentació opcional",
+        "TECHNICAL-MEMORY": "Document descriptiu de l'empresa i de la seva activitat. [.pdf]",
+        "CIF": {
+          "PART-1": "El ",
+          "PART-2": " de l'empresa. [.pdf]"
+        },
+        "LOGO": "Logotip de l'empresa que apareixerà en el nostre apartat d'empreses adherides. [.webp, .jpeg, .svg]"
+      }
+    },
+    "FILE": {
+      "ERROR": "L'arxiu pujat no és vàlid a causa d'un format incorrecte o una grandària que excedeix el màxim permès.",
+      "UPLOAD": "Pujar arxiu"
+    },
+    "ABBR": {
+      "RGPD": {
+        "TITLE": "Reglament general de protecció de dades",
+        "ABBR": "RGPD"
+      },
+      "BAT": {
+        "TITLE": "Impost d'activitats empresarials",
+        "ABBR": "IAE"
+      },
+      "CIF": {
+        "TITLE": "Codi d'Identificació Fiscal",
+        "ABBR": "CIF"
+      },
+      "ADRBALEARS": "Agència de desenvolupament regional de les Illes Balears",
+      "ATIB": "Agència Tributària de les Illes Balears",
+      "TGSS": "Tresoreria General de la Seguretat Social",
+      "NIF": {
+        "TITLE": "Número d'identificació fiscal",
+        "ABBR": "NIF"
+      }
+    },
+    "EXPANDALL": "Expandir tot",
+    "COLAPSEALL": "Encongir tot"
   }
 }

@@ -45,7 +45,201 @@
   },   
   "XECS": {
     "RGPD": "RGPD y documentación",
-    "EXPANDALL": "Ver todo",
-    "COLAPSEALL": "Ocultar todo"
+    "EXPANDALL": "Expandir todo",
+    "COLAPSEALL": "Encoger todo"
+  },
+  "ILS": {
+    "RGPD": {
+      "TITLE": "RGPD y documentación",
+      "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
+      "READ-AND-ACCEPTS": "He leído y acepto las condiciones del",
+      "REQUIRED-DOCS": {
+        "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación relacionada con el cumplimiento de los requisitos:",
+        "DOC-1": "Escritura de constitución de la empresa.",
+        "DOC-2": {
+          "PART-1": "El certificado de alta del ",
+          "PART-2": "industrial"
+        },
+        "DOC-3": "Informes de cálculo de la huella de carbono: <a href=''>Informe resumen</a> + <a href=''>Informe de inventario</a> de GEH según la norma ISO 14.064-1. o certificado de verificación ISO 14064-1.",
+        "DOC-4": "Compromiso de reducción de las emisiones de gases de efecto invernadero: <a href=''>Modelo de ejemplo</a>.",
+        "DOC-5": "Certificado itinerario formativo."
+      },
+      "OPTIONAL-DOCS": {
+        "INFO": "Otra documentación opcional:",
+        "DOC-1": "Memoria técnica de la actividad.",
+        "DOC-2": {
+          "PART-1": "El",
+          "PART-2": "de la empresa"
+        },
+        "DOC-3": "Logotipo de la empresa en formato WEBP, JPEG o SVG."
+      },
+      "AUTHORIZATION": {
+        "INFO": {
+          "PART-1": "AUTORIZACIONES: ",
+          "PART-2": "la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que ",
+          "PART-3": "pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la ",
+          "PART-4": "y la ",
+          "PART-5": " excepto en caso de denegación expresa. En este caso, el beneficiario deberá aportar la siguiente documentación:"
+        },
+        "DOC-1": " del solicitante i/o de la persona autorizada y los documentos acreditativos, si es necesario.",
+        "DOC-2": "Certificado de estar al corriente de pago con la ",
+        "DOC-3": "Certificado de estar al corriente de pago con la "
+      },
+      "NOTIFICATION": {
+        "INFO": "Al finalizar de este asistente recibirá, por correo electrónico, un documento en formato PDF que contendrá:",
+        "DOC-1": "Una declaración responsable.",
+        "DOC-2": "Una solicitud de adhesión al programa ILS."
+      }
+    },
+    "BUSINESS-TYPE": {
+      "TITLE": "Tipo de solicitante",
+      "DESCRIPTION": "Seleccione la opción que represente el tipo de empresa.",
+      "SELF-EMPLOYED": "Autónomo",
+      "SMALL": {
+        "NAME": "Pequeña empresa",
+        "INFO": "Se considera pequeña empresa la que tiene menos de 50 trabajadores y/o trabajadoras, un volumen de negocio anual o un balance general anual que no supere los 10 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto y otras empresas que no cumplen los requisitos para ser considerada PYME de acuerdo con el anexo I del Reglamento (CE) n.º 651/2014 de la Comisión Europea."
+      },
+      "MEDIUM": {
+        "NAME": "Mediana empresa",
+        "INFO": "Se considera mediana empresa la que tiene entre 50 y 250 trabajadores y/o trabajadoras, un volumen de negocio anual entre 10 y 50 millones de euros o un balance general anual entre 10 y 43 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto. Otras empresas que no cumplen los requisitos anteriores."
+      }
+    },
+    "GENERAL-DATA": {
+      "TITLE": "Datos generales",
+      "DESCRIPTION": "Introduzca sus datos personales.",
+      "APPLICANT": {
+        "NIF": {
+          "LABEL": "DNI/NIE del solicitante",
+          "ERROR": "El DNI/NIE introducido no es válido."
+        },
+        "CIF": {
+          "LABEL": "CIF del solicitante",
+          "ERROR": "El CIF introducido no es válido."
+        }
+      },
+      "COMPANY-NAME": {
+        "LABEL": "Nombre o razón social",
+        "ERROR": "El nombre o razón social introducido no es válido."
+      },
+      "ADDRESS": {
+        "LABEL": "Dirección postal del solicitante",
+        "ERROR": "La dirección postal introducida no es válida."
+      },
+      "ZIPCODE": {
+        "LABEL": "Código postal del solicitante [cinco dígitos]",
+        "ERROR": "El código postal introducido no es válido."
+      },
+      "TOWN": "Población",
+      "CONTACT-PHONE": {
+        "LABEL": "Teléfono de contacto del solicitante",
+        "ERROR": "El teléfono de contacto introducido no es válido."
+      },
+      "BAT-EPIGRAPH": {
+        "LABEL": "Epígrafe IAE",
+        "ERROR": "El epígrafe IAE introducido no es válido."
+      },
+      "WEBSITE": "Sitio web de la empresa",
+      "PRESENTATION-VIDEO": "La URL del video de presentación de la empresa (publicado en Youtube o en Vimeo)",
+      "REPRESENTATIVE": {
+        "NAME": {
+          "LABEL": "Nombre del representante legal",
+          "ERROR": "El nombre del representante legal introducido no es válido."
+        },
+        "NIF": {
+          "LABEL": "DNI/NIE del representante legal",
+          "ERROR": "El DNI/NIE del representante legal introducido no es válido."
+        }
+      }
+    },
+    "NOTIFICATION-CHANNEL": {
+      "TITLE": "Canal de notificación",
+      "DESCRIPTION": "Introduzca sus datos de contacto para recibir notificaciones.",
+      "INFO": "De acuerdo con el apartado 17 de la convocatoria, las notificaciones y las comunicaciones a la persona solicitante se llevarán a cabo por vía telemática a la dirección de correo electrónico que haya designado la persona solicitante a efectos de notificaciones en este formulario de solicitud. Los avisos de la puesta a disposición de la notificación a la Carpeta Ciudadana del <a href=''>Punto de Acceso General electrónico (Mi carpeta)</a> se enviarán a la dirección de correo que se han designado en los datos del declarante.",
+      "PHONE": {
+        "LABEL": "Teléfono móvil del solicitante o del representante",
+        "ERROR": "El teléfono móvil introducido no es válido."
+      },
+      "EMAIL": {
+        "LABEL": "Dirección electrónica a efectos de notificaciones",
+        "ERROR": "La dirección electrónica introducida no es válida."
+      }
+    },
+    "AUTHORIZATIONS": {
+      "TITLE": "Autorizaciones",
+      "DESCRIPTION": "Indique su consentimiento/disconformidad en las siguientes autorizaciones.",
+      "AUTHORIZATION-ID": "Doy mi consentimiento para que ADR Balears pueda comprobar de oficio la identificación de la persona solicitante y/o la persona autorizada para la empresa. En caso de denegación expresa del consentimiento, adjunto el NIF del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario.",
+      "AUTHORIZATION-ATIB": "Certificado de la Agencia Tributaria de las Islas Baleares (ATIB) de estar al corriente de las obligaciones tributarias con la comunidad autónoma de las Islas Baleares.",
+      "NO-AUTHORIZATED": "Al estar en disconformidad, por favor, adjunte el archivo previamente indicado. [.pdf]"
+    },
+    "DECLARATIONS": {
+      "TITLE": "Declaración responsable",
+      "DESCRIPTION": "Lea las siguientes declaraciones responsables.",
+      "DECLARATION-1": "Que la empresa cuenta con una línea de producción activa en las Islas Baleares.",
+      "DECLARATION-2": "Que dispongo de la capacidad de representación suficiente, debidamente acreditada, para llevar a cabo la tramitación indicada.",
+      "DECLARATION-3": "Que la entidad beneficiaria está inscrita en el Registro Industrial o en el Registro Minero de las Islas Baleares, si procede.",
+      "DECLARATION-4": "Que los datos consignados en este documento son ciertos, que cumplo con todos los requisitos exigidos en la convocatoria, y que presento adjunta la documentación correspondiente, de acuerdo con la resolución de la convocatoria."
+    },
+    "DOCUMENTATION": {
+      "TITLE": "Documentación requerida y opcional",
+      "DESCRIPTION": "Adjunte los documentos solicitados a continuación.",
+      "INFO": {
+        "FORMAT-INFO": "Para que se acepten los documentos adjuntados, estos deben ser del formato indicado posteriormente y con un máximo de tamaño de <strong>10MB</strong>. Además, a continuación, se indicarán algunas ayudas para realizar con facilidad dicha subida de documentos:",
+        "CTRL-INFO": "Cuando los archivos <strong>no</strong> estén seguidos en la carpeta o no estén dentro de la misma carpeta, pulse la tecla <strong>CTRL</strong> y, sin soltar, marque con el ratón los archivos correspondientes.",
+        "SHIFT-INFO": "Cuando los archivos <strong>si</strong> estén seguidos en la misma carpeta, pulse la tecla <strong>SHIFT</strong> y, sin soltar, y pulsando el ratón, marque el primer y el último archivo, de tal forma que se queden todos seleccionados."
+      },
+      "REQUIRED": {
+        "INFO": "Documentación relacionada con el cumplimiento de los requisitos.",
+        "CONSTITUTION": "Escritura de constitución de la empresa. [.pdf]",
+        "BAT": {
+          "PART-1": "Certificado del ",
+          "PART-2": " actualizado. [.pdf]"
+        },
+        "INPUT-RADIO": {
+          "OPTION-1": "Presentar informes de cálculo de la huella de carbono: Informe resumen + Informe de inventario de GEH según la norma ISO 14.064-1.",
+          "OPTION-2": "Presentar certificado de verificación ISO 14064-1."
+        },
+        "SUMMARY": "Informe resumen de la huella de carbono. [.pdf]",
+        "INVENTORY": "Informe de inventario de GEH según la norma ISO 14.064-1. [.pdf]",
+        "ISO-VERIFICATION": "Certificado de verificación ISO 14064-1. [.pdf]",
+        "GREENHOUSE-REDUCTION": "Compromiso de reducción de las emisiones de gases del efecto invernadero. [.pdf]",
+        "TRAINING-ITINERARY": "Certificado de haber realizado el itinerario formativo. [.pdf]"
+      },
+      "OPTIONAL": {
+        "INFO": "Otra documentación opcional",
+        "TECHNICAL-MEMORY": "Documento descriptivo de la empresa y de su actividad. [.pdf]",
+        "CIF": {
+          "PART-1": "El ",
+          "PART-2": " de la empresa. [.pdf]"
+        },
+        "LOGO": "Logotipo de la empresa que aparecerá en nuestro apartado de empresas adheridas. [.webp, .jpeg, .svg]"
+      }
+    },
+    "FILE": {
+      "ERROR": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido.",
+      "UPLOAD": "Subir archivo"
+    },
+    "ABBR": {
+      "RGPD": {
+        "TITLE": "Reglamento general de protección de datos",
+        "ABBR": "RGPD"
+      },
+      "BAT": {
+        "TITLE": "Impuesto de actividades empresariales",
+        "ABBR": "IAE"
+      },
+      "CIF": {
+        "TITLE": "Código de identificación fiscal",
+        "ABBR": "CIF"
+      },
+      "ADRBALEARS": "Agència de desenvolupament regional de les Illes Balears",
+      "ATIB": "Agencia Tributaria de las Islas Baleares",
+      "TGSS": "Tesorería General de la Seguridad Social",
+      "NIF": {
+        "TITLE": "Número de identificación fiscal",
+        "ABBR": "NIF"
+      }
+    },
+    "EXPANDALL": "Expandir todo",
+    "COLAPSEALL": "Encoger todo"
   }
 }

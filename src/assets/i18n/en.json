@@ -45,7 +45,201 @@
   },
   "XECS": {
     "RGPD": "RGPD and documentation",
-    "EXPANDALL": "Show all",
-    "COLAPSEALL": "Hide all"
+    "EXPANDALL": "Expand all",
+    "COLAPSEALL": "Colapse all"
+  },
+  "ILS": {
+    "RGPD": {
+      "TITLE": "GDPR and documentation",
+      "DESCRIPTION": "GDPR conditions and required documentation.",
+      "READ-AND-ACCEPTS": "I have read and accept the terms and conditions of the",
+      "REQUIRED-DOCS": {
+        "INFO": "Before starting, it is advisable to have the following compliance documentation ready:",
+        "DOC-1": "Deed of incorporation of the company.",
+        "DOC-2": {
+          "PART-1": "Industrial ",
+          "PART-2": "registration certificate."
+        },
+        "DOC-3": "Carbon footprint calculation reports: <a href=''>Summary Report</a> + <a href=''>Inventory report</a> GEH according to ISO 14.064-1. or ISO 14064-1 verification certificate.",
+        "DOC-4": "Commitment to reduce greenhouse gas emissions: <a href=''>Sample model</a>.",
+        "DOC-5": "Training itinerary certificate."
+      },
+      "OPTIONAL-DOCS": {
+        "INFO": "Other optional documentation:",
+        "DOC-1": "Technical report of the activity.",
+        "DOC-2": {
+          "PART-1": "The",
+          "PART-2": "of the company"
+        },
+        "DOC-3": "Company logo in WEBP, JPEG or SVG format."
+      },
+      "AUTHORIZATION": {
+        "INFO": {
+          "PART-1": "Authorizations:",
+          "PART-2": "the request implies the authorization (article 28.2 of Law 39/2015) so that ",
+          "PART-3": "may verify ex officio that the applicant is up to date with its obligations to the ",
+          "PART-4": "and the ",
+          "PART-5": " except in the case of express refusal. In this case, the beneficiary must provide the following documentation:"
+        },
+        "DOC-1": " of the applicant and/or authorized person and supporting documents, if necessary.",
+        "DOC-2": "Certificate of being up to date of payment with the ",
+        "DOC-3": "Certificate of being up to date with the "
+      },
+      "NOTIFICATION": {
+        "INFO": "At the end of this wizard you will receive, by e-mail, a PDF document containing:",
+        "DOC-1": "A responsible statement",
+        "DOC-2": "An application for membership in the ILS program."
+      }
+    },
+    "BUSINESS-TYPE": {
+      "TITLE": "Applicant Type",
+      "DESCRIPTION": "Select the option that represents the type of company.",
+      "SELF-EMPLOYED": "Self-employed",
+      "SMALL": {
+        "NAME": "Small enterprise",
+        "INFO": "A small enterprise is considered to be one that has less than 50 employees, an annual turnover or an annual balance sheet total not exceeding €10 million, and does not hold 25% or more of its capital or voting rights and other enterprises that do not qualify as SMEs in accordance with Annex I of the European Commission Regulation (EC) No. 651/2014."
+      },
+      "MEDIUM": {
+        "NAME": "Medium-size enterprise",
+        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights. Other companies that do not meet the above requirements."
+      }
+    },
+    "GENERAL-DATA": {
+      "TITLE": "General data",
+      "DESCRIPTION": "Enter your personal data.",
+      "APPLICANT": {
+        "NIF": {
+          "LABEL": "Applicant's DNI/NIE",
+          "ERROR": "The DNI/NIE entered is not valid."
+        },
+        "CIF": {
+          "LABEL": "Applicant's VAT number",
+          "ERROR": "The VAT number entered is not valid."
+        }
+      },
+      "COMPANY-NAME": {
+        "LABEL": "Name or company name",
+        "ERROR": "The name or company name entered is not valid."
+      },
+      "ADDRESS": {
+        "LABEL": "Applicant's postal address",
+        "ERROR": "The postal address entered is not valid."
+      },
+      "ZIPCODE": {
+        "LABEL": "Applicant's zip code [five digits].",
+        "ERROR": "The zip code entered is not valid."
+      },
+      "TOWN": "Town",
+      "CONTACT-PHONE": {
+        "LABEL": "Applicant's contact phone number",
+        "ERROR": "The contact phone number entered is not valid."
+      },
+      "BAT-EPIGRAPH": {
+        "LABEL": "BAT epigraph",
+        "ERROR": "The BAT epigraph entered is not valid."
+      },
+      "WEBSITE": "Company website",
+      "PRESENTATION-VIDEO": "URL of the company's presentation video (published on Youtube or Vimeo)",
+      "REPRESENTATIVE": {
+        "NAME": {
+          "LABEL": "Name of legal representative",
+          "ERROR": "The name of the legal representative entered is not valid."
+        },
+        "NIF": {
+          "LABEL": "DNI/NIE of the legal representative",
+          "ERROR": "The DNI/NIE of the legal representative entered is not valid."
+        }
+      }
+    },
+    "NOTIFICATION-CHANNEL": {
+      "TITLE": "Notification channel",
+      "DESCRIPTION": "Enter your contact information to receive notifications.",
+      "INFO": "In accordance with section 17 of the call, notifications and communications to the applicant will be carried out telematically to the e-mail address designated by the applicant for notification purposes in this application form. Notices of the availability of the notification to the Citizen Folder of the <a href=''>Punto de Acceso General electrónico (Mi carpeta)</a> will be sent to the e-mail address designated in the declarant's data.",
+      "PHONE": {
+        "LABEL": "Applicant's or representative's phone number",
+        "ERROR": "The phone number entered is not valid."
+      },
+      "EMAIL": {
+        "LABEL": "E-mail address for notification purposes",
+        "ERROR": "The e-mail address entered is not valid."
+      }
+    },
+    "AUTHORIZATIONS": {
+      "TITLE": "Authorizations",
+      "DESCRIPTION": "Indicate your consent/non-consent on the following authorizations.",
+      "AUTHORIZATION-ID": "I give my consent so that ADR Balears can check ex officio the identification of the applicant and/or the authorized person for the company. In case of express refusal of consent, I attach the NIF of the applicant and/or the authorized person and supporting documents, if necessary.",
+      "AUTHORIZATION-ATIB": "Certificate from the Tax Agency of the Balearic Islands (ATIB) of being up to date with tax obligations with the autonomous community of the Balearic Islands.",
+      "NO-AUTHORIZATED": "If you disagree, please attach the file previously indicated. [.pdf]"
+    },
+    "DECLARATIONS": {
+      "TITLE": "Responsible declaration",
+      "DESCRIPTION": "Please read the following responsible statements.",
+      "DECLARATION-1": "That the company has an active production line in the Balearic Islands",
+      "DECLARATION-2": "That I have sufficient representation capacity, duly accredited, to carry out the indicated procedure.",
+      "DECLARATION-3": "That the beneficiary entity is registered in the Industrial Registry or in the Mining Registry of the Balearic Islands, if applicable.",
+      "DECLARATION-4": "That the information contained in this document is true, that I meet all the requirements of the call for applications, and that I submit the corresponding documentation, in accordance with the resolution of the call for applications."
+    },
+    "DOCUMENTATION": {
+      "TITLE": "Required and optional documentation",
+      "DESCRIPTION": "Please attach the documents requested below.",
+      "INFO": {
+        "FORMAT-INFO": "In order for the attached documents to be accepted, they must be in the format indicated below and with a maximum size of <strong>10MB</strong>. In addition, below you will find some aids to help you upload documents easily:",
+        "CTRL-INFO": "When the files are <strong>not</strong> in a row in the folder or are not in the same folder, press the <strong>CTRL</strong> key and, without releasing it, mark the corresponding files with the mouse.",
+        "SHIFT-INFO": "When the files are <strong>in</strong> a row in the same folder, press the <strong>SHIFT</strong> key and, without releasing and using the mouse, mark the first and the last file, so that they are all selected."
+      },
+      "REQUIRED": {
+        "INFO": "Documentation related to compliance with the requirements.",
+        "CONSTITUTION": "Deed of incorporation of the company. [.pdf]",
+        "BAT": {
+          "PART-1": "Updated ",
+          "PART-2": " certificate. [.pdf]"
+        },
+        "INPUT-RADIO": {
+          "OPTION-1": "Submit carbon footprint calculation reports: Summary Report + GEH Inventory Report according to ISO 14.064-1.",
+          "OPTION-2": "Submit ISO 14064-1 verification certificate."
+        },
+        "SUMMARY": "Carbon footprint summary report. [.pdf]",
+        "INVENTORY": "GEH inventory report according to ISO 14.064-1. [.pdf]",
+        "ISO-VERIFICATION": "Verification certificate ISO 14064-1. [.pdf]",
+        "GREENHOUSE-REDUCTION": "Commitment to reduce greenhouse gas emissions. [.pdf]",
+        "TRAINING-ITINERARY": "Certificate of having completed the training itinerary. [.pdf]"
+      },
+      "OPTIONAL": {
+        "INFO": "Other optional documentation",
+        "TECHNICAL-MEMORY": "Descriptive document of the company and its activity. [.pdf]",
+        "CIF": {
+          "PART-1": "The ",
+          "PART-2": " of the company. [.pdf]"
+        },
+        "LOGO": "Logo of the company that will appear in our section of adhered companies. [.webp, .jpeg, .svg]."
+      }
+    },
+    "FILE": {
+      "ERROR": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed.",
+      "UPLOAD": "Upload file"
+    },
+    "ABBR": {
+      "RGPD": {
+        "TITLE": "General Data Protection Regulation",
+        "ABBR": "GDPR"
+      },
+      "BAT": {
+        "TITLE": "Business activity tax",
+        "ABBR": "BAT"
+      },
+      "CIF": {
+        "TITLE": "Tax Identification Number",
+        "ABBR": "TIN"
+      },
+      "ADRBALEARS": "Agència de desenvolupament regional de les Illes Balears",
+      "ATIB": "Balearic Islands Tax Agency",
+      "TGSS": "General Treasury of the Social Security",
+      "NIF": {
+        "TITLE": "Tax Identification Number",
+        "ABBR": "TIN"
+      }
+    },
+    "EXPANDALL": "Expand all",
+    "COLAPSEALL": "Colapse all"
   }
 }
