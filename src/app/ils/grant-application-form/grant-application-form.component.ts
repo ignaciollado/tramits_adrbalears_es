@@ -14,11 +14,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, startWith } from 'rxjs';
+import { ActividadCnaeDTO } from '../../Models/actividades-cnae.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
+import { ActividadCnaeService } from '../../Services/actividad-cnae.service';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
-import { ActividadCnaeDTO } from '../../Models/actividades-cnae.dto';
-import { ActividadCnaeService } from '../../Services/actividad-cnae.service';
+import { DataService } from '../../Services/data.service';
+import { DocumentService } from '../../Services/document.service';
+import { ExpedienteService } from '../../Services/expediente.service';
 
 
 @Component({
@@ -69,7 +72,7 @@ export class IlsGrantApplicationFormComponent {
 
 
   accordion = viewChild.required(MatAccordion)
-  constructor(private commonService: CommonService, private actividadService: ActividadCnaeService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private commonService: CommonService, private dataService: DataService, private actividadService: ActividadCnaeService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.ilsForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
       tipo_solicitante: this.fb.control<string>('', Validators.required),
@@ -77,7 +80,7 @@ export class IlsGrantApplicationFormComponent {
       denom_interesado: this.fb.control<string>('', Validators.required),
       domicilio: this.fb.control<string>('', Validators.required),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
-      localidad: this.fb.control<string>({ value: '', disabled: true }),
+      localidad: this.fb.control<string>(''),
       tel_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9), Validators.minLength(9)]),
       codigoIAE: this.fb.control<string>('', [Validators.required]),
       sitio_web_empresa: this.fb.control<string>('', []),
@@ -109,7 +112,9 @@ export class IlsGrantApplicationFormComponent {
       file_certificado_itinerario_formativo: this.fb.control<File | null>(null, [Validators.required]),
       file_memoriaTecnica: this.fb.control<File | null>(null),
       file_nifEmpresa: this.fb.control<File | null>(null),
-      file_logotipoEmpresaIls: this.fb.control<File | null>(null)
+      file_logotipoEmpresaIls: this.fb.control<File | null>(null),
+
+      tipo_tramite: this.fb.control<string>('ILS')
 
     })
   }
@@ -147,11 +152,32 @@ export class IlsGrantApplicationFormComponent {
     })
 
     this.loadZipcodes()
-    this.loadActividadesCNAE()
+    // this.loadActividadesCNAE()
+    this.loadMockActividadesCNAE()
   }
 
   onSubmit(): void {
     console.log(this.ilsForm.value)
+  }
+
+  // Creo sello de tiempo
+  private createTimestamp(): string {
+    const date = new Date();
+
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = String(date.getFullYear())
+
+    let hours = date.getHours()
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    const esPM = hours >= 12;
+    hours = hours % 12 || 12;
+    const hours12 = String(hours).padStart(2, '0')
+    const sufix = esPM ? 'pm' : 'am'
+
+    return (`${day}_${month}_${year}_${hours12}_${minutes}_${seconds}${sufix}`)
   }
 
   // Subida individual de archivo.
@@ -205,7 +231,13 @@ export class IlsGrantApplicationFormComponent {
   private loadActividadesCNAE(): void {
     this.actividadService.getActividadesCNAE().subscribe((actividadesCNAE: ActividadCnaeDTO[]) => {
       this.actividadesCNAE = actividadesCNAE
-    }, error => {this.showSnackBar(error)})
+    }, error => { this.showSnackBar(error) })
+  }
+
+  private loadMockActividadesCNAE(): void {
+    this.dataService.getAllMockIAE().subscribe((actividadesCNAE: ActividadCnaeDTO[]) => {
+      this.actividadesCNAE = actividadesCNAE
+    }, error => { this.showSnackBar(error) })
   }
 
   // Validador con checkboxes
