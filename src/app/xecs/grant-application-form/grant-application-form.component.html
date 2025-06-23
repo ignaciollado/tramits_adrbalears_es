@@ -65,7 +65,7 @@
       <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.SOLICITOR' | translate }}</mat-panel-title>
       <mat-panel-description>
-        Indique algunos datos concretos del interesado
+        Indique algunos datos del interesado
         <mat-icon>person</mat-icon>
       </mat-panel-description>
       </mat-expansion-panel-header>
@@ -108,10 +108,17 @@
         <mat-label>{{ 'FORM.CONTACTPHONE' | translate }}</mat-label>
         <input matInput formControlName="telefono_cont" maxlength="9" minlength="9"/>
       </mat-form-field>
+       <mat-form-field appearance="fill">
+        <mat-select formControlName="codigoIAE">
+          <mat-option *ngFor="let cnae of cnaes" [value]="cnae">
+            {{cnae.label_cas}}
+          </mat-option>
+        </mat-select>
+       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.NOMREPRESENTANTE' | translate }}</mat-label>
-        <input matInput formControlName="nom_representante" maxlength="9" minlength="9"/>
+        <input matInput formControlName="nom_representante"/>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.NIFREPRESENTANTE' | translate }}</mat-label>
@@ -165,7 +172,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.ATTACHEDDOCUMENTATION' | translate }}</mat-panel-title>
       <mat-panel-description>
-        Indique los documentos que desea enviarnos
+        Cargue los documentos que desea enviarnos
         <mat-icon>file_copy</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -193,7 +200,7 @@
         hidden />
       <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
       <ul *ngIf="file_memoriaTecnicaUploaded.length > 0">
-        <li *ngFor="let file of file_memoriaTecnicaUploaded">{{ file.name }}</li>
+        <li *ngFor="let file of file_memoriaTecnicaUploaded">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
   </section>
   <mat-form-field appearance="fill">
@@ -237,7 +244,7 @@
         hidden />
       <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
       <ul *ngIf="file_certificadoIAEUploaded.length > 0">
-        <li *ngFor="let file of file_certificadoIAEUploaded">{{ file.name }}</li>
+        <li *ngFor="let file of file_certificadoIAEUploaded">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
   </section>
   <section ngClass="copia-nif">
@@ -261,7 +268,7 @@
         hidden />
       <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
       <ul *ngIf="file_nifEmpresaUploaded.length > 0">
-        <li *ngFor="let file of file_nifEmpresaUploaded">{{ file.name }}</li>
+        <li *ngFor="let file of file_nifEmpresaUploaded">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
   </section> 
   </mat-expansion-panel>  

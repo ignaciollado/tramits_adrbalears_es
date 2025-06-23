@@ -21,8 +21,9 @@ import { HttpClient } from '@angular/common/http';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AppComponent } from '../../app.component';
 import { NifValidatorService } from '../../Services/nif-validator-service';
+import { jsPDF } from 'jspdf';
+import { CnaeDTO } from '../../Models/cnae.dto';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -46,6 +47,7 @@ export class GrantApplicationFormComponent {
   introText: string = "getting intro text..."
   filteredZipCodes: Observable<ZipCodesIBDTO[]> | undefined;
   zipCodes: ZipCodesIBDTO[] = [];
+  cnaes: CnaeDTO[] = [];
 
   constructor (private fb: FormBuilder, private http: HttpClient, private commonService: CommonService, private nifValidator: NifValidatorService, private snackBar: MatSnackBar) {
   this.ayudaForm = this.fb.group ({
@@ -55,6 +57,7 @@ export class GrantApplicationFormComponent {
     domicilio: this.fb.control({value: '', disabled: false}, Validators.required),
     zipCode: this.fb.control ('', [Validators.required, Validators.pattern('^07[0-9]{3}$')]),
     town: this.fb.control({value: '', disabled: true}, Validators.required),
+    codigoIAE: this.fb.control({value: '', disabled: false}, Validators.required),
     telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
   
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
@@ -94,6 +97,7 @@ export class GrantApplicationFormComponent {
     declaracion_responsable_xi: this.fb.control<string | null>({ value: 'true', disabled: true }),
   });
 this.getAllZipCodes()
+this.getAllCnaes()
 this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })
  .subscribe({
     next: (html) => this.htmlContent = html,
@@ -114,7 +118,7 @@ this.filteredZipCodes = this.ayudaForm.get('zipCode')!.valueChanges.pipe(
   })
 );
 
-
+const nifControl = this.ayudaForm.get('nif');
 const opcionBancoControl = this.ayudaForm.get('opcion_banco');
 const ccControl = this.ayudaForm.get('cc');
 const codigo_BIC_SWIFTControl = this.ayudaForm.get('codigo_BIC_SWIFT')
@@ -145,6 +149,9 @@ opcionBancoControl?.valueChanges.subscribe((valor) => {
   ccControl?.updateValueAndValidity();
   });
 
+nifControl?.valueChanges.subscribe((valor) => {
+  nifControl.setValue(valor.toUpperCase(), { emitEvent: false });
+})
 
 ccControl?.valueChanges.subscribe((valor) => {
  if (opcionBancoControl?.value === '1' && valor !== valor?.toUpperCase()) {
@@ -196,12 +203,17 @@ file_certificadoIAEUploaded: File[] = []
 file_nifEmpresaUploaded: File[] = []
 
 onSubmit(): void {
-  if (this.ayudaForm.valid) {
+
     const datos = this.ayudaForm.value;
+    const cControls = this.ayudaForm.controls
     console.log (datos)
-    console.log('Programas seleccionados:', datos.opc_programa);
-    console.log('Archivos subidos:', datos.documentos);
-  }
+    console.log('Programas seleccionados:', datos.opc_programa)
+    console.log('Archivos file_memoriaTecnica:',  this.file_memoriaTecnicaUploaded)
+    console.log('Archivos file_certificadoIAE:', this.file_certificadoIAEUploaded)
+    console.log('Archivos file_nifEmpresa:', this.file_nifEmpresaUploaded)
+
+    this.generateCertificate(datos)
+
 }
 
 get memoriaTecnicaFileNames(): string {
@@ -290,6 +302,75 @@ private getAllZipCodes() {
       const zpCodesFiltered: ZipCodesIBDTO[] = zpCodes.filter((zpCode: ZipCodesIBDTO) => zpCode.deleted_at?.toString() === "0000-00-00 00:00:00")
        this.zipCodes = zpCodesFiltered; 
       }, (error) => { this.showSnackBar(error) });
+}
+
+private getAllCnaes() {
+  this.commonService.getCNAEs().subscribe((cnaes: CnaeDTO[]) => {
+      console.log ("cnaes", cnaes)
+      const cnaesFiltered: CnaeDTO[] = cnaes.filter((cnae: CnaeDTO) => cnae.deleted_at?.toString() === "0000-00-00 00:00:00")
+      this.cnaes = cnaesFiltered;
+      console.log ("cnaes", this.cnaes) 
+      }, (error) => { this.showSnackBar(error) });
+}
+
+
+generateCertificate(dataToRender: any): void {
+  const doc = new jsPDF();
+  
+  // Texto del pie de página
+  const footerText = 'Plaça de Son Castelló, 1\n07009 Polígon de Son Castelló - Palma\nTel. 971 17 61 61\nwww.adrbalears.es';
+
+  // Establecer estilo si lo deseas
+  doc.setFont('Arial', 'normal');
+  doc.setFontSize(8);
+
+  // Posición del pie de página
+  const marginLeft = 25;
+  const lineHeight = 4;
+  const pageHeight = doc.internal.pageSize.getHeight();
+
+  // Dividir el texto en líneas
+  const lines = footerText.split('\n');
+
+  // Dibujar cada línea desde abajo hacia arriba
+  lines.reverse().forEach((line, index) => {
+    const y = pageHeight - 10 - (index * lineHeight);
+    doc.text(line, marginLeft, y);
+  });
+
+  // Añadir el texto centrado en la parte inferior
+  //const textWidth = doc.getTextWidth(footerText);
+  //const pageWidth = doc.internal.pageSize.getWidth();
+  //const x = (pageWidth - textWidth) / 2;
+  // const y = pageHeight - margin;
+  //doc.text(footerText, x, y);
+
+  const rawDate = dataToRender.eventDate; // puede ser string o Date
+  const eventDate = new Date(rawDate);
+
+  const TITULO_EVENTO = dataToRender.title
+  const FECHA_EVENTO = `${eventDate.getDate().toString().padStart(2, '0')}/${(eventDate.getMonth() + 1).toString().padStart(2, '0')}/${eventDate.getFullYear()}`;
+  const HORAS_EVENTO = dataToRender.timeDuration + " hrs"
+ 
+  const date = new Date();
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  const formattedDate = date.toLocaleDateString('ca-ES', options);
+
+  doc.addImage("../../../../assets/images/ADRBalearscompleto-conselleria.jpg", "JPEG", 25, 20, 75, 15);
+  doc.setFontSize(12);
+  doc.text("Convocatoria para la concesión de ayudas de cheques de consultoría para impulsar a la industria de Baleares en materia de digitalización, internacionalización, sostenibilidad y gestión avanzada.,", 25, 65)
+
+  doc.setFont('Arial', 'bold');
+  doc.text("CERTIFIC:", 25, 100)
+  doc.setFont('Arial', 'normal');
+
+  doc.text(`Convocatoria 2025 ${dataToRender.firstName+' '+dataToRender.lastName} , amb DNI ${dataToRender.dni}, ha assistit a la càpsula\nformativa “${TITULO_EVENTO}”, organitzat per l'Agència de\nDesevolupament Regional de les Illes Balears (ADR). Dia ${FECHA_EVENTO},\namb una durada de ${HORAS_EVENTO}`, 25, 140)
+
+  doc.text("I perquè consti als efectes oportuns firm aquest certificat.", 25, 180)
+
+  doc.text(`Palma, ${formattedDate}`, 25, 220);
+
+  doc.save(`certificado_${dataToRender.firstName+'_'+dataToRender.lastName}.pdf`);
 }
     
 private showSnackBar(error: string): void {
