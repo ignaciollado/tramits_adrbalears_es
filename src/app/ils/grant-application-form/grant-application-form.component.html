@@ -110,13 +110,13 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ILS.GENERAL-DATA.COMPANY-NAME.LABEL' | translate}}</mat-label>
-                    <input matInput type="text" formControlName="denom_interesado" (blur)="cleanBlank($event)">
+                    <input matInput type="text" formControlName="denom_interesado">
                     <mat-error *ngIf="ilsForm.get('denom_interesado')?.errors">{{'ILS.GENERAL-DATA.COMPANY-NAME.ERROR' |
                         translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ILS.GENERAL-DATA.ADDRESS.LABEL' | translate}}</mat-label>
-                    <input matInput type="text" formControlName="domicilio" (blur)="cleanBlank($event)">
+                    <input matInput type="text" formControlName="domicilio">
                     <mat-error *ngIf="ilsForm.get('domicilio')?.errors">{{'ILS.GENERAL-DATA.ADDRESS.ERROR' |
                         translate}}</mat-error>
                 </mat-form-field>
@@ -134,7 +134,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ILS.GENERAL-DATA.TOWN' | translate}}</mat-label>
-                    <input matInput formControlName="localidad">
+                    <input matInput formControlName="localidad" readonly>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ILS.GENERAL-DATA.CONTACT-PHONE.LABEL' | translate}}</mat-label>
@@ -147,7 +147,7 @@
                     <mat-label>{{'ILS.GENERAL-DATA.BAT-EPIGRAPH.LABEL' | translate}}</mat-label>
                     <mat-select formControlName="codigoIAE">
                         <mat-option *ngFor="let actividad of actividadesCNAE;"
-                            [value]="actividad.id">{{actividad.label}}</mat-option>
+                            [value]="actividad.id">{{actividad.label_cas}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="ilsForm.get('codigoIAE')?.errors">{{'ILS.GENERAL-DATA.BAT-EPIGRAPH.ERROR' |
                         translate}}</mat-error>
@@ -162,7 +162,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ILS.GENERAL-DATA.REPRESENTATIVE.NAME.LABEL' | translate}}</mat-label>
-                    <input matInput type="text" formControlName="nom_representante" (blur)="cleanBlank($event)">
+                    <input matInput type="text" formControlName="nom_representante">
                     <mat-error
                         *ngIf="ilsForm.get('nom_representante')?.errors">{{'ILS.GENERAL-DATA.REPRESENTATIVE.NAME.ERROR'
                         | translate}}</mat-error>
@@ -474,5 +474,8 @@
             </section>
         </mat-expansion-panel>
     </mat-accordion>
+    <mat-form-field style="display:none">
+        <input matInput type="text" formControlName="tipo_tramite">
+    </mat-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="ilsForm.invalid">Enviar solicitud</button>
 </form>

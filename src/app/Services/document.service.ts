@@ -14,7 +14,7 @@ const httpOptions = {
 })
 export class DocumentService {
 
-  private apiUrl = 'https://data.ibrelleu.es/public/index.php';
+  private apiUrl = 'https://pre-tramits.idi.es/public/index.php';
 
   constructor(private http: HttpClient) { }
 

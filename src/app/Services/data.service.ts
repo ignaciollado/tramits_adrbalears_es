@@ -14,7 +14,7 @@ export class DataService {
 
   // IAE
   getAllMockIAE(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.urlAPIMock}/epigrafeIAE.json`).pipe(
+    return this.http.get<any[]>(`${this.urlAPIMock}/actividadesCNAE.json`).pipe(
       catchError(error => {
         console.error('Error en getAllMockIAE(): ', error)
         return throwError(() => error)
