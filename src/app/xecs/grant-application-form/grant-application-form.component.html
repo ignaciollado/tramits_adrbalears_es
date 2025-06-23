@@ -110,8 +110,8 @@
       </mat-form-field>
        <mat-form-field appearance="fill">
         <mat-select formControlName="codigoIAE">
-          <mat-option *ngFor="let cnae of cnaes" [value]="cnae">
-            {{cnae.label_cas}}
+          <mat-option *ngFor="let cnae of cnaes" [value]="cnae.id">
+            {{cnae.cnae}} {{cnae.label_cas}}
           </mat-option>
         </mat-select>
        </mat-form-field>

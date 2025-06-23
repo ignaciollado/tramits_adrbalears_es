@@ -307,10 +307,12 @@ private getAllZipCodes() {
 private getAllCnaes() {
   this.commonService.getCNAEs().subscribe((cnaes: CnaeDTO[]) => {
       console.log ("cnaes", cnaes)
-      const cnaesFiltered: CnaeDTO[] = cnaes.filter((cnae: CnaeDTO) => cnae.deleted_at?.toString() === "0000-00-00 00:00:00")
-      this.cnaes = cnaesFiltered;
+      /*       const cnaesFiltered: CnaeDTO[] = cnaes.filter((cnae: CnaeDTO) => cnae.deleted_at?.toString() === "0000-00-00 00:00:00")
+      this.cnaes = cnaesFiltered; */
+      this.cnaes = cnaes
       console.log ("cnaes", this.cnaes) 
-      }, (error) => { this.showSnackBar(error) });
+      }, (error) => {  console.error("Error real:", error);
+  this.showSnackBar(error + ' ' + error.message || 'Error'); });
 }
 
 

@@ -23,8 +23,7 @@ export class CommonService {
 
   // CRUD ZipCode
   getZipCodes(): Observable<ZipCodesIBDTO[]> {
-    return this.http.get<ZipCodesIBDTO[]>(`${this.urlAPI}/zipcodes`)
-    .pipe(catchError(this.handleError))
+    return this.http.get<ZipCodesIBDTO[]>(`${this.urlAPI}/zipcodes`).pipe(catchError(this.handleError))
   }
 
   getOneZipCode(id: number): Observable<ZipCodesIBDTO> {
@@ -45,8 +44,7 @@ export class CommonService {
 
    // CRUD CNAE
   getCNAEs(): Observable<CnaeDTO[]> {
-    return this.http.get<CnaeDTO[]>(`${this.urlAPITramits}/pindustactividades`)
-    .pipe(catchError(this.handleError))
+    return this.http.get<CnaeDTO[]>(`${this.urlAPITramits}/pindustactividades`).pipe(catchError(this.handleError))
   }
 
   getOneCNAE(id: number): Observable<CnaeDTO> {
@@ -65,7 +63,6 @@ export class CommonService {
     return this.http.delete<void>(`${this.urlAPITramits}/pindustactividades/${id}`).pipe(catchError(this.handleError))
   }
 
-   
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
