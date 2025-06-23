@@ -40,6 +40,55 @@ export class DocumentService {
       .pipe(catchError(this.handleError));
   }
 
+  /* CRUD Documentos Front */
+
+  // GET ALL
+  getAllDocumentsFront(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/pindustdocumento`).pipe(catchError(this.handleError))
+  }
+
+  // GET by ID
+  getOneDocumentFront(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/pindustdocumento/${id}`).pipe(catchError(this.handleError))
+  }
+
+  // GET by ID Expediente
+  getAllDocumentsByExpediente(id: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/pindustdocumento/expediente/${id}`).pipe(catchError(this.handleError))
+  }
+
+  // POST
+  createDocumentFront(document: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/pindustdocumento/create`, document).pipe(catchError(this.handleError))
+  }
+
+  // PUT
+  updateDocumentFront(id: number, document: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/pindustdocumento/update/${id}`, document).pipe(catchError(this.handleError))
+  }
+
+  // DELETE
+  deleteDocumentFront(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/pindustdocumento/delete/${id}`).pipe(catchError(this.handleError))
+  }
+
+  /* CRUD Documentos Back */
+  
+  // GET All
+  getAllDocumentsBack(nif: string, timestamp: string): Observable<any[]> {
+    return this.http.get<any>(`${this.apiUrl}/documents/${nif}/${timestamp}`).pipe(catchError(this.handleError))
+  }
+
+  // POST
+  createDocumentBack(nif: string, timestamp: string, document: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/upload/${nif}/${timestamp}`, document).pipe(catchError(this.handleError))
+  }
+
+  // DELETE
+  deleteDocumentBack(nif: string, timestamp: string, filename: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete/${nif}/${timestamp}/${filename}`).pipe(catchError(this.handleError))
+  }
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '¡Error desconocido!';
     if (error.error instanceof ErrorEvent) {
