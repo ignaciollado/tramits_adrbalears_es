@@ -146,8 +146,8 @@
                 <mat-form-field>
                     <mat-label>{{'ILS.GENERAL-DATA.BAT-EPIGRAPH.LABEL' | translate}}</mat-label>
                     <mat-select formControlName="codigoIAE">
-                        <mat-option *ngFor="let epigrafe of epigrafesIAE;"
-                            [value]="epigrafe.value">{{epigrafe.label}}</mat-option>
+                        <mat-option *ngFor="let actividad of actividadesCNAE;"
+                            [value]="actividad.id">{{actividad.label}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="ilsForm.get('codigoIAE')?.errors">{{'ILS.GENERAL-DATA.BAT-EPIGRAPH.ERROR' |
                         translate}}</mat-error>
