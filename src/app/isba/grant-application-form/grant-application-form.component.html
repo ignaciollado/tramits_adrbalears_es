@@ -7,7 +7,8 @@
     </div>
     <mat-accordion ngClass="example-headers-align" multi>
         <!-- RGPD -->
-        <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
+        <mat-expansion-panel>
+        <!-- <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)"> -->
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ISBA.RGPD.TITLE' | translate}}</h3>
@@ -47,7 +48,7 @@
                         <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-13' | translate}}</li>
                         <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-14' | translate}}</li>
                     </ol>
-                    
+
                     <dl>
                         <dt>{{'ISBA.RGPD.NOTIFICATION.INFO' | translate}}</dt>
                         <dd>{{'ISBA.RGPD.NOTIFICATION.DOC-1' | translate}}</dd>
@@ -56,10 +57,31 @@
                 </section>
             </section>
         </mat-expansion-panel>
+
+        <!-- Tipo Solicitante-->
+         <mat-expansion-panel [expanded]="step() === 1">
+            <mat-expansion-panel-header>
+                <mat-panel-title><h3>{{'ISBA.BUSINESS-TYPE.TITLE' | translate}}</h3></mat-panel-title>
+                <mat-panel-description>{{'ISBA.BUSINESS-TYPE.DESCRIPTION' | translate}}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <section ngClass="section-applicant-type">
+                <section>
+                    <mat-radio-group formControlName="tipo_solicitante">
+                        <mat-radio-button value="autonomo">{{'ISBA.BUSINESS-TYPE.SELF-EMPLOYED' | translate}}</mat-radio-button>
+                        <mat-radio-button value="pequenya">{{'ISBA.BUSINESS-TYPE.SMALL.NAME' | translate}}*</mat-radio-button>
+                        <mat-radio-button value="mediana">{{'ISBA.BUSINESS-TYPE.MEDIUM.NAME' | translate}}*</mat-radio-button>
+                    </mat-radio-group>
+                </section>
+                <section>
+                    <p><strong>*{{'ISBA.BUSINESS-TYPE.SMALL.NAME' | translate}}</strong>: {{'ISBA.BUSINESS-TYPE.SMALL.INFO' | translate}}</p>
+                    <p><strong>*{{'ISBA.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</strong>: {{'ISBA.BUSINESS-TYPE.MEDIUM.INFO' | translate}}</p>
+                </section>
+            </section>
+         </mat-expansion-panel>
+         
     </mat-accordion>
     <mat-form-field style="display: none">
         <input matInput type="text" formControlName="tipo_tramite">
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="isbaForm.invalid">{{'ISBA.SEND' |
-        translate}}</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="isbaForm.invalid">{{'ISBA.SEND' | translate}}</button>
 </form>

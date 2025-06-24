@@ -100,7 +100,7 @@
       },
       "MEDIUM": {
         "NAME": "Medium-size enterprise",
-        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights. Other companies that do not meet the above requirements."
+        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights in other companies that do not meet the above requirements."
       }
     },
     "GENERAL-DATA": {
@@ -277,7 +277,19 @@
         "DOC-2": "A responsible declaration of the person who owns the company or who legally represents it."
       }
     },
-    "BUSINESS-TYPE": {},
+    "BUSINESS-TYPE": {
+      "TITLE": "Applicant Type",
+      "DESCRIPTION": "Select the option that represents the type of company.",
+      "SELF-EMPLOYED": "Self-employed",
+      "SMALL": {
+        "NAME": "Small enterprise",
+        "INFO": "A small enterprise is considered to be one that has less than 50 employees, an annual turnover or an annual balance sheet total not exceeding €10 million, and does not hold 25% or more of its capital or voting rights and other enterprises that do not qualify as SMEs in accordance with Annex I of the European Commission Regulation (EC) No. 651/2014."
+      },
+      "MEDIUM": {
+        "NAME": "Medium-size enterprise",
+        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights in other companies that do not meet the above requirements."
+      }
+    },
     "GENERAL-DATA": {},
     "FINANCIAL-DATA": {},
     "PROJECT-BUDGET": {},

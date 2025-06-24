@@ -14,13 +14,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { DataService } from '../../Services/data.service';
+import { MatRadioModule } from '@angular/material/radio';
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule,
-    MatAccordion, MatCheckboxModule, TranslateModule, MatTooltipModule, MatAutocompleteModule],
+    MatAccordion, MatCheckboxModule, TranslateModule, MatTooltipModule, MatAutocompleteModule,
+  MatRadioModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })
@@ -36,6 +38,7 @@ export class IsbaGrantApplicationFormComponent {
   constructor(private commonService: CommonService, private dataService: DataService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.isbaForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
+      tipo_solicitante: this.fb.control<string>('', [Validators.required]),
 
       tipo_tramite: this.fb.control<string>('ADR-ISBA')
 
