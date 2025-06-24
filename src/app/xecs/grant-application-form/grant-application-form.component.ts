@@ -2,7 +2,7 @@
 import { ChangeDetectionStrategy, Component, viewChild, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
+import { map, Observable, of, startWith, throwError } from 'rxjs';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +26,8 @@ import { NifValidatorService } from '../../Services/nif-validator-service';
 import { jsPDF } from 'jspdf';
 import { CnaeDTO } from '../../Models/cnae.dto';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { from } from 'rxjs';
+import { catchError, concatMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -217,13 +219,28 @@ onSubmit(): void {
     const cControls = this.ayudaForm.controls
     console.log (datos)
     console.log('Programas seleccionados:', datos.opc_programa)
-    console.log('Archivos file_memoriaTecnica:',  this.file_memoriaTecnicaToUpload)
-    this.uploadTheFile(this.file_memoriaTecnicaToUpload)
-    console.log('Archivos file_certificadoIAE:', this.file_certificadoIAEToUpload)
-    this.uploadTheFile(this.file_certificadoIAEToUpload)
-    console.log('Archivos file_nifEmpresa:', this.file_nifEmpresaToUpload)
 
-    this.generateCertificate(datos)
+    const timeStamp = this.generateCustomTimestamp();
+    const filesToUpload = [
+      this.file_memoriaTecnicaToUpload,
+      this.file_certificadoIAEToUpload,
+      this.file_nifEmpresaToUpload
+    ];
+    from(filesToUpload)
+  .pipe(
+    concatMap(file => this.uploadTheFile(timeStamp, file))
+  )
+  .subscribe({
+    next: (event) => {
+      this.showSnackBar('Subido: '+ event);
+    },
+    complete: () => {
+      this.showSnackBar('Todas las subidas finalizadas');
+    },
+    error: (err) => {
+      this.showSnackBar('Error durante la secuencia de subida: '+ err);
+    }
+  });
 
 }
 
@@ -383,21 +400,23 @@ generateCertificate(dataToRender: any): void {
   doc.save(`certificado_${dataToRender.firstName+'_'+dataToRender.lastName}.pdf`);
 }
 
-uploadTheFile(files: File[]): void {
-   /*  const file: File = fileData.target.files[0]; */
-    if (!files || files.length === 0) return;
+uploadTheFile(timestamp: string, files: File[]): Observable<any> {
+  if (!files || files.length === 0) {
+    return of(null); // Devuelve observable vacío si no hay archivos
+  }
 
-    const formData = new FormData();
-    files.forEach((file, index) => {
-      formData.append('files[]', file); // Puedes usar 'files[]' o 'file' según lo que el backend espere
-    });
-    const nif = this.ayudaForm.value.nif;
+  const formData = new FormData();
+  const nif = this.ayudaForm.value.nif;
 
-    this.documentServive.createDocument(nif,'24_06_2025_08_00_00am',formData).subscribe({
-    next: (event: HttpEvent<any>) => {
+  files.forEach(file => {
+    formData.append('files[]', file);
+  });
+
+  return this.documentServive.createDocument(nif, timestamp, formData).pipe(
+    tap((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:
-          console.log('Archivos enviados al servidor...');
+          this.showSnackBar('Archivos enviados al servidor...');
           break;
         case HttpEventType.UploadProgress:
           if (event.total) {
@@ -405,16 +424,18 @@ uploadTheFile(files: File[]): void {
           }
           break;
         case HttpEventType.Response:
-          console.log('Archivos subidos con éxito:', event.body);
+          this.showSnackBar('Archivos subidos con éxito: '+ event.body);
           this.uploadProgress = 100;
           break;
       }
-    },
-    error: (err) => {
-      this.showSnackBar('Error al subir los archivos: '+ err);
-    }
-  });
-  }
+    }),
+    catchError(err => {
+      this.showSnackBar('Error al subir los archivos: ' + err);
+      return throwError(() => err);
+    })
+  );
+}
+
     
 private showSnackBar(error: string): void {
     this.snackBar.open(error, 'Close', {
@@ -424,5 +445,20 @@ private showSnackBar(error: string): void {
       panelClass: ['custom-snackbar'],
     });
 }
+
+generateCustomTimestamp(): string {
+  const date = new Date();
+
+  const pad = (n: number) => n.toString().padStart(2, '0');
+
+  let hours = date.getHours();
+  const ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12 || 12;
+
+  const timestamp = `${pad(date.getDate())}_${pad(date.getMonth() + 1)}_${date.getFullYear()}_${pad(hours)}_${pad(date.getMinutes())}_${pad(date.getSeconds())}${ampm}`;
+
+  return timestamp;
+}
+
 }
 
