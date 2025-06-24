@@ -232,7 +232,8 @@ onSubmit(): void {
   )
   .subscribe({
     next: (event) => {
-      this.showSnackBar('Subido: '+ event);
+      console.log ("event0", event)
+      this.showSnackBar('Subido: '+ event.status);
     },
     complete: () => {
       this.showSnackBar('Todas las subidas finalizadas');
