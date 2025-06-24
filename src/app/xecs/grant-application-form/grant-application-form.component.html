@@ -81,12 +81,12 @@
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.SOLICITORNAME' | translate }}</mat-label>
-        <input matInput formControlName="denom_interesado" required />
+        <input matInput formControlName="denom_interesado" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.ADDRESS' | translate }}</mat-label>
-        <input matInput formControlName="domicilio" required />
+        <input matInput formControlName="domicilio" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -94,7 +94,7 @@
         <input matInput formControlName="zipCode" maxlength="5" minlength="5" [matAutocomplete]="auto"/>
           <mat-autocomplete #auto="matAutocomplete" 
           [displayWith]="displayFn" 
-          (optionSelected)="selecteZipValue($event)">
+          (optionSelected)="selectedZipValue($event)">
             <mat-option *ngFor="let option of filteredZipCodes | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
           </mat-autocomplete>        
       </mat-form-field>      
@@ -111,7 +111,7 @@
        <mat-form-field appearance="fill">
         <mat-select formControlName="codigoIAE">
           <mat-option *ngFor="let cnae of cnaes" [value]="cnae.id">
-            {{cnae.cnae}} {{cnae.label_cas}}
+            {{cnae.label_cas}}
           </mat-option>
         </mat-select>
        </mat-form-field>
@@ -135,7 +135,7 @@
       </mat-expansion-panel-header>
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.NOTIFICATIONMOBILE' | translate }}</mat-label>
-        <input matInput formControlName="tel_representante" required maxlength="9" minlength="9" />
+        <input matInput formControlName="tel_representante" maxlength="9" minlength="9" />
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.NOTIFICATIONMAIL' | translate }}</mat-label>
@@ -199,8 +199,8 @@
         accept=".pdf"
         hidden />
       <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
-      <ul *ngIf="file_memoriaTecnicaUploaded.length > 0">
-        <li *ngFor="let file of file_memoriaTecnicaUploaded">{{ file.name }} ({{file.size/1000}} KB)</li>
+      <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
+        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
   </section>
   <mat-form-field appearance="fill">
@@ -243,8 +243,8 @@
         accept=".pdf"
         hidden />
       <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
-      <ul *ngIf="file_certificadoIAEUploaded.length > 0">
-        <li *ngFor="let file of file_certificadoIAEUploaded">{{ file.name }} ({{file.size/1000}} KB)</li>
+      <ul *ngIf="file_certificadoIAEToUpload.length > 0">
+        <li *ngFor="let file of file_certificadoIAEToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
   </section>
   <section ngClass="copia-nif">
@@ -266,10 +266,11 @@
         multiple
         accept=".pdf"
         hidden />
-      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
-      <ul *ngIf="file_nifEmpresaUploaded.length > 0">
-        <li *ngFor="let file of file_nifEmpresaUploaded">{{ file.name }} ({{file.size/1000}} KB)</li>
+      <ul *ngIf="file_nifEmpresaToUpload.length > 0">
+        <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
+      <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
+
   </section> 
   </mat-expansion-panel>  
 

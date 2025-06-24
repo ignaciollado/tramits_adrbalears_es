@@ -17,20 +17,22 @@ import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/d
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
+import { DocumentService } from '../../Services/document.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NifValidatorService } from '../../Services/nif-validator-service';
 import { jsPDF } from 'jspdf';
 import { CnaeDTO } from '../../Models/cnae.dto';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-grant-application-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule, MatAutocompleteModule, 
-    MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule, MatDialogModule, TranslateModule],
+    MatAccordion, MatIconModule, MatDatepickerModule, MatCheckboxModule, MatRadioModule, MatDialogModule, TranslateModule, MatProgressBarModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
   templateUrl: './grant-application-form.component.html',
@@ -41,6 +43,7 @@ export class GrantApplicationFormComponent {
   readonly dialog = inject(MatDialog)
   htmlContent: string = ''
   step = signal(0)
+  uploadProgress: number = 0
   ayudaForm: FormGroup  
   accordion = viewChild.required(MatAccordion)
   rgpdAccepted = false
@@ -49,15 +52,21 @@ export class GrantApplicationFormComponent {
   zipCodes: ZipCodesIBDTO[] = [];
   cnaes: CnaeDTO[] = [];
 
-  constructor (private fb: FormBuilder, private http: HttpClient, private commonService: CommonService, private nifValidator: NifValidatorService, private snackBar: MatSnackBar) {
+  constructor ( private fb: FormBuilder, 
+    private http: HttpClient, 
+    private commonService: CommonService, 
+    private documentServive: DocumentService,
+    private nifValidator: NifValidatorService, 
+    private snackBar: MatSnackBar ) {
+
   this.ayudaForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
     nif: this.fb.control('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.nifValidator.validateNifOrCif()]),
-    denom_interesado: this.fb.control('', Validators.required),
-    domicilio: this.fb.control({value: '', disabled: false}, Validators.required),
-    zipCode: this.fb.control ('', [Validators.required, Validators.pattern('^07[0-9]{3}$')]),
-    town: this.fb.control({value: '', disabled: true}, Validators.required),
-    codigoIAE: this.fb.control({value: '', disabled: false}, Validators.required),
+    denom_interesado: this.fb.control('', ),
+    domicilio: this.fb.control({value: '', disabled: false}, ),
+    zipCode: this.fb.control ('', [ Validators.pattern('^07[0-9]{3}$')]),
+    town: this.fb.control({value: '', disabled: true}, ),
+    codigoIAE: this.fb.control({value: '', disabled: false}, ),
     telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
   
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
@@ -65,7 +74,7 @@ export class GrantApplicationFormComponent {
     nom_representante:  this.fb.control<string | null>(''),
     nif_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]+[A-Za-z]$')]),
     tel_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]{9}$')]),
-    mail_representante: this.fb.control<string | null>('', [Validators.required, Validators.email]),
+    mail_representante: this.fb.control<string | null>('', [Validators.email]),
     empresa_consultor: this.fb.control<string | null>(''),
     nom_consultor: this.fb.control<string | null>(''),
     tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]{9}$')),
@@ -75,11 +84,11 @@ export class GrantApplicationFormComponent {
     file_nifEmpresa: this.fb.control<string | null>('', Validators.required),
 
 
-    nom_entidad: this.fb.control<string | null>('', Validators.required),
-    domicilio_sucursal: this.fb.control<string | null>('', Validators.required),
-    codigo_BIC_SWIFT: this.fb.control<string | null>('', [Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/)]),
-    opcion_banco: this.fb.control<string | null>('', Validators.required),
-    cc: this.fb.control<string | null>({value: '', disabled: true}, [Validators.required, Validators.minLength(25), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
+    nom_entidad: this.fb.control<string | null>('', ),
+    domicilio_sucursal: this.fb.control<string | null>('', ),
+    codigo_BIC_SWIFT: this.fb.control<string | null>('', [ Validators.minLength(11), Validators.maxLength(11), Validators.pattern(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/)]),
+    opcion_banco: this.fb.control<string | null>('', ),
+    cc: this.fb.control<string | null>({value: '', disabled: true}, [ Validators.minLength(25), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
 
     consentimientocopiaNIF: this.fb.control<string | null>('true', Validators.required),
     consentimiento_certificadoATIB: this.fb.control<string | null>('true', Validators.required),
@@ -96,8 +105,10 @@ export class GrantApplicationFormComponent {
     declaracion_responsable_x: this.fb.control<string | null>({ value: 'true', disabled: true }),
     declaracion_responsable_xi: this.fb.control<string | null>({ value: 'true', disabled: true }),
   });
+
 this.getAllZipCodes()
 this.getAllCnaes()
+
 this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })
  .subscribe({
     next: (html) => this.htmlContent = html,
@@ -122,7 +133,6 @@ const nifControl = this.ayudaForm.get('nif');
 const opcionBancoControl = this.ayudaForm.get('opcion_banco');
 const ccControl = this.ayudaForm.get('cc');
 const codigo_BIC_SWIFTControl = this.ayudaForm.get('codigo_BIC_SWIFT')
-
 
 opcionBancoControl?.valueChanges.subscribe((valor) => {
  
@@ -165,7 +175,6 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
 
 }
 
-
 setStep(index: number) {
   this.step.set(index);
 }
@@ -198,9 +207,9 @@ responsibleDeclarations = [
   "XI) Que no tinc la consideració d’empresa en crisi d’acord amb l’article 2.18 del Reglament ( UE) 651/2014 de la comissió de dia 17 de juny de 2014."
 ]
 
-file_memoriaTecnicaUploaded: File[] = []
-file_certificadoIAEUploaded: File[] = []
-file_nifEmpresaUploaded: File[] = []
+file_memoriaTecnicaToUpload: File[] = []
+file_certificadoIAEToUpload: File[] = []
+file_nifEmpresaToUpload: File[] = []
 
 onSubmit(): void {
 
@@ -208,44 +217,46 @@ onSubmit(): void {
     const cControls = this.ayudaForm.controls
     console.log (datos)
     console.log('Programas seleccionados:', datos.opc_programa)
-    console.log('Archivos file_memoriaTecnica:',  this.file_memoriaTecnicaUploaded)
-    console.log('Archivos file_certificadoIAE:', this.file_certificadoIAEUploaded)
-    console.log('Archivos file_nifEmpresa:', this.file_nifEmpresaUploaded)
+    console.log('Archivos file_memoriaTecnica:',  this.file_memoriaTecnicaToUpload)
+    this.uploadTheFile(this.file_memoriaTecnicaToUpload)
+    console.log('Archivos file_certificadoIAE:', this.file_certificadoIAEToUpload)
+    this.uploadTheFile(this.file_certificadoIAEToUpload)
+    console.log('Archivos file_nifEmpresa:', this.file_nifEmpresaToUpload)
 
     this.generateCertificate(datos)
 
 }
 
 get memoriaTecnicaFileNames(): string {
-  return this.file_memoriaTecnicaUploaded.map(f => f.name).join(', ')
+  return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
 }
 onFileMemoriaTecnicaChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {
-    this.file_memoriaTecnicaUploaded = Array.from(input.files);
-    console.log ("this.file_memoriaTecnicaUploaded", this.file_memoriaTecnicaUploaded)
+    this.file_memoriaTecnicaToUpload = Array.from(input.files);
+    console.log ("this.file_memoriaTecnicaToUpload", this.file_memoriaTecnicaToUpload)
   }
 }
 
 get certificadoIAEFileNames(): string {
-  return this.file_certificadoIAEUploaded.map(f => f.name).join(', ')
+  return this.file_certificadoIAEToUpload.map(f => f.name).join(', ')
 }
 onFileCertificadoIAEChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {
-    this.file_certificadoIAEUploaded = Array.from(input.files);
-    console.log ("this.file_certificadoIAEUploaded", this.file_certificadoIAEUploaded)
+    this.file_certificadoIAEToUpload = Array.from(input.files);
+    console.log ("this.file_certificadoIAEToUpload", this.file_certificadoIAEToUpload)
   }
 }
 
 get nifEmpresaFileNames(): string {
-  return this.file_nifEmpresaUploaded.map(f => f.name).join(', ')
+  return this.file_nifEmpresaToUpload.map(f => f.name).join(', ')
 }
 onFileNifEmpresaChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {
-    this.file_nifEmpresaUploaded = Array.from(input.files);
-    console.log ("this.file_nifEmpresaUploaded", this.file_nifEmpresaUploaded)
+    this.file_nifEmpresaToUpload = Array.from(input.files);
+    console.log ("this.file_nifEmpresaToUpload", this.file_nifEmpresaToUpload)
   }
 }
 
@@ -278,7 +289,7 @@ onCheckboxChange(event: MatCheckboxChange) {
   }
 }
 
-selecteZipValue(event: MatAutocompleteSelectedEvent): void {
+selectedZipValue(event: MatAutocompleteSelectedEvent): void {
   const selected = event.option.value;
   if (selected && selected.zipCode) {
     this.ayudaForm.get('zipCode')?.setValue(selected.zipCode, { emitEvent: false });
@@ -306,15 +317,12 @@ private getAllZipCodes() {
 
 private getAllCnaes() {
   this.commonService.getCNAEs().subscribe((cnaes: CnaeDTO[]) => {
-      console.log ("cnaes", cnaes)
-      /*       const cnaesFiltered: CnaeDTO[] = cnaes.filter((cnae: CnaeDTO) => cnae.deleted_at?.toString() === "0000-00-00 00:00:00")
-      this.cnaes = cnaesFiltered; */
+      const cnaesFiltered: CnaeDTO[] = cnaes.filter((cnae: CnaeDTO) => cnae.deleted_at?.toString() === "0000-00-00 00:00:00")
+      this.cnaes = cnaesFiltered;
       this.cnaes = cnaes
-      console.log ("cnaes", this.cnaes) 
       }, (error) => {  console.error("Error real:", error);
   this.showSnackBar(error + ' ' + error.message || 'Error'); });
 }
-
 
 generateCertificate(dataToRender: any): void {
   const doc = new jsPDF();
@@ -374,6 +382,39 @@ generateCertificate(dataToRender: any): void {
 
   doc.save(`certificado_${dataToRender.firstName+'_'+dataToRender.lastName}.pdf`);
 }
+
+uploadTheFile(files: File[]): void {
+   /*  const file: File = fileData.target.files[0]; */
+    if (!files || files.length === 0) return;
+
+    const formData = new FormData();
+    files.forEach((file, index) => {
+      formData.append('files[]', file); // Puedes usar 'files[]' o 'file' según lo que el backend espere
+    });
+    const nif = this.ayudaForm.value.nif;
+
+    this.documentServive.createDocument(nif,'24_06_2025_08_00_00am',formData).subscribe({
+    next: (event: HttpEvent<any>) => {
+      switch (event.type) {
+        case HttpEventType.Sent:
+          console.log('Archivos enviados al servidor...');
+          break;
+        case HttpEventType.UploadProgress:
+          if (event.total) {
+            this.uploadProgress = Math.round((100 * event.loaded) / event.total);
+          }
+          break;
+        case HttpEventType.Response:
+          console.log('Archivos subidos con éxito:', event.body);
+          this.uploadProgress = 100;
+          break;
+      }
+    },
+    error: (err) => {
+      this.showSnackBar('Error al subir los archivos: '+ err);
+    }
+  });
+  }
     
 private showSnackBar(error: string): void {
     this.snackBar.open(error, 'Close', {
