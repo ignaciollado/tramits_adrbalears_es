@@ -1,1 +1,65 @@
-<p>grant-application-form works!</p>
+<form [formGroup]="isbaForm" ngClass="form" (ngSubmit)="onSubmit()">
+    <div ngClass="example-action-buttons">
+        <button matButton type="button" ngClass="btn-green btn" (click)="accordion().openAll()">{{'ISBA.EXPANDALL' |
+            translate}}</button>
+        <button matButton type="button" ngClass="btn-green btn" (click)="accordion().closeAll()">{{'ISBA.COLAPSEALL' |
+            translate}}</button>
+    </div>
+    <mat-accordion ngClass="example-headers-align" multi>
+        <!-- RGPD -->
+        <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <h3>{{'ISBA.RGPD.TITLE' | translate}}</h3>
+                </mat-panel-title>
+                <mat-panel-description>{{'ISBA.RGPD.DESCRIPTION' | translate}}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <section>
+                <mat-checkbox formControlName="acceptRGPD">{{'ISBA.RGPD.READ-AND-ACCEPTS' | translate}} <abbr
+                        title="{{'ISBA.ABBR.RGPD.TITLE' | translate}}">{{'ISBA.ABBR.RGPD.ABBR' |
+                        translate}}</abbr></mat-checkbox>
+                <section>
+                    <p>{{'ISBA.RGPD.REQUIRED-DOCS.INFO' | translate}}</p>
+                    <ol>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-1' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-2' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-3' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-4' | translate}}</li>
+                        <li>
+                            {{'ISBA.RGPD.REQUIRED-DOCS.DOC-5.INFO' | translate}}
+                            <ol>
+                                <li type="a">{{'ISBA.RGPD.REQUIRED-DOCS.DOC-5.DOC' | translate}}</li>
+                            </ol>
+                        </li>
+                        <li>
+                            {{'ISBA.RGPD.REQUIRED-DOCS.DOC-6.INFO' | translate}}
+                            <ol>
+                                <li type="a">{{'ISBA.RGPD.REQUIRED-DOCS.DOC-6.DOC-1' | translate}}</li>
+                                <li type="a">{{'ISBA.RGPD.REQUIRED-DOCS.DOC-6.DOC-2' | translate}}</li>
+                            </ol>
+                        </li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-7' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-8' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-9' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-10' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-11' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-12' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-13' | translate}}</li>
+                        <li>{{'ISBA.RGPD.REQUIRED-DOCS.DOC-14' | translate}}</li>
+                    </ol>
+                    
+                    <dl>
+                        <dt>{{'ISBA.RGPD.NOTIFICATION.INFO' | translate}}</dt>
+                        <dd>{{'ISBA.RGPD.NOTIFICATION.DOC-1' | translate}}</dd>
+                        <dd>{{'ISBA.RGPD.NOTIFICATION.DOC-2' | translate}}</dd>
+                    </dl>
+                </section>
+            </section>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <mat-form-field style="display: none">
+        <input matInput type="text" formControlName="tipo_tramite">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="isbaForm.invalid">{{'ISBA.SEND' |
+        translate}}</button>
+</form>

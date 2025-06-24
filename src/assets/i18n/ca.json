@@ -5,7 +5,6 @@
     "ISBAAPPFORM": "ISBA: formulari de sol·licitud d'ajut i/o subvenció",
     "ILSAPPFORM": "ILS: formulari de sol·licitud d'ajut i/o subvenció"
   },
-
   "FORM": {
     "PROGRAM": "Seleccionau el programa d'ajuda que sol·licitau",
     "ORGANIZATIONTYPE": "Indiqui el tipus d'organització",
@@ -25,18 +24,17 @@
     "CONSULTANTCOMPANY": "Raó social de l'empresa consultora",
     "CONSULTANTNAME": "Nom del consultor",
     "CONSULTANTPHONE": "Telèfon del consultor",
-    "CONSULTANTMAIL": "Adreça electrònica del consultor",        
+    "CONSULTANTMAIL": "Adreça electrònica del consultor",
     "ATTACHEDDOCUMENTATION": "Documentaciò adjuntada",
     "BANKNAME": "Nom de l'entitat bancària",
     "BANKADDRESS": "Domicili de l'entitat bancària",
-    "BANKBICSWIFT": "Codi BIC / SWIFT",    
+    "BANKBICSWIFT": "Codi BIC / SWIFT",
     "CCOPTION1": "Opciò 1 - IBAN del compte per a Espanya (ES99999999999999999999999)",
     "CCOPTION2": "Opciò 2 - Número del compte d'altres països (9999999999999999999999999)",
     "AUTHORISATIONS": "Autoritzacions",
     "RESPONSIBLEDECLARATION": "Declaració responsable",
     "SEND": "Enviar"
   },
-  
   "FILES": {
     "UPLOADFILES": "Carregar documents",
     "SELECTFILES": "Seleccionar documents (PDF o imatge)",
@@ -44,7 +42,6 @@
     "SELECTFILESCERTIAE": "Certificat de l’IAE actualitzat",
     "SELECTFILESNIF": "Còpia del NIF de l'empresa"
   },
-
   "XECS": {
     "RGPD": "RGPD i documentació",
     "EXPANDALL": "Expandir tot",
@@ -242,6 +239,62 @@
       }
     },
     "EXPANDALL": "Expandir tot",
-    "COLAPSEALL": "Encongir tot"
+    "COLAPSEALL": "Encongir tot",
+    "SEND": "Enviar"
+  },
+  "ISBA": {
+    "RGPD": {
+      "TITLE": "RGPD i documentació",
+      "DESCRIPTION": "Condicions del RGPD i documentació requerida.",
+      "READ-AND-ACCEPTS": "He llegit i accepto les condicions del",
+      "REQUIRED-DOCS": {
+        "INFO": "Abans de començar, és recomanable tenir preparada la següent documentació:",
+        "DOC-1": "El document normalitzat de sol·licitud de subvenció d'aquesta convocatòria, el qual es genera al final d'aquest assistent en prémer sobre el botó 'Enviar' i que rebrà per correu electrònic.",
+        "DOC-2": "Descripció de l'empresa i la seva activitat, model de negoci i detall de la inversió/Inversions previstes.",
+        "DOC-3": "Declaració responsable de la veracitat de les dades bancàries aportades que es troba inclòs en la sol·licitud de l'ajuda.",
+        "DOC-4": "Certificat de l'IAE actualitzat en el moment de la sol·licitud.",
+        "DOC-5": {
+          "INFO": "En cas que el sol·licitant sigui una persona física, es requerirà:",
+          "DOC": "El certificat d'estar en el règim especial de treballadors autònoms o en un règim alternatiu equivalent."
+        },
+        "DOC-6": {
+          "INFO": "En cas que el sol·licitant sigui una persona jurídica, es requerirà:",
+          "DOC-1": "Escriptura pública i estatuts, degudament inscrits en el registre corresponent.",
+          "DOC-2": "Document fefaent que acrediti la representació de la persona que actua en nom de l'entitat sol·licitant. La representació podrà acreditar-se per qualsevol forma vàlida en dret."
+        },
+        "DOC-7": "Respecte al DNI/NIE de la persona sol·licitant i/o de la persona que li representi, la sol·licitud d'ajudes implicarà l'autorització perquè l'ADR Balears pugui comprovar d'ofici les seves dades d'identitat personal. En cas de denegació expressa del consentiment, serà necessari aportar aquesta documentació.",
+        "DOC-8": "Respecte a l'acreditació de les obligacions tributàries autonòmiques amb l'Agència Tributària de les Illes Balears i de les obligacions amb la Seguretat Social, la sol·licitud d'ajudes implicarà l'autorització perquè l'ADR Balears pugui obtenir de l'Agència Tributària de les Illes Balears i de la Tresoreria General de la Seguretat Social la informació relativa al compliment d'aquestes obligacions, excepte en cas de denegació expressa del consentiment, suposat en el qual la persona o l'entitat sol·licitant ha d'aportar el certificat corresponent, juntament amb la sol·licitud de les ajudes.",
+        "DOC-9": "Quant a l'acreditació del requisit d'estar al corrent de les obligacions tributàries amb l'Agència Estatal de l'Administració Tributària, haurà d'aportar-se el certificat acreditatiu del compliment d'aquesta obligació.",
+        "DOC-10": "Per a ajudes d'import superior a 30.000 €, haurà d'aportar-se el certificat que estableix l'article 13.3 bis de la Llei 38/2003 de 17 de novembre.",
+        "DOC-11": "El certificat de la societat de garantia recíproca que avali l'operació financera que acrediti la data d'entrada de la sol·licitud del beneficiari de petició de l'aval sobre l'operació financera a subvencionar.",
+        "DOC-12": "El contracte de l'operació financera.",
+        "DOC-13": "El contracte o document d'aval de l'operació financera.",
+        "DOC-14": "Una Declaració responsable, inclosa en el model normalitzat de sol·licitud, de la persona titular de l'empresa o de qui la representa legalment."
+      },
+      "NOTIFICATION": {
+        "INFO": "En finalitzar aquest tràmit, rebrà per correu electrònic un document pdf que contindrà:",
+        "DOC-1": "El document normalitzat de sol·licitud de subvenció d'aquesta convocatòria.",
+        "DOC-2": "Una Declaració responsable de la persona titular de l'empresa o de qui la representa legalment."
+      }
+    },
+    "BUSINESS-TYPE": {},
+    "GENERAL-DATA": {},
+    "FINANCIAL-DATA": {},
+    "PROJECT-BUDGET": {},
+    "DECLARATIONS": {},
+    "DOCUMENTATION": {},
+    "FILE": {
+      "ERROR": "L'arxiu pujat no és vàlid a causa d'un format incorrecte o una grandària que excedeix el màxim permès.",
+      "UPLOAD": "Pujar arxiu"
+    },
+    "ABBR": {
+      "RGPD": {
+        "ABBR": "RGPD",
+        "TITLE": "Reglament general de protecció de dades"
+      }
+    },
+    "EXPANDALL": "Expandir tot",
+    "COLAPSEALL": "Encongir tot",
+    "SEND": "Enviar"
   }
 }

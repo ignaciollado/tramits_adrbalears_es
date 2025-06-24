@@ -15,7 +15,7 @@
     "ZIPCODE": "Código postal",
     "TOWN": "Localidad",
     "NOMREPRESENTANTE": "Nombre del representante",
-    "NIFREPRESENTANTE": "NIF del representante",    
+    "NIFREPRESENTANTE": "NIF del representante",
     "CONTACTPHONE": "Teléfono de contacto",
     "NOTIFICATIONCHANEL": "Canal de notificaciones",
     "CONSULTANTDATA": "Datos del consultor",
@@ -23,7 +23,7 @@
     "NOTIFICATIONMAIL": "Correo electrónico de notificaciones",
     "CONSULTANTCOMPANY": "Razón social de la empresa consultora",
     "CONSULTANTNAME": "Nombre del consultor",
-    "CONSULTANTPHONE": "Teléfono del consultor",    
+    "CONSULTANTPHONE": "Teléfono del consultor",
     "CONSULTANTMAIL": "Correo electrónico del consultor",
     "ATTACHEDDOCUMENTATION": "Documentación adjuntada",
     "BANKNAME": "Nombre de la entidad bancaria",
@@ -33,7 +33,6 @@
     "CCOPTION2": "Opción 2 - Número de la cuenta de otros países (9999999999999999999999999)",
     "AUTHORISATIONS": "Autorizaciones",
     "RESPONSIBLEDECLARATION": "Declaración responsable",
-
     "SEND": "Enviar"
   },
   "FILES": {
@@ -42,7 +41,7 @@
     "SELECTFILESMEMTEC": "Descripción de la actividad de la empresa",
     "SELECTFILESCERTIAE": "Certificado IAE actualizado",
     "SELECTFILESNIF": "Copia del NIF de la empresa"
-  },   
+  },
   "XECS": {
     "RGPD": "RGPD y documentación",
     "EXPANDALL": "Expandir todo",
@@ -240,6 +239,62 @@
       }
     },
     "EXPANDALL": "Expandir todo",
-    "COLAPSEALL": "Encoger todo"
+    "COLAPSEALL": "Encoger todo",
+    "SEND": "Enviar"
+  },
+  "ISBA": {
+    "RGPD": {
+      "TITLE": "RGPD y documentación",
+      "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
+      "READ-AND-ACCEPTS": "He leído y acepto las condiciones del",
+      "REQUIRED-DOCS": {
+        "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación:",
+        "DOC-1": "El documento normalizado de solicitud de subvención de esta convocatoria, el cual se genera al final de este asistente al pulsar sobre el botón 'Enviar' y que recibirá por correo electrónico.",
+        "DOC-2": "Descripción de la empresa y su actividad, modelo de negocio y detalle de la inversión/Inversiones previstas.",
+        "DOC-3": "Declaración responsable de la veracidad de los datos bancarios aportados que se encuentra incluido en la solicitud de la ayuda.",
+        "DOC-4": "Certificado del IAE actualizado en el momento de la sol·licitud.",
+        "DOC-5": {
+          "INFO": "En caso de que el solicitante sea una persona física, se requerirá:",
+          "DOC": "El certificado de estar en el régimen especial de trabajadores autónomos o en un régimen alternativo equivalente."
+        },
+        "DOC-6": {
+          "INFO": "En caso de que el solicitante sea una persona jurídica, se requerirá:",
+          "DOC-1": "Escritura pública y estatutos, debidamente inscritos en el registro correspondiente.",
+          "DOC-2": "Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante. La representación podrá acreditarse por cualquier forma válida en derecho."
+        },
+        "DOC-7": "Respecto al DNI/NIE de la persona solicitante y/o de la persona que le represente, la solicitud de ayudas implicará la autorización para que el ADR Balears pueda comprobar de oficio sus datos de identidad personal. En caso de denegación expresa del consentimiento, será necesario aportar esta documentación.",
+        "DOC-8": "Respecto a la acreditación de las obligaciones tributarias autonómicas con la Agencia Tributaria de las Illes Balears y de las obligaciones con la Seguridad Social, la solicitud de ayudas implicará la autorización para que el ADR Balears pueda obtener de la Agencia Tributaria de las Illes Balears y de la Tesorería General de la Seguridad Social la información relativa al cumplimiento de estas obligaciones, excepto en caso de denegación expresa del consentimiento, supuesto en el que la persona o la entidad solicitante debe aportar el certificado correspondiente, junto con la solicitud de las ayudas.",
+        "DOC-9": "En cuanto a la acreditación del requisito de estar al corriente de las obligaciones tributarias con la Agencia Estatal de la Administración Tributaria, deberá aportarse el certificado acreditativo del cumplimiento de esta obligación.",
+        "DOC-10": "Para ayudas de importe superior a 30.000 €, deberá aportarse el certificado que establece el artículo 13.3 bis de la Ley 38/2003 de 17 de noviembre.",
+        "DOC-11": "El certificado de la sociedad de garantía recíproca que avale la operación financiera que acredite la fecha de entrada de la solicitud del beneficiario de petición del aval sobre la operación financiera a subvencionar.",
+        "DOC-12": "El contrato de la operación financiera.",
+        "DOC-13": "El contrato o documento de aval de la operación financiera.",
+        "DOC-14": "Una Declaración responsable, incluida en el modelo normalizado de sol·licitud, de la persona titular de la empresa o de quien la representa legalmente."
+      },
+      "NOTIFICATION": {
+        "INFO": "Al finalizar este trámite, recibirá por correo electrónico un documento pdf que contendrá:",
+        "DOC-1": "El documento normalizado de solicitud de subvención de esta convocatoria.",
+        "DOC-2": "Una Declaración responsable de la persona titular de la empresa o de quien la representa legalmente."
+      }
+    },
+    "BUSINESS-TYPE": {},
+    "GENERAL-DATA": {},
+    "FINANCIAL-DATA": {},
+    "PROJECT-BUDGET": {},
+    "DECLARATIONS": {},
+    "DOCUMENTATION": {},
+    "FILE": {
+      "ERROR": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido.",
+      "UPLOAD": "Subir archivo"
+    },
+    "ABBR": {
+      "RGPD": {
+        "ABBR": "RGPD",
+        "TITLE": "Reglamento general de protección de datos"
+      }
+    },
+    "EXPANDALL": "Expandir todo",
+    "COLAPSEALL": "Encoger todo",
+    "SEND": "Enviar"
   }
 }
