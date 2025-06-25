@@ -60,10 +60,9 @@ export class IsbaGrantApplicationFormComponent {
       // Seteo sus validadores y sus enables/disables en base a business_type
       nom_representante: this.fb.control<string>({ value: '', disabled: true }, []),
       nif_representante: this.fb.control<string>({ value: '', disabled: true }, []),
-      tel_representante: this.fb.control<string>({ value: '', disabled: true }, []),
-
-
-
+      telefono_contacto_rep: this.fb.control<string>({ value: '', disabled: true }, []),
+      tel_representante: this.fb.control<string>('', [Validators.required, Validators.maxLength(9), Validators.minLength(9), Validators.pattern('[0-9]{9}')]),
+      mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
 
       tipo_tramite: this.fb.control<string>('ADR-ISBA')
 
@@ -110,7 +109,7 @@ export class IsbaGrantApplicationFormComponent {
 
     const repName = this.isbaForm.get('nom_representante')
     const repNif = this.isbaForm.get('nif_representante')
-    const repPhone = this.isbaForm.get('tel_representante')
+    const repPhone = this.isbaForm.get('telefono_contacto_rep')
 
     const applicantNifValidators = [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
     const repNameValidators = []

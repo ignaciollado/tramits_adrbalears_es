@@ -141,9 +141,33 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ISBA.GENERAL-DATA.REPRESENTATIVE.PHONE.LABEL' | translate}}</mat-label>
-                    <input matInput type="tel" formControlName="tel_representante" (blur)="cleanBlank($event)" maxlength="9" minlength="9">
-                    <mat-error *ngIf="isbaForm.get('tel_representante')?.errors">{{'ISBA.GENERAL-DATA.REPRESENTATIVE.PHONE.ERROR' | translate}}</mat-error>
+                    <input matInput type="tel" formControlName="telefono_contacto_rep" (blur)="cleanBlank($event)" maxlength="9" minlength="9">
+                    <mat-error *ngIf="isbaForm.get('telefono_contacto_rep')?.errors">{{'ISBA.GENERAL-DATA.REPRESENTATIVE.PHONE.ERROR' | translate}}</mat-error>
                 </mat-form-field>
+            </section>
+         </mat-expansion-panel>
+         <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title><h3>{{'ISBA.NOTIFICATION-CHANNEL.TITLE' | translate}}</h3></mat-panel-title>
+                <mat-panel-description>{{'ISBA.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <section ngClass="notification-channel">
+                <section>
+                    <p [innerHTML]="'ISBA.NOTIFICATION-CHANNEL.INFO' | translate"></p>
+                </section>
+                <section ngClass="inputs">
+                    <mat-form-field>
+                        <mat-label>{{'ISBA.NOTIFICATION-CHANNEL.PHONE.LABEL' | translate}}</mat-label>
+                        <input matInput type="tel" maxlength="9" minlength="9" formControlName="tel_representante">
+                        <mat-error *ngIf="isbaForm.get('tel_representante')?.errors">{{'ISBA.NOTIFICATION-CHANNEL.PHONE.ERROR' | translate}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{'ISBA.NOTIFICATION-CHANNEL.EMAIL.LABEL' | translate}}</mat-label>
+                        <input matInput type="email" formControlName="mail_representante">
+                        <mat-error *ngIf="isbaForm.get('mail_representante')?.errors">{{'ISBA.NOTIFICATION-CHANNEL.EMAIL.ERROR' | translate}}</mat-error>
+                    </mat-form-field>
+                    
+                </section>
             </section>
          </mat-expansion-panel>
 

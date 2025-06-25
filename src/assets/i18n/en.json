@@ -339,6 +339,19 @@
         }
       }
     },
+    "NOTIFICATION-CHANNEL": {
+      "TITLE": "Notification channel",
+      "DESCRIPTION": "Enter your contact information to receive notifications.",
+      "INFO": "In accordance with section 17 of the call, notifications and communications to the applicant will be carried out telematically to the e-mail address designated by the applicant for notification purposes in this application form. Notices of the availability of the notification to the Citizen Folder of the <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=en' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> will be sent to the e-mail address designated in the declarant's data.",
+      "PHONE": {
+        "LABEL": "Applicant's or representative's phone number",
+        "ERROR": "The phone number entered is not valid."
+      },
+      "EMAIL": {
+        "LABEL": "E-mail address for notification purposes",
+        "ERROR": "The e-mail address entered is not valid."
+      }
+    },
     "FINANCIAL-DATA": {},
     "PROJECT-BUDGET": {},
     "DECLARATIONS": {},

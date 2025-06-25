@@ -78,17 +78,17 @@ div.ng-invalid.ng-touched {
   column-gap: 10px;
 }
 
-// .notification-channel {
-//   display: grid;
-//   grid-template-columns: 1fr;
-//   row-gap: 10px;
+.notification-channel {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 10px;
 
-//   .inputs {
-//     display: grid;
-//     grid-template-columns: 1fr 1fr;
-//     column-gap: 10px;
-//   }
-// }
+  .inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+  }
+}
 
 // .authorization-checkboxes {
 //   display: grid;
