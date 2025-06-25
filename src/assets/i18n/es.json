@@ -244,7 +244,7 @@
   },
   "ISBA": {
     "TITLE": "Ayudas a los gastos financieros a través del aval de ISBA",
-    "INFO" : {
+    "INFO": {
       "BANNER": "Las solicitudes se podrán presentar un vez el interesado haya formalizado el aval con la entidad colaboradora ISBA SGR (punto 9.3 de la convocatoria).",
       "DESTINATION": "<strong>Destino:</strong> AGÈNCIA DE DESENVOLUPAMENT REGIONAL DE LES ILLES BALEARS",
       "EMITTER": "<strong>Emisor (DIR3):</strong> A04003714",
@@ -375,7 +375,7 @@
         "LABEL": "Plazo del préstamo de la entidad financiera (en años)",
         "ERROR": "El plazo del préstamo introducido no es válido."
       },
-      "FORMALIZATION-DATE" :{
+      "FORMALIZATION-DATE": {
         "LABEL": "Fecha de formalización del aval",
         "ERROR": "La fecha de formalización del aval introducida no es válida."
       },
@@ -389,7 +389,36 @@
       },
       "HINT": "Sin separador de miles y con '.' como separador de decimales."
     },
-    "PROJECT-BUDGET": {},
+    "PROJECT-BUDGET": {
+      "TITLE": "Proyecto de inversión y presupuesto",
+      "DESCRIPTION": "Introduzca algunos datos sobre la inversión y su presupuesto.",
+      "PURPOSE": {
+        "LABEL": "Finalidad de la inversión",
+        "ERROR": "La finalidad de la inversión introducida no es válida."
+      },
+      "IN-ILS": {
+        "LABEL": "En el momento de la solicitud, ¿su empresa está adherida al programa ILS?",
+        "YES": "SI",
+        "NO": "NO",
+        "YES-INFO": "En el supuesto de que la empresa solicitante esté adherida al programa ILS (Industria Local Sostenible): El importe de la ayuda para cubrir el coste del aval de las operaciones financieras de inversiones productivas cubrirá los siete años de la operación original, y son: el 100% del coste del aval los siete años de la operación, con la limitación del 1,25% sobre el importe del aval."
+      },
+      "BUDGET-AMOUNT": {
+        "LABEL": "Importe del presupuesto (IVA incluido)",
+        "ERROR": "El importe del presupuesto introducido no es válido.",
+        "DETAILS": "Con las siguientes subvenciones:",
+        "INTEREST-SUBSIDY": "Una subvención de intereses, consistente en la cuantía de",
+        "COST-SUBSIDY": "Una subvención al coste del aval de ISBA, consistente en la cuantía de",
+        "START-STUDY-SUBSIDY": "Una subvención a los gastos de apertura y de estudio, consistente en la cuantía de"
+      },
+      "REQUEST": {
+        "TITLE": "SOLICITO",
+        "INFO": "De acuerdo con la convocatoria para el año 2025 de ayudas a las empresas industriales con actividad en las Islas Baleares para cubrir las comisiones de apertura y de estudio, los intereses y el coste del aval para operaciones de financiación de inversiones productivas, aprobada por Resolución del consejero de Empresa, Ocupación y Energía, los importes correspondientes para la operación, avalada por sociedad de garantía recíproca ISBA, siguiente:",
+        "LABEL": "Solicito una ayuda por importe de",
+        "ERROR": "El importe introducido no es válido."
+      },
+      "HINT": "Sin separador de miles y con '.' como separador de decimales.",
+      "SUBSIDY-ERROR": "La cuantía de subvención introducida no es válida."
+    },
     "DECLARATIONS": {},
     "DOCUMENTATION": {},
     "FILE": {

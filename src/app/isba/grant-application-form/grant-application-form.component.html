@@ -68,7 +68,8 @@
             </mat-expansion-panel>
 
             <!-- Tipo Solicitante-->
-            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1">
+            <mat-expansion-panel>
+            <!-- <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1"> -->
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.BUSINESS-TYPE.TITLE' | translate}}</h3></mat-panel-title>
                     <mat-panel-description>{{'ISBA.BUSINESS-TYPE.DESCRIPTION' | translate}}</mat-panel-description>
@@ -220,6 +221,73 @@
                     <mat-hint>{{'ISBA.FINANCIAL-DATA.HINT' | translate}}</mat-hint>
                     <mat-error *ngIf="isbaForm.get('cuantia_aval_isba')?.errors">{{'ISBA.FINANCIAL-DATA.AVAL-AMOUNT.ERROR' | translate}}</mat-error>
                 </mat-form-field>
+                </section>
+            </mat-expansion-panel>
+
+            <!-- Proyecto de inversión y presupuesto -->
+            <mat-expansion-panel [disabled]="!rgpdAccepted">
+                <mat-expansion-panel-header>
+                    <mat-panel-title><h3>{{'ISBA.PROJECT-BUDGET.TITLE' | translate}}</h3></mat-panel-title>
+                    <mat-panel-description>{{'ISBA.PROJECT-BUDGET.DESCRIPTION' | translate}}</mat-panel-description>
+                </mat-expansion-panel-header>
+                <section ngClass="form project-budget">
+                    <mat-form-field>
+                        <mat-label>{{'ISBA.PROJECT-BUDGET.PURPOSE.LABEL' | translate}}</mat-label>
+                        <input matInput type="text" formControlName="finalidad_inversion_idi_isba">
+                        <mat-error *ngIf="isbaForm.get('finalidad_inversion_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.PURPOSE.ERROR' | translate}}</mat-error>
+                    </mat-form-field>
+                    <section>
+                        <mat-label>{{'ISBA.PROJECT-BUDGET.IN-ILS.LABEL' | translate}}*</mat-label>
+                        <section>
+                            <mat-radio-group formControlName="empresa_eco_idi_isba">
+                                <mat-radio-button value="NO">{{'ISBA.PROJECT-BUDGET.IN-ILS.NO' | translate}}</mat-radio-button>
+                                <mat-radio-button value="SI">{{'ISBA.PROJECT-BUDGET.IN-ILS.YES' | translate}}</mat-radio-button>
+                            </mat-radio-group>
+                        </section>
+                    </section>
+                    <mat-form-field>
+                        <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.LABEL' | translate}}</mat-label>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="importe_presupuesto_idi_isba">
+                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
+                        <mat-error *ngIf="isbaForm.get('importe_presupuesto_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.ERROR' | translate}}</mat-error>
+                    </mat-form-field>
+                    <section>
+                        <small *ngIf="isbaForm.get('empresa_eco_idi_isba')?.value === 'SI'" style="font-size: 0.75rem; padding-bottom: 1.1rem;">{{'ISBA.PROJECT-BUDGET.IN-ILS.YES-INFO' | translate}}</small>
+                    </section>
+                    <section>
+                        <p><strong>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.DETAILS' | translate}}</strong></p>
+                    </section>
+                    <br>
+                    <mat-form-field>
+                        <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.INTEREST-SUBSIDY' | translate}}</mat-label>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="intereses_ayuda_solicita_idi_isba">
+                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
+                        <mat-error *ngIf="isbaForm.get('intereses_ayuda_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR' | translate}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.COST-SUBSIDY' | translate}}</mat-label>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="coste_aval_solicita_idi_isba">
+                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
+                        <mat-error *ngIf="isbaForm.get('coste_aval_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR' | translate}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.START-STUDY-SUBSIDY' | translate}}</mat-label>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="gastos_aval_solicita_idi_isba">
+                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
+                        <mat-error *ngIf="isbaForm.get('gastos_aval_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR' | translate}}</mat-error>
+                    </mat-form-field>
+                </section>
+                <section style="padding-bottom: 1.1rem;">
+                    <dl><h4>{{'ISBA.PROJECT-BUDGET.REQUEST.TITLE' | translate}}</h4></dl>
+                    <dt>{{'ISBA.PROJECT-BUDGET.REQUEST.INFO' | translate}}</dt>
+                </section>
+                <section ngClass="form project-budget">
+                    <mat-form-field>
+                        <mat-label>{{'ISBA.PROJECT-BUDGET.REQUEST.LABEL' | translate}}</mat-label>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="importe_ayuda_solicita_idi_isba">
+                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
+                        <mat-error *ngIf="isbaForm.get('importe_ayuda_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.REQUEST.ERROR' | translate}}</mat-error>
+                    </mat-form-field>
                 </section>
             </mat-expansion-panel>
 

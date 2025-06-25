@@ -244,7 +244,7 @@
   },
   "ISBA": {
     "TITLE": "Aid for financial expenses through the ISBA guarantee",
-    "INFO" : {
+    "INFO": {
       "BANNER": "Applications may be submitted once the interested party has formalized the guarantee with the collaborating entity ISBA SGR (point 9.3 of the call).",
       "DESTINATION": "<strong>Destination:</strong> AGÈNCIA DE DESENVOLUPAMENT REGIONAL DE LES ILLES BALEARS",
       "EMITTER": "<strong>Emitter (DIR3):</strong> A04003714",
@@ -375,7 +375,7 @@
         "LABEL": "Financial institution loan term (in years)",
         "ERROR": "The loan term entered is not valid."
       },
-      "FORMALIZATION-DATE" :{
+      "FORMALIZATION-DATE": {
         "LABEL": "Date of guarantee formalization",
         "ERROR": "The date of guarantee formalization entered is not valid."
       },
@@ -389,7 +389,36 @@
       },
       "HINT": "Without thousands separator and with '.' as decimal separator."
     },
-    "PROJECT-BUDGET": {},
+    "PROJECT-BUDGET": {
+      "TITLE": "Investment project and budget",
+      "DESCRIPTION": "Enter some data about the investment and your budget.",
+      "PURPOSE": {
+        "LABEL": "Investment purpose",
+        "ERROR": "The investment purpose entered is not valid."
+      },
+      "IN-ILS": {
+        "LABEL": "At the time of application, is your company a member of the ILS program?",
+        "YES": "YES",
+        "NO": "NO",
+        "YES-INFO": "In the event that the applicant company is a member of the ILS (Local Sustainable Industry) program: The amount of the aid to cover the cost of the guarantee of the financial operations of productive investments will cover the seven years of the original operation, and are: 100% of the cost of the guarantee the seven years of the operation, with the limitation of 1.25% on the amount of the guarantee."
+      },
+      "BUDGET-AMOUNT": {
+        "LABEL": "Budget amount (including VAT)",
+        "ERROR": "The budget amount entered is not valid.",
+        "DETAILS": "With the following subsidies:",
+        "INTEREST-SUBSIDY": "An interest subsidy, consisting of an amount of",
+        "COST-SUBSIDY": "A subsidy to the cost of ISBA's guarantee, consisting of the amount of",
+        "START-STUDY-SUBSIDY": "A grant for start-up and study expenses, consisting of the amount of"
+      },
+      "REQUEST": {
+        "TITLE": "REQUEST",
+        "INFO": "In accordance with the call for the year 2025 for aid to industrial companies with activity in the Balearic Islands to cover the opening and study commissions, interest and the cost of the guarantee for financing operations for productive investments, approved by Resolution of the Minister of Enterprise, Employment and Energy, the corresponding amounts for the operation, guaranteed by the ISBA reciprocal guarantee company, are as follows:",
+        "LABEL": "I request a grant in the amount of",
+        "ERROR": "The amount entered is not valid."
+      },
+      "HINT": "Without thousands separator and with '.' as decimal separator.",
+      "SUBSIDY-ERROR": "The subsidy amount entered is not valid."
+    },
     "DECLARATIONS": {},
     "DOCUMENTATION": {},
     "FILE": {

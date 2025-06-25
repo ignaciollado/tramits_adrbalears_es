@@ -69,14 +69,18 @@ div.ng-invalid.ng-touched {
 
 section.form {
   display: grid;
-  &.applicant-type{
+  &.applicant-type {
     grid-template-columns: 1fr 1fr;
   }
-  &.personal-data, &.financial-data {
+
+  &.personal-data,
+  &.financial-data,
+  &.project-budget {
     grid-template-columns: 1fr 1fr;
     column-gap: 10px;
     row-gap: 10px;
   }
+
   &.notification-channel {
     grid-template-columns: 1fr;
     row-gap: 10px;

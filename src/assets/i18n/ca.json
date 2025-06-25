@@ -244,7 +244,7 @@
   },
   "ISBA": {
     "TITLE": "Ajuts a les despeses financeres a través de l'aval d'ISBA",
-    "INFO" : {
+    "INFO": {
       "BANNER": "Les sol·licituds es podran presentar un vegada l'interessat hagi formalitzat l'aval amb l'entitat col·laboradora ISBA SGR (punt 9.3 de la convocatòria).",
       "DESTINATION": "<strong>Destinació:</strong> AGÈNCIA DE DESENVOLUPAMENT REGIONAL DE LES ILLES BALEARS",
       "EMITTER": "<strong>Emissor (DIR3):</strong> A04003714",
@@ -375,7 +375,7 @@
         "LABEL": "Termini del préstec de l'entitat financera (en anys)",
         "ERROR": "El termini del préstec introduït no és vàlid."
       },
-      "FORMALIZATION-DATE" :{
+      "FORMALIZATION-DATE": {
         "LABEL": "Data de formalització de l'aval",
         "ERROR": "La data de formalització de l'aval introduïda no és vàlida."
       },
@@ -389,7 +389,36 @@
       },
       "HINT": "Sense separador de milers i amb '.' per a separador de decimals."
     },
-    "PROJECT-BUDGET": {},
+    "PROJECT-BUDGET": {
+      "TITLE": "Projecte d'inversió i pressupost",
+      "DESCRIPTION": "Introdueixi algunes dades sobre la inversió i el seu pressupost.",
+      "PURPOSE": {
+        "LABEL": "Finalitat de la inversió",
+        "ERROR": "La finalitat de la inversió introduïda no és vàlida."
+      },
+      "IN-ILS": {
+        "LABEL": "En el moment de la sol·licitud, la seva empresa està adherida al programa ILS?",
+        "YES": "SI",
+        "NO": "NO",
+        "YES-INFO": "En el cas que l'empresa sol·licitant estigui adherida al programa ILS (Indústria Local Sostenible): L'import de l'ajuda per a cobrir el cost de l'aval de les operacions financeres d'inversions productives cobrirà els set anys de l'operació original, i són: el 100% del cost de l'aval els set anys de l'operació, amb la limitació del 1,25% sobre l'import de l'aval."
+      },
+      "BUDGET-AMOUNT": {
+        "LABEL": "Import del pressupost (IVA inclòs)",
+        "ERROR": "L'import del pressupost introduït no és vàlid.",
+        "DETAILS": "Amb les següents subvencions:",
+        "INTEREST-SUBSIDY": "Una subvenció d'interessos, consistent en la quantia de",
+        "COST-SUBSIDY": "Una subvenció al cost de l'aval de ISBA, consistent en la quantia de",
+        "START-STUDY-SUBSIDY": "Una subvenció a les despeses d'obertura i d'estudi, consistent en la quantia de"
+      },
+      "REQUEST": {
+        "TITLE": "SOL·LICITO",
+        "INFO": "D'acord amb la convocatòria per a l'any 2025 d'ajudes a les empreses industrials amb activitat a les illes Balears per a cobrir les comissions d'obertura i d'estudi, els interessos i el cost de l'aval per a operacions de finançament d'inversions productives, aprovada per Resolució del conseller d'Empresa, Ocupació i Energia, els imports corresponents per a l'operació, avalada per societat de garantia recíproca ISBA, següent:",
+        "LABEL": "Sol·licito una ajuda per import de",
+        "ERROR": "L'import introduït no és vàlid."
+      },
+      "HINT": "Sense separador de milers i amb '.' per a separador de decimals.",
+      "SUBSIDY-ERROR": "La quantia de subvenció introduïda no és vàlida."
+    },
     "DECLARATIONS": {},
     "DOCUMENTATION": {},
     "FILE": {

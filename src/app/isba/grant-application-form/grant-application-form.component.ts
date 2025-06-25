@@ -70,6 +70,14 @@ export class IsbaGrantApplicationFormComponent {
       fecha_aval_isba: this.fb.control<string>('', [Validators.required]),
       plazo_aval_isba: this.fb.control<string>('', [Validators.required]),
       cuantia_aval_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+      finalidad_inversion_idi_isba: this.fb.control<string>('', [Validators.required]),
+      empresa_eco_idi_isba: this.fb.control<string>('', [Validators.required]),
+      importe_presupuesto_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+      intereses_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+      coste_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+      gastos_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+      importe_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+
 
 
 
