@@ -14,13 +14,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, startWith } from 'rxjs';
-import { ActividadCnaeDTO } from '../../Models/actividades-cnae.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
-import { ActividadCnaeService } from '../../Services/actividad-cnae.service';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { DocumentService } from '../../Services/document.service';
 import { ExpedienteService } from '../../Services/expediente.service';
+import { CnaeDTO } from '../../Models/cnae.dto';
 
 
 @Component({
@@ -67,11 +66,11 @@ export class IlsGrantApplicationFormComponent {
   zipCodeList: ZipCodesIBDTO[] = []
   options: ZipCodesIBDTO[] = []
   filteredOptions: Observable<ZipCodesIBDTO[]> | undefined;
-  actividadesCNAE: ActividadCnaeDTO[] = []
+  actividadesCNAE: CnaeDTO[] = []
 
 
   accordion = viewChild.required(MatAccordion)
-  constructor(private commonService: CommonService, private actividadService: ActividadCnaeService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private commonService: CommonService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.ilsForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
       tipo_solicitante: this.fb.control<string>('', Validators.required),
@@ -227,7 +226,7 @@ export class IlsGrantApplicationFormComponent {
   }
 
   private loadActividadesCNAE(): void {
-    this.actividadService.getActividadesCNAE().subscribe((actividadesCNAE: ActividadCnaeDTO[]) => {
+    this.commonService.getCNAEs().subscribe((actividadesCNAE: CnaeDTO[]) => {
       this.actividadesCNAE = actividadesCNAE
     }, error => { this.showSnackBar(error) })
   }

@@ -104,8 +104,8 @@
       }
     },
     "GENERAL-DATA": {
-      "TITLE": "Datos generales",
-      "DESCRIPTION": "Introduzca sus datos personales.",
+      "TITLE": "Datos del interesado",
+      "DESCRIPTION": "Introduzca algunos datos del interesado.",
       "APPLICANT": {
         "NIF": {
           "LABEL": "DNI/NIE del solicitante",
@@ -291,8 +291,8 @@
       }
     },
     "GENERAL-DATA": {
-      "TITLE": "Datos generales",
-      "DESCRIPTION": "Introduzca sus datos personales.",
+      "TITLE": "Datos del interesado",
+      "DESCRIPTION": "Introduzca algunos datos del interesado.",
       "APPLICANT": {
         "NIF": {
           "LABEL": "DNI/NIE del solicitante",

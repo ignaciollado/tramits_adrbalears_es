@@ -104,8 +104,8 @@
       }
     },
     "GENERAL-DATA": {
-      "TITLE": "General data",
-      "DESCRIPTION": "Enter your personal data.",
+      "TITLE": "Data of the person concerned",
+      "DESCRIPTION": "Enter some data of the person conrcened.",
       "APPLICANT": {
         "NIF": {
           "LABEL": "DNI/NIE of the applicant",
@@ -291,8 +291,8 @@
       }
     },
     "GENERAL-DATA": {
-      "TITLE": "General data",
-      "DESCRIPTION": "Enter your personal data.",
+      "TITLE": "Data of the person concerned",
+      "DESCRIPTION": "Enter some data of the person conrcened.",
       "APPLICANT": {
         "NIF": {
           "LABEL": "DNI/NIE of the applicant",

@@ -15,7 +15,7 @@
 
     <section class="rgpd-section">
       <mat-checkbox formControlName="acceptRGPD">
-        <label>He leído y acepto la <a href="../../../assets/data/politica_privacidad.html" target="_blank">Política de Privacidad</a>. 
+        <label>He leído y acepto la <mat-icon (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')" style="color: #ff9310;">info</mat-icon>. 
           Los datos personales proporcionados serán tratados por ADR Balears como responsable del tratamiento, con la finalidad de gestionar su solicitud. 
           Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la política de privacidad.<mat-icon (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')" style="color: #ff9310;">info</mat-icon>
         </label>
@@ -65,7 +65,7 @@
       <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.SOLICITOR' | translate }}</mat-panel-title>
       <mat-panel-description>
-        Indique algunos datos concretos del interesado
+        Indique algunos datos del interesado
         <mat-icon>person</mat-icon>
       </mat-panel-description>
       </mat-expansion-panel-header>
@@ -81,12 +81,12 @@
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.SOLICITORNAME' | translate }}</mat-label>
-        <input matInput formControlName="denom_interesado" required />
+        <input matInput formControlName="denom_interesado" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.ADDRESS' | translate }}</mat-label>
-        <input matInput formControlName="domicilio" required />
+        <input matInput formControlName="domicilio" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -94,7 +94,7 @@
         <input matInput formControlName="zipCode" maxlength="5" minlength="5" [matAutocomplete]="auto"/>
           <mat-autocomplete #auto="matAutocomplete" 
           [displayWith]="displayFn" 
-          (optionSelected)="selecteZipValue($event)">
+          (optionSelected)="selectedZipValue($event)">
             <mat-option *ngFor="let option of filteredZipCodes | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
           </mat-autocomplete>        
       </mat-form-field>      
@@ -108,10 +108,17 @@
         <mat-label>{{ 'FORM.CONTACTPHONE' | translate }}</mat-label>
         <input matInput formControlName="telefono_cont" maxlength="9" minlength="9"/>
       </mat-form-field>
+       <mat-form-field appearance="fill">
+        <mat-select formControlName="codigoIAE">
+          <mat-option *ngFor="let cnae of cnaes" [value]="cnae.id">
+            {{cnae.label_cas}}
+          </mat-option>
+        </mat-select>
+       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.NOMREPRESENTANTE' | translate }}</mat-label>
-        <input matInput formControlName="nom_representante" maxlength="9" minlength="9"/>
+        <input matInput formControlName="nom_representante"/>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.NIFREPRESENTANTE' | translate }}</mat-label>
@@ -128,7 +135,7 @@
       </mat-expansion-panel-header>
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.NOTIFICATIONMOBILE' | translate }}</mat-label>
-        <input matInput formControlName="tel_representante" required maxlength="9" minlength="9" />
+        <input matInput formControlName="tel_representante" maxlength="9" minlength="9" />
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.NOTIFICATIONMAIL' | translate }}</mat-label>
@@ -165,7 +172,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.ATTACHEDDOCUMENTATION' | translate }}</mat-panel-title>
       <mat-panel-description>
-        Indique los documentos que desea enviarnos
+        Cargue los documentos que desea enviarnos
         <mat-icon>file_copy</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -192,8 +199,8 @@
         accept=".pdf"
         hidden />
       <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
-      <ul *ngIf="file_memoriaTecnicaUploaded.length > 0">
-        <li *ngFor="let file of file_memoriaTecnicaUploaded">{{ file.name }}</li>
+      <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
+        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
   </section>
   <mat-form-field appearance="fill">
@@ -236,8 +243,8 @@
         accept=".pdf"
         hidden />
       <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
-      <ul *ngIf="file_certificadoIAEUploaded.length > 0">
-        <li *ngFor="let file of file_certificadoIAEUploaded">{{ file.name }}</li>
+      <ul *ngIf="file_certificadoIAEToUpload.length > 0">
+        <li *ngFor="let file of file_certificadoIAEToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
   </section>
   <section ngClass="copia-nif">
@@ -259,10 +266,11 @@
         multiple
         accept=".pdf"
         hidden />
-      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
-      <ul *ngIf="file_nifEmpresaUploaded.length > 0">
-        <li *ngFor="let file of file_nifEmpresaUploaded">{{ file.name }}</li>
+      <ul *ngIf="file_nifEmpresaToUpload.length > 0">
+        <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
+      <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
+
   </section> 
   </mat-expansion-panel>  
 
@@ -372,9 +380,9 @@
 </form>
 
 <section ngClass="info-container">
-<section ngClass="ayudaform-value">
+<!-- <section ngClass="ayudaform-value">
   {{ ayudaForm.value | json}}
-</section>
+</section> -->
 
 <section class="ayudaform-status">
   <h3>Estado general del formulario:</h3>

@@ -2,23 +2,28 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ZipCodesIBDTO } from '../Models/zip-codes-ib.dto';
+import { CnaeDTO } from '../Models/cnae.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommonService {
-  private urlAPI: string;
+
+  private urlAPI: string
+  private urlAPITramits: string
+
 
   constructor(private http: HttpClient) {
     this.urlAPI = "https://data.ibrelleu.es/public/index.php"
+    this.urlAPITramits = "https://pre-tramits.idi.es/public/index.php"
   }
 
   /* CRUD Zipcodes */
 
+
   // GET all
   getZipCodes(): Observable<ZipCodesIBDTO[]> {
-    return this.http.get<ZipCodesIBDTO[]>(`${this.urlAPI}/zipcodes`)
-    .pipe(catchError(this.handleError))
+    return this.http.get<ZipCodesIBDTO[]>(`${this.urlAPI}/zipcodes`).pipe(catchError(this.handleError))
   }
 
   // GET by ID
@@ -41,6 +46,28 @@ export class CommonService {
     return this.http.delete<void>(`${this.urlAPI}/zipcodes/delete/${id}`).pipe(catchError(this.handleError))
   }
 
+   /* CRUD Cnaes */
+  getCNAEs(): Observable<CnaeDTO[]> {
+    return this.http.get<CnaeDTO[]>(`${this.urlAPITramits}/pindustactividades`).pipe(catchError(this.handleError))
+  }
+
+  getOneCNAE(id: number): Observable<CnaeDTO> {
+    return this.http.get<CnaeDTO>(`${this.urlAPITramits}/pindustactividades/${id}`).pipe(catchError(this.handleError))
+  }
+
+  createCNAE(zipCode: CnaeDTO): Observable<CnaeDTO> {
+    return this.http.post<CnaeDTO>(`${this.urlAPITramits}/pindustactividades`, zipCode).pipe(catchError(this.handleError))
+  }
+
+  updateCNAE(id: number, zipCode: CnaeDTO): Observable<CnaeDTO> {
+    return this.http.put<CnaeDTO>(`${this.urlAPITramits}/pindustactividades/${id}`, zipCode).pipe(catchError(this.handleError))
+  }
+
+  deleteCNAE(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.urlAPITramits}/pindustactividades/${id}`).pipe(catchError(this.handleError))
+  }
+
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
@@ -52,5 +79,4 @@ export class CommonService {
     }
     return throwError(errorMessage);
   }
-
 }
