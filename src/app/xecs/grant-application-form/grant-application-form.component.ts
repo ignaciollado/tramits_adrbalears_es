@@ -1,4 +1,3 @@
-
 import { ChangeDetectionStrategy, Component, viewChild, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
@@ -23,7 +22,6 @@ import { CommonService } from '../../Services/common.service';
 import { DocumentService } from '../../Services/document.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NifValidatorService } from '../../Services/nif-validator-service';
-import { jsPDF } from 'jspdf';
 import { CnaeDTO } from '../../Models/cnae.dto';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { from } from 'rxjs';
@@ -192,36 +190,32 @@ setStep(index: number) {
 file_memoriaTecnicaToUpload: File[] = []
 file_certificadoIAEToUpload: File[] = []
 file_nifEmpresaToUpload: File[] = []
+file_copiaNIFToUpload: File[] = []
+file_certificadoATIBToUpload: File[] = []
 
 onSubmit(): void {
-
     const datos = this.ayudaForm.value;
     const cControls = this.ayudaForm.controls
     console.log (datos)
-    console.log('Programas seleccionados:', datos.opc_programa)
 
-    const timeStamp = this.generateCustomTimestamp();
-    const filesToUpload = [
-      this.file_memoriaTecnicaToUpload,
-      this.file_certificadoIAEToUpload,
-      this.file_nifEmpresaToUpload
-    ];
+    const timeStamp = this.commonService.generateCustomTimestamp();
+    const filesToUpload = [ this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload ]
+
     from(filesToUpload)
-  .pipe(
-    concatMap(file => this.uploadTheFile(timeStamp, file))
-  )
-  .subscribe({
-    next: (event) => {
-      console.log ("event0", event)
-      this.showSnackBar('Subido: '+ event.status);
-    },
-    complete: () => {
-      this.showSnackBar('Todas las subidas finalizadas');
-    },
-    error: (err) => {
-      this.showSnackBar('Error durante la secuencia de subida: '+ err);
-    }
-  });
+    .pipe(
+      concatMap(file => this.uploadTheFile(timeStamp, file))
+    )
+    .subscribe({
+      next: (event) => {
+        console.log ("event0", event)
+      },
+      complete: () => {
+        this.showSnackBar('Todas las subidas finalizadas');
+      },
+      error: (err) => {
+        this.showSnackBar('Error durante la secuencia de subida: '+ err);
+      }
+    });
 
 }
 
@@ -258,6 +252,28 @@ onFileNifEmpresaChange(event: Event): void {
   }
 }
 
+get copiaNifFileNames(): string {
+  return this.file_nifEmpresaToUpload.map(f => f.name).join(', ')
+}
+onFileCopiaNifChange(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.file_copiaNIFToUpload = Array.from(input.files);
+    console.log ("this.file_copiaNIFToUpload", this.file_copiaNIFToUpload)
+  }
+}
+
+get certificadoATIBFileNames(): string {
+  return this.file_nifEmpresaToUpload.map(f => f.name).join(', ')
+}
+onFilefcertificadoATIBChange(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.file_certificadoATIBToUpload = Array.from(input.files);
+    console.log ("this.file_certificadoATIBToUpload", this.file_certificadoATIBToUpload)
+  }
+}
+
 openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
   const dialogConfig = new MatDialogConfig();
   dialogConfig.disableClose = false
@@ -276,6 +292,7 @@ openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questi
 }
 
 onCheckboxChange(event: MatCheckboxChange) {
+  console.log ("oncheckbosChange", event)
   const formArray: FormArray = this.ayudaForm.get('opc_programa') as FormArray;
   if (event.checked) {
     formArray.push(new FormControl(event.source.value));
@@ -338,65 +355,6 @@ private getDocumentationAndAuthorizations() {
   this.commonService.getDocumentationAndAuthorizations().subscribe((authorizations: AuthorizationTextDTO[]) => {
     this.authorizations = authorizations
   })
-} 
-
-generateCertificate(dataToRender: any): void {
-  const doc = new jsPDF();
-  
-  // Texto del pie de página
-  const footerText = 'Plaça de Son Castelló, 1\n07009 Polígon de Son Castelló - Palma\nTel. 971 17 61 61\nwww.adrbalears.es';
-
-  // Establecer estilo si lo deseas
-  doc.setFont('Arial', 'normal');
-  doc.setFontSize(8);
-
-  // Posición del pie de página
-  const marginLeft = 25;
-  const lineHeight = 4;
-  const pageHeight = doc.internal.pageSize.getHeight();
-
-  // Dividir el texto en líneas
-  const lines = footerText.split('\n');
-
-  // Dibujar cada línea desde abajo hacia arriba
-  lines.reverse().forEach((line, index) => {
-    const y = pageHeight - 10 - (index * lineHeight);
-    doc.text(line, marginLeft, y);
-  });
-
-  // Añadir el texto centrado en la parte inferior
-  //const textWidth = doc.getTextWidth(footerText);
-  //const pageWidth = doc.internal.pageSize.getWidth();
-  //const x = (pageWidth - textWidth) / 2;
-  // const y = pageHeight - margin;
-  //doc.text(footerText, x, y);
-
-  const rawDate = dataToRender.eventDate; // puede ser string o Date
-  const eventDate = new Date(rawDate);
-
-  const TITULO_EVENTO = dataToRender.title
-  const FECHA_EVENTO = `${eventDate.getDate().toString().padStart(2, '0')}/${(eventDate.getMonth() + 1).toString().padStart(2, '0')}/${eventDate.getFullYear()}`;
-  const HORAS_EVENTO = dataToRender.timeDuration + " hrs"
- 
-  const date = new Date();
-  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  const formattedDate = date.toLocaleDateString('ca-ES', options);
-
-  doc.addImage("../../../../assets/images/ADRBalearscompleto-conselleria.jpg", "JPEG", 25, 20, 75, 15);
-  doc.setFontSize(12);
-  doc.text("Convocatoria para la concesión de ayudas de cheques de consultoría para impulsar a la industria de Baleares en materia de digitalización, internacionalización, sostenibilidad y gestión avanzada.,", 25, 65)
-
-  doc.setFont('Arial', 'bold');
-  doc.text("CERTIFIC:", 25, 100)
-  doc.setFont('Arial', 'normal');
-
-  doc.text(`Convocatoria 2025 ${dataToRender.firstName+' '+dataToRender.lastName} , amb DNI ${dataToRender.dni}, ha assistit a la càpsula\nformativa “${TITULO_EVENTO}”, organitzat per l'Agència de\nDesevolupament Regional de les Illes Balears (ADR). Dia ${FECHA_EVENTO},\namb una durada de ${HORAS_EVENTO}`, 25, 140)
-
-  doc.text("I perquè consti als efectes oportuns firm aquest certificat.", 25, 180)
-
-  doc.text(`Palma, ${formattedDate}`, 25, 220);
-
-  doc.save(`certificado_${dataToRender.firstName+'_'+dataToRender.lastName}.pdf`);
 }
 
 uploadTheFile(timestamp: string, files: File[]): Observable<any> {
@@ -445,19 +403,6 @@ private showSnackBar(error: string): void {
     });
 }
 
-generateCustomTimestamp(): string {
-  const date = new Date();
-
-  const pad = (n: number) => n.toString().padStart(2, '0');
-
-  let hours = date.getHours();
-  const ampm = hours >= 12 ? 'pm' : 'am';
-  hours = hours % 12 || 12;
-
-  const timestamp = `${pad(date.getDate())}_${pad(date.getMonth() + 1)}_${date.getFullYear()}_${pad(hours)}_${pad(date.getMinutes())}_${pad(date.getSeconds())}${ampm}`;
-
-  return timestamp;
-}
 
 }
 
