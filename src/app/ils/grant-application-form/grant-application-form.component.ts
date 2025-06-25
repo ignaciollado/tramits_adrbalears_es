@@ -19,7 +19,6 @@ import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { ActividadCnaeService } from '../../Services/actividad-cnae.service';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
-import { DataService } from '../../Services/data.service';
 import { DocumentService } from '../../Services/document.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 
@@ -72,7 +71,7 @@ export class IlsGrantApplicationFormComponent {
 
 
   accordion = viewChild.required(MatAccordion)
-  constructor(private commonService: CommonService, private dataService: DataService, private actividadService: ActividadCnaeService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private commonService: CommonService, private actividadService: ActividadCnaeService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.ilsForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
       tipo_solicitante: this.fb.control<string>('', Validators.required),
@@ -152,8 +151,7 @@ export class IlsGrantApplicationFormComponent {
     })
 
     this.loadZipcodes()
-    // this.loadActividadesCNAE()
-    this.loadMockActividadesCNAE()
+    this.loadActividadesCNAE()
   }
 
   onSubmit(): void {
@@ -230,12 +228,6 @@ export class IlsGrantApplicationFormComponent {
 
   private loadActividadesCNAE(): void {
     this.actividadService.getActividadesCNAE().subscribe((actividadesCNAE: ActividadCnaeDTO[]) => {
-      this.actividadesCNAE = actividadesCNAE
-    }, error => { this.showSnackBar(error) })
-  }
-
-  private loadMockActividadesCNAE(): void {
-    this.dataService.getAllMockIAE().subscribe((actividadesCNAE: ActividadCnaeDTO[]) => {
       this.actividadesCNAE = actividadesCNAE
     }, error => { this.showSnackBar(error) })
   }

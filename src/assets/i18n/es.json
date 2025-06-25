@@ -153,7 +153,7 @@
     "NOTIFICATION-CHANNEL": {
       "TITLE": "Canal de notificación",
       "DESCRIPTION": "Introduzca sus datos de contacto para recibir notificaciones.",
-      "INFO": "De acuerdo con el apartado 17 de la convocatoria, las notificaciones y las comunicaciones a la persona solicitante se llevarán a cabo por vía telemática a la dirección de correo electrónico que haya designado la persona solicitante a efectos de notificaciones en este formulario de solicitud. Los avisos de la puesta a disposición de la notificación a la Carpeta Ciudadana del <a href=''>Punto de Acceso General electrónico (Mi carpeta)</a> se enviarán a la dirección de correo que se han designado en los datos del declarante.",
+      "INFO": "De acuerdo con el apartado 17 de la convocatoria, las notificaciones y las comunicaciones a la persona solicitante se llevarán a cabo por vía telemática a la dirección de correo electrónico que haya designado la persona solicitante a efectos de notificaciones en este formulario de solicitud. Los avisos de la puesta a disposición de la notificación a la Carpeta Ciudadana del <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=es' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> se enviarán a la dirección de correo que se han designado en los datos del declarante.",
       "PHONE": {
         "LABEL": "Teléfono móvil del solicitante o del representante",
         "ERROR": "El teléfono móvil introducido no es válido."
@@ -290,7 +290,55 @@
         "INFO": "Se considera mediana empresa la que tiene entre 50 y 250 trabajadores y/o trabajadoras, un volumen de negocio anual entre 10 y 50 millones de euros o un balance general anual entre 10 y 43 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto en otras empresas que no cumplen los requisitos anteriores."
       }
     },
-    "GENERAL-DATA": {},
+    "GENERAL-DATA": {
+      "TITLE": "Datos generales",
+      "DESCRIPTION": "Introduzca sus datos personales.",
+      "APPLICANT": {
+        "NIF": {
+          "LABEL": "DNI/NIE del solicitante",
+          "ERROR": "El DNI/NIE introducido no es válido."
+        },
+        "CIF": {
+          "LABEL": "CIF del solicitante",
+          "ERROR": "El CIF introducido no es válido."
+        }
+      },
+      "COMPANY-NAME": {
+        "LABEL": "Nombre o razón social",
+        "ERROR": "El nombre o razón social introducido no es válido."
+      },
+      "ADDRESS": {
+        "LABEL": "Dirección postal del solicitante",
+        "ERROR": "La dirección postal introducida no es válida."
+      },
+      "ZIPCODE": {
+        "LABEL": "Código postal del solicitante [cinco dígitos]",
+        "ERROR": "El código postal introducido no es válido."
+      },
+      "TOWN": "Población",
+      "CONTACT-PHONE": {
+        "LABEL": "Teléfono de contacto del solicitante",
+        "ERROR": "El teléfono de contacto introducido no es válido."
+      },
+      "BAT-EPIGRAPH": {
+        "LABEL": "Epígrafe IAE",
+        "ERROR": "El epígrafe IAE introducido no es válido."
+      },
+      "REPRESENTATIVE": {
+        "NAME": {
+          "LABEL": "Nombre del representante legal",
+          "ERROR": "El nombre del representante legal introducido no es válido."
+        },
+        "NIF": {
+          "LABEL": "DNI/NIE del representante legal",
+          "ERROR": "El DNI/NIE del representante legal introducido no es válido."
+        },
+        "PHONE": {
+          "LABEL": "Teléfono de contacto del representante legal",
+          "ERROR": "El teléfono de contacto del representante legal introducido no es válido."
+        }
+      }
+    },
     "FINANCIAL-DATA": {},
     "PROJECT-BUDGET": {},
     "DECLARATIONS": {},

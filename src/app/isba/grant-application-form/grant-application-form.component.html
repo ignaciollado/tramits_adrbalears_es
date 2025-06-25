@@ -66,7 +66,7 @@
             </mat-expansion-panel-header>
             <section ngClass="section-applicant-type">
                 <section>
-                    <mat-radio-group formControlName="tipo_solicitante">
+                    <mat-radio-group formControlName="tipo_solicitante" (ngModelChange)="onBusinessTypeChange()">
                         <mat-radio-button value="autonomo">{{'ISBA.BUSINESS-TYPE.SELF-EMPLOYED' | translate}}</mat-radio-button>
                         <mat-radio-button value="pequenya">{{'ISBA.BUSINESS-TYPE.SMALL.NAME' | translate}}*</mat-radio-button>
                         <mat-radio-button value="mediana">{{'ISBA.BUSINESS-TYPE.MEDIUM.NAME' | translate}}*</mat-radio-button>
@@ -78,7 +78,75 @@
                 </section>
             </section>
          </mat-expansion-panel>
-         
+
+        <!-- Datos generales -->
+         <mat-expansion-panel [expanded]="step() === 2">
+            <mat-expansion-panel-header>
+                <mat-panel-title><h3>{{'ISBA.GENERAL-DATA.TITLE' | translate}}</h3></mat-panel-title>
+                <mat-panel-description>{{'ISBA.GENERAL-DATA.DESCRIPTION' | translate}}</mat-panel-description>
+            </mat-expansion-panel-header>
+            <section ngClass="personal-data">
+                <mat-form-field>
+                    <mat-label *ngIf="businessType === 'autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.NIF.LABEL' |
+                        translate}}</mat-label>
+                    <mat-label *ngIf="businessType !== 'autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.CIF.LABEL' |
+                        translate}}</mat-label>
+                        <input matInput type="text" formControlName="nif" maxlength="9" (blur)="cleanBlank($event)">
+                        <mat-error *ngIf="isbaForm.get('nif')?.errors && businessType==='autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.NIF.ERROR' | translate}}</mat-error>
+                        <mat-error *ngIf="isbaForm.get('nif')?.errors && businessType!=='autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.CIF.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ISBA.GENERAL-DATA.COMPANY-NAME.LABEL' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="denom_interesado">
+                    <mat-error *ngIf="isbaForm.get('denom_interesado')?.errors" >{{'ISBA.GENERAL-DATA.COMPANY-NAME.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ISBA.GENERAL-DATA.ADDRESS.LABEL' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="domicilio">
+                    <mat-error *ngIf="isbaForm.get('domicilio')?.errors">{{'ISBA.GENERAL-DATA.ADDRESS.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ISBA.GENERAL-DATA.ZIPCODE.LABEL' | translate}}</mat-label>
+                    <input matInput (ngModelChange)="selectedValue()" type="text" formControlName="cpostal" maxlength="5" minlength="5" [matAutocomplete]="auto" (blur)="cleanBlank($event)">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option> 
+                    </mat-autocomplete>
+                    <mat-error *ngIf="isbaForm.get('cpostal')?.errors">{{'ISBA.GENERAL-DATA.ZIPCODE.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ISBA.GENERAL-DATA.TOWN' | translate}}</mat-label>
+                    <input matInput formControlName="localidad" readonly>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ISBA.GENERAL-DATA.CONTACT-PHONE.LABEL' | translate}}</mat-label>
+                    <input matInput type="tel" formControlName="telefono_cont" (blur)="cleanBlank($event)" minlength="9" maxlength="9">
+                    <mat-error *ngIf="isbaForm.get('telefono_cont')?.errors">{{'ISBA.GENERAL-DATA.CONTACT-PHONE.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ISBA.GENERAL-DATA.BAT-EPIGRAPH.LABEL' | translate}}</mat-label>
+                    <mat-select formControlName="codigoIAE">
+                        <mat-option *ngFor="let actividad of actividadesCNAE" [value]="actividad.id">{{actividad.label_cas}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="isbaForm.get('codigoIAE')?.errors">{{'ISBA.GENERAL-DATA.BAT-EPIGRAPH.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NAME.LABEL' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="nom_representante">
+                    <mat-error *ngIf="isbaForm.get('nom_representante')?.errors">{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NAME.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NIF.LABEL' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="nif_representante" (blur)="cleanBlank($event)" maxlength="9" minlength="9">
+                    <mat-error *ngIf="isbaForm.get('nif_representante')?.errors">{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NIF.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>{{'ISBA.GENERAL-DATA.REPRESENTATIVE.PHONE.LABEL' | translate}}</mat-label>
+                    <input matInput type="tel" formControlName="tel_representante" (blur)="cleanBlank($event)" maxlength="9" minlength="9">
+                    <mat-error *ngIf="isbaForm.get('tel_representante')?.errors">{{'ISBA.GENERAL-DATA.REPRESENTATIVE.PHONE.ERROR' | translate}}</mat-error>
+                </mat-form-field>
+            </section>
+         </mat-expansion-panel>
+
     </mat-accordion>
     <mat-form-field style="display: none">
         <input matInput type="text" formControlName="tipo_tramite">

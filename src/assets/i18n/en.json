@@ -108,11 +108,11 @@
       "DESCRIPTION": "Enter your personal data.",
       "APPLICANT": {
         "NIF": {
-          "LABEL": "Applicant's DNI/NIE",
+          "LABEL": "DNI/NIE of the applicant",
           "ERROR": "The DNI/NIE entered is not valid."
         },
         "CIF": {
-          "LABEL": "Applicant's VAT number",
+          "LABEL": "VAT number of the applicant",
           "ERROR": "The VAT number entered is not valid."
         }
       },
@@ -121,16 +121,16 @@
         "ERROR": "The name or company name entered is not valid."
       },
       "ADDRESS": {
-        "LABEL": "Applicant's postal address",
+        "LABEL": "Postal address of the applicant",
         "ERROR": "The postal address entered is not valid."
       },
       "ZIPCODE": {
-        "LABEL": "Applicant's zip code [five digits].",
+        "LABEL": "Zip code of the applicant [five digits].",
         "ERROR": "The zip code entered is not valid."
       },
       "TOWN": "Town",
       "CONTACT-PHONE": {
-        "LABEL": "Applicant's contact phone number",
+        "LABEL": "Contact phone number of the applicant",
         "ERROR": "The contact phone number entered is not valid."
       },
       "BAT-EPIGRAPH": {
@@ -141,7 +141,7 @@
       "PRESENTATION-VIDEO": "URL of the company's presentation video (published on Youtube or Vimeo)",
       "REPRESENTATIVE": {
         "NAME": {
-          "LABEL": "Name of legal representative",
+          "LABEL": "Name of the legal representative",
           "ERROR": "The name of the legal representative entered is not valid."
         },
         "NIF": {
@@ -153,7 +153,7 @@
     "NOTIFICATION-CHANNEL": {
       "TITLE": "Notification channel",
       "DESCRIPTION": "Enter your contact information to receive notifications.",
-      "INFO": "In accordance with section 17 of the call, notifications and communications to the applicant will be carried out telematically to the e-mail address designated by the applicant for notification purposes in this application form. Notices of the availability of the notification to the Citizen Folder of the <a href=''>Punto de Acceso General electrónico (Mi carpeta)</a> will be sent to the e-mail address designated in the declarant's data.",
+      "INFO": "In accordance with section 17 of the call, notifications and communications to the applicant will be carried out telematically to the e-mail address designated by the applicant for notification purposes in this application form. Notices of the availability of the notification to the Citizen Folder of the <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=en' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> will be sent to the e-mail address designated in the declarant's data.",
       "PHONE": {
         "LABEL": "Applicant's or representative's phone number",
         "ERROR": "The phone number entered is not valid."
@@ -290,14 +290,62 @@
         "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights in other companies that do not meet the above requirements."
       }
     },
-    "GENERAL-DATA": {},
+    "GENERAL-DATA": {
+      "TITLE": "General data",
+      "DESCRIPTION": "Enter your personal data.",
+      "APPLICANT": {
+        "NIF": {
+          "LABEL": "DNI/NIE of the applicant",
+          "ERROR": "The DNI/NIE entered is not valid."
+        },
+        "CIF": {
+          "LABEL": "VAT number of the applicant",
+          "ERROR": "The VAT number entered is not valid."
+        }
+      },
+      "COMPANY-NAME": {
+        "LABEL": "Name or company name",
+        "ERROR": "The name or company name entered is not valid."
+      },
+      "ADDRESS": {
+        "LABEL": "Postal address of the applicant",
+        "ERROR": "The postal address entered is not valid."
+      },
+      "ZIPCODE": {
+        "LABEL": "Zip code of the applicant [five digits].",
+        "ERROR": "The zip code entered is not valid."
+      },
+      "TOWN": "Town",
+      "CONTACT-PHONE": {
+        "LABEL": "Contact phone number of the applicant",
+        "ERROR": "The contact phone number entered is not valid."
+      },
+      "BAT-EPIGRAPH": {
+        "LABEL": "BAT epigraph",
+        "ERROR": "The BAT epigraph entered is not valid."
+      },
+      "REPRESENTATIVE": {
+        "NAME": {
+          "LABEL": "Name of the legal representative",
+          "ERROR": "The name of the legal representative entered is not valid."
+        },
+        "NIF": {
+          "LABEL": "DNI/NIE of the legal representative",
+          "ERROR": "The DNI/NIE of the legal representative entered is not valid."
+        },
+        "PHONE": {
+          "LABEL": "Contact phone number of the legal representative",
+          "ERROR": "The contact phone number of the legal representative entered is not valid."
+        }
+      }
+    },
     "FINANCIAL-DATA": {},
     "PROJECT-BUDGET": {},
     "DECLARATIONS": {},
     "DOCUMENTATION": {},
     "FILE": {
-      "ERROR": "",
-      "UPLOAD": ""
+      "ERROR": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed.",
+      "UPLOAD": "Upload file"
     },
     "ABBR": {
       "RGPD": {
