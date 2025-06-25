@@ -243,6 +243,14 @@
     "SEND": "Submit"
   },
   "ISBA": {
+    "TITLE": "Aid for financial expenses through the ISBA guarantee",
+    "INFO" : {
+      "BANNER": "Applications may be submitted once the interested party has formalized the guarantee with the collaborating entity ISBA SGR (point 9.3 of the call).",
+      "DESTINATION": "<strong>Destination:</strong> AGÈNCIA DE DESENVOLUPAMENT REGIONAL DE LES ILLES BALEARS",
+      "EMITTER": "<strong>Emitter (DIR3):</strong> A04003714",
+      "SIA-CODE": "<strong>SIA Code:</strong> 3153714",
+      "PROCEDURE": "<strong>Form or procedure:</strong> Application for aid to micro, small and medium-sized industrial companies in the Balearic Islands that have approved financial operations guaranteed by ISBA SGR, to cover the financial costs of financing operations for productive investments, energy efficiency and digital transformation foreseen in the Industrial Strategic Plan 2018-2025."
+    },
     "RGPD": {
       "TITLE": "GDPR and documentation",
       "DESCRIPTION": "GDPR conditions and required documentation.",
@@ -352,7 +360,35 @@
         "ERROR": "The e-mail address entered is not valid."
       }
     },
-    "FINANCIAL-DATA": {},
+    "FINANCIAL-DATA": {
+      "TITLE": "",
+      "DESCRIPTION": "",
+      "ENTITY-NAME": {
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "TRANSACTION-AMOUNT": {
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "LOAN-TERM": {
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "FORMALIZATION-DATE" :{
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "AVAL-TERM": {
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "AVAL-AMOUNT": {
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "IMPORT-HINT": ""
+    },
     "PROJECT-BUDGET": {},
     "DECLARATIONS": {},
     "DOCUMENTATION": {},

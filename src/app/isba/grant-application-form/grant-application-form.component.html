@@ -1,3 +1,18 @@
+<section ngClass="info-header">
+    <section>
+        <p><strong>{{'ISBA.TITLE' | translate}}</strong></p>
+        <p ngClass="banner"><strong>{{'ISBA.INFO.BANNER' | translate}}</strong></p>
+    </section>
+    <section ngClass="info">
+        <dd>
+            <dl [innerHTML]="'ISBA.INFO.DESTINATION' | translate"></dl>
+            <dl [innerHTML]="'ISBA.INFO.EMITTER' | translate"></dl>
+            <dl [innerHTML]="'ISBA.INFO.SIA-CODE' | translate"></dl>
+            <dl [innerHTML]="'ISBA.INFO.PROCEDURE' | translate"></dl>
+        </dd>
+    </section>
+</section>
+<section>
 <form [formGroup]="isbaForm" ngClass="form" (ngSubmit)="onSubmit()">
     <div ngClass="example-action-buttons">
         <button matButton type="button" ngClass="btn-green btn" (click)="accordion().openAll()">{{'ISBA.EXPANDALL' |
@@ -177,3 +192,4 @@
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" [disabled]="isbaForm.invalid">{{'ISBA.SEND' | translate}}</button>
 </form>
+</section>

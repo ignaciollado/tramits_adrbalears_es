@@ -243,6 +243,14 @@
     "SEND": "Enviar"
   },
   "ISBA": {
+    "TITLE": "Ajuts a les despeses financeres a través de l'aval d'ISBA",
+    "INFO" : {
+      "BANNER": "Les sol·licituds es podran presentar un vegada l'interessat hagi formalitzat l'aval amb l'entitat col·laboradora ISBA SGR (punt 9.3 de la convocatòria).",
+      "DESTINATION": "<strong>Destinació:</strong> AGÈNCIA DE DESENVOLUPAMENT REGIONAL DE LES ILLES BALEARS",
+      "EMITTER": "<strong>Emissor (DIR3):</strong> A04003714",
+      "SIA-CODE": "<strong>Codi SIA:</strong> 3153714",
+      "PROCEDURE": "<strong>Tràmit o procediment:</strong> Sol·licitud d'ajuts a microempreses, petites i mitjanes empreses de caràcter industrial de les Illes Balears per cobrir despeses financeres d'operacions de finançament d'inversions productives, eficiència energètica i transformació digital previstes en el Pla Estratègic Industrial 2018-2025."
+    },
     "RGPD": {
       "TITLE": "RGPD i documentació",
       "DESCRIPTION": "Condicions del RGPD i documentació requerida.",
@@ -352,7 +360,35 @@
         "ERROR": "L'adreça electrònica introduïda no és vàlida."
       }
     },
-    "FINANCIAL-DATA": {},
+    "FINANCIAL-DATA": {
+      "TITLE": "Dades de l'operació financera",
+      "DESCRIPTION": "Introdueixi algunes dades de l'operació financera.",
+      "ENTITY-NAME": {
+        "LABEL": "Nom de l'entitat financera",
+        "ERROR": "El nom de l'entitat financera introduït no és vàlid."
+      },
+      "TRANSACTION-AMOUNT": {
+        "LABEL": "Import de l'operació financera",
+        "ERROR": "L'import de l'operació financera introduïda no és vàlida."
+      },
+      "LOAN-TERM": {
+        "LABEL": "Termini del préstec de l'entitad financera (en anys)",
+        "ERROR": "El termini del préstec introduït no és vàlid."
+      },
+      "FORMALIZATION-DATE" :{
+        "LABEL": "Data de formalització de l'aval",
+        "ERROR": "La data de formalització de l'aval introduïda no és vàlida."
+      },
+      "AVAL-TERM": {
+        "LABEL": "Termini de l'aval d'ISBA, SGR (en anys)",
+        "ERROR": "El termini de l'aval introduït no és vàlid."
+      },
+      "AVAL-AMOUNT": {
+        "LABEL": "Quantia de l'aval d'ISBA, SGR (€)",
+        "ERROR": "La quantia de l'aval introduïda no és vàlida."
+      },
+      "IMPORT-HINT": "Sense separador de milers i amb '.' per a separador de decimals"
+    },
     "PROJECT-BUDGET": {},
     "DECLARATIONS": {},
     "DOCUMENTATION": {},

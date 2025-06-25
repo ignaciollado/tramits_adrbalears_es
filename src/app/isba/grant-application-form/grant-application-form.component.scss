@@ -6,12 +6,12 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   font-family: "Open Sans", sans-serif;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 form {
   display: grid;
   grid-template-columns: 1fr;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-green {
@@ -108,3 +108,25 @@ div.ng-invalid.ng-touched {
 // .file-input {
 //   display: grid;
 // }
+
+section.info-header {
+    background-color: white;
+    color: black;
+    margin: auto;
+    padding-bottom: 1.1rem;
+    display: grid;
+    
+    .banner {
+        background-color: #F8D7DA;
+        color: #58151C;       
+        padding: 0.9rem;
+        border-radius: 8px;
+        font-size: 0.75rem;
+        display: grid;
+        justify-content: center;
+    }
+
+    .info {
+        font-size: 0.80rem;
+    }
+}

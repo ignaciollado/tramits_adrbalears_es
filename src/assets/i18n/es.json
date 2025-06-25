@@ -243,6 +243,14 @@
     "SEND": "Enviar"
   },
   "ISBA": {
+    "TITLE": "Ayudas a los gastos financieros a través del aval de ISBA",
+    "INFO" : {
+      "BANNER": "Las solicitudes se podrán presentar un vez el interesado haya formalizado el aval con la entidad colaboradora ISBA SGR (punto 9.3 de la convocatoria).",
+      "DESTINATION": "<strong>Destino:</strong> AGÈNCIA DE DESENVOLUPAMENT REGIONAL DE LES ILLES BALEARS",
+      "EMITTER": "<strong>Emisor (DIR3):</strong> A04003714",
+      "SIA-CODE": "<strong>Código SIA:</strong> 3153714",
+      "PROCEDURE": "<strong>Trámite o procedimiento:</strong> Solicitud de ayudas a la microempresa, pequeña y mediana empresa de carácter industrial de las Illes Balears que tengan aprobadas operaciones financieras avaladas por ISBA SGR, para cubrir los gastos financieros de operaciones de financiación de inversiones productivas, eficiencia energética y transformación digital previstas en el Plan Estratégico Industrial 2018-2025."
+    },
     "RGPD": {
       "TITLE": "RGPD y documentación",
       "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
@@ -352,7 +360,35 @@
         "ERROR": "La dirección electrónica introducida no es válida."
       }
     },
-    "FINANCIAL-DATA": {},
+    "FINANCIAL-DATA": {
+      "TITLE": "Datos de la operación financiera",
+      "DESCRIPTION": "Introduzca algunos datos de la operación financiera.",
+      "ENTITY-NAME": {
+        "LABEL": "Nombre de la entidad financiera",
+        "ERROR": "El nombre de la entidad financiera introducido no es válido."
+      },
+      "TRANSACTION-AMOUNT": {
+        "LABEL": "Importe de la operación financiera",
+        "ERROR": "El importe de la operación financiera introducido no es válido."
+      },
+      "LOAN-TERM": {
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "FORMALIZATION-DATE" :{
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "AVAL-TERM": {
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "AVAL-AMOUNT": {
+        "LABEL": "",
+        "ERROR": ""
+      },
+      "IMPORT-HINT": ""
+    },
     "PROJECT-BUDGET": {},
     "DECLARATIONS": {},
     "DOCUMENTATION": {},
