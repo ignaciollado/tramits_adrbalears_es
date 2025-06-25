@@ -145,14 +145,16 @@ this.filteredZipCodes = this.ayudaForm.get('zipCode')!.valueChanges.pipe(
   })
 );
 
-const nifControl = this.ayudaForm.get('nif');
-const opcionBancoControl = this.ayudaForm.get('opcion_banco');
-const ccControl = this.ayudaForm.get('cc');
+const nifControl = this.ayudaForm.get('nif')
+const nif_representanteControl = this.ayudaForm.get('nif_representante')
+const opcionBancoControl = this.ayudaForm.get('opcion_banco')
+const ccControl = this.ayudaForm.get('cc')
 const codigo_BIC_SWIFTControl = this.ayudaForm.get('codigo_BIC_SWIFT')
 
 opcionBancoControl?.valueChanges.subscribe((valor) => {
  
- ccControl?.enable()
+  ccControl?.enable()
+  ccControl?.setValue(''); // Limpia el campo al cambiar de opción
 
  if (valor === '1') {
  // Patrón para IBAN español (por ejemplo: empieza por ES y 22 dígitos)
@@ -162,6 +164,13 @@ opcionBancoControl?.valueChanges.subscribe((valor) => {
   Validators.maxLength(25),
   Validators.pattern(/^ES\d{23}$/)
  ]);
+ 
+  ccControl?.valueChanges.subscribe((inputValue: string) => {
+    if (inputValue && !inputValue.startsWith('ES')) {
+      ccControl?.setValue('ES' + inputValue, { emitEvent: false });
+    }
+  });
+
  } else if (valor === '2') {
  // Patrón para cuentas internacionales (ejemplo genérico sin espacios)
   ccControl?.setValidators([
@@ -171,12 +180,15 @@ opcionBancoControl?.valueChanges.subscribe((valor) => {
   Validators.pattern(/^\S+$/)
  ]);
  }
-
   ccControl?.updateValueAndValidity();
-  });
+});
 
 nifControl?.valueChanges.subscribe((valor) => {
   nifControl.setValue(valor.toUpperCase(), { emitEvent: false });
+})
+
+nif_representanteControl?.valueChanges.subscribe((valor) => {
+  nif_representanteControl.setValue(valor.toUpperCase(), { emitEvent: false });
 })
 
 ccControl?.valueChanges.subscribe((valor) => {
@@ -267,7 +279,7 @@ onFileNifEmpresaChange(event: Event): void {
   }
 }
 
-get escrituraEmpresaFileNames(): string {
+get escrituraPublicaFileNames(): string {
   return this.file_escritura_empresaToUpload.map(f => f.name).join(', ')
 }
 onFileEscrituraEmpresaChange(event: Event): void {
@@ -278,10 +290,10 @@ onFileEscrituraEmpresaChange(event: Event): void {
   }
 }
 
-get docAcreditativoRepresentanteFileNames(): string {
+get docAcredRepresFileNames(): string {
   return this.file_document_acred_como_represToUpload.map(f => f.name).join(', ')
 }
-onFiledocAcreditativoRepresentanteChange(event: Event): void {
+onFileDocAcredRepresChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {
     this.file_document_acred_como_represToUpload = Array.from(input.files);
@@ -289,7 +301,7 @@ onFiledocAcreditativoRepresentanteChange(event: Event): void {
   }
 }
 
-get certificadoAEATFileNames(): string {
+get certficadoAEATFileNames(): string {
   return this.file_certificadoAEATToUpload.map(f => f.name).join(', ')
 }
 onFilecertificadoAEATChange(event: Event): void {

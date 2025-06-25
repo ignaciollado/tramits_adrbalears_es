@@ -281,7 +281,7 @@
           <input
             type="text"
             matInput
-            [value]="nifEmpresaFileNames"
+            [value]="escrituraPublicaFileNames"
             placeholder="{{ 'FILES.SELECTFILESESCRITPUB' | translate }}"
             readonly
             (click)="file_escrituraPublica.click()"/>
@@ -290,7 +290,7 @@
         #file_escrituraPublica
         formControlName = "file_escrituraPublica"        
         type="file"
-        (change)="onFileNifEmpresaChange($event)"
+        (change)="onFileEscrituraEmpresaChange($event)"
         multiple
         accept=".pdf"
         hidden />
@@ -306,7 +306,7 @@
           <input
             type="text"
             matInput
-            [value]="nifEmpresaFileNames"
+            [value]="docAcredRepresFileNames"
             placeholder="{{ 'FILES.SELECTFILEDOCACREDREPRESENTANTE' | translate }}"
             readonly
             (click)="file_docAcredRepresentante.click()"/>
@@ -315,7 +315,7 @@
         #file_docAcredRepresentante
         formControlName = "file_docAcredRepresentante"        
         type="file"
-        (change)="onFileNifEmpresaChange($event)"
+        (change)="onFileDocAcredRepresChange($event)"
         multiple
         accept=".pdf"
         hidden />
@@ -331,7 +331,7 @@
           <input
             type="text"
             matInput
-            [value]="nifEmpresaFileNames"
+            [value]="certficadoAEATFileNames"
             placeholder="{{ 'FILES.SELECTFILECERTIFICADOAEAT' | translate }}"
             readonly
             (click)="file_certificadoAEAT.click()"/>
@@ -340,7 +340,7 @@
         #file_certificadoAEAT
         formControlName = "file_certificadoAEAT"        
         type="file"
-        (change)="onFileNifEmpresaChange($event)"
+        (change)="onFilecertificadoAEATChange($event)"
         multiple
         accept=".pdf"
         hidden />
@@ -348,8 +348,7 @@
         <li *ngFor="let file of file_certificadoAEATToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
       <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
-    </section>     
-
+    </section>
   </mat-expansion-panel>  
 
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
@@ -412,7 +411,7 @@
           >
           {{ responsibilityDeclarations[1] }}
         </mat-checkbox>
-        <section *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === false" class="importe-minimis">
+        <section *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === true" class="importe-minimis">
           <input type="number" formControlName="importe_minimis">
         </section>         
         <mat-checkbox
