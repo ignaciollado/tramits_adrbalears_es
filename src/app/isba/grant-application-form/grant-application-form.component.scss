@@ -67,26 +67,24 @@ div.ng-invalid.ng-touched {
   font-size: 0.875rem;
 }
 
-.section-applicant-type {
+section.form {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.personal-data {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 10px;
-}
-
-.notification-channel {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 10px;
-
-  .inputs {
-    display: grid;
+  &.applicant-type{
+    grid-template-columns: 1fr 1fr;
+  }
+  &.personal-data, &.financial-data {
     grid-template-columns: 1fr 1fr;
     column-gap: 10px;
+    row-gap: 10px;
+  }
+  &.notification-channel {
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    .inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 10px;
+    }
   }
 }
 
@@ -110,23 +108,23 @@ div.ng-invalid.ng-touched {
 // }
 
 section.info-header {
-    background-color: white;
-    color: black;
-    margin: auto;
-    padding-bottom: 1.1rem;
-    display: grid;
-    
-    .banner {
-        background-color: #F8D7DA;
-        color: #58151C;       
-        padding: 0.9rem;
-        border-radius: 8px;
-        font-size: 0.75rem;
-        display: grid;
-        justify-content: center;
-    }
+  background-color: white;
+  color: black;
+  margin: auto;
+  padding-bottom: 1.1rem;
+  display: grid;
 
-    .info {
-        font-size: 0.80rem;
-    }
+  .banner {
+    background-color: #f8d7da;
+    color: #58151c;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    display: grid;
+    justify-content: center;
+  }
+
+  .info {
+    font-size: 0.8rem;
+  }
 }

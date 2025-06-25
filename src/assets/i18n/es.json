@@ -368,26 +368,26 @@
         "ERROR": "El nombre de la entidad financiera introducido no es válido."
       },
       "TRANSACTION-AMOUNT": {
-        "LABEL": "Importe de la operación financiera",
+        "LABEL": "Importe de la operación financiera (€)",
         "ERROR": "El importe de la operación financiera introducido no es válido."
       },
       "LOAN-TERM": {
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Plazo del préstamo de la entidad financiera (en años)",
+        "ERROR": "El plazo del préstamo introducido no es válido."
       },
       "FORMALIZATION-DATE" :{
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Fecha de formalización del aval",
+        "ERROR": "La fecha de formalización del aval introducida no es válida."
       },
       "AVAL-TERM": {
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Plazo del aval de ISBA, SGR (en años)",
+        "ERROR": "El plazo del aval introducido no es válido."
       },
       "AVAL-AMOUNT": {
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Cuantía del aval de ISBA, SGR (€)",
+        "ERROR": "La cuantía del aval introducida no es válida."
       },
-      "IMPORT-HINT": ""
+      "HINT": "Sin separador de miles y con '.' como separador de decimales."
     },
     "PROJECT-BUDGET": {},
     "DECLARATIONS": {},

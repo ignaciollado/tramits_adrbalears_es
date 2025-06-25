@@ -61,8 +61,18 @@ export class IsbaGrantApplicationFormComponent {
       nom_representante: this.fb.control<string>({ value: '', disabled: true }, []),
       nif_representante: this.fb.control<string>({ value: '', disabled: true }, []),
       telefono_contacto_rep: this.fb.control<string>({ value: '', disabled: true }, []),
+
       tel_representante: this.fb.control<string>('', [Validators.required, Validators.maxLength(9), Validators.minLength(9), Validators.pattern('[0-9]{9}')]),
       mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
+      nom_entidad: this.fb.control<string>('', [Validators.required]),
+      importe_prestamo: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+      plazo_prestamo: this.fb.control<string>('', [Validators.required,]),
+      fecha_aval_isba: this.fb.control<string>('', [Validators.required]),
+      plazo_aval_isba: this.fb.control<string>('', [Validators.required]),
+      cuantia_aval_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+
+
+
 
       tipo_tramite: this.fb.control<string>('ADR-ISBA')
 

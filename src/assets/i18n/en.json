@@ -361,33 +361,33 @@
       }
     },
     "FINANCIAL-DATA": {
-      "TITLE": "",
-      "DESCRIPTION": "",
+      "TITLE": "Financial operation data",
+      "DESCRIPTION": "Enter some data of the financial operation.",
       "ENTITY-NAME": {
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Name of the financial entity",
+        "ERROR": "The name of the financial institution entered is not valid."
       },
       "TRANSACTION-AMOUNT": {
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Amount of the financial operation (€)",
+        "ERROR": "The amount of the financial operation entered is not valid."
       },
       "LOAN-TERM": {
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Financial institution loan term (in years)",
+        "ERROR": "The loan term entered is not valid."
       },
       "FORMALIZATION-DATE" :{
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Date of guarantee formalization",
+        "ERROR": "The date of guarantee formalization entered is not valid."
       },
       "AVAL-TERM": {
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Term of the ISBA, SGR guarantee (in years)",
+        "ERROR": "The term of the guarantee entered is not valid."
       },
       "AVAL-AMOUNT": {
-        "LABEL": "",
-        "ERROR": ""
+        "LABEL": "Amount of the ISBA, SGR guarantee (€)",
+        "ERROR": "The amount of the guarantee entered is not valid."
       },
-      "IMPORT-HINT": ""
+      "HINT": "Without thousands separator and with '.' as decimal separator."
     },
     "PROJECT-BUDGET": {},
     "DECLARATIONS": {},
