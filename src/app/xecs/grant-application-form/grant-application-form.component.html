@@ -203,6 +203,8 @@
         <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
   </section>
+
+
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKNAME' | translate }}</mat-label>
     <input matInput formControlName="nom_entidad" />
@@ -271,7 +273,83 @@
       </ul>
       <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
 
-  </section> 
+  </section>
+
+  <section ngClass="escritura-publica">
+      <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'FILES.SELECTFILESESCRITPUB' | translate }}</mat-label>
+          <input
+            type="text"
+            matInput
+            [value]="nifEmpresaFileNames"
+            placeholder="{{ 'FILES.SELECTFILESESCRITPUB' | translate }}"
+            readonly
+            (click)="file_escrituraPublica.click()"/>
+      </mat-form-field>
+      <input
+        #file_escrituraPublica
+        formControlName = "file_escrituraPublica"        
+        type="file"
+        (change)="onFileNifEmpresaChange($event)"
+        multiple
+        accept=".pdf"
+        hidden />
+      <ul *ngIf="file_escritura_empresaToUpload.length > 0">
+        <li *ngFor="let file of file_escritura_empresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+      </ul>
+      <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
+    </section>
+
+    <section ngClass="doc-acred-representante">
+      <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'FILES.SELECTFILEDOCACREDREPRESENTANTE' | translate }}</mat-label>
+          <input
+            type="text"
+            matInput
+            [value]="nifEmpresaFileNames"
+            placeholder="{{ 'FILES.SELECTFILEDOCACREDREPRESENTANTE' | translate }}"
+            readonly
+            (click)="file_docAcredRepresentante.click()"/>
+      </mat-form-field>
+      <input
+        #file_docAcredRepresentante
+        formControlName = "file_docAcredRepresentante"        
+        type="file"
+        (change)="onFileNifEmpresaChange($event)"
+        multiple
+        accept=".pdf"
+        hidden />
+      <ul *ngIf="file_document_acred_como_represToUpload.length > 0">
+        <li *ngFor="let file of file_document_acred_como_represToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+      </ul>
+      <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
+    </section>
+
+    <section ngClass="certificado-aeat">
+      <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'FILES.SELECTFILECERTIFICADOAEAT' | translate }}</mat-label>
+          <input
+            type="text"
+            matInput
+            [value]="nifEmpresaFileNames"
+            placeholder="{{ 'FILES.SELECTFILECERTIFICADOAEAT' | translate }}"
+            readonly
+            (click)="file_certificadoAEAT.click()"/>
+      </mat-form-field>
+      <input
+        #file_certificadoAEAT
+        formControlName = "file_certificadoAEAT"        
+        type="file"
+        (change)="onFileNifEmpresaChange($event)"
+        multiple
+        accept=".pdf"
+        hidden />
+      <ul *ngIf="file_certificadoAEATToUpload.length > 0">
+        <li *ngFor="let file of file_certificadoAEATToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+      </ul>
+      <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
+    </section>     
+
   </mat-expansion-panel>  
 
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">

@@ -56,6 +56,7 @@ export class GrantApplicationFormComponent {
   xecsPrograms: XecsProgramsDTO[] = []
   responsibilityDeclarations: string[] = []
   authorizations: AuthorizationTextDTO[] = []
+  filesToUploadOptional: string[] = []  // new
 
   constructor ( private fb: FormBuilder, 
     private http: HttpClient, 
@@ -84,10 +85,16 @@ export class GrantApplicationFormComponent {
     nom_consultor: this.fb.control<string | null>(''),
     tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]{9}$')),
     mail_consultor: this.fb.control<string | null>('', Validators.email),
-    file_memoriaTecnica: this.fb.control<string | null>('', Validators.required),
-    file_certificadoIAE: this.fb.control<string | null>('', Validators.required),
-    file_nifEmpresa: this.fb.control<string | null>('', Validators.required),
+    file_memoriaTecnica: this.fb.control<string | null>('SI', Validators.required),
+    file_certificadoIAE: this.fb.control<string | null>('SI', Validators.required),
+    file_nifEmpresa: this.fb.control<string | null>('SI', Validators.required),
+    file_escrituraPublica: this.fb.control<string | null>('SI', Validators.required),
+    file_docAcredRepresentante: this.fb.control<string | null>('SI', Validators.required),
+    file_certificadoAEAT: this.fb.control<string | null>('SI', Validators.required),
 
+    file_copiaNIF: this.fb.control<string | null>('NO'),
+    file_certificadoATIB: this.fb.control<string | null>('NO'),
+    file_certificadoSegSoc: this.fb.control<string | null>('NO'),
 
     nom_entidad: this.fb.control<string | null>('', ),
     domicilio_sucursal: this.fb.control<string | null>('', ),
@@ -190,9 +197,13 @@ setStep(index: number) {
 file_memoriaTecnicaToUpload: File[] = []
 file_certificadoIAEToUpload: File[] = []
 file_nifEmpresaToUpload: File[] = []
-file_copiaNIFToUpload: File[] = []
-file_certificadoATIBToUpload: File[] = []
-file_certificadoSegSocToUpload: File[] = []
+file_escritura_empresaToUpload: File[] = [] // new
+file_document_acred_como_represToUpload: File[] = [] // new
+file_certificadoAEATToUpload: File[] = [] // new
+
+file_copiaNIFToUpload: File[] = [] // optional
+file_certificadoATIBToUpload: File[] = [] // optional
+file_certificadoSegSocToUpload: File[] = [] // optional
 
 onSubmit(): void {
     const datos = this.ayudaForm.value;
@@ -200,7 +211,9 @@ onSubmit(): void {
     console.log (datos)
 
     const timeStamp = this.commonService.generateCustomTimestamp();
-    const filesToUpload = [ this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload ]
+    const filesToUpload = [ 
+      this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
+      this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload ]
 
     from(filesToUpload)
     .pipe(
@@ -252,6 +265,41 @@ onFileNifEmpresaChange(event: Event): void {
     console.log ("this.file_nifEmpresaToUpload", this.file_nifEmpresaToUpload)
   }
 }
+
+get escrituraEmpresaFileNames(): string {
+  return this.file_escritura_empresaToUpload.map(f => f.name).join(', ')
+}
+onFileEscrituraEmpresaChange(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.file_escritura_empresaToUpload = Array.from(input.files);
+    console.log ("this.file_escritura_empresaToUpload", this.file_escritura_empresaToUpload)
+  }
+}
+
+get docAcreditativoRepresentanteFileNames(): string {
+  return this.file_document_acred_como_represToUpload.map(f => f.name).join(', ')
+}
+onFiledocAcreditativoRepresentanteChange(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.file_document_acred_como_represToUpload = Array.from(input.files);
+    console.log ("this.file_document_acred_como_represToUpload", this.file_document_acred_como_represToUpload)
+  }
+}
+
+get certificadoAEATFileNames(): string {
+  return this.file_certificadoAEATToUpload.map(f => f.name).join(', ')
+}
+onFilecertificadoAEATChange(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.file_certificadoAEATToUpload = Array.from(input.files);
+    console.log ("this.file_certificadoAEATToUpload", this.file_certificadoAEATToUpload)
+  }
+}
+
+/* optional files to upload */
 
 get copiaNifFileNames(): string {
   return this.file_copiaNIFToUpload.map(f => f.name).join(', ')
