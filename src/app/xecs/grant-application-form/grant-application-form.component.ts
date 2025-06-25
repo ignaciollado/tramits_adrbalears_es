@@ -195,7 +195,7 @@ authorizations = [
   "Certificat de la Tesorería General de la Seguridad Social (TGSS) d'estar al corrent de pagament de les seves obligacions."
 ]
 
-responsibleDeclarations = [
+responsibilityDeclarations = [
   "I) Que complesc el reglament (UE) núm.1407/2013 de la Comissió de 18 de desembre de 2013, relatiu a l’aplicació dels articles 107 i 108 del Tractat de Funcionament de la Unió Europea de les ajudes de minimis i el reglament (UE) 2023/2831 de la comissió, de 13 de desembre de 2023, relatiu a l’aplicació dels articles 107 i 108 del Tractat.",
   "II) Que durant els exercicis fiscals 2022, 2023 i 2024 he rebut un import total d’ajuts de minimis de:",
   "III) Que no he rebut ajuts o subvencions d’altres administracions públiques, o d’altres ens públics o privats, nacionals o internacionals que, aïlladament o en concurrència, superi el 100 % del cost de l’activitat que hagi de desenvolupar l’empresa beneficiària.",
