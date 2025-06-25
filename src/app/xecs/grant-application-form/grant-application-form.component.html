@@ -34,11 +34,11 @@
     </mat-expansion-panel-header>
       <section class="checkbox-group">
         <mat-checkbox
-          *ngFor="let prog of programas"
-          [value]="prog"
+          *ngFor="let prog of xecsPrograms"
+          [value]="prog.value"
           (change)="onCheckboxChange($event)"
           [checked]="ayudaForm.get('opc_programa')?.value.includes(prog)">
-          {{ prog }}
+          {{ prog.label }} {{ prog.explication}}
         </mat-checkbox>
       </section>
       <mat-error *ngIf="ayudaForm.get('opc_programa')?.invalid && ayudaForm.get('opc_programa')?.touched">
@@ -172,7 +172,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.ATTACHEDDOCUMENTATION' | translate }}</mat-panel-title>
       <mat-panel-description>
-        Cargue los documentos que desea enviarnos
+        Cargue los documentos que nos tiene que enviar
         <mat-icon>file_copy</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -285,21 +285,18 @@
       <section class="checkbox-group">
         <mat-checkbox
           formControlName = "consentimientocopiaNIF"
-          (change)="onCheckboxChange($event)"
-          >
-          {{ authorizations[0] }}
+          (change)="onCheckboxChange($event)">
+          {{ authorizations[0]['label'] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "consentimiento_certificadoATIB"
-          (change)="onCheckboxChange($event)"
-          >
-          {{ authorizations[1] }}
+          (change)="onCheckboxChange($event)">
+          {{ authorizations[1]['label'] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "consentimiento_certificadoSegSoc"
-          (change)="onCheckboxChange($event)"
-          >
-          {{ authorizations[2] }}
+          (change)="onCheckboxChange($event)">
+          {{ authorizations[2]['label'] }}
         </mat-checkbox>
       </section>
   </mat-expansion-panel>
@@ -384,7 +381,7 @@
   {{ ayudaForm.value | json}}
 </section> -->
 
-<section class="ayudaform-status">
+<!-- <section class="ayudaform-status">
   <h3>Estado general del formulario:</h3>
   <p><strong>{{ ayudaForm.status }}</strong></p>
   <h4>Errores por campo:</h4>
@@ -398,5 +395,5 @@
       <span ngClass="sin-errores" *ngIf="!control.value.errors">Sin errores</span>
     </div>
   </div>
-</section>
+</section> -->
 </section>

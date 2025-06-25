@@ -1,0 +1,17 @@
+[
+  {
+    "value": "identificatiu_solicitant",
+    "label": "Identificación del solicitante o representante de la empresa: documento identificativo o de la persona autorizada por la empresa en representación de la misma",
+    "label_ca": "Identificació del sol·licitant o representant de l'empresa: Document identificatiu de la persona sol·licitant o persona autoritzada per l’empresa en representació de la mateixa."
+  },
+  {
+    "value": "certificat_atib",
+    "label": "Certificado ATIB: Certificat de l'Agència Tributària de les Illes Balears (ATIB) de estar al corriente de las obligaciones tributarias con la Comunidad Autónoma de les Illes Balears",
+    "label_ca": "Certificat ATIB: Certificat de l'Agència Tributària de les Illes Balears (ATIB) d'estar al corrent de les obligacions tributàries amb la Comunitat Autònoma de les Illes Balears."
+  },
+  {
+    "value": "certificat_tgss",
+    "label": "Certificado TGSS: Certificado de la Tesorería General de la Seguridad Social de estar al corriente de pago de sus obligaciones",
+    "label_ca": "Certificat TGSS: Certificat de la Tesorería General de la Seguridad Social (TGSS) d'estar al corrent de pagament de les seves obligacions."
+  }
+]

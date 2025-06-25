@@ -19,7 +19,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       HttpClientModule,
       TranslateModule.forRoot({
-        defaultLanguage: 'es',
+        defaultLanguage: 'es-ES',
         loader: {
           provide: TranslateLoader,
           useFactory: createTranslateLoader,

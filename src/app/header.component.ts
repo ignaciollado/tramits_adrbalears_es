@@ -17,20 +17,20 @@ import { MatIconModule } from '@angular/material/icon';
 })
 
 export class HeaderComponent implements OnInit {
-  title: string = 'tramits adrbalears es';
+  title: string = 'tramits adrbalears es-ES';
   languageForm: FormGroup = this.fb.group({
-  preferredLang: [localStorage.getItem('preferredLang') || 'es']
+  preferredLang: [localStorage.getItem('preferredLang') || 'es-ES']
 });
 
 
   constructor(private translate: TranslateService, private fb: FormBuilder) {
-    this.translate.addLangs (['es', 'ca', 'en']);
-    this.translate.setDefaultLang ('es');
-    this.translate.use ('es');
+    this.translate.addLangs (['es-ES', 'ca-ES', 'en-EN']);
+    this.translate.setDefaultLang ('es-ES');
+    this.translate.use ('es-ES');
   }
 
   ngOnInit(): void {
-    const storedLang = localStorage.getItem('preferredLang') || 'es';
+    const storedLang = localStorage.getItem('preferredLang') || 'es-ES';
     this.languageForm = this.fb.group({
     preferredLang: [storedLang]
     });

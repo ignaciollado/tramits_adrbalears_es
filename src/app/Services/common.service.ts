@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { ZipCodesIBDTO } from '../Models/zip-codes-ib.dto';
 import { CnaeDTO } from '../Models/cnae.dto';
+import { XecsProgramsDTO } from '../Models/xecs-programs-dto';
+import { AuthorizationTextDTO } from '../Models/authorization-texts-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +17,25 @@ export class CommonService {
 
 
   constructor(private http: HttpClient) {
-    this.urlAPIMock = '../../assets/mocks/';
+    this.urlAPIMock = '../../assets/data/';
     this.urlAPI = "https://data.ibrelleu.es/public/index.php"
     this.urlAPITramits = "https://pre-tramits.idi.es/public/index.php"
   }
 
+  // Documentos y autorizaciones XECS
+  getDocumentationAndAuthorizations(): Observable<AuthorizationTextDTO[]> {
+    return this.http.get<AuthorizationTextDTO[]>(`${this.urlAPIMock}authorizationTexts.json`).pipe(catchError(this.handleError))
+  }
+
+  // Programas linea XECS
+  getXecsPrograms(): Observable<XecsProgramsDTO[]> {
+    return this.http.get<XecsProgramsDTO[]>(`${this.urlAPIMock}xecsPrograms.json`).pipe(catchError(this.handleError))
+  }
+
+  // Responsability Declarations XECS
+  getResponsabilityDeclarations(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.urlAPIMock}xecsPrograms.json`).pipe(catchError(this.handleError))
+  }
 
   // CRUD ZipCode
   getZipCodes(): Observable<ZipCodesIBDTO[]> {

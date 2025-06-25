@@ -16,7 +16,6 @@ import { map, Observable, startWith } from 'rxjs';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
-import { DataService } from '../../Services/data.service';
 
 
 @Component({
@@ -67,7 +66,7 @@ export class IlsGrantApplicationFormComponent {
 
 
   accordion = viewChild.required(MatAccordion)
-  constructor(private dataService: DataService, private commonService: CommonService , private customValidator: CustomValidatorsService, private fb: FormBuilder) {
+  constructor( private commonService: CommonService , private customValidator: CustomValidatorsService, private fb: FormBuilder ) {
     this.ilsForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
       tipo_solicitante: this.fb.control<string>('', Validators.required),
@@ -111,7 +110,7 @@ export class IlsGrantApplicationFormComponent {
 
     })
 
-    this.dataService.getAllMockIAE().subscribe((epigrafesIAE: any[]) => {
+    this.commonService.getCNAEs().subscribe((epigrafesIAE: any[]) => {
       this.epigrafesIAE = epigrafesIAE
     })
 

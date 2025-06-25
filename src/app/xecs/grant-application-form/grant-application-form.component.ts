@@ -25,9 +25,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NifValidatorService } from '../../Services/nif-validator-service';
 import { jsPDF } from 'jspdf';
 import { CnaeDTO } from '../../Models/cnae.dto';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { from } from 'rxjs';
 import { catchError, concatMap, tap } from 'rxjs/operators';
+import { XecsProgramsDTO } from '../../Models/xecs-programs-dto';
+import { AuthorizationTextDTO } from '../../Models/authorization-texts-dto';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -50,9 +52,12 @@ export class GrantApplicationFormComponent {
   accordion = viewChild.required(MatAccordion)
   rgpdAccepted = false
   introText: string = "getting intro text..."
-  filteredZipCodes: Observable<ZipCodesIBDTO[]> | undefined;
-  zipCodes: ZipCodesIBDTO[] = [];
-  cnaes: CnaeDTO[] = [];
+  filteredZipCodes: Observable<ZipCodesIBDTO[]> | undefined
+  zipCodes: ZipCodesIBDTO[] = []
+  cnaes: CnaeDTO[] = []
+  xecsPrograms: XecsProgramsDTO[] = []
+  responsibilityDeclarations: string[] = []
+  authorizations: AuthorizationTextDTO[] = []
 
   constructor ( private fb: FormBuilder, 
     private http: HttpClient, 
@@ -110,6 +115,9 @@ export class GrantApplicationFormComponent {
 
 this.getAllZipCodes()
 this.getAllCnaes()
+this.getAllXecsPrograms()
+this.getResponsabilityDeclarations()
+this.getDocumentationAndAuthorizations()
 
 this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })
  .subscribe({
@@ -180,34 +188,6 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
 setStep(index: number) {
   this.step.set(index);
 }
-
-programas = [
-  "«IDigital», estratègia per impulsar la digitalització en la indústria de les Illes Balears.",
-  "«IExporta», estratègia per impulsar la internacionalització de les empreses industrials de les Illes Balears.",
-  "«ISostenibilitat», Identificació i càlcul de les emissions de gasos amb efecte d'hivernacle de l'organització.",
-  "«ISostenibilitat», Identificació i càlcul de les emissions de gasos d'efecte d'hivernacle de producte.",
-  "«IGestió», estratègia per impulsar la implantació d'eines de gestió avançada i optimització de processos de la indústria de les Illes Balears."
-];
-
-authorizations = [
-  "Document identificatiu de la persona sol·licitant o persona autoritzada per l’empresa en representació de la mateixa.",
-  "Certificat de l'Agència Tributària de les Illes Balears (ATIB) d'estar al corrent de les obligacions tributàries amb la comunitat autònoma de les Illes Balears.",
-  "Certificat de la Tesorería General de la Seguridad Social (TGSS) d'estar al corrent de pagament de les seves obligacions."
-]
-
-responsibilityDeclarations = [
-  "I) Que complesc el reglament (UE) núm.1407/2013 de la Comissió de 18 de desembre de 2013, relatiu a l’aplicació dels articles 107 i 108 del Tractat de Funcionament de la Unió Europea de les ajudes de minimis i el reglament (UE) 2023/2831 de la comissió, de 13 de desembre de 2023, relatiu a l’aplicació dels articles 107 i 108 del Tractat.",
-  "II) Que durant els exercicis fiscals 2022, 2023 i 2024 he rebut un import total d’ajuts de minimis de:",
-  "III) Que no he rebut ajuts o subvencions d’altres administracions públiques, o d’altres ens públics o privats, nacionals o internacionals que, aïlladament o en concurrència, superi el 100 % del cost de l’activitat que hagi de desenvolupar l’empresa beneficiària.",
-  "IV) Que dispòs de la capacitat de representació suficient, degudament acreditada, per dur a terme la tramitació indicada.",
-  "V) Que no em trob en cap de les circumstàncies especificades a l’article 10 del Decret legislatiu 2/2005, de 28 de desembre, pel qual s’aprova el Text refós de la Llei de subvencions, que s’ha d’incloure en la sol·licitud.",
-  "VI) Que l’entitat beneficiària està inscrita en el Registre Industrial o en el Registre Miner de les Illes Balears, si escau.",
-  "VII) Que complesc amb les exigències establertes per la normativa en matèria de seguretat industrial i minera, i qualsevol altra que hi sigui aplicable; en el cas de les empreses industrials s’ha d’incloure en la sol·licitud. ",
-  "VIII) Que les dades consignades en aquest document són certes, que complesc amb tots els requisits exigits en la convocatòria, i que presento adjunta la documentació corresponent, d’acord amb la resolució de la convocatòria.",
-  "IX) Que el consultor compleix amb el punts 7.2 i 7.3 de la convocatòria.",
-  "X)  Que he iniciat, en un temps superior a dos anys, una activitat econòmica en el territori de les Illes Balears, amb domicili a les Illes Balears, i que no supero els paràmetres de la condició de pime.",
-  "XI) Que no tinc la consideració d’empresa en crisi d’acord amb l’article 2.18 del Reglament ( UE) 651/2014 de la comissió de dia 17 de juny de 2014."
-]
 
 file_memoriaTecnicaToUpload: File[] = []
 file_certificadoIAEToUpload: File[] = []
@@ -341,6 +321,24 @@ private getAllCnaes() {
       }, (error) => {  console.error("Error real:", error);
   this.showSnackBar(error + ' ' + error.message || 'Error'); });
 }
+
+private getAllXecsPrograms() {
+  this.commonService.getXecsPrograms().subscribe((programs: XecsProgramsDTO[]) => {
+    this.xecsPrograms = programs
+  })
+}
+
+private getResponsabilityDeclarations() {
+  this.commonService.getResponsabilityDeclarations().subscribe((responsibilityDeclarations: string[]) => {
+    this.responsibilityDeclarations = responsibilityDeclarations
+  })
+}
+
+private getDocumentationAndAuthorizations() {
+  this.commonService.getDocumentationAndAuthorizations().subscribe((authorizations: AuthorizationTextDTO[]) => {
+    this.authorizations = authorizations
+  })
+} 
 
 generateCertificate(dataToRender: any): void {
   const doc = new jsPDF();
