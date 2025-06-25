@@ -192,6 +192,7 @@ file_certificadoIAEToUpload: File[] = []
 file_nifEmpresaToUpload: File[] = []
 file_copiaNIFToUpload: File[] = []
 file_certificadoATIBToUpload: File[] = []
+file_certificadoSegSocToUpload: File[] = []
 
 onSubmit(): void {
     const datos = this.ayudaForm.value;
@@ -253,7 +254,7 @@ onFileNifEmpresaChange(event: Event): void {
 }
 
 get copiaNifFileNames(): string {
-  return this.file_nifEmpresaToUpload.map(f => f.name).join(', ')
+  return this.file_copiaNIFToUpload.map(f => f.name).join(', ')
 }
 onFileCopiaNifChange(event: Event): void {
   const input = event.target as HTMLInputElement;
@@ -264,13 +265,24 @@ onFileCopiaNifChange(event: Event): void {
 }
 
 get certificadoATIBFileNames(): string {
-  return this.file_nifEmpresaToUpload.map(f => f.name).join(', ')
+  return this.file_certificadoATIBToUpload.map(f => f.name).join(', ')
 }
-onFilefcertificadoATIBChange(event: Event): void {
+onFilecertificadoATIBChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {
     this.file_certificadoATIBToUpload = Array.from(input.files);
     console.log ("this.file_certificadoATIBToUpload", this.file_certificadoATIBToUpload)
+  }
+}
+
+get certificadoSegSocFileNames(): string {
+  return this.file_certificadoSegSocToUpload.map(f => f.name).join(', ')
+}
+onFilecertificadoSegSocChange(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  if (input.files) {
+    this.file_certificadoSegSocToUpload = Array.from(input.files);
+    console.log ("this.file_certificadoSegSocToUpload", this.file_certificadoSegSocToUpload)
   }
 }
 
