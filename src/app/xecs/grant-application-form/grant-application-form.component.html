@@ -412,6 +412,9 @@
           >
           {{ responsibilityDeclarations[1] }}
         </mat-checkbox>
+        <section *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === false" class="importe-minimis">
+          <input type="number" formControlName="importe_minimis">
+        </section>         
         <mat-checkbox
           formControlName = "declaracion_responsable_iv"
           (change)="onCheckboxChange($event)"

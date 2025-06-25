@@ -108,6 +108,7 @@ export class GrantApplicationFormComponent {
 
     declaracion_responsable_i: this.fb.control<string | null>({ value: 'true', disabled: true }),
     declaracion_responsable_ii: this.fb.control<string | null>(''),
+    importe_minimis: this.fb.control<string | null>(''),
     declaracion_responsable_iv: this.fb.control<string | null>({ value: 'true', disabled: true }),
     declaracion_responsable_v: this.fb.control<string | null>({ value: 'true', disabled: true }),
     declaracion_responsable_vi: this.fb.control<string | null>({ value: 'true', disabled: true }),
