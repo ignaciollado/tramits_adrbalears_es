@@ -10,12 +10,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, startWith } from 'rxjs';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
+import { DocumentService } from '../../Services/document.service';
+import { ExpedienteService } from '../../Services/expediente.service';
+import { CnaeDTO } from '../../Models/cnae.dto';
 
 
 @Component({
@@ -62,11 +66,11 @@ export class IlsGrantApplicationFormComponent {
   zipCodeList: ZipCodesIBDTO[] = []
   options: ZipCodesIBDTO[] = []
   filteredOptions: Observable<ZipCodesIBDTO[]> | undefined;
-  epigrafesIAE: any[] = []
+  actividadesCNAE: CnaeDTO[] = []
 
 
   accordion = viewChild.required(MatAccordion)
-  constructor( private commonService: CommonService , private customValidator: CustomValidatorsService, private fb: FormBuilder ) {
+  constructor(private commonService: CommonService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.ilsForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
       tipo_solicitante: this.fb.control<string>('', Validators.required),
@@ -74,9 +78,9 @@ export class IlsGrantApplicationFormComponent {
       denom_interesado: this.fb.control<string>('', Validators.required),
       domicilio: this.fb.control<string>('', Validators.required),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
-      localidad: this.fb.control<string>({ value: '', disabled: true }),
+      localidad: this.fb.control<string>(''),
       tel_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9), Validators.minLength(9)]),
-      codigoIAE: this.fb.control<any>('', [Validators.required]),
+      codigoIAE: this.fb.control<string>('', [Validators.required]),
       sitio_web_empresa: this.fb.control<string>('', []),
       video_empresa: this.fb.control<string>('', []),
       nom_representante: this.fb.control<string>('', [Validators.required]),
@@ -106,12 +110,13 @@ export class IlsGrantApplicationFormComponent {
       file_certificado_itinerario_formativo: this.fb.control<File | null>(null, [Validators.required]),
       file_memoriaTecnica: this.fb.control<File | null>(null),
       file_nifEmpresa: this.fb.control<File | null>(null),
-      file_logotipoEmpresaIls: this.fb.control<File | null>(null)
+      file_logotipoEmpresaIls: this.fb.control<File | null>(null),
+
+      tipo_tramite: this.fb.control<string>('ILS')
 
     })
-
-    this.commonService.getCNAEs().subscribe((epigrafesIAE: any[]) => {
-      this.epigrafesIAE = epigrafesIAE
+    this.commonService.getCNAEs().subscribe((actividadesCNAE: any[]) => {
+      this.actividadesCNAE = actividadesCNAE
     })
 
   }
@@ -149,10 +154,31 @@ export class IlsGrantApplicationFormComponent {
     })
 
     this.loadZipcodes()
+    this.loadActividadesCNAE()
   }
 
   onSubmit(): void {
     console.log(this.ilsForm.value)
+  }
+
+  // Creo sello de tiempo
+  private createTimestamp(): string {
+    const date = new Date();
+
+    const day = String(date.getDate()).padStart(2, '0')
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const year = String(date.getFullYear())
+
+    let hours = date.getHours()
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    const esPM = hours >= 12;
+    hours = hours % 12 || 12;
+    const hours12 = String(hours).padStart(2, '0')
+    const sufix = esPM ? 'pm' : 'am'
+
+    return (`${day}_${month}_${year}_${hours12}_${minutes}_${seconds}${sufix}`)
   }
 
   // Subida individual de archivo.
@@ -198,7 +224,15 @@ export class IlsGrantApplicationFormComponent {
       const filteredZipcodes: ZipCodesIBDTO[] = zipcodes.filter((zipcode: ZipCodesIBDTO) => zipcode.deleted_at?.toString() === "0000-00-00 00:00:00")
       this.zipCodeList = filteredZipcodes
       this.options = filteredZipcodes
+    }, error => {
+      this.showSnackBar(error)
     })
+  }
+
+  private loadActividadesCNAE(): void {
+    this.commonService.getCNAEs().subscribe((actividadesCNAE: CnaeDTO[]) => {
+      this.actividadesCNAE = actividadesCNAE
+    }, error => { this.showSnackBar(error) })
   }
 
   // Validador con checkboxes
@@ -253,12 +287,21 @@ export class IlsGrantApplicationFormComponent {
     this.ilsForm.get('localidad')?.setValue(this.ilsForm.get('cpostal')?.value['town'])
   }
 
-  displayFn(zpCode: any): string {
+  displayFn(zpCode: ZipCodesIBDTO): string {
     return zpCode && zpCode.zipCode ? zpCode.zipCode : '';
   }
 
-  private _filter(name: string): any[] {
+  private _filter(name: string): ZipCodesIBDTO[] {
     const filterValue = name;
     return this.options.filter((option) => option.zipCode.includes(filterValue))
+  }
+
+  private showSnackBar(error: string): void {
+    this.snackBar.open(error, 'Close', {
+      duration: 10000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
+      panelClass: ['custom-snackbar'],
+    });
   }
 }

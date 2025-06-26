@@ -33,7 +33,6 @@
     "CCOPTION2": "Option 2 - Overseas account number (9999999999999999999999999)",
     "AUTHORISATIONS": "Authorisations",
     "RESPONSIBLEDECLARATION": "Responsible declaration",
-
     "SEND": "Send"
   },
   "FILES": {
@@ -101,19 +100,19 @@
       },
       "MEDIUM": {
         "NAME": "Medium-size enterprise",
-        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights. Other companies that do not meet the above requirements."
+        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights in other companies that do not meet the above requirements."
       }
     },
     "GENERAL-DATA": {
-      "TITLE": "General data",
-      "DESCRIPTION": "Enter your personal data.",
+      "TITLE": "Data of the person concerned",
+      "DESCRIPTION": "Enter some data of the person conrcened.",
       "APPLICANT": {
         "NIF": {
-          "LABEL": "Applicant's DNI/NIE",
+          "LABEL": "DNI/NIE of the applicant",
           "ERROR": "The DNI/NIE entered is not valid."
         },
         "CIF": {
-          "LABEL": "Applicant's VAT number",
+          "LABEL": "VAT number of the applicant",
           "ERROR": "The VAT number entered is not valid."
         }
       },
@@ -122,16 +121,16 @@
         "ERROR": "The name or company name entered is not valid."
       },
       "ADDRESS": {
-        "LABEL": "Applicant's postal address",
+        "LABEL": "Postal address of the applicant",
         "ERROR": "The postal address entered is not valid."
       },
       "ZIPCODE": {
-        "LABEL": "Applicant's zip code [five digits].",
+        "LABEL": "Zip code of the applicant [five digits].",
         "ERROR": "The zip code entered is not valid."
       },
       "TOWN": "Town",
       "CONTACT-PHONE": {
-        "LABEL": "Applicant's contact phone number",
+        "LABEL": "Contact phone number of the applicant",
         "ERROR": "The contact phone number entered is not valid."
       },
       "BAT-EPIGRAPH": {
@@ -142,7 +141,7 @@
       "PRESENTATION-VIDEO": "URL of the company's presentation video (published on Youtube or Vimeo)",
       "REPRESENTATIVE": {
         "NAME": {
-          "LABEL": "Name of legal representative",
+          "LABEL": "Name of the legal representative",
           "ERROR": "The name of the legal representative entered is not valid."
         },
         "NIF": {
@@ -154,7 +153,7 @@
     "NOTIFICATION-CHANNEL": {
       "TITLE": "Notification channel",
       "DESCRIPTION": "Enter your contact information to receive notifications.",
-      "INFO": "In accordance with section 17 of the call, notifications and communications to the applicant will be carried out telematically to the e-mail address designated by the applicant for notification purposes in this application form. Notices of the availability of the notification to the Citizen Folder of the <a href=''>Punto de Acceso General electrónico (Mi carpeta)</a> will be sent to the e-mail address designated in the declarant's data.",
+      "INFO": "In accordance with section 17 of the call, notifications and communications to the applicant will be carried out telematically to the e-mail address designated by the applicant for notification purposes in this application form. Notices of the availability of the notification to the Citizen Folder of the <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=en' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> will be sent to the e-mail address designated in the declarant's data.",
       "PHONE": {
         "LABEL": "Applicant's or representative's phone number",
         "ERROR": "The phone number entered is not valid."
@@ -240,6 +239,258 @@
       }
     },
     "EXPANDALL": "Expand all",
-    "COLAPSEALL": "Colapse all"
+    "COLAPSEALL": "Colapse all",
+    "SEND": "Submit"
+  },
+  "ISBA": {
+    "TITLE": "Aid for financial expenses through the ISBA guarantee",
+    "INFO": {
+      "BANNER": "Applications may be submitted once the interested party has formalized the guarantee with the collaborating entity ISBA SGR (point 9.3 of the call).",
+      "DESTINATION": "<strong>Destination:</strong> AGÈNCIA DE DESENVOLUPAMENT REGIONAL DE LES ILLES BALEARS",
+      "EMITTER": "<strong>Emitter (DIR3):</strong> A04003714",
+      "SIA-CODE": "<strong>SIA Code:</strong> 3153714",
+      "PROCEDURE": "<strong>Form or procedure:</strong> Application for aid to micro, small and medium-sized industrial companies in the Balearic Islands that have approved financial operations guaranteed by ISBA SGR, to cover the financial costs of financing operations for productive investments, energy efficiency and digital transformation foreseen in the Industrial Strategic Plan 2018-2025."
+    },
+    "RGPD": {
+      "TITLE": "GDPR and documentation",
+      "DESCRIPTION": "GDPR conditions and required documentation.",
+      "READ-AND-ACCEPTS": "I have read and accept the terms and conditions of the",
+      "REQUIRED-DOCS": {
+        "INFO": "Before starting, it is advisable to have the following documentation ready:",
+        "DOC-1": "The standard grant application document for this call, which is generated at the end of this wizard by clicking on the 'Send' button and which you will receive by e-mail.",
+        "DOC-2": "Description of the company and its activity, business model and details of the expected investment/investments.",
+        "DOC-3": "Responsible declaration of the veracity of the bank data provided, which is included in the application for aid.",
+        "DOC-4": "BAT certificate updated at the time of application.",
+        "DOC-5": {
+          "INFO": "In case the applicant is a natural person, the following will be required:",
+          "DOC": "The certificate of being in the special regime of self-employed workers or in an equivalent alternative regime."
+        },
+        "DOC-6": {
+          "INFO": "In case the applicant is a legal entity, it will be required:",
+          "DOC-1": "Public deed and bylaws, duly registered in the corresponding registry.",
+          "DOC-2": "Reliable document accrediting the representation of the person acting on behalf of the applicant entity. The representation may be accredited by any legally valid form."
+        },
+        "DOC-7": "Regarding the DNI/NIE of the applicant and/or the person representing him/her, the application for aid will imply the authorization for the ADR Balears to verify his/her personal identity data ex officio. In case of express refusal of consent, it will be necessary to provide this documentation.",
+        "DOC-8": "With respect to the accreditation of regional tax obligations with the Tax Agency of the Balearic Islands and Social Security obligations, the application for aid will imply authorization for the ADR Balears to obtain from the Tax Agency of the Balearic Islands and the General Treasury of the Social Security the information regarding compliance with these obligations, except in the case of express refusal of consent, in which case the applicant person or entity must provide the corresponding certificate, together with the application for aid.",
+        "DOC-9": "Regarding the accreditation of the requirement of being up to date with the tax obligations with the State Agency of the Tax Administration, the certificate of compliance with this obligation must be provided.",
+        "DOC-10": "For grants of more than €30,000, the certificate established in Article 13.3 bis of Law 38/2003 of November 17 must be provided.",
+        "DOC-11": "The certificate of the reciprocal guarantee company that guarantees the financial operation that accredits the date of entry of the beneficiary's request for the guarantee on the financial operation to be subsidized.",
+        "DOC-12": "The financial operation contract.",
+        "DOC-13": "The contract or document of guarantee of the financial operation.",
+        "DOC-14": "A Declaration of Responsibility, included in the standard application form, from the owner of the company or the person legally representing it."
+      },
+      "NOTIFICATION": {
+        "INFO": "At the end of this procedure, you will receive by e-mail a pdf document containing:",
+        "DOC-1": "The standard grant application document of this call for proposals.",
+        "DOC-2": "A responsible declaration of the person who owns the company or who legally represents it."
+      }
+    },
+    "BUSINESS-TYPE": {
+      "TITLE": "Applicant Type",
+      "DESCRIPTION": "Select the option that represents the type of company.",
+      "SELF-EMPLOYED": "Self-employed",
+      "SMALL": {
+        "NAME": "Small enterprise",
+        "INFO": "A small enterprise is considered to be one that has less than 50 employees, an annual turnover or an annual balance sheet total not exceeding €10 million, and does not hold 25% or more of its capital or voting rights and other enterprises that do not qualify as SMEs in accordance with Annex I of the European Commission Regulation (EC) No. 651/2014."
+      },
+      "MEDIUM": {
+        "NAME": "Medium-size enterprise",
+        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights in other companies that do not meet the above requirements."
+      }
+    },
+    "GENERAL-DATA": {
+      "TITLE": "Data of the person concerned",
+      "DESCRIPTION": "Enter some data of the person conrcened.",
+      "APPLICANT": {
+        "NIF": {
+          "LABEL": "DNI/NIE of the applicant",
+          "ERROR": "The DNI/NIE entered is not valid."
+        },
+        "CIF": {
+          "LABEL": "VAT number of the applicant",
+          "ERROR": "The VAT number entered is not valid."
+        }
+      },
+      "COMPANY-NAME": {
+        "LABEL": "Name or company name",
+        "ERROR": "The name or company name entered is not valid."
+      },
+      "ADDRESS": {
+        "LABEL": "Postal address of the applicant",
+        "ERROR": "The postal address entered is not valid."
+      },
+      "ZIPCODE": {
+        "LABEL": "Zip code of the applicant [five digits].",
+        "ERROR": "The zip code entered is not valid."
+      },
+      "TOWN": "Town",
+      "CONTACT-PHONE": {
+        "LABEL": "Contact phone number of the applicant",
+        "ERROR": "The contact phone number entered is not valid."
+      },
+      "BAT-EPIGRAPH": {
+        "LABEL": "BAT epigraph",
+        "ERROR": "The BAT epigraph entered is not valid."
+      },
+      "REPRESENTATIVE": {
+        "NAME": {
+          "LABEL": "Name of the legal representative",
+          "ERROR": "The name of the legal representative entered is not valid."
+        },
+        "NIF": {
+          "LABEL": "DNI/NIE of the legal representative",
+          "ERROR": "The DNI/NIE of the legal representative entered is not valid."
+        },
+        "PHONE": {
+          "LABEL": "Contact phone number of the legal representative",
+          "ERROR": "The contact phone number of the legal representative entered is not valid."
+        }
+      }
+    },
+    "NOTIFICATION-CHANNEL": {
+      "TITLE": "Notification channel",
+      "DESCRIPTION": "Enter your contact information to receive notifications.",
+      "INFO": "In accordance with section 17 of the call, notifications and communications to the applicant will be carried out telematically to the e-mail address designated by the applicant for notification purposes in this application form. Notices of the availability of the notification to the Citizen Folder of the <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=en' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> will be sent to the e-mail address designated in the declarant's data.",
+      "PHONE": {
+        "LABEL": "Applicant's or representative's phone number",
+        "ERROR": "The phone number entered is not valid."
+      },
+      "EMAIL": {
+        "LABEL": "E-mail address for notification purposes",
+        "ERROR": "The e-mail address entered is not valid."
+      }
+    },
+    "FINANCIAL-DATA": {
+      "TITLE": "Financial operation data",
+      "DESCRIPTION": "Enter some data of the financial operation.",
+      "ENTITY-NAME": {
+        "LABEL": "Name of the financial entity",
+        "ERROR": "The name of the financial institution entered is not valid."
+      },
+      "TRANSACTION-AMOUNT": {
+        "LABEL": "Amount of the financial operation (€)",
+        "ERROR": "The amount of the financial operation entered is not valid."
+      },
+      "LOAN-TERM": {
+        "LABEL": "Financial institution loan term (in years)",
+        "ERROR": "The loan term entered is not valid."
+      },
+      "FORMALIZATION-DATE": {
+        "LABEL": "Date of guarantee formalization",
+        "ERROR": "The date of guarantee formalization entered is not valid."
+      },
+      "AVAL-TERM": {
+        "LABEL": "Term of the ISBA, SGR guarantee (in years)",
+        "ERROR": "The term of the guarantee entered is not valid."
+      },
+      "AVAL-AMOUNT": {
+        "LABEL": "Amount of the ISBA, SGR guarantee (€)",
+        "ERROR": "The amount of the guarantee entered is not valid."
+      },
+      "HINT": "Without thousands separator and with '.' as decimal separator."
+    },
+    "PROJECT-BUDGET": {
+      "TITLE": "Investment project and budget",
+      "DESCRIPTION": "Enter some data about the investment and your budget.",
+      "PURPOSE": {
+        "LABEL": "Investment purpose",
+        "ERROR": "The investment purpose entered is not valid."
+      },
+      "IN-ILS": {
+        "LABEL": "At the time of application, is your company a member of the ILS program?",
+        "YES": "YES",
+        "NO": "NO",
+        "YES-INFO": "In the event that the applicant company is a member of the ILS (Local Sustainable Industry) program: The amount of the aid to cover the cost of the guarantee of the financial operations of productive investments will cover the seven years of the original operation, and are: 100% of the cost of the guarantee the seven years of the operation, with the limitation of 1.25% on the amount of the guarantee."
+      },
+      "BUDGET-AMOUNT": {
+        "LABEL": "Budget amount (including VAT)",
+        "ERROR": "The budget amount entered is not valid.",
+        "DETAILS": "With the following subsidies:",
+        "INTEREST-SUBSIDY": "An interest subsidy, consisting of an amount of",
+        "COST-SUBSIDY": "A subsidy to the cost of ISBA's guarantee, consisting of the amount of",
+        "START-STUDY-SUBSIDY": "A grant for start-up and study expenses, consisting of the amount of"
+      },
+      "REQUEST": {
+        "TITLE": "REQUEST",
+        "INFO": "In accordance with the call for the year 2025 for aid to industrial companies with activity in the Balearic Islands to cover the opening and study commissions, interest and the cost of the guarantee for financing operations for productive investments, approved by Resolution of the Minister of Enterprise, Employment and Energy, the corresponding amounts for the operation, guaranteed by the ISBA reciprocal guarantee company, are as follows:",
+        "LABEL": "I request a grant in the amount of",
+        "ERROR": "The amount entered is not valid."
+      },
+      "HINT": "Without thousands separator and with '.' as decimal separator.",
+      "SUBSIDY-ERROR": "The subsidy amount entered is not valid."
+    },
+    "DECLARATIONS": {
+      "TITLE": "Responsible declaration",
+      "DESCRIPTION": "Please read the following responsible statements.",
+      "INFO": "I state:",
+      "DECLARATION-1": "The truthfulness of the data provided in this application.",
+      "DECLARATION-2": "That the applicant qualifies as a small or medium-sized enterprise, in accordance with Annex 1 of Commission Regulation (EU) No. 651/2014 of 17 June 2014 declaring certain categories of aid compatible with the internal market in application of Articles 107 and 108 of the Treaty, meets the requirements to be considered an SME.",
+      "DECLARATION-3": "That the beneficiary person or entity is not subject to any cause of prohibition or incompatibility to receive the aid according to the legislation in force and that the applicant has not been sanctioned or convicted by administrative resolution or final court sentence for wage discrimination, moral harassment or any type of unequal treatment, based on sex, in the field of labor relations.",
+      "DECLARATION-4": "That the applicant is going to carry out the investment activity, as well as the justification of the realization of the activity and the fulfillment of the requirements and conditions that determine the granting of the subsidy.",
+      "DECLARATION-5": "That it has not requested or received any other aid from any other entity, public or private, national or foreign, related to the financial operation or the investment project; or, if not, a list of all aid and subsidies requested or received.",
+      "DECLARATION-5-NO": {
+        "LABEL": "List of all grants and subsidies requested or received.",
+        "ERROR": "The data entered are not valid."
+      },
+      "DECLARATION-6": "That the applicant complies with Commission Regulation (EU) No. 1407/2013 of 18 December 2013 on the application of Articles 107 and 108 of the Treaty on the Functioning of the European Union for the minimis aid.",
+      "DECLARATION-7": "That the applicant has declared the aid received during the current fiscal year and the two previous fiscal years.",
+      "DECLARATION-8": "That the applicant has the capacity of sufficient representation, duly accredited, to carry out the indicated procedure.",
+      "DECLARATION-9": "That in the case of being a self-employed person, the applicant complies with the requirement relating to no more than 25% shareholding in one or more enterprises, or otherwise state that it is an 'associated' enterprise or a 'linked' enterprise and that it reports shareholdings of 25% or more of the share capital or voting rights in other enterprises in the terms set out in Article 3 of Annex 1 of Commission Regulation (EU) No. 651/2014 of 17 June 2014. In case of being an enterprise, 'associated' enterprise or a 'linked' enterprise, declares that the resulting group of enterprises considered 'single enterprise' still meets the requirements to be an SME, as indicated in the definition in section 2.3 of this call.",
+      "DECLARATION-10": "That, on the date of the application, it is up to date with the payments of its tax obligations with the State Administration, the administration of the Autonomous Community of the Balearic Islands, as well as up to date with the payments of its tax obligations with the Social Security.",
+      "DECLARATION-11": "That the applicant is going to carry out the investment activity in a work center of the Autonomous Community of the Balearic Islands, as well as the justification of the realization of the activity and the fulfillment of the requirements and conditions that determine the concession of the subsidy.",
+      "DECLARATION-12": "That for grants of more than 30,000 euros in accordance with Law 28/2003, of November 17, General Subsidies Law; the applicant complies with the deadlines set forth in Law 3/2004 of December 29, establishing measures to combat late payment in commercial transactions.",
+      "DECLARATION-13": "That the applicant complies with the conditions of the call."
+    },
+    "DOCUMENTATION": {
+      "TITLE": "Documentation",
+      "DESCRIPTION": "Please attach the documents requested below.",
+      "INFO": {
+        "FORMAT-INFO": "In order for the attached documents to be accepted, they must be in the format indicated below and with a maximum size of <strong>10MB</strong>. In addition, below you will find some aids to help you upload documents easily:",
+        "CTRL-INFO": "When the files are <strong>not</strong> in a row in the folder or are not in the same folder, press the <strong>CTRL</strong> key and, without releasing it, mark the corresponding files with the mouse.",
+        "SHIFT-INFO": "When the files are <strong>in</strong> a row in the same folder, press the <strong>SHIFT</strong> key and, without releasing and using the mouse, mark the first and the last file, so that they are all selected."
+      },
+      "DOC-1": "The standard grant application document for this call, which is generated when submitting this application.",
+      "DOC-2": "Description of the company and its activity and details of the planned investment/investments. [.pdf, .jpeg, .png]",
+      "DOC-3": "Responsible declaration of the veracity of the bank data according to CAIB model. [.pdf, .jpeg, .png]",
+      "DOC-4": "BAT certificate updated at the time of application. [.pdf, .jpeg, .png]",
+      "DOC-5": {
+        "TITLE": "<strong>Natural person</strong>:",
+        "DOC": "Certificate of being in the special regime for self-employed workers or in an equivalent alternative regime. [.pdf, .jpeg, .png]"
+      },
+      "DOC-6": {
+        "TITLE": "<strong>Legal entity:</strong>.",
+        "DOC-1": "Public deed and bylaws, duly registered in the corresponding registry.",
+        "DOC-2": "Reliable document accrediting the representation of the person acting on behalf of the applicant entity. The representation may be accredited by any legally valid form.",
+                "LABEL": "Documentation of legal entity. [.pdf, .jpeg, .png]"
+      },
+      "DOC-7": {
+        "DOC-INFO": "Regarding the DNI/NIE of the applicant and/or the person representing him/her, the application for aid will imply the authorization for ADR Balears to verify his/her personal identity data ex officio. In case of express refusal of consent, it will be necessary to provide this documentation.",
+        "LABEL": "DNI/NIE of the applicant and/or the person representing him/her. [.pdf, .jpeg, .png]"
+      },
+      "DOC-8": {
+        "DOC-INFO": "Regarding the accreditation of regional tax obligations with the Tax Agency of the Balearic Islands and Social Security obligations, the application for aid will imply the authorization for ADR Balears to obtain from the Tax Agency of the Balearic Islands and the General Treasury of the Social Security the information related to the fulfillment of these obligations, except in the case of express refusal of consent, in which case the applicant person or entity must provide the corresponding certificate.",
+        "LABEL": "Certificate of compliance with tax obligations of ATIB and Social Security. [.pdf, .jpeg, .png]"
+      },
+      "DOC-9": "Certificate of being up to date with tax obligations with the State Agency of Tax Administration (AEAT). [.pdf, .jpeg, .png]",
+      "DOC-10": "For grants of more than 30,000 euros, attach the certificate established in article 13.3 bis of Law 38/2003 of November 17. [.pdf, .jpeg, .png]",
+      "DOC-11": "The certificate of the reciprocal guarantee company that guarantees the financial operation that accredits the date of entry of the application of the beneficiary requesting the guarantee on the financial operation to be subsidized. [.pdf, .jpeg, .png]",
+      "DOC-12": "Contract of the financial operation. [.pdf, ,jpeg, .png]",
+      "DOC-13": "Contract or document of endorsement of the financial operation. [.pdf, .jpeg, .png]",
+      "DOC-14": "A Responsible Declaration, included in the standard application form, from the person who owns the company or who legally represents it, which is generated when sending this application.",
+      "NO-CONSENT": "I expressly do not give my consent / I object to / I do not grant / I refuse my authorization to consult the data and documents necessary for the processing of this application. I hereby submit the following documents:"
+    },
+    "FILE": {
+      "ERROR": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed.",
+      "UPLOAD": "Upload file"
+    },
+    "ABBR": {
+      "RGPD": {
+        "ABBR": "GDPR",
+        "TITLE": "General Data Protection Regulation"
+      }
+    },
+    "EXPANDALL": "Expand all",
+    "COLAPSEALL": "Colapse all",
+    "SEND": "Submit"
   }
 }

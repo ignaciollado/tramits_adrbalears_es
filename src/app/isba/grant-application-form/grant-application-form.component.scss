@@ -1,0 +1,128 @@
+:host {
+  display: block;
+  max-width: 1200px;
+  margin: 2rem auto;
+  /*  padding: 2rem; */
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  font-family: "Open Sans", sans-serif;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-green {
+  background-color: #007c5a;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #005f44;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.btn {
+  margin-bottom: 0.5rem;
+  background-color: transparent;
+  color: #007c5a;
+  &:hover {
+    color: #fff;
+  }
+}
+
+mat-icon {
+  &:hover {
+    cursor: pointer;
+    background-color: #0098cb;
+  }
+}
+
+ol {
+  li {
+    margin-top: 0.5rem;
+  }
+}
+dl {
+  dt,
+  dd {
+    margin-top: 0.5rem;
+  }
+}
+
+div.ng-invalid.ng-touched {
+  color: #d9534f;
+  font-size: 0.875rem;
+}
+
+section.form {
+  display: grid;
+  &.applicant-type {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  &.personal-data,
+  &.financial-data,
+  &.project-budget {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 15px;
+  }
+
+  &.documentation {
+    row-gap: 5px;
+
+    .file-input {
+        display: grid;
+    }
+  }
+
+  &.notification-channel {
+    grid-template-columns: 1fr;
+    row-gap: 15px;
+    .inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 10px;
+    }
+  }
+  
+  &.declaration-checkboxes {
+    align-items: baseline;
+    row-gap: 15px;
+  }
+}
+
+section.info-header {
+  background-color: white;
+  color: black;
+  margin: auto;
+  padding-bottom: 1.1rem;
+  display: grid;
+
+  .banner {
+    background-color: #f8d7da;
+    color: #58151c;
+    padding: 0.9rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    display: grid;
+    justify-content: center;
+  }
+
+  .info {
+    font-size: 0.8rem;
+  }
+}

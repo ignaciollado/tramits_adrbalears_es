@@ -12,13 +12,14 @@ import jsPDF from 'jspdf';
 })
 export class CommonService {
 
-  private urlAPIMock: string;
   private urlAPI: string
   private urlAPITramits: string
+  private urlAPIMock: string
 
 
   constructor(private http: HttpClient) {
     this.urlAPIMock = '../../assets/data/';
+
     this.urlAPI = "https://data.ibrelleu.es/public/index.php"
     this.urlAPITramits = "https://pre-tramits.idi.es/public/index.php"
   }
@@ -38,28 +39,34 @@ export class CommonService {
     return this.http.get<string[]>(`${this.urlAPIMock}responsabilityDeclarations.json`).pipe(catchError(this.handleError))
   }
 
-  // CRUD ZipCode
+  /* CRUD Zipcodes */
+  
+  // GET all
   getZipCodes(): Observable<ZipCodesIBDTO[]> {
     return this.http.get<ZipCodesIBDTO[]>(`${this.urlAPI}/zipcodes`).pipe(catchError(this.handleError))
   }
 
+  // GET by ID
   getOneZipCode(id: number): Observable<ZipCodesIBDTO> {
     return this.http.get<ZipCodesIBDTO>(`${this.urlAPI}/zipcodes/${id}`).pipe(catchError(this.handleError))
   }
 
+  // POST
   createZipCode(zipCode: ZipCodesIBDTO): Observable<ZipCodesIBDTO> {
     return this.http.post<ZipCodesIBDTO>(`${this.urlAPI}/zipcodes/create`, zipCode).pipe(catchError(this.handleError))
   }
 
+  // PUT
   updateZipCode(id: number, zipCode: ZipCodesIBDTO): Observable<ZipCodesIBDTO> {
     return this.http.put<ZipCodesIBDTO>(`${this.urlAPI}/zipcodes/update/${id}`, zipCode).pipe(catchError(this.handleError))
   }
 
+  // DELETE
   deleteZipCode(id: number): Observable<void> {
     return this.http.delete<void>(`${this.urlAPI}/zipcodes/delete/${id}`).pipe(catchError(this.handleError))
   }
 
-   // CRUD CNAE
+   /* CRUD Cnaes */
   getCNAEs(): Observable<CnaeDTO[]> {
     return this.http.get<CnaeDTO[]>(`${this.urlAPITramits}/pindustactividades`).pipe(catchError(this.handleError))
   }
@@ -162,5 +169,4 @@ export class CommonService {
     }
     return throwError(errorMessage);
   }
-
 }
