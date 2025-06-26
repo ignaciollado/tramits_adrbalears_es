@@ -78,18 +78,24 @@ section.form {
   &.project-budget {
     grid-template-columns: 1fr 1fr;
     column-gap: 10px;
-    row-gap: 10px;
+    row-gap: 15px;
   }
 
   &.notification-channel {
     grid-template-columns: 1fr;
-    row-gap: 10px;
+    row-gap: 15px;
     .inputs {
       display: grid;
       grid-template-columns: 1fr 1fr;
       column-gap: 10px;
     }
   }
+  
+  &.declaration-checkboxes {
+    align-items: baseline;
+    row-gap: 15px;
+  }
+
 }
 
 // .authorization-checkboxes {

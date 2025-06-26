@@ -419,7 +419,28 @@
       "HINT": "Sin separador de miles y con '.' como separador de decimales.",
       "SUBSIDY-ERROR": "La cuantía de subvención introducida no es válida."
     },
-    "DECLARATIONS": {},
+    "DECLARATIONS": {
+      "TITLE": "Declaración responsable",
+      "DESCRIPTION": "Lea las siguientes declaraciones responsables.",
+      "INFO": "Declaro:",
+      "DECLARATION-1": "La veracidad de los datos aportados en esta solicitud.",
+      "DECLARATION-2": "Que el solicitante cumple los requisitos de pequeña o mediana empresa, de acuerdo con el anexo 1 del Reglamento (UE) núm. 651/2014 de la Comisión, de 17 de junio de 2014 por el que se declaran determinadas categorías de ayuda compatibles con el mercado interior en aplicación de los artículos 107 y 108 del Tratado, cumple con los requisitos para ser considerado una pyme.",
+      "DECLARATION-3": "Que la persona o entidad beneficiaria no está sometida a ninguna causa de prohibición o de incompatibilidad para recibir la ayuda según la legislación vigente y que el solicitante no ha sido sancionado o condenado por resolución administrativa o sentencia judicial firme por discriminación salarial, acoso moral o cualquier tipo de trato desigual, por razón de sexo, en el ámbito de las relaciones laborales.",
+      "DECLARATION-4": "Que el solicitante va a llevar a cabo la actividad de inversión, así como la justificación de la realización de la actividad y el cumplimiento de los requisitos y condiciones que determinan la concesión de la subvención.",
+      "DECLARATION-5": "Que no ha solicitado o recibido ninguna otra ayuda de cualquier entidad, pública o privada, nacional o extranjera, relacionada con la operación financiera o con el proyecto de inversión; o, en caso contrario, relación de todas las ayudas y las subvenciones solicitadas o recibidas.",
+      "DECLARATION-5-NO": {
+        "LABEL": "Relación de todas las ayudas y subvenciones solicitadas o recibidas",
+        "ERROR": "Los datos introducidos no son válidos."
+      },
+      "DECLARATION-6": "Que el solicitante cumple con el reglamento (UE) n.º 1407/2013 de la Comisión de 18 de diciembre de 2013, relativo a la aplicación de los artículos 107 y 108 del Tratado de Funcionamiento de la Unión Europea de las ayudas de minimis.",
+      "DECLARATION-7": "Que el solicitante ha declarado las ayudas recibidas durante el ejercicio fiscal en curso y los dos ejercicios fiscales anteriores.",
+      "DECLARATION-8": "Que el solicitante tiene el cumplimiento de la capacidad de representación suficiente, debidamente acreditada, para realizar la tramitación indicada.",
+      "DECLARATION-9": "Que en el caso de ser una persona autónoma, el solicitante cumple el requisito relativo a la no participación superior al 25% de una o varias empresas, o de lo contrario señalar que es una empresa 'asociada' o una empresa 'vinculada' y que informa de las participaciones del 25% o más del capital social o de los derechos de voto en otras empresas en los términos establecidos en el artículo 3 del anexo 1 del reglamento (UE) núm. 651/2014 de la Comisión, de 17 de junio de 2014. En caso de ser empresa, empresa 'asociada' o una empresa 'vinculada', declara que el grupo de empresas resultante considerado 'única empresa' sigue cumpliendo con los requisitos para ser una PYME, tal como se indica en la definición del apartado 2.3 de esta convocatoria.",
+      "DECLARATION-10": "Que, en la fecha de la solicitud, está al corriente de los pagos de sus obligaciones tributarias con la Administración del Estado, la administración de la Comunidad Autónoma de las Illes Balears, así como al corriente de los pagos de sus obligaciones tributarias con la Seguridad Social.",
+      "DECLARATION-11": "Que el solicitante va a llevar a cabo la actividad de inversión en un centro de trabajo de la Comunidad autónoma de las Illes Balears, así como la justificación de la realización de la actividad y el cumplimiento de los requisitos y condiciones que determinan la concesión de la subvención.",
+      "DECLARATION-12": "Que para ayudas de importe superior a 30.000€ de acuerdo con la Ley 28/2003, de 17 de noviembre, General de Subvenciones; el solicitante cumple con los plazos previstos en la Ley 3/2004 de 29 de diciembre, por la que se establecen medidas de lucha contra la morosidad en las operaciones Comerciales.",
+      "DECLARATION-13": "Que el solicitante cumple con las condiciones de la convocatoria."
+    },
     "DOCUMENTATION": {},
     "FILE": {
       "ERROR": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido.",

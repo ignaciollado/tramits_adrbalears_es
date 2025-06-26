@@ -419,7 +419,28 @@
       "HINT": "Without thousands separator and with '.' as decimal separator.",
       "SUBSIDY-ERROR": "The subsidy amount entered is not valid."
     },
-    "DECLARATIONS": {},
+    "DECLARATIONS": {
+      "TITLE": "Responsible declaration",
+      "DESCRIPTION": "Please read the following responsible statements.",
+      "INFO": "I state:",
+      "DECLARATION-1": "The truthfulness of the data provided in this application.",
+      "DECLARATION-2": "That the applicant qualifies as a small or medium-sized enterprise, in accordance with Annex 1 of Commission Regulation (EU) No. 651/2014 of 17 June 2014 declaring certain categories of aid compatible with the internal market in application of Articles 107 and 108 of the Treaty, meets the requirements to be considered an SME.",
+      "DECLARATION-3": "That the beneficiary person or entity is not subject to any cause of prohibition or incompatibility to receive the aid according to the legislation in force and that the applicant has not been sanctioned or convicted by administrative resolution or final court sentence for wage discrimination, moral harassment or any type of unequal treatment, based on sex, in the field of labor relations.",
+      "DECLARATION-4": "That the applicant is going to carry out the investment activity, as well as the justification of the realization of the activity and the fulfillment of the requirements and conditions that determine the granting of the subsidy.",
+      "DECLARATION-5": "That it has not requested or received any other aid from any other entity, public or private, national or foreign, related to the financial operation or the investment project; or, if not, a list of all aid and subsidies requested or received.",
+      "DECLARATION-5-NO": {
+        "LABEL": "List of all grants and subsidies requested or received",
+        "ERROR": "The data entered are not valid."
+      },
+      "DECLARATION-6": "That the applicant complies with Commission Regulation (EU) No. 1407/2013 of 18 December 2013 on the application of Articles 107 and 108 of the Treaty on the Functioning of the European Union for the minimis aid.",
+      "DECLARATION-7": "That the applicant has declared the aid received during the current fiscal year and the two previous fiscal years.",
+      "DECLARATION-8": "That the applicant has the capacity of sufficient representation, duly accredited, to carry out the indicated procedure.",
+      "DECLARATION-9": "That in the case of being a self-employed person, the applicant complies with the requirement relating to no more than 25% shareholding in one or more enterprises, or otherwise state that it is an 'associated' enterprise or a 'linked' enterprise and that it reports shareholdings of 25% or more of the share capital or voting rights in other enterprises in the terms set out in Article 3 of Annex 1 of Commission Regulation (EU) No. 651/2014 of 17 June 2014. In case of being an enterprise, 'associated' enterprise or a 'linked' enterprise, declares that the resulting group of enterprises considered 'single enterprise' still meets the requirements to be an SME, as indicated in the definition in section 2.3 of this call.",
+      "DECLARATION-10": "That, on the date of the application, it is up to date with the payments of its tax obligations with the State Administration, the administration of the Autonomous Community of the Balearic Islands, as well as up to date with the payments of its tax obligations with the Social Security.",
+      "DECLARATION-11": "That the applicant is going to carry out the investment activity in a work center of the Autonomous Community of the Balearic Islands, as well as the justification of the realization of the activity and the fulfillment of the requirements and conditions that determine the concession of the subsidy.",
+      "DECLARATION-12": "That for grants of more than 30,000 euros in accordance with Law 28/2003, of November 17, General Subsidies Law; the applicant complies with the deadlines set forth in Law 3/2004 of December 29, establishing measures to combat late payment in commercial transactions.",
+      "DECLARATION-13": "That the applicant complies with the conditions of the call."
+    },
     "DOCUMENTATION": {},
     "FILE": {
       "ERROR": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed.",

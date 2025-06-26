@@ -419,7 +419,28 @@
       "HINT": "Sense separador de milers i amb '.' per a separador de decimals.",
       "SUBSIDY-ERROR": "La quantia de subvenció introduïda no és vàlida."
     },
-    "DECLARATIONS": {},
+    "DECLARATIONS": {
+      "TITLE": "Declaració responsable",
+      "DESCRIPTION": "Llegeixi les següents declaracions responsables.",
+      "INFO": "Declaro:",
+      "DECLARATION-1": "La veracitat de les dades aportades en aquesta sol·licitud.",
+      "DECLARATION-2": "Que el sol·licitant compleix els requisits de petita o mitjana empresa, d'acord amb l'annex 1 del Reglament (UE) núm. 651/2014 de la Comissió, de 17 de juny de 2014 pel qual es declaren determinades categories d'ajuda compatibles amb el mercat interior en aplicació dels articles 107 i 108 del Tractat, compleix amb els requisits per a ser considerat una pime.",
+      "DECLARATION-3": "Que la persona o entitat beneficiària no està sotmesa a cap causa de prohibició o d'incompatibilitat per a rebre l'ajuda segons la legislació vigent i que el sol·licitant no ha estat sancionat o condemnat per resolució administrativa o sentència judicial ferma per discriminació salarial, assetjament moral o qualsevol tipus de tracte desigual, per raó de sexe, en l'àmbit de les relacions laborals.",
+      "DECLARATION-4": "Que el sol·licitant durà a terme l'activitat d'inversió, així com la justificació de la realització de l'activitat i el compliment dels requisits i condicions que determinen la concessió de la subvenció.",
+      "DECLARATION-5": "Que no ha sol·licitat o rebut cap altra ajuda de qualsevol entitat, pública o privada, nacional o estrangera, relacionada amb l'operació financera o amb el projecte d'inversió; o, en cas contrari, relació de totes les ajudes i les subvencions sol·licitades o rebudes.",
+      "DECLARATION-5-NO": {
+        "LABEL": "Relació de totes les ajudes i subvencions sol·licitades o rebudes",
+        "ERROR": "Les dades introduïdes no són vàlids."
+      },
+      "DECLARATION-6": "Que el sol·licitant compleix amb el reglament (UE) núm. 1407/2013 de la Comissió de 18 de desembre de 2013, relatiu a l'aplicació dels articles 107 i 108 del Tractat de Funcionament de la Unió Europea de les ajudes de minimis.",
+      "DECLARATION-7": "Que el sol·licitant ha declarat les ajudes rebudes durant l'exercici fiscal en curs i els dos exercicis fiscals anteriors.",
+      "DECLARATION-8": "Que el sol·licitant té el compliment de la capacitat de representació suficient, degudament acreditada, per a realitzar la tramitació indicada.",
+      "DECLARATION-9": "Que en el cas de ser una persona autònoma, el sol·licitant compleix el requisit relatiu a la no participació superior al 25% d'una o diverses empreses, o en cas contrari assenyalar que és una empresa 'associada' o una empresa 'vinculada' i que informa de les participacions del 25% o més del capital social o dels drets de vot en altres empreses en els termes establerts en l'article 3 de l'annex 1 del reglament (UE) núm. 651/2014 de la Comissió, de 17 de juny de 2014. En cas de ser empresa, empresa 'associada' o una empresa 'vinculada', declara que el grup d'empreses resultant considerat 'única empresa' continua complint amb els requisits per a ser una PIME, tal com s'indica en la definició de l'apartat 2.3 d'aquesta convocatòria.",
+      "DECLARATION-10": "Que, en la data de la sol·licitud, està al corrent dels pagaments de les seves obligacions tributàries amb l'Administració de l'Estat, l'administració de la Comunitat Autònoma de les Illes Balears, així com al corrent dels pagaments de les seves obligacions tributàries amb la Seguretat Social.",
+      "DECLARATION-11": "Que el sol·licitant durà a terme l'activitat d'inversió en un centre de treball de la Comunitat autònoma de les Illes Balears, així com la justificació de la realització de l'activitat i el compliment dels requisits i condicions que determinen la concessió de la subvenció.",
+      "DECLARATION-12": "Que per a ajudes d'import superior a 30.000€ d'acord amb la Llei 28/2003, de 17 de novembre, General de Subvencions; el sol·licitant compleix amb els terminis previstos en la Llei 3/2004 de 29 de desembre, per la qual s'estableixen mesures de lluita contra la morositat en les operacions Comercials.",
+      "DECLARATION-13": "Que el sol·licitant compleix amb les condicions de la convocatòria."
+    },
     "DOCUMENTATION": {},
     "FILE": {
       "ERROR": "L'arxiu pujat no és vàlid a causa d'un format incorrecte o una grandària que excedeix el màxim permès.",

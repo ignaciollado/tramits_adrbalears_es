@@ -34,6 +34,7 @@ export class IsbaGrantApplicationFormComponent {
   rgpdAccepted = false
   businessType: string = "";
   businessTypeChoosed: boolean = false // Evitar problemas de validadores
+  ayudasSubvenciones: boolean = true // Checkbox 5ª declaración responsable. En caso de false, debe enumerar las subvenciones
 
   // 10 MB máximos
   maxFileSizeBytes: number = 10 * 1024 * 1024
@@ -77,6 +78,20 @@ export class IsbaGrantApplicationFormComponent {
       coste_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
       gastos_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
       importe_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+      declaro_idi_isba_que_cumple_0: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_1: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_2: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_3: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_4: this.fb.control<boolean>(true, []), // Interactuable.
+      ayudasSubvenSICuales_dec_resp: this.fb.control<string>('', []),
+      declaro_idi_isba_que_cumple_5: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_7: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_8: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_10: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_12: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_13: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_14: this.fb.control<boolean>(true, []),
+      declaro_idi_isba_que_cumple_15: this.fb.control<boolean>(true, []),
 
 
 
@@ -96,6 +111,22 @@ export class IsbaGrantApplicationFormComponent {
       }
     })
 
+    // Aparición/desaparición del campo 'ayudasSubvenSICuales_dec_resp' en base al 5º checkbox.
+    this.isbaForm.get('declaro_idi_isba_que_cumple_4')?.valueChanges.subscribe((value: boolean) => {
+      const ayudasSubvencionesNOControl = this.isbaForm.get('ayudasSubvenSICuales_dec_resp')
+      const ayudasValidators = []
+      ayudasSubvencionesNOControl?.reset('')
+
+      if (value === false) {
+        ayudasValidators.push(Validators.required)
+      }
+
+      this.ayudasSubvenciones = value
+      ayudasSubvencionesNOControl?.setValidators(ayudasValidators)
+      ayudasSubvencionesNOControl?.updateValueAndValidity()
+    })
+
+    // Zipcode
     this.filteredOptions = this.isbaForm.get('cpostal')?.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -103,6 +134,7 @@ export class IsbaGrantApplicationFormComponent {
         return name ? this._filter(name as string) : this.options.slice();
       })
     )
+
 
     this.loadZipcodes()
     this.loadActividadesCNAE()
