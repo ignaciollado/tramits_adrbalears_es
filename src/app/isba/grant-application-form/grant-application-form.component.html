@@ -23,7 +23,7 @@
             <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.RGPD.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.RGPD.DESCRIPTION' | translate}}</mat-panel-description>
+                    <mat-panel-description>{{'ISBA.RGPD.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">policy</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section>
                     <mat-checkbox formControlName="acceptRGPD">{{'ISBA.RGPD.READ-AND-ACCEPTS' | translate}} <abbr title="{{'ISBA.ABBR.RGPD.TITLE' | translate}}">{{'ISBA.ABBR.RGPD.ABBR' | translate}}</abbr></mat-checkbox>
@@ -70,7 +70,7 @@
             <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.BUSINESS-TYPE.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.BUSINESS-TYPE.DESCRIPTION' | translate}}</mat-panel-description>
+                    <mat-panel-description>{{'ISBA.BUSINESS-TYPE.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">corporate_fare</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form applicant-type">
                     <section>
@@ -91,7 +91,7 @@
             <mat-expansion-panel [disabled]="!rgpdAccepted  || !businessTypeChoosed" [expanded]="step() === 2">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.GENERAL-DATA.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.GENERAL-DATA.DESCRIPTION' | translate}}</mat-panel-description>
+                    <mat-panel-description>{{'ISBA.GENERAL-DATA.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">person</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form personal-data">
                     <mat-form-field>
@@ -159,7 +159,7 @@
             <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.NOTIFICATION-CHANNEL.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}}</mat-panel-description>
+                    <mat-panel-description>{{'ISBA.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">email</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form notification-channel">
                     <section>
@@ -184,7 +184,7 @@
             <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.FINANCIAL-DATA.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.FINANCIAL-DATA.DESCRIPTION' | translate}}</mat-panel-description>
+                    <mat-panel-description>{{'ISBA.FINANCIAL-DATA.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">account_balance</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form financial-data">
                 <mat-form-field>
@@ -226,7 +226,7 @@
             <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.PROJECT-BUDGET.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.PROJECT-BUDGET.DESCRIPTION' | translate}}</mat-panel-description>
+                    <mat-panel-description>{{'ISBA.PROJECT-BUDGET.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">request_quote</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form project-budget">
                     <mat-form-field>
@@ -293,7 +293,7 @@
             <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.DECLARATIONS.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.DECLARATIONS.DESCRIPTION' | translate}}</mat-panel-description>
+                    <mat-panel-description>{{'ISBA.DECLARATIONS.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">menu_book</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form declaration-checkboxes">
                     <mat-checkbox formControlName="declaro_idi_isba_que_cumple_0" (click)="$event.preventDefault()">1. {{'ISBA.DECLARATIONS.DECLARATION-1' | translate}}</mat-checkbox>
@@ -321,7 +321,7 @@
             <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.DOCUMENTATION.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.DOCUMENTATION.DESCRIPTION' | translate}}</mat-panel-description>
+                    <mat-panel-description>{{'ISBA.DOCUMENTATION.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">attachment</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section>
                     <p [innerHTML]="'ISBA.DOCUMENTATION.INFO.FORMAT-INFO' | translate"></p>

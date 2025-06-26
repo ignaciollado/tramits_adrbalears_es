@@ -17,6 +17,7 @@ import { CnaeDTO } from '../../Models/cnae.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -24,7 +25,7 @@ import { CustomValidatorsService } from '../../Services/custom-validators.servic
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule,
     MatAccordion, MatCheckboxModule, TranslateModule, MatTooltipModule, MatAutocompleteModule,
-    MatRadioModule],
+    MatRadioModule, MatIconModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })
