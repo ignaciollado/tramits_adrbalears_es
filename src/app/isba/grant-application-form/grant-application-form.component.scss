@@ -81,6 +81,14 @@ section.form {
     row-gap: 15px;
   }
 
+  &.documentation {
+    row-gap: 5px;
+
+    .file-input {
+        display: grid;
+    }
+  }
+
   &.notification-channel {
     grid-template-columns: 1fr;
     row-gap: 15px;
@@ -95,27 +103,7 @@ section.form {
     align-items: baseline;
     row-gap: 15px;
   }
-
 }
-
-// .authorization-checkboxes {
-//   display: grid;
-//   row-gap: 10px;
-// }
-
-// .declaration-checkboxes {
-//   display: grid;
-//   align-items: baseline;
-// }
-
-// .documentation-form {
-//   display: grid;
-//   row-gap: 5px;
-// }
-
-// .file-input {
-//   display: grid;
-// }
 
 section.info-header {
   background-color: white;

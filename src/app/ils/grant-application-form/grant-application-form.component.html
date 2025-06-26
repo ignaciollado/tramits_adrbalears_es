@@ -179,7 +179,7 @@
         </mat-expansion-panel>
 
         <!-- Canal de notificaciones-->
-        <mat-expansion-panel [disabled]="!rgpdAccepted">
+        <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.NOTIFICATION-CHANNEL.TITLE' | translate}}</h3>
@@ -211,7 +211,7 @@
         </mat-expansion-panel>
 
         <!-- Autorizaciones-->
-        <mat-expansion-panel [disabled]="!rgpdAccepted">
+        <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.AUTHORIZATIONS.TITLE' | translate}}</h3>
@@ -260,7 +260,7 @@
         </mat-expansion-panel>
 
         <!-- Declaración responsable-->
-        <mat-expansion-panel [disabled]="!rgpdAccepted">
+        <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.DECLARATIONS.TITLE' | translate}}</h3>
@@ -280,7 +280,7 @@
         </mat-expansion-panel>
 
         <!-- Documentación requerida y opcional-->
-        <mat-expansion-panel [disabled]="!rgpdAccepted">
+        <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.DOCUMENTATION.TITLE' | translate}}</h3>

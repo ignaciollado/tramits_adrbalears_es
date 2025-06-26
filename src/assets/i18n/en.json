@@ -429,7 +429,7 @@
       "DECLARATION-4": "That the applicant is going to carry out the investment activity, as well as the justification of the realization of the activity and the fulfillment of the requirements and conditions that determine the granting of the subsidy.",
       "DECLARATION-5": "That it has not requested or received any other aid from any other entity, public or private, national or foreign, related to the financial operation or the investment project; or, if not, a list of all aid and subsidies requested or received.",
       "DECLARATION-5-NO": {
-        "LABEL": "List of all grants and subsidies requested or received",
+        "LABEL": "List of all grants and subsidies requested or received.",
         "ERROR": "The data entered are not valid."
       },
       "DECLARATION-6": "That the applicant complies with Commission Regulation (EU) No. 1407/2013 of 18 December 2013 on the application of Articles 107 and 108 of the Treaty on the Functioning of the European Union for the minimis aid.",
@@ -441,7 +441,44 @@
       "DECLARATION-12": "That for grants of more than 30,000 euros in accordance with Law 28/2003, of November 17, General Subsidies Law; the applicant complies with the deadlines set forth in Law 3/2004 of December 29, establishing measures to combat late payment in commercial transactions.",
       "DECLARATION-13": "That the applicant complies with the conditions of the call."
     },
-    "DOCUMENTATION": {},
+    "DOCUMENTATION": {
+      "TITLE": "Documentation",
+      "DESCRIPTION": "Please attach the documents requested below.",
+      "INFO": {
+        "FORMAT-INFO": "In order for the attached documents to be accepted, they must be in the format indicated below and with a maximum size of <strong>10MB</strong>. In addition, below you will find some aids to help you upload documents easily:",
+        "CTRL-INFO": "When the files are <strong>not</strong> in a row in the folder or are not in the same folder, press the <strong>CTRL</strong> key and, without releasing it, mark the corresponding files with the mouse.",
+        "SHIFT-INFO": "When the files are <strong>in</strong> a row in the same folder, press the <strong>SHIFT</strong> key and, without releasing and using the mouse, mark the first and the last file, so that they are all selected."
+      },
+      "DOC-1": "The standard grant application document for this call, which is generated when submitting this application.",
+      "DOC-2": "Description of the company and its activity and details of the planned investment/investments. [.pdf, .jpeg, .png]",
+      "DOC-3": "Responsible declaration of the veracity of the bank data according to CAIB model. [.pdf, .jpeg, .png]",
+      "DOC-4": "BAT certificate updated at the time of application. [.pdf, .jpeg, .png]",
+      "DOC-5": {
+        "TITLE": "<strong>Natural person</strong>:",
+        "DOC": "Certificate of being in the special regime for self-employed workers or in an equivalent alternative regime. [.pdf, .jpeg, .png]"
+      },
+      "DOC-6": {
+        "TITLE": "<strong>Legal entity:</strong>.",
+        "DOC-1": "Public deed and bylaws, duly registered in the corresponding registry.",
+        "DOC-2": "Reliable document accrediting the representation of the person acting on behalf of the applicant entity. The representation may be accredited by any legally valid form.",
+                "LABEL": "Documentation of legal entity. [.pdf, .jpeg, .png]"
+      },
+      "DOC-7": {
+        "DOC-INFO": "Regarding the DNI/NIE of the applicant and/or the person representing him/her, the application for aid will imply the authorization for ADR Balears to verify his/her personal identity data ex officio. In case of express refusal of consent, it will be necessary to provide this documentation.",
+        "LABEL": "DNI/NIE of the applicant and/or the person representing him/her. [.pdf, .jpeg, .png]"
+      },
+      "DOC-8": {
+        "DOC-INFO": "Regarding the accreditation of regional tax obligations with the Tax Agency of the Balearic Islands and Social Security obligations, the application for aid will imply the authorization for ADR Balears to obtain from the Tax Agency of the Balearic Islands and the General Treasury of the Social Security the information related to the fulfillment of these obligations, except in the case of express refusal of consent, in which case the applicant person or entity must provide the corresponding certificate.",
+        "LABEL": "Certificate of compliance with tax obligations of ATIB and Social Security. [.pdf, .jpeg, .png]"
+      },
+      "DOC-9": "Certificate of being up to date with tax obligations with the State Agency of Tax Administration (AEAT). [.pdf, .jpeg, .png]",
+      "DOC-10": "For grants of more than 30,000 euros, attach the certificate established in article 13.3 bis of Law 38/2003 of November 17. [.pdf, .jpeg, .png]",
+      "DOC-11": "The certificate of the reciprocal guarantee company that guarantees the financial operation that accredits the date of entry of the application of the beneficiary requesting the guarantee on the financial operation to be subsidized. [.pdf, .jpeg, .png]",
+      "DOC-12": "Contract of the financial operation. [.pdf, ,jpeg, .png]",
+      "DOC-13": "Contract or document of endorsement of the financial operation. [.pdf, .jpeg, .png]",
+      "DOC-14": "A Responsible Declaration, included in the standard application form, from the person who owns the company or who legally represents it, which is generated when sending this application.",
+      "NO-CONSENT": "I expressly do not give my consent / I object to / I do not grant / I refuse my authorization to consult the data and documents necessary for the processing of this application. I hereby submit the following documents:"
+    },
     "FILE": {
       "ERROR": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed.",
       "UPLOAD": "Upload file"

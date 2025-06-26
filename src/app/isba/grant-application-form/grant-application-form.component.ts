@@ -13,10 +13,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, startWith } from 'rxjs';
+import { CnaeDTO } from '../../Models/cnae.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
-import { CnaeDTO } from '../../Models/cnae.dto';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -35,6 +35,27 @@ export class IsbaGrantApplicationFormComponent {
   businessType: string = "";
   businessTypeChoosed: boolean = false // Evitar problemas de validadores
   ayudasSubvenciones: boolean = true // Checkbox 5ª declaración responsable. En caso de false, debe enumerar las subvenciones
+  dni_no_consent: boolean = false // Checkbox consentimiento en DNI/NIE
+  atib_no_consent: boolean = false // Checkbox consentimiento en ATIB
+  isSubsidyGreater: boolean = false
+
+  // Files
+  fileNames: { [key: string]: string } = {
+    documentacion_adjunta_requerida_idi_isba_a: "",
+    documentacion_adjunta_requerida_idi_isba_b: "",
+    documentacion_adjunta_requerida_idi_isba_c: "",
+    documentacion_adjunta_requerida_idi_isba_d: "",
+    documentacion_adjunta_requerida_idi_isba_e: "",
+    documentacion_adjunta_requerida_idi_isba_f: "",
+    documentacion_adjunta_requerida_idi_isba_g: "",
+    documentacion_adjunta_requerida_idi_isba_h: "",
+    documentacion_adjunta_requerida_idi_isba_i: "",
+    documentacion_adjunta_requerida_idi_isba_j: "",
+    documentacion_adjunta_requerida_idi_isba_k: "",
+    documentacion_adjunta_requerida_idi_isba_l: "",
+    documentacion_adjunta_requerida_idi_isba_m: "",
+    documentacion_adjunta_requerida_idi_isba_n: "",
+  }
 
   // 10 MB máximos
   maxFileSizeBytes: number = 10 * 1024 * 1024
@@ -93,9 +114,23 @@ export class IsbaGrantApplicationFormComponent {
       declaro_idi_isba_que_cumple_14: this.fb.control<boolean>(true, []),
       declaro_idi_isba_que_cumple_15: this.fb.control<boolean>(true, []),
 
-
-
-
+      /* Documentación */
+      documentacion_adjunta_requerida_idi_isba_a: this.fb.control<File | null>(null, []),
+      documentacion_adjunta_requerida_idi_isba_b: this.fb.control<File | null>(null, [Validators.required]),
+      documentacion_adjunta_requerida_idi_isba_c: this.fb.control<File | null>(null, [Validators.required]),
+      documentacion_adjunta_requerida_idi_isba_d: this.fb.control<File | null>(null, [Validators.required]),
+      documentacion_adjunta_requerida_idi_isba_e: this.fb.control<File | null>(null, []), // Persona física
+      documentacion_adjunta_requerida_idi_isba_f: this.fb.control<File | null>(null, []), // Persona jurídica
+      dni_no_consent: this.fb.control<boolean>(false, []),
+      documentacion_adjunta_requerida_idi_isba_g: this.fb.control<File | null>(null, []), // DNI/NIE con consentimiento
+      atib_no_consent: this.fb.control<boolean>(false, []),
+      documentacion_adjunta_requerida_idi_isba_h: this.fb.control<File | null>(null, []), // Certificado ATIB y SS con consentimiento
+      documentacion_adjunta_requerida_idi_isba_i: this.fb.control<File | null>(null, [Validators.required]),
+      documentacion_adjunta_requerida_idi_isba_j: this.fb.control<File | null>(null, []), // Ayudas superiores a 30.000€
+      documentacion_adjunta_requerida_idi_isba_k: this.fb.control<File | null>(null, [Validators.required]),
+      documentacion_adjunta_requerida_idi_isba_l: this.fb.control<File | null>(null, [Validators.required]),
+      documentacion_adjunta_requerida_idi_isba_m: this.fb.control<File | null>(null, [Validators.required]),
+      documentacion_adjunta_requerida_idi_isba_n: this.fb.control<File | null>(null, []),
 
       tipo_tramite: this.fb.control<string>('ADR-ISBA')
 
@@ -126,6 +161,16 @@ export class IsbaGrantApplicationFormComponent {
       ayudasSubvencionesNOControl?.updateValueAndValidity()
     })
 
+    // Aparición/desaparición del input file DNI/NIE
+    this.isbaForm.get('dni_no_consent')?.valueChanges.subscribe((value: boolean) => {
+      this.docsCheckboxChanges('documentacion_adjunta_requerida_idi_isba_g', value, "dni_no_consent")
+    })
+
+    // Aparición/desaparición del input file ATIB/Seg. Socia
+    this.isbaForm.get('atib_no_consent')?.valueChanges.subscribe((value: boolean) => {
+      this.docsCheckboxChanges('documentacion_adjunta_requerida_idi_isba_h', value, 'atib_no_consent')
+    })
+
     // Zipcode
     this.filteredOptions = this.isbaForm.get('cpostal')?.valueChanges.pipe(
       startWith(''),
@@ -145,30 +190,56 @@ export class IsbaGrantApplicationFormComponent {
     console.log(this.isbaForm.value)
   }
 
+  onFileChange(event: Event, controlName: string): void {
+    const file = (event.target as HTMLInputElement).files?.[0]
+    const controlNameForm = this.isbaForm.get(controlName)
+
+    if (file) {
+      controlNameForm?.setValue(file)
+      if (file.size > this.maxFileSizeBytes) {
+        controlNameForm?.setErrors({ invalidFile: true })
+      }
+
+      else {
+        controlNameForm?.setErrors(null)
+      }
+      this.fileNames[controlName] = file.name
+    }
+  }
+
 
   /* Método que permite hacer lo siguiente tras seleccionar el tipo de empresa:
     - Cambia businessType a autonomo u otros
     - Setea los validadores correspondientes. En el caso del nif, aplicará de forma dinámica el validador de DNI/NIE o de CIF
     - Habilita/desactiva los campos de los representantes según si es autónomo u otros.
-    - En caso de desactivar los campos de representante legal, se limpiará con reset('') 
+    - En caso de desactivar los campos de representante legal, se limpiará con reset('')
+    - Para los documentos, seteará el validador 'Required'
   */
   onBusinessTypeChange(): void {
     const tipo_solicitante = this.isbaForm.get('tipo_solicitante')?.value
-    
+
     const applicantNif = this.isbaForm.get('nif')
+    const applicantNifValidators = [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
 
     const repName = this.isbaForm.get('nom_representante')
-    const repNif = this.isbaForm.get('nif_representante')
-    const repPhone = this.isbaForm.get('telefono_contacto_rep')
-
-    const applicantNifValidators = [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
     const repNameValidators = []
+
+    const repNif = this.isbaForm.get('nif_representante')
     const repNifValidators = [this.customValidator.dniNieValidator(), Validators.minLength(9), Validators.maxLength(9)]
+
+    const repPhone = this.isbaForm.get('telefono_contacto_rep')
     const repPhoneValidators = [Validators.minLength(9), Validators.maxLength(9), Validators.pattern('[0-9]{9}')]
+
+    const docsPersFis = this.isbaForm.get('documentacion_adjunta_requerida_idi_isba_e')
+    const docsPersFisValidators = []
+
+    const docsPersJur = this.isbaForm.get('documentacion_adjunta_requerida_idi_isba_f')
+    const docsPersJurValidators = []
 
     if (tipo_solicitante === "autonomo") {
       this.businessType = "autonomo"
-      applicantNifValidators.push(this.customValidator.dniNieValidator());
+      applicantNifValidators.push(this.customValidator.dniNieValidator())
+      docsPersFisValidators.push(Validators.required);
 
       [repName, repNif, repPhone].forEach(control => {
         control?.disable()
@@ -177,6 +248,7 @@ export class IsbaGrantApplicationFormComponent {
     } else {
       this.businessType = "otros"
       applicantNifValidators.push(this.customValidator.cifValidator())
+      docsPersJurValidators.push(Validators.required)
 
       repNameValidators.push(Validators.required)
       repNifValidators.push(Validators.required)
@@ -192,9 +264,11 @@ export class IsbaGrantApplicationFormComponent {
     applicantNif?.setValidators(applicantNifValidators)
     repName?.setValidators(repNameValidators)
     repNif?.setValidators(repNifValidators)
-    repPhone?.setValidators(repPhoneValidators);
+    repPhone?.setValidators(repPhoneValidators)
+    docsPersFis?.setValidators(docsPersFisValidators)
+    docsPersJur?.setValidators(docsPersJurValidators);
 
-    [applicantNif, repName, repNif, repPhone].forEach(control => control?.updateValueAndValidity())
+    [applicantNif, repName, repNif, repPhone, docsPersFis, docsPersJur].forEach(control => control?.updateValueAndValidity())
 
     this.businessTypeChoosed = true
     this.setStep(2)
@@ -202,6 +276,21 @@ export class IsbaGrantApplicationFormComponent {
 
   setStep(index: number): void {
     this.step.set(index)
+  }
+
+  private docsCheckboxChanges(docField: string, value: boolean, booleanName: string): void {
+    const targetDoc = this.isbaForm.get(docField)
+    const targetValidators = []
+
+    if (value === true) {
+      targetValidators.push(Validators.required)
+    }
+
+    targetDoc?.reset(null)
+    targetDoc?.setValidators(targetValidators);
+
+    (this as any)[booleanName] = value;
+
   }
 
   private loadZipcodes(): void {
@@ -223,9 +312,27 @@ export class IsbaGrantApplicationFormComponent {
   }
 
   // Limpieza espacios en blanco
-  cleanBlank(event: any) {
+  cleanBlank(event: any): void {
     const inputElement = (event.target as HTMLInputElement)
     inputElement.value = inputElement.value.replace(/\s+/g, '')
+  }
+
+  // Comprobación del importe de ayuda solicitado: Si es mayor de 30.000, debe habilitarse un campo de documento
+  checkAmount(): void {
+    const importeSubvencionSolicitada = this.isbaForm.get('importe_ayuda_solicita_idi_isba')?.value;
+    const documentoSubvencionValidators = []
+    const documentoSubvencion = this.isbaForm.get('documentacion_adjunta_requerida_idi_isba_j')
+
+    if (+importeSubvencionSolicitada > 30000) {
+      documentoSubvencionValidators.push(Validators.required)
+    }
+
+    documentoSubvencion?.reset('')
+    documentoSubvencion?.setValidators(documentoSubvencionValidators)
+
+    documentoSubvencion?.updateValueAndValidity()
+
+    this.isSubsidyGreater = +importeSubvencionSolicitada > 30000 ? true : false
   }
 
   selectedValue(): void {

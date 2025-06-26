@@ -20,8 +20,7 @@
         </div>
         <mat-accordion ngClass="example-headers-align" multi>
             <!-- RGPD -->
-            <mat-expansion-panel>
-            <!-- <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)"> -->
+            <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.RGPD.TITLE' | translate}}</h3></mat-panel-title>
                     <mat-panel-description>{{'ISBA.RGPD.DESCRIPTION' | translate}}</mat-panel-description>
@@ -68,8 +67,7 @@
             </mat-expansion-panel>
 
             <!-- Tipo Solicitante-->
-            <mat-expansion-panel>
-            <!-- <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1"> -->
+            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.BUSINESS-TYPE.TITLE' | translate}}</h3></mat-panel-title>
                     <mat-panel-description>{{'ISBA.BUSINESS-TYPE.DESCRIPTION' | translate}}</mat-panel-description>
@@ -90,7 +88,7 @@
             </mat-expansion-panel>
 
             <!-- Datos generales -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 2">
+            <mat-expansion-panel [disabled]="!rgpdAccepted  || !businessTypeChoosed" [expanded]="step() === 2">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.GENERAL-DATA.TITLE' | translate}}</h3></mat-panel-title>
                     <mat-panel-description>{{'ISBA.GENERAL-DATA.DESCRIPTION' | translate}}</mat-panel-description>
@@ -158,7 +156,7 @@
             </mat-expansion-panel>
 
             <!-- Canal de notificaciones -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted">
+            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.NOTIFICATION-CHANNEL.TITLE' | translate}}</h3></mat-panel-title>
                     <mat-panel-description>{{'ISBA.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}}</mat-panel-description>
@@ -183,7 +181,7 @@
             </mat-expansion-panel>
 
             <!-- Datos de la operación financiera -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted">
+            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.FINANCIAL-DATA.TITLE' | translate}}</h3></mat-panel-title>
                     <mat-panel-description>{{'ISBA.FINANCIAL-DATA.DESCRIPTION' | translate}}</mat-panel-description>
@@ -225,7 +223,7 @@
             </mat-expansion-panel>
 
             <!-- Proyecto de inversión y presupuesto -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted">
+            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.PROJECT-BUDGET.TITLE' | translate}}</h3></mat-panel-title>
                     <mat-panel-description>{{'ISBA.PROJECT-BUDGET.DESCRIPTION' | translate}}</mat-panel-description>
@@ -284,7 +282,7 @@
                 <section ngClass="form project-budget">
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.REQUEST.LABEL' | translate}}</mat-label>
-                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="importe_ayuda_solicita_idi_isba">
+                        <input matInput type="decimal" (blur)="cleanBlank($event); checkAmount()" min="0" formControlName="importe_ayuda_solicita_idi_isba">
                         <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
                         <mat-error *ngIf="isbaForm.get('importe_ayuda_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.REQUEST.ERROR' | translate}}</mat-error>
                     </mat-form-field>
@@ -292,7 +290,7 @@
             </mat-expansion-panel>
 
             <!-- Declaracion responsable -->
-             <mat-expansion-panel [disabled]="!rgpdAccepted">
+            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.DECLARATIONS.TITLE' | translate}}</h3></mat-panel-title>
                     <mat-panel-description>{{'ISBA.DECLARATIONS.DESCRIPTION' | translate}}</mat-panel-description>
@@ -317,9 +315,239 @@
                     <mat-checkbox formControlName="declaro_idi_isba_que_cumple_14" (click)="$event.preventDefault()">12. {{'ISBA.DECLARATIONS.DECLARATION-12' | translate}}</mat-checkbox>
                     <mat-checkbox formControlName="declaro_idi_isba_que_cumple_15" (click)="$event.preventDefault()">13. {{'ISBA.DECLARATIONS.DECLARATION-13' | translate}}</mat-checkbox>
                 </section>
-             </mat-expansion-panel>
+            </mat-expansion-panel>
 
+             <!-- Documentación -->
+            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+                <mat-expansion-panel-header>
+                    <mat-panel-title><h3>{{'ISBA.DOCUMENTATION.TITLE' | translate}}</h3></mat-panel-title>
+                    <mat-panel-description>{{'ISBA.DOCUMENTATION.DESCRIPTION' | translate}}</mat-panel-description>
+                </mat-expansion-panel-header>
+                <section>
+                    <p [innerHTML]="'ISBA.DOCUMENTATION.INFO.FORMAT-INFO' | translate"></p>
+                    <ol>
+                        <li [innerHTML]="'ILS.DOCUMENTATION.INFO.CTRL-INFO' | translate"></li>
+                        <li [innerHTML]="'ILS.DOCUMENTATION.INFO.SHIFT-INFO' | translate"></li>
+                    </ol>
+                </section>
+                <section>
+                    <section ngClass="form documentation">
+                        <section ngClass="file-input">
+                            <p>{{'ISBA.DOCUMENTATION.DOC-1' | translate}}</p>
+                        </section>
+                        <section ngClass="file-input">
+                            <mat-form-field floatLabel="always">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-2' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_b"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_b']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_b.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_b')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_b type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_b')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+                        <section ngClass="file-input">
+                            <mat-form-field floatLabel="always">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-3' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_c"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_c']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_c.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_c')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_c type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_c')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+                        <section ngClass="file-input">
+                            <mat-form-field floatLabel="always">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-4' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_d"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_d']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_d.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_d')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_d type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_d')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+                        <!-- Persona física -->
+                        <section ngClass="file-input" *ngIf="businessType === 'autonomo'">
+                            <p [innerHTML]="'ISBA.DOCUMENTATION.DOC-5.TITLE' | translate"></p>
+                            <mat-form-field floatLabel="always">
+                                <mat-label [innerHTML]="'ISBA.DOCUMENTATION.DOC-5.DOC' | translate"></mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_e"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_e']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_e.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_e')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_e type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_e')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
 
+                        <!-- Persona jurídica -->
+                        <section ngClass="file-input" *ngIf="businessType !== 'autonomo'">
+                            <dl>
+                                <dt [innerHTML]="'ISBA.DOCUMENTATION.DOC-6.TITLE' | translate"></dt>
+                                <dd>{{'ISBA.DOCUMENTATION.DOC-6.DOC-1' | translate}}</dd>
+                                <dd>{{'ISBA.DOCUMENTATION.DOC-6.DOC-2' | translate}}</dd>
+                            </dl>
+                            <mat-form-field floatLabel="always">
+                                <mat-label [innerHTML]="'ISBA.DOCUMENTATION.DOC-6.LABEL' | translate"></mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_f"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_f']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_f.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_f')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_f type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_f')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+
+                        <section ngClass="file-input">
+                            <p>{{'ISBA.DOCUMENTATION.DOC-7.DOC-INFO' | translate}}</p>
+                            <mat-checkbox formControlName="dni_no_consent" style="padding-bottom: 10px;">{{'ISBA.DOCUMENTATION.NO-CONSENT' | translate}}</mat-checkbox> 
+                            <mat-form-field floatLabel="always" *ngIf="dni_no_consent">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-7.LABEL' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_g"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_g']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_g.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_g')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_g type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_g')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+
+                        <section ngClass="file-input">
+                            <p>{{'ISBA.DOCUMENTATION.DOC-8.DOC-INFO' | translate}}</p>
+                            <mat-checkbox formControlName="atib_no_consent" style="padding-bottom: 10px;">{{'ISBA.DOCUMENTATION.NO-CONSENT' | translate}}</mat-checkbox> 
+                            <mat-form-field floatLabel="always" *ngIf="atib_no_consent">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-8.LABEL' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_h"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_h']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_h.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_h')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_h type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_h')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+                        <section ngClass="file-input">
+                            <mat-form-field floatLabel="always">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-9' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_i"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_i']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_i.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_i')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_i type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_i')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+                        <section ngClass="file-input" *ngIf="isSubsidyGreater">
+                            <mat-form-field floatLabel="always">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-10' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_j"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_j']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_j.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_j')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_j type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_j')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+                        <section ngClass="file-input">
+                            <mat-form-field floatLabel="always">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-11' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_k"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_k']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_k.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_k')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_k type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_k')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+                        <section ngClass="file-input">
+                            <mat-form-field floatLabel="always">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-12' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_l"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_l']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_l.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_l')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_l type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_l')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+                        <section ngClass="file-input">
+                            <mat-form-field floatLabel="always">
+                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-13' | translate}}</mat-label>
+                                <input 
+                                matInput
+                                type="text"
+                                formControlName="documentacion_adjunta_requerida_idi_isba_m"
+                                readonly
+                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_m']"
+                                (click)="documentacion_adjunta_requerida_idi_isba_m.click()"
+                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                />
+                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_m')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input #documentacion_adjunta_requerida_idi_isba_m type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_m')" hidden accept=".pdf, .jpeg, .png" multiple>
+                        </section>
+                        <section ngClass="file-input">
+                            <p>{{'ISBA.DOCUMENTATION.DOC-14' | translate}}</p>
+                        </section>
+                    </section>
+                </section>
+            </mat-expansion-panel>
         </mat-accordion>
         <mat-form-field style="display: none">
             <input matInput type="text" formControlName="tipo_tramite">
