@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { LanguageService } from './Services/language.service';
 
 import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -23,7 +24,7 @@ export class HeaderComponent implements OnInit {
 });
 
 
-  constructor(private translate: TranslateService, private fb: FormBuilder) {
+  constructor(private translate: TranslateService, private fb: FormBuilder, private languageService: LanguageService) {
     this.translate.addLangs (['es-ES', 'ca-ES', 'en-EN']);
     this.translate.setDefaultLang ('es-ES');
     this.translate.use ('es-ES');
@@ -39,7 +40,7 @@ export class HeaderComponent implements OnInit {
 
   onLanguageChange() {
     const selectedLang = this.languageForm?.get('preferredLang')?.value;
-    localStorage.setItem('preferredLang', selectedLang);
+    this.languageService.setLanguage(selectedLang);
     this.translate.use(selectedLang);
   }
 }

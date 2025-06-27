@@ -44,7 +44,7 @@ import { AuthorizationTextDTO } from '../../Models/authorization-texts-dto';
 
 export class GrantApplicationFormComponent {
   readonly dialog = inject(MatDialog)
-  htmlContent: string = ''
+  htmlContentRequiredDocs: string = ''
   step = signal(0)
   uploadProgress: number = 0
   ayudaForm: FormGroup  
@@ -129,12 +129,6 @@ this.getAllCnaes()
 this.getAllXecsPrograms()
 this.getResponsabilityDeclarations()
 this.getDocumentationAndAuthorizations()
-
-this.http.get('../../../assets/data/documentacionRequerida.html', { responseType: 'text' })
- .subscribe({
-    next: (html) => this.htmlContent = html,
-    error: () => this.htmlContent = '<p>Error al cargar el contenido.</p>'
- });
 }
 
 ngOnInit(): void {
@@ -263,6 +257,7 @@ onSubmit(): void {
 get memoriaTecnicaFileNames(): string {
   return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
 }
+
 onFileMemoriaTecnicaChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {

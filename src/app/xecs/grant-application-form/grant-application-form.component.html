@@ -15,13 +15,15 @@
 
     <section class="rgpd-section">
       <mat-checkbox formControlName="acceptRGPD">
-        <label>He leído y acepto la <mat-icon (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')" style="color: #ff9310;">info</mat-icon>. 
-          Los datos personales proporcionados serán tratados por ADR Balears como responsable del tratamiento, con la finalidad de gestionar su solicitud. 
-          Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la política de privacidad.<mat-icon (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')" style="color: #ff9310;">info</mat-icon>
-        </label>
+        <label> {{'FORM.ACCEPTTERMS1'| translate}}
+          <mat-icon (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')" style="color: #ff9310;">info</mat-icon>
+          {{'FORM.ACCEPTTERMS2'| translate}}<br>
+          {{'FORM.ACCEPTTERMS3'| translate}}
+          <mat-icon (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')" style="color: #ff9310;">info</mat-icon>
+        </label>  
       </mat-checkbox>
     </section>
-    <section [innerHTML]="htmlContent"></section>
+    <section [innerHTML]="'FORM.REQUIREDDOCUMENTATION' | translate"></section>
   </mat-expansion-panel>
 
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
@@ -310,7 +312,7 @@
       </mat-form-field>
       <input
         #file_escrituraPublica
-        formControlName = "file_escrituraPublica"        
+        formControlName = "file_escritura_empresa"        
         type="file"
         (change)="onFileEscrituraEmpresaChange($event)"
         multiple
@@ -335,7 +337,7 @@
       </mat-form-field>
       <input
         #file_docAcredRepresentante
-        formControlName = "file_docAcredRepresentante"        
+        formControlName = "file_document_acred_como_repres"        
         type="file"
         (change)="onFileDocAcredRepresChange($event)"
         multiple
@@ -388,7 +390,7 @@
           {{ authorizations[0]['label'] }}
         </mat-checkbox>
         <section *ngIf="ayudaForm.get('consentimientocopiaNIF')?.value === false" ngClass="file-upload">
-          <label for="file_copiaNIF">No don el meu consentiment / M’opòs a / No concedesc / Deneg la meva autorització perquè es consultin les dades i documents necessaris per la tramitació d’aquesta sol·licitud. Per això, present el document:</label>
+          <label for="file_copiaNIF">{{"FILES.NOTAUTHORIZED" | translate}}</label>
           <input type="file" formControlName="file_copiaNIF" (change)="onFileCopiaNifChange($event)">
         </section>
         <mat-checkbox
@@ -397,7 +399,7 @@
           {{ authorizations[1]['label'] }}
         </mat-checkbox>
         <section *ngIf="ayudaForm.get('consentimiento_certificadoATIB')?.value === false" ngClass="file-upload">
-          <label for="file_certificadoATIB">No don el meu consentiment / M’opòs a / No concedesc / Deneg la meva autorització perquè es consultin les dades i documents necessaris per la tramitació d’aquesta sol·licitud. Per això, present el document:</label>
+          <label for="file_certificadoATIB">{{"FILES.NOTAUTHORIZED" | translate}}</label>
           <input type="file" formControlName="file_certificadoATIB" (change)="onFilecertificadoATIBChange($event)">
         </section>        
         <mat-checkbox
@@ -406,7 +408,7 @@
           {{ authorizations[2]['label'] }}
         </mat-checkbox>
         <section *ngIf="ayudaForm.get('consentimiento_certificadoSegSoc')?.value === false" ngClass="file-upload">
-          <label for="file_certificadoSegSoc">No don el meu consentiment / M’opòs a / No concedesc / Deneg la meva autorització perquè es consultin les dades i documents necessaris per la tramitació d’aquesta sol·licitud. Per això, present el document:</label>
+          <label for="file_certificadoSegSoc">{{"FILES.NOTAUTHORIZED" | translate}}</label>
           <input type="file" formControlName="file_certificadoSegSoc" (change)="onFilecertificadoSegSocChange($event)">
         </section> 
       </section>
