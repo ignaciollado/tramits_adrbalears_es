@@ -129,4 +129,41 @@ mat-form-field {
 }
 
 
+.file-upload {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  input[type="file"] {
+    display: block;
+    padding: 0.5rem;
+    font-size: 0.95rem;
+    color: #333;
+
+    &::file-selector-button {
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #303f9f;
+      }
+    }
+  }
+}
+
+
 

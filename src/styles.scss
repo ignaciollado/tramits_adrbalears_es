@@ -15,8 +15,38 @@ a {
   }
 }
 
-
 .mat-expansion-panel {
   color: inherit!important;
   background: #0098ce!important;
 }
+
+.docs-in-adr {
+  mat-form-field {
+    width: 100%;
+
+    input[matInput] {
+     /*  background-color: #ffffff;
+      border: 1px solid #ccc; */
+      cursor: pointer;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+
+      &:hover {
+        border-color: #888;
+      }
+
+      &:focus {
+        border-color: #3f51b5;
+        outline: none;
+      }
+
+      &:disabled {
+        /* background-color: #f5f5f5; */
+        text-decoration: line-through;
+        border: 1px dashed #bbb;
+        color: #999;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+

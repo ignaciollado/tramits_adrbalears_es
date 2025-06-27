@@ -206,24 +206,23 @@
         <mat-icon>file_copy</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>  
-    <section ngClass="memoria-tecnica">
+    <section ngClass="memoria-tecnica docs-in-adr">
         <mat-checkbox
           formControlName = "memoriaTecnicaEnIDI"
           (change)="onCheckboxChange($event)"
           >
           {{ 'FILES.FILEINADR' | translate }}
         </mat-checkbox>
-        <mat-form-field *ngIf="!ayudaForm.get('memoriaTecnicaEnIDI')?.value === true" appearance="fill">
+        <mat-form-field appearance="fill">
           <mat-label>{{ 'FILES.FILESMEMTEC' | translate }}</mat-label>
-          <input
+          <input [disabled]="ayudaForm.get('memoriaTecnicaEnIDI')?.value === true"
             type="text"
             matInput
-                        
             [value]="memoriaTecnicaFileNames"
             placeholder="{{ 'FILES.FILESMEMTEC' | translate }}"
             readonly
             (click)="file_memoriaTecnica.click()"/>
-      </mat-form-field>
+        </mat-form-field>    
       <input
         #file_memoriaTecnica
         formControlName = "file_memoriaTecnica"
@@ -262,17 +261,17 @@
       </ul>
   </section>
 
-  <section ngClass="copia-nif">
+  <section ngClass="copia-nif docs-in-adr">
         <mat-checkbox
           formControlName = "copiaNIFSociedadEnIDI"
-          (change)="onCheckboxChange($event)"
-          >
+          (change)="onCheckboxChange($event)">
           {{ 'FILES.FILEINADR' | translate }}
         </mat-checkbox>
-      <mat-form-field *ngIf="!ayudaForm.get('copiaNIFSociedadEnIDI')?.value === true" appearance="fill">
+      <mat-form-field appearance="fill">
           <mat-label>{{ 'FILES.FILESNIF' | translate }}</mat-label>
           <input
             type="text"
+            [disabled]="ayudaForm.get('copiaNIFSociedadEnIDI')?.value === true"
             matInput
             [value]="nifEmpresaFileNames"
             placeholder="{{ 'FILES.FILESNIF' | translate }}"
@@ -290,20 +289,19 @@
       <ul *ngIf="file_nifEmpresaToUpload.length > 0">
         <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
-      <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
+      <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
   </section>
-
-  <section ngClass="escritura-publica">
+  <section ngClass="escritura-publica docs-in-adr">
       <mat-checkbox
           formControlName = "pJuridicaDocAcreditativaEnIDI"
-          (change)="onCheckboxChange($event)"
-          >
+          (change)="onCheckboxChange($event)">
           {{ 'FILES.FILEINADR' | translate }}
       </mat-checkbox>
-      <mat-form-field  *ngIf="!ayudaForm.get('copiaNIFSociedadEnIDI')?.value === true" appearance="fill">
+      <mat-form-field appearance="fill">
         <mat-label>{{ 'FILES.FILESESCRITPUB' | translate }}</mat-label>
           <input
             type="text"
+            [disabled]="ayudaForm.get('pJuridicaDocAcreditativaEnIDI')?.value === true"
             matInput
             [value]="escrituraPublicaFileNames"
             placeholder="{{ 'FILES.FILESESCRITPUB' | translate }}"
@@ -321,7 +319,7 @@
       <ul *ngIf="file_escritura_empresaToUpload.length > 0">
         <li *ngFor="let file of file_escritura_empresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
-      <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
+      <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
   </section>
 
   <section ngClass="doc-acred-representante">
@@ -383,13 +381,13 @@
         <mat-icon>license</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-      <section class="checkbox-group" *ngIf="authorizations.length >= 3">
+      <section *ngIf="authorizations.length >= 3">
         <mat-checkbox
           formControlName = "consentimientocopiaNIF"
           (change)="onCheckboxChange($event)">
           {{ authorizations[0]['label'] }}
         </mat-checkbox>
-        <section *ngIf="ayudaForm.get('consentimientocopiaNIF')?.value === false" class="file-upload">
+        <section *ngIf="ayudaForm.get('consentimientocopiaNIF')?.value === false" ngClass="file-upload">
           <label for="file_copiaNIF">No don el meu consentiment / M’opòs a / No concedesc / Deneg la meva autorització perquè es consultin les dades i documents necessaris per la tramitació d’aquesta sol·licitud. Per això, present el document:</label>
           <input type="file" formControlName="file_copiaNIF" (change)="onFileCopiaNifChange($event)">
         </section>
@@ -398,7 +396,7 @@
           (change)="onCheckboxChange($event)">
           {{ authorizations[1]['label'] }}
         </mat-checkbox>
-        <section *ngIf="ayudaForm.get('consentimiento_certificadoATIB')?.value === false" class="file-upload">
+        <section *ngIf="ayudaForm.get('consentimiento_certificadoATIB')?.value === false" ngClass="file-upload">
           <label for="file_certificadoATIB">No don el meu consentiment / M’opòs a / No concedesc / Deneg la meva autorització perquè es consultin les dades i documents necessaris per la tramitació d’aquesta sol·licitud. Per això, present el document:</label>
           <input type="file" formControlName="file_certificadoATIB" (change)="onFilecertificadoATIBChange($event)">
         </section>        
@@ -407,7 +405,7 @@
           (change)="onCheckboxChange($event)">
           {{ authorizations[2]['label'] }}
         </mat-checkbox>
-        <section *ngIf="ayudaForm.get('consentimiento_certificadoSegSoc')?.value === false" class="file-upload">
+        <section *ngIf="ayudaForm.get('consentimiento_certificadoSegSoc')?.value === false" ngClass="file-upload">
           <label for="file_certificadoSegSoc">No don el meu consentiment / M’opòs a / No concedesc / Deneg la meva autorització perquè es consultin les dades i documents necessaris per la tramitació d’aquesta sol·licitud. Per això, present el document:</label>
           <input type="file" formControlName="file_certificadoSegSoc" (change)="onFilecertificadoSegSocChange($event)">
         </section> 
