@@ -11,7 +11,7 @@
     "SOLICITOR": "Person concerned",
     "SOLICITORTYPE": "Type of applicant",
     "SOLICITORNAME": "Name of the person concerned",
-    "ADDRESS": "Postal address",
+    "ADDRESS": "Address",
     "ZIPCODE": "Postcode",
     "TOWN": "Town",
     "NOMREPRESENTANTE": "Name of representative",
@@ -36,6 +36,7 @@
     "CCOPTION2": "Option 2 - Overseas account number (9999999999999999999999999)",
     "AUTHORISATIONS": "Authorisations",
     "RESPONSIBLEDECLARATION": "Responsible declaration",
+    "MINIMISIMPORT": "Minimis amount received",
     "SEND": "Send"
   },
   "FILES": {

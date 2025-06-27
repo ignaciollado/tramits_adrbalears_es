@@ -11,7 +11,7 @@
     "SOLICITOR": "Interesado",
     "SOLICITORTYPE": "Tipos de solicitante",
     "SOLICITORNAME": "Nombre del interesado",
-    "ADDRESS": "Dirección postal",
+    "ADDRESS": "Dirección",
     "ZIPCODE": "Código postal",
     "TOWN": "Localidad",
     "NOMREPRESENTANTE": "Nombre del representante",
@@ -35,6 +35,7 @@
     "CCOPTION2": "Opción 2 - Número de la cuenta de otros países (9999999999999999999999999)",
     "AUTHORISATIONS": "Autorizaciones",
     "RESPONSIBLEDECLARATION": "Declaración responsable",
+    "MINIMISIMPORT": "Importe minimis recibido",
     "SEND": "Enviar"
   },
   "FILES": {

@@ -11,7 +11,7 @@
     "SOLICITOR": "Interessat",
     "SOLICITORTYPE": "Tipus de sol·licitant",
     "SOLICITORNAME": "Nom del interessat",
-    "ADDRESS": "Adreça postal",
+    "ADDRESS": "Adreça",
     "ZIPCODE": "Codi postal",
     "TOWN": "Localitat",
     "NOMREPRESENTANTE": "Nom del representant",
@@ -35,9 +35,12 @@
     "CCOPTION2": "Opciò 2 - Número del compte d'altres països (9999999999999999999999999)",
     "AUTHORISATIONS": "Autoritzacions",
     "RESPONSIBLEDECLARATION": "Declaració responsable",
+    "MINIMISIMPORT": "Import minimis rebut",
+
     "SEND": "Enviar"
   },
   "FILES": {
+    "FILEINADR": "Aquest document ja es troba en poder de l'ADR Balears i no ha sofert modificacions (en aquest cas no cal aportar-lo).",
     "UPLOADFILES": "Carregar documents",
     "FILES": "Seleccionar documents (PDF o imatge)",
     "FILESMEMTEC": "Descripció de l’empresa i de l’activitat",
