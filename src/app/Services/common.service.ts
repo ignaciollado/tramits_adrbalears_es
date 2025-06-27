@@ -6,6 +6,7 @@ import { CnaeDTO } from '../Models/cnae.dto';
 import { XecsProgramsDTO } from '../Models/xecs-programs-dto';
 import { AuthorizationTextDTO } from '../Models/authorization-texts-dto';
 import jsPDF from 'jspdf';
+import { ResponsabilityDeclarationDTO } from '../Models/responsability-declaration-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -35,8 +36,8 @@ export class CommonService {
   }
 
   // Responsability Declarations XECS
-  getResponsabilityDeclarations(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.urlAPIMock}responsabilityDeclarations.json`).pipe(catchError(this.handleError))
+  getResponsabilityDeclarations(): Observable<ResponsabilityDeclarationDTO[]> {
+    return this.http.get<ResponsabilityDeclarationDTO[]>(`${this.urlAPIMock}responsabilityDeclarations.json`).pipe(catchError(this.handleError))
   }
 
   /* CRUD Zipcodes */

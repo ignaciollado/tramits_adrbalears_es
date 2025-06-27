@@ -29,6 +29,7 @@ import { from } from 'rxjs';
 import { catchError, concatMap, tap } from 'rxjs/operators';
 import { XecsProgramsDTO } from '../../Models/xecs-programs-dto';
 import { AuthorizationTextDTO } from '../../Models/authorization-texts-dto';
+import { ResponsabilityDeclarationDTO } from '../../Models/responsability-declaration-dto';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -55,7 +56,7 @@ export class GrantApplicationFormComponent {
   zipCodes: ZipCodesIBDTO[] = []
   cnaes: CnaeDTO[] = []
   xecsPrograms: XecsProgramsDTO[] = []
-  responsibilityDeclarations: string[] = []
+  responsibilityDeclarations: ResponsabilityDeclarationDTO[] = []
   authorizations: AuthorizationTextDTO[] = []
   filesToUploadOptional: string[] = []  // new
 
@@ -428,13 +429,23 @@ private getAllXecsPrograms() {
 }
 
 private getResponsabilityDeclarations() {
-  this.commonService.getResponsabilityDeclarations().subscribe((responsibilityDeclarations: string[]) => {
+  this.commonService.getResponsabilityDeclarations().subscribe((responsibilityDeclarations: ResponsabilityDeclarationDTO[]) => {
+    responsibilityDeclarations.map((item:ResponsabilityDeclarationDTO) => {
+    if (localStorage.getItem('preferredLang') === 'ca-ES') {
+      item.label = item.label_ca
+    }
+   })
     this.responsibilityDeclarations = responsibilityDeclarations
   })
 }
 
 private getDocumentationAndAuthorizations() {
   this.commonService.getDocumentationAndAuthorizations().subscribe((authorizations: AuthorizationTextDTO[]) => {
+   authorizations.map((item:AuthorizationTextDTO) => {
+    if (localStorage.getItem('preferredLang') === 'ca-ES') {
+      item.label = item.label_ca
+    }
+   })
     this.authorizations = authorizations
   })
 }

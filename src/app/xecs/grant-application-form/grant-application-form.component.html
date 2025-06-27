@@ -379,7 +379,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.AUTHORISATIONS' | translate }}</mat-panel-title>
       <mat-panel-description>
-        Autorizaciones
+        {{ 'FORM.AUTHORISATIONSSINO' | translate }}
         <mat-icon>license</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -422,18 +422,18 @@
         <mat-icon>license</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>   
-      <section class="checkbox-group">
+      <section *ngIf="responsibilityDeclarations && responsibilityDeclarations.length > 0">
         <mat-checkbox
           formControlName = "declaracion_responsable_i"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[0] }}
+          {{ responsibilityDeclarations[0].label[0] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "declaracion_responsable_ii"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[1] }}
+          {{ responsibilityDeclarations[0].label[1] }}
         </mat-checkbox>
         <mat-form-field *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === true" appearance="fill">
           <mat-label>{{ 'FORM.MINIMISIMPORT' | translate }}</mat-label>
@@ -447,49 +447,49 @@
           formControlName = "declaracion_responsable_iv"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[2] }}
+          {{ responsibilityDeclarations[0].label[2] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "declaracion_responsable_v"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[3] }}
+          {{ responsibilityDeclarations[0].label[3] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "declaracion_responsable_vi"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[4] }}
+          {{ responsibilityDeclarations[0].label[4] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "declaracion_responsable_vii"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[5] }}
+          {{ responsibilityDeclarations[0].label[5] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "declaracion_responsable_viii"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[6] }}
+          {{ responsibilityDeclarations[0].label[6] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "declaracion_responsable_ix"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[7] }}
+          {{ responsibilityDeclarations[0].label[7] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "declaracion_responsable_x"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[8] }}
+          {{ responsibilityDeclarations[0].label[8] }}
         </mat-checkbox>
         <mat-checkbox
           formControlName = "declaracion_responsable_xi"
           (change)="onCheckboxChange($event)"
           >
-          {{ responsibilityDeclarations[9] }}
+          {{ responsibilityDeclarations[0].label[9] }}
         </mat-checkbox>        
       </section>
   </mat-expansion-panel>
