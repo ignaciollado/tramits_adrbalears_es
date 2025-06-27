@@ -25,10 +25,12 @@
     "CONSULTANTNAME": "Nombre del consultor",
     "CONSULTANTPHONE": "Teléfono del consultor",
     "CONSULTANTMAIL": "Correo electrónico del consultor",
-    "ATTACHEDDOCUMENTATION": "Documentación adjuntada",
+    "ATTACHEDDOCUMENTATION": "Documentación a adjuntar",
+    "BANKDATA": "Datos bancarios",
     "BANKNAME": "Nombre de la entidad bancaria",
     "BANKADDRESS": "Domicilio de la entidad bancaria",
     "BANKBICSWIFT": "Código BIC / SWIFT",
+    "BANKCC": "Número de cuenta corriente",
     "CCOPTION1": "Opción 1 - IBAN de la cuenta para España (ES99999999999999999999999)",
     "CCOPTION2": "Opción 2 - Número de la cuenta de otros países (9999999999999999999999999)",
     "AUTHORISATIONS": "Autorizaciones",
@@ -37,10 +39,13 @@
   },
   "FILES": {
     "UPLOADFILES": "Cargar documentos",
-    "SELECTFILES": "Seleccione los documentos (PDF o imagen)",
-    "SELECTFILESMEMTEC": "Descripción de la actividad de la empresa",
-    "SELECTFILESCERTIAE": "Certificado IAE actualizado",
-    "SELECTFILESNIF": "Copia del NIF de la empresa"
+    "FILES": "Seleccione los documentos (PDF o imagen)",
+    "FILESMEMTEC": "Descripción de la actividad de la empresa",
+    "FILESCERTIAE": "Certificado IAE actualizado",
+    "FILESNIF": "Copia del NIF de la empresa",
+    "FILESESCRITPUB": "Escritura pública y estatutos, debidamente inscritos en el registro correspondiente",
+    "FILEDOCACREDREPRESENTANTE": "Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante",
+    "FILECERTIFICADOAEAT": "Certificate of being up to date with tax obligations with the State Tax Administration Agency (AEAT)"    
   },
   "XECS": {
     "RGPD": "RGPD y documentación",

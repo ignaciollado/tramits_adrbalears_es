@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, viewChild, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { map, Observable, of, startWith, throwError } from 'rxjs';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -61,6 +62,7 @@ export class GrantApplicationFormComponent {
   constructor ( private fb: FormBuilder, 
     private http: HttpClient, 
     private commonService: CommonService, 
+    private sanitizer: DomSanitizer,
     private documentServive: DocumentService,
     private nifValidator: NifValidatorService, 
     private snackBar: MatSnackBar ) {
@@ -74,7 +76,6 @@ export class GrantApplicationFormComponent {
     town: this.fb.control({value: '', disabled: true}, ),
     codigoIAE: this.fb.control({value: '', disabled: false}, ),
     telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
-  
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
     tipoSolicitante: this.fb.control<string | null>(null, Validators.required),
     nom_representante:  this.fb.control<string | null>(''),
@@ -85,26 +86,29 @@ export class GrantApplicationFormComponent {
     nom_consultor: this.fb.control<string | null>(''),
     tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]{9}$')),
     mail_consultor: this.fb.control<string | null>('', Validators.email),
-    file_memoriaTecnica: this.fb.control<string | null>('SI', Validators.required),
-    file_certificadoIAE: this.fb.control<string | null>('SI', Validators.required),
-    file_nifEmpresa: this.fb.control<string | null>('SI', Validators.required),
-    file_escrituraPublica: this.fb.control<string | null>('SI', Validators.required),
-    file_docAcredRepresentante: this.fb.control<string | null>('SI', Validators.required),
-    file_certificadoAEAT: this.fb.control<string | null>('SI', Validators.required),
 
-    file_copiaNIF: this.fb.control<string | null>('NO'),
-    file_certificadoATIB: this.fb.control<string | null>('NO'),
-    file_certificadoSegSoc: this.fb.control<string | null>('NO'),
+    memoriaTecnicaEnIDI: this.fb.control<string | null>('false', Validators.required),
+    file_memoriaTecnica: this.fb.control<File | null>(null, Validators.required),
+    file_certificadoIAE: this.fb.control<File | null>(null, Validators.required),
+    copiaNIFSociedadEnIDI:this.fb.control<string | null>('false', Validators.required),
+    file_nifEmpresa: this.fb.control<File | null>(null, Validators.required),
+    pJuridicaDocAcreditativaEnIDI: this.fb.control<string | null>('false', Validators.required),
+    file_escritura_empresa: this.fb.control<File | null>(null, Validators.required),
+
+    file_document_acred_como_repres: this.fb.control<File | null>(null, Validators.required),
+    file_certificadoAEAT: this.fb.control<File | null>(null, Validators.required),
+    consentimientocopiaNIF: this.fb.control<string | null>('true', Validators.required),
+    file_copiaNIF: this.fb.control<File | null>(null),
+    consentimiento_certificadoATIB: this.fb.control<string | null>('true', Validators.required),
+    file_certificadoATIB: this.fb.control<File | null>(null),
+    consentimiento_certificadoSegSoc: this.fb.control<string | null>('true', Validators.required),
+    file_certificadoSegSoc: this.fb.control<File | null>(null),
 
     nom_entidad: this.fb.control<string | null>('', ),
     domicilio_sucursal: this.fb.control<string | null>('', ),
     codigo_BIC_SWIFT: this.fb.control<string | null>('', [ Validators.minLength(11), Validators.maxLength(11), Validators.pattern(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/)]),
     opcion_banco: this.fb.control<string | null>('', ),
     cc: this.fb.control<string | null>({value: '', disabled: true}, [ Validators.minLength(25), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
-
-    consentimientocopiaNIF: this.fb.control<string | null>('true', Validators.required),
-    consentimiento_certificadoATIB: this.fb.control<string | null>('true', Validators.required),
-    consentimiento_certificadoSegSoc: this.fb.control<string | null>('true', Validators.required),
 
     declaracion_responsable_i: this.fb.control<string | null>({ value: 'true', disabled: true }),
     declaracion_responsable_ii: this.fb.control<string | null>(''),

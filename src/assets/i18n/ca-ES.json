@@ -25,10 +25,12 @@
     "CONSULTANTNAME": "Nom del consultor",
     "CONSULTANTPHONE": "Telèfon del consultor",
     "CONSULTANTMAIL": "Adreça electrònica del consultor",
-    "ATTACHEDDOCUMENTATION": "Documentaciò adjuntada",
+    "ATTACHEDDOCUMENTATION": "Documentació a adjuntar",
+    "BANKDATA": "Dades banacaries",
     "BANKNAME": "Nom de l'entitat bancària",
     "BANKADDRESS": "Domicili de l'entitat bancària",
     "BANKBICSWIFT": "Codi BIC / SWIFT",
+    "BANKCC": "Número de compte corrent",
     "CCOPTION1": "Opciò 1 - IBAN del compte per a Espanya (ES99999999999999999999999)",
     "CCOPTION2": "Opciò 2 - Número del compte d'altres països (9999999999999999999999999)",
     "AUTHORISATIONS": "Autoritzacions",
@@ -37,10 +39,13 @@
   },
   "FILES": {
     "UPLOADFILES": "Carregar documents",
-    "SELECTFILES": "Seleccionar documents (PDF o imatge)",
-    "SELECTFILESMEMTEC": "Descripció de l’empresa i de l’activitat",
-    "SELECTFILESCERTIAE": "Certificat de l’IAE actualitzat",
-    "SELECTFILESNIF": "Còpia del NIF de l'empresa"
+    "FILES": "Seleccionar documents (PDF o imatge)",
+    "FILESMEMTEC": "Descripció de l’empresa i de l’activitat",
+    "FILESCERTIAE": "Certificat de l’IAE actualitzat",
+    "FILESNIF": "Còpia del NIF de l'empresa",
+    "FILESESCRITPUB": "Escriptura pública i estatuts, degudament inscrits en el registre corresponent",
+    "FILEDOCACREDREPRESENTANTE": "Document fefaent que acrediti la representació de la persona que actua en nom de l'entitat sol·licitant",
+    "FILECERTIFICADOAEAT": "Certificat d’estar al corrent de les obligacions tributàries amb l’Agència Estatal de l’Administració Tributària (AEAT)"
   },
   "XECS": {
     "RGPD": "RGPD i documentació",

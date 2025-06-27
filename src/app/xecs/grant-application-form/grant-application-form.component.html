@@ -170,41 +170,12 @@
 
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
     <mat-expansion-panel-header>
-      <mat-panel-title>{{ 'FORM.ATTACHEDDOCUMENTATION' | translate }}</mat-panel-title>
+      <mat-panel-title>{{ 'FORM.BANKDATA' | translate }}</mat-panel-title>
       <mat-panel-description>
-        Cargue los documentos que nos tiene que enviar
+        Información sobre el banco, Código SWIFT, cuenta corriente
         <mat-icon>file_copy</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-
-  <section ngClass="memoria-tecnica">
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'FILES.SELECTFILESMEMTEC' | translate }}</mat-label>
-          <input
-            type="text"
-            matInput
-                        
-            [value]="memoriaTecnicaFileNames"
-            placeholder="{{ 'FILES.SELECTFILESMEMTEC' | translate }}"
-            readonly
-            (click)="file_memoriaTecnica.click()"
-        />
-      </mat-form-field>
-      <input
-        #file_memoriaTecnica
-        formControlName = "file_memoriaTecnica"
-        type="file"
-        (change)="onFileMemoriaTecnicaChange($event)"
-        multiple
-        accept=".pdf"
-        hidden />
-      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
-      <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
-        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
-      </ul>
-  </section>
-
-
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKNAME' | translate }}</mat-label>
     <input matInput formControlName="nom_entidad" />
@@ -224,15 +195,52 @@
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKCC' | translate }}</mat-label>
     <input matInput formControlName="cc" minlength="25" maxlength="25" />
-  </mat-form-field>    
+  </mat-form-field>
+  </mat-expansion-panel>  
+
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{ 'FORM.ATTACHEDDOCUMENTATION' | translate }}</mat-panel-title>
+      <mat-panel-description>
+        Cargue los documentos que nos tiene que enviar
+        <mat-icon>file_copy</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>  
+  <section ngClass="memoria-tecnica">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'FILES.FILESMEMTEC' | translate }}</mat-label>
+          <input
+            type="text"
+            matInput
+                        
+            [value]="memoriaTecnicaFileNames"
+            placeholder="{{ 'FILES.FILESMEMTEC' | translate }}"
+            readonly
+            (click)="file_memoriaTecnica.click()"
+        />
+      </mat-form-field>
+      <input
+        #file_memoriaTecnica
+        formControlName = "file_memoriaTecnica"
+        type="file"
+        (change)="onFileMemoriaTecnicaChange($event)"
+        multiple
+        accept=".pdf"
+        hidden />
+      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.FILES' | translate }}</button> -->
+      <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
+        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+      </ul>
+  </section>
+
   <section ngClass="certificado-iae">
       <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'FILES.SELECTFILESCERTIAE' | translate }}</mat-label>
+          <mat-label>{{ 'FILES.FILESCERTIAE' | translate }}</mat-label>
           <input
             type="text"
             matInput         
             [value]="certificadoIAEFileNames"
-            placeholder="{{ 'FILES.SELECTFILESCERTIAE' | translate }}"
+            placeholder="{{ 'FILES.FILESCERTIAE' | translate }}"
             readonly
             (click)="file_certificadoIAE.click()"/>
       </mat-form-field>
@@ -244,19 +252,19 @@
         multiple
         accept=".pdf"
         hidden />
-      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.SELECTFILES' | translate }}</button> -->
+      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.FILES' | translate }}</button> -->
       <ul *ngIf="file_certificadoIAEToUpload.length > 0">
         <li *ngFor="let file of file_certificadoIAEToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
   </section>
   <section ngClass="copia-nif">
       <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'FILES.SELECTFILESNIF' | translate }}</mat-label>
+          <mat-label>{{ 'FILES.FILESNIF' | translate }}</mat-label>
           <input
             type="text"
             matInput
             [value]="nifEmpresaFileNames"
-            placeholder="{{ 'FILES.SELECTFILESNIF' | translate }}"
+            placeholder="{{ 'FILES.FILESNIF' | translate }}"
             readonly
             (click)="file_nifEmpresa.click()"/>
       </mat-form-field>
@@ -272,17 +280,16 @@
         <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
       <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
-
   </section>
 
   <section ngClass="escritura-publica">
       <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'FILES.SELECTFILESESCRITPUB' | translate }}</mat-label>
+          <mat-label>{{ 'FILES.FILESESCRITPUB' | translate }}</mat-label>
           <input
             type="text"
             matInput
             [value]="escrituraPublicaFileNames"
-            placeholder="{{ 'FILES.SELECTFILESESCRITPUB' | translate }}"
+            placeholder="{{ 'FILES.FILESESCRITPUB' | translate }}"
             readonly
             (click)="file_escrituraPublica.click()"/>
       </mat-form-field>
@@ -298,16 +305,16 @@
         <li *ngFor="let file of file_escritura_empresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
       <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
-    </section>
+  </section>
 
-    <section ngClass="doc-acred-representante">
+  <section ngClass="doc-acred-representante">
       <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'FILES.SELECTFILEDOCACREDREPRESENTANTE' | translate }}</mat-label>
+          <mat-label>{{ 'FILES.FILEDOCACREDREPRESENTANTE' | translate }}</mat-label>
           <input
             type="text"
             matInput
             [value]="docAcredRepresFileNames"
-            placeholder="{{ 'FILES.SELECTFILEDOCACREDREPRESENTANTE' | translate }}"
+            placeholder="{{ 'FILES.FILEDOCACREDREPRESENTANTE' | translate }}"
             readonly
             (click)="file_docAcredRepresentante.click()"/>
       </mat-form-field>
@@ -323,16 +330,16 @@
         <li *ngFor="let file of file_document_acred_como_represToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
       <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
-    </section>
+  </section>
 
-    <section ngClass="certificado-aeat">
+  <section ngClass="certificado-aeat">
       <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'FILES.SELECTFILECERTIFICADOAEAT' | translate }}</mat-label>
+          <mat-label>{{ 'FILES.FILECERTIFICADOAEAT' | translate }}</mat-label>
           <input
             type="text"
             matInput
             [value]="certficadoAEATFileNames"
-            placeholder="{{ 'FILES.SELECTFILECERTIFICADOAEAT' | translate }}"
+            placeholder="{{ 'FILES.FILECERTIFICADOAEAT' | translate }}"
             readonly
             (click)="file_certificadoAEAT.click()"/>
       </mat-form-field>
@@ -348,7 +355,7 @@
         <li *ngFor="let file of file_certificadoAEATToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
       <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
-    </section>
+  </section>
   </mat-expansion-panel>  
 
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
@@ -411,9 +418,13 @@
           >
           {{ responsibilityDeclarations[1] }}
         </mat-checkbox>
-        <section *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === true" class="importe-minimis">
-          <input type="number" formControlName="importe_minimis">
-        </section>         
+        <mat-form-field *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === true" appearance="fill">
+          <mat-label>{{ 'FORM.MINIMISIMPORT' | translate }}</mat-label>
+          <input matInput formControlName="importe_minimis" />
+        </mat-form-field>
+<!--         <section *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === true" class="importe-minimis">
+          <input matInput type="number" formControlName="importe_minimis">
+        </section>    -->      
         <mat-checkbox
           formControlName = "declaracion_responsable_iv"
           (change)="onCheckboxChange($event)"

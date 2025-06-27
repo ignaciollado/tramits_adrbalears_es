@@ -25,10 +25,13 @@
     "CONSULTANTNAME": "Consultant name",
     "CONSULTANTPHONE": "Consultant phone",
     "CONSULTANTMAIL": "Consultant email address",
-    "ATTACHEDDOCUMENTATION": "Attached documentation",
+    "ATTACHEDDOCUMENTATION": "Documentation to be attached",
+    "BANKDATA": "Bank details",
     "BANKNAME": "Name of de bank",
     "BANKADDRESS": "Address of the bank",
     "BANKBICSWIFT": "BIC / SWIFT code",
+    "BANKCC": "Account number",
+
     "CCOPTION1": "Option 1 - IBAN of the account for Spain (ES99999999999999999999999)",
     "CCOPTION2": "Option 2 - Overseas account number (9999999999999999999999999)",
     "AUTHORISATIONS": "Authorisations",
@@ -37,10 +40,13 @@
   },
   "FILES": {
     "UPLOADFILES": "Upload documents",
-    "SELECTFILES": "Select the documents (PDF or image)",
-    "SELECTFILESMEMTEC": "Description of the company's activity",
-    "SELECTFILESCERTIAE": "Updated IAE certificate",
-    "SELECTFILESNIF": "Copy of the company's VAT number"
+    "FILES": " the documents (PDF or image)",
+    "FILESMEMTEC": "Description of the company's activity",
+    "FILESCERTIAE": "Updated IAE certificate",
+    "FILESNIF": "Copy of the company's VAT number",
+    "FILESESCRITPUB": "Public deed and bylaws, duly registered in the corresponding registry.",
+    "FILEDOCACREDREPRESENTANTE": "Document certifying the representation of the person acting on behalf of the applicant organisation",
+    "FILECERTIFICADOAEAT": "Certificat d’estar al corrent de les obligacions tributàries amb l’Agència Estatal de l’Administració Tributària (AEAT)"
   },
   "XECS": {
     "RGPD": "RGPD and documentation",
