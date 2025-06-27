@@ -73,14 +73,14 @@
                 <section>
                     <mat-radio-group formControlName="tipo_solicitante" (ngModelChange)="changeNIFValidator()">
                         <mat-radio-button value="autonomo">{{'ILS.BUSINESS-TYPE.SELF-EMPLOYED' | translate}}</mat-radio-button>
-                        <mat-radio-button value="pequenya">{{'ILS.BUSINESS-TYPE.SMALL.NAME' | translate}}*</mat-radio-button>
-                        <mat-radio-button value="mediana">{{'ILS.BUSINESS-TYPE.MEDIUM.NAME' | translate}}*</mat-radio-button>
+                        <mat-radio-button value="pequenya">{{'ILS.BUSINESS-TYPE.SMALL.NAME' | translate}}</mat-radio-button>
+                        <mat-radio-button value="mediana">{{'ILS.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</mat-radio-button>
                     </mat-radio-group>
                 </section>
                 <section>
-                    <p><strong>*{{'ILS.BUSINESS-TYPE.SMALL.NAME' | translate}}</strong>:
+                    <p><strong>{{'ILS.BUSINESS-TYPE.SMALL.NAME' | translate}}</strong>:
                         {{'ILS.BUSINESS-TYPE.SMALL.INFO' | translate}}</p>
-                    <p><strong>*{{'ILS.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</strong>:
+                    <p><strong>{{'ILS.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</strong>:
                         {{'ILS.BUSINESS-TYPE.MEDIUM.INFO' | translate}}</p>
                 </section>
             </section>
