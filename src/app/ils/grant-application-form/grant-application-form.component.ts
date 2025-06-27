@@ -72,18 +72,18 @@ export class IlsGrantApplicationFormComponent {
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.ilsForm = this.fb.group({
-      acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
-      tipo_solicitante: this.fb.control<string>('', Validators.required),
+      acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
+      tipo_solicitante: this.fb.control<string>('', [Validators.required]),
       nif: this.fb.control<string>(''), // Validadores seteados posteriormente
-      denom_interesado: this.fb.control<string>('', Validators.required),
-      domicilio: this.fb.control<string>('', Validators.required),
+      denom_interesado: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
+      domicilio: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
       localidad: this.fb.control<string>({ value: '', disabled: true }),
       tel_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9), Validators.minLength(9)]),
       codigoIAE: this.fb.control<string>('', [Validators.required]),
-      sitio_web_empresa: this.fb.control<string>('', []),
-      video_empresa: this.fb.control<string>('', []),
-      nom_representante: this.fb.control<string>('', [Validators.required]),
+      sitio_web_empresa: this.fb.control<string>('', [this.customValidator.xssProtectorValidator()]),
+      video_empresa: this.fb.control<string>('', [this.customValidator.xssProtectorValidator()]),
+      nom_representante: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
       nif_representante: this.fb.control<string>('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.customValidator.dniNieValidator()]),
       tel_representante: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9)]),
       mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),

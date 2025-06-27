@@ -66,6 +66,16 @@ export class CustomValidatorsService {
   private dniPattern: RegExp = /^\d{8}$/
   private cifPattern: RegExp = /^[ABCDEFGHJNPQRSUVW]\d{8}$/
 
+  /* Patrones prohibidos para evitar XSS */
+  private patronesProhibidos: RegExp[] = [
+    /<[^>]+>/,                            // Etiquetas HTML
+    /\bstyle\s*=/,                       // Atributos style=
+    /\bon\w+\s*=/,                      // onclick=, onerror=
+    /\b(?:javascript|data):/,          // URIs Peligrosas
+    /\b(?:document|window|eval)\b/,   // Acceso objetos globales
+    /\b[a-zA-Z_$][\w$]*\s*\(.*?\)/,  // Funciones JS modernas (fetch(), setTimeOut(), eval()...)
+  ]
+
   private isSettingValues = new BehaviorSubject<boolean>(false);
 
   cifValidator(): ValidatorFn {
@@ -176,4 +186,10 @@ export class CustomValidatorsService {
     }
   }
 
+  xssProtectorValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value: string = control.value.toString().trim().toLowerCase()
+      return this.patronesProhibidos.some(p => p.test(value)) ? { unsafeContent: true } : null
+    }
+  }
 }

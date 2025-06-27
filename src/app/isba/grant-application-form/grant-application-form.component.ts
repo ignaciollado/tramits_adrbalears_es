@@ -73,27 +73,27 @@ export class IsbaGrantApplicationFormComponent {
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
       tipo_solicitante: this.fb.control<string>('', [Validators.required]),
       nif: this.fb.control<string>('', []), // Los validadores se setean posteriormente de forma dinámica,
-      denom_interesado: this.fb.control<string>('', [Validators.required]),
-      domicilio: this.fb.control<string>('', [Validators.required]),
+      denom_interesado: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
+      domicilio: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
       localidad: this.fb.control<string>({ value: '', disabled: true }),
       telefono_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.minLength(9), Validators.maxLength(9)]),
       codigoIAE: this.fb.control<string>('', [Validators.required]),
 
       // Seteo sus validadores y sus enables/disables en base a business_type
-      nom_representante: this.fb.control<string>({ value: '', disabled: true }, []),
+      nom_representante: this.fb.control<string>({ value: '', disabled: true }, []), // La protección de xss se añade posteriormente
       nif_representante: this.fb.control<string>({ value: '', disabled: true }, []),
       telefono_contacto_rep: this.fb.control<string>({ value: '', disabled: true }, []),
 
       tel_representante: this.fb.control<string>('', [Validators.required, Validators.maxLength(9), Validators.minLength(9), Validators.pattern('[0-9]{9}')]),
       mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
-      nom_entidad: this.fb.control<string>('', [Validators.required]),
+      nom_entidad: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       importe_prestamo: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
-      plazo_prestamo: this.fb.control<string>('', [Validators.required,]),
+      plazo_prestamo: this.fb.control<string>('', [Validators.required]),
       fecha_aval_isba: this.fb.control<string>('', [Validators.required]),
       plazo_aval_isba: this.fb.control<string>('', [Validators.required]),
       cuantia_aval_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
-      finalidad_inversion_idi_isba: this.fb.control<string>('', [Validators.required]),
+      finalidad_inversion_idi_isba: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       empresa_eco_idi_isba: this.fb.control<string>('', [Validators.required]),
       importe_presupuesto_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
       intereses_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
@@ -147,7 +147,7 @@ export class IsbaGrantApplicationFormComponent {
     // Aparición/desaparición del campo 'ayudasSubvenSICuales_dec_resp' en base al 5º checkbox.
     this.isbaForm.get('declaro_idi_isba_que_cumple_4')?.valueChanges.subscribe((value: boolean) => {
       const ayudasSubvencionesNOControl = this.isbaForm.get('ayudasSubvenSICuales_dec_resp')
-      const ayudasValidators = []
+      const ayudasValidators = [this.customValidator.xssProtectorValidator()]
       ayudasSubvencionesNOControl?.reset('')
 
       if (value === false) {
@@ -219,7 +219,7 @@ export class IsbaGrantApplicationFormComponent {
     const applicantNifValidators = [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
 
     const repName = this.isbaForm.get('nom_representante')
-    const repNameValidators = []
+    const repNameValidators = [this.customValidator.xssProtectorValidator()]
 
     const repNif = this.isbaForm.get('nif_representante')
     const repNifValidators = [this.customValidator.dniNieValidator(), Validators.minLength(9), Validators.maxLength(9)]
