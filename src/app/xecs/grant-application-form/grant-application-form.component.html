@@ -437,6 +437,10 @@
           <mat-label>{{ 'FORM.MINIMISIMPORT' | translate }}</mat-label>
           <input matInput formControlName="importe_minimis" />
         </mat-form-field>
+        <mat-error *ngIf="ayudaForm.get('importe_minimis')?.hasError('invalidDecimal')">
+          El importe debe tener exactamente dos decimales (ej. 1234.56)
+        </mat-error>
+
 <!--         <section *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === true" class="importe-minimis">
           <input matInput type="number" formControlName="importe_minimis">
         </section>    -->      

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, viewChild, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { map, Observable, of, startWith, throwError } from 'rxjs';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -112,7 +112,8 @@ export class GrantApplicationFormComponent {
 
     declaracion_responsable_i: this.fb.control<boolean | null>({ value: true, disabled: true }),
     declaracion_responsable_ii: this.fb.control<boolean | null>({ value: false, disabled: false }),
-    importe_minimis: this.fb.control<string | null>(''),
+    importe_minimis: this.fb.control<string | null>('', [Validators.required,this.twoDecimalValidator()]),
+
     declaracion_responsable_iv: this.fb.control<boolean | null>({ value: true, disabled: true }),
     declaracion_responsable_v: this.fb.control<boolean | null>({ value: true, disabled: true }),
     declaracion_responsable_vi: this.fb.control<boolean | null>({ value: true, disabled: true }),
@@ -210,6 +211,15 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
 setStep(index: number) {
   this.step.set(index);
 }
+
+twoDecimalValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    const regex = /^\d+([.,]\d{2})$/;
+    return value && !regex.test(value) ? { invalidDecimal: true } : null;
+  };
+}
+
 
 file_memoriaTecnicaToUpload: File[] = []
 file_certificadoIAEToUpload: File[] = []
