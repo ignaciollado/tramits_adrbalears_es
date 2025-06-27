@@ -36,6 +36,7 @@
     </mat-expansion-panel-header>
       <section class="checkbox-group">
         <mat-checkbox
+          formControlName = "tipo_tramite"
           *ngFor="let prog of xecsPrograms"
           [value]="prog.value"
           (change)="onCheckboxChange($event)"
@@ -56,7 +57,7 @@
         <mat-icon>corporate_fare</mat-icon>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-radio-group aria-label="Select an option" formControlName="tipoSolicitante">
+      <mat-radio-group aria-label="Select an option" formControlName="tipo_solicitante">
         <mat-radio-button value="autonomo">Autónomo</mat-radio-button>
         <mat-radio-button value="pequenya">Pequeña empresa</mat-radio-button>
         <mat-radio-button value="mediana">Mediana empresa</mat-radio-button>
