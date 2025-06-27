@@ -142,9 +142,6 @@ export class IsbaGrantApplicationFormComponent {
     // Desbloqueo por RGPD
     this.isbaForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
       this.rgpdAccepted = value
-      if (value) {
-        this.setStep(1)
-      }
     })
 
     // Aparición/desaparición del campo 'ayudasSubvenSICuales_dec_resp' en base al 5º checkbox.
@@ -180,7 +177,6 @@ export class IsbaGrantApplicationFormComponent {
         return name ? this._filter(name as string) : this.options.slice();
       })
     )
-
 
     this.loadZipcodes()
     this.loadActividadesCNAE()
@@ -270,9 +266,7 @@ export class IsbaGrantApplicationFormComponent {
     docsPersJur?.setValidators(docsPersJurValidators);
 
     [applicantNif, repName, repNif, repPhone, docsPersFis, docsPersJur].forEach(control => control?.updateValueAndValidity())
-
     this.businessTypeChoosed = true
-    this.setStep(2)
   }
 
   setStep(index: number): void {

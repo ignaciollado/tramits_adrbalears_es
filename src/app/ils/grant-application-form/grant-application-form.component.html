@@ -14,7 +14,7 @@
                 <mat-panel-title>
                     <h3>{{'ILS.RGPD.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.RGPD.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">policy</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'ILS.RGPD.DESCRIPTION' | translate}} <mat-icon>policy</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section>
                 <mat-checkbox formControlName="acceptRGPD">{{'ILS.RGPD.READ-AND-ACCEPTS' | translate}} <abbr
@@ -62,12 +62,12 @@
         </mat-expansion-panel>
 
         <!-- Tipo de solicitante -->
-        <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1">
+        <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.BUSINESS-TYPE.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.BUSINESS-TYPE.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">corporate_fare</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'ILS.BUSINESS-TYPE.DESCRIPTION' | translate}} <mat-icon>corporate_fare</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="section-applicant-type">
                 <section>
@@ -87,12 +87,12 @@
         </mat-expansion-panel>
 
         <!-- Datos personales -->
-        <mat-expansion-panel [disabled]="(!rgpdAccepted || !businessTypeChoosed)" [expanded]="step() === 2">
+        <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.GENERAL-DATA.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.GENERAL-DATA.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">person</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'ILS.GENERAL-DATA.DESCRIPTION' | translate}} <mat-icon>person</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="personal-data">
                 <mat-form-field>
@@ -179,12 +179,12 @@
         </mat-expansion-panel>
 
         <!-- Canal de notificaciones-->
-        <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+        <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.NOTIFICATION-CHANNEL.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">email</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'ILS.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}} <mat-icon>email</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="notification-channel">
                 <section>
@@ -211,12 +211,12 @@
         </mat-expansion-panel>
 
         <!-- Autorizaciones-->
-        <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+        <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.AUTHORIZATIONS.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.AUTHORIZATIONS.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">gavel</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'ILS.AUTHORIZATIONS.DESCRIPTION' | translate}} <mat-icon>gavel</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="authorization-checkboxes">
                 <section>
@@ -260,12 +260,12 @@
         </mat-expansion-panel>
 
         <!-- Declaración responsable-->
-        <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+        <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.DECLARATIONS.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.DECLARATIONS.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">menu_book</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'ILS.DECLARATIONS.DESCRIPTION' | translate}} <mat-icon>menu_book</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="declaration-checkboxes">
                 <mat-checkbox formControlName="declaracion_responsable_i" (click)="$event.preventDefault()">1.
@@ -280,12 +280,12 @@
         </mat-expansion-panel>
 
         <!-- Documentación requerida y opcional-->
-        <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+        <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
                     <h3>{{'ILS.DOCUMENTATION.TITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.DOCUMENTATION.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">attachment</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'ILS.DOCUMENTATION.DESCRIPTION' | translate}} <mat-icon>attachment</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section>
                 <p [innerHTML]="'ILS.DOCUMENTATION.INFO.FORMAT-INFO' | translate"></p>

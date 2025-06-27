@@ -125,9 +125,6 @@ export class IlsGrantApplicationFormComponent {
     // Desbloqueo por RGPD
     this.ilsForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
       this.rgpdAccepted = value
-      if (value) {
-        this.setStep(1)
-      }
     })
 
     this.filteredOptions = this.ilsForm.get('cpostal')?.valueChanges.pipe(
@@ -216,7 +213,6 @@ export class IlsGrantApplicationFormComponent {
     nifControl?.setValidators(nifValidators)
     nifControl?.updateValueAndValidity()
     this.businessTypeChoosed = true
-    this.setStep(2);
   }
 
   private loadZipcodes(): void {
