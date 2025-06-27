@@ -386,8 +386,7 @@
       "AVAL-AMOUNT": {
         "LABEL": "Quantia de l'aval d'ISBA, SGR (€)",
         "ERROR": "La quantia de l'aval introduïda no és vàlida."
-      },
-      "HINT": "Sense separador de milers i amb '.' per a separador de decimals."
+      }
     },
     "PROJECT-BUDGET": {
       "TITLE": "Projecte d'inversió i pressupost",
@@ -416,7 +415,6 @@
         "LABEL": "Sol·licito una ajuda per import de",
         "ERROR": "L'import introduït no és vàlid."
       },
-      "HINT": "Sense separador de milers i amb '.' per a separador de decimals.",
       "SUBSIDY-ERROR": "La quantia de subvenció introduïda no és vàlida."
     },
     "DECLARATIONS": {

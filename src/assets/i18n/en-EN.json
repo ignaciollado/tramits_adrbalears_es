@@ -386,8 +386,7 @@
       "AVAL-AMOUNT": {
         "LABEL": "Amount of the ISBA, SGR guarantee (€)",
         "ERROR": "The amount of the guarantee entered is not valid."
-      },
-      "HINT": "Without thousands separator and with '.' as decimal separator."
+      }
     },
     "PROJECT-BUDGET": {
       "TITLE": "Investment project and budget",
@@ -416,7 +415,6 @@
         "LABEL": "I request a grant in the amount of",
         "ERROR": "The amount entered is not valid."
       },
-      "HINT": "Without thousands separator and with '.' as decimal separator.",
       "SUBSIDY-ERROR": "The subsidy amount entered is not valid."
     },
     "DECLARATIONS": {
@@ -461,7 +459,7 @@
         "TITLE": "<strong>Legal entity:</strong>.",
         "DOC-1": "Public deed and bylaws, duly registered in the corresponding registry.",
         "DOC-2": "Reliable document accrediting the representation of the person acting on behalf of the applicant entity. The representation may be accredited by any legally valid form.",
-                "LABEL": "Documentation of legal entity. [.pdf, .jpeg, .png]"
+        "LABEL": "Documentation of legal entity. [.pdf, .jpeg, .png]"
       },
       "DOC-7": {
         "DOC-INFO": "Regarding the DNI/NIE of the applicant and/or the person representing him/her, the application for aid will imply the authorization for ADR Balears to verify his/her personal identity data ex officio. In case of express refusal of consent, it will be necessary to provide this documentation.",

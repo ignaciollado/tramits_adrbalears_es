@@ -78,7 +78,7 @@ export class IlsGrantApplicationFormComponent {
       denom_interesado: this.fb.control<string>('', Validators.required),
       domicilio: this.fb.control<string>('', Validators.required),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
-      localidad: this.fb.control<string>(''),
+      localidad: this.fb.control<string>({ value: '', disabled: true }),
       tel_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9), Validators.minLength(9)]),
       codigoIAE: this.fb.control<string>('', [Validators.required]),
       sitio_web_empresa: this.fb.control<string>('', []),

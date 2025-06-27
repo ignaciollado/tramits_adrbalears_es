@@ -386,8 +386,7 @@
       "AVAL-AMOUNT": {
         "LABEL": "Cuantía del aval de ISBA, SGR (€)",
         "ERROR": "La cuantía del aval introducida no es válida."
-      },
-      "HINT": "Sin separador de miles y con '.' como separador de decimales."
+      }
     },
     "PROJECT-BUDGET": {
       "TITLE": "Proyecto de inversión y presupuesto",
@@ -416,7 +415,6 @@
         "LABEL": "Solicito una ayuda por importe de",
         "ERROR": "El importe introducido no es válido."
       },
-      "HINT": "Sin separador de miles y con '.' como separador de decimales.",
       "SUBSIDY-ERROR": "La cuantía de subvención introducida no es válida."
     },
     "DECLARATIONS": {
