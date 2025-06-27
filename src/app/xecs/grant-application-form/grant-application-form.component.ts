@@ -78,7 +78,7 @@ export class GrantApplicationFormComponent {
     codigoIAE: this.fb.control({value: '', disabled: false}, ),
     telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
-    tipo_tramite: this.fb.control<string | null>(null, Validators.required),
+    tipo_tramite: this.fb.control<string[] | null>(null, Validators.required),
     tipo_solicitante: this.fb.control<string | null>(null, Validators.required),
     nom_representante:  this.fb.control<string | null>(''),
     nif_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]+[A-Za-z]$')]),
@@ -376,17 +376,18 @@ openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questi
 }
 
 onCheckboxChange(event: MatCheckboxChange) {
-  console.log ("oncheckbosChange", event)
-  const formArray: FormArray = this.ayudaForm.get('opc_programa') as FormArray;
+  const programsArray = this.ayudaForm.get('opc_programa') as FormArray;
+
   if (event.checked) {
-    formArray.push(new FormControl(event.source.value));
+    programsArray.push(new FormControl(event.source.value));
   } else {
-    const index = formArray.controls.findIndex(ctrl => ctrl.value === event.source.value);
+    const index = programsArray.controls.findIndex(ctrl => ctrl.value === event.source.value);
     if (index >= 0) {
-      formArray.removeAt(index);
+      programsArray.removeAt(index);
     }
   }
 }
+
 
 selectedZipValue(event: MatAutocompleteSelectedEvent): void {
   const selected = event.option.value;
