@@ -344,7 +344,7 @@
       <ul *ngIf="file_document_acred_como_represToUpload.length > 0">
         <li *ngFor="let file of file_document_acred_como_represToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
-      <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
+      <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
   </section>
 
   <section ngClass="certificado-aeat">
@@ -441,9 +441,6 @@
           El importe debe tener exactamente dos decimales (ej. 1234.56)
         </mat-error>
 
-<!--         <section *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === true" class="importe-minimis">
-          <input matInput type="number" formControlName="importe_minimis">
-        </section>    -->      
         <mat-checkbox
           formControlName = "declaracion_responsable_iv"
           (change)="onCheckboxChange($event)"
