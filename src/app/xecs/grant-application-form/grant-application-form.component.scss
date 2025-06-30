@@ -66,12 +66,12 @@ form {
   }
 }
 
-mat-icon {
+/* mat-icon {
   &:hover {
     cursor: pointer;
     background-color: #0098cb;
   }
-}
+} */
 
 ul {
   list-style: none;
@@ -106,7 +106,6 @@ div.ng-invalid.ng-touched {
 mat-form-field {
   display: block;
   width: 100%;
-  /* margin-bottom: 16px; */
 }
 
 .full-width {
@@ -164,7 +163,6 @@ mat-form-field {
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
-/*     color: #333; */
   }
 
   input[type="file"] {
@@ -188,7 +186,6 @@ mat-form-field {
     }
   }
 }
-
 
 @media screen and (max-width: 992px) {
 :host {

@@ -70,7 +70,7 @@ export class GrantApplicationFormComponent {
 
   this.xecsForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
-    nif: this.fb.control('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.nifValidator.validateNifOrCif()]),
+    nif: this.fb.control({value:'', disabled: true}, [Validators.required]),
     denom_interesado: this.fb.control('', ),
     domicilio: this.fb.control({value: '', disabled: false}, ),
     zipCode: this.fb.control ('', [ Validators.pattern('^07[0-9]{3}$')]),
@@ -134,6 +134,7 @@ this.getDocumentationAndAuthorizations()
 }
 
 ngOnInit(): void {
+
  this.xecsForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
  this.rgpdAccepted = value;
  });
@@ -202,11 +203,50 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
   codigo_BIC_SWIFTControl.setValue(valor.toUpperCase(), { emitEvent: false });
 });
 
+
+ this.xecsForm.get('tipo_solicitante')?.valueChanges.subscribe(value => {
+ const nifControl = this.xecsForm.get('nif');
+ nifControl?.enable()
+
+ if (!nifControl) return;
+
+ // Limpia validadores anteriores
+ nifControl.clearValidators();
+
+ if (value === 'autonomo') {
+ nifControl.setValidators([
+ Validators.required,
+ Validators.minLength(9),
+ Validators.maxLength(9),
+ this.nifValidator.validateDniNie()
+ ]);
+ } else {
+ nifControl.setValidators([
+ Validators.required,
+ Validators.minLength(9),
+ Validators.maxLength(9),
+ this.nifValidator.validateCif()
+ ]);
+ }
+
+ nifControl.updateValueAndValidity();
+ });
 }
 
 setStep(index: number) {
   this.step.set(index);
 }
+
+get placeholderNif(): string {
+  const tipo = this.xecsForm.get('tipo_solicitante')?.value;
+  if (tipo === 'autonomo') {
+    return 'Introduzca su DNI o NIE';
+  } else if (tipo === 'pequenya' || tipo === 'mediana') {
+    return 'Introduzca el CIF de la empresa';
+  }
+  return "Seleccione el 'Tipo de solicitante' y, luego, introduzca el NIF";
+}
+
 
 twoDecimalValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {

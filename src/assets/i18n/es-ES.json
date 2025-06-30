@@ -14,14 +14,17 @@
 
     "REQUIREDDOCUMENTATION": "<h3>Antes de empezar, le recomendamos tener preparada la siguiente documentación ya que, a lo largo de este asistente, se la solicitaremos:</h3>\n<dl ngClass='formbox'>\n  <dt>En el caso de personas físicas (autónomos):</dt>\n  <dd>Descripción de la empresa y su actividad, el modelo de negocio y necesidades en función del programa al que se presenta.</dd>\n  <dd>Certificado de estar de alta en el <abbr title='Régimen especial de trabajadores autónomos'>RETA</abbr> o en un régimen alternativo equivalente.</dd>\n  <dd>Certificado de alta del <abbr title='Impuesto de actividades empresariales'>IAE</abbr> actualizado en el momento de la solicitud.</dd>\n  <dd>Certificado de estar al corriente de las obligaciones tributarias con la Agencia Estatal de la Administración Tributaria <abbr title='Agencia Estatal de Administración Tributaria'>AEAT</abbr>.</dd>\n</dl>\n<dl ngClass='formbox'>\n  <dt>En el caso de personas jurídicas (<abbr title='Pequeñas y medianas empresas'>PYMES</abbr>):</dt>\n  <dd>Descripción de la empresa y su actividad, el modelo de negocio y necesidades en función del programa al que se presenta.</dd>\n  <dd>Certificado de estar al corriente con las obligaciones tributarias de la <abbr title='Agencia Estatal de la Administración Tributaria'>AEAT</abbr>.</dd>\n  <dd>Certificado de <abbr title='Impuesto de actividades empresariales'>IAE</abbr> actualizado en el momento de la solicitud.</dd>\n  <dd>Copia del <abbr title='Número de identificación fiscal'>NIF</abbr> de la empresa.</dd>\n  <dd>Escritura pública y estatutos, debidamente inscritos en el registro correspondiente.</dd>\n  <dd>Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante.</dd>\n</dl>\n<dl>\n  <dt><strong>AUTORIZACIONES</strong>: la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que la <abbr title='Agencia de Desarrollo Regional de las Illes Balears'>ADR Balears</abbr> pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la <abbr title='Agencia tributaria de las Illes Balears'>ATIB</abbr> y la <abbr title='Tesorería General de la Seguridad Social'>TGSS</abbr>, excepto en caso de denegación expresa. En este caso, el beneficiario deberá aportar la siguiente documentación:</dt>\n  <dd><abbr title='Número de identificación fiscal'>NIF</abbr> del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario.</dd>\n  <dd>Certificado de estar al corriente de pago con la <abbr title='Agencia tributaria de las Illes Balears'>ATIB</abbr>.</dd>\n  <dd>Certificado de estar al corriente de pago con la <abbr title='Tesorería General de la Seguridad Social'>TGSS</abbr>.</dd>\n</dl>",
     "PROGRAM": "Selecione el/los programas de ayuda que solicita",
+    "SELECTPROGRAMS": "Seleccioni un o diversos programes d'ajuda",
     "ORGANIZATIONTYPE": "Indique el tipo de organización",
     "SOLICITOR": "Interesado",
+    "SOLICITORDETAILS" : "Datos del interesado",
     "SOLICITORTYPE": "Tipo de solicitante",
     
     "SOLICITORNAME": "Nombre del interesado",
     "ADDRESS": "Dirección",
     "ZIPCODE": "Código postal",
     "TOWN": "Localidad",
+    "SELECTIAE": "Seleccione la actividad CNAE que le corresponda",
     "NOMREPRESENTANTE": "Nombre del representante",
     "NIFREPRESENTANTE": "NIF del representante",
     "CONTACTPHONE": "Teléfono de contacto",
@@ -60,6 +63,7 @@
   },
   "XECS": {
     "RGPD": "RGPD y documentación",
+    "RGPDCONDITIONSANDREQUIREDDOCSHEADER": "Condiciones del RGPD y documentación requerida",
     "EXPANDALL": "Expandir todo",
     "COLAPSEALL": "Encoger todo"
   },

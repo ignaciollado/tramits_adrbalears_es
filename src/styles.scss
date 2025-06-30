@@ -1,5 +1,9 @@
 @use '@angular/material' as mat;
-
+:root {
+  mat-icon{
+    color: #0098cb,
+  };
+}
 // Paleta personalizada para el accent con todos los tonos
 $custom-accent: mat.define-palette((
   50: #00405e,
@@ -102,6 +106,20 @@ body {
 
 mat-icon {
   margin-left: .5rem;
+}
+
+
+
+input {
+  
+&:disabled {
+ background-color: #f5f5f5;
+ color: #999;
+ border-color: #ddd;
+ cursor: not-allowed;
+ opacity: 0.7;
+ }
+
 }
 
 @media screen and (max-width: 992px) {

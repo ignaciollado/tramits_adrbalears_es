@@ -16,7 +16,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'XECS.RGPD' | translate }}</mat-panel-title>
       <mat-panel-description>
-         Condiciones del RGPD y documentación requerida <mat-icon>file_copy</mat-icon>
+         {{'XECS.RGPDCONDITIONSANDREQUIREDDOCSHEADER' | translate}} <mat-icon>file_copy</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
@@ -37,7 +37,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.PROGRAM' | translate }}</mat-panel-title>
       <mat-panel-description>
-        Seleccione uno o varios programas de ayuda
+        {{'FORM.SELECTPROGRAMS' | translate}}
         <mat-icon>map</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -52,7 +52,7 @@
         </mat-checkbox>
       </section>
       <mat-error *ngIf="xecsForm.get('opc_programa')?.invalid && xecsForm.get('opc_programa')?.touched">
-        Debes seleccionar al menos un programa.
+        Debe seleccionar al menos un programa.
       </mat-error>
   </mat-expansion-panel>
 
@@ -75,16 +75,22 @@
       <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.SOLICITOR' | translate }}</mat-panel-title>
       <mat-panel-description>
-        Indique algunos datos del interesado
+        {{'FORM.SOLICITORDETAILS' | translate}}
         <mat-icon>person</mat-icon>
       </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <mat-form-field appearance="fill">
-        <mat-label>NIF</mat-label>
-        <input matInput formControlName="nif" minlength="9" maxlength="9" />
+      <mat-form-field appearance="fill"> 
+        <mat-label>{{placeholderNif}}</mat-label>
+        <input 
+          matInput
+          formControlName="nif"
+          minlength="9"
+          maxlength="9"
+          [placeholder]="placeholderNif"
+        />
         <mat-error *ngIf="xecsForm.get('nif')?.hasError('invalidNifOrCif')">
-            El NIF o CIF introducido no es válido.
+          El valor introducido no es válido.
         </mat-error>
       </mat-form-field>
 
@@ -118,6 +124,7 @@
         <input matInput formControlName="telefono_cont" maxlength="9" minlength="9"/>
       </mat-form-field>
        <mat-form-field appearance="fill">
+        <mat-label>{{'FORM.SELECTIAE' | translate}}</mat-label>
         <mat-select formControlName="codigoIAE">
           <mat-option *ngFor="let cnae of cnaes" [value]="cnae.id">
             {{cnae.label_cas}}

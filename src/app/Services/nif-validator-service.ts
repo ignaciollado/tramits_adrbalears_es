@@ -11,22 +11,24 @@ export class NifValidatorService {
 
   constructor() {}
 
-  validateNifOrCif(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value?.toUpperCase();
+validateDniNie(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value?.toUpperCase();
+    if (!value) return null;
 
-      if (!value) {
-        return null; // Let required validator handle empty case
-      }
+    const dniRegex = /^[XYZ]?\d{7,8}[A-Z]$/;
+    return dniRegex.test(value) ? null : { invalidDniNie: true };
+  };
+}
 
-      const isDni = this.dniRegex.test(value);
-      const isCif = this.cifRegex.test(value);
+validateCif(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value?.toUpperCase();
+    if (!value) return null;
 
-      if (!isDni && !isCif) {
-        return { invalidNifOrCif: true };
-      }
+    const cifRegex = /^[ABCDEFGHJKLMNPQRSUVW]\d{7}[0-9A-J]$/;
+    return cifRegex.test(value) ? null : { invalidCif: true };
+  };
+}
 
-      return null;
-    };
-  }
 }
