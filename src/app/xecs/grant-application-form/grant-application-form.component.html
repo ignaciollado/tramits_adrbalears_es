@@ -48,7 +48,7 @@
           [value]="prog.value"
           (change)="onCheckboxChange($event)"
           [checked]="xecsForm.get('opc_programa')?.value.includes(prog)">
-          {{ prog.label }} {{ prog.explication}}
+         <code>{{ prog.label }}</code> {{ prog.explication }}
         </mat-checkbox>
       </section>
       <mat-error *ngIf="xecsForm.get('opc_programa')?.invalid && xecsForm.get('opc_programa')?.touched">

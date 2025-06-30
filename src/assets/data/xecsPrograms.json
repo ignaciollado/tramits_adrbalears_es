@@ -1,26 +1,26 @@
 [
   {
     "value": "Programa_I",
-    "label": "«IDigital»",
+    "label": "Programa I, «IDigital»",
     "explication_ca": "Estratègia per impulsar la digitalització en la indústria de les Illes Balears.",
-    "explication": "Estratègia per impulsar la digitalització en la indústria de les Illes Balears."
+    "explication": "ayudas para la contratación de servicios de asesoramiento externos para la elaboración de un plan estratégico de transformación digital o para el asesoramiento y seguimiento de las acciones del plan de transformación digital en el marco del programa «IDigital, estratègia de digitalització industrial»."
   },
   {
     "value": "Programa_II",
-    "label": "«IExporta»",
+    "label": "Programa II, «IExporta»",
     "explication_ca": "Estratègia per impulsar la internacionalització de les empreses industrials de les Illes Balears.",
-    "explication": "Estratègia per impulsar la internacionalització de les empreses industrials de les Illes Balears."
+    "explication": "ayudas para la contratación de servicios de asesoramiento externos para la elaboración y/o mejora del plan estratégico de internacionalización, o para el asesoramiento y seguimiento de las acciones del plan de márquetin para el/los mercado/s objectivo/s en el marco del programa «IExporta, estratègia d’internacionalització»."
   },
   {
     "value": "Programa_III_ac",
-    "label": "«ISostenibilitat» (Organització)",
+    "label": "Programa III, «Isostenibilitat» Corporativa",
     "explication_ca": "Identificació i càlcul de les emissions de gasos amb efecte d'hivernacle de l'organització.",
     "explication": "Identificació i càlcul de les emissions de gasos amb efecte d'hivernacle de l'organització."
 
   },
   {
     "value": "Programa_III_ap",
-    "label": "«ISostenibilitat» (Producte)",
+    "label": "Programa III, «ISostenibilitat» Producte",
     "explication_ca": "Identificació i càlcul de les emissions de gasos d'efecte d'hivernacle de producte.",
     "explication": "Identificació i càlcul de les emissions de gasos d'efecte d'hivernacle de producte."
 
