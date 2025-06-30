@@ -180,6 +180,26 @@ mat-form-field {
   }
 }
 
+.documento-en-adr {
+  background-color: #e7ecb7; 
+  padding-right: .5rem;
+  border-radius: .5rem;
+  margin-bottom: 2px;
+
+  .mat-checkbox-frame {
+    border-color: #4caf50;
+  }
+
+  .mat-checkbox-background {
+    background-color: #4caf50;
+  }
+
+  .mat-checkbox-checkmark-path {
+    stroke: white;
+  }
+}
+
+
 @media screen and (max-width: 992px) {
 :host {
   margin: 0 auto;

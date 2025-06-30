@@ -50,7 +50,8 @@ export class GrantApplicationFormComponent {
   uploadProgress: number = 0
   xecsForm: FormGroup  
   accordion = viewChild.required(MatAccordion)
-  rgpdAccepted = false
+  rgpdAccepted:boolean = false
+  documentoYaEnADR:boolean = false
   introText: string = "getting intro text..."
   filteredZipCodes: Observable<ZipCodesIBDTO[]> | undefined
   zipCodes: ZipCodesIBDTO[] = []

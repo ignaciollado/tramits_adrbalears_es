@@ -235,7 +235,8 @@
       </mat-panel-description>
     </mat-expansion-panel-header>  
     <section ngClass="memoria-tecnica docs-in-adr">
-        <mat-checkbox
+        <mat-checkbox 
+          ngClass="documento-en-adr"
           formControlName = "memoriaTecnicaEnIDI"
           (change)="onCheckboxChange($event)"
           >
@@ -290,7 +291,7 @@
   </section>
 
   <section ngClass="copia-nif docs-in-adr">
-        <mat-checkbox
+        <mat-checkbox ngClass="documento-en-adr"
           formControlName = "copiaNIFSociedadEnIDI"
           (change)="onCheckboxChange($event)">
           {{ 'FILES.FILEINADR' | translate }}
@@ -320,7 +321,7 @@
       <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
   </section>
   <section ngClass="escritura-publica docs-in-adr">
-      <mat-checkbox
+      <mat-checkbox ngClass="documento-en-adr"
           formControlName = "pJuridicaDocAcreditativaEnIDI"
           (change)="onCheckboxChange($event)">
           {{ 'FILES.FILEINADR' | translate }}
