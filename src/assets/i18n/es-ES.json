@@ -4,8 +4,8 @@
     "XECSAPPFORM": "XECS: formulario de solicitud de ayuda y/o subvención",
     "ISBAAPPFORM": "ISBA: formulario de solicitud de ayuda y/o subvención",
     "ILSAPPFORM": "ILS: formulario de solicitud de ayuda y/o subvención",
-    "CONVODATA": "Destino: AGENCIA DE DESARROLLO REGIONAL DE LES ILLES BALEARS<br>Emisor (DIR3): A04003714<br>Código SIA 311845<br>Convocatoria : 2026"
-
+    "CONVODATA": "Destino: AGENCIA DE DESARROLLO REGIONAL DE LES ILLES BALEARS<br>Emisor (DIR3): A04003714<br>Código SIA 311845<br>Convocatoria : 2026",
+    "CONVODETAILS": "Convocatoria para la concesión de ayudas de cheques de consultoría para impulsar a la industria de Baleares en materia de digitalización, internacionalización, sostenibilidad y gestión avanzada."
   },
   "FORM": {
     "ACCEPTTERMS1": "He leído y acepto la política de privacidad",

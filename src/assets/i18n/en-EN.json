@@ -4,7 +4,9 @@
     "XECSAPPFORM": "XECS: grant and subsidy application form",
     "ISBAAPPFORM": "ISBA: grant and subsidy application form",
     "ILSAPPFORM": "ILS: grant and subsidy application form",
-    "CONVODATA": "Destino: AGENCIA DE DESARROLLO REGIONAL DE LES ILLES BALEARS\nEmisor (DIR3): A04003714\nCódigo SIA 311845\nConvocatoria : 2026"
+    "CONVODATA": "Destination: AGENCIA DE DESARROLLO REGIONAL DE LES ILLES BALEARS<br>Issuer (DIR3): A04003714<br>SIA Code 311845<br>Call: 2026",
+    "CONVODETAILS": "Call for the granting of aid for consultancy cheques to promote industry in the Balearic Islands in the areas of digitisation, internationalisation, sustainability and advanced management."
+
   },
   "FORM": {
     "ACCEPTTERMS1": "I have read and accept the privacy policy",

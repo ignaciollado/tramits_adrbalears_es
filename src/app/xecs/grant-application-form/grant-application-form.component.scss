@@ -11,6 +11,24 @@
 .header-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-areas: "logotipo datos" "detalles detalles";
+  row-gap: 1rem;
+  padding: .5rem;
+  margin-bottom: .5rem;
+
+  section img {
+    width: 335px;
+  }
+}
+
+.header-container-logo {
+  grid-area: logotipo;
+}
+.header-container-data {
+  grid-area: datos;
+}
+.header-container-details {
+  grid-area: detalles;
 }
 
 form {

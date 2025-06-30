@@ -2,9 +2,8 @@
   <section ngClass="header-container-logo">
     <img src='../../../assets/logo gov+adr.svg' alt='ADR Balears'>
   </section>
-  <section ngClass="header-container-convo" [innerHTML]="'HEADER.CONVODATA' | translate">
-    <!-- {{'HEADER.CONVODATA' | translate}} -->
-  </section>
+  <section ngClass="header-container-data" [innerHTML]="'HEADER.CONVODATA' | translate"></section>
+  <section ngClass="header-container-details" [innerHTML]="'HEADER.CONVODETAILS' | translate"></section>
 </section>
 
 <form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
