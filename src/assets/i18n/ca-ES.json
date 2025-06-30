@@ -37,6 +37,7 @@
     "CONSULTANTPHONE": "Telèfon del consultor",
     "CONSULTANTMAIL": "Adreça electrònica del consultor",
     "ATTACHEDDOCUMENTATION": "Documentació a adjuntar",
+    "AUTHORISATIONSSINO": "Se sol·licita la seva autorització per consultar els documents següents. Pot acceptar o rebutjar aquesta sol·licitud.",
     "BANKDATA": "Dades banacaries",
     "BANKNAME": "Nom de l'entitat bancària",
     "BANKADDRESS": "Domicili de l'entitat bancària",
@@ -46,6 +47,7 @@
     "CCOPTION2": "Opciò 2 - Número del compte d'altres països (9999999999999999999999999)",
     "AUTHORISATIONS": "Autoritzacions",
     "RESPONSIBLEDECLARATION": "Declaració responsable",
+    "RESPONSIBLEDECLARATIONEXPANDED": "Declaro que compleixo els requisits legals i normatius establerts en la convocatòria, i que la informació i documentació aportades són verídiques. L’empresa beneficiària compleix les condicions per operar a les Illes Balears.",
     "MINIMISIMPORT": "Import minimis rebut",
 
     "SEND": "Enviar"
@@ -53,6 +55,7 @@
   "FILES": {
     "FILEINADR": "Aquest document ja es troba en poder de l'ADR Balears i no ha sofert modificacions (en aquest cas no cal aportar-lo).",
     "UPLOADFILES": "Carregar documents",
+    "LOADFILESFORSENDING": "Carregui la documentació requerida per a l'enviament. A continuació, s'indiquen els documents que ha de remetre.",
     "FILES": "Seleccionar documents (PDF o imatge)",
     "FILESMEMTEC": "Descripció de l’empresa i de l’activitat",
     "FILESCERTIAE": "Certificat de l’IAE actualitzat",

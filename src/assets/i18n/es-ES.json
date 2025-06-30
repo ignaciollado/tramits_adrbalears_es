@@ -37,6 +37,7 @@
     "CONSULTANTPHONE": "Teléfono del consultor",
     "CONSULTANTMAIL": "Correo electrónico del consultor",
     "ATTACHEDDOCUMENTATION": "Documentación a adjuntar",
+    "AUTHORISATIONSSINO": "Se solicita su autorización para consultar los siguientes documentos. Usted puede aceptar o rechazar esta consulta",
     "BANKDATA": "Datos bancarios",
     "BANKNAME": "Nombre de la entidad bancaria",
     "BANKADDRESS": "Domicilio de la entidad bancaria",
@@ -46,6 +47,7 @@
     "CCOPTION2": "Opción 2 - Número de la cuenta de otros países (9999999999999999999999999)",
     "AUTHORISATIONS": "Autorizaciones",
     "RESPONSIBLEDECLARATION": "Declaración responsable",
+    "RESPONSIBLEDECLARATIONEXPANDED": "Declaro que cumplo con los requisitos legales y normativos exigidos en la convocatoria, y que la información y documentación aportadas son veraces. La empresa beneficiaria cumple las condiciones para operar en las Islas Baleares.",
     "MINIMISIMPORT": "Importe minimis recibido",
     "SEND": "Enviar"
   },
@@ -53,6 +55,7 @@
     "FILEINADR": "Este documento ya se encuentra en poder de la ADR Balears y no ha sufrido modificaciones (en este caso no hace falta aportarlo).",
     "UPLOADFILES": "Cargar documentos",
     "FILES": "Seleccione los documentos (PDF o imagen)",
+    "LOADFILESFORSENDING": "Por favor, suba los documentos que se detallan a continuación para poder enviarlos correctamente.",
     "FILESMEMTEC": "Descripción de la actividad de la empresa",
     "FILESCERTIAE": "Certificado IAE actualizado",
     "FILESNIF": "Copia del NIF de la empresa",

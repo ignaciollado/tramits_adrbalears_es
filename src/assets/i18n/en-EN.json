@@ -37,6 +37,7 @@
     "CONSULTANTPHONE": "Consultant phone",
     "CONSULTANTMAIL": "Consultant email address",
     "ATTACHEDDOCUMENTATION": "Documentation to be attached",
+    "AUTHORISATIONSSINO": "Your authorization is requested to consult the following documents. You may accept or reject this request.",
     "BANKDATA": "Bank details",
     "BANKNAME": "Name of de bank",
     "BANKADDRESS": "Address of the bank",
@@ -47,12 +48,14 @@
     "CCOPTION2": "Option 2 - Overseas account number (9999999999999999999999999)",
     "AUTHORISATIONS": "Authorisations",
     "RESPONSIBLEDECLARATION": "Responsible declaration",
+    "RESPONSIBLEDECLARATIONEXPANDED": "I declare that I meet the legal and regulatory requirements set out in the call, and that the information and documentation provided are accurate. The beneficiary company meets the conditions to operate in the Balearic Islands.",
     "MINIMISIMPORT": "Minimis amount received",
     "SEND": "Send"
   },
   "FILES": {
     "FILEINADR": "This document is already in the possession of the ADR Balears and has not been modified (in this case it is not necessary to provide it).",
     "UPLOADFILES": "Upload documents",
+    "LOADFILESFORSENDING": "Upload the required documentation for submission. The documents you need to send are listed below.",
     "FILES": " the documents (PDF or image)",
     "FILESMEMTEC": "Description of the company's activity",
     "FILESCERTIAE": "Updated IAE certificate",
