@@ -8,6 +8,11 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.header-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 form {
   display: grid;
   grid-template-columns: 1fr;

@@ -3,7 +3,9 @@
     "TITLE": "Bienvenido",
     "XECSAPPFORM": "XECS: formulario de solicitud de ayuda y/o subvención",
     "ISBAAPPFORM": "ISBA: formulario de solicitud de ayuda y/o subvención",
-    "ILSAPPFORM": "ILS: formulario de solicitud de ayuda y/o subvención"
+    "ILSAPPFORM": "ILS: formulario de solicitud de ayuda y/o subvención",
+    "CONVODATA": "Destino: AGENCIA DE DESARROLLO REGIONAL DE LES ILLES BALEARS<br>Emisor (DIR3): A04003714<br>Código SIA 311845<br>Convocatoria : 2026"
+
   },
   "FORM": {
     "ACCEPTTERMS1": "He leído y acepto la política de privacidad",

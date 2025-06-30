@@ -1,5 +1,13 @@
-<form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
+<section ngClass="header-container">
+  <section ngClass="header-container-logo">
+    <img src='../../../assets/logo gov+adr.svg' alt='ADR Balears'>
+  </section>
+  <section ngClass="header-container-convo" [innerHTML]="'HEADER.CONVODATA' | translate">
+    <!-- {{'HEADER.CONVODATA' | translate}} -->
+  </section>
+</section>
 
+<form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
 <section class="action-buttons">
   <button type="button" matButton ngClass="btn-adr btn" (click)="accordion().openAll()">{{ 'XECS.EXPANDALL' | translate }}</button>
   <button type="button" matButton ngClass="btn-adr btn" (click)="accordion().closeAll()">{{ 'XECS.COLAPSEALL' | translate }}</button>
