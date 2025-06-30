@@ -48,7 +48,7 @@ export class GrantApplicationFormComponent {
   htmlContentRequiredDocs: string = ''
   step = signal(0)
   uploadProgress: number = 0
-  ayudaForm: FormGroup  
+  xecsForm: FormGroup  
   accordion = viewChild.required(MatAccordion)
   rgpdAccepted = false
   introText: string = "getting intro text..."
@@ -68,7 +68,7 @@ export class GrantApplicationFormComponent {
     private nifValidator: NifValidatorService, 
     private snackBar: MatSnackBar ) {
 
-  this.ayudaForm = this.fb.group ({
+  this.xecsForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
     nif: this.fb.control('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.nifValidator.validateNifOrCif()]),
     denom_interesado: this.fb.control('', ),
@@ -134,11 +134,11 @@ this.getDocumentationAndAuthorizations()
 }
 
 ngOnInit(): void {
- this.ayudaForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
+ this.xecsForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
  this.rgpdAccepted = value;
  });
     
-this.filteredZipCodes = this.ayudaForm.get('zipCode')!.valueChanges.pipe(
+this.filteredZipCodes = this.xecsForm.get('zipCode')!.valueChanges.pipe(
   startWith(''),
   map(value => {
     const input = typeof value === 'string' ? value : value?.zipCode || '';
@@ -146,11 +146,11 @@ this.filteredZipCodes = this.ayudaForm.get('zipCode')!.valueChanges.pipe(
   })
 );
 
-const nifControl = this.ayudaForm.get('nif')
-const nif_representanteControl = this.ayudaForm.get('nif_representante')
-const opcionBancoControl = this.ayudaForm.get('opcion_banco')
-const ccControl = this.ayudaForm.get('cc')
-const codigo_BIC_SWIFTControl = this.ayudaForm.get('codigo_BIC_SWIFT')
+const nifControl = this.xecsForm.get('nif')
+const nif_representanteControl = this.xecsForm.get('nif_representante')
+const opcionBancoControl = this.xecsForm.get('opcion_banco')
+const ccControl = this.xecsForm.get('cc')
+const codigo_BIC_SWIFTControl = this.xecsForm.get('codigo_BIC_SWIFT')
 
 opcionBancoControl?.valueChanges.subscribe((valor) => {
  
@@ -229,8 +229,8 @@ file_certificadoATIBToUpload: File[] = [] // optional
 file_certificadoSegSocToUpload: File[] = [] // optional
 
 onSubmit(): void {
-    const datos = this.ayudaForm.value;
-    const cControls = this.ayudaForm.controls
+    const datos = this.xecsForm.value;
+    const cControls = this.xecsForm.controls
     console.log (datos)
 
     const timeStamp = this.commonService.generateCustomTimestamp();
@@ -376,7 +376,7 @@ openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questi
 }
 
 onCheckboxChange(event: MatCheckboxChange) {
-  const programsArray = this.ayudaForm.get('opc_programa') as FormArray;
+  const programsArray = this.xecsForm.get('opc_programa') as FormArray;
 
   if (event.checked) {
     programsArray.push(new FormControl(event.source.value));
@@ -392,8 +392,8 @@ onCheckboxChange(event: MatCheckboxChange) {
 selectedZipValue(event: MatAutocompleteSelectedEvent): void {
   const selected = event.option.value;
   if (selected && selected.zipCode) {
-    this.ayudaForm.get('zipCode')?.setValue(selected.zipCode, { emitEvent: false });
-    this.ayudaForm.get('town')?.setValue(selected.town);
+    this.xecsForm.get('zipCode')?.setValue(selected.zipCode, { emitEvent: false });
+    this.xecsForm.get('town')?.setValue(selected.town);
   }
 }
 
@@ -458,7 +458,7 @@ uploadTheFile(timestamp: string, files: File[]): Observable<any> {
   }
 
   const formData = new FormData();
-  const nif = this.ayudaForm.value.nif;
+  const nif = this.xecsForm.value.nif;
 
   files.forEach(file => {
     formData.append('files[]', file);

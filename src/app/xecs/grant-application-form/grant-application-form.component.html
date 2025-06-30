@@ -6,7 +6,7 @@
   <section ngClass="header-container-details" [innerHTML]="'HEADER.CONVODETAILS' | translate"></section>
 </section>
 
-<form [formGroup]="ayudaForm" (ngSubmit)="onSubmit()" ngClass="form">
+<form [formGroup]="xecsForm" (ngSubmit)="onSubmit()" ngClass="form">
 <section class="action-buttons">
   <button type="button" matButton ngClass="btn-adr btn" (click)="accordion().openAll()">{{ 'XECS.EXPANDALL' | translate }}</button>
   <button type="button" matButton ngClass="btn-adr btn" (click)="accordion().closeAll()">{{ 'XECS.COLAPSEALL' | translate }}</button>
@@ -16,7 +16,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'XECS.RGPD' | translate }}</mat-panel-title>
       <mat-panel-description>
-         <mat-icon>policy</mat-icon>Condiciones del RGPD y <mat-icon>file_copy</mat-icon>documentación requerida
+         Condiciones del RGPD y documentación requerida <mat-icon>file_copy</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
@@ -47,11 +47,11 @@
           *ngFor="let prog of xecsPrograms"
           [value]="prog.value"
           (change)="onCheckboxChange($event)"
-          [checked]="ayudaForm.get('opc_programa')?.value.includes(prog)">
+          [checked]="xecsForm.get('opc_programa')?.value.includes(prog)">
           {{ prog.label }} {{ prog.explication}}
         </mat-checkbox>
       </section>
-      <mat-error *ngIf="ayudaForm.get('opc_programa')?.invalid && ayudaForm.get('opc_programa')?.touched">
+      <mat-error *ngIf="xecsForm.get('opc_programa')?.invalid && xecsForm.get('opc_programa')?.touched">
         Debes seleccionar al menos un programa.
       </mat-error>
   </mat-expansion-panel>
@@ -83,10 +83,9 @@
       <mat-form-field appearance="fill">
         <mat-label>NIF</mat-label>
         <input matInput formControlName="nif" minlength="9" maxlength="9" />
-        <mat-error *ngIf="ayudaForm.get('nif')?.hasError('invalidNifOrCif')">
+        <mat-error *ngIf="xecsForm.get('nif')?.hasError('invalidNifOrCif')">
             El NIF o CIF introducido no es válido.
         </mat-error>
-
       </mat-form-field>
 
       <mat-form-field appearance="fill">
@@ -225,7 +224,7 @@
         </mat-checkbox>
         <mat-form-field appearance="fill">
           <mat-label>{{ 'FILES.FILESMEMTEC' | translate }}</mat-label>
-          <input [disabled]="ayudaForm.get('memoriaTecnicaEnIDI')?.value === true"
+          <input [disabled]="xecsForm.get('memoriaTecnicaEnIDI')?.value === true"
             type="text"
             matInput
             [value]="memoriaTecnicaFileNames"
@@ -281,7 +280,7 @@
           <mat-label>{{ 'FILES.FILESNIF' | translate }}</mat-label>
           <input
             type="text"
-            [disabled]="ayudaForm.get('copiaNIFSociedadEnIDI')?.value === true"
+            [disabled]="xecsForm.get('copiaNIFSociedadEnIDI')?.value === true"
             matInput
             [value]="nifEmpresaFileNames"
             placeholder="{{ 'FILES.FILESNIF' | translate }}"
@@ -311,7 +310,7 @@
         <mat-label>{{ 'FILES.FILESESCRITPUB' | translate }}</mat-label>
           <input
             type="text"
-            [disabled]="ayudaForm.get('pJuridicaDocAcreditativaEnIDI')?.value === true"
+            [disabled]="xecsForm.get('pJuridicaDocAcreditativaEnIDI')?.value === true"
             matInput
             [value]="escrituraPublicaFileNames"
             placeholder="{{ 'FILES.FILESESCRITPUB' | translate }}"
@@ -397,7 +396,7 @@
           (change)="onCheckboxChange($event)">
           {{ authorizations[0]['label'] }}
         </mat-checkbox>
-        <section *ngIf="ayudaForm.get('consentimientocopiaNIF')?.value === false" ngClass="file-upload">
+        <section *ngIf="xecsForm.get('consentimientocopiaNIF')?.value === false" ngClass="file-upload">
           <label for="file_copiaNIF">{{"FILES.NOTAUTHORIZED" | translate}}</label>
           <input type="file" formControlName="file_copiaNIF" (change)="onFileCopiaNifChange($event)">
         </section>
@@ -406,7 +405,7 @@
           (change)="onCheckboxChange($event)">
           {{ authorizations[1]['label'] }}
         </mat-checkbox>
-        <section *ngIf="ayudaForm.get('consentimiento_certificadoATIB')?.value === false" ngClass="file-upload">
+        <section *ngIf="xecsForm.get('consentimiento_certificadoATIB')?.value === false" ngClass="file-upload">
           <label for="file_certificadoATIB">{{"FILES.NOTAUTHORIZED" | translate}}</label>
           <input type="file" formControlName="file_certificadoATIB" (change)="onFilecertificadoATIBChange($event)">
         </section>        
@@ -415,7 +414,7 @@
           (change)="onCheckboxChange($event)">
           {{ authorizations[2]['label'] }}
         </mat-checkbox>
-        <section *ngIf="ayudaForm.get('consentimiento_certificadoSegSoc')?.value === false" ngClass="file-upload">
+        <section *ngIf="xecsForm.get('consentimiento_certificadoSegSoc')?.value === false" ngClass="file-upload">
           <label for="file_certificadoSegSoc">{{"FILES.NOTAUTHORIZED" | translate}}</label>
           <input type="file" formControlName="file_certificadoSegSoc" (change)="onFilecertificadoSegSocChange($event)">
         </section> 
@@ -443,11 +442,11 @@
           >
           {{ responsibilityDeclarations[0].label[1] }}
         </mat-checkbox>
-        <mat-form-field *ngIf="ayudaForm.get('declaracion_responsable_ii')?.value === true" appearance="fill">
+        <mat-form-field *ngIf="xecsForm.get('declaracion_responsable_ii')?.value === true" appearance="fill">
           <mat-label>{{ 'FORM.MINIMISIMPORT' | translate }}</mat-label>
           <input matInput formControlName="importe_minimis" />
         </mat-form-field>
-        <mat-error *ngIf="ayudaForm.get('importe_minimis')?.hasError('invalidDecimal')">
+        <mat-error *ngIf="xecsForm.get('importe_minimis')?.hasError('invalidDecimal')">
           El importe debe tener exactamente dos decimales (ej. 1234.56)
         </mat-error>
 
@@ -502,19 +501,19 @@
       </section>
   </mat-expansion-panel>
 </mat-accordion>
-<button mat-raised-button color="accent" type="submit" [disabled]="ayudaForm.invalid">{{ 'FORM.SEND' | translate }}</button>
+<button mat-raised-button color="accent" type="submit" [disabled]="xecsForm.invalid">{{ 'FORM.SEND' | translate }}</button>
 </form>
 
 <section ngClass="info-container">
-<!-- <section ngClass="ayudaform-value">
-  {{ ayudaForm.value | json}}
+<!-- <section ngClass="xecsForm-value">
+  {{ xecsForm.value | json}}
 </section> -->
 
-<!-- <section class="ayudaform-status">
+<!-- <section class="xecsForm-status">
   <h3>Estado general del formulario:</h3>
-  <p><strong>{{ ayudaForm.status }}</strong></p>
+  <p><strong>{{ xecsForm.status }}</strong></p>
   <h4>Errores por campo:</h4>
-  <div *ngFor="let control of ayudaForm.controls | keyvalue">
+  <div *ngFor="let control of xecsForm.controls | keyvalue">
     <div style="margin-bottom: 1em;">
       <strong>Campo:</strong> {{ control.key }}<br />
       <strong>Estado:</strong> {{ control.value.status }}<br />

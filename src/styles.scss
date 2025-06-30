@@ -50,9 +50,7 @@ $custom-theme: mat.define-light-theme((
 // Aplicar el tema
 @include mat.all-component-themes($custom-theme);
 
-
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
-
 
 body {
   font-family: Inter, sans-serif;
@@ -71,7 +69,6 @@ body {
 .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
   background-color: #00405e !important;
 }
-
 
 .docs-in-adr {
   mat-form-field {
@@ -101,6 +98,10 @@ body {
       }
     }
   }
+}
+
+mat-icon {
+  margin-left: .5rem;
 }
 
 @media screen and (max-width: 992px) {
