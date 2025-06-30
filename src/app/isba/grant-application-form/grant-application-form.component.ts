@@ -44,19 +44,34 @@ export class IsbaGrantApplicationFormComponent {
   isSubsidyGreater: boolean = false
 
   // Files
+  files: { [key: string]: File[] } = {
+    file_memoriaTecnica: [],
+    file_document_veracidad_datos_bancarios: [],
+    file_certificadoIAE: [],
+    file_altaAutonomos: [],
+    file_escrituraConstitucion: [],
+    file_nifRepresentante: [],
+    file_certificadoATIB: [],
+    file_certificadoAEAT: [],
+    file_certificadoLey382003: [],
+    file_certificadoSGR: [],
+    file_contratoOperFinanc: [],
+    file_avalOperFinanc: [],
+  }
+
   fileNames: { [key: string]: string } = {
-    file_memoriaTecnica: "",
-    file_document_veracidad_datos_bancarios: "",
-    file_certificadoIAE: "",
-    file_altaAutonomos: "",
-    file_escrituraConstitucion: "",
-    file_nifRepresentante: "",
-    file_certificadoATIB: "",
-    file_certificadoAEAT: "",
-    file_certificadoLey382003: "",
-    file_certificadoSGR: "",
-    file_contratoOperFinanc: "",
-    file_avalOperFinanc: "",
+    file_memoriaTecnica: '',
+    file_document_veracidad_datos_bancarios: '',
+    file_certificadoIAE: '',
+    file_altaAutonomos: '',
+    file_escrituraConstitucion: '',
+    file_nifRepresentante: '',
+    file_certificadoATIB: '',
+    file_certificadoAEAT: '',
+    file_certificadoLey382003: '',
+    file_certificadoSGR: '',
+    file_contratoOperFinanc: '',
+    file_avalOperFinanc: '',
   }
 
   // 10 MB máximos
@@ -96,7 +111,7 @@ export class IsbaGrantApplicationFormComponent {
       fecha_aval_isba: this.fb.control<string>('', [Validators.required]),
       plazo_aval_isba: this.fb.control<string>('', [Validators.required]),
       cuantia_aval_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
-      
+
       finalidad_inversion_idi_isba: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       empresa_eco_idi_isba: this.fb.control<string>('', [Validators.required]),
       importe_presupuesto_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
@@ -121,20 +136,20 @@ export class IsbaGrantApplicationFormComponent {
       declaro_idi_isba_que_cumple_15: this.fb.control<boolean>(true, []),
 
       /* Documentación */
-      file_memoriaTecnica: this.fb.control<File | null>(null, [Validators.required]),
-      file_document_veracidad_datos_bancarios: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificadoIAE: this.fb.control<File | null>(null, [Validators.required]),
-      file_altaAutonomos: this.fb.control<File | null>(null, []), // Persona física
-      file_escrituraConstitucion: this.fb.control<File | null>(null, []), // Persona jurídica
+      file_memoriaTecnica: this.fb.control<string | null>('', [Validators.required]),
+      file_document_veracidad_datos_bancarios: this.fb.control<string | null>('', [Validators.required]),
+      file_certificadoIAE: this.fb.control<string | null>('', [Validators.required]),
+      file_altaAutonomos: this.fb.control<string | null>('', []), // Persona física
+      file_escrituraConstitucion: this.fb.control<string | null>('', []), // Persona jurídica
       dni_no_consent: this.fb.control<boolean>(false, []),
-      file_nifRepresentante: this.fb.control<File | null>(null, []), // DNI/NIE con consentimiento
+      file_nifRepresentante: this.fb.control<string | null>('', []), // DNI/NIE con consentimiento
       atib_no_consent: this.fb.control<boolean>(false, []),
-      file_certificadoATIB: this.fb.control<File | null>(null, []), // Certificado ATIB y SS con consentimiento
-      file_certificadoAEAT: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificadoLey382003: this.fb.control<File | null>(null, []), // Ayudas superiores a 30.000€
-      file_certificadoSGR: this.fb.control<File | null>(null, [Validators.required]),
-      file_contratoOperFinanc: this.fb.control<File | null>(null, [Validators.required]),
-      file_avalOperFinanc: this.fb.control<File | null>(null, [Validators.required]),
+      file_certificadoATIB: this.fb.control<string | null>('', []), // Certificado ATIB y SS con consentimiento
+      file_certificadoAEAT: this.fb.control<string | null>('', [Validators.required]),
+      file_certificadoLey382003: this.fb.control<string | null>('', []), // Ayudas superiores a 30.000€
+      file_certificadoSGR: this.fb.control<string | null>('', [Validators.required]),
+      file_contratoOperFinanc: this.fb.control<string | null>('', [Validators.required]),
+      file_avalOperFinanc: this.fb.control<string | null>('', [Validators.required]),
 
       tipo_tramite: this.fb.control<string>('ADR-ISBA')
 
@@ -190,21 +205,34 @@ export class IsbaGrantApplicationFormComponent {
     console.log(this.isbaForm.value)
   }
 
+  /* Cambiado a fecha 30/06. Cambios:
+    - Cambio totalmente la forma de guardado. Ahora se guarda el archivo entero en un objeto de clase llamado file y el nombre del archivo en un objeto llamado fileNames
+    - Permito que se guarde correctamente habiendo más de un file para subir.
+    - Ahora hay un listado de archivos preparados 
+  */
   onFileChange(event: Event, controlName: string): void {
-    const file = (event.target as HTMLInputElement).files?.[0]
+    const input = event.target as HTMLInputElement
     const controlNameForm = this.isbaForm.get(controlName)
+    const inputFiles: File[] = []
+    const inputFilesNames: string[] = []
 
-    if (file) {
-      controlNameForm?.setValue(file)
-      if (file.size > this.maxFileSizeBytes) {
-        controlNameForm?.setErrors({ invalidFile: true })
-      }
+    controlNameForm?.setErrors(null)
 
-      else {
-        controlNameForm?.setErrors(null)
+    if (input.files) {
+      for (let index = 0; index < input.files.length; index++) {
+        const file = input.files.item(index)
+        if (file) {
+          if (file.size > this.maxFileSizeBytes) {
+            controlNameForm?.setErrors({ invalidFile: true })
+          }
+          inputFiles.push(file)
+          inputFilesNames.push(file.name)
+        }
       }
-      this.fileNames[controlName] = file.name
     }
+
+    this.files[controlName] = inputFiles;
+    this.fileNames[controlName] = inputFilesNames.join(', ')
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {

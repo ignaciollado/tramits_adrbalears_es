@@ -57,6 +57,21 @@ ol {
   }
 }
 
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+
+  li {
+    background-color: #e6f2ef;
+    color: #000000;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+  }
+}
+
 dl {
   dt, dd {
     margin-top: 0.5rem

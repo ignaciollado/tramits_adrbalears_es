@@ -58,6 +58,22 @@ export class IlsGrantApplicationFormComponent {
     file_nifEmpresa: "",
     file_logotipoEmpresaIls: ""
   }
+
+  files: { [key: string]: File[] } = {
+    file_enviardocumentoIdentificacion: [],
+    file_certificadoATIB: [],
+    file_escritura_empresa: [],
+    file_certificado_IAE: [],
+    file_informeResumenIls: [],
+    file_informeInventarioIls: [],
+    file_certificado_verificacion_ISO: [],
+    file_modeloEjemploIls: [],
+    file_certificado_itinerario_formativo: [],
+    file_memoriaTecnica: [],
+    file_nifEmpresa: [],
+    file_logotipoEmpresaIls: []
+  }
+
   // 10 MB máximos
   maxFileSizeBytes: number = 10 * 1024 * 1024
 
@@ -70,6 +86,10 @@ export class IlsGrantApplicationFormComponent {
   options: ZipCodesIBDTO[] = []
   filteredOptions: Observable<ZipCodesIBDTO[]> | undefined;
   actividadesCNAE: CnaeDTO[] = []
+
+  customTimestamp: any
+  actualYear: any
+  idExp: string = ""
 
 
   accordion = viewChild.required(MatAccordion)
@@ -92,9 +112,9 @@ export class IlsGrantApplicationFormComponent {
       mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
 
       checkboxID: this.fb.control<boolean>(true),
-      file_enviardocumentoIdentificacion: this.fb.control<File | null>(null),
+      file_enviardocumentoIdentificacion: this.fb.control<string | null>(''),
       checkboxATIB: this.fb.control<boolean>(true),
-      file_certificadoATIB: this.fb.control<File | null>(null),
+      file_certificadoATIB: this.fb.control<string | null>(''),
 
       declaracion_responsable_i: this.fb.control<boolean>(true),
       declaracion_responsable_v: this.fb.control<boolean>(true),
@@ -102,26 +122,23 @@ export class IlsGrantApplicationFormComponent {
       declaracion_responsable_ix: this.fb.control<boolean>(true),
 
       // Documentación
-      file_escritura_empresa: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificado_IAE: this.fb.control<File | null>(null, [Validators.required]),
+      file_escritura_empresa: this.fb.control<string | null>('', [Validators.required]),
+      file_certificado_IAE: this.fb.control<string | null>('', [Validators.required]),
       radioGroupFile: this.fb.control(null, [Validators.required]),
-      file_informeResumenIls: this.fb.control<File | null>(null), // Primera opción radio
-      file_informeInventarioIls: this.fb.control<File | null>(null), // Primera opción radio
-      file_certificado_verificacion_ISO: this.fb.control<File | null>(null), // Segunda opción radio
+      file_informeResumenIls: this.fb.control<string | null>(''), // Primera opción radio
+      file_informeInventarioIls: this.fb.control<string | null>(''), // Primera opción radio
+      file_certificado_verificacion_ISO: this.fb.control<string | null>(''), // Segunda opción radio
 
-      file_modeloEjemploIls: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificado_itinerario_formativo: this.fb.control<File | null>(null, [Validators.required]),
-      file_memoriaTecnica: this.fb.control<File | null>(null),
-      file_nifEmpresa: this.fb.control<File | null>(null),
-      file_logotipoEmpresaIls: this.fb.control<File | null>(null),
+      file_modeloEjemploIls: this.fb.control<string | null>('', [Validators.required]),
+      file_certificado_itinerario_formativo: this.fb.control<string | null>('', [Validators.required]),
+      file_memoriaTecnica: this.fb.control<string | null>(''),
+      file_nifEmpresa: this.fb.control<string | null>(''),
+      file_logotipoEmpresaIls: this.fb.control<string | null>(''),
 
       tipo_tramite: this.fb.control<string>('ILS')
-
     })
-    this.commonService.getCNAEs().subscribe((actividadesCNAE: any[]) => {
-      this.actividadesCNAE = actividadesCNAE
-    })
-
+    this.customTimestamp = this.commonService.generateCustomTimestamp()
+    this.actualYear = this.customTimestamp.split('_')[2]
   }
 
   ngOnInit(): void {
@@ -155,27 +172,37 @@ export class IlsGrantApplicationFormComponent {
 
     this.loadZipcodes()
     this.loadActividadesCNAE()
+    // this.createIdExp()
   }
 
   onSubmit(): void {
     console.log(this.ilsForm.value)
   }
 
-  // Subida individual de archivo.
-  onFileChange(event: Event, controlName: string): void {
-    const file = (event.target as HTMLInputElement).files?.[0]
-    const controlNameForm = this.ilsForm.get(controlName)
 
-    if (file) {
-      controlNameForm?.setValue(file)
-      if (file.size > this.maxFileSizeBytes) {
-        controlNameForm?.setErrors({ invalidFile: true })
+  onFileChange(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement
+    const controlNameForm = this.ilsForm.get(controlName)
+    const inputFiles: File[] = [];
+    const inputFilesNames: string[] = []
+
+    controlNameForm?.setErrors(null)
+
+    if (input.files) {
+      for (let index= 0; index < input.files.length; index++) {
+        const file = input.files.item(index)
+        if (file) {
+          if (file.size > this.maxFileSizeBytes) {
+            controlNameForm?.setErrors({ invalidFile: true})
+          }
+          inputFiles.push(file)
+          inputFilesNames.push(file.name)
+        }
       }
-      else {
-        controlNameForm?.setErrors(null)
-      }
-      this.fileNames[controlName] = file.name
     }
+
+    this.files[controlName] = inputFiles
+    this.fileNames[controlName] = inputFilesNames.join(', ')
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
@@ -229,6 +256,12 @@ export class IlsGrantApplicationFormComponent {
     this.commonService.getCNAEs().subscribe((actividadesCNAE: CnaeDTO[]) => {
       this.actividadesCNAE = actividadesCNAE
     }, error => { this.showSnackBar(error) })
+  }
+
+  private createIdExp(): void {
+    this.expedienteService.getExpedientesByConvocatoria(this.actualYear).subscribe((expedientes: any[]) => {
+      console.log(expedientes)
+    }, error => { this.showSnackBar(error)})
   }
 
   // Validador con checkboxes

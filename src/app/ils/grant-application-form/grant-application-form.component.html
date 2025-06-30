@@ -238,7 +238,10 @@
                                 placeholder="{{'ILS.FILE.UPLOAD' | translate}}" />
                                 <mat-error *ngIf="ilsForm.get('file_enviardocumentoIdentificacion')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input hidden type="file" #file_enviardocumentoIdentificacion (change)="onFileChange($event, 'file_enviardocumentoIdentificacion')" accept=".pdf" />
+                            <input hidden type="file" #file_enviardocumentoIdentificacion (change)="onFileChange($event, 'file_enviardocumentoIdentificacion')" accept=".pdf" multiple/>
+                            <ul *ngIf="files['file_enviardocumentoIdentificacion'].length > 0">
+                                <li *ngFor="let file of files['file_enviardocumentoIdentificacion']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
                     </section>
                 </section>
@@ -258,7 +261,10 @@
                                 placeholder="{{'ILS.FILE.UPLOAD' | translate}}" />
                                 <mat-error *ngIf="ilsForm.get('file_certificadoATIB')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input hidden type="file" #file_certificadoATIB (change)="onFileChange($event, 'file_certificadoATIB')" accept=".pdf" />
+                            <input hidden type="file" #file_certificadoATIB (change)="onFileChange($event, 'file_certificadoATIB')" accept=".pdf" multiple />
+                            <ul *ngIf="files['file_certificadoATIB'].length > 0">
+                                <li *ngFor="let file of files['file_certificadoATIB']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
                     </section>
                 </section>
@@ -313,7 +319,10 @@
                             />
                             <mat-error *ngIf="ilsForm.get('file_escritura_empresa')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                         </mat-form-field>
-                        <input #file_escritura_empresa type="file" (change)="onFileChange($event, 'file_escritura_empresa')" hidden accept=".pdf">
+                        <input #file_escritura_empresa type="file" (change)="onFileChange($event, 'file_escritura_empresa')" hidden accept=".pdf" multiple />
+                        <ul *ngIf="files['file_escritura_empresa'].length > 0">
+                            <li *ngFor="let file of files['file_escritura_empresa']">{{file.name}} {{file.size/1000}} KB</li>
+                        </ul>
                     </section>
                     <section ngClass="file-input">
                         <mat-form-field floatLabel="always">
@@ -329,7 +338,10 @@
                             />
                             <mat-error *ngIf="ilsForm.get('file_certificado_IAE')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                         </mat-form-field>
-                        <input #file_certificado_IAE type="file" (change)="onFileChange($event, 'file_certificado_IAE')" hidden accept=".pdf">
+                        <input #file_certificado_IAE type="file" (change)="onFileChange($event, 'file_certificado_IAE')" hidden accept=".pdf" multiple>
+                        <ul *ngIf="files['file_certificado_IAE'].length > 0">
+                            <li *ngFor="let file of files['file_certificado_IAE']">{{file.name}} {{file.size/1000}} KB</li>
+                        </ul>
                     </section>
                     <section>
                         <mat-radio-group ngClass="file-input" formControlName="radioGroupFile">
@@ -349,7 +361,10 @@
                                         />
                                         <mat-error *ngIf="ilsForm.get('file_informeResumenIls')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                                     </mat-form-field>
-                                    <input #file_informeResumenIls type="file" (change)="onFileChange($event, 'file_informeResumenIls')" accept=".pdf" hidden>
+                                    <input #file_informeResumenIls type="file" (change)="onFileChange($event, 'file_informeResumenIls')" accept=".pdf" hidden multiple >
+                                    <ul *ngIf="files['file_informeResumenIls'].length > 0">
+                                        <li *ngFor="let file of files['file_informeResumenIls']">{{file.name}} {{file.size/1000}} KB</li>
+                                    </ul>
                                 </section>
                                 <section ngClass="file-input">
                                     <mat-form-field floatLabel="always">
@@ -365,7 +380,10 @@
                                         />
                                         <mat-error *ngIf="ilsForm.get('file_informeInventarioIls')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                                     </mat-form-field>
-                                    <input #file_informeInventarioIls type="file" (change)="onFileChange($event, 'file_informeInventarioIls')" accept=".pdf" hidden>
+                                    <input #file_informeInventarioIls type="file" (change)="onFileChange($event, 'file_informeInventarioIls')" accept=".pdf" hidden multiple />
+                                    <ul *ngIf="files['file_informeInventarioIls'].length > 0">
+                                        <li *ngFor="let file of files['file_informeInventarioIls']">{{file.name}} {{file.size/1000}} KB</li>
+                                    </ul>
                                 </section>
                             </section>
                             <mat-radio-button value="option2">{{'ILS.DOCUMENTATION.REQUIRED.INPUT-RADIO.OPTION-2' | translate}}</mat-radio-button>
@@ -384,7 +402,10 @@
                                         />
                                         <mat-error *ngIf="ilsForm.get('file_certificado_verificacion_ISO')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                                     </mat-form-field>
-                                    <input #file_certificado_verificacion_ISO type="file" (change)="onFileChange($event, 'file_certificado_verificacion_ISO')" accept=".pdf" hidden>
+                                    <input #file_certificado_verificacion_ISO type="file" (change)="onFileChange($event, 'file_certificado_verificacion_ISO')" accept=".pdf" hidden multiple />
+                                    <ul *ngIf="files['file_certificado_verificacion_ISO'].length > 0">
+                                        <li *ngFor="let file of files['file_certificado_verificacion_ISO']">{{file.name}} {{file.size/1000}} KB</li>
+                                    </ul>
                                     </section>
                             </section>
                         </mat-radio-group>
@@ -403,7 +424,10 @@
                             />
                             <mat-error *ngIf="ilsForm.get('file_modeloEjemploIls')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                         </mat-form-field>
-                        <input #file_modeloEjemploIls type="file" (change)="onFileChange($event, 'file_modeloEjemploIls')" accept=".pdf" hidden> 
+                        <input #file_modeloEjemploIls type="file" (change)="onFileChange($event, 'file_modeloEjemploIls')" accept=".pdf" hidden multiple>
+                        <ul *ngIf="files['file_modeloEjemploIls'].length > 0">
+                            <li *ngFor="let file of files['file_modeloEjemploIls']">{{file.name}} {{file.size/1000}} KB</li>
+                        </ul>
                     </section>
                     <section ngClass="file-input">
                         <mat-form-field floatLabel="always">
@@ -419,7 +443,10 @@
                             />
                             <mat-error *ngIf="ilsForm.get('file_certificado_itinerario_formativo')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                         </mat-form-field>
-                        <input #file_certificado_itinerario_formativo type="file" (change)="onFileChange($event, 'file_certificado_itinerario_formativo')" accept=".pdf" hidden> 
+                        <input #file_certificado_itinerario_formativo type="file" (change)="onFileChange($event, 'file_certificado_itinerario_formativo')" accept=".pdf" hidden multiple>
+                        <ul *ngIf="files['file_certificado_itinerario_formativo'].length > 0">
+                            <li *ngFor="let file of files['file_certificado_itinerario_formativo']">{{file.name}} {{file.size/1000}} KB</li>
+                        </ul>
                     </section>
                 </section>
                 <h4>{{'ILS.DOCUMENTATION.OPTIONAL.INFO' | translate}}</h4>
@@ -437,7 +464,10 @@
                         />
                         <mat-error *ngIf="ilsForm.get('file_memoriaTecnica')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                     </mat-form-field>
-                    <input #file_memoriaTecnica type="file" (change)="onFileChange($event, 'file_memoriaTecnica')" accept=".pdf" hidden>
+                    <input #file_memoriaTecnica type="file" (change)="onFileChange($event, 'file_memoriaTecnica')" accept=".pdf" hidden multiple>
+                    <ul *ngIf="files['file_memoriaTecnica'].length > 0">
+                        <li *ngFor="let file of files['file_memoriaTecnica']">{{file.name}} {{file.size/1000}} KB</li>
+                    </ul>
                 </section>
                 <section ngClass="file-input">
                     <mat-form-field floatLabel="always">
@@ -453,7 +483,10 @@
                         />
                         <mat-error *ngIf="ilsForm.get('file_nifEmpresa')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                     </mat-form-field>
-                    <input #file_nifEmpresa type="file" (change)="onFileChange($event, 'file_nifEmpresa')" accept=".pdf" hidden>
+                    <input #file_nifEmpresa type="file" (change)="onFileChange($event, 'file_nifEmpresa')" accept=".pdf" hidden multiple>
+                    <ul *ngIf="files['file_nifEmpresa'].length > 0">
+                        <li *ngFor="let file of files['file_nifEmpresa']">{{file.name}} {{file.size/1000}} KB</li>
+                    </ul>
                 </section>
                 <section ngClass="file-input">
                     <mat-form-field floatLabel="always">
@@ -469,7 +502,10 @@
                         />
                         <mat-error *ngIf="ilsForm.get('file_logotipoEmpresaIls')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                     </mat-form-field>
-                    <input #file_logotipoEmpresaIls type="file" (change)="onFileChange($event, 'file_logotipoEmpresaIls')" accept=".webp, .jpeg, .svg" hidden>
+                    <input #file_logotipoEmpresaIls type="file" (change)="onFileChange($event, 'file_logotipoEmpresaIls')" accept=".webp, .jpeg, .svg" hidden multiple>
+                    <ul *ngIf="files['file_logotipoEmpresaIls'].length > 0">
+                        <li *ngFor="let file of files['file_logotipoEmpresaIls']">{{file.name}} {{file.size/1000}} KB</li>
+                    </ul>
                 </section>
             </section>
         </mat-expansion-panel>
