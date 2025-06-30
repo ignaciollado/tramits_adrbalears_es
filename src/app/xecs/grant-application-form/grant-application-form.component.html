@@ -69,6 +69,18 @@
         <mat-radio-button value="pequenya">Pequeña empresa</mat-radio-button>
         <mat-radio-button value="mediana">Mediana empresa</mat-radio-button>
       </mat-radio-group>
+      <section>
+        <ul>
+          <li>
+            <strong>{{ 'ILS.BUSINESS-TYPE.SMALL.NAME' | translate}}:</strong>
+            {{ 'ILS.BUSINESS-TYPE.SMALL.INFO' | translate}}
+          </li>
+          <li>
+              <strong>{{ 'ILS.BUSINESS-TYPE.MEDIUM.NAME' | translate}}:</strong>
+            {{ 'ILS.BUSINESS-TYPE.MEDIUM.INFO' | translate}}
+          </li>
+        </ul>
+      </section>
   </mat-expansion-panel>
 
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">

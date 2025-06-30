@@ -70,7 +70,12 @@
     "RGPD": "RGPD and documentation",
     "RGPDCONDITIONSANDREQUIREDDOCSHEADER": "GDPR conditions and required documentation",
     "EXPANDALL": "Expand all",
-    "COLAPSEALL": "Colapse all"
+    "COLAPSEALL": "Colapse all",
+    "PROGRAM_I": "",
+    "PROGRAM_II": "",
+    "PROGRAM_III": "",
+    "PROGRAM_IV": "",
+    "PROGRAM_V": ""
   },
   "ILS": {
     "RGPD": {

@@ -68,7 +68,12 @@
     "RGPD": "RGPD y documentación",
     "RGPDCONDITIONSANDREQUIREDDOCSHEADER": "Condiciones del RGPD y documentación requerida",
     "EXPANDALL": "Expandir todo",
-    "COLAPSEALL": "Encoger todo"
+    "COLAPSEALL": "Encoger todo",
+    "PROGRAM_I": "",
+    "PROGRAM_II": "",
+    "PROGRAM_III": "",
+    "PROGRAM_IV": "",
+    "PROGRAM_V": ""
   },
   "ILS": {
     "RGPD": {
