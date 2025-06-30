@@ -45,20 +45,18 @@ export class IsbaGrantApplicationFormComponent {
 
   // Files
   fileNames: { [key: string]: string } = {
-    documentacion_adjunta_requerida_idi_isba_a: "",
-    documentacion_adjunta_requerida_idi_isba_b: "",
-    documentacion_adjunta_requerida_idi_isba_c: "",
-    documentacion_adjunta_requerida_idi_isba_d: "",
-    documentacion_adjunta_requerida_idi_isba_e: "",
-    documentacion_adjunta_requerida_idi_isba_f: "",
-    documentacion_adjunta_requerida_idi_isba_g: "",
-    documentacion_adjunta_requerida_idi_isba_h: "",
-    documentacion_adjunta_requerida_idi_isba_i: "",
-    documentacion_adjunta_requerida_idi_isba_j: "",
-    documentacion_adjunta_requerida_idi_isba_k: "",
-    documentacion_adjunta_requerida_idi_isba_l: "",
-    documentacion_adjunta_requerida_idi_isba_m: "",
-    documentacion_adjunta_requerida_idi_isba_n: "",
+    file_memoriaTecnica: "",
+    file_document_veracidad_datos_bancarios: "",
+    file_certificadoIAE: "",
+    file_altaAutonomos: "",
+    file_escrituraConstitucion: "",
+    file_nifRepresentante: "",
+    file_certificadoATIB: "",
+    file_certificadoAEAT: "",
+    file_certificadoLey382003: "",
+    file_certificadoSGR: "",
+    file_contratoOperFinanc: "",
+    file_avalOperFinanc: "",
   }
 
   // 10 MB máximos
@@ -74,7 +72,9 @@ export class IsbaGrantApplicationFormComponent {
   constructor(private commonService: CommonService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.isbaForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
+
       tipo_solicitante: this.fb.control<string>('', [Validators.required]),
+
       nif: this.fb.control<string>('', []), // Los validadores se setean posteriormente de forma dinámica,
       denom_interesado: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       domicilio: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
@@ -82,7 +82,6 @@ export class IsbaGrantApplicationFormComponent {
       localidad: this.fb.control<string>({ value: '', disabled: true }),
       telefono_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.minLength(9), Validators.maxLength(9)]),
       codigoIAE: this.fb.control<string>('', [Validators.required]),
-
       // Seteo sus validadores y sus enables/disables en base a business_type
       nom_representante: this.fb.control<string>({ value: '', disabled: true }, []), // La protección de xss se añade posteriormente
       nif_representante: this.fb.control<string>({ value: '', disabled: true }, []),
@@ -90,12 +89,14 @@ export class IsbaGrantApplicationFormComponent {
 
       tel_representante: this.fb.control<string>('', [Validators.required, Validators.maxLength(9), Validators.minLength(9), Validators.pattern('[0-9]{9}')]),
       mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
+
       nom_entidad: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       importe_prestamo: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
       plazo_prestamo: this.fb.control<string>('', [Validators.required]),
       fecha_aval_isba: this.fb.control<string>('', [Validators.required]),
       plazo_aval_isba: this.fb.control<string>('', [Validators.required]),
       cuantia_aval_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+      
       finalidad_inversion_idi_isba: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       empresa_eco_idi_isba: this.fb.control<string>('', [Validators.required]),
       importe_presupuesto_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
@@ -103,6 +104,7 @@ export class IsbaGrantApplicationFormComponent {
       coste_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
       gastos_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
       importe_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+
       declaro_idi_isba_que_cumple_0: this.fb.control<boolean>(true, []),
       declaro_idi_isba_que_cumple_1: this.fb.control<boolean>(true, []),
       declaro_idi_isba_que_cumple_2: this.fb.control<boolean>(true, []),
@@ -119,22 +121,20 @@ export class IsbaGrantApplicationFormComponent {
       declaro_idi_isba_que_cumple_15: this.fb.control<boolean>(true, []),
 
       /* Documentación */
-      documentacion_adjunta_requerida_idi_isba_a: this.fb.control<File | null>(null, []),
-      documentacion_adjunta_requerida_idi_isba_b: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_c: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_d: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_e: this.fb.control<File | null>(null, []), // Persona física
-      documentacion_adjunta_requerida_idi_isba_f: this.fb.control<File | null>(null, []), // Persona jurídica
+      file_memoriaTecnica: this.fb.control<File | null>(null, [Validators.required]),
+      file_document_veracidad_datos_bancarios: this.fb.control<File | null>(null, [Validators.required]),
+      file_certificadoIAE: this.fb.control<File | null>(null, [Validators.required]),
+      file_altaAutonomos: this.fb.control<File | null>(null, []), // Persona física
+      file_escrituraConstitucion: this.fb.control<File | null>(null, []), // Persona jurídica
       dni_no_consent: this.fb.control<boolean>(false, []),
-      documentacion_adjunta_requerida_idi_isba_g: this.fb.control<File | null>(null, []), // DNI/NIE con consentimiento
+      file_nifRepresentante: this.fb.control<File | null>(null, []), // DNI/NIE con consentimiento
       atib_no_consent: this.fb.control<boolean>(false, []),
-      documentacion_adjunta_requerida_idi_isba_h: this.fb.control<File | null>(null, []), // Certificado ATIB y SS con consentimiento
-      documentacion_adjunta_requerida_idi_isba_i: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_j: this.fb.control<File | null>(null, []), // Ayudas superiores a 30.000€
-      documentacion_adjunta_requerida_idi_isba_k: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_l: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_m: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_n: this.fb.control<File | null>(null, []),
+      file_certificadoATIB: this.fb.control<File | null>(null, []), // Certificado ATIB y SS con consentimiento
+      file_certificadoAEAT: this.fb.control<File | null>(null, [Validators.required]),
+      file_certificadoLey382003: this.fb.control<File | null>(null, []), // Ayudas superiores a 30.000€
+      file_certificadoSGR: this.fb.control<File | null>(null, [Validators.required]),
+      file_contratoOperFinanc: this.fb.control<File | null>(null, [Validators.required]),
+      file_avalOperFinanc: this.fb.control<File | null>(null, [Validators.required]),
 
       tipo_tramite: this.fb.control<string>('ADR-ISBA')
 
@@ -164,12 +164,12 @@ export class IsbaGrantApplicationFormComponent {
 
     // Aparición/desaparición del input file DNI/NIE
     this.isbaForm.get('dni_no_consent')?.valueChanges.subscribe((value: boolean) => {
-      this.docsCheckboxChanges('documentacion_adjunta_requerida_idi_isba_g', value, "dni_no_consent")
+      this.docsCheckboxChanges('file_nifRepresentante', value, "dni_no_consent")
     })
 
     // Aparición/desaparición del input file ATIB/Seg. Socia
     this.isbaForm.get('atib_no_consent')?.valueChanges.subscribe((value: boolean) => {
-      this.docsCheckboxChanges('documentacion_adjunta_requerida_idi_isba_h', value, 'atib_no_consent')
+      this.docsCheckboxChanges('file_certificadoATIB', value, 'atib_no_consent')
     })
 
     // Zipcode
@@ -247,10 +247,10 @@ export class IsbaGrantApplicationFormComponent {
     const repPhone = this.isbaForm.get('telefono_contacto_rep')
     const repPhoneValidators = [Validators.minLength(9), Validators.maxLength(9), Validators.pattern('[0-9]{9}')]
 
-    const docsPersFis = this.isbaForm.get('documentacion_adjunta_requerida_idi_isba_e')
+    const docsPersFis = this.isbaForm.get('file_altaAutonomos')
     const docsPersFisValidators = []
 
-    const docsPersJur = this.isbaForm.get('documentacion_adjunta_requerida_idi_isba_f')
+    const docsPersJur = this.isbaForm.get('file_escrituraConstitucion')
     const docsPersJurValidators = []
 
     if (tipo_solicitante === "autonomo") {
@@ -366,7 +366,7 @@ export class IsbaGrantApplicationFormComponent {
   checkAmount(): void {
     const importeSubvencionSolicitada = this.isbaForm.get('importe_ayuda_solicita_idi_isba')?.value;
     const documentoSubvencionValidators = []
-    const documentoSubvencion = this.isbaForm.get('documentacion_adjunta_requerida_idi_isba_j')
+    const documentoSubvencion = this.isbaForm.get('file_certificadoLey382003')
 
     if (+importeSubvencionSolicitada > 30000) {
       documentoSubvencionValidators.push(Validators.required)

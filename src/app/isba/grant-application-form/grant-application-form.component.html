@@ -333,15 +333,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_b"
+                                formControlName="file_memoriaTecnica"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_b']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_b.click()"
+                                [value]="fileNames['file_memoriaTecnica']"
+                                (click)="file_memoriaTecnica.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_b')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_memoriaTecnica')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_b type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_b')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_memoriaTecnica type="file" (change)="onFileChange($event, 'file_memoriaTecnica')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -349,15 +349,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_c"
+                                formControlName="file_document_veracidad_datos_bancarios"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_c']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_c.click()"
+                                [value]="fileNames['file_document_veracidad_datos_bancarios']"
+                                (click)="file_document_veracidad_datos_bancarios.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_c')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_document_veracidad_datos_bancarios')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_c type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_c')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_document_veracidad_datos_bancarios type="file" (change)="onFileChange($event, 'file_document_veracidad_datos_bancarios')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -365,15 +365,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_d"
+                                formControlName="file_certificadoIAE"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_d']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_d.click()"
+                                [value]="fileNames['file_certificadoIAE']"
+                                (click)="file_certificadoIAE.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_d')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_certificadoIAE')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_d type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_d')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_certificadoIAE type="file" (change)="onFileChange($event, 'file_certificadoIAE')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
 
                         <!-- Persona física -->
@@ -384,15 +384,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_e"
+                                formControlName="file_altaAutnomos"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_e']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_e.click()"
+                                [value]="fileNames['file_altaAutnomos']"
+                                (click)="file_altaAutnomos.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_e')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_altaAutnomos')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_e type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_e')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_altaAutnomos type="file" (change)="onFileChange($event, 'file_altaAutnomos')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
 
                         <!-- Persona jurídica -->
@@ -407,15 +407,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_f"
+                                formControlName="file_escrituraConstitucion"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_f']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_f.click()"
+                                [value]="fileNames['file_escrituraConstitucion']"
+                                (click)="file_escrituraConstitucion.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_f')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_escrituraConstitucion')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_f type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_f')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_escrituraConstitucion type="file" (change)="onFileChange($event, 'file_escrituraConstitucion')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
 
                         <section ngClass="file-input">
@@ -429,16 +429,16 @@
                                     <input 
                                     matInput
                                     type="text"
-                                    formControlName="documentacion_adjunta_requerida_idi_isba_g"
+                                    formControlName="file_nifRepresentante"
                                     readonly
-                                    [value]="fileNames['documentacion_adjunta_requerida_idi_isba_g']"
-                                    (click)="documentacion_adjunta_requerida_idi_isba_g.click()"
+                                    [value]="fileNames['file_nifRepresentante']"
+                                    (click)="file_nifRepresentante.click()"
                                     placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                     />
-                                    <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_g')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                    <mat-error *ngIf="isbaForm.get('file_nifRepresentante')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                                 </mat-form-field>
                             </section>
-                            <input #documentacion_adjunta_requerida_idi_isba_g type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_g')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_nifRepresentante type="file" (change)="onFileChange($event, 'file_nifRepresentante')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
 
                         <section ngClass="file-input">
@@ -452,16 +452,16 @@
                                     <input 
                                     matInput
                                     type="text"
-                                    formControlName="documentacion_adjunta_requerida_idi_isba_h"
+                                    formControlName="file_certificadoATIB"
                                     readonly
-                                    [value]="fileNames['documentacion_adjunta_requerida_idi_isba_h']"
-                                    (click)="documentacion_adjunta_requerida_idi_isba_h.click()"
+                                    [value]="fileNames['file_certificadoATIB']"
+                                    (click)="file_certificadoATIB.click()"
                                     placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                     />
-                                    <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_h')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                    <mat-error *ngIf="isbaForm.get('file_certificadoATIB')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                                 </mat-form-field>
                             </section>
-                            <input #documentacion_adjunta_requerida_idi_isba_h type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_h')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_certificadoATIB type="file" (change)="onFileChange($event, 'file_certificadoATIB')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -469,15 +469,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_i"
+                                formControlName="file_certificadoAEAT"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_i']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_i.click()"
+                                [value]="fileNames['file_certificadoAEAT']"
+                                (click)="file_certificadoAEAT.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_i')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_certificadoAEAT')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_i type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_i')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_certificadoAEAT type="file" (change)="onFileChange($event, 'file_certificadoAEAT')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
                         <section ngClass="file-input" *ngIf="isSubsidyGreater">
                             <mat-form-field floatLabel="always">
@@ -485,15 +485,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_j"
+                                formControlName="file_certificadoLey382003"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_j']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_j.click()"
+                                [value]="fileNames['file_certificadoLey382003']"
+                                (click)="file_certificadoLey382003.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_j')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_certificadoLey382003')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_j type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_j')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_certificadoLey382003 type="file" (change)="onFileChange($event, 'file_certificadoLey382003')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -501,15 +501,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_k"
+                                formControlName="file_certificadoSGR"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_k']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_k.click()"
+                                [value]="fileNames['file_certificadoSGR']"
+                                (click)="file_certificadoSGR.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_k')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_certificadoSGR')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_k type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_k')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_certificadoSGR type="file" (change)="onFileChange($event, 'file_certificadoSGR')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -517,15 +517,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_l"
+                                formControlName="file_contratoOperFinanc"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_l']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_l.click()"
+                                [value]="fileNames['file_contratoOperFinanc']"
+                                (click)="file_contratoOperFinanc.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_l')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_contratoOperFinanc')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_l type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_l')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_contratoOperFinanc type="file" (change)="onFileChange($event, 'file_contratoOperFinanc')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -533,15 +533,15 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_m"
+                                formControlName="file_avalOperFinanc"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_m']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_m.click()"
+                                [value]="fileNames['file_avalOperFinanc']"
+                                (click)="file_avalOperFinanc.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_m')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_avalOperFinanc')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_m type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_m')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_avalOperFinanc type="file" (change)="onFileChange($event, 'file_avalOperFinanc')" hidden accept=".pdf, .jpeg, .png" multiple>
                         </section>
                         <section ngClass="file-input">
                             <p>{{'ISBA.DOCUMENTATION.DOC-14' | translate}}</p>
