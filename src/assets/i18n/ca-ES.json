@@ -407,7 +407,8 @@
         "DETAILS": "Amb les següents subvencions:",
         "INTEREST-SUBSIDY": "Una subvenció d'interessos, consistent en la quantia de",
         "COST-SUBSIDY": "Una subvenció al cost de l'aval de ISBA, consistent en la quantia de",
-        "START-STUDY-SUBSIDY": "Una subvenció a les despeses d'obertura i d'estudi, consistent en la quantia de"
+        "START-STUDY-SUBSIDY": "Una subvenció a les despeses d'obertura i d'estudi, consistent en la quantia de",
+        "NOT-EQUAL-SUM-ERROR": "El total de les subvencions no és igual a l'import del pressupost."
       },
       "REQUEST": {
         "TITLE": "SOL·LICITO",

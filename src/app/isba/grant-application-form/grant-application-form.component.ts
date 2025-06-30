@@ -269,6 +269,36 @@ export class IsbaGrantApplicationFormComponent {
     this.businessTypeChoosed = true
   }
 
+  // Checkea los 3 campos de subvenciones. Si el total de esos 3 no es igual al importe de presupuesto, lanzará error en los 3 campos
+  checkTotalAmount(): void {
+    const totalAmountControl = this.isbaForm.get('importe_presupuesto_idi_isba')
+
+    const interestSubsidyControl = this.isbaForm.get('intereses_ayuda_solicita_idi_isba')
+    const costSubsidyControl = this.isbaForm.get('coste_aval_solicita_idi_isba')
+    const startStudySubsidyControl = this.isbaForm.get('gastos_aval_solicita_idi_isba')
+
+    // Todos con valor
+    if (
+      totalAmountControl?.value != null &&
+      interestSubsidyControl?.value != null &&
+      costSubsidyControl?.value != null &&
+      startStudySubsidyControl?.value != null
+    ) {
+      const subsidyTotal = (+interestSubsidyControl?.value + +costSubsidyControl?.value + +startStudySubsidyControl?.value).toFixed(2)
+      const totalAmount = (+totalAmountControl.value).toFixed(2)
+
+      if (subsidyTotal != totalAmount) {
+        interestSubsidyControl?.setErrors({ notEqualError: true })
+        costSubsidyControl?.setErrors({ notEqualError: true })
+        startStudySubsidyControl?.setErrors({ notEqualError: true })
+      } else {
+        interestSubsidyControl?.setErrors(null)
+        costSubsidyControl?.setErrors(null)
+        startStudySubsidyControl?.setErrors(null)
+      }
+    }
+  }
+
   setStep(index: number): void {
     this.step.set(index)
   }

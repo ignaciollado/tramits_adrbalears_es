@@ -407,7 +407,8 @@
         "DETAILS": "With the following subsidies:",
         "INTEREST-SUBSIDY": "An interest subsidy, consisting of an amount of",
         "COST-SUBSIDY": "A subsidy to the cost of ISBA's guarantee, consisting of the amount of",
-        "START-STUDY-SUBSIDY": "A grant for start-up and study expenses, consisting of the amount of"
+        "START-STUDY-SUBSIDY": "A grant for start-up and study expenses, consisting of the amount of",
+        "NOT-EQUAL-SUM-ERROR": "The total grants are not equal to the amount of the budget."
       },
       "REQUEST": {
         "TITLE": "REQUEST",

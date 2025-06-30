@@ -241,7 +241,7 @@
                     </section>
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.LABEL' | translate}}</mat-label>
-                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="importe_presupuesto_idi_isba">
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="importe_presupuesto_idi_isba" (blur)="checkTotalAmount()">
                         <mat-error *ngIf="isbaForm.get('importe_presupuesto_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.ERROR' | translate}}</mat-error>
                     </mat-form-field>
                     <section>
@@ -253,19 +253,17 @@
                     <br>
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.INTEREST-SUBSIDY' | translate}}</mat-label>
-                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="intereses_ayuda_solicita_idi_isba">
-                        <mat-error *ngIf="isbaForm.get('intereses_ayuda_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR' | translate}}</mat-error>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="intereses_ayuda_solicita_idi_isba" (blur)="checkTotalAmount()">
+                        <mat-error *ngIf="isbaForm.get('intereses_ayuda_solicita_idi_isba')?.errors">{{((isbaForm.get('intereses_ayuda_solicita_idi_isba')?.hasError('notEqualError') ? 'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.NOT-EQUAL-SUM-ERROR' : 'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR') | translate)}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.COST-SUBSIDY' | translate}}</mat-label>
-                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="coste_aval_solicita_idi_isba">
-                        <mat-error *ngIf="isbaForm.get('coste_aval_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR' | translate}}</mat-error>
-                    </mat-form-field>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="coste_aval_solicita_idi_isba" (blur)="checkTotalAmount()">
+                        <mat-error *ngIf="isbaForm.get('coste_aval_solicita_idi_isba')?.errors">{{((isbaForm.get('coste_aval_solicita_idi_isba')?.hasError('notEqualError') ? 'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.NOT-EQUAL-SUM-ERROR' : 'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR') | translate)}}</mat-error>                    </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.START-STUDY-SUBSIDY' | translate}}</mat-label>
-                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="gastos_aval_solicita_idi_isba">
-                        <mat-error *ngIf="isbaForm.get('gastos_aval_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR' | translate}}</mat-error>
-                    </mat-form-field>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="gastos_aval_solicita_idi_isba" (blur)="checkTotalAmount()">
+                        <mat-error *ngIf="isbaForm.get('gastos_aval_solicita_idi_isba')?.errors">{{((isbaForm.get('gastos_aval_solicita_idi_isba')?.hasError('notEqualError') ? 'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.NOT-EQUAL-SUM-ERROR' : 'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR') | translate)}}</mat-error>                    </mat-form-field>
                 </section>
                 <section style="padding-bottom: 1.1rem;">
                     <dl><h4>{{'ISBA.PROJECT-BUDGET.REQUEST.TITLE' | translate}}</h4></dl>
