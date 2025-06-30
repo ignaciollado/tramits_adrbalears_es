@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,12 +15,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, startWith } from 'rxjs';
+import { CnaeDTO } from '../../Models/cnae.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
+import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { DocumentService } from '../../Services/document.service';
 import { ExpedienteService } from '../../Services/expediente.service';
-import { CnaeDTO } from '../../Models/cnae.dto';
 
 
 @Component({
@@ -27,12 +29,13 @@ import { CnaeDTO } from '../../Models/cnae.dto';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule,
-    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule, TranslateModule, MatTooltipModule, MatAutocompleteModule],
+    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule, TranslateModule, MatTooltipModule, MatAutocompleteModule, MatDialogModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })
 
 export class IlsGrantApplicationFormComponent {
+  readonly dialog = inject(MatDialog)
   step = signal(0)
   ilsForm: FormGroup
   radioOptionDocs: string = ""
@@ -158,26 +161,6 @@ export class IlsGrantApplicationFormComponent {
     console.log(this.ilsForm.value)
   }
 
-  // Creo sello de tiempo
-  private createTimestamp(): string {
-    const date = new Date();
-
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const year = String(date.getFullYear())
-
-    let hours = date.getHours()
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-
-    const esPM = hours >= 12;
-    hours = hours % 12 || 12;
-    const hours12 = String(hours).padStart(2, '0')
-    const sufix = esPM ? 'pm' : 'am'
-
-    return (`${day}_${month}_${year}_${hours12}_${minutes}_${seconds}${sufix}`)
-  }
-
   // Subida individual de archivo.
   onFileChange(event: Event, controlName: string): void {
     const file = (event.target as HTMLInputElement).files?.[0]
@@ -193,6 +176,23 @@ export class IlsGrantApplicationFormComponent {
       }
       this.fileNames[controlName] = file.name
     }
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false
+    dialogConfig.autoFocus = true
+    dialogConfig.panelClass = "dialog-customization"
+    dialogConfig.backdropClass = "popupBackdropClass"
+    dialogConfig.position = {
+      'top': '10%',
+      'left': '10%'
+    };
+    dialogConfig.width = '90%',
+      dialogConfig.data = {
+        questionText: questionText, toolTipText: toolTipText, doc1: doc1, doc2: doc2
+      };
+    this.dialog.open(PopUpDialogComponent, dialogConfig);
   }
 
   // Cambio de custom-validator según tipo solicitante

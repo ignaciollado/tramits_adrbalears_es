@@ -51,7 +51,11 @@
     "RGPD": {
       "TITLE": "RGPD i documentació",
       "DESCRIPTION": "Condicions del RGPD i documentació requerida.",
-      "READ-AND-ACCEPTS": "He llegit i accepto les condicions del",
+      "READ-AND-ACCEPTS": {
+        "PART-1": "He llegit i accepto les condicions del",
+        "PART-2": "Les dades personals proporcionades seran tratador per ADR Balears com a responsable del tractament, amb la finalitat de gestionar la seva sol·licitud. Pot exercir els seus drets d'accés, rectificació, supressió i altres, segons es detalla en la ",
+        "PRIVACY-TEXT": "política de privacitat."
+      },
       "REQUIRED-DOCS": {
         "INFO": "Abans de començar, és recomanable tenir preparada la següent documentació relacionada amb el compliment dels requisits:",
         "DOC-1": "Escriptura de constitució de l'empresa.",
@@ -254,7 +258,11 @@
     "RGPD": {
       "TITLE": "RGPD i documentació",
       "DESCRIPTION": "Condicions del RGPD i documentació requerida.",
-      "READ-AND-ACCEPTS": "He llegit i accepto les condicions del",
+      "READ-AND-ACCEPTS": {
+        "PART-1": "He llegit i accepto les condicions del",
+        "PART-2": "Les dades personals proporcionades seran tratador per ADR Balears com a responsable del tractament, amb la finalitat de gestionar la seva sol·licitud. Pot exercir els seus drets d'accés, rectificació, supressió i altres, segons es detalla en la ",
+        "PRIVACY-TEXT": "política de privacitat."
+      },
       "REQUIRED-DOCS": {
         "INFO": "Abans de començar, és recomanable tenir preparada la següent documentació:",
         "DOC-1": "El document normalitzat de sol·licitud de subvenció d'aquesta convocatòria, el qual es genera al final d'aquest assistent en prémer sobre el botó 'Enviar' i que rebrà per correu electrònic.",

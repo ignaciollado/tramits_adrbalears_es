@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,6 +18,8 @@ import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule, MatDialogConfig } from '@angular/material/dialog';
+import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -25,11 +27,12 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule,
     MatAccordion, MatCheckboxModule, TranslateModule, MatTooltipModule, MatAutocompleteModule,
-    MatRadioModule, MatIconModule],
+    MatRadioModule, MatIconModule, MatDialogModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })
 export class IsbaGrantApplicationFormComponent {
+  readonly dialog = inject(MatDialog)
   step = signal(0)
   isbaForm: FormGroup
   rgpdAccepted = false
@@ -202,6 +205,23 @@ export class IsbaGrantApplicationFormComponent {
       }
       this.fileNames[controlName] = file.name
     }
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false
+    dialogConfig.autoFocus = true
+    dialogConfig.panelClass = "dialog-customization"
+    dialogConfig.backdropClass = "popupBackdropClass"
+    dialogConfig.position = {
+      'top': '10%',
+      'left': '10%'
+    };
+    dialogConfig.width = '90%',
+      dialogConfig.data = {
+        questionText: questionText, toolTipText: toolTipText, doc1: doc1, doc2: doc2
+      };
+    this.dialog.open(PopUpDialogComponent, dialogConfig);
   }
 
 
