@@ -44,24 +44,22 @@ form {
 }
 
 mat-icon {
-  margin-left: 10px;
+  margin-left: 5px;
   &:hover {
     cursor: pointer;
     background-color: #0098cb;
   }
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 1rem;
-
+ol {
   li {
-    background-color: #e6f2ef;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    border-radius: 4px;
-    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
+}
+
+dl {
+  dt, dd {
+    margin-top: 0.5rem
   }
 }
 
@@ -70,44 +68,45 @@ div.ng-invalid.ng-touched {
   font-size: 0.875rem;
 }
 
-.section-applicant-type {
+section.form {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.personal-data {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 10px;
-}
-
-.notification-channel {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 10px;
-
-  .inputs {
-    display: grid;
+  &.applicant-type {
     grid-template-columns: 1fr 1fr;
-    column-gap: 10px;
   }
-}
 
-.authorization-checkboxes {
-  display: grid;
-  row-gap: 10px;
-}
+  &.personal-data,
+  &.notification-channel {
+    row-gap: 15px;
+  }
 
-.declaration-checkboxes {
-  display: grid;
-  align-items: baseline;
-}
+  &.notification-channel {
+    row-gap: 15px;
+    .inputs {
+      display: grid;
+      row-gap: 15px;
+    }
+  }
 
-.documentation-form {
-  display: grid;
-  row-gap: 5px;
+  &.authorization-checkboxes {
+    row-gap: 10px;
+  }
+
+  &.declaration-checkboxes {
+    align-items: baseline;
+  }
+
+  &.documentation {
+    row-gap: 10px;
+  }
 }
 
 .file-input {
   display: grid;
+}
+
+.afterFormChange {
+  display: grid;
+  background-color: #616161;
+  padding: 1.1rem;
+  margin: 1.1rem;
 }

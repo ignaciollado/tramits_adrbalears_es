@@ -69,7 +69,7 @@
                 </mat-panel-title>
                 <mat-panel-description>{{'ILS.BUSINESS-TYPE.DESCRIPTION' | translate}} <mat-icon>corporate_fare</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
-            <section ngClass="section-applicant-type">
+            <section ngClass="form applicant-type">
                 <section>
                     <mat-radio-group formControlName="tipo_solicitante" (ngModelChange)="changeNIFValidator()">
                         <mat-radio-button value="autonomo">{{'ILS.BUSINESS-TYPE.SELF-EMPLOYED' | translate}}</mat-radio-button>
@@ -94,7 +94,7 @@
                 </mat-panel-title>
                 <mat-panel-description>{{'ILS.GENERAL-DATA.DESCRIPTION' | translate}} <mat-icon>person</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
-            <section ngClass="personal-data">
+            <section ngClass="form personal-data">
                 <mat-form-field>
                     <mat-label *ngIf="businessType === 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.LABEL' |
                         translate}}</mat-label>
@@ -186,7 +186,7 @@
                 </mat-panel-title>
                 <mat-panel-description>{{'ILS.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}} <mat-icon>email</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
-            <section ngClass="notification-channel">
+            <section ngClass="form notification-channel">
                 <section>
                     <p [innerHTML]="'ILS.NOTIFICATION-CHANNEL.INFO' | translate"></p>
                 </section>
@@ -218,10 +218,11 @@
                 </mat-panel-title>
                 <mat-panel-description>{{'ILS.AUTHORIZATIONS.DESCRIPTION' | translate}} <mat-icon>gavel</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
-            <section ngClass="authorization-checkboxes">
+            <section ngClass="form authorization-checkboxes">
                 <section>
                     <mat-checkbox formControlName="checkboxID">{{'ILS.AUTHORIZATIONS.AUTHORIZATION-ID' | translate}}</mat-checkbox>
-                        <section ngClass="file-input" *ngIf="!checkboxID">
+                    <section *ngIf="!checkboxID" ngClass="afterFormChange">
+                        <section ngClass="file-input">
                             <mat-form-field floatLabel="always" style="margin-top: 10px;">
                                 <mat-label>{{'ILS.AUTHORIZATIONS.NO-AUTHORIZATED' | translate}}</mat-label>
                                 <input
@@ -235,25 +236,27 @@
                                 <mat-error *ngIf="ilsForm.get('file_enviardocumentoIdentificacion')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
                             <input hidden type="file" #file_enviardocumentoIdentificacion (change)="onFileChange($event, 'file_enviardocumentoIdentificacion')" accept=".pdf" />
+                        </section>
                     </section>
                 </section>
                 <section>
-                    <mat-checkbox formControlName="checkboxATIB">{{'ILS.AUTHORIZATIONS.AUTHORIZATION-ATIB' |
-                        translate}}</mat-checkbox>
-                    <section ngClass="file-input" *ngIf="!checkboxATIB">
-                        <mat-form-field floatLabel="always">
-                            <mat-label>{{'ILS.AUTHORIZATIONS.NO-AUTHORIZATED' | translate}}</mat-label>
-                            <input
-                            matInput
-                            type="text"
-                            readonly
-                            formControlName="file_certificadoATIB"
-                            [value]="fileNames['file_certificadoATIB']"
-                            (click)="file_certificadoATIB.click()"
-                            placeholder="{{'ILS.FILE.UPLOAD' | translate}}" />
-                            <mat-error *ngIf="ilsForm.get('file_certificadoATIB')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
-                        </mat-form-field>
-                        <input hidden type="file" #file_certificadoATIB (change)="onFileChange($event, 'file_certificadoATIB')" accept=".pdf" />
+                    <mat-checkbox formControlName="checkboxATIB">{{'ILS.AUTHORIZATIONS.AUTHORIZATION-ATIB' | translate}}</mat-checkbox>
+                    <section *ngIf="!checkboxATIB" ngClass="afterFormChange">
+                        <section ngClass="file-input">
+                            <mat-form-field floatLabel="always">
+                                <mat-label>{{'ILS.AUTHORIZATIONS.NO-AUTHORIZATED' | translate}}</mat-label>
+                                <input
+                                matInput
+                                type="text"
+                                readonly
+                                formControlName="file_certificadoATIB"
+                                [value]="fileNames['file_certificadoATIB']"
+                                (click)="file_certificadoATIB.click()"
+                                placeholder="{{'ILS.FILE.UPLOAD' | translate}}" />
+                                <mat-error *ngIf="ilsForm.get('file_certificadoATIB')?.errors">{{'ILS.FILE.ERROR' | translate}}</mat-error>
+                            </mat-form-field>
+                            <input hidden type="file" #file_certificadoATIB (change)="onFileChange($event, 'file_certificadoATIB')" accept=".pdf" />
+                        </section>
                     </section>
                 </section>
             </section>
@@ -267,7 +270,7 @@
                 </mat-panel-title>
                 <mat-panel-description>{{'ILS.DECLARATIONS.DESCRIPTION' | translate}} <mat-icon>menu_book</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
-            <section ngClass="declaration-checkboxes">
+            <section ngClass="form declaration-checkboxes">
                 <mat-checkbox formControlName="declaracion_responsable_i" (click)="$event.preventDefault()">1.
                     {{'ILS.DECLARATIONS.DECLARATION-1' | translate}}</mat-checkbox>
                 <mat-checkbox formControlName="declaracion_responsable_v" (click)="$event.preventDefault()">2.
@@ -294,9 +297,9 @@
                     <li [innerHTML]="'ILS.DOCUMENTATION.INFO.SHIFT-INFO' | translate"></li>
                 </ol>
             </section>
-            <section>
+            <section ngClass="form documentation">
                 <h4>{{'ILS.DOCUMENTATION.REQUIRED.INFO' | translate}}</h4>
-                <section ngClass="documentation-form">
+                <section>
                     <section ngClass="file-input">
                         <mat-form-field floatLabel="always">
                             <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.CONSTITUTION' | translate}}</mat-label>
@@ -332,7 +335,7 @@
                     <section>
                         <mat-radio-group ngClass="file-input" formControlName="radioGroupFile">
                             <mat-radio-button value="option1">{{'ILS.DOCUMENTATION.REQUIRED.INPUT-RADIO.OPTION-1' | translate}}</mat-radio-button>
-                            <section *ngIf="radioOptionDocs === 'option1'">
+                            <section *ngIf="radioOptionDocs === 'option1'" ngClass="afterFormChange">
                                 <section ngClass="file-input">
                                     <mat-form-field floatLabel="always">
                                         <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.SUMMARY' | translate}}</mat-label>
@@ -367,7 +370,7 @@
                                 </section>
                             </section>
                             <mat-radio-button value="option2">{{'ILS.DOCUMENTATION.REQUIRED.INPUT-RADIO.OPTION-2' | translate}}</mat-radio-button>
-                            <section *ngIf="radioOptionDocs==='option2'">
+                            <section *ngIf="radioOptionDocs==='option2'" ngClass="afterFormChange">
                                 <section ngClass="file-input">
                                     <mat-form-field floatLabel="always">
                                         <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.ISO-VERIFICATION' | translate}}</mat-label>
@@ -420,8 +423,6 @@
                         <input #file_certificado_itinerario_formativo type="file" (change)="onFileChange($event, 'file_certificado_itinerario_formativo')" accept=".pdf" hidden> 
                     </section>
                 </section>
-            </section>
-            <section>
                 <h4>{{'ILS.DOCUMENTATION.OPTIONAL.INFO' | translate}}</h4>
                 <section ngClass="file-input">
                     <mat-form-field floatLabel="always">

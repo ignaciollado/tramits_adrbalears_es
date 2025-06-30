@@ -44,7 +44,7 @@ form {
 }
 
 mat-icon {
-  margin-left: 10px;
+  margin-left: 5px;
   &:hover {
     cursor: pointer;
     background-color: #0098cb;
@@ -77,13 +77,11 @@ section.form {
   &.personal-data,
   &.financial-data,
   &.project-budget {
-    grid-template-columns: 1fr 1fr;
-    column-gap: 10px;
     row-gap: 15px;
   }
 
   &.documentation {
-    row-gap: 5px;
+    row-gap: 10px;
 
     .file-input {
         display: grid;
@@ -91,18 +89,16 @@ section.form {
   }
 
   &.notification-channel {
-    grid-template-columns: 1fr;
     row-gap: 15px;
     .inputs {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 10px;
+      row-gap: 15px;
     }
   }
   
   &.declaration-checkboxes {
     align-items: baseline;
-    row-gap: 15px;
+    row-gap: 15px; 
   }
 }
 
@@ -127,3 +123,11 @@ section.info-header {
     font-size: 0.8rem;
   }
 }
+
+.afterFormChange {
+  display: grid;
+  background-color: #616161;
+  padding: 1.1rem;
+  margin: 1.1rem;
+}
+
