@@ -132,11 +132,19 @@ input:not([type="checkbox"]) {
 }
 
 @media screen and (max-width: 992px) {
+.mat-expansion-panel {
+  padding: 1rem;
+}
 .mat-expansion-panel-header {
   padding: 0!important;
+  margin-bottom: 1rem;
 }
 .mat-expansion-panel-body {
   padding: 0!important;
 }
+mat-icon {
+  margin-left: 0;
+}
+
 }
 
