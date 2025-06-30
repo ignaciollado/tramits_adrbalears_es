@@ -5,7 +5,6 @@
   margin: 2rem auto;
   background-color: #f9f9f9;
   border-radius: 8px;
-  font-family: 'Open Sans', sans-serif;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -13,6 +12,7 @@ form {
   display: grid;
   grid-template-columns: 1fr;
 }
+
 
 .btn-adr {
   background-color: #0098ce;
@@ -83,7 +83,7 @@ div.ng-invalid.ng-touched {
 mat-form-field {
   display: block;
   width: 100%;
-  margin-bottom: 16px; /* Espaciado entre campos */
+  /* margin-bottom: 16px; */
 }
 
 .full-width {
@@ -135,6 +135,7 @@ mat-form-field {
   border: 2px dashed #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
+  color: #00405e;
 
   label {
     display: block;
@@ -164,6 +165,14 @@ mat-form-field {
     }
   }
 }
+
+
+@media screen and (max-width: 992px) {
+:host {
+  margin: 0 auto;
+  }
+}
+
 
 
 
