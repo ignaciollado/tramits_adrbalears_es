@@ -108,6 +108,15 @@ mat-icon {
   margin-left: .5rem;
 }
 
+mat-icon[data-icon="rgdp-info"] {
+  margin-left: 0;
+  margin-bottom: -.5rem;
+  color: #ff9310;
+
+  &:hover {
+    color: rgb(255, 136, 0);
+  }
+}
 
 
 input {

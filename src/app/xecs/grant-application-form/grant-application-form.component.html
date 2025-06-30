@@ -23,10 +23,10 @@
     <section class="rgpd-section">
       <mat-checkbox formControlName="acceptRGPD">
         <label> {{'FORM.ACCEPTTERMS1'| translate}}
-          <mat-icon (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')" style="color: #ff9310;">info</mat-icon>
+          <mat-icon data-icon="rgdp-info" (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')">info</mat-icon>
           {{'FORM.ACCEPTTERMS2'| translate}}<br>
           {{'FORM.ACCEPTTERMS3'| translate}}
-          <mat-icon (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')" style="color: #ff9310;">info</mat-icon>
+          <mat-icon data-icon="rgdp-info" (click)="openDialog('300ms', '300ms', 'Sobre el RGDP', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')">info</mat-icon>
         </label>  
       </mat-checkbox>
     </section>
