@@ -41,7 +41,7 @@
         <mat-icon>map</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-      <section class="checkbox-group">
+      <section ngClass="checkbox-group">
         <mat-checkbox
           formControlName = "tipo_tramite"
           *ngFor="let prog of xecsPrograms"
@@ -53,7 +53,7 @@
       </section>
       <ul>
         <li *ngFor="let prog of xecsPrograms">
-          <code>{{ prog.label }}</code> {{ prog.explication }}
+         <strong><code>{{ prog.label }}</code></strong>: <span [innerHTML]="prog.explication"></span>
         </li>
       </ul>
      

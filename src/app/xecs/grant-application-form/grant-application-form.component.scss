@@ -36,7 +36,6 @@ form {
   grid-template-columns: 1fr;
 }
 
-
 .btn-adr {
   background-color: #0098ce;
   color: white;
@@ -63,6 +62,16 @@ form {
   color: #00405e;
   &:hover {
     color: #fff;
+  }
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; // Espacio entre los checkboxes
+
+  mat-checkbox {
+    align-items: center;
   }
 }
 
