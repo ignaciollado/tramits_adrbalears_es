@@ -62,8 +62,40 @@ body {
   width: 100%;
 }
 
+body {
+  app-root {
+    .span-loader {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background-color: #e0f7fa;
+      color: #00796b;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      animation: pulse 1.5s infinite;
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.6;
+    transform: scale(0.98);
+  }
+}
+
+
 .custom-accordion {
-/*   background-color: mat.get-color-from-palette(mat.$purple-palette, 50); */
   background-color: rgba(0, 152, 206, .2);
   border-radius: 1rem;
   padding: .5rem;
@@ -104,8 +136,8 @@ body {
   }
 }
 
-mat-icon {
-  margin-left: .5rem;
+mat-icon:not(:contains("more_vert")) {
+  margin-left: 0.5rem;
 }
 
 mat-icon[data-icon="rgdp-info"] {

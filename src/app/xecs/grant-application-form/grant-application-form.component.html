@@ -48,9 +48,15 @@
           [value]="prog.value"
           (change)="onCheckboxChange($event)"
           [checked]="xecsForm.get('opc_programa')?.value.includes(prog)">
-         <code>{{ prog.label }}</code> {{ prog.explication }}
+         <code>{{ prog.label }}</code>
         </mat-checkbox>
       </section>
+      <ul>
+        <li *ngFor="let prog of xecsPrograms">
+          <code>{{ prog.label }}</code> {{ prog.explication }}
+        </li>
+      </ul>
+     
       <mat-error *ngIf="xecsForm.get('opc_programa')?.invalid && xecsForm.get('opc_programa')?.touched">
         Debe seleccionar al menos un programa.
       </mat-error>
