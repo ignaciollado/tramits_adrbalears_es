@@ -48,12 +48,12 @@
           [value]="prog.value"
           (change)="onCheckboxChange($event)"
           [checked]="xecsForm.get('opc_programa')?.value.includes(prog)">
-         <code>{{ prog.label }}</code>
+         <code ngClass="mat-accent">{{ prog.label }}</code>
         </mat-checkbox>
       </section>
       <ul>
         <li *ngFor="let prog of xecsPrograms">
-         <strong><code>{{ prog.label }}</code></strong>: <span [innerHTML]="prog.explication"></span>
+         <strong><code>{{ prog.label }}</code></strong>. <span [innerHTML]="prog.explication"></span>
         </li>
       </ul>
      
