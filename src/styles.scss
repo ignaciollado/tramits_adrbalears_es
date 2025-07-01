@@ -123,11 +123,8 @@ input:not([type="checkbox"]) {
   &:disabled {
     background-color: #0098cb;
     padding: 0;
-  /*   color: #0098cb; */
-    /* border-color: #0098cb; */
     cursor: not-allowed;
     opacity: 0.4;
-    /* text-decoration:dashed; */
   }
 }
 

@@ -55,7 +55,6 @@ header {
   }
 }
 
-
 ul {
   list-style-type: none;
   display: grid;
@@ -63,7 +62,7 @@ ul {
   column-gap: 1rem;
 }
 
-  .btn {
+.btn {
     display: inline-block;
     padding: 0.5rem 1rem;
     background-color: #0098cb;
@@ -77,7 +76,7 @@ ul {
     &:hover {
       background-color: #005f44;
     }
-  }
+}
 
   @media screen and (max-width: 992px) { 
     ul {

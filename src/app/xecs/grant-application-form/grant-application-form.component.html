@@ -20,7 +20,7 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <section class="rgpd-section">
+    <section ngClass="rgpd-section">
       <mat-checkbox formControlName="acceptRGPD">
         <label> {{'FORM.ACCEPTTERMS1'| translate}}
           <mat-icon data-icon="rgdp-info" (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')">info</mat-icon>
