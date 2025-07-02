@@ -1,4 +1,9 @@
 {
+  "HOME": {
+    "WELCOME": "Welcome to iTràmits, the official platform of ADR Balears for the management of grants and subsidies",
+    "WELCOME_P1": "This application allows for the management and submission of grant applications for industrial companies in the Balearic Islands, administered by the Regional Development Agency of the Balearic Islands (ADR Balears).",
+    "WELCOME_P2": ""
+  },
   "HEADER": {
     "TITLE": "Welcome",
     "XECSAPPFORM": "XECS: grant and subsidy application form",

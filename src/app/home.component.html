@@ -1,13 +1,10 @@
 <section class="home-container">
-  <h1>Bienvenido a la Plataforma de Solicitud de Ayudas de ADR Balears</h1>
-  <p>
-    Esta aplicación le permite presentar solicitudes para las ayudas gestionadas por la Agencia de Desarrollo Regional de les Illes Balears (ADR Balears).
-  </p>
-  <p>
-    Actualmente puede solicitar ayudas en el marco de los programas <strong>XECS</strong>, <strong>ISBA</strong> e <strong>ILS</strong>, seleccionando uno o varios según sus necesidades.
-  </p>
-  <p>
-    También podrá adjuntar la documentación requerida en formato PDF o imagen para completar su solicitud.
-  </p>
+  <h1>{{ 'HOME.WELCOME' | translate }}</h1>
+  <ul>
+    <li [innerHTML]="'HOME.WELCOME_P1' | translate"></li>
+    <li [innerHTML]="'HOME.WELCOME_P2' | translate"></li>
+    <li [innerHTML]="'HOME.WELCOME_P3' | translate"></li>
+    <li [innerHTML]="'HOME.WELCOME_P4' | translate"></li>
+  </ul>
   <!-- <a routerLink="/solicitud" class="btn">Iniciar Solicitud</a> -->
 </section>

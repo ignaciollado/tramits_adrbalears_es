@@ -20,9 +20,8 @@ import { MatIconModule } from '@angular/material/icon';
 export class HeaderComponent implements OnInit {
   title: string = 'tramits adrbalears es-ES';
   languageForm: FormGroup = this.fb.group({
-  preferredLang: [localStorage.getItem('preferredLang') || 'es-ES']
-});
-
+    preferredLang: [localStorage.getItem('preferredLang') || 'es-ES']
+  });
 
   constructor(private translate: TranslateService, private fb: FormBuilder, private languageService: LanguageService) {
     this.translate.addLangs (['es-ES', 'ca-ES', 'en-EN']);

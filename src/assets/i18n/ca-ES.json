@@ -1,4 +1,9 @@
 {
+  "HOME": {
+    "WELCOME": "Benvingut a iTràmits, la plataforma oficial de ADR Balears per a la gestió d'ajudes i subvencions",
+    "WELCOME_P1": "Aquesta aplicació permet gestionar i presentar sol·licituds per a les ajudes destinades a les empreses industrials de les Illes Balears, gestionades per l'Agència de Desenvolupament Regional de les Illes Balears (ADR Balears).",
+    "WELCOME_P2": ""
+  },
   "HEADER": {
     "TITLE": "Benvingut",
     "XECSAPPFORM": "XECS: formulari de sol·licitud d'ajut i/o subvenció",
