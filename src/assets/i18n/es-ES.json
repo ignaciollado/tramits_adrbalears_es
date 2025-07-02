@@ -2,10 +2,10 @@
   "HOME": {
     "WELCOME": "Bienvenido a iTràmits, la plataforma oficial de ADR Balears para la gestión de ayudas y subvenciones",
     "WELCOME_P1": "A través de esta aplicación, las empresas industriales de las Illes Balears pueden gestionar y presentar sus solicitudes a las ayudas convocadas por la Agencia de Desarrollo Regional de las Illes Balears (ADR Balears).",
-    "WELCOME_P2" : "Las ayudas actualmente gestionadas por ADR Balears incluyen",
+    "WELCOME_P2" : "Las ayudas y trámites actualmente gestionadas por ADR Balears incluyen",
     "WELCOME_P3": "<strong>Xecs de Consultoria:</strong> subvenciones destinadas a financiar horas de consultoría para empresas industriales, con el objetivo de elaborar y diseñar planes de transformación digital, así como planes de mejora orientados a resolver posibles ineficiencias, sobreproducción, gestión de almacenes, entre otros aspectos operativos.",
     "WELCOME_P4": "<strong>Ibavals Indústria:</strong> ADR Baleares y la Sociedad de Garantía Recíproca ISBA SGR ofrecen a las empresas industriales Ibavals Indústria, una línea de financiación para facilitar el acceso a un préstamo para invertir en mejora de la producción industrial.",
-    "WELCOME_P5": ""
+    "WELCOME_P5": "<strong>Industria Local Sostenible (ILS):</strong> es una marca de garantía creada por ADR Balears para identificar y visibilizar las industrias de las Islas Baleares comprometidas con el medio ambiente que se impliquen en el cálculo de la huella de carbono y en su reducción."
   },
   
   "HEADER": {

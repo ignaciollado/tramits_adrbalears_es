@@ -2,7 +2,10 @@
   "HOME": {
     "WELCOME": "Welcome to iTràmits, the official platform of ADR Balears for the management of grants and subsidies",
     "WELCOME_P1": "This application allows for the management and submission of grant applications for industrial companies in the Balearic Islands, administered by the Regional Development Agency of the Balearic Islands (ADR Balears).",
-    "WELCOME_P2": ""
+    "WELCOME_P2" : "The grands, subsidies and procedures currently managed by ADR Balears include",
+    "WELCOME_P3": "<strong>Xecs de Consultoria:</strong> subsidies to finance consultancy hours for industrial companies, with the aim of drawing up and designing digital transformation plans, as well as improvement plans aimed at resolving possible inefficiencies, overproduction, warehouse management, among other operational aspects.",
+    "WELCOME_P4": "<strong>Ibavals Indústria:</strong> ADR Baleares and the Sociedad de Garantía Recíproca ISBA SGR offer industrial companies Ibavals Indústria, a line of financing to facilitate access to a loan to invest in improving industrial production.",
+    "WELCOME_P5": "<strong>Industria Local Sostenible (ILS):</strong> is a guarantee mark created by ADR Balears to identify and make visible the industries of the Balearic Islands committed to the environment that are involved in the calculation of the carbon footprint and its reduction."
   },
   "HEADER": {
     "TITLE": "Welcome",
