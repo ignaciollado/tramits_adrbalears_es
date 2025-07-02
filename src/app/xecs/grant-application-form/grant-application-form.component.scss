@@ -204,4 +204,11 @@ mat-form-field {
 .header-container {
   grid-template-areas: "logotipo" "datos" "detalles";
 }
+.header-container-data {
+  font-size: .75rem;
+}
+.header-container-details {
+  font-size: .75rem;
+}
+
 }
