@@ -6,9 +6,9 @@
   },
   "HEADER": {
     "TITLE": "Benvingut",
-    "XECSAPPFORM": "XECS: formulari de sol·licitud d'ajut i/o subvenció",
-    "ISBAAPPFORM": "ISBA: formulari de sol·licitud d'ajut i/o subvenció",
-    "ILSAPPFORM": "ILS: formulari de sol·licitud d'ajut i/o subvenció",
+    "XECSAPPFORM": "XECS: formulari de sol·licitud",
+    "ISBAAPPFORM": "ISBA: formulari de sol·licitud",
+    "ILSAPPFORM": "ILS: formulari de sol·licitud",
     "SIGNATUREHOLDER": "Portafirmes ADR Balears",
     "CONVODATA": "Destinació: AGÈNCIA DE DESENVOLUPAMENT REGIONAL DE LES ILLES BALEARS<br>Emissor (DIR3): A04003714<br>Codi SIA 311845<br>Convocatòria : 2026",
     "CONVODETAILS": "Convocatòria per a la concessió d'ajuts de xecs de consultoria per impulsar la indústria de Balears en matèria de digitalització, internacionalització, sostenibilitat i gestió avançada."

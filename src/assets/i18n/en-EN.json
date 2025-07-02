@@ -6,9 +6,9 @@
   },
   "HEADER": {
     "TITLE": "Welcome",
-    "XECSAPPFORM": "XECS: grant and subsidy application form",
-    "ISBAAPPFORM": "ISBA: grant and subsidy application form",
-    "ILSAPPFORM": "ILS: grant and subsidy application form",
+    "XECSAPPFORM": "XECS: application form",
+    "ISBAAPPFORM": "ISBA: application form",
+    "ILSAPPFORM": "ILS: application form",
     "SIGNATUREHOLDER": "Signature holder ADR Balears",
 
     "CONVODATA": "Destination: AGENCIA DE DESARROLLO REGIONAL DE LES ILLES BALEARS<br>Issuer (DIR3): A04003714<br>SIA Code 311845<br>Call: 2026",
