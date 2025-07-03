@@ -23,10 +23,14 @@
             <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.RGPD.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.RGPD.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">policy</mat-icon></mat-panel-description>
+                    <mat-panel-description>{{'ISBA.RGPD.DESCRIPTION' | translate}} <mat-icon>policy</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section>
-                    <mat-checkbox formControlName="acceptRGPD">{{'ISBA.RGPD.READ-AND-ACCEPTS' | translate}} <abbr title="{{'ISBA.ABBR.RGPD.TITLE' | translate}}">{{'ISBA.ABBR.RGPD.ABBR' | translate}}</abbr></mat-checkbox>
+                    <mat-checkbox formControlName="acceptRGPD">
+                        <label>
+                            {{'ISBA.RGPD.READ-AND-ACCEPTS.PART-1' | translate}} <abbr title="{{'ISBA.ABBR.RGPD.TITLE' | translate}}" (click)="openDialog('300ms', '300ms', 'Sobre el RGPD', '../../../assets/data/clausulaProteccionDatos.html', '', '')">{{'ISBA.ABBR.RGPD.ABBR' | translate}}</abbr> {{'ISBA.RGPD.READ-AND-ACCEPTS.PART-2' | translate}} <span style="text-decoration: underline;" (click)="openDialog('300ms', '300ms', 'Sobre la política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')">{{'ISBA.RGPD.READ-AND-ACCEPTS.PRIVACY-TEXT' | translate}}</span>
+                        </label>
+                    </mat-checkbox>
                     <section>
                         <p>{{'ISBA.RGPD.REQUIRED-DOCS.INFO' | translate}}</p>
                         <ol>
@@ -67,38 +71,36 @@
             </mat-expansion-panel>
 
             <!-- Tipo Solicitante-->
-            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="step() === 1">
+            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.BUSINESS-TYPE.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.BUSINESS-TYPE.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">corporate_fare</mat-icon></mat-panel-description>
+                    <mat-panel-description>{{'ISBA.BUSINESS-TYPE.DESCRIPTION' | translate}} <mat-icon>corporate_fare</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form applicant-type">
                     <section>
                         <mat-radio-group formControlName="tipo_solicitante" (ngModelChange)="onBusinessTypeChange()">
                             <mat-radio-button value="autonomo">{{'ISBA.BUSINESS-TYPE.SELF-EMPLOYED' | translate}}</mat-radio-button>
-                            <mat-radio-button value="pequenya">{{'ISBA.BUSINESS-TYPE.SMALL.NAME' | translate}}*</mat-radio-button>
-                            <mat-radio-button value="mediana">{{'ISBA.BUSINESS-TYPE.MEDIUM.NAME' | translate}}*</mat-radio-button>
+                            <mat-radio-button value="pequenya">{{'ISBA.BUSINESS-TYPE.SMALL.NAME' | translate}}</mat-radio-button>
+                            <mat-radio-button value="mediana">{{'ISBA.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</mat-radio-button>
                         </mat-radio-group>
                     </section>
                     <section>
-                        <p><strong>*{{'ISBA.BUSINESS-TYPE.SMALL.NAME' | translate}}</strong>: {{'ISBA.BUSINESS-TYPE.SMALL.INFO' | translate}}</p>
-                        <p><strong>*{{'ISBA.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</strong>: {{'ISBA.BUSINESS-TYPE.MEDIUM.INFO' | translate}}</p>
+                        <p><strong>{{'ISBA.BUSINESS-TYPE.SMALL.NAME' | translate}}</strong>: {{'ISBA.BUSINESS-TYPE.SMALL.INFO' | translate}}</p>
+                        <p><strong>{{'ISBA.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</strong>: {{'ISBA.BUSINESS-TYPE.MEDIUM.INFO' | translate}}</p>
                     </section>
                 </section>
             </mat-expansion-panel>
 
             <!-- Datos generales -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted  || !businessTypeChoosed" [expanded]="step() === 2">
+            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.GENERAL-DATA.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.GENERAL-DATA.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">person</mat-icon></mat-panel-description>
+                    <mat-panel-description>{{'ISBA.GENERAL-DATA.DESCRIPTION' | translate}} <mat-icon>person</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form personal-data">
                     <mat-form-field>
-                        <mat-label *ngIf="businessType === 'autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.NIF.LABEL' |
-                            translate}}</mat-label>
-                        <mat-label *ngIf="businessType !== 'autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.CIF.LABEL' |
-                            translate}}</mat-label>
+                        <mat-label *ngIf="businessType === 'autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.NIF.LABEL' | translate}}</mat-label>
+                        <mat-label *ngIf="businessType !== 'autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.CIF.LABEL' | translate}}</mat-label>
                             <input matInput type="text" formControlName="nif" maxlength="9" (blur)="cleanBlank($event)">
                             <mat-error *ngIf="isbaForm.get('nif')?.errors && businessType==='autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.NIF.ERROR' | translate}}</mat-error>
                             <mat-error *ngIf="isbaForm.get('nif')?.errors && businessType!=='autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.CIF.ERROR' | translate}}</mat-error>
@@ -156,10 +158,10 @@
             </mat-expansion-panel>
 
             <!-- Canal de notificaciones -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.NOTIFICATION-CHANNEL.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">email</mat-icon></mat-panel-description>
+                    <mat-panel-description>{{'ISBA.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}} <mat-icon>email</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form notification-channel">
                     <section>
@@ -181,10 +183,10 @@
             </mat-expansion-panel>
 
             <!-- Datos de la operación financiera -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.FINANCIAL-DATA.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.FINANCIAL-DATA.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">account_balance</mat-icon></mat-panel-description>
+                    <mat-panel-description>{{'ISBA.FINANCIAL-DATA.DESCRIPTION' | translate}} <mat-icon>account_balance</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form financial-data">
                 <mat-form-field>
@@ -195,7 +197,6 @@
                 <mat-form-field>
                     <mat-label>{{'ISBA.FINANCIAL-DATA.TRANSACTION-AMOUNT.LABEL' | translate}}</mat-label>
                     <input matInput type="decimal" formControlName="importe_prestamo" min="1" (blur)="cleanBlank($event)">
-                    <mat-hint>{{'ISBA.FINANCIAL-DATA.HINT' | translate}}</mat-hint>
                     <mat-error *ngIf="isbaForm.get('importe_prestamo')?.errors">{{'ISBA.FINANCIAL-DATA.TRANSACTION-AMOUNT.ERROR' | translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
@@ -216,17 +217,16 @@
                 <mat-form-field>
                     <mat-label>{{'ISBA.FINANCIAL-DATA.AVAL-AMOUNT.LABEL' | translate}}</mat-label>
                     <input matInput type="decimal" formControlName="cuantia_aval_isba" min="1" (blur)="cleanBlank($event)">
-                    <mat-hint>{{'ISBA.FINANCIAL-DATA.HINT' | translate}}</mat-hint>
                     <mat-error *ngIf="isbaForm.get('cuantia_aval_isba')?.errors">{{'ISBA.FINANCIAL-DATA.AVAL-AMOUNT.ERROR' | translate}}</mat-error>
                 </mat-form-field>
                 </section>
             </mat-expansion-panel>
 
             <!-- Proyecto de inversión y presupuesto -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.PROJECT-BUDGET.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.PROJECT-BUDGET.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">request_quote</mat-icon></mat-panel-description>
+                    <mat-panel-description>{{'ISBA.PROJECT-BUDGET.DESCRIPTION' | translate}} <mat-icon>request_quote</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form project-budget">
                     <mat-form-field>
@@ -243,37 +243,28 @@
                             </mat-radio-group>
                         </section>
                     </section>
+                    <section ngClass="afterFormChange" *ngIf="isbaForm.get('empresa_eco_idi_isba')?.value === 'SI'">
+                        <small>{{'ISBA.PROJECT-BUDGET.IN-ILS.YES-INFO' | translate}}</small>
+                    </section>
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.LABEL' | translate}}</mat-label>
-                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="importe_presupuesto_idi_isba">
-                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="importe_presupuesto_idi_isba" (blur)="checkTotalAmount()">
                         <mat-error *ngIf="isbaForm.get('importe_presupuesto_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.ERROR' | translate}}</mat-error>
                     </mat-form-field>
-                    <section>
-                        <small *ngIf="isbaForm.get('empresa_eco_idi_isba')?.value === 'SI'" style="font-size: 0.75rem; padding-bottom: 1.1rem;">{{'ISBA.PROJECT-BUDGET.IN-ILS.YES-INFO' | translate}}</small>
-                    </section>
-                    <section>
-                        <p><strong>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.DETAILS' | translate}}</strong></p>
-                    </section>
-                    <br>
+                    <p><strong>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.DETAILS' | translate}}</strong></p>
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.INTEREST-SUBSIDY' | translate}}</mat-label>
-                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="intereses_ayuda_solicita_idi_isba">
-                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
-                        <mat-error *ngIf="isbaForm.get('intereses_ayuda_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR' | translate}}</mat-error>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="intereses_ayuda_solicita_idi_isba" (blur)="checkTotalAmount()">
+                        <mat-error *ngIf="isbaForm.get('intereses_ayuda_solicita_idi_isba')?.errors">{{((isbaForm.get('intereses_ayuda_solicita_idi_isba')?.hasError('notEqualError') ? 'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.NOT-EQUAL-SUM-ERROR' : 'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR') | translate)}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.COST-SUBSIDY' | translate}}</mat-label>
-                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="coste_aval_solicita_idi_isba">
-                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
-                        <mat-error *ngIf="isbaForm.get('coste_aval_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR' | translate}}</mat-error>
-                    </mat-form-field>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="coste_aval_solicita_idi_isba" (blur)="checkTotalAmount()">
+                        <mat-error *ngIf="isbaForm.get('coste_aval_solicita_idi_isba')?.errors">{{((isbaForm.get('coste_aval_solicita_idi_isba')?.hasError('notEqualError') ? 'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.NOT-EQUAL-SUM-ERROR' : 'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR') | translate)}}</mat-error>                    </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.START-STUDY-SUBSIDY' | translate}}</mat-label>
-                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="gastos_aval_solicita_idi_isba">
-                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
-                        <mat-error *ngIf="isbaForm.get('gastos_aval_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR' | translate}}</mat-error>
-                    </mat-form-field>
+                        <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="gastos_aval_solicita_idi_isba" (blur)="checkTotalAmount()">
+                        <mat-error *ngIf="isbaForm.get('gastos_aval_solicita_idi_isba')?.errors">{{((isbaForm.get('gastos_aval_solicita_idi_isba')?.hasError('notEqualError') ? 'ISBA.PROJECT-BUDGET.BUDGET-AMOUNT.NOT-EQUAL-SUM-ERROR' : 'ISBA.PROJECT-BUDGET.SUBSIDY-ERROR') | translate)}}</mat-error>                    </mat-form-field>
                 </section>
                 <section style="padding-bottom: 1.1rem;">
                     <dl><h4>{{'ISBA.PROJECT-BUDGET.REQUEST.TITLE' | translate}}</h4></dl>
@@ -283,45 +274,46 @@
                     <mat-form-field>
                         <mat-label>{{'ISBA.PROJECT-BUDGET.REQUEST.LABEL' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event); checkAmount()" min="0" formControlName="importe_ayuda_solicita_idi_isba">
-                        <mat-hint>{{'ISBA.PROJECT-BUDGET.HINT' | translate}}</mat-hint>
                         <mat-error *ngIf="isbaForm.get('importe_ayuda_solicita_idi_isba')?.errors">{{'ISBA.PROJECT-BUDGET.REQUEST.ERROR' | translate}}</mat-error>
                     </mat-form-field>
                 </section>
             </mat-expansion-panel>
 
             <!-- Declaracion responsable -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.DECLARATIONS.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.DECLARATIONS.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">menu_book</mat-icon></mat-panel-description>
+                    <mat-panel-description>{{'ISBA.DECLARATIONS.DESCRIPTION' | translate}} <mat-icon>menu_book</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section ngClass="form declaration-checkboxes">
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_0" (click)="$event.preventDefault()">1. {{'ISBA.DECLARATIONS.DECLARATION-1' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_1" (click)="$event.preventDefault()">2. {{'ISBA.DECLARATIONS.DECLARATION-2' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_2" (click)="$event.preventDefault()">3. {{'ISBA.DECLARATIONS.DECLARATION-3' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_3" (click)="$event.preventDefault()">4. {{'ISBA.DECLARATIONS.DECLARATION-4' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_4">5. {{'ISBA.DECLARATIONS.DECLARATION-5' | translate}}</mat-checkbox>
-                    <mat-form-field *ngIf="!ayudasSubvenciones">
-                        <mat-label>{{'ISBA.DECLARATIONS.DECLARATION-5-NO.LABEL' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ayudasSubvenSICuales_dec_resp">
-                        <mat-error *ngIf="isbaForm.get('ayudasSubvenSICuales_dec_resp')?.errors">{{'ISBA.DECLARATIONS.DECLARATION-5-NO.ERROR' | translate}}</mat-error>
-                    </mat-form-field>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_5" (click)="$event.preventDefault()">6. {{'ISBA.DECLARATIONS.DECLARATION-6' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_7" (click)="$event.preventDefault()">7. {{'ISBA.DECLARATIONS.DECLARATION-7' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_8" (click)="$event.preventDefault()">8. {{'ISBA.DECLARATIONS.DECLARATION-8' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_10" (click)="$event.preventDefault()">9. {{'ISBA.DECLARATIONS.DECLARATION-9' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_12" (click)="$event.preventDefault()">10. {{'ISBA.DECLARATIONS.DECLARATION-10' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_13" (click)="$event.preventDefault()">11. {{'ISBA.DECLARATIONS.DECLARATION-11' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_14" (click)="$event.preventDefault()">12. {{'ISBA.DECLARATIONS.DECLARATION-12' | translate}}</mat-checkbox>
-                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_15" (click)="$event.preventDefault()">13. {{'ISBA.DECLARATIONS.DECLARATION-13' | translate}}</mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_0" (click)="$event.preventDefault()"><label>1. {{'ISBA.DECLARATIONS.DECLARATION-1' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_1" (click)="$event.preventDefault()"><label>2. {{'ISBA.DECLARATIONS.DECLARATION-2' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_2" (click)="$event.preventDefault()"><label>3. {{'ISBA.DECLARATIONS.DECLARATION-3' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_3" (click)="$event.preventDefault()"><label>4. {{'ISBA.DECLARATIONS.DECLARATION-4' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_4"><label>5. {{'ISBA.DECLARATIONS.DECLARATION-5' | translate}}</label></mat-checkbox>
+                    <section ngClass="afterFormChange" *ngIf="!ayudasSubvenciones">
+                        <mat-form-field>
+                            <mat-label>{{'ISBA.DECLARATIONS.DECLARATION-5-NO.LABEL' | translate}}</mat-label>
+                            <input matInput type="text" formControlName="ayudasSubvenSICuales_dec_resp">
+                            <mat-error *ngIf="isbaForm.get('ayudasSubvenSICuales_dec_resp')?.errors">{{'ISBA.DECLARATIONS.DECLARATION-5-NO.ERROR' | translate}}</mat-error>
+                        </mat-form-field>
+                    </section>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_5" (click)="$event.preventDefault()"><label>6. {{'ISBA.DECLARATIONS.DECLARATION-6' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_7" (click)="$event.preventDefault()"><label>7. {{'ISBA.DECLARATIONS.DECLARATION-7' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_8" (click)="$event.preventDefault()"><label>8. {{'ISBA.DECLARATIONS.DECLARATION-8' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_10" (click)="$event.preventDefault()"><label>9. {{'ISBA.DECLARATIONS.DECLARATION-9' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_12" (click)="$event.preventDefault()"><label>10. {{'ISBA.DECLARATIONS.DECLARATION-10' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_13" (click)="$event.preventDefault()"><label>11. {{'ISBA.DECLARATIONS.DECLARATION-11' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_14" (click)="$event.preventDefault()"><label>12. {{'ISBA.DECLARATIONS.DECLARATION-12' | translate}}</label></mat-checkbox>
+                    <mat-checkbox formControlName="declaro_idi_isba_que_cumple_15" (click)="$event.preventDefault()"><label>13. {{'ISBA.DECLARATIONS.DECLARATION-13' | translate}}</label></mat-checkbox>
                 </section>
             </mat-expansion-panel>
 
              <!-- Documentación -->
-            <mat-expansion-panel [disabled]="!rgpdAccepted || !businessTypeChoosed">
+            <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
                 <mat-expansion-panel-header>
                     <mat-panel-title><h3>{{'ISBA.DOCUMENTATION.TITLE' | translate}}</h3></mat-panel-title>
-                    <mat-panel-description>{{'ISBA.DOCUMENTATION.DESCRIPTION' | translate}} <mat-icon style="margin-left: 10px;">attachment</mat-icon></mat-panel-description>
+                    <mat-panel-description>{{'ISBA.DOCUMENTATION.DESCRIPTION' | translate}} <mat-icon>attachment</mat-icon></mat-panel-description>
                 </mat-expansion-panel-header>
                 <section>
                     <p [innerHTML]="'ISBA.DOCUMENTATION.INFO.FORMAT-INFO' | translate"></p>
@@ -341,15 +333,19 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_b"
+                                formControlName="file_memoriaTecnica"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_b']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_b.click()"
+                                [value]="fileNames['file_memoriaTecnica']"
+                                (click)="file_memoriaTecnica.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_b')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_memoriaTecnica')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_b type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_b')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_memoriaTecnica type="file" (change)="onFileChange($event, 'file_memoriaTecnica')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_memoriaTecnica'].length > 0">
+                                <li *ngFor="let file of files['file_memoriaTecnica']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
+                            
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -357,15 +353,18 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_c"
+                                formControlName="file_document_veracidad_datos_bancarios"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_c']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_c.click()"
+                                [value]="fileNames['file_document_veracidad_datos_bancarios']"
+                                (click)="file_document_veracidad_datos_bancarios.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_c')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_document_veracidad_datos_bancarios')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_c type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_c')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_document_veracidad_datos_bancarios type="file" (change)="onFileChange($event, 'file_document_veracidad_datos_bancarios')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_document_veracidad_datos_bancarios'].length > 0">
+                                <li *ngFor="let file of files['file_document_veracidad_datos_bancarios']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -373,16 +372,20 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_d"
+                                formControlName="file_certificadoIAE"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_d']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_d.click()"
+                                [value]="fileNames['file_certificadoIAE']"
+                                (click)="file_certificadoIAE.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_d')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_certificadoIAE')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_d type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_d')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_certificadoIAE type="file" (change)="onFileChange($event, 'file_certificadoIAE')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_certificadoIAE'].length > 0">
+                                <li *ngFor="let file of files['file_certificadoIAE']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
+
                         <!-- Persona física -->
                         <section ngClass="file-input" *ngIf="businessType === 'autonomo'">
                             <p [innerHTML]="'ISBA.DOCUMENTATION.DOC-5.TITLE' | translate"></p>
@@ -391,15 +394,18 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_e"
+                                formControlName="file_altaAutonomos"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_e']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_e.click()"
+                                [value]="fileNames['file_altaAutonomos']"
+                                (click)="file_altaAutonomos.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_e')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_altaAutonomos')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_e type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_e')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_altaAutonomos type="file" (change)="onFileChange($event, 'file_altaAutonomos')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_altaAutonomos'].length > 0">
+                                <li *ngFor="let file of files['file_altaAutonomos']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
 
                         <!-- Persona jurídica -->
@@ -414,53 +420,70 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_f"
+                                formControlName="file_escrituraConstitucion"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_f']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_f.click()"
+                                [value]="fileNames['file_escrituraConstitucion']"
+                                (click)="file_escrituraConstitucion.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_f')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_escrituraConstitucion')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_f type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_f')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_escrituraConstitucion type="file" (change)="onFileChange($event, 'file_escrituraConstitucion')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_escrituraConstitucion'].length > 0">
+                                <li *ngFor="let file of files['file_escrituraConstitucion']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
 
                         <section ngClass="file-input">
                             <p>{{'ISBA.DOCUMENTATION.DOC-7.DOC-INFO' | translate}}</p>
-                            <mat-checkbox formControlName="dni_no_consent" style="padding-bottom: 10px;">{{'ISBA.DOCUMENTATION.NO-CONSENT' | translate}}</mat-checkbox> 
-                            <mat-form-field floatLabel="always" *ngIf="dni_no_consent">
-                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-7.LABEL' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_g"
-                                readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_g']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_g.click()"
-                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_g')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_g type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_g')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <mat-checkbox formControlName="dni_no_consent" style="padding-bottom: 10px;">
+                                <label>{{'ISBA.DOCUMENTATION.NO-CONSENT' | translate}}</label>
+                            </mat-checkbox>
+                            <section ngClass="afterFormChange" *ngIf="dni_no_consent">
+                                <mat-form-field floatLabel="always">
+                                    <mat-label>{{'ISBA.DOCUMENTATION.DOC-7.LABEL' | translate}}</mat-label>
+                                    <input 
+                                    matInput
+                                    type="text"
+                                    formControlName="file_nifRepresentante"
+                                    readonly
+                                    [value]="fileNames['file_nifRepresentante']"
+                                    (click)="file_nifRepresentante.click()"
+                                    placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                    />
+                                    <mat-error *ngIf="isbaForm.get('file_nifRepresentante')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                </mat-form-field>
+                            </section>
+                            <input #file_nifRepresentante type="file" (change)="onFileChange($event, 'file_nifRepresentante')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_nifRepresentante'].length > 0">
+                                <li *ngFor="let file of files['file_nifRepresentante']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
 
                         <section ngClass="file-input">
                             <p>{{'ISBA.DOCUMENTATION.DOC-8.DOC-INFO' | translate}}</p>
-                            <mat-checkbox formControlName="atib_no_consent" style="padding-bottom: 10px;">{{'ISBA.DOCUMENTATION.NO-CONSENT' | translate}}</mat-checkbox> 
-                            <mat-form-field floatLabel="always" *ngIf="atib_no_consent">
-                                <mat-label>{{'ISBA.DOCUMENTATION.DOC-8.LABEL' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_h"
-                                readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_h']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_h.click()"
-                                placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_h')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_h type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_h')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <mat-checkbox formControlName="atib_no_consent" style="padding-bottom: 10px;">
+                                <label>{{'ISBA.DOCUMENTATION.NO-CONSENT' | translate}}</label>
+                            </mat-checkbox>
+                            <section ngClass="afterFormChange" *ngIf="atib_no_consent">
+                                <mat-form-field floatLabel="always">
+                                    <mat-label>{{'ISBA.DOCUMENTATION.DOC-8.LABEL' | translate}}</mat-label>
+                                    <input 
+                                    matInput
+                                    type="text"
+                                    formControlName="file_certificadoATIB"
+                                    readonly
+                                    [value]="fileNames['file_certificadoATIB']"
+                                    (click)="file_certificadoATIB.click()"
+                                    placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                    />
+                                    <mat-error *ngIf="isbaForm.get('file_certificadoATIB')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                </mat-form-field>
+                            </section>
+                            <input #file_certificadoATIB type="file" (change)="onFileChange($event, 'file_certificadoATIB')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_certificadoATIB'].length > 0">
+                                <li *ngFor="let file of files['file_certificadoATIB']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -468,15 +491,18 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_i"
+                                formControlName="file_certificadoAEAT"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_i']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_i.click()"
+                                [value]="fileNames['file_certificadoAEAT']"
+                                (click)="file_certificadoAEAT.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_i')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_certificadoAEAT')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_i type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_i')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_certificadoAEAT type="file" (change)="onFileChange($event, 'file_certificadoAEAT')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_certificadoAEAT'].length > 0">
+                                <li *ngFor="let file of files['file_certificadoAEAT']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
                         <section ngClass="file-input" *ngIf="isSubsidyGreater">
                             <mat-form-field floatLabel="always">
@@ -484,15 +510,18 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_j"
+                                formControlName="file_certificadoLey382003"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_j']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_j.click()"
+                                [value]="fileNames['file_certificadoLey382003']"
+                                (click)="file_certificadoLey382003.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_j')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_certificadoLey382003')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_j type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_j')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_certificadoLey382003 type="file" (change)="onFileChange($event, 'file_certificadoLey382003')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_certificadoLey382003'].length > 0">
+                                <li *ngFor="let file of files['file_certificadoLey382003']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -500,15 +529,18 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_k"
+                                formControlName="file_certificadoSGR"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_k']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_k.click()"
+                                [value]="fileNames['file_certificadoSGR']"
+                                (click)="file_certificadoSGR.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_k')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_certificadoSGR')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_k type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_k')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_certificadoSGR type="file" (change)="onFileChange($event, 'file_certificadoSGR')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_certificadoSGR'].length > 0">
+                                <li *ngFor="let file of files['file_certificadoSGR']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -516,15 +548,18 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_l"
+                                formControlName="file_contratoOperFinanc"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_l']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_l.click()"
+                                [value]="fileNames['file_contratoOperFinanc']"
+                                (click)="file_contratoOperFinanc.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_l')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+                                <mat-error *ngIf="isbaForm.get('file_contratoOperFinanc')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_l type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_l')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_contratoOperFinanc type="file" (change)="onFileChange($event, 'file_contratoOperFinanc')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_contratoOperFinanc'].length > 0">
+                                <li *ngFor="let file of files['file_contratoOperFinanc']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
@@ -532,15 +567,19 @@
                                 <input 
                                 matInput
                                 type="text"
-                                formControlName="documentacion_adjunta_requerida_idi_isba_m"
                                 readonly
-                                [value]="fileNames['documentacion_adjunta_requerida_idi_isba_m']"
-                                (click)="documentacion_adjunta_requerida_idi_isba_m.click()"
+                                [value]="fileNames['file_avalOperFinanc']"
+                                (click)="file_avalOperFinanc.click()"
                                 placeholder="{{'ISBA.FILE.UPLOAD' | translate}}"
+                                formControlName="file_avalOperFinanc"
                                 />
-                                <mat-error *ngIf="isbaForm.get('documentacion_adjunta_requerida_idi_isba_m')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
+
+                                <mat-error *ngIf="isbaForm.get('file_avalOperFinanc')?.errors">{{'ISBA.FILE.ERROR' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #documentacion_adjunta_requerida_idi_isba_m type="file" (change)="onFileChange($event, 'documentacion_adjunta_requerida_idi_isba_m')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <input #file_avalOperFinanc type="file" (change)="onFileChange($event, 'file_avalOperFinanc')" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="files['file_avalOperFinanc'].length > 0">
+                                <li *ngFor="let file of files['file_avalOperFinanc']">{{file.name}} {{file.size/1000}} KB</li>
+                            </ul>
                         </section>
                         <section ngClass="file-input">
                             <p>{{'ISBA.DOCUMENTATION.DOC-14' | translate}}</p>

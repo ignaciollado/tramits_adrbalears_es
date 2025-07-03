@@ -95,7 +95,11 @@
     "RGPD": {
       "TITLE": "RGPD y documentación",
       "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
-      "READ-AND-ACCEPTS": "He leído y acepto las condiciones del",
+      "READ-AND-ACCEPTS": {
+        "PART-1": "He leído y acepto las condiciones del",
+        "PART-2": "Los datos personales proporcionados serán tratador por ADR Balears como responsable del tratamiento, con la finalidad de gestionar su solicitud. Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la ",
+        "PRIVACY-TEXT": "política de privacidad."
+      },
       "REQUIRED-DOCS": {
         "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación relacionada con el cumplimiento de los requisitos:",
         "DOC-1": "Escritura de constitución de la empresa.",
@@ -298,7 +302,11 @@
     "RGPD": {
       "TITLE": "RGPD y documentación",
       "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
-      "READ-AND-ACCEPTS": "He leído y acepto las condiciones del",
+      "READ-AND-ACCEPTS": {
+        "PART-1": "He leído y acepto las condiciones del",
+        "PART-2": "Los datos personales proporcionados serán tratador por ADR Balears como responsable del tratamiento, con la finalidad de gestionar su solicitud. Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la ",
+        "PRIVACY-TEXT": "política de privacidad."
+      },
       "REQUIRED-DOCS": {
         "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación:",
         "DOC-1": "El documento normalizado de solicitud de subvención de esta convocatoria, el cual se genera al final de este asistente al pulsar sobre el botón 'Enviar' y que recibirá por correo electrónico.",
@@ -430,8 +438,7 @@
       "AVAL-AMOUNT": {
         "LABEL": "Cuantía del aval de ISBA, SGR (€)",
         "ERROR": "La cuantía del aval introducida no es válida."
-      },
-      "HINT": "Sin separador de miles y con '.' como separador de decimales."
+      }
     },
     "PROJECT-BUDGET": {
       "TITLE": "Proyecto de inversión y presupuesto",
@@ -452,7 +459,8 @@
         "DETAILS": "Con las siguientes subvenciones:",
         "INTEREST-SUBSIDY": "Una subvención de intereses, consistente en la cuantía de",
         "COST-SUBSIDY": "Una subvención al coste del aval de ISBA, consistente en la cuantía de",
-        "START-STUDY-SUBSIDY": "Una subvención a los gastos de apertura y de estudio, consistente en la cuantía de"
+        "START-STUDY-SUBSIDY": "Una subvención a los gastos de apertura y de estudio, consistente en la cuantía de",
+        "NOT-EQUAL-SUM-ERROR": "El total de las subvenciones no es igual al importe del presupuesto."
       },
       "REQUEST": {
         "TITLE": "SOLICITO",
@@ -460,7 +468,6 @@
         "LABEL": "Solicito una ayuda por importe de",
         "ERROR": "El importe introducido no es válido."
       },
-      "HINT": "Sin separador de miles y con '.' como separador de decimales.",
       "SUBSIDY-ERROR": "La cuantía de subvención introducida no es válida."
     },
     "DECLARATIONS": {

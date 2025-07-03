@@ -66,6 +66,16 @@ export class CustomValidatorsService {
   private dniPattern: RegExp = /^\d{8}$/
   private cifPattern: RegExp = /^[ABCDEFGHJNPQRSUVW]\d{8}$/
 
+  /* Patrones prohibidos para evitar XSS */
+  private patronesProhibidos: RegExp[] = [
+    /<[^>]+>/,                            // Etiquetas HTML
+    /\bstyle\s*=/,                       // Atributos style=
+    /\bon\w+\s*=/,                      // onclick=, onerror=
+    /\b(?:javascript|data):/,          // URIs Peligrosas
+    /\b(?:document|window|eval)\b/,   // Acceso objetos globales
+    /\b[a-zA-Z_$][\w$]*\s*\(.*?\)/,  // Funciones JS modernas (fetch(), setTimeOut(), eval()...)
+  ]
+
   private isSettingValues = new BehaviorSubject<boolean>(false);
 
   cifValidator(): ValidatorFn {
@@ -147,19 +157,18 @@ export class CustomValidatorsService {
 
       if (data.length == 9) {
         data = data.toUpperCase()
-        if (this.niePattern.test(data.substring(0, 8))) {
+        const nifSubstring: string = data.substring(0,8)
+        if (this.niePattern.test(nifSubstring)) {
           // Guardo la letra para añadirla posteriormente al resultado
-          const nieInitialLetter: string = data.substring(0, 1)
-          const nieNumbersWithoutLetters: string = data.substring(1, 8)
+          const nieInitialLetter: string = nifSubstring.substring(0,1)
+          const nieNumbersWithoutLetters: string = nifSubstring.substring(1, 8)
           const numericNie = parseInt(`${this.nieInitialLetters.indexOf(nieInitialLetter)}${nieNumbersWithoutLetters}`)
           const operationResidual = numericNie % 23
           validData = `${nieInitialLetter}${nieNumbersWithoutLetters}${this.dniLetters[operationResidual]}`
 
-        } else if (this.dniPattern.test(data.substring(0, 8))) {
-          const dniNumbersString: string = data.substring(0, 8)
-          const dniNumbers = parseInt(dniNumbersString)
-          const operationResidual = dniNumbers % 23
-          validData = `${dniNumbers}${this.dniLetters[operationResidual]}`
+        } else if (this.dniPattern.test(nifSubstring)) {
+          const operationResidual = +nifSubstring % 23
+          validData = `${nifSubstring}${this.dniLetters[operationResidual]}`
 
         }
       }
@@ -176,4 +185,10 @@ export class CustomValidatorsService {
     }
   }
 
+  xssProtectorValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value: string = control.value.toString().trim().toLowerCase()
+      return this.patronesProhibidos.some(p => p.test(value)) ? { unsafeContent: true } : null
+    }
+  }
 }
