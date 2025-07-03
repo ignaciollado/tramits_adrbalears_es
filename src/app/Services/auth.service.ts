@@ -91,13 +91,13 @@ export class AuthService {
   }
 
 
-  private userNameSubject = new BehaviorSubject<string>(null);
+  private userNameSubject = new BehaviorSubject<string>('');
   userName$ = this.userNameSubject.asObservable();
 
-  private userRoleSubject = new BehaviorSubject<string>(null);
+  private userRoleSubject = new BehaviorSubject<string>('');
   userRole$ = this.userRoleSubject.asObservable();
 
-  private daysToExpirePwdSubject = new BehaviorSubject<number>(null);
+  private daysToExpirePwdSubject = new BehaviorSubject<number>(0);
   daysToExpirePwd$ = this.daysToExpirePwdSubject.asObservable();
 
   setUserInfo(name: string, role: string, daysToExpirePwd: number) {
@@ -113,8 +113,8 @@ export class AuthService {
   loadFromSession() {
     const token = sessionStorage.getItem('access_token');
     if (token) {
-      const decoded = new JwtHelperService().decodeToken(token);
-      const days = +sessionStorage.getItem('days_to_expire_pwd');
+      const decoded = new JwtHelperService().decodeToken(token)
+      const days = +(sessionStorage.getItem('days_to_expire_pwd') ?? '0');
       this.setUserInfo(decoded.name, decoded.role, days);
       /* this.setDaysToExpirePwd(days); */
     }
