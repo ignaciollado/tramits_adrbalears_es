@@ -150,7 +150,7 @@ this.expedienteService.getOneExpediente(482).subscribe((items:any) => {
   console.log ("exped uno", items)
 })
 
-this.expedienteService.getExpedientesByConvocatoriaAndTipoTramite(2023, 'Programa II').subscribe((items:any) => {
+this.expedienteService.getExpedientesByConvocatoriaAndTipoTramite(2023, 'Programa IOOOI').subscribe((items:any) => {
   console.log ("exped convo y tipo trámite", items)
 })
 
