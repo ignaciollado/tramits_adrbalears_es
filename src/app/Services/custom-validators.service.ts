@@ -166,10 +166,8 @@ export class CustomValidatorsService {
           const operationResidual = numericNie % 23
           validData = `${nieInitialLetter}${nieNumbersWithoutLetters}${this.dniLetters[operationResidual]}`
 
-        } else if (this.dniPattern.test(data.substring(0, 8))) {
-          const dniNumbersString: string = data.substring(0, 8)
-          const dniNumbers = parseInt(dniNumbersString)
-          const operationResidual = dniNumbers % 23
+        } else if (this.dniPattern.test(nifSubstring)) {
+          const operationResidual = +nifSubstring % 23
           validData = `${nifSubstring}${this.dniLetters[operationResidual]}`
 
         }
