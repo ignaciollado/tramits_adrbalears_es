@@ -1,4 +1,10 @@
 {
+  "APP": {
+    "LOGIN": "Iniciar sesión",
+    "EMAIL": "Correo electrónico",
+    "PASSWORD": "Contraseña",
+    "SEND": "Enviar"
+  },
   "HOME": {
     "WELCOME": "Bienvenido a iTràmits, la plataforma oficial de ADR Balears para la gestión de ayudas y subvenciones",
     "WELCOME_P1": "A través de esta aplicación, las empresas industriales de las Illes Balears pueden gestionar y presentar sus solicitudes a las ayudas convocadas por la Agencia de Desarrollo Regional de las Illes Balears (ADR Balears).",
