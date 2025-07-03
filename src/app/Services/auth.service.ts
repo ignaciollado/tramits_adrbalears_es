@@ -12,7 +12,6 @@ export interface AuthToken {
   days_to_expire_pwd: string;
 }
 
-const URL_API = '../../assets/phpAPI/'
 const URL_API_SRV = "https://jwt.idi.es/public/index.php"
 
 const httpOptions = {
