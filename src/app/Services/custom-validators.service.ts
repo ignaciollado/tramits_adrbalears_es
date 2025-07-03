@@ -157,10 +157,11 @@ export class CustomValidatorsService {
 
       if (data.length == 9) {
         data = data.toUpperCase()
-        if (this.niePattern.test(data.substring(0, 8))) {
+        const nifSubstring: string = data.substring(0,8)
+        if (this.niePattern.test(nifSubstring)) {
           // Guardo la letra para añadirla posteriormente al resultado
-          const nieInitialLetter: string = data.substring(0, 1)
-          const nieNumbersWithoutLetters: string = data.substring(1, 8)
+          const nieInitialLetter: string = nifSubstring.substring(0,1)
+          const nieNumbersWithoutLetters: string = nifSubstring.substring(1, 8)
           const numericNie = parseInt(`${this.nieInitialLetters.indexOf(nieInitialLetter)}${nieNumbersWithoutLetters}`)
           const operationResidual = numericNie % 23
           validData = `${nieInitialLetter}${nieNumbersWithoutLetters}${this.dniLetters[operationResidual]}`
@@ -169,7 +170,7 @@ export class CustomValidatorsService {
           const dniNumbersString: string = data.substring(0, 8)
           const dniNumbers = parseInt(dniNumbersString)
           const operationResidual = dniNumbers % 23
-          validData = `${dniNumbers}${this.dniLetters[operationResidual]}`
+          validData = `${nifSubstring}${this.dniLetters[operationResidual]}`
 
         }
       }
