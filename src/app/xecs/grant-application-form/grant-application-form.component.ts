@@ -30,6 +30,7 @@ import { catchError, concatMap, tap } from 'rxjs/operators';
 import { XecsProgramsDTO } from '../../Models/xecs-programs-dto';
 import { AuthorizationTextDTO } from '../../Models/authorization-texts-dto';
 import { ResponsabilityDeclarationDTO } from '../../Models/responsability-declaration-dto';
+import { ExpedienteService } from '../../Services/expediente.service';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -65,6 +66,7 @@ export class GrantApplicationFormComponent {
     private http: HttpClient, 
     private commonService: CommonService, 
     private sanitizer: DomSanitizer,
+    private expedienteService: ExpedienteService,
     private documentServive: DocumentService,
     private nifValidator: NifValidatorService, 
     private snackBar: MatSnackBar ) {
@@ -135,6 +137,22 @@ this.getDocumentationAndAuthorizations()
 }
 
 ngOnInit(): void {
+
+/* this.expedienteService.getAllExpedientes().subscribe((items:any[]) => {
+  console.log (items)
+})
+ */
+this.expedienteService.getExpedientesByConvocatoria(2023).subscribe((items:any) => {
+  console.log ("exped convo", items)
+})
+
+this.expedienteService.getOneExpediente(482).subscribe((items:any) => {
+  console.log ("exped uno", items)
+})
+
+this.expedienteService.getExpedientesByConvocatoriaAndTipoTramite(2023, 'Programa II').subscribe((items:any) => {
+  console.log ("exped convo y tipo trámite", items)
+})
 
  this.xecsForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
  this.rgpdAccepted = value;
@@ -391,6 +409,7 @@ onFilecertificadoATIBChange(event: Event): void {
 get certificadoSegSocFileNames(): string {
   return this.file_certificadoSegSocToUpload.map(f => f.name).join(', ')
 }
+
 onFilecertificadoSegSocChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {

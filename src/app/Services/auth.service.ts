@@ -77,17 +77,15 @@ export class AuthService {
     )
   }
 
-  regeneratePasswordUserApp(userId: number, userData: any): Observable<any> {
-  const password = this.passwordService.generatePassword();
-
-  const payload = {
-    ...userData,
-    name: userData.aodl,
-    password
-  };
-
-  return this.http.post(`${URL_API_SRV}/generate-user-pwd-ibrelleu/${userId}`, payload);
-  }
+regeneratePasswordUserApp(userId: number, userData: any): Observable<any> {
+    const password = this.passwordService.generatePassword();
+    const payload = {
+      ...userData,
+      name: userData.aodl,
+      password
+    };
+    return this.http.post(`${URL_API_SRV}/generate-user-pwd-ibrelleu/${userId}`, payload);
+}
 
 
   private userNameSubject = new BehaviorSubject<string>('');
@@ -103,19 +101,5 @@ export class AuthService {
     this.userNameSubject.next(name)
     this.userRoleSubject.next(role)
     this.daysToExpirePwdSubject.next(daysToExpirePwd)
-  }
-
-/*   setDaysToExpirePwd(days: number) {
-    this.daysToExpirePwdSubject.next(days);
-  } */
-
-  loadFromSession() {
-    const token = sessionStorage.getItem('access_token');
-    if (token) {
-      const decoded = new JwtHelperService().decodeToken(token)
-      const days = +(sessionStorage.getItem('days_to_expire_pwd') ?? '0');
-      this.setUserInfo(decoded.name, decoded.role, days);
-      /* this.setDaysToExpirePwd(days); */
-    }
   }
 }

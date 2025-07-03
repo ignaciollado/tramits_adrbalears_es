@@ -13,12 +13,10 @@ export const routes: Routes = [
   { path: 'isba-grant-subsidies-application-form', component: IsbaGrantApplicationFormComponent},
   { path: 'ils-grant-subsidies-application-form', component: IlsGrantApplicationFormComponent},
 
-
   { path: 'xecs-management', canActivate: [authGuard], component:HomeComponent },
   { path: 'isba-management', canActivate: [authGuard], component:HomeComponent },
   { path: 'ils-management', canActivate: [authGuard], component:HomeComponent },
 
   { path: 'contact', component: GrantApplicationFormComponent },
-  { path: '*', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: HomeComponent }
 ];

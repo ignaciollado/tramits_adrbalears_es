@@ -30,10 +30,10 @@ export class LoginComponent {
   isSuperUser: boolean = false
 
   constructor(private fb: FormBuilder, private translate: TranslateService,
-        private authService: AuthService, 
+        /* private authService: AuthService, */ 
         private router: Router,  
         private snackBar: MatSnackBar,
-        private jwtHelper: JwtHelperService
+       /*  private jwtHelper: JwtHelperService */
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -46,28 +46,30 @@ export class LoginComponent {
       const { email, password } = this.loginForm.value;
       console.log('Login con:', email, password);
     }
-    let responseOK: boolean = false
-    let errorResponse: any
-    sessionStorage.removeItem('access_token');
-    sessionStorage.removeItem('ibrelleu_user');
 
+    
+/*     let errorResponse: any
+    sessionStorage.removeItem('access_token');
     if ( this.loginForm ) {
         this.authService.login( this.loginForm.value )
         .subscribe (
           (item:AuthToken ) => {
             console.log ("Welcome to IBRelleu Market Place created by the ADR Balears ...")
-            responseOK = true
             errorResponse = "Logged in"
-            sessionStorage.setItem('ibrelleu_user', this.jwtHelper.decodeToken(item.access_token).name)
+            const decodedToken = this.jwtHelper.decodeToken(item.access_token);
+            sessionStorage.setItem('ibrelleu_user', decodedToken.name)
             sessionStorage.setItem('access_token', item.access_token)
             sessionStorage.setItem("preferredLang", "cat")
             sessionStorage.setItem("days_to_expire_pwd", item.days_to_expire_pwd)
-            this.authService.setUserInfo(this.jwtHelper.decodeToken(item.access_token).name, this.jwtHelper.decodeToken(item.access_token).role, +item.days_to_expire_pwd);
+            console.log (decodedToken)
+            this.authService.setUserInfo(decodedToken.name, decodedToken.role, +item.days_to_expire_pwd);
 
             this.showSnackBar(errorResponse + " as " + this.jwtHelper.decodeToken(item.access_token).name)
-            if (this.jwtHelper.decodeToken().role === 'admin') {
-              this.isSuperUser = true
+           
+            if (decodedToken.role === 'admin') {
+              this.isSuperUser = true;
             }
+
             this.router.navigate(['/body'])
             },
             (error: any) => {
@@ -80,7 +82,7 @@ export class LoginComponent {
                     this.router.navigateByUrl('home')
                   }
         )
-    }
+    } */
   }
 
   private showSnackBar(error: string): void {

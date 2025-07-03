@@ -12,6 +12,10 @@ import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
+
 
 bootstrapApplication(AppComponent, {
   providers: [
