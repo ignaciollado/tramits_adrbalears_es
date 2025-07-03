@@ -26,11 +26,16 @@ export class ExpedienteService {
 
   // GET by Convocatoria
   getExpedientesByConvocatoria(convocatoria: number): Observable<any> {
-    return this.http.get<any[]>(`${this.urlAPITramits}/pindustexpediente/convocatoria/${convocatoria}`).pipe(catchError(this.handleError))
+    return this.http.get<any>(`${this.urlAPITramits}/pindustexpediente/convocatoria/${convocatoria}`).pipe(catchError(this.handleError))
+  }
+
+  // GET last ID
+  getLastExpedienteIdByProgram(programa: string): Observable<any> {
+    return this.http.get<any>(`${this.urlAPITramits}/pindustexpediente/last-id/${programa}`).pipe(catchError(this.handleError))
   }
 
   // GET by Convocatoria y tipo trámite
-  getExpedientesByConvocatoriaAndTipoTrámite(convocatoria: number, tipo_tramite?: string): Observable<any> {
+  getExpedientesByConvocatoriaAndTipoTramite(convocatoria: number, tipo_tramite?: string): Observable<any> {
     return this.http.get<any[]>(`${this.urlAPITramits}/pindustexpediente/convocatoria/${convocatoria}?tipo_tramite=${tipo_tramite}`).pipe(catchError(this.handleError))
   }
 

@@ -172,7 +172,7 @@ export class IlsGrantApplicationFormComponent {
 
     this.loadZipcodes()
     this.loadActividadesCNAE()
-    // this.createIdExp()
+    this.generateIdExp()
   }
 
   onSubmit(): void {
@@ -189,11 +189,11 @@ export class IlsGrantApplicationFormComponent {
     controlNameForm?.setErrors(null)
 
     if (input.files) {
-      for (let index= 0; index < input.files.length; index++) {
+      for (let index = 0; index < input.files.length; index++) {
         const file = input.files.item(index)
         if (file) {
           if (file.size > this.maxFileSizeBytes) {
-            controlNameForm?.setErrors({ invalidFile: true})
+            controlNameForm?.setErrors({ invalidFile: true })
           }
           inputFiles.push(file)
           inputFilesNames.push(file.name)
@@ -258,10 +258,10 @@ export class IlsGrantApplicationFormComponent {
     }, error => { this.showSnackBar(error) })
   }
 
-  private createIdExp(): void {
-    this.expedienteService.getExpedientesByConvocatoria(this.actualYear).subscribe((expedientes: any[]) => {
+  private generateIdExp(): void {
+    this.expedienteService.getExpedientesByConvocatoria(2025).subscribe((expedientes: any) => {
       console.log(expedientes)
-    }, error => { this.showSnackBar(error)})
+    })
   }
 
   // Validador con checkboxes
