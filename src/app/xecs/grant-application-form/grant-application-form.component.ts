@@ -138,22 +138,6 @@ this.getDocumentationAndAuthorizations()
 
 ngOnInit(): void {
 
-/* this.expedienteService.getAllExpedientes().subscribe((items:any[]) => {
-  console.log (items)
-})
- */
-this.expedienteService.getExpedientesByConvocatoria(2023).subscribe((items:any) => {
-  console.log ("exped convo", items)
-})
-
-this.expedienteService.getOneExpediente(482).subscribe((items:any) => {
-  console.log ("exped uno", items)
-})
-
-this.expedienteService.getExpedientesByConvocatoriaAndTipoTramite(2023, 'Programa IOOOI').subscribe((items:any) => {
-  console.log ("exped convo y tipo trámite", items)
-})
-
  this.xecsForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
  this.rgpdAccepted = value;
  });

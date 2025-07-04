@@ -5,6 +5,7 @@ import { HomeComponent } from './home.component';
 import { IlsGrantApplicationFormComponent } from './ils/grant-application-form/grant-application-form.component';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './auth/auth.guard';
+import { XecsManagementComponent } from './xecs/management/xecs-management/xecs-management.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
@@ -13,7 +14,7 @@ export const routes: Routes = [
   { path: 'isba-grant-subsidies-application-form', component: IsbaGrantApplicationFormComponent},
   { path: 'ils-grant-subsidies-application-form', component: IlsGrantApplicationFormComponent},
 
-  { path: 'xecs-management', canActivate: [authGuard], component:HomeComponent },
+  { path: 'xecs-management', component:XecsManagementComponent },
   { path: 'isba-management', canActivate: [authGuard], component:HomeComponent },
   { path: 'ils-management', canActivate: [authGuard], component:HomeComponent },
 
