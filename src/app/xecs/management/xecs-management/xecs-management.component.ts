@@ -64,6 +64,11 @@ ngOnInit(): void {
 ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+
+    this.paginator.page.subscribe(() => {
+      localStorage.setItem('paginaExpedientes', this.paginator.pageIndex.toString());
+    });
+    
   }
 
 loadAllExpedientes(): void {
@@ -73,6 +78,12 @@ loadAllExpedientes(): void {
     next: (res) => {
       console.log (res)
       this.actualizarTabla(res);
+      const paginaGuardada = localStorage.getItem('paginaExpedientes');
+if (paginaGuardada) {
+  this.paginator.pageIndex = +paginaGuardada;
+}
+this.dataSource.paginator = this.paginator;
+
       this.uniqueConvocatorias = [...new Set<number>( res.map((e: any) => Number(e.convocatoria)))];
       this.uniqueTiposTramite = [...new Set<string>( res.map((e: any) => e.tipo_tramite))];
 
@@ -120,6 +131,12 @@ loadExpedientes(): void {
   this.expedienteService.getExpedientesByConvocatoriaAndTipoTramite(convocatoria, tipoTramite).subscribe({
     next: (res) => {
       this.actualizarTabla(res);
+      const paginaGuardada = localStorage.getItem('paginaExpedientes');
+if (paginaGuardada) {
+  this.paginator.pageIndex = +paginaGuardada;
+}
+this.dataSource.paginator = this.paginator;
+
       this.snackBar.open('Expedientes cargados correctamente ✅', 'Cerrar', {
         duration: 5000,
         panelClass: 'snack-success'
@@ -157,8 +174,6 @@ aplicarFiltro(event: Event): void {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
 }
-
-
 
 situacionClass(value: string): string {
   const key = value?.toLowerCase().trim();
@@ -200,7 +215,5 @@ case 'emitidoifps':
       return 'st-desconocido';
   }
 }
-
-
 
 }
