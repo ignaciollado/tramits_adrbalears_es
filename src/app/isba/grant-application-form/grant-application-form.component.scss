@@ -145,3 +145,14 @@ section.info-header {
   margin: 1.1rem;
 }
 
+.logo-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: white;
+  padding-bottom: 10px;
+
+  .adrLogo {
+    text-align: right;
+  }
+}
+
