@@ -30,10 +30,10 @@ export class LoginComponent {
   isSuperUser: boolean = false
 
   constructor(private fb: FormBuilder, private translate: TranslateService,
-        /* private authService: AuthService, */ 
+        private authService: AuthService,
         private router: Router,  
         private snackBar: MatSnackBar,
-       /*  private jwtHelper: JwtHelperService */
+        private jwtHelper: JwtHelperService 
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -48,7 +48,7 @@ export class LoginComponent {
     }
 
     
-/*     let errorResponse: any
+    let errorResponse: any
     sessionStorage.removeItem('access_token');
     if ( this.loginForm ) {
         this.authService.login( this.loginForm.value )
@@ -73,7 +73,6 @@ export class LoginComponent {
             this.router.navigate(['/body'])
             },
             (error: any) => {
-                  responseOK = false
                   this.showSnackBar(error)
                   this.loginForm.reset()
                 },
@@ -82,7 +81,7 @@ export class LoginComponent {
                     this.router.navigateByUrl('home')
                   }
         )
-    } */
+    }
   }
 
   private showSnackBar(error: string): void {

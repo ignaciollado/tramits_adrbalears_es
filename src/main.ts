@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -22,8 +22,15 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimations(),
-    JwtHelperService,
+
     importProvidersFrom(
+       JwtModule.forRoot({
+        config: {
+          tokenGetter,
+          allowedDomains: ['tudominio.com'],
+          disallowedRoutes: ['tudominio.com/api/auth']
+        }
+      }),
       HttpClientModule,
       TranslateModule.forRoot({
         defaultLanguage: 'es-ES',
