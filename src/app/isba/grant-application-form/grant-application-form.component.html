@@ -103,7 +103,7 @@
                     <mat-form-field>
                         <mat-label *ngIf="businessType === 'autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.NIF.LABEL' | translate}}</mat-label>
                         <mat-label *ngIf="businessType !== 'autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.CIF.LABEL' | translate}}</mat-label>
-                            <input matInput type="text" formControlName="nif" maxlength="9" (blur)="cleanBlank($event)">
+                            <input matInput type="text" formControlName="nif" maxlength="9">
                             <mat-error *ngIf="isbaForm.get('nif')?.errors && businessType==='autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.NIF.ERROR' | translate}}</mat-error>
                             <mat-error *ngIf="isbaForm.get('nif')?.errors && businessType!=='autonomo'">{{'ISBA.GENERAL-DATA.APPLICANT.CIF.ERROR' | translate}}</mat-error>
                     </mat-form-field>

@@ -94,7 +94,7 @@
                         translate}}</mat-label>
                     <mat-label *ngIf="businessType !== 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.CIF.LABEL' |
                         translate}}</mat-label>
-                    <input matInput type="text" formControlName="nif" maxlength="9" (blur)="cleanBlank($event)">
+                    <input matInput type="text" formControlName="nif" maxlength="9">
                     <mat-error
                         *ngIf="ilsForm.get('nif')?.errors && businessType ==='autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.ERROR'
                         | translate}}</mat-error>
