@@ -68,6 +68,10 @@ ngAfterViewInit(): void {
     this.paginator.page.subscribe(() => {
       localStorage.setItem('paginaExpedientes', this.paginator.pageIndex.toString());
     });
+
+  this.sort.sortChange.subscribe(sort => {
+    localStorage.setItem('tablaOrden', JSON.stringify(sort));
+  });
     
   }
 
@@ -76,13 +80,12 @@ loadAllExpedientes(): void {
 
   this.expedienteService.getAllExpedientes().subscribe({
     next: (res) => {
-      console.log (res)
       this.actualizarTabla(res);
       const paginaGuardada = localStorage.getItem('paginaExpedientes');
-if (paginaGuardada) {
-  this.paginator.pageIndex = +paginaGuardada;
-}
-this.dataSource.paginator = this.paginator;
+      if (paginaGuardada) {
+        this.paginator.pageIndex = +paginaGuardada;
+      }
+      this.dataSource.paginator = this.paginator;
 
       this.uniqueConvocatorias = [...new Set<number>( res.map((e: any) => Number(e.convocatoria)))];
       this.uniqueTiposTramite = [...new Set<string>( res.map((e: any) => e.tipo_tramite))];
@@ -166,7 +169,15 @@ this.dataSource.paginator = this.paginator;
 
 private actualizarTabla(res: any[]): void {
   this.dataSource.data = res;
-  this.dataSource.sort = this.sort;
+  const ordenGuardado = localStorage.getItem('tablaOrden');
+if (ordenGuardado) {
+  const { active, direction } = JSON.parse(ordenGuardado);
+  this.sort.active = active;
+  this.sort.direction = direction;
+  this.sort.sortChange.emit({ active, direction });
+}
+this.dataSource.sort = this.sort;
+
   this.dataSource.paginator = this.paginator;
 }
 
