@@ -8,12 +8,11 @@
   "HOME": {
     "WELCOME": "Bienvenido a iTràmits, la plataforma oficial de ADR Balears para la gestión de ayudas y subvenciones",
     "WELCOME_P1": "A través de esta aplicación, las empresas industriales de las Illes Balears pueden gestionar y presentar sus solicitudes a las ayudas convocadas por la Agencia de Desarrollo Regional de las Illes Balears (ADR Balears).",
-    "WELCOME_P2" : "Las ayudas y trámites actualmente gestionadas por ADR Balears incluyen",
+    "WELCOME_P2": "Las ayudas y trámites actualmente gestionadas por ADR Balears incluyen",
     "WELCOME_P3": "<strong>Xecs de Consultoria:</strong> subvenciones destinadas a financiar horas de consultoría para empresas industriales, con el objetivo de elaborar y diseñar planes de transformación digital, así como planes de mejora orientados a resolver posibles ineficiencias, sobreproducción, gestión de almacenes, entre otros aspectos operativos.",
     "WELCOME_P4": "<strong>Ibavals Indústria:</strong> ADR Baleares y la Sociedad de Garantía Recíproca ISBA SGR ofrecen a las empresas industriales Ibavals Indústria, una línea de financiación para facilitar el acceso a un préstamo para invertir en mejora de la producción industrial.",
     "WELCOME_P5": "<strong>Industria Local Sostenible (ILS):</strong> es una marca de garantía creada por ADR Balears para identificar y visibilizar las industrias de las Islas Baleares comprometidas con el medio ambiente que se impliquen en el cálculo de la huella de carbono y en su reducción."
   },
-  
   "HEADER": {
     "TITLE": "Bienvenido",
     "XECSAPPFORM": "XECS: formulario de solicitud",
@@ -27,15 +26,13 @@
     "ACCEPTTERMS1": "He leído y acepto la política de privacidad",
     "ACCEPTTERMS2": "Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la política de privacidad.",
     "ACCEPTTERMS3": "Los datos personales proporcionados serán tratados por ADR Balears como responsable del tratamiento, con la finalidad de gestionar su solicitud.",
-
     "REQUIREDDOCUMENTATION": "<h3>Antes de empezar, le recomendamos tener preparada la siguiente documentación ya que, a lo largo de este asistente, se la solicitaremos:</h3>\n<dl ngClass='formbox'>\n  <dt>En el caso de personas físicas (autónomos):</dt>\n  <dd>Descripción de la empresa y su actividad, el modelo de negocio y necesidades en función del programa al que se presenta.</dd>\n  <dd>Certificado de estar de alta en el <abbr title='Régimen especial de trabajadores autónomos'>RETA</abbr> o en un régimen alternativo equivalente.</dd>\n  <dd>Certificado de alta del <abbr title='Impuesto de actividades empresariales'>IAE</abbr> actualizado en el momento de la solicitud.</dd>\n  <dd>Certificado de estar al corriente de las obligaciones tributarias con la Agencia Estatal de la Administración Tributaria <abbr title='Agencia Estatal de Administración Tributaria'>AEAT</abbr>.</dd>\n</dl>\n<dl ngClass='formbox'>\n  <dt>En el caso de personas jurídicas (<abbr title='Pequeñas y medianas empresas'>PYMES</abbr>):</dt>\n  <dd>Descripción de la empresa y su actividad, el modelo de negocio y necesidades en función del programa al que se presenta.</dd>\n  <dd>Certificado de estar al corriente con las obligaciones tributarias de la <abbr title='Agencia Estatal de la Administración Tributaria'>AEAT</abbr>.</dd>\n  <dd>Certificado de <abbr title='Impuesto de actividades empresariales'>IAE</abbr> actualizado en el momento de la solicitud.</dd>\n  <dd>Copia del <abbr title='Número de identificación fiscal'>NIF</abbr> de la empresa.</dd>\n  <dd>Escritura pública y estatutos, debidamente inscritos en el registro correspondiente.</dd>\n  <dd>Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante.</dd>\n</dl>\n<dl>\n  <dt><strong>AUTORIZACIONES</strong>: la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que la <abbr title='Agencia de Desarrollo Regional de las Illes Balears'>ADR Balears</abbr> pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la <abbr title='Agencia tributaria de las Illes Balears'>ATIB</abbr> y la <abbr title='Tesorería General de la Seguridad Social'>TGSS</abbr>, excepto en caso de denegación expresa. En este caso, el beneficiario deberá aportar la siguiente documentación:</dt>\n  <dd><abbr title='Número de identificación fiscal'>NIF</abbr> del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario.</dd>\n  <dd>Certificado de estar al corriente de pago con la <abbr title='Agencia tributaria de las Illes Balears'>ATIB</abbr>.</dd>\n  <dd>Certificado de estar al corriente de pago con la <abbr title='Tesorería General de la Seguridad Social'>TGSS</abbr>.</dd>\n</dl>",
     "PROGRAM": "Selecione el/los programas de ayuda que solicita",
     "SELECTPROGRAMS": "Seleccioni un o diversos programes d'ajuda",
     "ORGANIZATIONTYPE": "Indique el tipo de organización",
     "SOLICITOR": "Interesado",
-    "SOLICITORDETAILS" : "Datos del interesado",
+    "SOLICITORDETAILS": "Datos del interesado",
     "SOLICITORTYPE": "Tipo de solicitante",
-    
     "SOLICITORNAME": "Nombre del interesado",
     "ADDRESS": "Dirección",
     "ZIPCODE": "Código postal",
@@ -95,11 +92,6 @@
     "RGPD": {
       "TITLE": "RGPD y documentación",
       "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
-      "READ-AND-ACCEPTS": {
-        "PART-1": "He leído y acepto las condiciones del",
-        "PART-2": "Los datos personales proporcionados serán tratador por ADR Balears como responsable del tratamiento, con la finalidad de gestionar su solicitud. Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la ",
-        "PRIVACY-TEXT": "política de privacidad."
-      },
       "REQUIRED-DOCS": {
         "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación relacionada con el cumplimiento de los requisitos:",
         "DOC-1": "Escritura de constitución de la empresa.",
@@ -115,8 +107,8 @@
         "INFO": "Otra documentación opcional:",
         "DOC-1": "Memoria técnica de la actividad.",
         "DOC-2": {
-          "PART-1": "El",
-          "PART-2": "de la empresa"
+          "PART-1": "El ",
+          "PART-2": " de la empresa."
         },
         "DOC-3": "Logotipo de la empresa en formato WEBP, JPEG o SVG."
       },
@@ -124,8 +116,8 @@
         "INFO": {
           "PART-1": "AUTORIZACIONES: ",
           "PART-2": "la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que ",
-          "PART-3": "pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la ",
-          "PART-4": "y la ",
+          "PART-3": " pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la ",
+          "PART-4": " y la ",
           "PART-5": " excepto en caso de denegación expresa. En este caso, el beneficiario deberá aportar la siguiente documentación:"
         },
         "DOC-1": " del solicitante i/o de la persona autorizada y los documentos acreditativos, si es necesario.",
@@ -136,19 +128,6 @@
         "INFO": "Al finalizar de este asistente recibirá, por correo electrónico, un documento en formato PDF que contendrá:",
         "DOC-1": "Una declaración responsable.",
         "DOC-2": "Una solicitud de adhesión al programa ILS."
-      }
-    },
-    "BUSINESS-TYPE": {
-      "TITLE": "Tipo de solicitante",
-      "DESCRIPTION": "Seleccione la opción que represente el tipo de empresa.",
-      "SELF-EMPLOYED": "Autónomo",
-      "SMALL": {
-        "NAME": "Pequeña empresa",
-        "INFO": "Se considera pequeña empresa la que tiene menos de 50 trabajadores y/o trabajadoras, un volumen de negocio anual o un balance general anual que no supere los 10 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto y otras empresas que no cumplen los requisitos para ser considerada PYME de acuerdo con el anexo I del Reglamento (CE) n.º 651/2014 de la Comisión Europea."
-      },
-      "MEDIUM": {
-        "NAME": "Mediana empresa",
-        "INFO": "Se considera mediana empresa la que tiene entre 50 y 250 trabajadores y/o trabajadoras, un volumen de negocio anual entre 10 y 50 millones de euros o un balance general anual entre 10 y 43 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto en otras empresas que no cumplen los requisitos anteriores."
       }
     },
     "GENERAL-DATA": {
@@ -181,9 +160,9 @@
         "LABEL": "Teléfono de contacto del solicitante",
         "ERROR": "El teléfono de contacto introducido no es válido."
       },
-      "BAT-EPIGRAPH": {
-        "LABEL": "Epígrafe IAE",
-        "ERROR": "El epígrafe IAE introducido no es válido."
+      "CNAE-CODE": {
+        "LABEL": "Código CNAE",
+        "ERROR": "El código CNAE introducido no es válido."
       },
       "WEBSITE": "Sitio web de la empresa",
       "PRESENTATION-VIDEO": "La URL del video de presentación de la empresa (publicado en Youtube o en Vimeo)",
@@ -214,8 +193,15 @@
     "AUTHORIZATIONS": {
       "TITLE": "Autorizaciones",
       "DESCRIPTION": "Indique su consentimiento/disconformidad en las siguientes autorizaciones.",
-      "AUTHORIZATION-ID": "Doy mi consentimiento para que ADR Balears pueda comprobar de oficio la identificación de la persona solicitante y/o la persona autorizada para la empresa. En caso de denegación expresa del consentimiento, adjunto el NIF del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario.",
-      "AUTHORIZATION-ATIB": "Certificado de la Agencia Tributaria de las Islas Baleares (ATIB) de estar al corriente de las obligaciones tributarias con la comunidad autónoma de las Islas Baleares.",
+      "AUTHORIZATION-NIF": {
+        "PART-1": "Doy mi consentimiento para que ",
+        "PART-2": " pueda comprobar de oficio la identificación de la persona solicitante y/o la persona autorizada para la empresa. En caso de denegación expresa del consentimiento, adjunto el ",
+        "PART-3": " del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario."
+      },
+      "AUTHORIZATION-ATIB": {
+        "PART-1": "Certificado de la ",
+        "PART-2": " de estar al corriente de las obligaciones tributarias con la comunidad autónoma de las Islas Baleares."
+      },
       "NO-AUTHORIZATED": "Al estar en disconformidad, por favor, adjunte el archivo previamente indicado. [.pdf]"
     },
     "DECLARATIONS": {
@@ -260,35 +246,7 @@
         },
         "LOGO": "Logotipo de la empresa que aparecerá en nuestro apartado de empresas adheridas. [.webp, .jpeg, .svg]"
       }
-    },
-    "FILE": {
-      "ERROR": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido.",
-      "UPLOAD": "Subir archivo"
-    },
-    "ABBR": {
-      "RGPD": {
-        "TITLE": "Reglamento general de protección de datos",
-        "ABBR": "RGPD"
-      },
-      "BAT": {
-        "TITLE": "Impuesto de actividades empresariales",
-        "ABBR": "IAE"
-      },
-      "CIF": {
-        "TITLE": "Código de identificación fiscal",
-        "ABBR": "CIF"
-      },
-      "ADRBALEARS": "Agència de desenvolupament regional de les Illes Balears",
-      "ATIB": "Agencia Tributaria de las Islas Baleares",
-      "TGSS": "Tesorería General de la Seguridad Social",
-      "NIF": {
-        "TITLE": "Número de identificación fiscal",
-        "ABBR": "NIF"
-      }
-    },
-    "EXPANDALL": "Expandir todo",
-    "COLAPSEALL": "Encoger todo",
-    "SEND": "Enviar"
+    }
   },
   "ISBA": {
     "TITLE": "Ayudas a los gastos financieros a través del aval de ISBA",
@@ -302,17 +260,15 @@
     "RGPD": {
       "TITLE": "RGPD y documentación",
       "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
-      "READ-AND-ACCEPTS": {
-        "PART-1": "He leído y acepto las condiciones del",
-        "PART-2": "Los datos personales proporcionados serán tratador por ADR Balears como responsable del tratamiento, con la finalidad de gestionar su solicitud. Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la ",
-        "PRIVACY-TEXT": "política de privacidad."
-      },
       "REQUIRED-DOCS": {
         "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación:",
         "DOC-1": "El documento normalizado de solicitud de subvención de esta convocatoria, el cual se genera al final de este asistente al pulsar sobre el botón 'Enviar' y que recibirá por correo electrónico.",
-        "DOC-2": "Descripción de la empresa y su actividad, modelo de negocio y detalle de la inversión/Inversiones previstas.",
+        "DOC-2": "Descripción de la empresa y su actividad, modelo de negocio y detalle de la inversión/inversiones previstas.",
         "DOC-3": "Declaración responsable de la veracidad de los datos bancarios aportados que se encuentra incluido en la solicitud de la ayuda.",
-        "DOC-4": "Certificado del IAE actualizado en el momento de la solicitud.",
+        "DOC-4": {
+          "PART-1": "Certificado del ",
+          "PART-2": " actualizado en el momento de la solicitud."
+        },
         "DOC-5": {
           "INFO": "En caso de que el solicitante sea una persona física, se requerirá:",
           "DOC": "El certificado de estar en el régimen especial de trabajadores autónomos o en un régimen alternativo equivalente."
@@ -323,7 +279,13 @@
           "DOC-2": "Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante. La representación podrá acreditarse por cualquier forma válida en derecho."
         },
         "DOC-7": "Respecto al DNI/NIE de la persona solicitante y/o de la persona que le represente, la solicitud de ayudas implicará la autorización para que el ADR Balears pueda comprobar de oficio sus datos de identidad personal. En caso de denegación expresa del consentimiento, será necesario aportar esta documentación.",
-        "DOC-8": "Respecto a la acreditación de las obligaciones tributarias autonómicas con la Agencia Tributaria de las Illes Balears y de las obligaciones con la Seguridad Social, la solicitud de ayudas implicará la autorización para que el ADR Balears pueda obtener de la Agencia Tributaria de las Illes Balears y de la Tesorería General de la Seguridad Social la información relativa al cumplimiento de estas obligaciones, excepto en caso de denegación expresa del consentimiento, supuesto en el que la persona o la entidad solicitante debe aportar el certificado correspondiente, junto con la solicitud de las ayudas.",
+        "DOC-8": {
+          "PART-1": "Respecto a la acreditación de las obligaciones tributarias autonómicas con la ",
+          "PART-2": " y de las obligaciones con la Seguridad Social, la solicitud de ayudas implicará la autorización para que ",
+          "PART-3": " pueda obtener de la ",
+          "PART-4": " y de la ",
+          "PART-5": " la información relativa al cumplimiento de estas obligaciones, excepto en caso de denegación expresa del consentimiento, supuesto en el que la persona o la entidad solicitante debe aportar el certificado correspondiente, junto con la solicitud de las ayudas."
+        },
         "DOC-9": "En cuanto a la acreditación del requisito de estar al corriente de las obligaciones tributarias con la Agencia Estatal de la Administración Tributaria, deberá aportarse el certificado acreditativo del cumplimiento de esta obligación.",
         "DOC-10": "Para ayudas de importe superior a 30.000 €, deberá aportarse el certificado que establece el artículo 13.3 bis de la Ley 38/2003 de 17 de noviembre.",
         "DOC-11": "El certificado de la sociedad de garantía recíproca que avale la operación financiera que acredite la fecha de entrada de la solicitud del beneficiario de petición del aval sobre la operación financiera a subvencionar.",
@@ -335,19 +297,6 @@
         "INFO": "Al finalizar este trámite, recibirá por correo electrónico un documento pdf que contendrá:",
         "DOC-1": "El documento normalizado de solicitud de subvención de esta convocatoria.",
         "DOC-2": "Una Declaración responsable de la persona titular de la empresa o de quien la representa legalmente."
-      }
-    },
-    "BUSINESS-TYPE": {
-      "TITLE": "Tipo de solicitante",
-      "DESCRIPTION": "Seleccione la opción que represente el tipo de empresa.",
-      "SELF-EMPLOYED": "Autónomo",
-      "SMALL": {
-        "NAME": "Pequeña empresa",
-        "INFO": "Se considera pequeña empresa la que tiene menos de 50 trabajadores y/o trabajadoras, un volumen de negocio anual o un balance general anual que no supere los 10 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto y otras empresas que no cumplen los requisitos para ser considerada PYME de acuerdo con el anexo I del Reglamento (CE) n.º 651/2014 de la Comisión Europea."
-      },
-      "MEDIUM": {
-        "NAME": "Mediana empresa",
-        "INFO": "Se considera mediana empresa la que tiene entre 50 y 250 trabajadores y/o trabajadoras, un volumen de negocio anual entre 10 y 50 millones de euros o un balance general anual entre 10 y 43 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto en otras empresas que no cumplen los requisitos anteriores."
       }
     },
     "GENERAL-DATA": {
@@ -380,9 +329,9 @@
         "LABEL": "Teléfono de contacto del solicitante",
         "ERROR": "El teléfono de contacto introducido no es válido."
       },
-      "BAT-EPIGRAPH": {
-        "LABEL": "Epígrafe IAE",
-        "ERROR": "El epígrafe IAE introducido no es válido."
+      "CNAE-CODE": {
+        "LABEL": "Código CNAE",
+        "ERROR": "El código CNAE introducido no es válido."
       },
       "REPRESENTATIVE": {
         "NAME": {
@@ -449,8 +398,8 @@
       },
       "IN-ILS": {
         "LABEL": "En el momento de la solicitud, ¿su empresa está adherida al programa ILS?",
-        "YES": "SI",
-        "NO": "NO",
+        "YES": "Si",
+        "NO": "No",
         "YES-INFO": "En el supuesto de que la empresa solicitante esté adherida al programa ILS (Industria Local Sostenible): El importe de la ayuda para cubrir el coste del aval de las operaciones financieras de inversiones productivas cubrirá los siete años de la operación original, y son: el 100% del coste del aval los siete años de la operación, con la limitación del 1,25% sobre el importe del aval."
       },
       "BUDGET-AMOUNT": {
@@ -527,21 +476,67 @@
       "DOC-11": "El certificado de la sociedad de garantía recíproca que avale la operación financiera que acredite la fecha de entrada de la solicitud del beneficiario de petición del aval sobre la operación financiera a subvencionar. [.pdf, .jpeg, .png]",
       "DOC-12": "Contrato de la operación financiera. [.pdf, ,jpeg, .png]",
       "DOC-13": "Contrato o documento de aval de la operación financiera. [.pdf, .jpeg, .png]",
-      "DOC-14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente, la cual se genera al enviar esta solicitud.",
-      "NO-CONSENT": "Expresamente no doy mi consentimiento / Me opongo a / No concedo / Deniego mi autorización para que se consulten los datos y documentos necesarios para la tramitación de esta solicitud. Por eso, presento los documentos que constan a continuación:"
-    },
-    "FILE": {
-      "ERROR": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido.",
-      "UPLOAD": "Subir archivo"
-    },
-    "ABBR": {
-      "RGPD": {
-        "ABBR": "RGPD",
-        "TITLE": "Reglamento general de protección de datos"
-      }
-    },
+      "DOC-14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente, la cual se genera al enviar esta solicitud."
+    }
+  },
+  "COMMON": {
     "EXPANDALL": "Expandir todo",
     "COLAPSEALL": "Encoger todo",
-    "SEND": "Enviar"
+    "SEND": "Enviar",
+    "NO-CONSENT": "Expresamente no doy mi consentimiento / Me opongo a / No concedo / Deniego mi autorización para que se consulten los datos y documentos necesarios para la tramitación de esta solicitud. Por eso, presento los documentos que constan a continuación:",
+    "FILE": {
+      "UPLOAD": "Subir archivo",
+      "ERROR": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido."
+    },
+    "RGPD-INFO": {
+      "READ-AND-ACCEPTS": {
+        "PART-1": "He leído y acepto las condiciones del ",
+        "PART-2": " Los datos personales proporcionados serán tratados por ",
+        "PART-3": " como responsable del tratamiento, con la finalidad de gestionar su solicitud. Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la política de privacidad."
+      }
+    },
+    "BUSINESS-TYPE": {
+      "TITLE": "Tipo de solicitante",
+      "DESCRIPTION": "Seleccione la opción que represente el tipo de empresa.",
+      "SELF-EMPLOYED": "Autónomo",
+      "SMALL": {
+        "NAME": "Pequeña empresa",
+        "INFO": "Se considera pequeña empresa la que tiene menos de 50 trabajadores y/o trabajadoras, un volumen de negocio anual o un balance general anual que no supere los 10 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto y otras empresas que no cumplen los requisitos para ser considerada PYME de acuerdo con el anexo I del Reglamento (CE) n.º 651/2014 de la Comisión Europea."
+      },
+      "MEDIUM": {
+        "NAME": "Mediana empresa",
+        "INFO": "Se considera mediana empresa la que tiene entre 50 y 250 trabajadores y/o trabajadoras, un volumen de negocio anual entre 10 y 50 millones de euros o un balance general anual entre 10 y 43 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto en otras empresas que no cumplen los requisitos anteriores."
+      }
+    },
+    "ACRONYMS": {
+      "RGPD": {
+        "ACRONYM": "RGPD",
+        "FULL-PHRASE": "Reglamento General de Protección de Datos"
+      },
+      "BAT": {
+        "ACRONYM": "IAE",
+        "FULL-PHRASE": "Impuesto de Actividades Empresariales"
+      },
+      "CIF": {
+        "ACRONYM": "CIF",
+        "FULL-PHRASE": "Código de Identificación Fiscal"
+      },
+      "ADR": {
+        "ACRONYM": "ADR Balears",
+        "FULL-PHRASE": "Agència de Desenvolupament Regional de les Illes Balears"
+      },
+      "ATIB": {
+        "ACRONYM": "ATIB",
+        "FULL-PHRASE": "Agencia Tributaria de las Islas Baleares"
+      },
+      "TGSS": {
+        "ACRONYM": "TGSS",
+        "FULL-PHRASE": "Tesorería General de la Seguridad Social"
+      },
+      "NIF": {
+        "ACRONYM": "NIF",
+        "FULL-PHRASE": "Número de Identificación Fiscal"
+      }
+    }
   }
 }
