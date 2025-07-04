@@ -16,7 +16,6 @@ export function tokenGetter() {
   return localStorage.getItem('access_token');
 }
 
-
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),

@@ -13,6 +13,11 @@
     </mat-select>
   </mat-form-field>
 
+  <mat-form-field appearance="outline" class="busqueda-form">
+  <mat-label>Buscar</mat-label>
+  <input matInput (keyup)="aplicarFiltro($event)" placeholder="Filtrar por solicitante, localidad, etc.">
+</mat-form-field>
+
   <button mat-raised-button color="primary" type="submit">Buscar</button>
 </form>
 

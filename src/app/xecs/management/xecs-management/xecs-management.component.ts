@@ -72,7 +72,7 @@ loadAllExpedientes(): void {
   this.expedienteService.getAllExpedientes().subscribe({
     next: (res) => {
       console.log (res)
-      this.dataSource.data = res;
+      this.actualizarTabla(res);
       this.uniqueConvocatorias = [...new Set<number>( res.map((e: any) => Number(e.convocatoria)))];
       this.uniqueTiposTramite = [...new Set<string>( res.map((e: any) => e.tipo_tramite))];
 
@@ -119,7 +119,7 @@ loadExpedientes(): void {
 
   this.expedienteService.getExpedientesByConvocatoriaAndTipoTramite(convocatoria, tipoTramite).subscribe({
     next: (res) => {
-      this.dataSource.data = res; // ✅ Corrige esta línea si antes hacías dataSource = res;
+      this.actualizarTabla(res);
       this.snackBar.open('Expedientes cargados correctamente ✅', 'Cerrar', {
         duration: 5000,
         panelClass: 'snack-success'
@@ -146,6 +146,19 @@ loadExpedientes(): void {
     }
   });
 }
+
+private actualizarTabla(res: any[]): void {
+  this.dataSource.data = res;
+  this.dataSource.sort = this.sort;
+  this.dataSource.paginator = this.paginator;
+}
+
+aplicarFiltro(event: Event): void {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+}
+
+
 
 situacionClass(value: string): string {
   const key = value?.toLowerCase().trim();
