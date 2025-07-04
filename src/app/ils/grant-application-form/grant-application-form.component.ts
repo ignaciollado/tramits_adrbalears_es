@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,12 +15,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Observable, startWith } from 'rxjs';
+import { CnaeDTO } from '../../Models/cnae.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
+import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { DocumentService } from '../../Services/document.service';
 import { ExpedienteService } from '../../Services/expediente.service';
-import { CnaeDTO } from '../../Models/cnae.dto';
 
 
 @Component({
@@ -27,12 +29,13 @@ import { CnaeDTO } from '../../Models/cnae.dto';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule,
-    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule, TranslateModule, MatTooltipModule, MatAutocompleteModule],
+    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule, TranslateModule, MatTooltipModule, MatAutocompleteModule, MatDialogModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })
 
 export class IlsGrantApplicationFormComponent {
+  readonly dialog = inject(MatDialog)
   step = signal(0)
   ilsForm: FormGroup
   radioOptionDocs: string = ""
@@ -55,6 +58,22 @@ export class IlsGrantApplicationFormComponent {
     file_nifEmpresa: "",
     file_logotipoEmpresaIls: ""
   }
+
+  files: { [key: string]: File[] } = {
+    file_enviardocumentoIdentificacion: [],
+    file_certificadoATIB: [],
+    file_escritura_empresa: [],
+    file_certificado_IAE: [],
+    file_informeResumenIls: [],
+    file_informeInventarioIls: [],
+    file_certificado_verificacion_ISO: [],
+    file_modeloEjemploIls: [],
+    file_certificado_itinerario_formativo: [],
+    file_memoriaTecnica: [],
+    file_nifEmpresa: [],
+    file_logotipoEmpresaIls: []
+  }
+
   // 10 MB máximos
   maxFileSizeBytes: number = 10 * 1024 * 1024
 
@@ -68,30 +87,34 @@ export class IlsGrantApplicationFormComponent {
   filteredOptions: Observable<ZipCodesIBDTO[]> | undefined;
   actividadesCNAE: CnaeDTO[] = []
 
+  customTimestamp: any
+  actualYear: any
+  idExp: string = ""
+
 
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.ilsForm = this.fb.group({
-      acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
-      tipo_solicitante: this.fb.control<string>('', Validators.required),
+      acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
+      tipo_solicitante: this.fb.control<string>('', [Validators.required]),
       nif: this.fb.control<string>(''), // Validadores seteados posteriormente
-      denom_interesado: this.fb.control<string>('', Validators.required),
-      domicilio: this.fb.control<string>('', Validators.required),
+      denom_interesado: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
+      domicilio: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
-      localidad: this.fb.control<string>(''),
+      localidad: this.fb.control<string>({ value: '', disabled: true }),
       tel_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9), Validators.minLength(9)]),
       codigoIAE: this.fb.control<string>('', [Validators.required]),
-      sitio_web_empresa: this.fb.control<string>('', []),
-      video_empresa: this.fb.control<string>('', []),
-      nom_representante: this.fb.control<string>('', [Validators.required]),
+      sitio_web_empresa: this.fb.control<string>('', [this.customValidator.xssProtectorValidator()]),
+      video_empresa: this.fb.control<string>('', [this.customValidator.xssProtectorValidator()]),
+      nom_representante: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
       nif_representante: this.fb.control<string>('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.customValidator.dniNieValidator()]),
       tel_representante: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9)]),
       mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
 
       checkboxID: this.fb.control<boolean>(true),
-      file_enviardocumentoIdentificacion: this.fb.control<File | null>(null),
+      file_enviardocumentoIdentificacion: this.fb.control<string | null>(''),
       checkboxATIB: this.fb.control<boolean>(true),
-      file_certificadoATIB: this.fb.control<File | null>(null),
+      file_certificadoATIB: this.fb.control<string | null>(''),
 
       declaracion_responsable_i: this.fb.control<boolean>(true),
       declaracion_responsable_v: this.fb.control<boolean>(true),
@@ -99,35 +122,29 @@ export class IlsGrantApplicationFormComponent {
       declaracion_responsable_ix: this.fb.control<boolean>(true),
 
       // Documentación
-      file_escritura_empresa: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificado_IAE: this.fb.control<File | null>(null, [Validators.required]),
+      file_escritura_empresa: this.fb.control<string | null>('', [Validators.required]),
+      file_certificado_IAE: this.fb.control<string | null>('', [Validators.required]),
       radioGroupFile: this.fb.control(null, [Validators.required]),
-      file_informeResumenIls: this.fb.control<File | null>(null), // Primera opción radio
-      file_informeInventarioIls: this.fb.control<File | null>(null), // Primera opción radio
-      file_certificado_verificacion_ISO: this.fb.control<File | null>(null), // Segunda opción radio
+      file_informeResumenIls: this.fb.control<string | null>(''), // Primera opción radio
+      file_informeInventarioIls: this.fb.control<string | null>(''), // Primera opción radio
+      file_certificado_verificacion_ISO: this.fb.control<string | null>(''), // Segunda opción radio
 
-      file_modeloEjemploIls: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificado_itinerario_formativo: this.fb.control<File | null>(null, [Validators.required]),
-      file_memoriaTecnica: this.fb.control<File | null>(null),
-      file_nifEmpresa: this.fb.control<File | null>(null),
-      file_logotipoEmpresaIls: this.fb.control<File | null>(null),
+      file_modeloEjemploIls: this.fb.control<string | null>('', [Validators.required]),
+      file_certificado_itinerario_formativo: this.fb.control<string | null>('', [Validators.required]),
+      file_memoriaTecnica: this.fb.control<string | null>(''),
+      file_nifEmpresa: this.fb.control<string | null>(''),
+      file_logotipoEmpresaIls: this.fb.control<string | null>(''),
 
       tipo_tramite: this.fb.control<string>('ILS')
-
     })
-    this.commonService.getCNAEs().subscribe((actividadesCNAE: any[]) => {
-      this.actividadesCNAE = actividadesCNAE
-    })
-
+    this.customTimestamp = this.commonService.generateCustomTimestamp()
+    this.actualYear = this.customTimestamp.split('_')[2]
   }
 
   ngOnInit(): void {
     // Desbloqueo por RGPD
     this.ilsForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
       this.rgpdAccepted = value
-      if (value) {
-        this.setStep(1)
-      }
     })
 
     this.filteredOptions = this.ilsForm.get('cpostal')?.valueChanges.pipe(
@@ -155,47 +172,54 @@ export class IlsGrantApplicationFormComponent {
 
     this.loadZipcodes()
     this.loadActividadesCNAE()
+    this.generateIdExp()
   }
 
   onSubmit(): void {
     console.log(this.ilsForm.value)
   }
 
-  // Creo sello de tiempo
-  private createTimestamp(): string {
-    const date = new Date();
 
-    const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const year = String(date.getFullYear())
+  onFileChange(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement
+    const controlNameForm = this.ilsForm.get(controlName)
+    const inputFiles: File[] = [];
+    const inputFilesNames: string[] = []
 
-    let hours = date.getHours()
-    const minutes = String(date.getMinutes()).padStart(2, '0')
-    const seconds = String(date.getSeconds()).padStart(2, '0');
+    controlNameForm?.setErrors(null)
 
-    const esPM = hours >= 12;
-    hours = hours % 12 || 12;
-    const hours12 = String(hours).padStart(2, '0')
-    const sufix = esPM ? 'pm' : 'am'
+    if (input.files) {
+      for (let index = 0; index < input.files.length; index++) {
+        const file = input.files.item(index)
+        if (file) {
+          if (file.size > this.maxFileSizeBytes) {
+            controlNameForm?.setErrors({ invalidFile: true })
+          }
+          inputFiles.push(file)
+          inputFilesNames.push(file.name)
+        }
+      }
+    }
 
-    return (`${day}_${month}_${year}_${hours12}_${minutes}_${seconds}${sufix}`)
+    this.files[controlName] = inputFiles
+    this.fileNames[controlName] = inputFilesNames.join(', ')
   }
 
-  // Subida individual de archivo.
-  onFileChange(event: Event, controlName: string): void {
-    const file = (event.target as HTMLInputElement).files?.[0]
-    const controlNameForm = this.ilsForm.get(controlName)
-
-    if (file) {
-      controlNameForm?.setValue(file)
-      if (file.size > this.maxFileSizeBytes) {
-        controlNameForm?.setErrors({ invalidFile: true })
-      }
-      else {
-        controlNameForm?.setErrors(null)
-      }
-      this.fileNames[controlName] = file.name
-    }
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false
+    dialogConfig.autoFocus = true
+    dialogConfig.panelClass = "dialog-customization"
+    dialogConfig.backdropClass = "popupBackdropClass"
+    dialogConfig.position = {
+      'top': '10%',
+      'left': '10%'
+    };
+    dialogConfig.width = '90%',
+      dialogConfig.data = {
+        questionText: questionText, toolTipText: toolTipText, doc1: doc1, doc2: doc2
+      };
+    this.dialog.open(PopUpDialogComponent, dialogConfig);
   }
 
   // Cambio de custom-validator según tipo solicitante
@@ -216,7 +240,6 @@ export class IlsGrantApplicationFormComponent {
     nifControl?.setValidators(nifValidators)
     nifControl?.updateValueAndValidity()
     this.businessTypeChoosed = true
-    this.setStep(2);
   }
 
   private loadZipcodes(): void {
@@ -233,6 +256,12 @@ export class IlsGrantApplicationFormComponent {
     this.commonService.getCNAEs().subscribe((actividadesCNAE: CnaeDTO[]) => {
       this.actividadesCNAE = actividadesCNAE
     }, error => { this.showSnackBar(error) })
+  }
+
+  private generateIdExp(): void {
+    this.expedienteService.getExpedientesByConvocatoria(2025).subscribe((expedientes: any) => {
+      console.log(expedientes)
+    })
   }
 
   // Validador con checkboxes

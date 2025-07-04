@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,6 +18,8 @@ import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule, MatDialogConfig } from '@angular/material/dialog';
+import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -25,11 +27,12 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule,
     MatAccordion, MatCheckboxModule, TranslateModule, MatTooltipModule, MatAutocompleteModule,
-    MatRadioModule, MatIconModule],
+    MatRadioModule, MatIconModule, MatDialogModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })
 export class IsbaGrantApplicationFormComponent {
+  readonly dialog = inject(MatDialog)
   step = signal(0)
   isbaForm: FormGroup
   rgpdAccepted = false
@@ -41,21 +44,34 @@ export class IsbaGrantApplicationFormComponent {
   isSubsidyGreater: boolean = false
 
   // Files
+  files: { [key: string]: File[] } = {
+    file_memoriaTecnica: [],
+    file_document_veracidad_datos_bancarios: [],
+    file_certificadoIAE: [],
+    file_altaAutonomos: [],
+    file_escrituraConstitucion: [],
+    file_nifRepresentante: [],
+    file_certificadoATIB: [],
+    file_certificadoAEAT: [],
+    file_certificadoLey382003: [],
+    file_certificadoSGR: [],
+    file_contratoOperFinanc: [],
+    file_avalOperFinanc: [],
+  }
+
   fileNames: { [key: string]: string } = {
-    documentacion_adjunta_requerida_idi_isba_a: "",
-    documentacion_adjunta_requerida_idi_isba_b: "",
-    documentacion_adjunta_requerida_idi_isba_c: "",
-    documentacion_adjunta_requerida_idi_isba_d: "",
-    documentacion_adjunta_requerida_idi_isba_e: "",
-    documentacion_adjunta_requerida_idi_isba_f: "",
-    documentacion_adjunta_requerida_idi_isba_g: "",
-    documentacion_adjunta_requerida_idi_isba_h: "",
-    documentacion_adjunta_requerida_idi_isba_i: "",
-    documentacion_adjunta_requerida_idi_isba_j: "",
-    documentacion_adjunta_requerida_idi_isba_k: "",
-    documentacion_adjunta_requerida_idi_isba_l: "",
-    documentacion_adjunta_requerida_idi_isba_m: "",
-    documentacion_adjunta_requerida_idi_isba_n: "",
+    file_memoriaTecnica: '',
+    file_document_veracidad_datos_bancarios: '',
+    file_certificadoIAE: '',
+    file_altaAutonomos: '',
+    file_escrituraConstitucion: '',
+    file_nifRepresentante: '',
+    file_certificadoATIB: '',
+    file_certificadoAEAT: '',
+    file_certificadoLey382003: '',
+    file_certificadoSGR: '',
+    file_contratoOperFinanc: '',
+    file_avalOperFinanc: '',
   }
 
   // 10 MB máximos
@@ -71,35 +87,39 @@ export class IsbaGrantApplicationFormComponent {
   constructor(private commonService: CommonService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.isbaForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
+
       tipo_solicitante: this.fb.control<string>('', [Validators.required]),
+
       nif: this.fb.control<string>('', []), // Los validadores se setean posteriormente de forma dinámica,
-      denom_interesado: this.fb.control<string>('', [Validators.required]),
-      domicilio: this.fb.control<string>('', [Validators.required]),
+      denom_interesado: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
+      domicilio: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
-      localidad: this.fb.control<string>(''),
+      localidad: this.fb.control<string>({ value: '', disabled: true }),
       telefono_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.minLength(9), Validators.maxLength(9)]),
       codigoIAE: this.fb.control<string>('', [Validators.required]),
-
       // Seteo sus validadores y sus enables/disables en base a business_type
-      nom_representante: this.fb.control<string>({ value: '', disabled: true }, []),
+      nom_representante: this.fb.control<string>({ value: '', disabled: true }, []), // La protección de xss se añade posteriormente
       nif_representante: this.fb.control<string>({ value: '', disabled: true }, []),
       telefono_contacto_rep: this.fb.control<string>({ value: '', disabled: true }, []),
 
       tel_representante: this.fb.control<string>('', [Validators.required, Validators.maxLength(9), Validators.minLength(9), Validators.pattern('[0-9]{9}')]),
       mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
-      nom_entidad: this.fb.control<string>('', [Validators.required]),
-      importe_prestamo: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
-      plazo_prestamo: this.fb.control<string>('', [Validators.required,]),
+
+      nom_entidad: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
+      importe_prestamo: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+      plazo_prestamo: this.fb.control<string>('', [Validators.required]),
       fecha_aval_isba: this.fb.control<string>('', [Validators.required]),
       plazo_aval_isba: this.fb.control<string>('', [Validators.required]),
-      cuantia_aval_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
-      finalidad_inversion_idi_isba: this.fb.control<string>('', [Validators.required]),
+      cuantia_aval_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+
+      finalidad_inversion_idi_isba: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       empresa_eco_idi_isba: this.fb.control<string>('', [Validators.required]),
-      importe_presupuesto_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
-      intereses_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
-      coste_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
-      gastos_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
-      importe_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d+)?$')]),
+      importe_presupuesto_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+      intereses_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+      coste_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+      gastos_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+      importe_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+
       declaro_idi_isba_que_cumple_0: this.fb.control<boolean>(true, []),
       declaro_idi_isba_que_cumple_1: this.fb.control<boolean>(true, []),
       declaro_idi_isba_que_cumple_2: this.fb.control<boolean>(true, []),
@@ -116,22 +136,20 @@ export class IsbaGrantApplicationFormComponent {
       declaro_idi_isba_que_cumple_15: this.fb.control<boolean>(true, []),
 
       /* Documentación */
-      documentacion_adjunta_requerida_idi_isba_a: this.fb.control<File | null>(null, []),
-      documentacion_adjunta_requerida_idi_isba_b: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_c: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_d: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_e: this.fb.control<File | null>(null, []), // Persona física
-      documentacion_adjunta_requerida_idi_isba_f: this.fb.control<File | null>(null, []), // Persona jurídica
+      file_memoriaTecnica: this.fb.control<string | null>('', [Validators.required]),
+      file_document_veracidad_datos_bancarios: this.fb.control<string | null>('', [Validators.required]),
+      file_certificadoIAE: this.fb.control<string | null>('', [Validators.required]),
+      file_altaAutonomos: this.fb.control<string | null>('', []), // Persona física
+      file_escrituraConstitucion: this.fb.control<string | null>('', []), // Persona jurídica
       dni_no_consent: this.fb.control<boolean>(false, []),
-      documentacion_adjunta_requerida_idi_isba_g: this.fb.control<File | null>(null, []), // DNI/NIE con consentimiento
+      file_nifRepresentante: this.fb.control<string | null>('', []), // DNI/NIE con consentimiento
       atib_no_consent: this.fb.control<boolean>(false, []),
-      documentacion_adjunta_requerida_idi_isba_h: this.fb.control<File | null>(null, []), // Certificado ATIB y SS con consentimiento
-      documentacion_adjunta_requerida_idi_isba_i: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_j: this.fb.control<File | null>(null, []), // Ayudas superiores a 30.000€
-      documentacion_adjunta_requerida_idi_isba_k: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_l: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_m: this.fb.control<File | null>(null, [Validators.required]),
-      documentacion_adjunta_requerida_idi_isba_n: this.fb.control<File | null>(null, []),
+      file_certificadoATIB: this.fb.control<string | null>('', []), // Certificado ATIB y SS con consentimiento
+      file_certificadoAEAT: this.fb.control<string | null>('', [Validators.required]),
+      file_certificadoLey382003: this.fb.control<string | null>('', []), // Ayudas superiores a 30.000€
+      file_certificadoSGR: this.fb.control<string | null>('', [Validators.required]),
+      file_contratoOperFinanc: this.fb.control<string | null>('', [Validators.required]),
+      file_avalOperFinanc: this.fb.control<string | null>('', [Validators.required]),
 
       tipo_tramite: this.fb.control<string>('ADR-ISBA')
 
@@ -142,15 +160,12 @@ export class IsbaGrantApplicationFormComponent {
     // Desbloqueo por RGPD
     this.isbaForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
       this.rgpdAccepted = value
-      if (value) {
-        this.setStep(1)
-      }
     })
 
     // Aparición/desaparición del campo 'ayudasSubvenSICuales_dec_resp' en base al 5º checkbox.
     this.isbaForm.get('declaro_idi_isba_que_cumple_4')?.valueChanges.subscribe((value: boolean) => {
       const ayudasSubvencionesNOControl = this.isbaForm.get('ayudasSubvenSICuales_dec_resp')
-      const ayudasValidators = []
+      const ayudasValidators = [this.customValidator.xssProtectorValidator()]
       ayudasSubvencionesNOControl?.reset('')
 
       if (value === false) {
@@ -164,12 +179,12 @@ export class IsbaGrantApplicationFormComponent {
 
     // Aparición/desaparición del input file DNI/NIE
     this.isbaForm.get('dni_no_consent')?.valueChanges.subscribe((value: boolean) => {
-      this.docsCheckboxChanges('documentacion_adjunta_requerida_idi_isba_g', value, "dni_no_consent")
+      this.docsCheckboxChanges('file_nifRepresentante', value, "dni_no_consent")
     })
 
     // Aparición/desaparición del input file ATIB/Seg. Socia
     this.isbaForm.get('atib_no_consent')?.valueChanges.subscribe((value: boolean) => {
-      this.docsCheckboxChanges('documentacion_adjunta_requerida_idi_isba_h', value, 'atib_no_consent')
+      this.docsCheckboxChanges('file_certificadoATIB', value, 'atib_no_consent')
     })
 
     // Zipcode
@@ -181,7 +196,6 @@ export class IsbaGrantApplicationFormComponent {
       })
     )
 
-
     this.loadZipcodes()
     this.loadActividadesCNAE()
 
@@ -191,21 +205,51 @@ export class IsbaGrantApplicationFormComponent {
     console.log(this.isbaForm.value)
   }
 
+  /* Cambiado a fecha 30/06. Cambios:
+    - Cambio totalmente la forma de guardado. Ahora se guarda el archivo entero en un objeto de clase llamado file y el nombre del archivo en un objeto llamado fileNames
+    - Permito que se guarde correctamente habiendo más de un file para subir.
+    - Ahora hay un listado de archivos preparados 
+  */
   onFileChange(event: Event, controlName: string): void {
-    const file = (event.target as HTMLInputElement).files?.[0]
+    const input = event.target as HTMLInputElement
     const controlNameForm = this.isbaForm.get(controlName)
+    const inputFiles: File[] = []
+    const inputFilesNames: string[] = []
 
-    if (file) {
-      controlNameForm?.setValue(file)
-      if (file.size > this.maxFileSizeBytes) {
-        controlNameForm?.setErrors({ invalidFile: true })
-      }
+    controlNameForm?.setErrors(null)
 
-      else {
-        controlNameForm?.setErrors(null)
+    if (input.files) {
+      for (let index = 0; index < input.files.length; index++) {
+        const file = input.files.item(index)
+        if (file) {
+          if (file.size > this.maxFileSizeBytes) {
+            controlNameForm?.setErrors({ invalidFile: true })
+          }
+          inputFiles.push(file)
+          inputFilesNames.push(file.name)
+        }
       }
-      this.fileNames[controlName] = file.name
     }
+
+    this.files[controlName] = inputFiles;
+    this.fileNames[controlName] = inputFilesNames.join(', ')
+  }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false
+    dialogConfig.autoFocus = true
+    dialogConfig.panelClass = "dialog-customization"
+    dialogConfig.backdropClass = "popupBackdropClass"
+    dialogConfig.position = {
+      'top': '10%',
+      'left': '10%'
+    };
+    dialogConfig.width = '90%',
+      dialogConfig.data = {
+        questionText: questionText, toolTipText: toolTipText, doc1: doc1, doc2: doc2
+      };
+    this.dialog.open(PopUpDialogComponent, dialogConfig);
   }
 
 
@@ -223,7 +267,7 @@ export class IsbaGrantApplicationFormComponent {
     const applicantNifValidators = [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
 
     const repName = this.isbaForm.get('nom_representante')
-    const repNameValidators = []
+    const repNameValidators = [this.customValidator.xssProtectorValidator()]
 
     const repNif = this.isbaForm.get('nif_representante')
     const repNifValidators = [this.customValidator.dniNieValidator(), Validators.minLength(9), Validators.maxLength(9)]
@@ -231,10 +275,10 @@ export class IsbaGrantApplicationFormComponent {
     const repPhone = this.isbaForm.get('telefono_contacto_rep')
     const repPhoneValidators = [Validators.minLength(9), Validators.maxLength(9), Validators.pattern('[0-9]{9}')]
 
-    const docsPersFis = this.isbaForm.get('documentacion_adjunta_requerida_idi_isba_e')
+    const docsPersFis = this.isbaForm.get('file_altaAutonomos')
     const docsPersFisValidators = []
 
-    const docsPersJur = this.isbaForm.get('documentacion_adjunta_requerida_idi_isba_f')
+    const docsPersJur = this.isbaForm.get('file_escrituraConstitucion')
     const docsPersJurValidators = []
 
     if (tipo_solicitante === "autonomo") {
@@ -270,9 +314,37 @@ export class IsbaGrantApplicationFormComponent {
     docsPersJur?.setValidators(docsPersJurValidators);
 
     [applicantNif, repName, repNif, repPhone, docsPersFis, docsPersJur].forEach(control => control?.updateValueAndValidity())
-
     this.businessTypeChoosed = true
-    this.setStep(2)
+  }
+
+  // Checkea los 3 campos de subvenciones. Si el total de esos 3 no es igual al importe de presupuesto, lanzará error en los 3 campos
+  checkTotalAmount(): void {
+    const totalAmountControl = this.isbaForm.get('importe_presupuesto_idi_isba')
+
+    const interestSubsidyControl = this.isbaForm.get('intereses_ayuda_solicita_idi_isba')
+    const costSubsidyControl = this.isbaForm.get('coste_aval_solicita_idi_isba')
+    const startStudySubsidyControl = this.isbaForm.get('gastos_aval_solicita_idi_isba')
+
+    // Todos con valor
+    if (
+      totalAmountControl?.value != null &&
+      interestSubsidyControl?.value != null &&
+      costSubsidyControl?.value != null &&
+      startStudySubsidyControl?.value != null
+    ) {
+      const subsidyTotal = (+interestSubsidyControl?.value + +costSubsidyControl?.value + +startStudySubsidyControl?.value).toFixed(2)
+      const totalAmount = (+totalAmountControl.value).toFixed(2)
+
+      if (subsidyTotal != totalAmount) {
+        interestSubsidyControl?.setErrors({ notEqualError: true })
+        costSubsidyControl?.setErrors({ notEqualError: true })
+        startStudySubsidyControl?.setErrors({ notEqualError: true })
+      } else {
+        interestSubsidyControl?.setErrors(null)
+        costSubsidyControl?.setErrors(null)
+        startStudySubsidyControl?.setErrors(null)
+      }
+    }
   }
 
   setStep(index: number): void {
@@ -322,7 +394,7 @@ export class IsbaGrantApplicationFormComponent {
   checkAmount(): void {
     const importeSubvencionSolicitada = this.isbaForm.get('importe_ayuda_solicita_idi_isba')?.value;
     const documentoSubvencionValidators = []
-    const documentoSubvencion = this.isbaForm.get('documentacion_adjunta_requerida_idi_isba_j')
+    const documentoSubvencion = this.isbaForm.get('file_certificadoLey382003')
 
     if (+importeSubvencionSolicitada > 30000) {
       documentoSubvencionValidators.push(Validators.required)

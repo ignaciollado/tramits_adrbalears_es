@@ -97,7 +97,11 @@
     "RGPD": {
       "TITLE": "GDPR and documentation",
       "DESCRIPTION": "GDPR conditions and required documentation.",
-      "READ-AND-ACCEPTS": "I have read and accept the terms and conditions of the",
+      "READ-AND-ACCEPTS": {
+        "PART-1": "I have read and accept the terms and conditions of the",
+        "PART-2": "The personal data provided will be processed by ADR Balears as responsible for the treatment, in order to manage your request. You can exercise your rights of access, rectification, deletion and others, as detailed in the ",
+        "PRIVACY-TEXT": "privacy policy."
+      },
       "REQUIRED-DOCS": {
         "INFO": "Before starting, it is advisable to have the following compliance documentation ready:",
         "DOC-1": "Deed of incorporation of the company.",
@@ -300,7 +304,11 @@
     "RGPD": {
       "TITLE": "GDPR and documentation",
       "DESCRIPTION": "GDPR conditions and required documentation.",
-      "READ-AND-ACCEPTS": "I have read and accept the terms and conditions of the",
+      "READ-AND-ACCEPTS": {
+        "PART-1": "I have read and accept the terms and conditions of the",
+        "PART-2": "The personal data provided will be processed by ADR Balears as responsible for the treatment, in order to manage your request. You can exercise your rights of access, rectification, deletion and others, as detailed in the ",
+        "PRIVACY-TEXT": "privacy policy."
+      },
       "REQUIRED-DOCS": {
         "INFO": "Before starting, it is advisable to have the following documentation ready:",
         "DOC-1": "The standard grant application document for this call, which is generated at the end of this wizard by clicking on the 'Send' button and which you will receive by e-mail.",
@@ -432,8 +440,7 @@
       "AVAL-AMOUNT": {
         "LABEL": "Amount of the ISBA, SGR guarantee (€)",
         "ERROR": "The amount of the guarantee entered is not valid."
-      },
-      "HINT": "Without thousands separator and with '.' as decimal separator."
+      }
     },
     "PROJECT-BUDGET": {
       "TITLE": "Investment project and budget",
@@ -454,7 +461,8 @@
         "DETAILS": "With the following subsidies:",
         "INTEREST-SUBSIDY": "An interest subsidy, consisting of an amount of",
         "COST-SUBSIDY": "A subsidy to the cost of ISBA's guarantee, consisting of the amount of",
-        "START-STUDY-SUBSIDY": "A grant for start-up and study expenses, consisting of the amount of"
+        "START-STUDY-SUBSIDY": "A grant for start-up and study expenses, consisting of the amount of",
+        "NOT-EQUAL-SUM-ERROR": "The total grants are not equal to the amount of the budget."
       },
       "REQUEST": {
         "TITLE": "REQUEST",
@@ -462,7 +470,6 @@
         "LABEL": "I request a grant in the amount of",
         "ERROR": "The amount entered is not valid."
       },
-      "HINT": "Without thousands separator and with '.' as decimal separator.",
       "SUBSIDY-ERROR": "The subsidy amount entered is not valid."
     },
     "DECLARATIONS": {
@@ -507,7 +514,7 @@
         "TITLE": "<strong>Legal entity:</strong>.",
         "DOC-1": "Public deed and bylaws, duly registered in the corresponding registry.",
         "DOC-2": "Reliable document accrediting the representation of the person acting on behalf of the applicant entity. The representation may be accredited by any legally valid form.",
-                "LABEL": "Documentation of legal entity. [.pdf, .jpeg, .png]"
+        "LABEL": "Documentation of legal entity. [.pdf, .jpeg, .png]"
       },
       "DOC-7": {
         "DOC-INFO": "Regarding the DNI/NIE of the applicant and/or the person representing him/her, the application for aid will imply the authorization for ADR Balears to verify his/her personal identity data ex officio. In case of express refusal of consent, it will be necessary to provide this documentation.",
