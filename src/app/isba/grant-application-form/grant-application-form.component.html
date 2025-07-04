@@ -32,9 +32,7 @@
                 <section>
                     <mat-checkbox formControlName="acceptRGPD">
                         <label>
-                            {{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.RGPD.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.RGPD.ACRONYM' | translate}}.</abbr>{{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-2' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-3' | translate}}
-                            <!-- (click)="openDialog('300ms', '300ms', 'Sobre el RGPD', '../../../assets/data/clausulaProteccionDatos.html', '', '')" -->
-                            <!-- (click)="openDialog('300ms', '300ms', 'Sobre la política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')" -->
+                            {{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.RGPD.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.RGPD.ACRONYM' | translate}}.</abbr><mat-icon data-icon="rgpd-icon" (click)="openDialog('300ms', '300ms', 'Sobre el RGPD', '../../../assets/data/clausulaProteccionDatos.html', '', '')">info</mat-icon>{{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-2' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-3' | translate}}<mat-icon data-icon="rgpd-info" (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')">info</mat-icon>
                         </label>
                     </mat-checkbox>
                     <section>

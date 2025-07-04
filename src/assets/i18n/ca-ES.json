@@ -284,7 +284,7 @@
           "PART-2": " i de les obligacions amb la Seguretat Social, la sol·licitud d'ajudes implicarà l'autorització perquè ",
           "PART-3": " pugui obtenir de l'",
           "PART-4": " i de la ",
-          "PART-5": " la informació relativa al compliment d'aquestes obligacions, excepte en cas de denegació expressa del consentiment, suposat en el qual la persona o l'entitat sol·licitant ha d'aportar el certificat corresponent, juntament amb la sol·licitud de les ajudes." 
+          "PART-5": " la informació relativa al compliment d'aquestes obligacions, excepte en cas de denegació expressa del consentiment, suposat en el qual la persona o l'entitat sol·licitant ha d'aportar el certificat corresponent, juntament amb la sol·licitud de les ajudes."
         },
         "DOC-9": "Quant a l'acreditació del requisit d'estar al corrent de les obligacions tributàries amb l'Agència Estatal de l'Administració Tributària, haurà d'aportar-se el certificat acreditatiu del compliment d'aquesta obligació.",
         "DOC-10": "Per a ajudes d'import superior a 30.000 €, haurà d'aportar-se el certificat que estableix l'article 13.3 bis de la Llei 38/2003 de 17 de novembre.",
@@ -476,7 +476,8 @@
       "DOC-11": "El certificat de la societat de garantia recíproca que avali l'operació financera que acrediti la data d'entrada de la sol·licitud del beneficiari de petició de l'aval sobre l'operació financera a subvencionar. [.pdf, .jpeg, .png]",
       "DOC-12": "Contracte de l'operació financera. [.pdf, ,jpeg, .png]",
       "DOC-13": "Contracte o document d'aval de l'operació financera. [.pdf, .jpeg, .png]",
-      "DOC-14": "Una Declaració responsable, inclosa en el model normalitzat de sol·licitud, de la persona titular de l'empresa o de qui la representa legalment, la qual es genera en enviar aquesta sol·licitud."    }
+      "DOC-14": "Una Declaració responsable, inclosa en el model normalitzat de sol·licitud, de la persona titular de l'empresa o de qui la representa legalment, la qual es genera en enviar aquesta sol·licitud."
+    }
   },
   "COMMON": {
     "EXPANDALL": "Expandir tot",
