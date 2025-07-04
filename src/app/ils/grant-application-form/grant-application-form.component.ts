@@ -224,8 +224,8 @@ export class IlsGrantApplicationFormComponent {
 
   // Cambio de custom-validator según tipo solicitante
   changeNIFValidator(): void {
-    const nifControl = this.ilsForm.get('nif')
     const tipo_solicitanteValue = this.ilsForm.get('tipo_solicitante')?.value
+    const applicantNif = this.ilsForm.get('nif')
 
     const nifValidators = [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
 
@@ -237,8 +237,10 @@ export class IlsGrantApplicationFormComponent {
       nifValidators.push(this.customValidator.cifValidator())
     }
 
-    nifControl?.setValidators(nifValidators)
-    nifControl?.updateValueAndValidity()
+    applicantNif?.reset('')
+
+    applicantNif?.setValidators(nifValidators)
+    applicantNif?.updateValueAndValidity()
     this.businessTypeChoosed = true
   }
 
