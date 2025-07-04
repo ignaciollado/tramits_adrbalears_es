@@ -110,31 +110,31 @@ export class IlsGrantApplicationFormComponent {
       tel_representante: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9)]),
       mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
 
-      checkboxID: this.fb.control<boolean>(true),
-      file_enviardocumentoIdentificacion: this.fb.control<string | null>(''),
-      checkboxATIB: this.fb.control<boolean>(true),
-      file_certificadoATIB: this.fb.control<string | null>(''),
+      checkboxID: this.fb.control<boolean>(true, []),
+      file_enviardocumentoIdentificacion: this.fb.control<string | null>('', []),
+      checkboxATIB: this.fb.control<boolean>(true, []),
+      file_certificadoATIB: this.fb.control<string | null>('', []),
 
-      declaracion_responsable_i: this.fb.control<boolean>(true),
-      declaracion_responsable_v: this.fb.control<boolean>(true),
-      declaracion_responsable_vii: this.fb.control<boolean>(true),
-      declaracion_responsable_ix: this.fb.control<boolean>(true),
+      declaracion_responsable_i: this.fb.control<boolean>({value: true, disabled: true}, []),
+      declaracion_responsable_v: this.fb.control<boolean>({value: true, disabled: true}, []),
+      declaracion_responsable_vii: this.fb.control<boolean>({value: true, disabled: true}, []),
+      declaracion_responsable_ix: this.fb.control<boolean>({value: true, disabled: true}, []),
 
       // Documentación
       file_escritura_empresa: this.fb.control<string | null>('', [Validators.required]),
       file_certificado_IAE: this.fb.control<string | null>('', [Validators.required]),
       radioGroupFile: this.fb.control(null, [Validators.required]),
-      file_informeResumenIls: this.fb.control<string | null>(''), // Primera opción radio
-      file_informeInventarioIls: this.fb.control<string | null>(''), // Primera opción radio
-      file_certificado_verificacion_ISO: this.fb.control<string | null>(''), // Segunda opción radio
+      file_informeResumenIls: this.fb.control<string | null>('', []), // Primera opción radio
+      file_informeInventarioIls: this.fb.control<string | null>('', []), // Primera opción radio
+      file_certificado_verificacion_ISO: this.fb.control<string | null>('', []), // Segunda opción radio
 
       file_modeloEjemploIls: this.fb.control<string | null>('', [Validators.required]),
       file_certificado_itinerario_formativo: this.fb.control<string | null>('', [Validators.required]),
-      file_memoriaTecnica: this.fb.control<string | null>(''),
-      file_nifEmpresa: this.fb.control<string | null>(''),
-      file_logotipoEmpresaIls: this.fb.control<string | null>(''),
+      file_memoriaTecnica: this.fb.control<string | null>('', []),
+      file_nifEmpresa: this.fb.control<string | null>('', []),
+      file_logotipoEmpresaIls: this.fb.control<string | null>('', []),
 
-      tipo_tramite: this.fb.control<string>('ILS')
+      tipo_tramite: this.fb.control<string>('ILS', [])
     })
     this.customTimestamp = this.commonService.generateCustomTimestamp()
     this.actualYear = this.customTimestamp.split('_')[2]
