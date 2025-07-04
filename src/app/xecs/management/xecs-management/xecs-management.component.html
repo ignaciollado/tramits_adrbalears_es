@@ -24,7 +24,7 @@
 
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" *ngIf="!loading && dataSource.data.length">
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" >
 
   <ng-container matColumnDef="idExp">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Expediente </th>
