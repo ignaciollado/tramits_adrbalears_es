@@ -37,7 +37,6 @@ export class IsbaGrantApplicationFormComponent {
   isbaForm: FormGroup
   rgpdAccepted = false
   businessType: string = "";
-  businessTypeChoosed: boolean = false // Evitar problemas de validadores
   ayudasSubvenciones: boolean = true // Checkbox 5ª declaración responsable. En caso de false, debe enumerar las subvenciones
   dni_no_consent: boolean = false // Checkbox consentimiento en DNI/NIE
   atib_no_consent: boolean = false // Checkbox consentimiento en ATIB
@@ -90,7 +89,7 @@ export class IsbaGrantApplicationFormComponent {
 
       tipo_solicitante: this.fb.control<string>('', [Validators.required]),
 
-      nif: this.fb.control<string>('', []), // Los validadores se setean posteriormente de forma dinámica,
+      nif: this.fb.control<string>({value: '', disabled: true}, []), // Los validadores se setean posteriormente de forma dinámica,
       denom_interesado: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       domicilio: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
@@ -314,7 +313,7 @@ export class IsbaGrantApplicationFormComponent {
     docsPersJur?.setValidators(docsPersJurValidators);
 
     [applicantNif, repName, repNif, repPhone, docsPersFis, docsPersJur].forEach(control => control?.updateValueAndValidity())
-    this.businessTypeChoosed = true
+    applicantNif?.enable()
   }
 
   // Checkea los 3 campos de subvenciones. Si el total de esos 3 no es igual al importe de presupuesto, lanzará error en los 3 campos

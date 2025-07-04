@@ -90,29 +90,21 @@
             </mat-expansion-panel-header>
             <section ngClass="form personal-data">
                 <mat-form-field>
-                    <mat-label *ngIf="businessType === 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.LABEL' |
-                        translate}}</mat-label>
-                    <mat-label *ngIf="businessType !== 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.CIF.LABEL' |
-                        translate}}</mat-label>
+                    <mat-label *ngIf="businessType === 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.LABEL' | translate}}</mat-label>
+                    <mat-label *ngIf="businessType !== 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.CIF.LABEL' | translate}}</mat-label>
                     <input matInput type="text" formControlName="nif" maxlength="9">
-                    <mat-error
-                        *ngIf="ilsForm.get('nif')?.errors && businessType ==='autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.ERROR'
-                        | translate}}</mat-error>
-                    <mat-error
-                        *ngIf="ilsForm.get('nif')?.errors && businessType !=='autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.CIF.ERROR'
-                        | translate}}</mat-error>
+                    <mat-error *ngIf="ilsForm.get('nif')?.errors && businessType ==='autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.ERROR' | translate}}</mat-error>
+                    <mat-error *ngIf="ilsForm.get('nif')?.errors && businessType !=='autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.CIF.ERROR' | translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ILS.GENERAL-DATA.COMPANY-NAME.LABEL' | translate}}</mat-label>
                     <input matInput type="text" formControlName="denom_interesado">
-                    <mat-error *ngIf="ilsForm.get('denom_interesado')?.errors">{{'ILS.GENERAL-DATA.COMPANY-NAME.ERROR' |
-                        translate}}</mat-error>
+                    <mat-error *ngIf="ilsForm.get('denom_interesado')?.errors">{{'ILS.GENERAL-DATA.COMPANY-NAME.ERROR' | translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ILS.GENERAL-DATA.ADDRESS.LABEL' | translate}}</mat-label>
                     <input matInput type="text" formControlName="domicilio">
-                    <mat-error *ngIf="ilsForm.get('domicilio')?.errors">{{'ILS.GENERAL-DATA.ADDRESS.ERROR' |
-                        translate}}</mat-error>
+                    <mat-error *ngIf="ilsForm.get('domicilio')?.errors">{{'ILS.GENERAL-DATA.ADDRESS.ERROR' | translate}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field>
@@ -120,8 +112,7 @@
                     <input matInput (ngModelChange)="selectedValue()" type="text" formControlName="cpostal"
                         maxlength="5" minlength="5" [matAutocomplete]="auto" (blur)="cleanBlank($event)">
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.zipCode}}
-                            {{option.town}}</mat-option>
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
                     </mat-autocomplete>
                     <mat-error *ngIf="ilsForm.get('cpostal')?.errors">{{'ILS.GENERAL-DATA.ZIPCODE.ERROR' |
                         translate}}</mat-error>

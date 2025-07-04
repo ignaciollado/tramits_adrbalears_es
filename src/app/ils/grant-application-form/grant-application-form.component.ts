@@ -41,7 +41,6 @@ export class IlsGrantApplicationFormComponent {
   radioOptionDocs: string = ""
   rgpdAccepted = false
   businessType: string = "";
-  businessTypeChoosed: boolean = false // Para evitar problemas de validadores customs
 
   // Files
   fileNames: { [key: string]: string } = {
@@ -97,7 +96,7 @@ export class IlsGrantApplicationFormComponent {
     this.ilsForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
       tipo_solicitante: this.fb.control<string>('', [Validators.required]),
-      nif: this.fb.control<string>(''), // Validadores seteados posteriormente
+      nif: this.fb.control<string>({ value: '', disabled: true }, []), // Validadores seteados posteriormente
       denom_interesado: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
       domicilio: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
@@ -241,7 +240,7 @@ export class IlsGrantApplicationFormComponent {
 
     applicantNif?.setValidators(nifValidators)
     applicantNif?.updateValueAndValidity()
-    this.businessTypeChoosed = true
+    applicantNif?.enable()
   }
 
   private loadZipcodes(): void {
