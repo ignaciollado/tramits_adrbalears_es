@@ -57,9 +57,21 @@ ngOnInit(): void {
     convocatoria: [null],
     tipoTramite: [null]
   });
-  this.loadAllExpedientes()
-}
 
+  // Verifica si hay filtros guardados y si los valores son válidos
+  const savedConv = localStorage.getItem('filtroConvocatoria');
+  const savedTipo = localStorage.getItem('filtroTipoTramite');
+
+  if (savedConv && savedTipo) {
+    this.form.patchValue({
+      convocatoria: +savedConv,
+      tipoTramite: savedTipo
+    });
+    this.loadExpedientes(); // Usa el filtro guardado
+  } else {
+    this.loadAllExpedientes(); // Carga todo si no hay filtros
+  }
+}
 
 ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
@@ -73,7 +85,7 @@ ngAfterViewInit(): void {
     localStorage.setItem('tablaOrden', JSON.stringify(sort));
   });
     
-  }
+}
 
 loadAllExpedientes(): void {
   this.loading = true;
@@ -117,7 +129,6 @@ loadAllExpedientes(): void {
   });
 }
 
-
 loadExpedientes(): void {
   const { convocatoria, tipoTramite } = this.form.value;
 
@@ -130,15 +141,17 @@ loadExpedientes(): void {
   }
 
   this.loading = true;
+  localStorage.setItem('filtroConvocatoria', convocatoria.toString());
+  localStorage.setItem('filtroTipoTramite', tipoTramite);
 
   this.expedienteService.getExpedientesByConvocatoriaAndTipoTramite(convocatoria, tipoTramite).subscribe({
     next: (res) => {
+      // 🔁 Reinicia el índice de paginación antes de actualizar los datos
+      this.paginator.pageIndex = 0;
+      localStorage.setItem('paginaExpedientes', '0');
+
       this.actualizarTabla(res);
-      const paginaGuardada = localStorage.getItem('paginaExpedientes');
-if (paginaGuardada) {
-  this.paginator.pageIndex = +paginaGuardada;
-}
-this.dataSource.paginator = this.paginator;
+      this.dataSource.paginator = this.paginator;
 
       this.snackBar.open('Expedientes cargados correctamente ✅', 'Cerrar', {
         duration: 5000,
@@ -184,6 +197,15 @@ this.dataSource.sort = this.sort;
 aplicarFiltro(event: Event): void {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
+}
+
+limpiarFiltros(): void {
+  this.form.reset();
+  localStorage.removeItem('filtroConvocatoria');
+  localStorage.removeItem('filtroTipoTramite');
+  this.paginator.pageIndex = 0;
+  localStorage.setItem('paginaExpedientes', '0');
+  this.loadAllExpedientes();
 }
 
 situacionClass(value: string): string {
