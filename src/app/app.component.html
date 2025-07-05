@@ -3,7 +3,14 @@
 
   <main class="main-content">
     <router-outlet></router-outlet>
-    <a [routerLink]="['login']">Login</a>
+
+    <ng-container *ngIf="authService.isAuthenticated(); else loginLink">
+      <a (click)="logout()">Logout</a>
+    </ng-container>
+    <ng-template #loginLink>
+      <a [routerLink]="['login']">Login</a>
+    </ng-template>
   </main>
+
   <app-footer></app-footer>
 </section>
