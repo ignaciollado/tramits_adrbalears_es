@@ -93,11 +93,6 @@ export class LoginComponent {
   this.showSnackBar(message);
   this.loginForm.reset();
 }
-,
-            () => {
-                  console.log("Login complete, redirecting ...")
-                  this.router.navigateByUrl('home')
-            }
         )
     }
   }

@@ -8,6 +8,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from './Services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +25,10 @@ export class HeaderComponent implements OnInit {
     preferredLang: [localStorage.getItem('preferredLang') || 'es-ES']
   });
 
-  constructor(private translate: TranslateService, private fb: FormBuilder, private languageService: LanguageService) {
+  constructor(private translate: TranslateService, 
+    private fb: FormBuilder, 
+    private authService: AuthService, private router: Router,
+    private languageService: LanguageService) {
     this.translate.addLangs (['es-ES', 'ca-ES', 'en-EN']);
     this.translate.setDefaultLang ('es-ES');
     this.translate.use ('es-ES');
@@ -42,4 +47,12 @@ export class HeaderComponent implements OnInit {
     this.languageService.setLanguage(selectedLang);
     this.translate.use(selectedLang);
   }
+
+  logout(): void {
+  this.authService.logout();
+  this.router.navigate(['/login']); // redirige después de cerrar sesión
 }
+
+
+}
+
