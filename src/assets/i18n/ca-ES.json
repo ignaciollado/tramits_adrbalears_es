@@ -3,9 +3,9 @@
     "LOGIN": "Iniciar sessió",
     "EMAIL": "Adreça electrònica",
     "PASSWORD": "Contrasenya",
+    "FORGOT_PASSWORD": "Recuperar contrasenya",
     "SEND": "Enviar"
   },
-
   "HOME": {
     "WELCOME": "Benvingut a iTràmits, la plataforma oficial de ADR Balears per a la gestió d'ajudes i subvencions",
     "WELCOME_P1": "Aquesta aplicació permet gestionar i presentar sol·licituds per a les ajudes destinades a les empreses industrials de les Illes Balears, gestionades per l'Agència de Desenvolupament Regional de les Illes Balears (ADR Balears).",
@@ -65,7 +65,6 @@
     "RESPONSIBLEDECLARATION": "Declaració responsable",
     "RESPONSIBLEDECLARATIONEXPANDED": "Declaro que compleixo els requisits legals i normatius establerts en la convocatòria, i que la informació i documentació aportades són verídiques. L’empresa beneficiària compleix les condicions per operar a les Illes Balears.",
     "MINIMISIMPORT": "Import minimis rebut",
-
     "SEND": "Enviar"
   },
   "FILES": {

@@ -3,6 +3,7 @@
     "LOGIN": "Iniciar sesión",
     "EMAIL": "Correo electrónico",
     "PASSWORD": "Contraseña",
+    "FORGOT_PASSWORD": "Recuperar contraseña",
     "SEND": "Enviar"
   },
   "HOME": {
@@ -13,7 +14,6 @@
     "WELCOME_P4": "<strong>Ibavals Indústria:</strong> ADR Baleares y la Sociedad de Garantía Recíproca ISBA SGR ofrecen a las empresas industriales Ibavals Indústria, una línea de financiación para facilitar el acceso a un préstamo para invertir en mejora de la producción industrial.",
     "WELCOME_P5": "<strong>Industria Local Sostenible (ILS):</strong> es una marca de garantía creada por ADR Balears para identificar y visibilizar las industrias de las Islas Baleares comprometidas con el medio ambiente que se impliquen en el cálculo de la huella de carbono y en su reducción."
   },
-  
   "HEADER": {
     "TITLE": "Bienvenido",
     "XECSAPPFORM": "XECS: formulario de solicitud",
