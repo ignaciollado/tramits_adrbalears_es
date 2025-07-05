@@ -72,20 +72,41 @@ export class LoginComponent {
 
             this.router.navigate(['/body'])
             },
-            (error: any) => {
-                  this.showSnackBar(error)
-                  this.loginForm.reset()
-                },
-                  () => {
-                    console.log("Login complete, redirecting ...")
-                    this.router.navigateByUrl('home')
-                  }
+(error: any) => {
+  let message = '❌ Ha ocurrido un error inesperado.';
+  
+  if (error.status === 0) {
+    message = '❌ No se pudo conectar con el servidor. Verifica tu conexión.';
+  } else if (error.status === 401) {
+    message = '🔒 Credenciales incorrectas. Revisa tu correo electrónico o contraseña.';
+  } else if (error.status === 403) {
+    message = '⛔ Acceso denegado. No tienes permisos suficientes.';
+  } else if (error.status === 500) {
+    message = '💥 Error interno del servidor. Intenta de nuevo más tarde.';
+  } else if (error.error?.message) {
+    message = `⚠️ ${error.error.message}`;
+  }
+
+  console.error('Error durante el login:', error);
+  this.showSnackBar(message);
+  this.loginForm.reset();
+}
+,
+            () => {
+                  console.log("Login complete, redirecting ...")
+                  this.router.navigateByUrl('home')
+            }
         )
     }
   }
 
-  private showSnackBar(error: string): void {
-    this.snackBar.open( error, 'X', { duration: 10000, verticalPosition: 'top', 
-      horizontalPosition: 'center', panelClass: ["custom-snackbar"]} );
-  }
+private showSnackBar(message: string, panelClass = 'custom-snackbar'): void {
+  this.snackBar.open(message, 'X', {
+    duration: 10000,
+    verticalPosition: 'top',
+    horizontalPosition: 'center',
+    panelClass: [panelClass]
+  });
+}
+
 }
