@@ -41,6 +41,10 @@ export class AuthService {
     window.location.reload()
   }
 
+  recoverPassword(email: string): Observable<any> {
+  return this.http.post('/api/auth/recover-password', { email });
+}
+
   public isAuthenticated(): boolean {
     if (this.jwtHelper.isTokenExpired(sessionStorage.getItem("access_token"))) {
       return false

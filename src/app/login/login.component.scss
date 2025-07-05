@@ -35,3 +35,18 @@ $field-margin-bottom: 15px;
     }
   }
 }
+
+.recovery-link {
+  margin-top: 16px;
+  text-align: center;
+
+  a {
+    text-decoration: none;
+    color: #1976d2;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

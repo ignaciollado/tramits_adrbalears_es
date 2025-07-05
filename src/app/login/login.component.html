@@ -1,18 +1,22 @@
 <mat-card class="login-card">
-  <h2>{{'APP.LOGIN' | translate}}</h2>
+  <h2>{{ 'APP.LOGIN' | translate }}</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>{{'APP.EMAIL' |translate}}</mat-label>
+      <mat-label>{{ 'APP.EMAIL' | translate }}</mat-label>
       <input matInput formControlName="email" type="email" required />
     </mat-form-field>
 
-    <mat-form-field appearance="fill" ngClass="full-width">
-      <mat-label>{{'APP.PASSWORD' |translate}}</mat-label>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{ 'APP.PASSWORD' | translate }}</mat-label>
       <input matInput formControlName="password" type="password" required />
     </mat-form-field>
 
     <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
-      {{'APP.SEND' |translate}}
+      {{ 'APP.SEND' | translate }}
     </button>
   </form>
+
+  <!-- Enlace a recuperación de contraseña -->
+  <div ngClass="recovery-link"> <a [routerLink]="['/recover-password']">{{ 'APP.FORGOT_PASSWORD' | translate }}</a>
+  </div>
 </mat-card>
