@@ -84,8 +84,8 @@ export class AuthService {
     return isValid;
   }
 
-  public recoverPassword(email: string): Observable<any> {
-    return this.http.post('/api/auth/recover-password', { email });
+  public sendRecoverPasswordMail(email: string): Observable<any> {
+    return this.http.post('/api/send-recover-password-mail', { email });
   }
 
   public resetPassword(userMail: string, password: string): Observable<any> {

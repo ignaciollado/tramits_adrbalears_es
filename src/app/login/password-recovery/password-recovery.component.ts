@@ -43,7 +43,7 @@ export class PasswordRecoveryComponent {
     const email = this.form.value.email;
     this.loading = true;
 
-    this.authService.recoverPassword(email).subscribe({
+    this.authService.sendRecoverPasswordMail(email).subscribe({
       next: () => {
         this.snackBar.open('📧 Se ha enviado un correo para restablecer la contraseña.', 'Cerrar', {
           duration: 6000,
