@@ -85,7 +85,7 @@ export class AuthService {
   }
 
   public sendRecoverPasswordMail(email: string): Observable<any> {
-    return this.http.post('/api/send-recover-password-mail', { email });
+    return this.http.post(`${URL_API_SRV}/api/send-recover-password-mail`, { email });
   }
 
   public resetPassword(userMail: string, password: string): Observable<any> {
