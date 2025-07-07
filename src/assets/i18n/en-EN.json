@@ -4,7 +4,9 @@
     "EMAIL": "Email Address",
     "PASSWORD": "Password",
     "FORGOT_PASSWORD": "Forgot password",
-    "SEND": "Send"
+    "SEND": "Send",
+    "SENDING": "Sending"
+
   },
   "HOME": {
     "WELCOME": "Welcome to iTràmits, the official platform of ADR Balears for the management of grants and subsidies",

@@ -7,12 +7,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../Services/auth.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-password-recovery',
   standalone: true,
   imports: [
-    CommonModule,
+    CommonModule, TranslateModule,
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -56,11 +57,13 @@ export class PasswordRecoveryComponent {
           message = 'El correo electrónico no está registrado.';
         } else if (err.error?.message) {
           message = err.error.message;
+
         }
         this.snackBar.open(message, 'Cerrar', {
           duration: 6000,
           panelClass: 'snack-error'
         });
+            this.loading = false;
       },
       complete: () => this.loading = false
     });

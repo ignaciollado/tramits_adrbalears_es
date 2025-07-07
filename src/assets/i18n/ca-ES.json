@@ -4,7 +4,9 @@
     "EMAIL": "Adreça electrònica",
     "PASSWORD": "Contrasenya",
     "FORGOT_PASSWORD": "Recuperar contrasenya",
-    "SEND": "Enviar"
+    "SEND": "Enviar",
+    "SENDING": "Enviant"
+
   },
   "HOME": {
     "WELCOME": "Benvingut a iTràmits, la plataforma oficial de ADR Balears per a la gestió d'ajudes i subvencions",
