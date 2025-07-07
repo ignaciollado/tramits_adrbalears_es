@@ -40,8 +40,8 @@ export class ExpedienteService {
   }
 
   // POST
-  createExpediente(expediente: any): Observable<any> {
-    return this.http.post<any>(`${this.urlAPITramits}/pindustexpediente/create`, expediente).pipe(catchError(this.handleError))
+  createExpediente(expediente: any): Observable<{id: number}> {
+    return this.http.post<{id: number}>(`${this.urlAPITramits}/pindustexpediente/create`, expediente).pipe(catchError(this.handleError))
   }
 
   // PUT
@@ -53,8 +53,6 @@ export class ExpedienteService {
   deleteExpediente(id: number): Observable<void> {
     return this.http.delete<void>(`${this.urlAPITramits}/pindustexpediente/delete/${id}`).pipe(catchError(this.handleError))
   }
-
-
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';

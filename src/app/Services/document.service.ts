@@ -29,6 +29,7 @@ export class DocumentService {
     return this.http.get<any[]>(`${this.urlAPITramits}/document/${nif}/${timestamp}`)
       .pipe(catchError(this.handleError));
   }
+  
   createDocument(nif:string, timestamp: string, formData: FormData): Observable<HttpEvent<any>> {
     return this.http.post<any>(`${this.urlAPITramits}/document/upload/${nif}/${timestamp}`, formData, {
       reportProgress: true, observe: 'events'})

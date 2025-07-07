@@ -111,8 +111,8 @@
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.GENERAL-DATA.COMPANY-NAME.LABEL' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="denom_interesado">
-                        <mat-error *ngIf="isbaForm.get('denom_interesado')?.errors" >{{'ISBA.GENERAL-DATA.COMPANY-NAME.ERROR' | translate}}</mat-error>
+                        <input matInput type="text" formControlName="empresa">
+                        <mat-error *ngIf="isbaForm.get('empresa')?.errors" >{{'ISBA.GENERAL-DATA.COMPANY-NAME.ERROR' | translate}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.GENERAL-DATA.ADDRESS.LABEL' | translate}}</mat-label>
@@ -133,25 +133,25 @@
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.GENERAL-DATA.CONTACT-PHONE.LABEL' | translate}}</mat-label>
-                        <input matInput type="tel" formControlName="telefono_cont" (blur)="cleanBlank($event)" minlength="9" maxlength="9">
-                        <mat-error *ngIf="isbaForm.get('telefono_cont')?.errors">{{'ISBA.GENERAL-DATA.CONTACT-PHONE.ERROR' | translate}}</mat-error>
+                        <input matInput type="tel" formControlName="telefono" (blur)="cleanBlank($event)" minlength="9" maxlength="9">
+                        <mat-error *ngIf="isbaForm.get('telefono')?.errors">{{'ISBA.GENERAL-DATA.CONTACT-PHONE.ERROR' | translate}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.GENERAL-DATA.CNAE-CODE.LABEL' | translate}}</mat-label>
-                        <mat-select formControlName="codigoIAE">
+                        <mat-select formControlName="iae">
                             <mat-option *ngFor="let actividad of actividadesCNAE" [value]="actividad.id">{{actividad.label_cas}}</mat-option>
                         </mat-select>
-                        <mat-error *ngIf="isbaForm.get('codigoIAE')?.errors">{{'ISBA.GENERAL-DATA.CNAE-CODE.ERROR' | translate}}</mat-error>
+                        <mat-error *ngIf="isbaForm.get('iae')?.errors">{{'ISBA.GENERAL-DATA.CNAE-CODE.ERROR' | translate}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NAME.LABEL' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="nom_representante">
-                        <mat-error *ngIf="isbaForm.get('nom_representante')?.errors">{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NAME.ERROR' | translate}}</mat-error>
+                        <input matInput type="text" formControlName="nombre_rep">
+                        <mat-error *ngIf="isbaForm.get('nombre_rep')?.errors">{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NAME.ERROR' | translate}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NIF.LABEL' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="nif_representante" (blur)="cleanBlank($event)" maxlength="9" minlength="9">
-                        <mat-error *ngIf="isbaForm.get('nif_representante')?.errors">{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NIF.ERROR' | translate}}</mat-error>
+                        <input matInput type="text" formControlName="nif_rep" (blur)="cleanBlank($event)" maxlength="9" minlength="9">
+                        <mat-error *ngIf="isbaForm.get('nif_rep')?.errors">{{'ISBA.GENERAL-DATA.REPRESENTATIVE.NIF.ERROR' | translate}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.GENERAL-DATA.REPRESENTATIVE.PHONE.LABEL' | translate}}</mat-label>
@@ -174,13 +174,13 @@
                     <section ngClass="inputs">
                         <mat-form-field>
                             <mat-label>{{'ISBA.NOTIFICATION-CHANNEL.PHONE.LABEL' | translate}}</mat-label>
-                            <input matInput type="tel" maxlength="9" minlength="9" formControlName="tel_representante" (blur)="cleanBlank($event)">
-                            <mat-error *ngIf="isbaForm.get('tel_representante')?.errors">{{'ISBA.NOTIFICATION-CHANNEL.PHONE.ERROR' | translate}}</mat-error>
+                            <input matInput type="tel" maxlength="9" minlength="9" formControlName="telefono_rep" (blur)="cleanBlank($event)">
+                            <mat-error *ngIf="isbaForm.get('telefono_rep')?.errors">{{'ISBA.NOTIFICATION-CHANNEL.PHONE.ERROR' | translate}}</mat-error>
                         </mat-form-field>
                         <mat-form-field>
                             <mat-label>{{'ISBA.NOTIFICATION-CHANNEL.EMAIL.LABEL' | translate}}</mat-label>
-                            <input matInput type="email" formControlName="mail_representante" (blur)="cleanBlank($event)">
-                            <mat-error *ngIf="isbaForm.get('mail_representante')?.errors">{{'ISBA.NOTIFICATION-CHANNEL.EMAIL.ERROR' | translate}}</mat-error>
+                            <input matInput type="email" formControlName="email_rep" (blur)="cleanBlank($event)">
+                            <mat-error *ngIf="isbaForm.get('email_rep')?.errors">{{'ISBA.NOTIFICATION-CHANNEL.EMAIL.ERROR' | translate}}</mat-error>
                         </mat-form-field>
                     </section>
                 </section>
@@ -210,18 +210,18 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ISBA.FINANCIAL-DATA.FORMALIZATION-DATE.LABEL' | translate}}</mat-label>
-                    <input matInput type="date" formControlName="fecha_aval_isba">
-                    <mat-error *ngIf="isbaForm.get('fecha_aval_isba')?.errors">{{'ISBA.FINANCIAL-DATA.FORMALIZATION-DATE.ERROR' | translate}}</mat-error>
+                    <input matInput type="date" formControlName="fecha_aval_idi_isba">
+                    <mat-error *ngIf="isbaForm.get('fecha_aval_idi_isba')?.errors">{{'ISBA.FINANCIAL-DATA.FORMALIZATION-DATE.ERROR' | translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ISBA.FINANCIAL-DATA.AVAL-TERM.LABEL' | translate}}</mat-label>
-                    <input matInput type="number" min="1" formControlName="plazo_aval_isba">
-                    <mat-error *ngIf="isbaForm.get('plazo_aval_isba')?.errors">{{'ISBA.FINANCIAL-DATA.AVAL-TERM.ERROR' | translate}}</mat-error>
+                    <input matInput type="number" min="1" formControlName="plazo_aval_idi_isba">
+                    <mat-error *ngIf="isbaForm.get('plazo_aval_idi_isba')?.errors">{{'ISBA.FINANCIAL-DATA.AVAL-TERM.ERROR' | translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ISBA.FINANCIAL-DATA.AVAL-AMOUNT.LABEL' | translate}}</mat-label>
-                    <input matInput type="decimal" formControlName="cuantia_aval_isba" min="1" (blur)="cleanBlank($event)">
-                    <mat-error *ngIf="isbaForm.get('cuantia_aval_isba')?.errors">{{'ISBA.FINANCIAL-DATA.AVAL-AMOUNT.ERROR' | translate}}</mat-error>
+                    <input matInput type="decimal" formControlName="cuantia_aval_idi_isba" min="1" (blur)="cleanBlank($event)">
+                    <mat-error *ngIf="isbaForm.get('cuantia_aval_idi_isba')?.errors">{{'ISBA.FINANCIAL-DATA.AVAL-AMOUNT.ERROR' | translate}}</mat-error>
                 </mat-form-field>
                 </section>
             </mat-expansion-panel>
