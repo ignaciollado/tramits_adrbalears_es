@@ -5,11 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-password-reset',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule],
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.scss']
 })
@@ -21,7 +22,7 @@ export class PasswordResetComponent {
   successMessage: string | null = null
 
   constructor(private fb: FormBuilder, 
-    private route: ActivatedRoute, private authService: AuthService) {
+    private route: ActivatedRoute, private authService: AuthService, private snackBar: MatSnackBar) {
     this.resetForm = this.fb.group(
       {
         password: ['', [Validators.required, Validators.minLength(8)]],
@@ -56,16 +57,27 @@ onSubmit() {
         catchError(error => {
           console.error('Error al restablecer la contraseña:', error);
           this.errorMessage = '❌ No se pudo restablecer la contraseña. Inténtalo de nuevo.';
+          this.snackBar.open(this.errorMessage, 'Cerrar', {
+            duration: 8000,
+            panelClass: 'snack-error'
+          });
           return of(null); // Devuelve un observable vacío para evitar que se rompa el flujo
         }),
         finalize(() => {
           console.log('Petición de restablecimiento finalizada');
-          // Aquí podrías cerrar un spinner o limpiar el formulario
+          this.snackBar.open('Petición de restablecimiento finalizada', 'Cerrar', {
+            duration: 8000,
+            panelClass: 'snack-error'
+          });
         })
       )
       .subscribe(response => {
         if (response) {
           this.successMessage = '✅ Contraseña restablecida correctamente.';
+          this.snackBar.open(this.successMessage, 'Cerrar', {
+            duration: 8000,
+            panelClass: 'snack-error'
+          });         
           this.resetForm.reset();
         }
       });
