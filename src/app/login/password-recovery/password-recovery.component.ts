@@ -38,34 +38,51 @@ export class PasswordRecoveryComponent {
     });
   }
 
-  onSubmit(): void {
-    if (this.form.invalid) return;
+onSubmit(): void {
+  if (this.form.invalid) return;
 
-    const email = this.form.value.email;
-    this.loading = true;
+  const email = this.form.value.email;
+  this.loading = true;
 
-    this.authService.sendRecoverPasswordMail(email).subscribe({
-      next: () => {
-        this.snackBar.open('📧 Se ha enviado un correo para restablecer la contraseña.', 'Cerrar', {
-          duration: 6000,
-          panelClass: 'snack-success'
-        });
-      },
-      error: (err) => {
-        let message = '❌ Error al enviar la solicitud.';
-        if (err.status === 404) {
-          message = 'El correo electrónico no está registrado.';
-        } else if (err.error?.message) {
-          message = err.error.message;
+  this.authService.sendRecoverPasswordMail(email).subscribe({
+    next: () => {
+      this.snackBar.open('📧 Se ha enviado un correo para restablecer la contraseña.', 'Cerrar', {
+        duration: 6000,
+        panelClass: 'snack-success'
+      });
+    },
+    error: (err) => {
+      this.loading = false;
 
-        }
-        this.snackBar.open(message, 'Cerrar', {
-          duration: 6000,
-          panelClass: 'snack-error'
-        });
-            this.loading = false;
-      },
-      complete: () => this.loading = false
-    });
-  }
+      const status = err?.status;
+      const backendMessage = err?.error?.message || '';
+      const technicalDetails = typeof err?.error === 'string' ? err.error : JSON.stringify(err.error, null, 2);
+
+      let message = `❌ Error al enviar la solicitud.`;
+
+      if (status === 404) {
+        message = '📪 El correo electrónico no está registrado en nuestra base de datos.';
+      } else if (backendMessage) {
+        message += `❌ ${backendMessage}`;
+      }
+
+      // Mostrar mensaje al usuario
+      this.snackBar.open(message, 'Cerrar', {
+        duration: 8000,
+        panelClass: 'snack-error'
+      });
+
+      // Detalles técnicos en consola para depurar
+      console.error('[Recuperación de contraseña] Error:', {
+        status,
+        backendMessage,
+        detalles: technicalDetails
+      });
+    },
+    complete: () => {
+      this.loading = false;
+    }
+  });
+}
+
 }

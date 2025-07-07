@@ -171,7 +171,6 @@ mat-icon[data-icon="rgdp-info"] {
   }
 }
 
-
 input:not([type="checkbox"]) {
   &:disabled {
     background: linear-gradient(135deg, #0098cb, #e6f2ef, #807e7e, #0098cb);
@@ -179,6 +178,16 @@ input:not([type="checkbox"]) {
     cursor: not-allowed;
     opacity: 0.4;
   }
+}
+
+.snack-success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.snack-error {
+  background-color: #f44336;
+  color: #fff;
 }
 
 
