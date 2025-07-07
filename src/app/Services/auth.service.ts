@@ -88,8 +88,8 @@ export class AuthService {
     return this.http.post(`${URL_API_SRV}/api/send-recover-password-mail`, { email });
   }
 
-  public resetPassword(userMail: string, password: string): Observable<any> {
-    return this.http.post(`${URL_API_SRV}/reset-user-pwd/${userMail}`, {password})
+  public resetPassword(userMail: string | null, password: string): Observable<any> {
+    return this.http.post(`${URL_API_SRV}/api/reset-user-pwd/${userMail}`, {password})
   }
 
   public createUser(userData: any): Observable<any> {

@@ -7,11 +7,13 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { XecsManagementComponent } from './xecs/management/xecs-management/xecs-management.component';
 import { PasswordRecoveryComponent } from './login/password-recovery/password-recovery.component';
+import { PasswordResetComponent } from './login/password-reset/password-reset.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'recover-password', component: PasswordRecoveryComponent },
+  { path: 'reset-password', component: PasswordResetComponent},
   
   { path: 'xecs-grant-subsidies-application-form', component: GrantApplicationFormComponent},
   { path: 'isba-grant-subsidies-application-form', component: IsbaGrantApplicationFormComponent},

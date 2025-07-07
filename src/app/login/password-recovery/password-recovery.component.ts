@@ -54,29 +54,20 @@ onSubmit(): void {
     error: (err) => {
       this.loading = false;
 
-      const status = err?.status;
-      const backendMessage = err?.error?.message || '';
-      const technicalDetails = typeof err?.error === 'string' ? err.error : JSON.stringify(err.error, null, 2);
+      const status = err?.status || 'desconocido';
+      const backendMessage = err?.error?.messages?.error || err?.error?.message || 'Ocurrió un error inesperado.';
 
-      let message = `❌ Error al enviar la solicitud.`;
-
-      if (status === 404) {
-        message = '📪 El correo electrónico no está registrado en nuestra base de datos.';
-      } else if (backendMessage) {
-        message += `❌ ${backendMessage}`;
-      }
-
-      // Mostrar mensaje al usuario
-      this.snackBar.open(message, 'Cerrar', {
+      // Mostramos mensaje detallado al usuario
+      const userMessage = `❌ Error ${status}: ${backendMessage}`;
+      this.snackBar.open(userMessage, 'Cerrar', {
         duration: 8000,
         panelClass: 'snack-error'
       });
 
-      // Detalles técnicos en consola para depurar
+      // Registro técnico en consola
       console.error('[Recuperación de contraseña] Error:', {
-        status,
-        backendMessage,
-        detalles: technicalDetails
+        status: err?.status,
+        errorBody: err?.error
       });
     },
     complete: () => {
