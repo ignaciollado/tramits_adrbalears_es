@@ -110,6 +110,7 @@ export class IlsGrantApplicationFormComponent {
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.ilsForm = this.fb.group({
+      
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
       tipo_solicitante: this.fb.control<string>('', [Validators.required]),
       nif: this.fb.control<string>({ value: '', disabled: true }, []), // Validadores seteados posteriormente
@@ -220,43 +221,56 @@ export class IlsGrantApplicationFormComponent {
         this.uploadDocuments(newId)
       }, error: (error) => { this.showSnackBar(error) }
     })
+
+    // Hardcodeado por el momento para el testeo
+    // this.uploadDocuments(1112)
   }
 
   // Subida de archivos en BBDD y servidor
   private uploadDocuments(id: number): void {
-    const cifnif_propietario = this.ilsForm.get('nif')?.value
-    const documentFormData = new FormData()
+    // const cifnif_propietario = this.ilsForm.get('nif')?.value
+    const mockCifnif_propietario: string = "11111111H"
+    const mockCustomTimestamp: string = "08_07_2025_08_35_04am"
+    const mockConvocatoria: string = "2025"
 
     for (const [key, fileList] of Object.entries(this.files)) {
       if (fileList.length != 0) {
         fileList.forEach(file => {
+          // BBDD
+          const documentFormData = new FormData()
           const requiredDoc = this.requiredFiles.includes(key) ? 'SI' : 'NO'
 
           documentFormData.append('id_sol', id.toString())
-          documentFormData.append('cifnif_propietario', cifnif_propietario)
-          documentFormData.append('convocatoria', this.actualYear)
+          // documentFormData.append('cifnif_propietario', cifnif_propietario)
+          documentFormData.append('cifnif_propietario', mockCifnif_propietario)
+          // documentFormData.append('convocatoria', this.actualYear)
+          documentFormData.append('convocatoria', mockConvocatoria)
           documentFormData.append('name', file.name)
           documentFormData.append('type', file.type)
           documentFormData.append('tipo_tramite', 'ILS')
           documentFormData.append('corresponde_documento', key)
-          documentFormData.append('selloDeTiempo', this.customTimestamp)
+          // documentFormData.append('selloDeTiempo', this.customTimestamp)
+          documentFormData.append('selloDeTiempo', mockCustomTimestamp)
           documentFormData.append('custodiado', '0')
           documentFormData.append('fechaCustodiado', '0000-00-00')
           documentFormData.append('fase_exped', 'Solicitud')
           documentFormData.append('estado', 'Pendent')
           documentFormData.append('docRequerido', requiredDoc)
-
-          /* Debido a que no dependen uno del otro, realizo la subida de archivo a la vez */
-
-          // BBDD
-          this.documentService.insertDocuments(documentFormData).subscribe({
-            error: (error) => {
-              this.showSnackBar(error)
-            }
-          })
+          // this.documentService.insertDocuments(documentFormData).subscribe({
+          //   error: (error) => {
+          //     this.showSnackBar(error)
+          //   }
+          // })
 
           // Servidor
-          this.documentService.createDocument(cifnif_propietario, this.customTimestamp, documentFormData).subscribe({
+          const serverDocumentFormData = new FormData()
+          serverDocumentFormData.append('files', file)
+          // this.documentService.createDocument(cifnif_propietario, this.customTimestamp, documentFormData).subscribe({
+          //   error: (error) => {
+          //     this.showSnackBar(error)
+          //   }
+          // })
+          this.documentService.createDocument(mockCifnif_propietario, mockCustomTimestamp, serverDocumentFormData).subscribe({
             error: (error) => {
               this.showSnackBar(error)
             }
