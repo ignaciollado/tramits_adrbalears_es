@@ -94,6 +94,7 @@ loadAllExpedientes(): void {
 
   this.expedienteService.getAllExpedientes().subscribe({
     next: (res) => {
+      console.log (res)
       this.actualizarTabla(res);
       const paginaGuardada = localStorage.getItem('paginaExpedientes');
       if (paginaGuardada) {
