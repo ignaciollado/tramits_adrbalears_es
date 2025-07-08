@@ -52,7 +52,7 @@ onSubmit() {
     const { password } = this.resetForm.value;
     console.log('Nueva contraseña:', password);
 
-    this.authService.resetPassword(this.email, password)
+    this.authService.resetPassword(this.email, password, this.token)
       .pipe(
         catchError(error => {
           console.error('Error al restablecer la contraseña:', error);
