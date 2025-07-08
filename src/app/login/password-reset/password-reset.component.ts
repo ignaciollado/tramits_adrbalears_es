@@ -42,13 +42,6 @@ export class PasswordResetComponent {
     return password === confirm ? null : { mismatch: true };
   }
 
-  passwordsMatch(form: FormGroup): ValidationErrors | null {
-    const pass = form.get('password')?.value;
-    const confirm = form.get('confirmPassword')?.value;
-    return pass === confirm ? null : { mismatch: true };
-  }
-
-
   onSubmit() {
     if (this.resetForm.valid) {
       const { password } = this.resetForm.value;
