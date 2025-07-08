@@ -55,20 +55,17 @@ onSubmit() {
     this.authService.resetPassword(this.email, password, this.token)
       .pipe(
         catchError(error => {
-          console.error('Error al restablecer la contraseña:', error);
-          this.errorMessage = '❌ No se pudo restablecer la contraseña. Inténtalo de nuevo.';
-          this.snackBar.open(this.errorMessage, 'Cerrar', {
+          const mensaje = error?.error?.messages?.error || '❌ No se pudo restablecer la contraseña. Inténtalo de nuevo.';
+          console.error('Error al restablecer la contraseña:', mensaje);
+          this.errorMessage = mensaje;
+          this.snackBar.open(this.errorMessage as string, 'Cerrar', {
             duration: 8000,
             panelClass: 'snack-error'
           });
-          return of(null); // Devuelve un observable vacío para evitar que se rompa el flujo
+          return of(null); // Evita que se rompa el flujo
         }),
         finalize(() => {
           console.log('Petición de restablecimiento finalizada');
-          this.snackBar.open('Petición de restablecimiento finalizada', 'Cerrar', {
-            duration: 8000,
-            panelClass: 'snack-error'
-          });
         })
       )
       .subscribe(response => {
@@ -76,12 +73,13 @@ onSubmit() {
           this.successMessage = '✅ Contraseña restablecida correctamente.';
           this.snackBar.open(this.successMessage, 'Cerrar', {
             duration: 8000,
-            panelClass: 'snack-error'
-          });         
+            panelClass: 'snack-success'
+          });
           this.resetForm.reset();
         }
       });
   }
 }
+
 
 }
