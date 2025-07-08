@@ -415,13 +415,13 @@ export class IsbaGrantApplicationFormComponent {
 
     // Todos con valor
     if (
-      totalAmountControl?.value != null &&
-      interestSubsidyControl?.value != null &&
-      costSubsidyControl?.value != null &&
-      startStudySubsidyControl?.value != null
+      totalAmountControl?.value != '' &&
+      interestSubsidyControl?.value != '' &&
+      costSubsidyControl?.value != '' &&
+      startStudySubsidyControl?.value != ''
     ) {
       const subsidyTotal = (+interestSubsidyControl?.value + +costSubsidyControl?.value + +startStudySubsidyControl?.value).toFixed(2)
-      const totalAmount = (+totalAmountControl.value).toFixed(2)
+      const totalAmount = (+totalAmountControl?.value).toFixed(2)
 
       if (subsidyTotal != totalAmount) {
         interestSubsidyControl?.setErrors({ notEqualError: true })
