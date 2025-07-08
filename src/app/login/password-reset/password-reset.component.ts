@@ -23,14 +23,10 @@ export class PasswordResetComponent {
 
   constructor(private fb: FormBuilder, 
     private route: ActivatedRoute, private authService: AuthService, private snackBar: MatSnackBar) {
-    this.resetForm = this.fb.group(
-      {
-        password: ['', [Validators.required, Validators.minLength(8)]],
-        confirmPassword: ['', Validators.required]
-      },
-      { validators: this.passwordsMatch }
-    );
-  }
+    this.resetForm = this.fb.group({
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/)]], confirmPassword: ['']}, 
+      { validators: this.passwordsMatchValidator });
+    }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
@@ -38,6 +34,12 @@ export class PasswordResetComponent {
       this.email = params.get('email')
       console.log (this.token, this.email)
     })
+  }
+
+  passwordsMatchValidator(group: FormGroup): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const confirm = group.get('confirmPassword')?.value;
+    return password === confirm ? null : { mismatch: true };
   }
 
   passwordsMatch(form: FormGroup): ValidationErrors | null {
