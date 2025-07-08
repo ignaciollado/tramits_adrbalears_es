@@ -47,39 +47,37 @@ export class PasswordResetComponent {
   }
 
 
-onSubmit() {
-  if (this.resetForm.valid) {
-    const { password } = this.resetForm.value;
-    console.log('Nueva contraseña:', password);
+  onSubmit() {
+    if (this.resetForm.valid) {
+      const { password } = this.resetForm.value;
+      console.log('Nueva contraseña:', password);
 
-    this.authService.resetPassword(this.email, password, this.token)
-      .pipe(
-        catchError(error => {
-          const mensaje = error?.error?.messages?.error || '❌ No se pudo restablecer la contraseña. Inténtalo de nuevo.';
-          console.error('Error al restablecer la contraseña:', mensaje);
-          this.errorMessage = mensaje;
-          this.snackBar.open(this.errorMessage as string, 'Cerrar', {
-            duration: 8000,
-            panelClass: 'snack-error'
-          });
-          return of(null); // Evita que se rompa el flujo
-        }),
-        finalize(() => {
-          console.log('Petición de restablecimiento finalizada');
-        })
-      )
-      .subscribe(response => {
-        if (response) {
-          this.successMessage = '✅ Contraseña restablecida correctamente.';
-          this.snackBar.open(this.successMessage, 'Cerrar', {
-            duration: 8000,
-            panelClass: 'snack-success'
-          });
-          this.resetForm.reset();
-        }
-      });
+      this.authService.resetPassword(this.email, password, this.token)
+        .pipe(
+          catchError(error => {
+            const mensaje = error?.error?.messages?.error || '❌ No se pudo restablecer la contraseña. Inténtalo de nuevo.';
+            console.error('Error al restablecer la contraseña:', mensaje);
+            this.errorMessage = mensaje;
+            this.snackBar.open(this.errorMessage as string, 'Cerrar', {
+              duration: 8000,
+              panelClass: 'snack-error'
+            });
+            return of(null); // Evita que se rompa el flujo
+          }),
+          finalize(() => {
+            console.log('Petición de restablecimiento finalizada');
+          })
+        )
+        .subscribe(response => {
+          if (response) {
+            this.successMessage = '✅ Contraseña restablecida correctamente.';
+            this.snackBar.open(this.successMessage, 'Cerrar', {
+              duration: 8000,
+              panelClass: 'snack-success'
+            });
+            this.resetForm.reset();
+          }
+        });
+    }
   }
-}
-
-
 }
