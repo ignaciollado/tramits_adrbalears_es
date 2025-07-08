@@ -212,43 +212,51 @@ limpiarFiltros(): void {
 
 situacionClass(value: string): string {
   const key = value?.toLowerCase().trim();
+
   switch (key) {
     case 'encurso':
-      return 'st-en-curso';
+      return 'st-en-curso'; // 🔵 Estado activo o en desarrollo
     case 'pendientejustificar':
+      return 'st-pendiente-justificar'; // 🟡 Esperando justificación
     case 'pendiente':
-      return 'st-pendiente';
+      return 'st-pendiente'; // 🟡 Pendiente general
+    case 'pendienterecjustificar':
+      return 'st-pendiente-rec'; // 🟠 Pendiente de REC para justificar
     case 'aprobado':
-      return 'st-aprobado';
+      return 'st-aprobado'; // 🟢 Aprobado formalmente
     case 'denegado':
-      return 'st-denegado';
+      return 'st-denegado'; // 🔴 Denegado oficialmente
     case 'justificado':
-      return 'st-justificado';
+      return 'st-justificado'; // 🟣 Justificación completada
     case 'enmienda':
-      return 'st-enmienda';
+      return 'st-enmienda'; // 🟤 En proceso de subsanación o corrección
     case 'desestimiento':
-      return 'st-desestimiento';
+      return 'st-desestimiento'; // ⚪ Retirado por el solicitante
     case 'finalizado':
-      return 'st-finalizado';
+      return 'st-finalizado'; // ✅ Trámite cerrado/completado
     case 'emitidorc':
-      return 'st-emitido';
+      return 'st-emitido-rc'; // 🔷 Emitido resolución con requerimiento
     case 'emitidord':
-      return 'st-emitido';
+      return 'st-emitido-rd'; // 🔷 Emitido resolución definitiva
     case 'emitidoidpd':
-      return 'st-emitido';
+      return 'st-emitido-idpd'; // 🔷 Emitido para IDPD
+    case 'emitidoifps':
+      return 'st-emitido-ifps'; // 🔷 Emitido IFPS
     case 'emitirrc':
+      return 'st-emitir-rc'; // ⏳ Listo para emitir resolución con requerimiento
     case 'emitirrd':
+      return 'st-emitir-rd'; // ⏳ Listo para emitir resolución definitiva
     case 'emitiridpd':
-      return 'st-emitir';
+      return 'st-emitir-idpd'; // ⏳ Pendiente de emisión para IDPD
     case 'inicioconsultoria':
-      return 'st-consultoria';
+      return 'st-consultoria'; // 🧠 Consultoría en marcha
     case 'nohapasadorec':
-      return 'st-rechazado';
-case 'emitidoifps':
-  return 'st-emitido';
+      return 'st-rechazado'; // ⛔ Rechazado por no pasar REC
     default:
-      return 'st-desconocido';
+      return 'st-desconocido'; // ❓ Estado no reconocido
   }
 }
+
+
 
 }
