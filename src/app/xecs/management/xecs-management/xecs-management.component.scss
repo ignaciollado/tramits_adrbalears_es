@@ -66,18 +66,34 @@ p {
   color: white;
 }
 
-.form-actions {
+.filtros-grid {
   display: flex;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: stretch;
 
-  button {
-    height: 40px; // o usa theme spacing si estás en Angular Material theming
-    min-width: 130px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  mat-form-field {
+    flex: 1 1 200px;
+    min-width: 180px;
+    height: 56px;
+
+    .mat-form-field-flex {
+      height: 100%;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+
+    button {
+      height: 56px;
+      white-space: nowrap;
+    }
   }
 }
+
 
 
 td {

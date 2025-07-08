@@ -15,6 +15,7 @@ import { ViewChild, AfterViewInit } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-xecs-management',
@@ -30,7 +31,7 @@ import { MatTableDataSource } from '@angular/material/table';
     MatInputModule,
     HttpClientModule,
     MatSnackBarModule,
-    MatSelectModule
+    MatSelectModule, MatButtonModule
   ],
   templateUrl: './xecs-management.component.html',
   styleUrls: ['./xecs-management.component.scss']
