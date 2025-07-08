@@ -50,6 +50,7 @@ onSubmit(): void {
         duration: 6000,
         panelClass: 'snack-success'
       });
+      this.form.reset()
     },
     error: (err) => {
       this.loading = false;
