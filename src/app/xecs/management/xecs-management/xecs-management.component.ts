@@ -47,6 +47,7 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   private snackBar = inject(MatSnackBar);
   uniqueConvocatorias: number[] = [];
   uniqueTiposTramite: string[] = [];
+  uniqueSituaciones: string[] = [];
 
   form!: FormGroup;
   displayedColumns: string[] = ['fechaComletado', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda', 
@@ -57,7 +58,8 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
 ngOnInit(): void {
   this.form = this.fb.group({
     convocatoria: [null],
-    tipoTramite: [null]
+    tipoTramite: [null],
+      situacion: [null]
   });
 
   // Verifica si hay filtros guardados y si los valores son válidos
@@ -94,8 +96,8 @@ loadAllExpedientes(): void {
 
   this.expedienteService.getAllExpedientes().subscribe({
     next: (res) => {
-      console.log (res)
       this.actualizarTabla(res);
+
       const paginaGuardada = localStorage.getItem('paginaExpedientes');
       if (paginaGuardada) {
         this.paginator.pageIndex = +paginaGuardada;
@@ -104,6 +106,7 @@ loadAllExpedientes(): void {
 
       this.uniqueConvocatorias = [...new Set<number>( res.map((e: any) => Number(e.convocatoria)))];
       this.uniqueTiposTramite = [...new Set<string>( res.map((e: any) => e.tipo_tramite))];
+      this.uniqueSituaciones = [...new Set(res.map((e: any) => e.situacion).filter(Boolean))];
 
       this.snackBar.open('Expedientes cargados correctamente ✅', 'Cerrar', {
         duration: 5000,
@@ -154,6 +157,7 @@ loadExpedientes(): void {
       localStorage.setItem('paginaExpedientes', '0');
 
       this.actualizarTabla(res);
+
       this.dataSource.paginator = this.paginator;
 
       this.snackBar.open('Expedientes cargados correctamente ✅', 'Cerrar', {
@@ -185,16 +189,22 @@ loadExpedientes(): void {
 
 private actualizarTabla(res: any[]): void {
   this.dataSource.data = res;
-  const ordenGuardado = localStorage.getItem('tablaOrden');
-if (ordenGuardado) {
-  const { active, direction } = JSON.parse(ordenGuardado);
-  this.sort.active = active;
-  this.sort.direction = direction;
-  this.sort.sortChange.emit({ active, direction });
-}
-this.dataSource.sort = this.sort;
 
+  const ordenGuardado = localStorage.getItem('tablaOrden');
+  if (ordenGuardado) {
+    const { active, direction } = JSON.parse(ordenGuardado);
+    this.sort.active = active;
+    this.sort.direction = direction;
+    this.sort.sortChange.emit({ active, direction });
+  }
+  this.dataSource.sort = this.sort;
   this.dataSource.paginator = this.paginator;
+
+  // 👇 Aquí colocas tu filtro personalizado
+  this.dataSource.filterPredicate = (data, filter) => {
+    const searchable = `${data.empresa} ${data.localidad} ${data.situacion}`.toLowerCase();
+    return searchable.includes(filter);
+  };
 }
 
 aplicarFiltro(event: Event): void {

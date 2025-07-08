@@ -13,13 +13,24 @@
     </mat-select>
   </mat-form-field>
 
+  <mat-form-field appearance="outline">
+  <mat-label>Situación</mat-label>
+  <mat-select formControlName="situacion">
+    <mat-option *ngFor="let estado of uniqueSituaciones" [value]="estado">{{ estado }}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+
   <mat-form-field appearance="outline" class="busqueda-form">
   <mat-label>Buscar</mat-label>
   <input matInput (keyup)="aplicarFiltro($event)" placeholder="Filtrar por solicitante, localidad, etc.">
 </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit">Buscar</button>
-  <button mat-stroked-button color="warn" (click)="limpiarFiltros()">Limpiar filtros</button>
+<div class="form-actions">
+  <button mat-raised-button color="accent" type="submit">Buscar</button>
+  <button mat-stroked-button color="warn" type="button" (click)="limpiarFiltros()">Limpiar filtros</button>
+</div>
+
 </form>
 
 

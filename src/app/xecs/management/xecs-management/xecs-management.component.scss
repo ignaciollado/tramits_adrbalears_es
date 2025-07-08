@@ -66,6 +66,20 @@ p {
   color: white;
 }
 
+.form-actions {
+  display: flex;
+  gap: 12px;
+
+  button {
+    height: 40px; // o usa theme spacing si estás en Angular Material theming
+    min-width: 130px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
 td {
   &.st-en-curso {
     background-color: #e3f2fd;
