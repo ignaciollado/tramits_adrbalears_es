@@ -49,7 +49,9 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   uniqueTiposTramite: string[] = [];
 
   form!: FormGroup;
-  displayedColumns: string[] = ['idExp', 'empresa', 'tipo_tramite', 'localidad', 'empresa_consultor', 'situacion'];
+  displayedColumns: string[] = ['fechaComletado', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda', 
+    'ordenDePago', 'empresa_consultor', 'nom_consultor', 'fecha_not_propuesta_resolucion_def',
+     'situacion'];
   loading = false;
 
 ngOnInit(): void {

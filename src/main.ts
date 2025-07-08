@@ -11,6 +11,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
