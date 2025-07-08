@@ -98,97 +98,97 @@ p {
 
 td {
   &.st-en-curso {
-    background-color: #e3f2fd;
-    color: #1565c0;
+    background-color: #bbdefb; // azul claro brillante
+    color: #0d47a1;
   }
 
   &.st-pendiente {
-    background-color: #fff9c4;
+    background-color: #fff59d; // amarillo más intenso
     color: #f57f17;
     font-weight: bold;
   }
 
   &.st-pendiente-justificar {
-    background-color: #fff8e1;
-    color: #ef6c00;
+    background-color: #ffe082;
+    color: #e65100;
   }
 
   &.st-pendiente-rec {
-    background-color: #ffe0b2;
-    color: #a75700;
+    background-color: #ffcc80;
+    color: #bf360c;
   }
 
   &.st-aprobado {
-    background-color: #d0f8ce;
-    color: #2e7d32;
+    background-color: #a5d6a7; // verde fresco
+    color: #1b5e20;
   }
 
   &.st-denegado {
-    background-color: #ffebee;
-    color: #c62828;
+    background-color: #ef9a9a;
+    color: #b71c1c;
     font-weight: bold;
   }
 
   &.st-justificado {
-    background-color: #b2dfdb;
-    color: #00695c;
+    background-color: #80cbc4;
+    color: #004d40;
   }
 
   &.st-enmienda {
-    background-color: #e1bee7;
-    color: #8e24aa;
+    background-color: #ce93d8;
+    color: #6a1b9a;
   }
 
   &.st-desestimiento {
-    background-color: #ffe0b2;
-    color: #ef6c00;
+    background-color: #ffe082;
+    color: #e65100;
     font-weight: bold;
   }
 
   &.st-finalizado {
-    background-color: #d7ccc8;
-    color: #4e342e;
+    background-color: #bcaaa4;
+    color: #3e2723;
   }
 
   &.st-emitido-rc {
-    background-color: #dcedc8;
+    background-color: #aed581;
     color: #33691e;
     font-weight: 500;
   }
 
   &.st-emitido-rd {
-    background-color: #c8e6c9;
-    color: #2e7d32;
+    background-color: #c5e1a5;
+    color: #558b2f;
   }
 
   &.st-emitido-idpd {
-    background-color: #d0f8ce;
-    color: #2e7d32;
+    background-color: #b9f6ca;
+    color: #1b5e20;
   }
 
   &.st-emitido-ifps {
-    background-color: #c5e1a5;
+    background-color: #ccff90;
     color: #33691e;
   }
 
   &.st-emitir-rc {
-    background-color: #f3e5f5;
-    color: #6a1b9a;
+    background-color: #e1bee7;
+    color: #4a148c;
   }
 
   &.st-emitir-rd {
-    background-color: #f8bbd0;
-    color: #ad1457;
+    background-color: #f48fb1;
+    color: #880e4f;
   }
 
   &.st-emitir-idpd {
-    background-color: #f3e5f5;
+    background-color: #e1bee7;
     color: #6a1b9a;
   }
 
   &.st-emitido {
     background-color: #dcedc8;
-    color: #33691e;
+    color: #2e7d32;
     font-weight: 500;
   }
 
@@ -198,19 +198,19 @@ td {
   }
 
   &.st-consultoria {
-    background-color: #f1f8e9;
-    color: #558b2f;
+    background-color: #dcedc8;
+    color: #33691e;
   }
 
   &.st-rechazado {
-    background-color: #ffcdd2;
+    background-color: #ef9a9a;
     color: #b71c1c;
     font-weight: bold;
   }
 
   &.st-desconocido {
-    background-color: #eeeeee;
-    color: #616161;
+    background-color: #f5f5f5;
+    color: #757575;
     font-style: italic;
   }
 }
