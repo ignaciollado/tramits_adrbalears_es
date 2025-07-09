@@ -117,8 +117,6 @@ body {
     width: 100%;
 
     input[matInput] {
-     /*  background-color: #ffffff;
-      border: 1px solid #ccc; */
       cursor: pointer;
       transition: background-color 0.3s ease, border-color 0.3s ease;
 
@@ -132,7 +130,6 @@ body {
       }
 
       &:disabled {
-        /* background-color: #f5f5f5; */
         text-decoration: line-through;
         border: 1px dashed #bbb;
         color: #999;
@@ -148,7 +145,7 @@ ul {
   margin-top: 1rem;
 
   li {
-    background-color: #e6f2ef;
+    background-color: #ccf1e8;
     color: #000000;
     padding: 0.5rem;
     margin-bottom: 0.5rem;

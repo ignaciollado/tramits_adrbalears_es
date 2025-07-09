@@ -41,7 +41,8 @@ export class ExpedienteService {
 
   // CREATE
   createExpediente(expediente: any): Observable<any> {
-    return this.http.post<any>(`${this.urlAPITramits}/pindustexpediente/create`, expediente).pipe(catchError(this.handleError))
+    return this.http.post<any>(`${this.urlAPITramits}/pindustexpediente/create`, expediente)
+    .pipe(catchError(this.handleError))
   }
 
   // UPDATE
@@ -51,20 +52,42 @@ export class ExpedienteService {
 
   // DELETE
   deleteExpediente(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.urlAPITramits}/pindustexpediente/delete/${id}`).pipe(catchError(this.handleError))
+    return this.http.delete<void>(`${this.urlAPITramits}/pindustexpediente/delete/${id}`)
+    .pipe(catchError(this.handleError))
   }
 
 
 
-  private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!';
-    if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Error del lado del servidor
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+private handleError(error: HttpErrorResponse) {
+  let errorMessage = 'Error desconocido';
+
+  if (error.status === 400 && error.error?.messages?.error) {
+    try {
+      const parsedError = JSON.parse(error.error.messages.error);
+
+      errorMessage = parsedError.message || errorMessage;
+
+      const detailedErrors = parsedError.errores_detallados;
+      const receivedData = parsedError.datos_recibidos;
+
+      return throwError({
+        status: error.status,
+        message: errorMessage,
+        errores_detallados: detailedErrors,
+        datos_recibidos: receivedData
+      });
+    } catch (err) {
+      errorMessage = 'Error al procesar la respuesta del servidor';
     }
-    return throwError(errorMessage);
+  } else if (error.error instanceof ErrorEvent) {
+    // Error del lado del cliente
+    errorMessage = `Error del cliente: ${error.error.message}`;
+  } else {
+    // Error del servidor sin estructura esperada
+    errorMessage = `Código: ${error.status}\nMensaje: ${error.message}`;
   }
+
+  return throwError({ status: error.status, message: errorMessage });
+}
+
 }

@@ -279,6 +279,9 @@ file_certificadoSegSocToUpload: File[] = [] // optional
 onSubmit(): void {
   const datos = this.xecsForm.value;
   const timeStamp = this.commonService.generateCustomTimestamp();
+  console.log (datos.localidad)
+  datos.idExp = 696969
+  datos.localidad = datos.cpostal
   /* Ojo, falta documentos opcionales */
   /* Ojo, antes de crear el expediente se debe obtener el último idExp de esa convocatoria XECS y sumar uno */
   const filesToUpload = [ 
@@ -299,7 +302,7 @@ onSubmit(): void {
     },
     error: (err) => {
       let msg = '❌ Error al crear el expediente.\n';
-
+      console.log ("err", err)
       try {
         const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
         msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
@@ -327,7 +330,6 @@ onSubmit(): void {
     }
   });
 }
-
 
 get memoriaTecnicaFileNames(): string {
   return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
@@ -565,7 +567,7 @@ uploadTheFile(timestamp: string, files: File[]): Observable<any> {
     
 private showSnackBar(error: string): void {
     this.snackBar.open(error, 'Close', {
-      duration: 10000,
+      duration: 15000,
       verticalPosition: 'bottom',
       horizontalPosition: 'center',
       panelClass: ['custom-snackbar'],
