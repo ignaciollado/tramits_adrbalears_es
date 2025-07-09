@@ -74,7 +74,7 @@ export class GrantApplicationFormComponent {
   this.xecsForm = this.fb.group ({
     opc_programa: this.fb.array([], Validators.required),
     nif: this.fb.control({value:'', disabled: true}, [Validators.required]),
-    denom_interesado: this.fb.control('', ),
+    empresa: this.fb.control('', ),
     domicilio: this.fb.control({value: '', disabled: false}, ),
     zipCode: this.fb.control ('', [ Validators.pattern('^07[0-9]{3}$')]),
     town: this.fb.control({value: '', disabled: true}, ),
@@ -85,8 +85,8 @@ export class GrantApplicationFormComponent {
     tipo_solicitante: this.fb.control<string | null>(null, Validators.required),
     nom_representante:  this.fb.control<string | null>({value: '', disabled: true}),
     nif_representante: this.fb.control<string | null>({value: '', disabled: true}, [Validators.pattern('^[0-9]+[A-Za-z]$')]),
-    tel_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]{9}$')]),
-    mail_representante: this.fb.control<string | null>('', [Validators.email]),
+    telefono_rep: this.fb.control<string | null>('', [Validators.pattern('^[0-9]{9}$')]),
+    email_rep: this.fb.control<string | null>('', [Validators.email]),
     empresa_consultor: this.fb.control<string | null>(''),
     nom_consultor: this.fb.control<string | null>(''),
     tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]{9}$')),
@@ -280,6 +280,8 @@ onSubmit(): void {
   const datos = this.xecsForm.value;
   const timeStamp = this.commonService.generateCustomTimestamp();
   /* Ojo, falta documentos opcionales */
+  /* Ojo, falta calcular  cuantia_ayuda*/
+  datos.cuantia_ayuda = "40 horas" /* buscar que horas consultaría le corresponden */
   /* Ojo, antes de crear el expediente se debe obtener el último idExp de esa convocatoria XECS y sumar uno */
   const filesToUpload = [ 
     this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
