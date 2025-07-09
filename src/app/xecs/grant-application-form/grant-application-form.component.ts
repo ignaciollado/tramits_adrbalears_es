@@ -83,8 +83,8 @@ export class GrantApplicationFormComponent {
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
     tipo_tramite: this.fb.control<string[] | null>(null, Validators.required),
     tipo_solicitante: this.fb.control<string | null>(null, Validators.required),
-    nom_representante:  this.fb.control<string | null>(''),
-    nif_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]+[A-Za-z]$')]),
+    nom_representante:  this.fb.control<string | null>({value: '', disabled: true}),
+    nif_representante: this.fb.control<string | null>({value: '', disabled: true}, [Validators.pattern('^[0-9]+[A-Za-z]$')]),
     tel_representante: this.fb.control<string | null>('', [Validators.pattern('^[0-9]{9}$')]),
     mail_representante: this.fb.control<string | null>('', [Validators.email]),
     empresa_consultor: this.fb.control<string | null>(''),
@@ -151,6 +151,7 @@ this.filteredZipCodes = this.xecsForm.get('zipCode')!.valueChanges.pipe(
 );
 
 const nifControl = this.xecsForm.get('nif')
+const nom_representanteControl = this.xecsForm.get('nom_representante')
 const nif_representanteControl = this.xecsForm.get('nif_representante')
 const opcionBancoControl = this.xecsForm.get('opcion_banco')
 const ccControl = this.xecsForm.get('cc')
@@ -208,7 +209,7 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
 
 
  this.xecsForm.get('tipo_solicitante')?.valueChanges.subscribe(value => {
- const nifControl = this.xecsForm.get('nif');
+/*  const nifControl = this.xecsForm.get('nif'); */
  nifControl?.enable()
 
  if (!nifControl) return;
@@ -223,6 +224,8 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
  Validators.maxLength(9),
  this.nifValidator.validateDniNie()
  ]);
+  nom_representanteControl?.disable()
+  nif_representanteControl?.disable()
  } else {
  nifControl.setValidators([
  Validators.required,
@@ -230,6 +233,8 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
  Validators.maxLength(9),
  this.nifValidator.validateCif()
  ]);
+  nom_representanteControl?.enable()
+  nif_representanteControl?.enable()
  }
 
  nifControl.updateValueAndValidity();
