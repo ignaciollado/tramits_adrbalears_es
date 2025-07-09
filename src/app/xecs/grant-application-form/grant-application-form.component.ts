@@ -277,32 +277,32 @@ file_certificadoATIBToUpload: File[] = [] // optional
 file_certificadoSegSocToUpload: File[] = [] // optional
 
 onSubmit(): void {
-    const datos = this.xecsForm.value
-    const cControls = this.xecsForm.controls
-    const timeStamp = this.commonService.generateCustomTimestamp()
-    /* ojo, AQUÍ FALTAN LOS DOCUMETOS OPCIONALES */
-    const filesToUpload = [ 
-      this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
-      this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload ]
-    console.log (datos)
+  const datos = this.xecsForm.value;
+  const timeStamp = this.commonService.generateCustomTimestamp();
+  /* Ojo, falta documentos opcionales */
+  /* Ojo, antes de crear el expediente se debe obtener el último idExp de esa convocatoria XECS y sumar uno */
+  const filesToUpload = [ 
+    this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
+    this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload 
+  ];
 
-    from(filesToUpload)
-    .pipe(
-      concatMap(file => this.uploadTheFile(timeStamp, file))
-    )
-    .subscribe({
-      next: (event) => {
-        console.log ("event0", event)
-      },
-      complete: () => {
-        this.showSnackBar('Todas las subidas finalizadas');
-      },
-      error: (err) => {
-        this.showSnackBar('Error durante la secuencia de subida: '+ err);
-      }
-    });
-
+  this.expedienteService.createExpediente(datos).subscribe({
+    next: () => {
+      this.showSnackBar('Expediente creado con éxito');
+      from(filesToUpload)
+        .pipe(concatMap(file => this.uploadTheFile(timeStamp, file)))
+        .subscribe({
+          next: (event) => this.showSnackBar('Subida exitosa:'+ event),
+          complete: () => this.showSnackBar('Todas las subidas finalizadas'),
+          error: (err) => this.showSnackBar('Error durante la secuencia de subida: ' + err)
+        });
+    },
+    error: (err) => {
+      this.showSnackBar('Error al crear el expediente: ' + err);
+    }
+  });
 }
+
 
 get memoriaTecnicaFileNames(): string {
   return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
