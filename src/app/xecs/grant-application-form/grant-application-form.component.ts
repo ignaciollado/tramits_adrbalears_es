@@ -264,7 +264,6 @@ twoDecimalValidator(): ValidatorFn {
   };
 }
 
-
 file_memoriaTecnicaToUpload: File[] = []
 file_certificadoIAEToUpload: File[] = []
 file_nifEmpresaToUpload: File[] = []
@@ -280,13 +279,6 @@ onSubmit(): void {
   const datos = this.xecsForm.value;
   const timeStamp = this.commonService.generateCustomTimestamp();
   /* Ojo, falta documentos opcionales */
-  /* Ojo, falta calcular  cuantia_ayuda*/
-  datos.cuantia_ayuda = "40 horas" /* buscar que horas consultaría le corresponden */
-  datos.fecha_kick_off = "0000-00-00"
-  datos.fecha_acta_cierre = "0000-00-00"
-  datos.ref_REC = "GOIB"
-  datos.wp_userID = "0"
-  datos.comments = "-"
   /* Ojo, antes de crear el expediente se debe obtener el último idExp de esa convocatoria XECS y sumar uno */
   const filesToUpload = [ 
     this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
