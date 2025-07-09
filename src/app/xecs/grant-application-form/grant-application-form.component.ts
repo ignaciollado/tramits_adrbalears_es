@@ -286,6 +286,7 @@ onSubmit(): void {
   datos.fecha_acta_cierre = "0000-00-00"
   datos.ref_REC = "GOIB"
   datos.wp_userID = "0"
+  datos.comments = "-"
   /* Ojo, antes de crear el expediente se debe obtener el último idExp de esa convocatoria XECS y sumar uno */
   const filesToUpload = [ 
     this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
