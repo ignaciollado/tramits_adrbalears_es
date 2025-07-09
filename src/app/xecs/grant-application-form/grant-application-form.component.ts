@@ -128,12 +128,6 @@ export class GrantApplicationFormComponent {
     declaracion_responsable_x: this.fb.control<boolean | null>({ value: true, disabled: true }),
     declaracion_responsable_xi: this.fb.control<boolean | null>({ value: true, disabled: true }),
   });
-
-this.getAllcpostals()
-this.getAllCnaes()
-this.getAllXecsPrograms()
-this.getResponsabilityDeclarations()
-this.getDocumentationAndAuthorizations()
 }
 
 ngOnInit(): void {
@@ -239,6 +233,12 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
 
  nifControl.updateValueAndValidity();
  });
+
+  this.getAllcpostals()
+  this.getAllCnaes()
+  this.getAllXecsPrograms()
+  this.getResponsabilityDeclarations()
+  this.getDocumentationAndAuthorizations()
 }
 
 setStep(index: number) {
@@ -275,6 +275,7 @@ file_copiaNIFToUpload: File[] = [] // optional
 file_certificadoATIBToUpload: File[] = [] // optional
 file_certificadoSegSocToUpload: File[] = [] // optional
 
+
 onSubmit(): void {
   const datos = this.xecsForm.value;
   const timeStamp = this.commonService.generateCustomTimestamp();
@@ -287,17 +288,42 @@ onSubmit(): void {
 
   this.expedienteService.createExpediente(datos).subscribe({
     next: () => {
-      this.showSnackBar('Expediente creado con éxito');
+      this.showSnackBar('✔️ Expediente creado con éxito');
       from(filesToUpload)
         .pipe(concatMap(file => this.uploadTheFile(timeStamp, file)))
         .subscribe({
-          next: (event) => this.showSnackBar('Subida exitosa:'+ event),
-          complete: () => this.showSnackBar('Todas las subidas finalizadas'),
-          error: (err) => this.showSnackBar('Error durante la secuencia de subida: ' + err)
+          next: (event) => this.showSnackBar(`📤 Subida exitosa: ${event}`),
+          complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
+          error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
         });
     },
     error: (err) => {
-      this.showSnackBar('Error al crear el expediente: ' + err);
+      let msg = '❌ Error al crear el expediente.\n';
+
+      try {
+        const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
+        msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
+
+        const erroresDetallados = errorMsgObj.errores_detallados;
+        if (erroresDetallados) {
+          msg += '🔍 Errores detallados:\n';
+          Object.entries(erroresDetallados).forEach(([campo, errorCampo]) => {
+            msg += ` • ${campo}: ${errorCampo}\n`;
+          });
+        }
+
+        const datosRecibidos = errorMsgObj.datos_recibidos;
+        if (datosRecibidos) {
+          msg += '📦 Datos recibidos:\n';
+          Object.entries(datosRecibidos).forEach(([key, value]) => {
+            msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
+          });
+        }
+      } catch (parseError) {
+        msg += `⚠️ No se pudo interpretar el error: ${err}`;
+      }
+
+      this.showSnackBar(msg);
     }
   });
 }
@@ -439,20 +465,20 @@ onCheckboxChange(event: MatCheckboxChange) {
 
 selectedZipValue(event: MatAutocompleteSelectedEvent): void {
   const selected = event.option.value;
-  if (selected && selected.cpostal) {
-    this.xecsForm.get('cpostal')?.setValue(selected.cpostal, { emitEvent: false });
-    this.xecsForm.get('localidad')?.setValue(selected.localidad);
+  if (selected && selected.zipCode) {
+    this.xecsForm.get('cpostal')?.setValue(selected.zipCode, { emitEvent: false });
+    this.xecsForm.get('localidad')?.setValue(selected.town);
   }
 }
 
 displayFn(zip: any): string {
-  return typeof zip === 'object' && zip ? zip.cpostal : zip;
+  return typeof zip === 'object' && zip ? zip.zipCode : zip;
 }
 
 private _filter(filterValue: string): ZipCodesIBDTO[] {
   
   return this.cpostals.filter((cpostal:any) =>
-    cpostal.cpostal.includes(filterValue)
+    cpostal.id.includes(filterValue)
   );
 }
 
@@ -545,7 +571,4 @@ private showSnackBar(error: string): void {
       panelClass: ['custom-snackbar'],
     });
 }
-
-
 }
-
