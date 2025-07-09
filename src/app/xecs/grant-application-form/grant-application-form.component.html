@@ -124,17 +124,17 @@
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.ZIPCODE' | translate }}</mat-label>
-        <input matInput formControlName="zipCode" maxlength="5" minlength="5" [matAutocomplete]="auto"/>
+        <input matInput formControlName="cpostal" maxlength="5" minlength="5" [matAutocomplete]="auto"/>
           <mat-autocomplete #auto="matAutocomplete" 
           [displayWith]="displayFn" 
           (optionSelected)="selectedZipValue($event)">
-            <mat-option *ngFor="let option of filteredZipCodes | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
+            <mat-option *ngFor="let option of filteredcpostals | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
           </mat-autocomplete>        
       </mat-form-field>      
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.TOWN' | translate }}</mat-label>
-        <input matInput formControlName="town" />
+        <input matInput formControlName="localidad" />
       </mat-form-field>
 
       <mat-form-field appearance="fill">

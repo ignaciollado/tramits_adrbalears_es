@@ -54,8 +54,8 @@ export class GrantApplicationFormComponent {
   rgpdAccepted:boolean = false
   documentoYaEnADR:boolean = false
   introText: string = "getting intro text..."
-  filteredZipCodes: Observable<ZipCodesIBDTO[]> | undefined
-  zipCodes: ZipCodesIBDTO[] = []
+  filteredcpostals: Observable<ZipCodesIBDTO[]> | undefined
+  cpostals: ZipCodesIBDTO[] = []
   cnaes: CnaeDTO[] = []
   xecsPrograms: XecsProgramsDTO[] = []
   responsibilityDeclarations: ResponsabilityDeclarationDTO[] = []
@@ -76,8 +76,8 @@ export class GrantApplicationFormComponent {
     nif: this.fb.control({value:'', disabled: true}, [Validators.required]),
     empresa: this.fb.control('', ),
     domicilio: this.fb.control({value: '', disabled: false}, ),
-    zipCode: this.fb.control ('', [ Validators.pattern('^07[0-9]{3}$')]),
-    town: this.fb.control({value: '', disabled: true}, ),
+    cpostal: this.fb.control ('', [ Validators.pattern('^07[0-9]{3}$')]),
+    localidad: this.fb.control({value: '', disabled: true}, ),
     codigoIAE: this.fb.control({value: '', disabled: false}, ),
     telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
@@ -129,7 +129,7 @@ export class GrantApplicationFormComponent {
     declaracion_responsable_xi: this.fb.control<boolean | null>({ value: true, disabled: true }),
   });
 
-this.getAllZipCodes()
+this.getAllcpostals()
 this.getAllCnaes()
 this.getAllXecsPrograms()
 this.getResponsabilityDeclarations()
@@ -142,11 +142,11 @@ ngOnInit(): void {
  this.rgpdAccepted = value;
  });
     
-this.filteredZipCodes = this.xecsForm.get('zipCode')!.valueChanges.pipe(
+this.filteredcpostals = this.xecsForm.get('cpostal')!.valueChanges.pipe(
   startWith(''),
   map(value => {
-    const input = typeof value === 'string' ? value : value?.zipCode || '';
-    return input ? this._filter(input) : this.zipCodes.slice();
+    const input = typeof value === 'string' ? value : value?.cpostal || '';
+    return input ? this._filter(input) : this.cpostals.slice();
   })
 );
 
@@ -282,6 +282,10 @@ onSubmit(): void {
   /* Ojo, falta documentos opcionales */
   /* Ojo, falta calcular  cuantia_ayuda*/
   datos.cuantia_ayuda = "40 horas" /* buscar que horas consultaría le corresponden */
+  datos.fecha_kick_off = "0000-00-00"
+  datos.fecha_acta_cierre = "0000-00-00"
+  datos.ref_REC = "GOIB"
+  datos.wp_userID = "0"
   /* Ojo, antes de crear el expediente se debe obtener el último idExp de esa convocatoria XECS y sumar uno */
   const filesToUpload = [ 
     this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
@@ -442,27 +446,27 @@ onCheckboxChange(event: MatCheckboxChange) {
 
 selectedZipValue(event: MatAutocompleteSelectedEvent): void {
   const selected = event.option.value;
-  if (selected && selected.zipCode) {
-    this.xecsForm.get('zipCode')?.setValue(selected.zipCode, { emitEvent: false });
-    this.xecsForm.get('town')?.setValue(selected.town);
+  if (selected && selected.cpostal) {
+    this.xecsForm.get('cpostal')?.setValue(selected.cpostal, { emitEvent: false });
+    this.xecsForm.get('localidad')?.setValue(selected.localidad);
   }
 }
 
 displayFn(zip: any): string {
-  return typeof zip === 'object' && zip ? zip.zipCode : zip;
+  return typeof zip === 'object' && zip ? zip.cpostal : zip;
 }
 
 private _filter(filterValue: string): ZipCodesIBDTO[] {
   
-  return this.zipCodes.filter((zipCode:any) =>
-    zipCode.zipCode.includes(filterValue)
+  return this.cpostals.filter((cpostal:any) =>
+    cpostal.cpostal.includes(filterValue)
   );
 }
 
-private getAllZipCodes() {
+private getAllcpostals() {
   this.commonService.getZipCodes().subscribe((zpCodes: ZipCodesIBDTO[]) => {
       const zpCodesFiltered: ZipCodesIBDTO[] = zpCodes.filter((zpCode: ZipCodesIBDTO) => zpCode.deleted_at?.toString() === "0000-00-00 00:00:00")
-       this.zipCodes = zpCodesFiltered; 
+       this.cpostals = zpCodesFiltered; 
       }, (error) => { this.showSnackBar(error) });
 }
 
