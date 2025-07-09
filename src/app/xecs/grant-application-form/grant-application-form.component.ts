@@ -277,14 +277,14 @@ file_certificadoATIBToUpload: File[] = [] // optional
 file_certificadoSegSocToUpload: File[] = [] // optional
 
 onSubmit(): void {
-    const datos = this.xecsForm.value;
+    const datos = this.xecsForm.value
     const cControls = this.xecsForm.controls
-    console.log (datos)
-
-    const timeStamp = this.commonService.generateCustomTimestamp();
+    const timeStamp = this.commonService.generateCustomTimestamp()
+    /* ojo, AQUÍ FALTAN LOS DOCUMETOS OPCIONALES */
     const filesToUpload = [ 
       this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
       this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload ]
+    console.log (datos)
 
     from(filesToUpload)
     .pipe(

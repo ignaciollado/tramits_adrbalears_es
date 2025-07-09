@@ -39,12 +39,12 @@ export class ExpedienteService {
     return this.http.get<any[]>(`${this.urlAPITramits}/pindustexpediente/convocatoria/${convocatoria}?tipo_tramite=${tipo_tramite}`).pipe(catchError(this.handleError))
   }
 
-  // POST
+  // CREATE
   createExpediente(expediente: any): Observable<any> {
     return this.http.post<any>(`${this.urlAPITramits}/pindustexpediente/create`, expediente).pipe(catchError(this.handleError))
   }
 
-  // PUT
+  // UPDATE
   updateExpediente(id: number, expediente: any): Observable<any> {
     return this.http.put<any>(`${this.urlAPITramits}/pindustexpediente/update/${id}`, expediente).pipe(catchError(this.handleError))
   }
