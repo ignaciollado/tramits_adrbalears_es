@@ -34,6 +34,11 @@ export class ExpedienteService {
     return this.http.get<any>(`${this.urlAPITramits}/pindustexpediente/last-id/${programa}`).pipe(catchError(this.handleError))
   }
 
+    // GET last ID XECS
+  getLastExpedienteIdXECS(convo: number): Observable<any> {
+    return this.http.get<any>(`${this.urlAPITramits}/pindustexpediente/last-id-xecs/${convo}`).pipe(catchError(this.handleError))
+  }
+
   // GET by Convocatoria y tipo trámite
   getExpedientesByConvocatoriaAndTipoTramite(convocatoria: number, tipo_tramite?: string): Observable<any> {
     return this.http.get<any[]>(`${this.urlAPITramits}/pindustexpediente/convocatoria/${convocatoria}?tipo_tramite=${tipo_tramite}`).pipe(catchError(this.handleError))

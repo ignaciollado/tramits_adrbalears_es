@@ -26,11 +26,12 @@ import { NifValidatorService } from '../../Services/nif-validator-service';
 import { CnaeDTO } from '../../Models/cnae.dto';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { from } from 'rxjs';
-import { catchError, concatMap, tap } from 'rxjs/operators';
+import { catchError, concatMap, last, tap } from 'rxjs/operators';
 import { XecsProgramsDTO } from '../../Models/xecs-programs-dto';
 import { AuthorizationTextDTO } from '../../Models/authorization-texts-dto';
 import { ResponsabilityDeclarationDTO } from '../../Models/responsability-declaration-dto';
 import { ExpedienteService } from '../../Services/expediente.service';
+import { ExpedienteDocumentoService } from '../../Services/expediente.documento.service';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -61,17 +62,21 @@ export class GrantApplicationFormComponent {
   responsibilityDeclarations: ResponsabilityDeclarationDTO[] = []
   authorizations: AuthorizationTextDTO[] = []
   filesToUploadOptional: string[] = []  // new
+  lastID: number = 0
 
   constructor ( private fb: FormBuilder, 
     private http: HttpClient, 
     private commonService: CommonService, 
     private sanitizer: DomSanitizer,
     private expedienteService: ExpedienteService,
+    private documentosExpedienteService: ExpedienteDocumentoService,
     private documentServive: DocumentService,
     private nifValidator: NifValidatorService, 
     private snackBar: MatSnackBar ) {
 
   this.xecsForm = this.fb.group ({
+    id_sol: this.fb.control(0),
+    idExp: this.fb.control(0),
     opc_programa: this.fb.array([], Validators.required),
     nif: this.fb.control({value:'', disabled: true}, [Validators.required]),
     empresa: this.fb.control('', ),
@@ -81,7 +86,7 @@ export class GrantApplicationFormComponent {
     codigoIAE: this.fb.control({value: '', disabled: false}, ),
     telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
-    tipo_tramite: this.fb.control<string[] | null>(null, Validators.required),
+    tipo_tramite: this.fb.control<string | null>(null, Validators.required),
     tipo_solicitante: this.fb.control<string | null>(null, Validators.required),
     nom_representante:  this.fb.control<string | null>({value: '', disabled: true}),
     nif_representante: this.fb.control<string | null>({value: '', disabled: true}, [Validators.pattern('^[0-9]+[A-Za-z]$')]),
@@ -203,7 +208,6 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
 
 
  this.xecsForm.get('tipo_solicitante')?.valueChanges.subscribe(value => {
-/*  const nifControl = this.xecsForm.get('nif'); */
  nifControl?.enable()
 
  if (!nifControl) return;
@@ -264,77 +268,90 @@ twoDecimalValidator(): ValidatorFn {
   };
 }
 
-file_memoriaTecnicaToUpload: File[] = []
-file_certificadoIAEToUpload: File[] = []
-file_nifEmpresaToUpload: File[] = []
-file_escritura_empresaToUpload: File[] = [] // new
-file_document_acred_como_represToUpload: File[] = [] // new
-file_certificadoAEATToUpload: File[] = [] // new
+file_memoriaTecnicaToUpload: File[] = []              // required and maybe in ADR
+file_certificadoIAEToUpload: File[] = []              // required
+file_nifEmpresaToUpload: File[] = []                  // required and maybe in ADR
+file_escritura_empresaToUpload: File[] = []           // required and maybe in ADR
+file_document_acred_como_represToUpload: File[] = []  // required
+file_certificadoAEATToUpload: File[] = []             // required
 
 file_copiaNIFToUpload: File[] = [] // optional
 file_certificadoATIBToUpload: File[] = [] // optional
 file_certificadoSegSocToUpload: File[] = [] // optional
 
-
-onSubmit(): void {
-  const datos = this.xecsForm.value;
-  const timeStamp = this.commonService.generateCustomTimestamp();
-  console.log (datos.localidad)
-  datos.idExp = 696969
-  datos.localidad = datos.cpostal
-  /* Ojo, falta documentos opcionales */
-  /* Ojo, antes de crear el expediente se debe obtener el último idExp de esa convocatoria XECS y sumar uno */
-  const filesToUpload = [ 
+filesToUpload = [ 
     this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
     this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload 
   ];
 
-  this.expedienteService.createExpediente(datos).subscribe({
-    next: () => {
-      this.showSnackBar('✔️ Expediente creado con éxito');
-      from(filesToUpload)
-        .pipe(concatMap(file => this.uploadTheFile(timeStamp, file)))
-        .subscribe({
-          next: (event) => this.showSnackBar(`📤 Subida exitosa: ${event}`),
-          complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
-          error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
-        });
-    },
-    error: (err) => {
-      let msg = '❌ Error al crear el expediente.\n';
-      console.log ("err", err)
-      try {
-        const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
-        msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
+onSubmit(): void {
+  const datos = this.xecsForm.value;
+  const timeStamp = this.commonService.generateCustomTimestamp();
+  const convocatoria = new Date().getFullYear();
 
-        const erroresDetallados = errorMsgObj.errores_detallados;
-        if (erroresDetallados) {
-          msg += '🔍 Errores detallados:\n';
-          Object.entries(erroresDetallados).forEach(([campo, errorCampo]) => {
-            msg += ` • ${campo}: ${errorCampo}\n`;
-          });
-        }
+  this.expedienteService.getLastExpedienteIdXECS(convocatoria).subscribe((lastID: any) => {
+    datos.idExp = (+lastID.last_id) + 1;
+    datos.convocatoria = convocatoria
+    datos.localidad = datos.cpostal;
 
-        const datosRecibidos = errorMsgObj.datos_recibidos;
-        if (datosRecibidos) {
-          msg += '📦 Datos recibidos:\n';
-          Object.entries(datosRecibidos).forEach(([key, value]) => {
-            msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
+    this.expedienteService.createExpediente(datos).subscribe({
+      next: (resp) => {
+        console.log ('✔️ Expediente creado con éxito ' + resp.message, resp.id_sol)
+        datos.id_sol = resp.id_sol
+        this.showSnackBar('✔️ Expediente creado con éxito ' + resp.message + ' ' + resp.id_sol);
+       
+        // Subida de archivos con creación previa de documento
+        from(this.filesToUpload)
+          .pipe(
+            concatMap(file =>
+              this.documentosExpedienteService.createDocumentoExpediente(file, datos).pipe(
+                concatMap(() => this.uploadTheFile(timeStamp, file))
+              )
+            )
+          )
+          .subscribe({
+            next: (event) => this.showSnackBar(`📤 Subida exitosa: ${event}`),
+            complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
+            error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
           });
+      },
+
+      error: (err) => {
+        let msg = '❌ Error al crear el expediente.\n';
+        console.log("err", err);
+        try {
+          const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
+          msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
+
+          const erroresDetallados = errorMsgObj.errores_detallados;
+          if (erroresDetallados) {
+            msg += '🔍 Errores detallados:\n';
+            Object.entries(erroresDetallados).forEach(([campo, errorCampo]) => {
+              msg += ` • ${campo}: ${errorCampo}\n`;
+            });
+          }
+
+          const datosRecibidos = errorMsgObj.datos_recibidos;
+          if (datosRecibidos) {
+            msg += '📦 Datos recibidos:\n';
+            Object.entries(datosRecibidos).forEach(([key, value]) => {
+              msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
+            });
+          }
+        } catch (parseError) {
+          msg += `⚠️ No se pudo interpretar el error: ${err}`;
         }
-      } catch (parseError) {
-        msg += `⚠️ No se pudo interpretar el error: ${err}`;
+        this.showSnackBar(msg);
       }
-
-      this.showSnackBar(msg);
-    }
+    });
   });
 }
 
+
+/* required files to upload */
 get memoriaTecnicaFileNames(): string {
   return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
 }
-
 onFileMemoriaTecnicaChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {
@@ -342,7 +359,6 @@ onFileMemoriaTecnicaChange(event: Event): void {
     console.log ("this.file_memoriaTecnicaToUpload", this.file_memoriaTecnicaToUpload)
   }
 }
-
 get certificadoIAEFileNames(): string {
   return this.file_certificadoIAEToUpload.map(f => f.name).join(', ')
 }
@@ -353,7 +369,6 @@ onFileCertificadoIAEChange(event: Event): void {
     console.log ("this.file_certificadoIAEToUpload", this.file_certificadoIAEToUpload)
   }
 }
-
 get nifEmpresaFileNames(): string {
   return this.file_nifEmpresaToUpload.map(f => f.name).join(', ')
 }
@@ -364,7 +379,6 @@ onFileNifEmpresaChange(event: Event): void {
     console.log ("this.file_nifEmpresaToUpload", this.file_nifEmpresaToUpload)
   }
 }
-
 get escrituraPublicaFileNames(): string {
   return this.file_escritura_empresaToUpload.map(f => f.name).join(', ')
 }
@@ -375,7 +389,6 @@ onFileEscrituraEmpresaChange(event: Event): void {
     console.log ("this.file_escritura_empresaToUpload", this.file_escritura_empresaToUpload)
   }
 }
-
 get docAcredRepresFileNames(): string {
   return this.file_document_acred_como_represToUpload.map(f => f.name).join(', ')
 }
@@ -386,7 +399,6 @@ onFileDocAcredRepresChange(event: Event): void {
     console.log ("this.file_document_acred_como_represToUpload", this.file_document_acred_como_represToUpload)
   }
 }
-
 get certficadoAEATFileNames(): string {
   return this.file_certificadoAEATToUpload.map(f => f.name).join(', ')
 }
@@ -399,7 +411,6 @@ onFilecertificadoAEATChange(event: Event): void {
 }
 
 /* optional files to upload */
-
 get copiaNifFileNames(): string {
   return this.file_copiaNIFToUpload.map(f => f.name).join(', ')
 }
@@ -410,7 +421,6 @@ onFileCopiaNifChange(event: Event): void {
     console.log ("this.file_copiaNIFToUpload", this.file_copiaNIFToUpload)
   }
 }
-
 get certificadoATIBFileNames(): string {
   return this.file_certificadoATIBToUpload.map(f => f.name).join(', ')
 }
@@ -421,11 +431,9 @@ onFilecertificadoATIBChange(event: Event): void {
     console.log ("this.file_certificadoATIBToUpload", this.file_certificadoATIBToUpload)
   }
 }
-
 get certificadoSegSocFileNames(): string {
   return this.file_certificadoSegSocToUpload.map(f => f.name).join(', ')
 }
-
 onFilecertificadoSegSocChange(event: Event): void {
   const input = event.target as HTMLInputElement;
   if (input.files) {
@@ -464,6 +472,20 @@ onCheckboxChange(event: MatCheckboxChange) {
   }
 }
 
+onRadioChange(event: any): void {
+  const programsArray = this.xecsForm.get('opc_programa') as FormArray;
+
+  const valorSeleccionado = event.value;
+  console.log('Valor seleccionado:', valorSeleccionado);
+
+  // Aquí puedes hacer lo que necesites con el valor,
+  // por ejemplo actualizar otro campo o activar lógica condicional.
+  // Ejemplo:
+  if (valorSeleccionado === 'ADR') {
+    // activar algo especial para el programa ADR
+    
+  }
+}
 
 selectedZipValue(event: MatAutocompleteSelectedEvent): void {
   const selected = event.option.value;
@@ -528,19 +550,19 @@ private getDocumentationAndAuthorizations() {
   })
 }
 
-uploadTheFile(timestamp: string, files: File[]): Observable<any> {
+uploadTheFile(timestamp: string, files: File[] ): Observable<any> {
   if (!files || files.length === 0) {
     return of(null); // Devuelve observable vacío si no hay archivos
   }
 
   const formData = new FormData();
   const nif = this.xecsForm.value.nif;
-
   files.forEach(file => {
     formData.append('files[]', file);
   });
+  console.log (files)
 
-  return this.documentServive.createDocument(nif, timestamp, formData).pipe(
+  return this.documentServive.createDocument( nif, timestamp, formData).pipe(
     tap((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:
@@ -563,8 +585,7 @@ uploadTheFile(timestamp: string, files: File[]): Observable<any> {
     })
   );
 }
-
-    
+  
 private showSnackBar(error: string): void {
     this.snackBar.open(error, 'Close', {
       duration: 15000,

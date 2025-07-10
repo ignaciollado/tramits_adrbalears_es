@@ -161,7 +161,6 @@ export class IlsGrantApplicationFormComponent {
       cuantia_ayuda: this.fb.control<string>("40 horas", []),
     })
 
-    this.customTimestamp = this.commonService.generateCustomTimestamp()
     this.actualYear = this.customTimestamp.split('_')[2]
   }
 
@@ -200,6 +199,9 @@ export class IlsGrantApplicationFormComponent {
   }
 
   onSubmit(): void {
+    const customTimestamp = this.commonService.generateCustomTimestamp()
+    const convocatoria = new Date().getFullYear();
+    const cifnif_propietario = this.ilsForm.get('nif')?.value
     for (const [key, fileList] of Object.entries(this.files)) {
       if (fileList?.length != 0) {
         this.ilsForm.get(key)?.setValue('SI')
@@ -207,18 +209,17 @@ export class IlsGrantApplicationFormComponent {
         this.ilsForm.get(key)?.setValue('NO')
       }
     }
-
     const rawValues = this.ilsForm.getRawValue()
     // Datos añadidos a los valores del formulario
     rawValues.idExp = this.idExp
-    rawValues.selloDeTiempo = this.customTimestamp
-    rawValues.convocatoria = this.actualYear
+    rawValues.selloDeTiempo = customTimestamp
+    rawValues.convocatoria = convocatoria
     rawValues.cpostal = this.ilsForm.get('cpostal')?.value['zipCode']
 
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
         const newId = respuesta.id
-        this.uploadDocuments(newId)
+        this.uploadDocuments(newId, customTimestamp, convocatoria, cifnif_propietario)
       }, error: (error) => { this.showSnackBar(error) }
     })
 
@@ -227,12 +228,7 @@ export class IlsGrantApplicationFormComponent {
   }
 
   // Subida de archivos en BBDD y servidor
-  private uploadDocuments(id: number): void {
-    // const cifnif_propietario = this.ilsForm.get('nif')?.value
-    const mockCifnif_propietario: string = "11111111H"
-    const mockCustomTimestamp: string = "08_07_2025_08_35_04am"
-    const mockConvocatoria: string = "2025"
-
+  private uploadDocuments(id: number, mockCustomTimestamp: string, convocatoria: number, cifnif_propietario: string): void {
     for (const [key, fileList] of Object.entries(this.files)) {
       if (fileList.length != 0) {
         fileList.forEach(file => {
@@ -242,17 +238,17 @@ export class IlsGrantApplicationFormComponent {
 
           documentFormData.append('id_sol', id.toString())
           // documentFormData.append('cifnif_propietario', cifnif_propietario)
-          documentFormData.append('cifnif_propietario', mockCifnif_propietario)
+          documentFormData.append('cifnif_propietario', this.ilsForm.get('nif')?.value)
           // documentFormData.append('convocatoria', this.actualYear)
-          documentFormData.append('convocatoria', mockConvocatoria)
+          documentFormData.append('convocatoria', convocatoria.toString())
           documentFormData.append('name', file.name)
           documentFormData.append('type', file.type)
           documentFormData.append('tipo_tramite', 'ILS')
           documentFormData.append('corresponde_documento', key)
           // documentFormData.append('selloDeTiempo', this.customTimestamp)
           documentFormData.append('selloDeTiempo', mockCustomTimestamp)
-          documentFormData.append('custodiado', '0')
-          documentFormData.append('fechaCustodiado', '0000-00-00')
+        /*   documentFormData.append('custodiado', '0')
+          documentFormData.append('fechaCustodiado', '0000-00-00') */
           documentFormData.append('fase_exped', 'Solicitud')
           documentFormData.append('estado', 'Pendent')
           documentFormData.append('docRequerido', requiredDoc)
@@ -270,7 +266,7 @@ export class IlsGrantApplicationFormComponent {
           //     this.showSnackBar(error)
           //   }
           // })
-          this.documentService.createDocument(mockCifnif_propietario, mockCustomTimestamp, serverDocumentFormData).subscribe({
+          this.documentService.createDocument(cifnif_propietario, mockCustomTimestamp, serverDocumentFormData).subscribe({
             error: (error) => {
               this.showSnackBar(error)
             }

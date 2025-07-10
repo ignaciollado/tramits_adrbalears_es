@@ -41,7 +41,7 @@
         <mat-icon>map</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-      <section ngClass="checkbox-group">
+<!--       <section ngClass="checkbox-group">
         <mat-checkbox
           formControlName = "tipo_tramite"
           *ngFor="let prog of xecsPrograms"
@@ -50,7 +50,17 @@
           [checked]="xecsForm.get('opc_programa')?.value.includes(prog)">
          <code ngClass="adr-option-text">{{ prog.label }}</code>
         </mat-checkbox>
-      </section>
+      </section> -->
+    <section ngClass="radio-group">
+      <mat-radio-group formControlName="tipo_tramite">
+        <mat-radio-button
+          *ngFor="let prog of xecsPrograms"
+          [value]="prog.value"
+          (change)="onRadioChange($event)">
+          <code ngClass="adr-option-text">{{ prog.label }}</code>
+        </mat-radio-button>
+      </mat-radio-group>
+    </section>
       <ul>
         <li *ngFor="let prog of xecsPrograms">
          <strong><code>{{ prog.label }}</code></strong>. <span [innerHTML]="prog.explication"></span>
@@ -528,7 +538,8 @@
       </section>
   </mat-expansion-panel>
 </mat-accordion>
-<button mat-raised-button color="accent" type="submit" [disabled]="xecsForm.invalid">{{ 'FORM.SEND' | translate }}</button>
+<!-- <button mat-raised-button color="accent" type="submit" [disabled]="xecsForm.invalid">{{ 'FORM.SEND' | translate }}</button> -->
+<button mat-raised-button color="accent" type="submit">{{ 'FORM.SEND' | translate }}</button>
 </form>
 
 <section ngClass="info-container">
