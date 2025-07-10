@@ -20,15 +20,15 @@ export class ExpedienteDocumentoService {
   }
 
   // CREATE
-  createDocumentoExpediente(fileData: any, datos: any): Observable<any> {
+  createDocumentoExpediente(fileData: any[], datos: any): Observable<any> {
     console.log ("recibido en create doc", fileData, datos)
   const payload = {
-    ...fileData,
+   /*  ...fileData, */
     id_sol: datos.id_sol,
     cifnif_propietario: datos.nif,
     convocatoria: datos.convocatoria,
-    name: fileData.name,
-    type: fileData.type,
+    name: fileData[0].name,
+    type: fileData[0].type,
     tipo_tramite: datos.tipo_tramite,
     corresponde_documento: "xxxxxxxxxx",
     selloDeTiempo: datos.timeStamp,

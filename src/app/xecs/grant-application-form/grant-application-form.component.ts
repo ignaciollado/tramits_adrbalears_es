@@ -298,10 +298,8 @@ onSubmit(): void {
 
     this.expedienteService.createExpediente(datos).subscribe({
       next: (resp) => {
-        console.log ('✔️ Expediente creado con éxito ' + resp.message, resp.id_sol)
         datos.id_sol = resp.id_sol
         this.showSnackBar('✔️ Expediente creado con éxito ' + resp.message + ' ' + resp.id_sol);
-        console.log ("this.filesToUpload", filesToUpload)
         // Subida de archivos con creación previa de documento
         from(filesToUpload)
           .pipe(
