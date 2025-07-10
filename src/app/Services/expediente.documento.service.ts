@@ -24,7 +24,7 @@ export class ExpedienteDocumentoService {
     console.log ("recibido en create doc", fileData, datos)
   const payload = {
     ...fileData,
-    id_sol: 9999,
+    id_sol: datos.id_sol,
     cifnif_propietario: datos.nif,
     convocatoria: datos.convocatoria,
     name: fileData.name,

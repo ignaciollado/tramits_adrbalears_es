@@ -77,6 +77,7 @@ export class GrantApplicationFormComponent {
   this.xecsForm = this.fb.group ({
     id_sol: this.fb.control(0),
     idExp: this.fb.control(0),
+    timeStamp: this.fb.control(''),
     opc_programa: this.fb.array([], Validators.required),
     nif: this.fb.control({value:'', disabled: true}, [Validators.required]),
     empresa: this.fb.control('', ),
@@ -279,29 +280,30 @@ file_copiaNIFToUpload: File[] = [] // optional
 file_certificadoATIBToUpload: File[] = [] // optional
 file_certificadoSegSocToUpload: File[] = [] // optional
 
-filesToUpload = [ 
-    this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
-    this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload 
-  ];
-
 onSubmit(): void {
   const datos = this.xecsForm.value;
   const timeStamp = this.commonService.generateCustomTimestamp();
   const convocatoria = new Date().getFullYear();
 
   this.expedienteService.getLastExpedienteIdXECS(convocatoria).subscribe((lastID: any) => {
-    datos.idExp = (+lastID.last_id) + 1;
+    datos.idExp = (+lastID.last_id) + 1
     datos.convocatoria = convocatoria
-    datos.localidad = datos.cpostal;
+    datos.localidad = datos.cpostal
+    datos.timeStamp = timeStamp
+
+    const filesToUpload = [ 
+    this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
+    this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload 
+  ];
 
     this.expedienteService.createExpediente(datos).subscribe({
       next: (resp) => {
         console.log ('✔️ Expediente creado con éxito ' + resp.message, resp.id_sol)
         datos.id_sol = resp.id_sol
         this.showSnackBar('✔️ Expediente creado con éxito ' + resp.message + ' ' + resp.id_sol);
-       
+        console.log ("this.filesToUpload", filesToUpload)
         // Subida de archivos con creación previa de documento
-        from(this.filesToUpload)
+        from(filesToUpload)
           .pipe(
             concatMap(file =>
               this.documentosExpedienteService.createDocumentoExpediente(file, datos).pipe(
@@ -315,7 +317,6 @@ onSubmit(): void {
             error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
           });
       },
-
       error: (err) => {
         let msg = '❌ Error al crear el expediente.\n';
         console.log("err", err);
