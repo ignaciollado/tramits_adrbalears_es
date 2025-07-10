@@ -11,7 +11,7 @@
   "HOME": {
     "WELCOME": "Welcome to iTràmits, the official platform of ADR Balears for the management of grants and subsidies",
     "WELCOME_P1": "This application allows for the management and submission of grant applications for industrial companies in the Balearic Islands, administered by the Regional Development Agency of the Balearic Islands (ADR Balears).",
-    "WELCOME_P2" : "The grands, subsidies and procedures currently managed by ADR Balears include",
+    "WELCOME_P2": "The grands, subsidies and procedures currently managed by ADR Balears include",
     "WELCOME_P3": "<strong>Xecs de Consultoria:</strong> subsidies to finance consultancy hours for industrial companies, with the aim of drawing up and designing digital transformation plans, as well as improvement plans aimed at resolving possible inefficiencies, overproduction, warehouse management, among other operational aspects.",
     "WELCOME_P4": "<strong>Ibavals Indústria:</strong> ADR Baleares and the Sociedad de Garantía Recíproca ISBA SGR offer industrial companies Ibavals Indústria, a line of financing to facilitate access to a loan to invest in improving industrial production.",
     "WELCOME_P5": "<strong>Industria Local Sostenible (ILS):</strong> is a guarantee mark created by ADR Balears to identify and make visible the industries of the Balearic Islands committed to the environment that are involved in the calculation of the carbon footprint and its reduction."
@@ -29,13 +29,12 @@
     "ACCEPTTERMS1": "I have read and accept the privacy policy",
     "ACCEPTTERMS2": "You may exercise your rights of access, rectification, erasure, and others, as detailed in the privacy policy.",
     "ACCEPTTERMS3": "The personal data provided will be processed by ADR Balears as the data controller, for the purpose of managing your request.",
-
     "REQUIREDDOCUMENTATION": "<h3>Before starting, we recommend having the following documentation ready, as it will be requested throughout this assistant:</h3>\n<dl ngClass='formbox'>\n  <dt>In the case of individuals (self-employed):</dt>\n  <dd>Description of the company and its activity, business model, and needs depending on the program being applied for.</dd>\n  <dd>Certificate of registration in the <abbr title='Special Regime for Self-Employed Workers'>RETA</abbr> or an equivalent alternative regime.</dd>\n  <dd>Updated certificate of registration in the <abbr title='Business Activity Tax'>IAE</abbr> at the time of application.</dd>\n  <dd>Certificate of being up to date with tax obligations with the State Tax Administration Agency <abbr title='State Tax Administration Agency'>AEAT</abbr>.</dd>\n</dl>\n<dl ngClass='formbox'>\n  <dt>In the case of legal entities (<abbr title='Small and Medium Enterprises'>SMEs</abbr>):</dt>\n  <dd>Description of the company and its activity, business model, and needs depending on the program being applied for.</dd>\n  <dd>Certificate of being up to date with tax obligations with the <abbr title='State Tax Administration Agency'>AEAT</abbr>.</dd>\n  <dd>Updated certificate of <abbr title='Business Activity Tax'>IAE</abbr> at the time of application.</dd>\n  <dd>Copy of the company's <abbr title='Tax Identification Number'>NIF</abbr>.</dd>\n  <dd>Public deed and bylaws, duly registered in the corresponding registry.</dd>\n  <dd>Reliable document accrediting the representation of the person acting on behalf of the applicant entity.</dd>\n</dl>\n<dl>\n  <dt><strong>AUTHORIZATIONS</strong>: the application implies authorization (Article 28.2 of Law 39/2015) for the <abbr title='Regional Development Agency of the Balearic Islands'>ADR Balears</abbr> to verify ex officio that the applicant is up to date with obligations to the <abbr title='Tax Agency of the Balearic Islands'>ATIB</abbr> and the <abbr title='General Treasury of Social Security'>TGSS</abbr>, except in the case of express denial. In this case, the beneficiary must provide the following documentation:</dt>\n  <dd><abbr title='Tax Identification Number'>NIF</abbr> of the applicant and/or the authorized person and supporting documents, if necessary.</dd>\n  <dd>Certificate of being up to date with payments to the <abbr title='Tax Agency of the Balearic Islands'>ATIB</abbr>.</dd>\n  <dd>Certificate of being up to date with payments to the <abbr title='General Treasury of Social Security'>TGSS</abbr>.</dd>\n</dl>",
     "PROGRAM": "Select the support programme(s) you are applying for",
     "SELECTPROGRAMS": "Select one or more grant or subsidiaries programms",
     "ORGANIZATIONTYPE": "Indicate the type of organisation",
     "SOLICITOR": "Person concerned",
-    "SOLICITORDETAILS" : "Person concerned details",
+    "SOLICITORDETAILS": "Person concerned details",
     "SOLICITORTYPE": "Type of applicant",
     "SOLICITORNAME": "Name of the person concerned",
     "ADDRESS": "Address",
@@ -60,7 +59,6 @@
     "BANKADDRESS": "Address of the bank",
     "BANKBICSWIFT": "BIC / SWIFT code",
     "BANKCC": "Account number",
-
     "CCOPTION1": "Option 1 - IBAN of the account for Spain (ES99999999999999999999999)",
     "CCOPTION2": "Option 2 - Overseas account number (9999999999999999999999999)",
     "AUTHORISATIONS": "Authorisations",
@@ -81,7 +79,6 @@
     "FILEDOCACREDREPRESENTANTE": "Document certifying the representation of the person acting on behalf of the applicant organisation",
     "FILECERTIFICADOAEAT": "Certificate of being up to date with tax obligations with the State Tax Administration Agency (AEAT)",
     "NOTAUTHORIZED": "I do not give my consent / I object / I do not grant / I refuse my authorisation to consult the data and documents necessary for the processing of this application."
-
   },
   "XECS": {
     "RGPD": "RGPD and documentation",
@@ -98,11 +95,6 @@
     "RGPD": {
       "TITLE": "GDPR and documentation",
       "DESCRIPTION": "GDPR conditions and required documentation.",
-      "READ-AND-ACCEPTS": {
-        "PART-1": "I have read and accept the terms and conditions of the",
-        "PART-2": "The personal data provided will be processed by ADR Balears as responsible for the treatment, in order to manage your request. You can exercise your rights of access, rectification, deletion and others, as detailed in the ",
-        "PRIVACY-TEXT": "privacy policy."
-      },
       "REQUIRED-DOCS": {
         "INFO": "Before starting, it is advisable to have the following compliance documentation ready:",
         "DOC-1": "Deed of incorporation of the company.",
@@ -118,17 +110,17 @@
         "INFO": "Other optional documentation:",
         "DOC-1": "Technical report of the activity.",
         "DOC-2": {
-          "PART-1": "The",
-          "PART-2": "of the company"
+          "PART-1": "The ",
+          "PART-2": " of the company."
         },
         "DOC-3": "Company logo in WEBP, JPEG or SVG format."
       },
       "AUTHORIZATION": {
         "INFO": {
-          "PART-1": "Authorizations:",
+          "PART-1": "AUTHORIZATIONS: ",
           "PART-2": "the request implies the authorization (article 28.2 of Law 39/2015) so that ",
-          "PART-3": "may verify ex officio that the applicant is up to date with its obligations to the ",
-          "PART-4": "and the ",
+          "PART-3": " may verify ex officio that the applicant is up to date with its obligations to the ",
+          "PART-4": " and the ",
           "PART-5": " except in the case of express refusal. In this case, the beneficiary must provide the following documentation:"
         },
         "DOC-1": " of the applicant and/or authorized person and supporting documents, if necessary.",
@@ -139,19 +131,6 @@
         "INFO": "At the end of this wizard you will receive, by e-mail, a PDF document containing:",
         "DOC-1": "A responsible statement",
         "DOC-2": "An application for membership in the ILS program."
-      }
-    },
-    "BUSINESS-TYPE": {
-      "TITLE": "Applicant Type",
-      "DESCRIPTION": "Select the option that represents the type of company.",
-      "SELF-EMPLOYED": "Self-employed",
-      "SMALL": {
-        "NAME": "Small enterprise",
-        "INFO": "A small enterprise is considered to be one that has less than 50 employees, an annual turnover or an annual balance sheet total not exceeding €10 million, and does not hold 25% or more of its capital or voting rights and other enterprises that do not qualify as SMEs in accordance with Annex I of the European Commission Regulation (EC) No. 651/2014."
-      },
-      "MEDIUM": {
-        "NAME": "Medium-size enterprise",
-        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights in other companies that do not meet the above requirements."
       }
     },
     "GENERAL-DATA": {
@@ -184,9 +163,9 @@
         "LABEL": "Contact phone number of the applicant",
         "ERROR": "The contact phone number entered is not valid."
       },
-      "BAT-EPIGRAPH": {
-        "LABEL": "BAT epigraph",
-        "ERROR": "The BAT epigraph entered is not valid."
+      "CNAE-CODE": {
+        "LABEL": "CNAE code",
+        "ERROR": "The CNAE code entered is not valid."
       },
       "WEBSITE": "Company website",
       "PRESENTATION-VIDEO": "URL of the company's presentation video (published on Youtube or Vimeo)",
@@ -217,8 +196,15 @@
     "AUTHORIZATIONS": {
       "TITLE": "Authorizations",
       "DESCRIPTION": "Indicate your consent/non-consent on the following authorizations.",
-      "AUTHORIZATION-ID": "I give my consent so that ADR Balears can check ex officio the identification of the applicant and/or the authorized person for the company. In case of express refusal of consent, I attach the NIF of the applicant and/or the authorized person and supporting documents, if necessary.",
-      "AUTHORIZATION-ATIB": "Certificate from the Tax Agency of the Balearic Islands (ATIB) of being up to date with tax obligations with the autonomous community of the Balearic Islands.",
+      "AUTHORIZATION-NIF": {
+        "PART-1": "I give my consent so that ",
+        "PART-2": " can check ex officio the identification of the applicant and/or the authorized person for the company. In case of express refusal of consent, I attach the ",
+        "PART-3": " of the applicant and/or the authorized person and supporting documents, if necessary."
+      },
+      "AUTHORIZATION-ATIB": {
+        "PART-1": "Certificate from the ",
+        "PART-2": " of being up to date with tax obligations with the autonomous community of the Balearic Islands."
+      },
       "NO-AUTHORIZATED": "If you disagree, please attach the file previously indicated. [.pdf]"
     },
     "DECLARATIONS": {
@@ -263,35 +249,7 @@
         },
         "LOGO": "Logo of the company that will appear in our section of adhered companies. [.webp, .jpeg, .svg]."
       }
-    },
-    "FILE": {
-      "ERROR": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed.",
-      "UPLOAD": "Upload file"
-    },
-    "ABBR": {
-      "RGPD": {
-        "TITLE": "General Data Protection Regulation",
-        "ABBR": "GDPR"
-      },
-      "BAT": {
-        "TITLE": "Business activity tax",
-        "ABBR": "BAT"
-      },
-      "CIF": {
-        "TITLE": "Tax Identification Number",
-        "ABBR": "TIN"
-      },
-      "ADRBALEARS": "Agència de desenvolupament regional de les Illes Balears",
-      "ATIB": "Balearic Islands Tax Agency",
-      "TGSS": "General Treasury of the Social Security",
-      "NIF": {
-        "TITLE": "Tax Identification Number",
-        "ABBR": "TIN"
-      }
-    },
-    "EXPANDALL": "Expand all",
-    "COLAPSEALL": "Colapse all",
-    "SEND": "Submit"
+    }
   },
   "ISBA": {
     "TITLE": "Aid for financial expenses through the ISBA guarantee",
@@ -305,17 +263,15 @@
     "RGPD": {
       "TITLE": "GDPR and documentation",
       "DESCRIPTION": "GDPR conditions and required documentation.",
-      "READ-AND-ACCEPTS": {
-        "PART-1": "I have read and accept the terms and conditions of the",
-        "PART-2": "The personal data provided will be processed by ADR Balears as responsible for the treatment, in order to manage your request. You can exercise your rights of access, rectification, deletion and others, as detailed in the ",
-        "PRIVACY-TEXT": "privacy policy."
-      },
       "REQUIRED-DOCS": {
         "INFO": "Before starting, it is advisable to have the following documentation ready:",
         "DOC-1": "The standard grant application document for this call, which is generated at the end of this wizard by clicking on the 'Send' button and which you will receive by e-mail.",
         "DOC-2": "Description of the company and its activity, business model and details of the expected investment/investments.",
         "DOC-3": "Responsible declaration of the veracity of the bank data provided, which is included in the application for aid.",
-        "DOC-4": "BAT certificate updated at the time of application.",
+        "DOC-4": {
+          "PART-1": "The ",
+          "PART-2": " certificate updated at the time of application."
+        },
         "DOC-5": {
           "INFO": "In case the applicant is a natural person, the following will be required:",
           "DOC": "The certificate of being in the special regime of self-employed workers or in an equivalent alternative regime."
@@ -326,7 +282,13 @@
           "DOC-2": "Reliable document accrediting the representation of the person acting on behalf of the applicant entity. The representation may be accredited by any legally valid form."
         },
         "DOC-7": "Regarding the DNI/NIE of the applicant and/or the person representing him/her, the application for aid will imply the authorization for the ADR Balears to verify his/her personal identity data ex officio. In case of express refusal of consent, it will be necessary to provide this documentation.",
-        "DOC-8": "With respect to the accreditation of regional tax obligations with the Tax Agency of the Balearic Islands and Social Security obligations, the application for aid will imply authorization for the ADR Balears to obtain from the Tax Agency of the Balearic Islands and the General Treasury of the Social Security the information regarding compliance with these obligations, except in the case of express refusal of consent, in which case the applicant person or entity must provide the corresponding certificate, together with the application for aid.",
+        "DOC-8": {
+          "PART-1": "With respect to the accreditation of regional tax obligations with the ",
+          "PART-2": " and Social Security obligations, the application for aid will imply authorization for ",
+          "PART-3": " to obtain from the ",
+          "PART-4": " and the ",
+          "PART-5": " the information regarding compliance with these obligations, except in the case of express refusal of consent, in which case the applicant person or entity must provide the corresponding certificate, together with the application for aid."
+        },
         "DOC-9": "Regarding the accreditation of the requirement of being up to date with the tax obligations with the State Agency of the Tax Administration, the certificate of compliance with this obligation must be provided.",
         "DOC-10": "For grants of more than €30,000, the certificate established in Article 13.3 bis of Law 38/2003 of November 17 must be provided.",
         "DOC-11": "The certificate of the reciprocal guarantee company that guarantees the financial operation that accredits the date of entry of the beneficiary's request for the guarantee on the financial operation to be subsidized.",
@@ -338,19 +300,6 @@
         "INFO": "At the end of this procedure, you will receive by e-mail a pdf document containing:",
         "DOC-1": "The standard grant application document of this call for proposals.",
         "DOC-2": "A responsible declaration of the person who owns the company or who legally represents it."
-      }
-    },
-    "BUSINESS-TYPE": {
-      "TITLE": "Applicant Type",
-      "DESCRIPTION": "Select the option that represents the type of company.",
-      "SELF-EMPLOYED": "Self-employed",
-      "SMALL": {
-        "NAME": "Small enterprise",
-        "INFO": "A small enterprise is considered to be one that has less than 50 employees, an annual turnover or an annual balance sheet total not exceeding €10 million, and does not hold 25% or more of its capital or voting rights and other enterprises that do not qualify as SMEs in accordance with Annex I of the European Commission Regulation (EC) No. 651/2014."
-      },
-      "MEDIUM": {
-        "NAME": "Medium-size enterprise",
-        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights in other companies that do not meet the above requirements."
       }
     },
     "GENERAL-DATA": {
@@ -383,9 +332,9 @@
         "LABEL": "Contact phone number of the applicant",
         "ERROR": "The contact phone number entered is not valid."
       },
-      "BAT-EPIGRAPH": {
-        "LABEL": "BAT epigraph",
-        "ERROR": "The BAT epigraph entered is not valid."
+      "CNAE-CODE": {
+        "LABEL": "CNAE code",
+        "ERROR": "The CNAE code entered is not valid."
       },
       "REPRESENTATIVE": {
         "NAME": {
@@ -452,8 +401,8 @@
       },
       "IN-ILS": {
         "LABEL": "At the time of application, is your company a member of the ILS program?",
-        "YES": "YES",
-        "NO": "NO",
+        "YES": "Yes",
+        "NO": "No",
         "YES-INFO": "In the event that the applicant company is a member of the ILS (Local Sustainable Industry) program: The amount of the aid to cover the cost of the guarantee of the financial operations of productive investments will cover the seven years of the original operation, and are: 100% of the cost of the guarantee the seven years of the operation, with the limitation of 1.25% on the amount of the guarantee."
       },
       "BUDGET-AMOUNT": {
@@ -530,21 +479,67 @@
       "DOC-11": "The certificate of the reciprocal guarantee company that guarantees the financial operation that accredits the date of entry of the application of the beneficiary requesting the guarantee on the financial operation to be subsidized. [.pdf, .jpeg, .png]",
       "DOC-12": "Contract of the financial operation. [.pdf, ,jpeg, .png]",
       "DOC-13": "Contract or document of endorsement of the financial operation. [.pdf, .jpeg, .png]",
-      "DOC-14": "A Responsible Declaration, included in the standard application form, from the person who owns the company or who legally represents it, which is generated when sending this application.",
-      "NO-CONSENT": "I expressly do not give my consent / I object to / I do not grant / I refuse my authorization to consult the data and documents necessary for the processing of this application. I hereby submit the following documents:"
-    },
-    "FILE": {
-      "ERROR": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed.",
-      "UPLOAD": "Upload file"
-    },
-    "ABBR": {
-      "RGPD": {
-        "ABBR": "GDPR",
-        "TITLE": "General Data Protection Regulation"
-      }
-    },
+      "DOC-14": "A Responsible Declaration, included in the standard application form, from the person who owns the company or who legally represents it, which is generated when sending this application."
+    }
+  },
+  "COMMON": {
     "EXPANDALL": "Expand all",
     "COLAPSEALL": "Colapse all",
-    "SEND": "Submit"
+    "SEND": "Submit",
+    "NO-CONSENT": "I expressly do not give my consent / I object to / I do not grant / I refuse my authorization to consult the data and documents necessary for the processing of this application. I hereby submit the following documents:",
+    "FILE": {
+      "UPLOAD": "Upload file",
+      "ERROR": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed."
+    },
+    "RGPD-INFO": {
+      "READ-AND-ACCEPTS": {
+        "PART-1": "I have read and accept the terms and conditions of the ",
+        "PART-2": " The personal data provided will be processed by ",
+        "PART-3": " as responsible for the treatment, in order to manage your request. You can exercise your rights of access, rectification, deletion and others, as detailed in the privacy policy."
+      }
+    },
+    "BUSINESS-TYPE": {
+      "TITLE": "Applicant Type",
+      "DESCRIPTION": "Select the option that represents the type of company.",
+      "SELF-EMPLOYED": "Self-employed",
+      "SMALL": {
+        "NAME": "Small enterprise",
+        "INFO": "A small enterprise is considered to be one that has less than 50 employees, an annual turnover or an annual balance sheet total not exceeding €10 million, and does not hold 25% or more of its capital or voting rights and other enterprises that do not qualify as SMEs in accordance with Annex I of the European Commission Regulation (EC) No. 651/2014."
+      },
+      "MEDIUM": {
+        "NAME": "Medium-size enterprise",
+        "INFO": "A medium-sized enterprise is considered to be an enterprise that has between 50 and 250 employees, an annual turnover between EUR 10 million and EUR 50 million or an annual balance sheet total between EUR 10 million and EUR 43 million, and does not hold 25% or more of its capital or voting rights in other companies that do not meet the above requirements."
+      }
+    },
+    "ACRONYMS": {
+      "RGPD": {
+        "ACRONYM": "GDPR",
+        "FULL-PHRASE": "General Data Protection Regulation"
+      },
+      "BAT": {
+        "ACRONYM": "BAT",
+        "FULL-PHRASE": "Business Activity Tax"
+      },
+      "CIF": {
+        "ACRONYM": "TIN",
+        "FULL-PHRASE": "Tax Identification Number"
+      },
+      "ADR": {
+        "ACRONYM": "ADR Balears",
+        "FULL-PHRASE": "Agència de Desenvolupament Regional de les Illes Balears"
+      },
+      "ATIB": {
+        "ACRONYM": "ATIB",
+        "FULL-PHRASE": "Balearic Islands Tax Agency"
+      },
+      "TGSS": {
+        "ACRONYM": "TGSS",
+        "FULL-PHRASE": "General Treasury of the Social Security"
+      },
+      "NIF": {
+        "ACRONYM": "TIN",
+        "FULL-PHRASE": "Tax Identification Number"
+      }
+    }
   }
 }

@@ -26,9 +26,10 @@ export class DocumentService {
 
   /* En el sistema de archivos del servidor backend */
   listDocuments(nif: string, timestamp: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.urlAPITramits}/document/${nif}/${timestamp}`)
+    return this.http.get<any[]>(`${this.urlAPITramits}/documents/${nif}/${timestamp}`)
       .pipe(catchError(this.handleError));
   }
+  
   createDocument(nif:string, timestamp: string, formData: FormData): Observable<HttpEvent<any>> {
     return this.http.post<any>(`${this.urlAPITramits}/document/upload/${nif}/${timestamp}`, formData, {
       reportProgress: true, observe: 'events'})

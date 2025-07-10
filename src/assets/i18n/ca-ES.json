@@ -6,12 +6,11 @@
     "FORGOT_PASSWORD": "Recuperar contrasenya",
     "SEND": "Enviar",
     "SENDING": "Enviant"
-
   },
   "HOME": {
     "WELCOME": "Benvingut a iTràmits, la plataforma oficial de ADR Balears per a la gestió d'ajudes i subvencions",
     "WELCOME_P1": "Aquesta aplicació permet gestionar i presentar sol·licituds per a les ajudes destinades a les empreses industrials de les Illes Balears, gestionades per l'Agència de Desenvolupament Regional de les Illes Balears (ADR Balears).",
-    "WELCOME_P2" : "Les ajudes i tràmits actualment gestionades per ADR Balears inclouen",
+    "WELCOME_P2": "Les ajudes i tràmits actualment gestionades per ADR Balears inclouen",
     "WELCOME_P3": "<strong>Xecs de Consultoria:</strong> subvencions destinades a finançar hores de consultoria per a empreses industrials, amb l'objectiu d'elaborar i dissenyar plans de transformació digital, així com plans de millora orientats a resoldre possibles ineficiències, sobreproducció, gestió de magatzems, entre altres aspectes operatius.",
     "WELCOME_P4": "<strong>Ibavals Indústria:</strong> ADR Balears i la Societat de Garantia Recíproca ISBA SGR ofereixen a les empreses industrials Ibavals Indústria, una línia de finançament per a facilitar l'accés a un préstec per a invertir en millora de la producció industrial.",
     "WELCOME_P5": "<strong>Industria Local Sostenible (ILS):</strong> és una marca de garantia creada per ADR Balears per a identificar i visibilitzar les indústries de les illes Balears compromeses amb el medi ambient que s'impliquin en el càlcul de la petjada de carboni i en la seva reducció."
@@ -29,14 +28,12 @@
     "ACCEPTTERMS1": "He llegit i accepto la politica de privacitat",
     "ACCEPTTERMS2": "Pot exercir els seus drets d'accés, rectificació, supressió i altres, segons es detalla en la política de privacitat.",
     "ACCEPTTERMS3": "Les dades personals proporcionades seran tractades per ADR Balears com a responsable del tractament, amb la finalitat de gestionar la seva sol·licitud. ",
-
     "REQUIREDDOCUMENTATION": "<h3>Abans de començar, li recomanem tenir preparada la següent documentació ja que, al llarg d'aquest assistent, la hi sol·licitarem:</h3>\n<dl ngClass='formbox'>\n  <dt>En el cas de persones físiques (autònoms):</dt>\n  <dd>Descripció de l'empresa i la seva activitat, el model de negoci i necessitats en funció del programa al qual es presenta.</dd>\n  <dd>Certificat d'estar d'alta en el <abbr title='Régimen especial de trabajadores autónomos'>RETA</abbr> o en un règim alternatiu equivalent.</dd>\n  <dd>Certificat d'alta del <abbr title='Impuesto de actividades empresariales'>IAE</abbr> actualitzat en el moment de la sol·licitud.</dd>\n  <dd>Certificat d'estar al corrent de les obligacions tributàries amb l'Agència Estatal de l'Administració Tributària <abbr title='Agencia Estatal de Administración Tributaria'>AEAT</abbr>.</dd>\n</dl>\n<dl ngClass='formbox'>\n  <dt>En el cas de persones jurídiques (<abbr title='Petites i mitjanes empreses'>PIMES</abbr>):</dt>\n  <dd>Descripció de l'empresa i la seva activitat, el model de negoci i necessitats en funció del programa al qual es presenta.</dd>\n  <dd>Certificat d'estar al corrent amb les obligacions tributàries de la <abbr title='Agencia Estatal de la Administración Tributaria'>AEAT</abbr>.</dd>\n  <dd>Certificat de <abbr title='Impuesto de actividades empresariales'>IAE</abbr> actualitzat en el moment de la sol·licitud.</dd>\n  <dd>Còpia del <abbr title='Número de identificación fiscal'>NIF</abbr> de l'empresa.</dd>\n  <dd>EEscriptura pública i estatuts, degudament inscrits en el registre corresponent.</dd>\n  <dd>Document fefaent que acrediti la representació de la persona que actua en nom de l'entitat sol·licitant.</dd>\n</dl>\n<dl>\n  <dt><strong>AUTORITZACIONS</strong>: la sol·licitud implica l'autorització (article 28.2 de la Llei 39/2015) perquè la <abbr title='Agencia de Desarrollo Regional de las Illes Balears'>ADR Balears</abbr> pugui comprovar d'ofici que el sol·licitant està al corrent de les obligacions amb la <abbr title='Agència tributaria de les Illes Balears'>ATIB</abbr> i la <abbr title='Tesorería general de la seguridad social'>TGSS</abbr>, excepte en cas de denegació expressa. En aquest cas, el beneficiari haurà d'aportar la següent documentació:</dt>\n  <dd><abbr title='Número d'identificació fiscal'>NIF</abbr> del sol·licitant i/o de la persona autoritzada i els documents acreditatius, si és necessari.</dd>\n  <dd>Certificat d'estar al corrent de pagament amb la <abbr title='Agència tributària de les Illes Balears'>ATIB</abbr>.</dd>\n  <dd>Certificat d'estar al corrent de pagament amb la <abbr title='Tesorería general de la seguridad social'>TGSS</abbr>.</dd>\n</dl>",
-
     "PROGRAM": "Seleccionau el programa d'ajuda que sol·licitau",
     "SELECTPROGRAMS": "Select one or more grant or subsidiaries programms",
     "ORGANIZATIONTYPE": "Indiqui el tipus d'organització",
     "SOLICITOR": "Interessat",
-    "SOLICITORDETAILS" : "Dades de l'interessat",
+    "SOLICITORDETAILS": "Dades de l'interessat",
     "SOLICITORTYPE": "Tipus de sol·licitant",
     "SOLICITORNAME": "Nom del interessat",
     "ADDRESS": "Adreça",
@@ -97,11 +94,6 @@
     "RGPD": {
       "TITLE": "RGPD i documentació",
       "DESCRIPTION": "Condicions del RGPD i documentació requerida.",
-      "READ-AND-ACCEPTS": {
-        "PART-1": "He llegit i accepto les condicions del",
-        "PART-2": "Les dades personals proporcionades seran tratador per ADR Balears com a responsable del tractament, amb la finalitat de gestionar la seva sol·licitud. Pot exercir els seus drets d'accés, rectificació, supressió i altres, segons es detalla en la ",
-        "PRIVACY-TEXT": "política de privacitat."
-      },
       "REQUIRED-DOCS": {
         "INFO": "Abans de començar, és recomanable tenir preparada la següent documentació relacionada amb el compliment dels requisits:",
         "DOC-1": "Escriptura de constitució de l'empresa.",
@@ -110,47 +102,34 @@
           "PART-2": "industrial"
         },
         "DOC-3": "Informes de càlcul de la petjada de carboni: <a href=''>Informe resum</a> + <a href=''>Informe d'inventari</a> de GEH segons la norma ISO 14.064-1. o certificat de verificació ISO 14064-1.",
-        "DOC-4": "Compromís de reducció de les emissions de gasos d'efecte hivernacle<a href=''>Model d'exemple</a>.",
+        "DOC-4": "Compromís de reducció de les emissions de gasos d'efecte hivernacle: <a href=''>Model d'exemple</a>.",
         "DOC-5": "Certificat itinerari formatiu."
       },
       "OPTIONAL-DOCS": {
         "INFO": "Altra documentació opcional:",
         "DOC-1": "Memòria tècnica de l'activitat.",
         "DOC-2": {
-          "PART-1": "El",
-          "PART-2": "de l'empresa"
+          "PART-1": "El ",
+          "PART-2": " de l'empresa."
         },
         "DOC-3": "Logotip de l'empresa en format WEBP, JPEG o SVG."
       },
       "AUTHORIZATION": {
         "INFO": {
           "PART-1": "AUTORITZACIONS: ",
-          "PART-2": "la sol·licitud implica l'autorització (article 28.2 de la Llei 39/2015) perquè l'",
-          "PART-3": "pugui comprovar d'ofici que el sol·licitant està al corrent de les obligacions amb ",
-          "PART-4": "i la ",
+          "PART-2": "la sol·licitud implica l'autorització (article 28.2 de la Llei 39/2015) perquè ",
+          "PART-3": " pugui comprovar d'ofici que el sol·licitant està al corrent de les obligacions amb l'",
+          "PART-4": " i la ",
           "PART-5": " excepte en cas de denegació expressa. En aquest cas, el beneficiari haurà d'aportar la següent documentació:"
         },
         "DOC-1": " del sol·licitant i/o de la persona autoritzada i els documents acreditatius, si és necessari.",
         "DOC-2": "Certificat d'estar al corrent de pagament amb l'",
-        "DOC-3": "Certificat d'estar al corrent de pagament amb la"
+        "DOC-3": "Certificat d'estar al corrent de pagament amb la "
       },
       "NOTIFICATION": {
         "INFO": "En finalitzar d'aquest assistent rebrà, per correu electrònic, un document en format PDF que contindrà:",
         "DOC-1": "Una declaració responsable.",
         "DOC-2": "Una sol·licitud d'adhesió al programa ILS."
-      }
-    },
-    "BUSINESS-TYPE": {
-      "TITLE": "Tipus de sol·licitant",
-      "DESCRIPTION": "Seleccioni l'opció que representi el tipus d'empresa",
-      "SELF-EMPLOYED": "Autònom",
-      "SMALL": {
-        "NAME": "Petita empresa",
-        "INFO": "Es considera petita empresa la que té menys de 50 treballadors i/o treballadores, un volum de negoci anual o un balanç general anual que no superi els 10 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot. Altres empreses que no compleixen els requisists per ser considerada PIME d'acord amb l'anexx I del Reglament (CE) núm. 651/2014 de la Comissió Europea."
-      },
-      "MEDIUM": {
-        "NAME": "Mitjana empresa",
-        "INFO": "Es considera mitjana empresa la que té entre 50 i 250 treballadors i/o treballadores, un volum de negoci anual entre 10 i 50 milions d'euros o un balanç general anual entre 10 i 43 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot en altres empreses que no compleixen els requisits anteriors."
       }
     },
     "GENERAL-DATA": {
@@ -183,9 +162,9 @@
         "LABEL": "Telèfon de contacte del sol·licitant",
         "ERROR": "El telèfon de contacte introduït no és vàlid."
       },
-      "BAT-EPIGRAPH": {
-        "LABEL": "Epígraf IAE",
-        "ERROR": "L'epígraf IAE introduït no és vàlid."
+      "CNAE-CODE": {
+        "LABEL": "Codi CNAE",
+        "ERROR": "El codi CNAE introduït no és vàlid."
       },
       "WEBSITE": "Lloc web de l'empresa",
       "PRESENTATION-VIDEO": "La URL del vídeo de presentació de l'empresa (publicat a Youtube o a Vimeo)",
@@ -216,8 +195,15 @@
     "AUTHORIZATIONS": {
       "TITLE": "Autoritzacions",
       "DESCRIPTION": "Indiqui el seu consentiment/disconformitat en les següents autoritzacions.",
-      "AUTHORIZATION-ID": "Don el meu consentiment perquè l'ADR Balears pugui comprovar d'ofici la identificació de la persona sol·licitant i/o la persona autoritzada per l'empresa. En cas de denegació expressa del consentiment, adjunt el NIF del sol·licitant i/o de la persona autoritzada i els documents acreditatius, si s'escau.",
-      "AUTHORIZATION-ATIB": "Certificat de l'Agència Tributària de les illes Balears (ATIB) d'estar al corrent de les obligacions tributàries amb la comunitat autònoma de les illes Balears.",
+      "AUTHORIZATION-NIF": {
+        "PART-1": "Don el meu consentiment perquè ",
+        "PART-2": " pugui comprovar d'ofici la identificació de la persona sol·licitant i/o la persona autoritzada per l'empresa. En cas de denegació expressa del consentiment, adjunt el ",
+        "PART-3": " del sol·licitant i/o de la persona autoritzada i els documents acreditatius, si s'escau."
+      },
+      "AUTHORIZATION-ATIB": {
+        "PART-1": "Certificat de l'",
+        "PART-2": " d'estar al corrent de les obligacions tributàries amb la comunitat autònoma de les illes Balears."
+      },
       "NO-AUTHORIZATED": "En estar en disconformitat, si us plau, adjunti l'arxiu prèviament indicat. [.pdf]"
     },
     "DECLARATIONS": {
@@ -240,8 +226,8 @@
         "INFO": "Documentació relacionada amb el compliment dels requisits.",
         "CONSTITUTION": "Escriptura de constitució de l'empresa. [.pdf]",
         "BAT": {
-          "PART-1": "Certificat del ",
-          "PART-2": "actualitzat. [.pdf]"
+          "PART-1": "Certificat de l'",
+          "PART-2": " actualitzat. [.pdf]"
         },
         "INPUT-RADIO": {
           "OPTION-1": "Presentar informes de càlcul de la petjada de carboni: Informe resum + Informe d'inventari de GEH segons la norma ISO 14.064-1.",
@@ -262,35 +248,7 @@
         },
         "LOGO": "Logotip de l'empresa que apareixerà en el nostre apartat d'empreses adherides. [.webp, .jpeg, .svg]"
       }
-    },
-    "FILE": {
-      "ERROR": "L'arxiu pujat no és vàlid a causa d'un format incorrecte o una grandària que excedeix el màxim permès.",
-      "UPLOAD": "Pujar arxiu"
-    },
-    "ABBR": {
-      "RGPD": {
-        "TITLE": "Reglament general de protecció de dades",
-        "ABBR": "RGPD"
-      },
-      "BAT": {
-        "TITLE": "Impost d'activitats empresarials",
-        "ABBR": "IAE"
-      },
-      "CIF": {
-        "TITLE": "Codi d'Identificació Fiscal",
-        "ABBR": "CIF"
-      },
-      "ADRBALEARS": "Agència de desenvolupament regional de les Illes Balears",
-      "ATIB": "Agència Tributària de les Illes Balears",
-      "TGSS": "Tresoreria General de la Seguretat Social",
-      "NIF": {
-        "TITLE": "Número d'identificació fiscal",
-        "ABBR": "NIF"
-      }
-    },
-    "EXPANDALL": "Expandir tot",
-    "COLAPSEALL": "Encongir tot",
-    "SEND": "Enviar"
+    }
   },
   "ISBA": {
     "TITLE": "Ajuts a les despeses financeres a través de l'aval d'ISBA",
@@ -304,17 +262,15 @@
     "RGPD": {
       "TITLE": "RGPD i documentació",
       "DESCRIPTION": "Condicions del RGPD i documentació requerida.",
-      "READ-AND-ACCEPTS": {
-        "PART-1": "He llegit i accepto les condicions del",
-        "PART-2": "Les dades personals proporcionades seran tratador per ADR Balears com a responsable del tractament, amb la finalitat de gestionar la seva sol·licitud. Pot exercir els seus drets d'accés, rectificació, supressió i altres, segons es detalla en la ",
-        "PRIVACY-TEXT": "política de privacitat."
-      },
       "REQUIRED-DOCS": {
         "INFO": "Abans de començar, és recomanable tenir preparada la següent documentació:",
         "DOC-1": "El document normalitzat de sol·licitud de subvenció d'aquesta convocatòria, el qual es genera al final d'aquest assistent en prémer sobre el botó 'Enviar' i que rebrà per correu electrònic.",
         "DOC-2": "Descripció de l'empresa i la seva activitat, model de negoci i detall de la inversió/Inversions previstes.",
         "DOC-3": "Declaració responsable de la veracitat de les dades bancàries aportades que es troba inclòs en la sol·licitud de l'ajuda.",
-        "DOC-4": "Certificat de l'IAE actualitzat en el moment de la sol·licitud.",
+        "DOC-4": {
+          "PART-1": "Certificat de l'",
+          "PART-2": " actualitzat en el moment de la sol·licitud."
+        },
         "DOC-5": {
           "INFO": "En cas que el sol·licitant sigui una persona física, es requerirà:",
           "DOC": "El certificat d'estar en el règim especial de treballadors autònoms o en un règim alternatiu equivalent."
@@ -325,7 +281,13 @@
           "DOC-2": "Document fefaent que acrediti la representació de la persona que actua en nom de l'entitat sol·licitant. La representació podrà acreditar-se per qualsevol forma vàlida en dret."
         },
         "DOC-7": "Respecte al DNI/NIE de la persona sol·licitant i/o de la persona que li representi, la sol·licitud d'ajudes implicarà l'autorització perquè l'ADR Balears pugui comprovar d'ofici les seves dades d'identitat personal. En cas de denegació expressa del consentiment, serà necessari aportar aquesta documentació.",
-        "DOC-8": "Respecte a l'acreditació de les obligacions tributàries autonòmiques amb l'Agència Tributària de les Illes Balears i de les obligacions amb la Seguretat Social, la sol·licitud d'ajudes implicarà l'autorització perquè l'ADR Balears pugui obtenir de l'Agència Tributària de les Illes Balears i de la Tresoreria General de la Seguretat Social la informació relativa al compliment d'aquestes obligacions, excepte en cas de denegació expressa del consentiment, suposat en el qual la persona o l'entitat sol·licitant ha d'aportar el certificat corresponent, juntament amb la sol·licitud de les ajudes.",
+        "DOC-8": {
+          "PART-1": "Respecte a l'acreditació de les obligacions tributàries autonòmiques amb l'",
+          "PART-2": " i de les obligacions amb la Seguretat Social, la sol·licitud d'ajudes implicarà l'autorització perquè ",
+          "PART-3": " pugui obtenir de l'",
+          "PART-4": " i de la ",
+          "PART-5": " la informació relativa al compliment d'aquestes obligacions, excepte en cas de denegació expressa del consentiment, suposat en el qual la persona o l'entitat sol·licitant ha d'aportar el certificat corresponent, juntament amb la sol·licitud de les ajudes."
+        },
         "DOC-9": "Quant a l'acreditació del requisit d'estar al corrent de les obligacions tributàries amb l'Agència Estatal de l'Administració Tributària, haurà d'aportar-se el certificat acreditatiu del compliment d'aquesta obligació.",
         "DOC-10": "Per a ajudes d'import superior a 30.000 €, haurà d'aportar-se el certificat que estableix l'article 13.3 bis de la Llei 38/2003 de 17 de novembre.",
         "DOC-11": "El certificat de la societat de garantia recíproca que avali l'operació financera que acrediti la data d'entrada de la sol·licitud del beneficiari de petició de l'aval sobre l'operació financera a subvencionar.",
@@ -337,19 +299,6 @@
         "INFO": "En finalitzar aquest tràmit, rebrà per correu electrònic un document pdf que contindrà:",
         "DOC-1": "El document normalitzat de sol·licitud de subvenció d'aquesta convocatòria.",
         "DOC-2": "Una Declaració responsable de la persona titular de l'empresa o de qui la representa legalment."
-      }
-    },
-    "BUSINESS-TYPE": {
-      "TITLE": "Tipus de sol·licitant",
-      "DESCRIPTION": "Seleccioni l'opció que representi el tipus d'empresa",
-      "SELF-EMPLOYED": "Autònom",
-      "SMALL": {
-        "NAME": "Petita empresa",
-        "INFO": "Es considera petita empresa la que té menys de 50 treballadors i/o treballadores, un volum de negoci anual o un balanç general anual que no superi els 10 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot. Altres empreses que no compleixen els requisists per ser considerada PIME d'acord amb l'anexx I del Reglament (CE) núm. 651/2014 de la Comissió Europea."
-      },
-      "MEDIUM": {
-        "NAME": "Mitjana empresa",
-        "INFO": "Es considera mitjana empresa la que té entre 50 i 250 treballadors i/o treballadores, un volum de negoci anual entre 10 i 50 milions d'euros o un balanç general anual entre 10 i 43 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot en altres empreses que no compleixen els requisits anteriors."
       }
     },
     "GENERAL-DATA": {
@@ -382,9 +331,9 @@
         "LABEL": "Telèfon de contacte del sol·licitant",
         "ERROR": "El telèfon de contacte introduït no és vàlid."
       },
-      "BAT-EPIGRAPH": {
-        "LABEL": "Epígraf IAE",
-        "ERROR": "L'epígraf IAE introduït no és vàlid."
+      "CNAE-CODE": {
+        "LABEL": "Codi CNAE",
+        "ERROR": "El codi CNAE introduït no és vàlid."
       },
       "REPRESENTATIVE": {
         "NAME": {
@@ -451,8 +400,8 @@
       },
       "IN-ILS": {
         "LABEL": "En el moment de la sol·licitud, la seva empresa està adherida al programa ILS?",
-        "YES": "SI",
-        "NO": "NO",
+        "YES": "Si",
+        "NO": "No",
         "YES-INFO": "En el cas que l'empresa sol·licitant estigui adherida al programa ILS (Indústria Local Sostenible): L'import de l'ajuda per a cobrir el cost de l'aval de les operacions financeres d'inversions productives cobrirà els set anys de l'operació original, i són: el 100% del cost de l'aval els set anys de l'operació, amb la limitació del 1,25% sobre l'import de l'aval."
       },
       "BUDGET-AMOUNT": {
@@ -529,21 +478,67 @@
       "DOC-11": "El certificat de la societat de garantia recíproca que avali l'operació financera que acrediti la data d'entrada de la sol·licitud del beneficiari de petició de l'aval sobre l'operació financera a subvencionar. [.pdf, .jpeg, .png]",
       "DOC-12": "Contracte de l'operació financera. [.pdf, ,jpeg, .png]",
       "DOC-13": "Contracte o document d'aval de l'operació financera. [.pdf, .jpeg, .png]",
-      "DOC-14": "Una Declaració responsable, inclosa en el model normalitzat de sol·licitud, de la persona titular de l'empresa o de qui la representa legalment, la qual es genera en enviar aquesta sol·licitud.",
-      "NO-CONSENT": "Expressament no dono el meu consentiment / M'oposo a / No concedeixo / Denego la meva autorització perquè es consultin les dades i documents necessaris per a la tramitació d'aquesta sol·licitud. Per això, presento els documents que consten a continuació:"
-    },
+      "DOC-14": "Una Declaració responsable, inclosa en el model normalitzat de sol·licitud, de la persona titular de l'empresa o de qui la representa legalment, la qual es genera en enviar aquesta sol·licitud."
+    }
+  },
+  "COMMON": {
+    "EXPANDALL": "Expandir tot",
+    "COLAPSEALL": "Encogir tot",
+    "SEND": "Enviar",
+    "NO-CONSENT": "Expressament no dono el meu consentiment / M'oposo a / No concedeixo / Denego la meva autorització perquè es consultin les dades i documents necessaris per a la tramitació d'aquesta sol·licitud. Per això, presento els documents que consten a continuació:",
     "FILE": {
-      "ERROR": "L'arxiu pujat no és vàlid a causa d'un format incorrecte o una grandària que excedeix el màxim permès.",
-      "UPLOAD": "Pujar arxiu"
+      "UPLOAD": "Pujar arxiu",
+      "ERROR": "L'arxiu pujat no és vàlid a causa d'un format incorrecte o una grandària que excedeix el màxim permès."
     },
-    "ABBR": {
-      "RGPD": {
-        "ABBR": "RGPD",
-        "TITLE": "Reglament general de protecció de dades"
+    "RGPD-INFO": {
+      "READ-AND-ACCEPTS": {
+        "PART-1": "He llegit i accepto les condicions del ",
+        "PART-2": " Les dades personals proporcionades seran tratats per ",
+        "PART-3": " com a responsable del tractament, amb la finalitat de gestionar la seva sol·licitud. Pot exercir els seus drets d'accés, rectificació, supressió i altres, segons es detalla en la política de privacitat."
       }
     },
-    "EXPANDALL": "Expandir tot",
-    "COLAPSEALL": "Encongir tot",
-    "SEND": "Enviar"
+    "BUSINESS-TYPE": {
+      "TITLE": "Tipus de sol·licitant",
+      "DESCRIPTION": "Seleccioni l'opció que representi el tipus d'empresa",
+      "SELF-EMPLOYED": "Autònom",
+      "SMALL": {
+        "NAME": "Petita empresa",
+        "INFO": "Es considera petita empresa la que té menys de 50 treballadors i/o treballadores, un volum de negoci anual o un balanç general anual que no superi els 10 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot. Altres empreses que no compleixen els requisists per ser considerada PIME d'acord amb l'anexx I del Reglament (CE) núm. 651/2014 de la Comissió Europea."
+      },
+      "MEDIUM": {
+        "NAME": "Mitjana empresa",
+        "INFO": "Es considera mitjana empresa la que té entre 50 i 250 treballadors i/o treballadores, un volum de negoci anual entre 10 i 50 milions d'euros o un balanç general anual entre 10 i 43 milions d'euros, i no participa en un 25% o més del seu capital o dels seus drets de vot en altres empreses que no compleixen els requisits anteriors."
+      }
+    },
+    "ACRONYMS": {
+      "RGPD": {
+        "ACRONYM": "RGPD",
+        "FULL-PHRASE": "Reglament General de Protecció de Dades"
+      },
+      "BAT": {
+        "ACRONYM": "IAE",
+        "FULL-PHRASE": "Impost d'Activitats Empresarials"
+      },
+      "CIF": {
+        "ACRONYM": "CIF",
+        "FULL-PHRASE": "Codi d'Identificació Fiscal"
+      },
+      "ADR": {
+        "ACRONYM": "ADR Balears",
+        "FULL-PHRASE": "Agència de desenvolupament regional de les Illes Balears"
+      },
+      "ATIB": {
+        "ACRONYM": "ATIB",
+        "FULL-PHRASE": "Agència Tributària de les Illes Balears"
+      },
+      "TGSS": {
+        "ACRONYM": "TGSS",
+        "FULL-PHRASE": "Tresoreria General de la Seguretat Social"
+      },
+      "NIF": {
+        "ACRONYM": "NIF",
+        "FULL-PHRASE": "Número d'Identificació Fiscal"
+      }
+    }
   }
 }

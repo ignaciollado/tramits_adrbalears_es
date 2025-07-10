@@ -41,14 +41,15 @@ export class IlsGrantApplicationFormComponent {
   radioOptionDocs: string = ""
   rgpdAccepted = false
   businessType: string = "";
-  businessTypeChoosed: boolean = false // Para evitar problemas de validadores customs
 
   // Files
+
+  // Guardaré los nombres de los files aquí para su printado en el formulario y el listado de files
   fileNames: { [key: string]: string } = {
     file_enviardocumentoIdentificacion: "",
     file_certificadoATIB: "",
     file_escritura_empresa: "",
-    file_certificado_IAE: "",
+    file_certificadoIAE: "",
     file_informeResumenIls: "",
     file_informeInventarioIls: "",
     file_certificado_verificacion_ISO: "",
@@ -59,11 +60,12 @@ export class IlsGrantApplicationFormComponent {
     file_logotipoEmpresaIls: ""
   }
 
+  // Guardaré todos los files crudos aquí
   files: { [key: string]: File[] } = {
     file_enviardocumentoIdentificacion: [],
     file_certificadoATIB: [],
     file_escritura_empresa: [],
-    file_certificado_IAE: [],
+    file_certificadoIAE: [],
     file_informeResumenIls: [],
     file_informeInventarioIls: [],
     file_certificado_verificacion_ISO: [],
@@ -73,6 +75,19 @@ export class IlsGrantApplicationFormComponent {
     file_nifEmpresa: [],
     file_logotipoEmpresaIls: []
   }
+
+  // Files obligatorios
+  requiredFiles: string[] = [
+    'file_enviardocumentoIdentificacion',
+    'file_certificadoATIB',
+    'file_escritura_empresa',
+    'file_certificadoIAE',
+    'file_informeResumenIls',
+    'file_informeInventarioIls',
+    'file_certificado_verificacion_ISO',
+    'file_modeloEjemploIls',
+    'file_certificado_itinerario_formativo'
+  ]
 
   // 10 MB máximos
   maxFileSizeBytes: number = 10 * 1024 * 1024
@@ -87,56 +102,65 @@ export class IlsGrantApplicationFormComponent {
   filteredOptions: Observable<ZipCodesIBDTO[]> | undefined;
   actividadesCNAE: CnaeDTO[] = []
 
-  customTimestamp: any
-  actualYear: any
+  customTimestamp: string = ""
+  actualYear: string = ""
   idExp: string = ""
 
 
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.ilsForm = this.fb.group({
+      
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
       tipo_solicitante: this.fb.control<string>('', [Validators.required]),
-      nif: this.fb.control<string>(''), // Validadores seteados posteriormente
-      denom_interesado: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
+      nif: this.fb.control<string>({ value: '', disabled: true }, []), // Validadores seteados posteriormente
+      empresa: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
       domicilio: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
       localidad: this.fb.control<string>({ value: '', disabled: true }),
-      tel_cont: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9), Validators.minLength(9)]),
-      codigoIAE: this.fb.control<string>('', [Validators.required]),
+      telefono: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9), Validators.minLength(9)]),
+      iae: this.fb.control<string>('', [Validators.required]),
       sitio_web_empresa: this.fb.control<string>('', [this.customValidator.xssProtectorValidator()]),
       video_empresa: this.fb.control<string>('', [this.customValidator.xssProtectorValidator()]),
-      nom_representante: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
-      nif_representante: this.fb.control<string>('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.customValidator.dniNieValidator()]),
-      tel_representante: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9)]),
-      mail_representante: this.fb.control<string>('', [Validators.required, Validators.email]),
+      nombre_rep: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
+      nif_rep: this.fb.control<string>('', [Validators.required, Validators.minLength(9), Validators.maxLength(9), this.customValidator.dniNieValidator()]),
+      telefono_rep: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9)]),
+      email_rep: this.fb.control<string>('', [Validators.required, Validators.email]),
 
-      checkboxID: this.fb.control<boolean>(true),
-      file_enviardocumentoIdentificacion: this.fb.control<string | null>(''),
-      checkboxATIB: this.fb.control<boolean>(true),
-      file_certificadoATIB: this.fb.control<string | null>(''),
+      checkboxID: this.fb.control<boolean>(true, []),
+      file_enviardocumentoIdentificacion: this.fb.control<File | null>(null, []),
+      checkboxATIB: this.fb.control<boolean>(true, []),
+      file_certificadoATIB: this.fb.control<File | null>(null, []),
 
-      declaracion_responsable_i: this.fb.control<boolean>(true),
-      declaracion_responsable_v: this.fb.control<boolean>(true),
-      declaracion_responsable_vii: this.fb.control<boolean>(true),
-      declaracion_responsable_ix: this.fb.control<boolean>(true),
+      cumpleRequisitos_dec_resp: this.fb.control<string>({ value: 'SI', disabled: true }, []),
+      epigrafeIAE_dec_resp: this.fb.control<string>({ value: 'SI', disabled: true }, []),
+      registroIndustrialMinero_dec_resp: this.fb.control<string>({ value: 'SI', disabled: true }, []),
+      cumpleNormativaSegInd_dec_resp: this.fb.control<string>({ value: 'SI', disabled: true }, []),
 
       // Documentación
-      file_escritura_empresa: this.fb.control<string | null>('', [Validators.required]),
-      file_certificado_IAE: this.fb.control<string | null>('', [Validators.required]),
+      file_escritura_empresa: this.fb.control<File | null>(null, [Validators.required]),
+      file_certificadoIAE: this.fb.control<File | null>(null, [Validators.required]),
       radioGroupFile: this.fb.control(null, [Validators.required]),
-      file_informeResumenIls: this.fb.control<string | null>(''), // Primera opción radio
-      file_informeInventarioIls: this.fb.control<string | null>(''), // Primera opción radio
-      file_certificado_verificacion_ISO: this.fb.control<string | null>(''), // Segunda opción radio
+      file_informeResumenIls: this.fb.control<File | null>(null, []), // Primera opción radio
+      file_informeInventarioIls: this.fb.control<File | null>(null, []), // Primera opción radio
+      file_certificado_verificacion_ISO: this.fb.control<File | null>(null, []), // Segunda opción radio
+      file_modeloEjemploIls: this.fb.control<File | null>(null, [Validators.required]),
+      file_certificado_itinerario_formativo: this.fb.control<File | null>(null, [Validators.required]),
 
-      file_modeloEjemploIls: this.fb.control<string | null>('', [Validators.required]),
-      file_certificado_itinerario_formativo: this.fb.control<string | null>('', [Validators.required]),
-      file_memoriaTecnica: this.fb.control<string | null>(''),
-      file_nifEmpresa: this.fb.control<string | null>(''),
-      file_logotipoEmpresaIls: this.fb.control<string | null>(''),
+      file_memoriaTecnica: this.fb.control<File | null>(null, []),
+      file_nifEmpresa: this.fb.control<File | null>(null, []),
+      file_logotipoEmpresaIls: this.fb.control<File | null>(null, []),
+      tipo_tramite: this.fb.control<string>('ILS', []),
 
-      tipo_tramite: this.fb.control<string>('ILS')
+      // Datos requeridos pero que no se rellenan aquí
+      comments: this.fb.control<string>('-', []),
+      wp_userID: this.fb.control<number>(0, []), // No aparece en los datos del expediente
+      ref_REC: this.fb.control<number>(0, []),
+      fecha_acta_cierre: this.fb.control<string>('0000-00-00', []),
+      fecha_kick_off: this.fb.control<string>('0000-00-00', []),
+      cuantia_ayuda: this.fb.control<string>("40 horas", []),
     })
+
     this.customTimestamp = this.commonService.generateCustomTimestamp()
     this.actualYear = this.customTimestamp.split('_')[2]
   }
@@ -176,9 +200,85 @@ export class IlsGrantApplicationFormComponent {
   }
 
   onSubmit(): void {
-    console.log(this.ilsForm.value)
+    for (const [key, fileList] of Object.entries(this.files)) {
+      if (fileList?.length != 0) {
+        this.ilsForm.get(key)?.setValue('SI')
+      } else {
+        this.ilsForm.get(key)?.setValue('NO')
+      }
+    }
+
+    const rawValues = this.ilsForm.getRawValue()
+    // Datos añadidos a los valores del formulario
+    rawValues.idExp = this.idExp
+    rawValues.selloDeTiempo = this.customTimestamp
+    rawValues.convocatoria = this.actualYear
+    rawValues.cpostal = this.ilsForm.get('cpostal')?.value['zipCode']
+
+    this.expedienteService.createExpediente(rawValues).subscribe({
+      next: (respuesta) => {
+        const newId = respuesta.id
+        this.uploadDocuments(newId)
+      }, error: (error) => { this.showSnackBar(error) }
+    })
+
+    // Hardcodeado por el momento para el testeo
+    // this.uploadDocuments(1112)
   }
 
+  // Subida de archivos en BBDD y servidor
+  private uploadDocuments(id: number): void {
+    // const cifnif_propietario = this.ilsForm.get('nif')?.value
+    const mockCifnif_propietario: string = "11111111H"
+    const mockCustomTimestamp: string = "08_07_2025_08_35_04am"
+    const mockConvocatoria: string = "2025"
+
+    for (const [key, fileList] of Object.entries(this.files)) {
+      if (fileList.length != 0) {
+        fileList.forEach(file => {
+          // BBDD
+          const documentFormData = new FormData()
+          const requiredDoc = this.requiredFiles.includes(key) ? 'SI' : 'NO'
+
+          documentFormData.append('id_sol', id.toString())
+          // documentFormData.append('cifnif_propietario', cifnif_propietario)
+          documentFormData.append('cifnif_propietario', mockCifnif_propietario)
+          // documentFormData.append('convocatoria', this.actualYear)
+          documentFormData.append('convocatoria', mockConvocatoria)
+          documentFormData.append('name', file.name)
+          documentFormData.append('type', file.type)
+          documentFormData.append('tipo_tramite', 'ILS')
+          documentFormData.append('corresponde_documento', key)
+          // documentFormData.append('selloDeTiempo', this.customTimestamp)
+          documentFormData.append('selloDeTiempo', mockCustomTimestamp)
+          documentFormData.append('custodiado', '0')
+          documentFormData.append('fechaCustodiado', '0000-00-00')
+          documentFormData.append('fase_exped', 'Solicitud')
+          documentFormData.append('estado', 'Pendent')
+          documentFormData.append('docRequerido', requiredDoc)
+          // this.documentService.insertDocuments(documentFormData).subscribe({
+          //   error: (error) => {
+          //     this.showSnackBar(error)
+          //   }
+          // })
+
+          // Servidor
+          const serverDocumentFormData = new FormData()
+          serverDocumentFormData.append('files', file)
+          // this.documentService.createDocument(cifnif_propietario, this.customTimestamp, documentFormData).subscribe({
+          //   error: (error) => {
+          //     this.showSnackBar(error)
+          //   }
+          // })
+          this.documentService.createDocument(mockCifnif_propietario, mockCustomTimestamp, serverDocumentFormData).subscribe({
+            error: (error) => {
+              this.showSnackBar(error)
+            }
+          })
+        })
+      };
+    }
+  }
 
   onFileChange(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement
@@ -224,8 +324,8 @@ export class IlsGrantApplicationFormComponent {
 
   // Cambio de custom-validator según tipo solicitante
   changeNIFValidator(): void {
-    const nifControl = this.ilsForm.get('nif')
     const tipo_solicitanteValue = this.ilsForm.get('tipo_solicitante')?.value
+    const applicantNif = this.ilsForm.get('nif')
 
     const nifValidators = [Validators.required, Validators.minLength(9), Validators.maxLength(9)]
 
@@ -237,9 +337,11 @@ export class IlsGrantApplicationFormComponent {
       nifValidators.push(this.customValidator.cifValidator())
     }
 
-    nifControl?.setValidators(nifValidators)
-    nifControl?.updateValueAndValidity()
-    this.businessTypeChoosed = true
+    applicantNif?.reset('')
+
+    applicantNif?.setValidators(nifValidators)
+    applicantNif?.updateValueAndValidity()
+    applicantNif?.enable()
   }
 
   private loadZipcodes(): void {
@@ -258,10 +360,12 @@ export class IlsGrantApplicationFormComponent {
     }, error => { this.showSnackBar(error) })
   }
 
+  // Coge el último id, le suma uno y lo asigna a idExp para la subida de datos.
   private generateIdExp(): void {
-    this.expedienteService.getExpedientesByConvocatoria(2025).subscribe((expedientes: any) => {
-      console.log(expedientes)
-    })
+    this.expedienteService.getLastExpedienteIdByProgram('ILS').subscribe((id: any) => {
+      this.idExp = (+id.last_id + 1).toString()
+    }, error => { this.showSnackBar(error) })
+
   }
 
   // Validador con checkboxes
