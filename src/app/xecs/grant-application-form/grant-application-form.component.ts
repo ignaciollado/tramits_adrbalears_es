@@ -310,7 +310,17 @@ onSubmit(): void {
             )
           )
           .subscribe({
-            next: (event) => this.showSnackBar(`📤 Subida exitosa: ${event}`),
+           next: (event) => {
+              let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
+              if (Array.isArray(event.file_name)) {
+                event.file_name.forEach((file:any) => {
+                mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`;
+              });
+              } else {
+                  mensaje += `⚠️ No se encontró información de archivo en el evento.`;
+              }
+              this.showSnackBar(mensaje);
+            },
             complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
             error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
           });
