@@ -435,7 +435,7 @@
         </mat-checkbox>
         <section *ngIf="xecsForm.get('consentimientocopiaNIF')?.value === false" ngClass="file-upload">
           <label for="file_copiaNIF">{{"FILES.NOTAUTHORIZED" | translate}}</label>
-          <input type="file" formControlName="file_copiaNIF" (change)="onFileCopiaNifChange($event)">
+          <input type="file" accept=".pdf" formControlName="file_copiaNIF" (change)="onFileCopiaNifChange($event)">
         </section>
         <mat-checkbox
           formControlName = "consentimiento_certificadoATIB"
@@ -444,7 +444,7 @@
         </mat-checkbox>
         <section *ngIf="xecsForm.get('consentimiento_certificadoATIB')?.value === false" ngClass="file-upload">
           <label for="file_certificadoATIB">{{"FILES.NOTAUTHORIZED" | translate}}</label>
-          <input type="file" formControlName="file_certificadoATIB" (change)="onFilecertificadoATIBChange($event)">
+          <input type="file" accept=".pdf" formControlName="file_certificadoATIB" (change)="onFilecertificadoATIBChange($event)">
         </section>        
         <mat-checkbox
           formControlName = "consentimiento_certificadoSegSoc"
@@ -453,7 +453,7 @@
         </mat-checkbox>
         <section *ngIf="xecsForm.get('consentimiento_certificadoSegSoc')?.value === false" ngClass="file-upload">
           <label for="file_certificadoSegSoc">{{"FILES.NOTAUTHORIZED" | translate}}</label>
-          <input type="file" formControlName="file_certificadoSegSoc" (change)="onFilecertificadoSegSocChange($event)">
+          <input type="file" accept=".pdf" formControlName="file_certificadoSegSoc" (change)="onFilecertificadoSegSocChange($event)">
         </section> 
       </section>
   </mat-expansion-panel>
