@@ -268,7 +268,4 @@ situacionClass(value: string): string {
       return 'st-desconocido'; // ❓ Estado no reconocido
   }
 }
-
-
-
 }

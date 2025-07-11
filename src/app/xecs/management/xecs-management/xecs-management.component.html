@@ -8,7 +8,7 @@
 
   <mat-form-field appearance="outline">
     <mat-label>Tipo de Trámite</mat-label>
-    <mat-select formControlName="tipoTramite">
+    <mat-select formControlName="tipoTramite" multiple>
       <mat-option *ngFor="let tipo of uniqueTiposTramite" [value]="tipo">{{ tipo }}</mat-option>
     </mat-select>
   </mat-form-field>
