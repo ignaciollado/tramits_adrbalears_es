@@ -60,25 +60,24 @@ ngOnInit(): void {
   this.form = this.fb.group({
     convocatoria: [null],
     tipoTramite: [[]],
-    situacion: [null]
+    situacion: [[]]
   });
 
   // Verifica si hay filtros guardados y si los valores son válidos
-const savedConv = localStorage.getItem('filtroConvocatoria');
-const savedTipo = localStorage.getItem('filtroTipoTramite');
-const savedSit = localStorage.getItem('filtroSituacion');
+  const savedConv = localStorage.getItem('filtroConvocatoria');
+  const savedTipo = localStorage.getItem('filtroTipoTramite');
+  const savedSit = localStorage.getItem('filtroSituacion');
 
-if (savedConv) {
-  this.form.patchValue({
-    convocatoria: +savedConv,
-    tipoTramite: savedTipo ? JSON.parse(savedTipo) : [],
-    situacion: savedSit || null
-  });
-  this.loadExpedientes();
-} else {
-  this.loadAllExpedientes();
-}
-
+  if (savedConv) {
+    this.form.patchValue({
+      convocatoria: +savedConv,
+      tipoTramite: savedTipo ? JSON.parse(savedTipo) : [],
+      situacion: savedSit ? JSON.parse(savedSit) : []
+    });
+    this.loadExpedientes();
+  } else {
+    this.loadAllExpedientes();
+  }
 }
 
 ngAfterViewInit(): void {
