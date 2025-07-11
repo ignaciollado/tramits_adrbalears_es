@@ -295,6 +295,7 @@ onSubmit(): void {
     datos.file_certificadoATIB = datos.consentimiento_certificadoATIB;
     datos.file_certificadoSegSoc = datos.consentimiento_certificadoSegSoc;
 
+    // Eliminar campos no necesarios
     delete datos.id_sol;
     delete datos.opc_programa;
     delete datos.acceptRGPD;
@@ -303,14 +304,14 @@ onSubmit(): void {
     delete datos.consentimiento_certificadoSegSoc;
     delete datos.declaracion_responsable_ii;
 
-    const filesToUpload = [ 
-      this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
-      this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload 
-    ];
-
-    const documenteTypes = [
-      'file_memoriaTecnica', 'file_certificadoIAE', 'file_nifEmpresa', 
-      'file_escritura_empresa', 'file_document_acred_como_repres', 'file_certificadoAEAT'
+    // Agrupar archivos por tipo
+    const filesToUpload = [
+      { files: this.file_memoriaTecnicaToUpload, type: 'file_memoriaTecnica' },
+      { files: this.file_certificadoIAEToUpload, type: 'file_certificadoIAE' },
+      { files: this.file_nifEmpresaToUpload, type: 'file_nifEmpresa' },
+      { files: this.file_escritura_empresaToUpload, type: 'file_escritura_empresa' },
+      { files: this.file_document_acred_como_represToUpload, type: 'file_document_acred_como_repres' },
+      { files: this.file_certificadoAEATToUpload, type: 'file_certificadoAEAT' }
     ];
 
     this.expedienteService.createExpediente(datos).subscribe({
@@ -318,12 +319,35 @@ onSubmit(): void {
         datos.id_sol = resp.id_sol;
         this.showSnackBar('✔️ Expediente creado con éxito ' + resp.message + ' ' + resp.id_sol);
 
-        // Subida de archivos con índice
-        from(filesToUpload.map((file, i) => ({ file, i })))
+        // Validación y aplanado de archivos
+        const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
+          if (!files || files.length === 0) return [];
+
+          return Array.from(files).flatMap((file: File) => {
+            if (!file) return [];
+            if (file.size === 0) {
+              this.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`);
+              return [];
+            }
+            if (file.size > 10 * 1024 * 1024) {
+              this.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`);
+              return [];
+            }
+            return [{ file, type }];
+          });
+        });
+
+        if (archivosValidos.length === 0) {
+          this.showSnackBar('⚠️ No hay archivos válidos para subir.');
+          return;
+        }
+
+        // Subida secuencial de archivos válidos
+        from(archivosValidos)
           .pipe(
-            concatMap(({ file, i }) =>
-              this.documentosExpedienteService.createDocumentoExpediente(file, datos, documenteTypes[i]).pipe(
-                concatMap(() => this.uploadTheFile(timeStamp, file))
+            concatMap(({ file, type }) =>
+              this.documentosExpedienteService.createDocumentoExpediente([file], datos, type).pipe(
+                concatMap(() => this.uploadTheFile(timeStamp, [file]))
               )
             )
           )
@@ -373,6 +397,8 @@ onSubmit(): void {
     });
   });
 }
+
+
 
 /* required files to upload */
 get memoriaTecnicaFileNames(): string {
