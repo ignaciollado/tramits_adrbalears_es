@@ -158,13 +158,16 @@ loadExpedientes(): void {
     next: (res) => {
       let filtrados = res;
 
-      if (tipoTramite?.length) {
-        filtrados = filtrados.filter((e: any) => tipoTramite.includes(e.tipo_tramite));
-      }
 
-      if (situacion) {
-        filtrados = filtrados.filter((e: any) => e.situacion === situacion);
-      }
+    // Filtrar por tipo de trámite si hay selección
+    if (tipoTramite?.length) {
+      filtrados = filtrados.filter((e: any) => tipoTramite.includes(e.tipo_tramite));
+    }
+
+    // Filtrar por situación si hay selección
+    if (situacion?.length) {
+      filtrados = filtrados.filter((e: any) => situacion.includes(e.situacion));
+    }
 
       this.paginator.pageIndex = 0;
       localStorage.setItem('paginaExpedientes', '0');
