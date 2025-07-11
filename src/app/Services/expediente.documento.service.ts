@@ -20,21 +20,20 @@ export class ExpedienteDocumentoService {
   }
 
   // CREATE
-  createDocumentoExpediente(fileData: any[], datos: any): Observable<any> {
-    console.log ("recibido en create doc", fileData, datos)
+  createDocumentoExpediente(fileData: any[], data: any, documentType: string): Observable<any> {
+    console.log ("recibido en create doc", fileData, data)
   const payload = {
    /*  ...fileData, */
-    id_sol: datos.id_sol,
-    cifnif_propietario: datos.nif,
-    convocatoria: datos.convocatoria,
+    id_sol: data.id_sol,
+    cifnif_propietario: data.nif,
+    convocatoria: data.convocatoria,
     name: fileData[0].name,
     type: fileData[0].type,
-    tipo_tramite: datos.tipo_tramite,
-    corresponde_documento: "xxxxxxxxxx",
-    selloDeTiempo: datos.selloDeTiempo,
+    tipo_tramite: data.tipo_tramite,
+    corresponde_documento: documentType,
+    selloDeTiempo: data.selloDeTiempo,
     fase_exped: "Solicitud",
     docRequerido: "SI",
-    
   };
 
   return this.http.post<any>(`${this.urlAPITramits}/pindustdocument/create`, payload)

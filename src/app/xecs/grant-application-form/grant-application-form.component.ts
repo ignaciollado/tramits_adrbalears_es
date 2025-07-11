@@ -287,49 +287,55 @@ onSubmit(): void {
   const convocatoria = new Date().getFullYear();
 
   this.expedienteService.getLastExpedienteIdXECS(convocatoria).subscribe((lastID: any) => {
-    datos.idExp = (+lastID.last_id) + 1
-    datos.convocatoria = convocatoria
-    datos.localidad = datos.cpostal
-    datos.selloDeTiempo = timeStamp
-    datos.file_copiaNIF = datos.consentimientocopiaNIF
-    datos.file_certificadoATIB = datos.consentimiento_certificadoATIB
-    datos.file_certificadoSegSoc = datos.consentimiento_certificadoSegSoc
+    datos.idExp = (+lastID.last_id) + 1;
+    datos.convocatoria = convocatoria;
+    datos.localidad = datos.cpostal;
+    datos.selloDeTiempo = timeStamp;
+    datos.file_copiaNIF = datos.consentimientocopiaNIF;
+    datos.file_certificadoATIB = datos.consentimiento_certificadoATIB;
+    datos.file_certificadoSegSoc = datos.consentimiento_certificadoSegSoc;
 
-    delete datos.id_sol
-    delete datos.opc_programa
-    delete datos.acceptRGPD
-    delete datos.consentimientocopiaNIF
-    delete datos.consentimiento_certificadoATIB
-    delete datos.consentimiento_certificadoSegSoc
-    delete datos.declaracion_responsable_ii
+    delete datos.id_sol;
+    delete datos.opc_programa;
+    delete datos.acceptRGPD;
+    delete datos.consentimientocopiaNIF;
+    delete datos.consentimiento_certificadoATIB;
+    delete datos.consentimiento_certificadoSegSoc;
+    delete datos.declaracion_responsable_ii;
 
     const filesToUpload = [ 
-    this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
-    this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload 
-  ];
+      this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 
+      this.file_escritura_empresaToUpload, this.file_document_acred_como_represToUpload, this.file_certificadoAEATToUpload 
+    ];
+
+    const documenteTypes = [
+      'file_memoriaTecnica', 'file_certificadoIAE', 'file_nifEmpresa', 
+      'file_escritura_empresa', 'file_document_acred_como_repres', 'file_certificadoAEAT'
+    ];
 
     this.expedienteService.createExpediente(datos).subscribe({
       next: (resp) => {
-        datos.id_sol = resp.id_sol
+        datos.id_sol = resp.id_sol;
         this.showSnackBar('✔️ Expediente creado con éxito ' + resp.message + ' ' + resp.id_sol);
-        // Subida de archivos con creación previa de documento
-        from(filesToUpload)
+
+        // Subida de archivos con índice
+        from(filesToUpload.map((file, i) => ({ file, i })))
           .pipe(
-            concatMap(file =>
-              this.documentosExpedienteService.createDocumentoExpediente(file, datos).pipe(
+            concatMap(({ file, i }) =>
+              this.documentosExpedienteService.createDocumentoExpediente(file, datos, documenteTypes[i]).pipe(
                 concatMap(() => this.uploadTheFile(timeStamp, file))
               )
             )
           )
           .subscribe({
-           next: (event) => {
+            next: (event) => {
               let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
               if (Array.isArray(event.file_name)) {
-                event.file_name.forEach((file:any) => {
-                mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`;
-              });
+                event.file_name.forEach((file: any) => {
+                  mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`;
+                });
               } else {
-                  mensaje += `⚠️ No se encontró información de archivo en el evento.`;
+                mensaje += `⚠️ No se encontró información de archivo en el evento.`;
               }
               this.showSnackBar(mensaje);
             },
@@ -367,7 +373,6 @@ onSubmit(): void {
     });
   });
 }
-
 
 /* required files to upload */
 get memoriaTecnicaFileNames(): string {
