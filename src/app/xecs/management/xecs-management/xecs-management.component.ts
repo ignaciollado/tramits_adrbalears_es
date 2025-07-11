@@ -59,23 +59,26 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
 ngOnInit(): void {
   this.form = this.fb.group({
     convocatoria: [null],
-    tipoTramite: [null],
+    tipoTramite: [[]],
       situacion: [null]
   });
 
   // Verifica si hay filtros guardados y si los valores son válidos
-  const savedConv = localStorage.getItem('filtroConvocatoria');
-  const savedTipo = localStorage.getItem('filtroTipoTramite');
+const savedConv = localStorage.getItem('filtroConvocatoria');
+const savedTipo = localStorage.getItem('filtroTipoTramite');
+const savedSit = localStorage.getItem('filtroSituacion');
 
-  if (savedConv && savedTipo) {
-    this.form.patchValue({
-      convocatoria: +savedConv,
-      tipoTramite: savedTipo
-    });
-    this.loadExpedientes(); // Usa el filtro guardado
-  } else {
-    this.loadAllExpedientes(); // Carga todo si no hay filtros
-  }
+if (savedConv) {
+  this.form.patchValue({
+    convocatoria: +savedConv,
+    tipoTramite: savedTipo ? JSON.parse(savedTipo) : [],
+    situacion: savedSit || null
+  });
+  this.loadExpedientes();
+} else {
+  this.loadAllExpedientes();
+}
+
 }
 
 ngAfterViewInit(): void {
@@ -137,10 +140,10 @@ loadAllExpedientes(): void {
 }
 
 loadExpedientes(): void {
-  const { convocatoria, tipoTramite } = this.form.value;
+  const { convocatoria, tipoTramite, situacion } = this.form.value;
 
-  if (!convocatoria || !tipoTramite) {
-    this.snackBar.open('Selecciona una convocatoria y un tipo de trámite 🧐', 'Cerrar', {
+  if (!convocatoria) {
+    this.snackBar.open('Selecciona una convocatoria 🧐', 'Cerrar', {
       duration: 4000,
       panelClass: 'snack-warning'
     });
@@ -149,35 +152,36 @@ loadExpedientes(): void {
 
   this.loading = true;
   localStorage.setItem('filtroConvocatoria', convocatoria.toString());
-  localStorage.setItem('filtroTipoTramite', tipoTramite);
+  localStorage.setItem('filtroTipoTramite', JSON.stringify(tipoTramite));
+  localStorage.setItem('filtroSituacion', situacion || '');
 
-  this.expedienteService.getExpedientesByConvocatoriaAndTipoTramite(convocatoria, tipoTramite).subscribe({
+  this.expedienteService.getExpedientesByConvocatoria(convocatoria).subscribe({
     next: (res) => {
-      // 🔁 Reinicia el índice de paginación antes de actualizar los datos
+      let filtrados = res;
+
+      if (tipoTramite?.length) {
+        filtrados = filtrados.filter((e: any) => tipoTramite.includes(e.tipo_tramite));
+      }
+
+      if (situacion) {
+        filtrados = filtrados.filter((e: any) => e.situacion === situacion);
+      }
+
       this.paginator.pageIndex = 0;
       localStorage.setItem('paginaExpedientes', '0');
 
-      this.actualizarTabla(res);
-
+      this.actualizarTabla(filtrados);
       this.dataSource.paginator = this.paginator;
 
-      this.snackBar.open('Expedientes cargados correctamente ✅', 'Cerrar', {
+      this.snackBar.open('Expedientes filtrados correctamente ✅', 'Cerrar', {
         duration: 5000,
         panelClass: 'snack-success'
       });
     },
     error: (err) => {
       this.dataSource.data = [];
-      const statusCode = err.status || 'desconocido';
       const backendMessage = err.error?.messages?.error || err.message || 'Error sin mensaje definido';
-      const errorDetails = typeof err.error === 'string' ? err.error : JSON.stringify(err.error);
-      console.error('Error al cargar expedientes:', {
-        status: err.status,
-        message: backendMessage,
-        detalles: errorDetails
-      });
-
-      this.snackBar.open(`❌ Error ${statusCode}: ${backendMessage}`, 'Cerrar', {
+      this.snackBar.open(`❌ Error: ${backendMessage}`, 'Cerrar', {
         duration: 7000,
         panelClass: 'snack-error'
       });
@@ -187,6 +191,7 @@ loadExpedientes(): void {
     }
   });
 }
+
 
 private actualizarTabla(res: any[]): void {
   this.dataSource.data = res;
