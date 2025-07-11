@@ -60,7 +60,7 @@ ngOnInit(): void {
   this.form = this.fb.group({
     convocatoria: [null],
     tipoTramite: [[]],
-      situacion: [null]
+    situacion: [null]
   });
 
   // Verifica si hay filtros guardados y si los valores son válidos
