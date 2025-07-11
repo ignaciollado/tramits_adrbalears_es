@@ -77,15 +77,15 @@ export class GrantApplicationFormComponent {
   this.xecsForm = this.fb.group ({
     id_sol: this.fb.control(0),
     idExp: this.fb.control(0),
-    timeStamp: this.fb.control(''),
+    selloDeTiempo: this.fb.control(''),
     opc_programa: this.fb.array([], Validators.required),
     nif: this.fb.control({value:'', disabled: true}, [Validators.required]),
     empresa: this.fb.control('', ),
     domicilio: this.fb.control({value: '', disabled: false}, ),
     cpostal: this.fb.control ('', [ Validators.pattern('^07[0-9]{3}$')]),
     localidad: this.fb.control({value: '', disabled: true}, ),
-    codigoIAE: this.fb.control({value: '', disabled: false}, ),
-    telefono_cont: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
+    iae: this.fb.control({value: '', disabled: false}, ),
+    telefono: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
     tipo_tramite: this.fb.control<string | null>(null, Validators.required),
     tipo_solicitante: this.fb.control<string | null>(null, Validators.required),
@@ -101,25 +101,26 @@ export class GrantApplicationFormComponent {
     memoriaTecnicaEnIDI: this.fb.control<boolean | null>(false, Validators.required),
     file_memoriaTecnica: this.fb.control<File | null>(null, Validators.required),
     file_certificadoIAE: this.fb.control<File | null>(null, Validators.required),
-    copiaNIFSociedadEnIDI:this.fb.control<boolean | null>(false, Validators.required),
     file_nifEmpresa: this.fb.control<File | null>(null, Validators.required),
     pJuridicaDocAcreditativaEnIDI: this.fb.control<boolean | null>(false, Validators.required),
     file_escritura_empresa: this.fb.control<File | null>(null, Validators.required),
 
     file_document_acred_como_repres: this.fb.control<File | null>(null, Validators.required),
     file_certificadoAEAT: this.fb.control<File | null>(null, Validators.required),
-    consentimientocopiaNIF: this.fb.control<boolean | null>(true, Validators.required),
+    copiaNIFSociedadEnIDI: this.fb.control<boolean | null>(true, Validators.required),
+    /* AUTORIZACIONES */
+    consentimientocopiaNIF: this.fb.control<boolean | null>(true, Validators.required),  /* SI NO file_copiaNIF de la tabla pindust_expediente */
     file_copiaNIF: this.fb.control<File | null>(null),
-    consentimiento_certificadoATIB: this.fb.control<boolean | null>(true, Validators.required),
-    file_certificadoATIB: this.fb.control<File | null>(null),
-    consentimiento_certificadoSegSoc: this.fb.control<boolean | null>(true, Validators.required),
-    file_certificadoSegSoc: this.fb.control<File | null>(null),
+    consentimiento_certificadoATIB: this.fb.control<boolean | null>(true, Validators.required),  /* SI NO file_certificadoATIB de la tabla pindust_expediente*/
+    file_certificadoATIB: this.fb.control<File | null>(null), 
+    consentimiento_certificadoSegSoc: this.fb.control<boolean | null>(true, Validators.required), /* SI NO file_certificadoSegSoc de la tabla pindust_expediente*/
+    file_certificadoSegSoc: this.fb.control<File | null>(null), /* SI NO */
 
     nom_entidad: this.fb.control<string | null>('', ),
     domicilio_sucursal: this.fb.control<string | null>('', ),
     codigo_BIC_SWIFT: this.fb.control<string | null>('', [ Validators.minLength(11), Validators.maxLength(11), Validators.pattern(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/)]),
     opcion_banco: this.fb.control<string | null>('', ),
-    cc: this.fb.control<string | null>({value: '', disabled: true}, [ Validators.minLength(25), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
+    cc_datos_bancarios: this.fb.control<string | null>({value: '', disabled: true}, [ Validators.minLength(25), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
 
     declaracion_responsable_i: this.fb.control<boolean | null>({ value: true, disabled: true }),
     declaracion_responsable_ii: this.fb.control<boolean | null>({ value: false, disabled: false }),
@@ -154,7 +155,7 @@ const nifControl = this.xecsForm.get('nif')
 const nom_representanteControl = this.xecsForm.get('nom_representante')
 const nif_representanteControl = this.xecsForm.get('nif_representante')
 const opcionBancoControl = this.xecsForm.get('opcion_banco')
-const ccControl = this.xecsForm.get('cc')
+const ccControl = this.xecsForm.get('cc_datos_bancarios')
 const codigo_BIC_SWIFTControl = this.xecsForm.get('codigo_BIC_SWIFT')
 
 opcionBancoControl?.valueChanges.subscribe((valor) => {
@@ -289,7 +290,18 @@ onSubmit(): void {
     datos.idExp = (+lastID.last_id) + 1
     datos.convocatoria = convocatoria
     datos.localidad = datos.cpostal
-    datos.timeStamp = timeStamp
+    datos.selloDeTiempo = timeStamp
+    datos.file_copiaNIF = datos.consentimientocopiaNIF
+    datos.file_certificadoATIB = datos.consentimiento_certificadoATIB
+    datos.file_certificadoSegSoc = datos.consentimiento_certificadoSegSoc
+
+    delete datos.id_sol
+    delete datos.opc_programa
+    delete datos.acceptRGPD
+    delete datos.consentimientocopiaNIF
+    delete datos.consentimiento_certificadoATIB
+    delete datos.consentimiento_certificadoSegSoc
+    delete datos.declaracion_responsable_ii
 
     const filesToUpload = [ 
     this.file_memoriaTecnicaToUpload, this.file_certificadoIAEToUpload, this.file_nifEmpresaToUpload, 

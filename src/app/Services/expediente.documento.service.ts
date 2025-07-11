@@ -31,7 +31,7 @@ export class ExpedienteDocumentoService {
     type: fileData[0].type,
     tipo_tramite: datos.tipo_tramite,
     corresponde_documento: "xxxxxxxxxx",
-    selloDeTiempo: datos.timeStamp,
+    selloDeTiempo: datos.selloDeTiempo,
     fase_exped: "Solicitud",
     docRequerido: "SI",
     

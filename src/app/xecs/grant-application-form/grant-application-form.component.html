@@ -149,13 +149,13 @@
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.CONTACTPHONE' | translate }}</mat-label>
-        <input matInput formControlName="telefono_cont" maxlength="9" minlength="9"/>
+        <input matInput formControlName="telefono" maxlength="9" minlength="9"/>
       </mat-form-field>
       
        <mat-form-field appearance="fill">
         <mat-label>{{'FORM.SELECTIAE' | translate}}</mat-label>
-        <mat-select formControlName="codigoIAE">
-          <mat-option *ngFor="let cnae of cnaes" [value]="cnae.id">
+        <mat-select formControlName="iae">
+          <mat-option *ngFor="let cnae of cnaes" [value]="cnae.cnae">
             {{cnae.label_cas}}
           </mat-option>
         </mat-select>
@@ -239,7 +239,7 @@
   </mat-radio-group>
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKCC' | translate }}</mat-label>
-    <input matInput formControlName="cc" minlength="25" maxlength="25" />
+    <input matInput formControlName="cc_datos_bancarios" minlength="25" maxlength="25" />
   </mat-form-field>
   </mat-expansion-panel>  
 
