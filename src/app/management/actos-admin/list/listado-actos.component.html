@@ -1,0 +1,28 @@
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="denominacion">
+    <mat-header-cell *matHeaderCellDef> Denominación </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.denominacion}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="tipo_tramite">
+    <mat-header-cell *matHeaderCellDef> Tipo de Trámite </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.tipo_tramite}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="acciones">
+    <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <a mat-button color="primary" [routerLink]="['/acto-admin-detail', element.id]">Editar</a>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
