@@ -4,33 +4,32 @@
       <h2>{{ 'HEADER.TITLE' | translate }}</h2>
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['home']">Home</a>
-    
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-grant-subsidies-application-form']">{{ 'HEADER.XECSAPPFORM' | translate }}</a>
-    
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-grant-subsidies-application-form']">{{ 'HEADER.ISBAAPPFORM' | translate }}</a>
- 
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['ils-grant-subsidies-application-form']">{{ 'HEADER.ILSAPPFORM' | translate }}</a>
-            <hr>
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-management']">{{ 'HEADER.XECSMANAGEMENT' | translate }}</a>
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-management']">{{ 'HEADER.ISBAMANAGEMENT' | translate }}</a>
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['ils-management']">{{ 'HEADER.ILSMANAGEMENT' | translate }}</a>
-            <hr>
-            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://inbox.viafirma.com/inbox/app/idi/'>{{'HEADER.SIGNATUREHOLDER' | translate}}</a>
-            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://rec.redsara.es/registro/action/are/acceso.do'>Registro Electrónico Común (REC)</a>
-            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://notifica.redsara.es/'>Notifica</a>
-            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://intranet.caib.es/notib/notificacio'>Notificaciones y comunicaciones electrónicas (NOTIB)</a>
-            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://intranet.caib.es/pinbal/index'>Plataforma de interoperatibidad (PINBAL)</a>
-            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://www.caib.es/seucaib/'>Sede electrónica CAIB</a>
-            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://inbox.viafirma.com/inbox/app/idi/verificacion/index.jsf'>Servicio de consulta de CSV ADR Balears</a>
-            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://valide.redsara.es/valide/validarCertificado/ejecutar.html'>VALIDe (herramienta para verificar la validez de los documentos firmados</a>
-            <hr>
-            <a mat-menu-item ngClass="nav-link" (click)="logout()">{{ 'HEADER.LOGOUT' | translate }}</a>
-
+        <a mat-menu-item ngClass="nav-link" [routerLink]="['home']">Home</a>
+        <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-grant-subsidies-application-form']">{{ 'HEADER.XECSAPPFORM' | translate }}</a>
+        <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-grant-subsidies-application-form']">{{ 'HEADER.ISBAAPPFORM' | translate }}</a>
+        <a mat-menu-item ngClass="nav-link" [routerLink]="['ils-grant-subsidies-application-form']">{{ 'HEADER.ILSAPPFORM' | translate }}</a>
+        <hr>
+        <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-management']">{{ 'HEADER.XECSMANAGEMENT' | translate }}</a>
+        <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-management']">{{ 'HEADER.ISBAMANAGEMENT' | translate }}</a>
+        <a mat-menu-item ngClass="nav-link" [routerLink]="['ils-management']">{{ 'HEADER.ILSMANAGEMENT' | translate }}</a>
+        <hr>
+        <a mat-menu-item ngClass="nav-link" target="_blank" href='https://inbox.viafirma.com/inbox/app/idi/'>{{'HEADER.SIGNATUREHOLDER' | translate}}</a>
+        <a mat-menu-item ngClass="nav-link" target="_blank" href='https://rec.redsara.es/registro/action/are/acceso.do'>Registro Electrónico Común (REC)</a>
+        <a mat-menu-item ngClass="nav-link" target="_blank" href='https://notifica.redsara.es/'>Notifica</a>
+        <a mat-menu-item ngClass="nav-link" target="_blank" href='https://intranet.caib.es/notib/notificacio'>Notificaciones y comunicaciones electrónicas (NOTIB)</a>
+        <a mat-menu-item ngClass="nav-link" target="_blank" href='https://intranet.caib.es/pinbal/index'>Plataforma de interoperatibidad (PINBAL)</a>
+        <a mat-menu-item ngClass="nav-link" target="_blank" href='https://www.caib.es/seucaib/'>Sede electrónica CAIB</a>
+        <a mat-menu-item ngClass="nav-link" target="_blank" href='https://inbox.viafirma.com/inbox/app/idi/verificacion/index.jsf'>Servicio de consulta de CSV ADR Balears</a>
+        <a mat-menu-item ngClass="nav-link" target="_blank" href='https://valide.redsara.es/valide/validarCertificado/ejecutar.html'>VALIDe (herramienta para verificar la validez de los documentos firmados</a>
+        <hr>
+        <a mat-menu-item ngClass="nav-link" (click)="logout()">{{ 'HEADER.LOGOUT' | translate }}</a>
       </div>
   </nav> 
 </mat-menu>
  <form [formGroup] = "languageForm">
+  <mat-slide-toggle formControlName="entorno">
+    {{ languageForm.get('entorno')?.value ? 'Entorno Tràmits' : 'Entorno Pre-tràmits' }}
+  </mat-slide-toggle>
   <select formControlName = "preferredLang" (change)="onLanguageChange()">
     <option value="es-ES">Castellano</option>
     <option value="ca-ES">Català</option>

@@ -8,16 +8,16 @@ form {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  /* align-items: flex-end;
-  margin-bottom: 1rem; */
 
   mat-form-field {
     flex: 1 1 250px;
   }
 
-  button[type="submit"] {
-    height: 56px;
-  }
+button[type="submit"],
+button[type="button"] {
+  height: 56px;
+}
+
 }
 
 mat-progress-bar {
