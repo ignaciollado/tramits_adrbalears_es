@@ -1,16 +1,16 @@
 <form [formGroup]="ilsForm" ngClass="form" (ngSubmit)="onSubmit()">
     <div class="example-action-buttons">
-        <button matButton type="button" ngClass="btn-green btn" (click)="accordion().openAll()">{{ 'COMMON.EXPANDALL' | translate }}</button>
-        <button matButton type="button" ngClass="btn-green btn" (click)="accordion().closeAll()">{{ 'COMMON.COLAPSEALL' | translate }}</button>
+        <button matButton type="button" ngClass="btn-green btn" (click)="accordion().openAll()">{{ 'APP.EXPANDALL' | translate }}</button>
+        <button matButton type="button" ngClass="btn-green btn" (click)="accordion().closeAll()">{{ 'APP.COLAPSEALL' | translate }}</button>
     </div>
     <mat-accordion ngClass="example-headers-align" multi>
         <!-- RGPD -->
         <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <h3>{{'ILS.RGPD.TITLE' | translate}}</h3>
+                    <h3>{{'FORM.RGPDTITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.RGPD.DESCRIPTION' | translate}} <mat-icon>policy</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'FORM.RGPDDESCRIPTION' | translate}} <mat-icon>policy</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section>
                 <mat-checkbox formControlName="acceptRGPD">
@@ -20,32 +20,32 @@
                 </mat-checkbox>
                 <section>
                     <dl>
-                        <dt>{{'ILS.RGPD.REQUIRED-DOCS.INFO' | translate}}</dt>
-                        <dd>{{'ILS.RGPD.REQUIRED-DOCS.DOC-1' | translate}}</dd>
-                        <dd>{{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.BAT.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.BAT.ACRONYM' | translate}}</abbr> {{'ILS.RGPD.REQUIRED-DOCS.DOC-2.PART-2' | translate}}</dd>
-                        <dd [innerHTML]="'ILS.RGPD.REQUIRED-DOCS.DOC-3' | translate"></dd>
-                        <dd [innerHTML]="'ILS.RGPD.REQUIRED-DOCS.DOC-4' | translate"></dd>
-                        <dd>{{'ILS.RGPD.REQUIRED-DOCS.DOC-5' | translate}}</dd>
+                        <dt>{{'ILS.REQUIREDDOCINFO' | translate}}</dt>
+                        <dd>{{'ILS.REQUIREDDOC1' | translate}}</dd>
+                        <dd>{{'ILS.REQUIREDDOC2PART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.BAT.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.BAT.ACRONYM' | translate}}</abbr> {{'ILS.REQUIREDDOC2PART2' | translate}}</dd>
+                        <dd [innerHTML]="'ILS.REQUIREDDOC3' | translate"></dd>
+                        <dd [innerHTML]="'ILS.REQUIREDDOC4' | translate"></dd>
+                        <dd>{{'ILS.REQUIREDDOC5' | translate}}</dd>
                     </dl>
                     <dl>
-                        <dt>{{'ILS.RGPD.OPTIONAL-DOCS.INFO' | translate}}</dt>
-                        <dd>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-1' | translate}}</dd>
-                        <dd>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.CIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.CIF.ACRONYM' | translate}}</abbr>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-2.PART-2' | translate}}</dd>
-                        <dd>{{'ILS.RGPD.OPTIONAL-DOCS.DOC-3' | translate}}</dd>
+                        <dt>{{'ILS.OPTIONALDOCINFO' | translate}}</dt>
+                        <dd>{{'ILS.OPTIONALDOC1' | translate}}</dd>
+                        <dd>{{'ILS.OPTIONALDOC2PART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.CIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.CIF.ACRONYM' | translate}}</abbr>{{'ILS.OPTIONALDOC2PART2' | translate}}</dd>
+                        <dd>{{'ILS.OPTIONALDOC3' | translate}}</dd>
                     </dl>
 
                     <dl>
                         <dt>
-                            <strong>{{'ILS.RGPD.AUTHORIZATION.INFO.PART-1' | translate}}</strong>{{'ILS.RGPD.AUTHORIZATION.INFO.PART-2' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'ILS.RGPD.AUTHORIZATION.INFO.PART-3' | translate}}<abbr title="{{'COMMON.ACRONYMS.ATIB.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ATIB.ACRONYM' | translate}}</abbr>{{'ILS.RGPD.AUTHORIZATION.INFO.PART-4' | translate}}<abbr title="{{'COMMON.ACRONYMS.TGSS.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.TGSS.ACRONYM' | translate}}</abbr>,{{'ILS.RGPD.AUTHORIZATION.INFO.PART-5' | translate}}
+                            <strong>{{'ILS.AUTHORIZATIONPART1' | translate}}</strong>{{'ILS.AUTHORIZATIONPART2' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONPART3' | translate}}<abbr title="{{'COMMON.ACRONYMS.ATIB.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ATIB.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONPART4' | translate}}<abbr title="{{'COMMON.ACRONYMS.TGSS.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.TGSS.ACRONYM' | translate}}</abbr>,{{'ILS.AUTHORIZATIONPART5' | translate}}
                         </dt>
-                        <dd><abbr title="{{'COMMON.ACRONYMS.NIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.NIF.ACRONYM' | translate}}</abbr>{{'ILS.RGPD.AUTHORIZATION.DOC-1' | translate}}</dd>
-                        <dd>{{'ILS.RGPD.AUTHORIZATION.DOC-2' | translate}}<abbr title="{{'COMMON.ACRONYMS.ATIB.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ATIB.ACRONYM' | translate}}</abbr>.</dd>
-                        <dd>{{'ILS.RGPD.AUTHORIZATION.DOC-3' | translate}}<abbr title="{{'COMMON.ACRONYMS.TGSS.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.TGSS.ACRONYM' | translate}}</abbr>.</dd>
+                        <dd><abbr title="{{'COMMON.ACRONYMS.NIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.NIF.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONDOC1' | translate}}</dd>
+                        <dd>{{'ILS.AUTHORIZATIONDOC2' | translate}}<abbr title="{{'COMMON.ACRONYMS.ATIB.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ATIB.ACRONYM' | translate}}</abbr>.</dd>
+                        <dd>{{'ILS.AUTHORIZATIONDOC3' | translate}}<abbr title="{{'COMMON.ACRONYMS.TGSS.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.TGSS.ACRONYM' | translate}}</abbr>.</dd>
                     </dl>
                     <dl>
-                        <dt>{{'ILS.RGPD.NOTIFICATION.INFO' | translate}}</dt>
-                        <dd>{{'ILS.RGPD.NOTIFICATION.DOC-1' | translate}}</dd>
-                        <dd>{{'ILS.RGPD.NOTIFICATION.DOC-2' | translate}}</dd>
+                        <dt>{{'ILS.NOTIFICATIONINFO' | translate}}</dt>
+                        <dd>{{'ILS.NOTIFICATIONDOC1' | translate}}</dd>
+                        <dd>{{'ILS.NOTIFICATIONDOC2' | translate}}</dd>
                     </dl>
                 </section>
             </section>
@@ -55,21 +55,21 @@
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <h3>{{'COMMON.BUSINESS-TYPE.TITLE' | translate}}</h3>
+                    <h3>{{'FORM.SOLICITORTYPE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'COMMON.BUSINESS-TYPE.DESCRIPTION' | translate}} <mat-icon>corporate_fare</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'FORM.ORGANIZATIONTYPE' | translate}} <mat-icon>corporate_fare</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="form applicant-type">
                 <section>
                     <mat-radio-group formControlName="tipo_solicitante" (ngModelChange)="changeNIFValidator()">
-                        <mat-radio-button value="autonomo">{{'COMMON.BUSINESS-TYPE.SELF-EMPLOYED' | translate}}</mat-radio-button>
-                        <mat-radio-button value="pequenya">{{'COMMON.BUSINESS-TYPE.SMALL.NAME' | translate}}</mat-radio-button>
-                        <mat-radio-button value="mediana">{{'COMMON.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</mat-radio-button>
+                        <mat-radio-button value="autonomo">{{'FORM.SELFEMPLOYEDBUSINESS' | translate}}</mat-radio-button>
+                        <mat-radio-button value="pequenya">{{'FORM.SMALLBUSINESSNAME' | translate}}</mat-radio-button>
+                        <mat-radio-button value="mediana">{{'FORM.MEDIUMBUSINESSNAME' | translate}}</mat-radio-button>
                     </mat-radio-group>
                 </section>
                 <section>
-                    <p><strong>{{'COMMON.BUSINESS-TYPE.SMALL.NAME' | translate}}</strong>: {{'COMMON.BUSINESS-TYPE.SMALL.INFO' | translate}}</p>
-                    <p><strong>{{'COMMON.BUSINESS-TYPE.MEDIUM.NAME' | translate}}</strong>: {{'COMMON.BUSINESS-TYPE.MEDIUM.INFO' | translate}}</p>
+                    <p><strong>{{'FORM.SMALLBUSINESSNAME' | translate}}</strong>: {{'FORM.SMALLBUSINESSINFO' | translate}}</p>
+                    <p><strong>{{'FORM.MEDIUMBUSINESSNAME' | translate}}</strong>: {{'FORM.MEDIUMBUSINESSINFO' | translate}}</p>
                 </section>
             </section>
         </mat-expansion-panel>
@@ -78,80 +78,79 @@
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <h3>{{'ILS.GENERAL-DATA.TITLE' | translate}}</h3>
+                    <h3>{{'FORM.SOLICITOR' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.GENERAL-DATA.DESCRIPTION' | translate}} <mat-icon>person</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'FORM.SOLICITORDETAILS' | translate}} <mat-icon>person</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="form personal-data">
                 <mat-form-field>
-                    <mat-label *ngIf="businessType === 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.LABEL' | translate}}</mat-label>
-                    <mat-label *ngIf="businessType !== 'autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.CIF.LABEL' | translate}}</mat-label>
+                    <mat-label *ngIf="businessType === 'autonomo'">{{'FORM.NIF' | translate}}</mat-label>
+                    <mat-label *ngIf="businessType !== 'autonomo'">{{'FORM.CIF' | translate}}</mat-label>
                     <input matInput type="text" formControlName="nif" maxlength="9">
-                    <mat-error *ngIf="ilsForm.get('nif')?.errors && businessType ==='autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.NIF.ERROR' | translate}}</mat-error>
-                    <mat-error *ngIf="ilsForm.get('nif')?.errors && businessType !=='autonomo'">{{'ILS.GENERAL-DATA.APPLICANT.CIF.ERROR' | translate}}</mat-error>
+                    <mat-error *ngIf="ilsForm.get('nif')?.errors && businessType ==='autonomo'">{{'FORMERRORS.COMMON.NIF' | translate}}</mat-error>
+                    <mat-error *ngIf="ilsForm.get('nif')?.errors && businessType !=='autonomo'">{{'FORMERRORS.COMMON.CIF' | translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.COMPANY-NAME.LABEL' | translate}}</mat-label>
+                    <mat-label>{{'FORM.COMPANYNAME' | translate}}</mat-label>
                     <input matInput type="text" formControlName="empresa">
-                    <mat-error *ngIf="ilsForm.get('empresa')?.errors">{{'ILS.GENERAL-DATA.COMPANY-NAME.ERROR' | translate}}</mat-error>
+                    <mat-error *ngIf="ilsForm.get('empresa')?.errors">{{'FORMERRORS.COMMON.COMPANYNAME' | translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.ADDRESS.LABEL' | translate}}</mat-label>
+                    <mat-label>{{'FORM.ADDRESS' | translate}}</mat-label>
                     <input matInput type="text" formControlName="domicilio">
-                    <mat-error *ngIf="ilsForm.get('domicilio')?.errors">{{'ILS.GENERAL-DATA.ADDRESS.ERROR' | translate}}</mat-error>
+                    <mat-error *ngIf="ilsForm.get('domicilio')?.errors">{{'FORMERRORS.COMMON.ADDRESS' | translate}}</mat-error>
                 </mat-form-field>
 
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.ZIPCODE.LABEL' | translate}}</mat-label>
+                    <mat-label>{{'FORM.ZIPCODE' | translate}}</mat-label>
                     <input matInput (ngModelChange)="selectedValue()" type="text" formControlName="cpostal"
                         maxlength="5" minlength="5" [matAutocomplete]="auto" (blur)="cleanBlank($event)">
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
                     </mat-autocomplete>
-                    <mat-error *ngIf="ilsForm.get('cpostal')?.errors">{{'ILS.GENERAL-DATA.ZIPCODE.ERROR' |
+                    <mat-error *ngIf="ilsForm.get('cpostal')?.errors">{{'FORMERRORS.COMMON.ZIPCODE' |
                         translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.TOWN' | translate}}</mat-label>
+                    <mat-label>{{'FORM.TOWN' | translate}}</mat-label>
                     <input matInput formControlName="localidad" readonly>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.CONTACT-PHONE.LABEL' | translate}}</mat-label>
+                    <mat-label>{{'FORM.CONTACTPHONE' | translate}}</mat-label>
                     <input matInput type="tel" formControlName="telefono" (blur)="cleanBlank($event)" minlength="9"
                         maxlength="9">
-                    <mat-error *ngIf="ilsForm.get('telefono')?.errors">{{'ILS.GENERAL-DATA.CONTACT-PHONE.ERROR' |
+                    <mat-error *ngIf="ilsForm.get('telefono')?.errors">{{'FORMERRORS.COMMON.CONTACTPHONE' |
                         translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.CNAE-CODE.LABEL' | translate}}</mat-label>
+                    <mat-label>{{'FORM.SELECTIAE' | translate}}</mat-label>
                     <mat-select formControlName="iae">
                         <mat-option *ngFor="let cnae of actividadesCNAE;"
                             [value]="cnae.id">{{cnae.label_cas}}</mat-option>
                     </mat-select>
-                    <mat-error *ngIf="ilsForm.get('iae')?.errors">{{'ILS.GENERAL-DATA.CNAE-CODE.ERROR' |
+                    <mat-error *ngIf="ilsForm.get('iae')?.errors">{{'FORMERRORS.COMMON.CNAECODE' |
                         translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.WEBSITE' | translate}}</mat-label>
+                    <mat-label>{{'ILS.WEBSITE' | translate}}</mat-label>
                     <input matInput type="text" formControlName="sitio_web_empresa" (blur)="cleanBlank($event)">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.PRESENTATION-VIDEO' | translate}}</mat-label>
+                    <mat-label>{{'ILS.PRESENTATIONVIDEO' | translate}}</mat-label>
                     <input matInput type="text" formControlName="video_empresa" (blur)="cleanBlank($event)">
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.REPRESENTATIVE.NAME.LABEL' | translate}}</mat-label>
+                    <mat-label>{{'FORM.NOMREPRESENTANTE' | translate}}</mat-label>
                     <input matInput type="text" formControlName="nombre_rep">
                     <mat-error
-                        *ngIf="ilsForm.get('nombre_rep')?.errors">{{'ILS.GENERAL-DATA.REPRESENTATIVE.NAME.ERROR'
+                        *ngIf="ilsForm.get('nombre_rep')?.errors">{{'FORMERRORS.COMMON.NAMEREPRESENTANTE'
                         | translate}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
-                    <mat-label>{{'ILS.GENERAL-DATA.REPRESENTATIVE.NIF.LABEL' | translate}}</mat-label>
-                    <input matInput type="text" formControlName="nif_rep" minlength="9" maxlength="9"
-                        (blur)="cleanBlank($event)">
+                    <mat-label>{{'FORM.NIFREPRESENTANTE' | translate}}</mat-label>
+                    <input matInput type="text" formControlName="nif_rep" minlength="9" maxlength="9">
                     <mat-error
-                        *ngIf="ilsForm.get('nif_rep')?.errors">{{'ILS.GENERAL-DATA.REPRESENTATIVE.NIF.ERROR' |
+                        *ngIf="ilsForm.get('nif_rep')?.errors">{{'FORMERRORS.COMMON.NIFREPRESENTANTE' |
                         translate}}</mat-error>
                 </mat-form-field>
             </section>
@@ -161,28 +160,28 @@
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <h3>{{'ILS.NOTIFICATION-CHANNEL.TITLE' | translate}}</h3>
+                    <h3>{{'FORM.NOTIFICATIONCHANEL' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.NOTIFICATION-CHANNEL.DESCRIPTION' | translate}} <mat-icon>email</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'FORM.NOTIFICATIONCHANELDESCRIPTION' | translate}} <mat-icon>email</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="form notification-channel">
                 <section>
-                    <p [innerHTML]="'ILS.NOTIFICATION-CHANNEL.INFO' | translate"></p>
+                    <p [innerHTML]="'FORM.NOTIFICATIONCHANELINFO' | translate"></p>
                 </section>
                 <section ngClass="inputs">
                     <mat-form-field>
-                        <mat-label>{{'ILS.NOTIFICATION-CHANNEL.PHONE.LABEL' | translate}}</mat-label>
+                        <mat-label>{{'FORM.NOTIFICATIONMOBILE' | translate}}</mat-label>
                         <input matInput type="tel" formControlName="telefono_rep" (blur)="cleanBlank($event)"
                             maxlength="9">
                         <mat-error
-                            *ngIf="ilsForm.get('telefono_rep')?.errors">{{'ILS.NOTIFICATION-CHANNEL.PHONE.ERROR' |
+                            *ngIf="ilsForm.get('telefono_rep')?.errors">{{'FORMERRORS.COMMON.NOTIFICATIONPHONE' |
                             translate}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>
-                        <mat-label>{{'ILS.NOTIFICATION-CHANNEL.EMAIL.LABEL' | translate}}</mat-label>
+                        <mat-label>{{'FORM.NOTIFICATIONMAIL' | translate}}</mat-label>
                         <input matInput type="email" formControlName="email_rep" (blur)="cleanBlank($event)">
                         <mat-error
-                            *ngIf="ilsForm.get('email_rep')?.errors">{{'ILS.NOTIFICATION-CHANNEL.EMAIL.ERROR' |
+                            *ngIf="ilsForm.get('email_rep')?.errors">{{'FORMERRORS.COMMON.NOTIFICATIONEMAIL' |
                             translate}}</mat-error>
                     </mat-form-field>
                 </section>
@@ -193,19 +192,19 @@
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <h3>{{'ILS.AUTHORIZATIONS.TITLE' | translate}}</h3>
+                    <h3>{{'FORM.AUTHORISATIONS' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.AUTHORIZATIONS.DESCRIPTION' | translate}} <mat-icon>gavel</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'ILS.AUTHORIZATIONDESCRIPTION' | translate}} <mat-icon>gavel</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="form authorization-checkboxes">
                 <section>
                     <mat-checkbox formControlName="checkboxID">
-                        <label>{{'ILS.AUTHORIZATIONS.AUTHORIZATION-NIF.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONS.AUTHORIZATION-NIF.PART-2' | translate}}<abbr title="{{'COMMON.ACRONYMS.NIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.NIF.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONS.AUTHORIZATION-NIF.PART-3' | translate}}</label>
+                        <label>{{'ILS.AUTHORIZATIONNIFPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONNIFPART2' | translate}}<abbr title="{{'COMMON.ACRONYMS.NIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.NIF.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONNIFPART3' | translate}}</label>
                     </mat-checkbox>
                     <section *ngIf="!checkboxID" ngClass="afterFormChange">
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always" style="margin-top: 10px;">
-                                <mat-label>{{'ILS.AUTHORIZATIONS.NO-AUTHORIZATED' | translate}}</mat-label>
+                                <mat-label>{{'ILS.NOAUTHORIZATED' | translate}}</mat-label>
                                 <input
                                 matInput
                                 type="text"
@@ -213,8 +212,8 @@
                                 formControlName="file_enviardocumentoIdentificacion"
                                 [value]="fileNames['file_enviardocumentoIdentificacion']"
                                 (click)="file_enviardocumentoIdentificacion.click()"
-                                placeholder="{{'COMMON.FILE.UPLOAD' | translate}}" />
-                                <mat-error *ngIf="ilsForm.get('file_enviardocumentoIdentificacion')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                                placeholder="{{'FILES.UPLOADFILES' | translate}}" />
+                                <mat-error *ngIf="ilsForm.get('file_enviardocumentoIdentificacion')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
                             <input hidden type="file" #file_enviardocumentoIdentificacion (change)="onFileChange($event, 'file_enviardocumentoIdentificacion')" accept=".pdf" multiple/>
                             <ul *ngIf="files['file_enviardocumentoIdentificacion'].length > 0">
@@ -225,12 +224,12 @@
                 </section>
                 <section>
                     <mat-checkbox formControlName="checkboxATIB">
-                        <label>{{'ILS.AUTHORIZATIONS.AUTHORIZATION-ATIB.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.ATIB.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ATIB.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONS.AUTHORIZATION-ATIB.PART-2' | translate}}</label>
+                        <label>{{'ILS.AUTHORIZATIONATIBPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.ATIB.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ATIB.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONATIBPART2' | translate}}</label>
                     </mat-checkbox>
                     <section *ngIf="!checkboxATIB" ngClass="afterFormChange">
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
-                                <mat-label>{{'ILS.AUTHORIZATIONS.NO-AUTHORIZATED' | translate}}</mat-label>
+                                <mat-label>{{'ILS.NOAUTHORIZATED' | translate}}</mat-label>
                                 <input
                                 matInput
                                 type="text"
@@ -238,8 +237,8 @@
                                 formControlName="file_certificadoATIB"
                                 [value]="fileNames['file_certificadoATIB']"
                                 (click)="file_certificadoATIB.click()"
-                                placeholder="{{'COMMON.FILE.UPLOAD' | translate}}" />
-                                <mat-error *ngIf="ilsForm.get('file_certificadoATIB')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                                placeholder="{{'FILES.UPLOADFILES' | translate}}" />
+                                <mat-error *ngIf="ilsForm.get('file_certificadoATIB')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
                             <input hidden type="file" #file_certificadoATIB (change)="onFileChange($event, 'file_certificadoATIB')" accept=".pdf" multiple />
                             <ul *ngIf="files['file_certificadoATIB'].length > 0">
@@ -255,15 +254,15 @@
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <h3>{{'ILS.DECLARATIONS.TITLE' | translate}}</h3>
+                    <h3>{{'FORM.RESPONSIBLEDECLARATION' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.DECLARATIONS.DESCRIPTION' | translate}} <mat-icon>menu_book</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'FORM.RESPONSIBLEDECLARATIONDESCRIPTION' | translate}} <mat-icon>menu_book</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
             <section ngClass="form declaration-checkboxes">
-                <mat-checkbox formControlName="cumpleRequisitos_dec_resp"><label>1. {{'ILS.DECLARATIONS.DECLARATION-1' | translate}}</label></mat-checkbox>
-                <mat-checkbox formControlName="epigrafeIAE_dec_resp"><label>2. {{'ILS.DECLARATIONS.DECLARATION-2' | translate}}</label></mat-checkbox>
-                <mat-checkbox formControlName="registroIndustrialMinero_dec_resp"><label>3. {{'ILS.DECLARATIONS.DECLARATION-3' | translate}}</label></mat-checkbox>
-                <mat-checkbox formControlName="cumpleNormativaSegInd_dec_resp"><label>4. {{'ILS.DECLARATIONS.DECLARATION-4' | translate}}</label></mat-checkbox>
+                <mat-checkbox formControlName="cumpleRequisitos_dec_resp"><label>1. {{'ILS.DECLARATION1' | translate}}</label></mat-checkbox>
+                <mat-checkbox formControlName="epigrafeIAE_dec_resp"><label>2. {{'ILS.DECLARATION2' | translate}}</label></mat-checkbox>
+                <mat-checkbox formControlName="registroIndustrialMinero_dec_resp"><label>3. {{'ILS.DECLARATION3' | translate}}</label></mat-checkbox>
+                <mat-checkbox formControlName="cumpleNormativaSegInd_dec_resp"><label>4. {{'ILS.DECLARATION4' | translate}}</label></mat-checkbox>
             </section>
         </mat-expansion-panel>
 
@@ -271,23 +270,23 @@
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
-                    <h3>{{'ILS.DOCUMENTATION.TITLE' | translate}}</h3>
+                    <h3>{{'FORM.DOCUMENTATIONTITLE' | translate}}</h3>
                 </mat-panel-title>
-                <mat-panel-description>{{'ILS.DOCUMENTATION.DESCRIPTION' | translate}} <mat-icon>attachment</mat-icon></mat-panel-description>
+                <mat-panel-description>{{'FORM.DOCUMENTATIONDESCRIPTION' | translate}} <mat-icon>attachment</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
-            <section>
-                <p [innerHTML]="'ILS.DOCUMENTATION.INFO.FORMAT-INFO' | translate"></p>
-                <ol>
-                    <li [innerHTML]="'ILS.DOCUMENTATION.INFO.CTRL-INFO' | translate"></li>
-                    <li [innerHTML]="'ILS.DOCUMENTATION.INFO.SHIFT-INFO' | translate"></li>
-                </ol>
+                <section>
+                    <p [innerHTML]="'FORM.DOCUMENTATIONINFOFORMAT' | translate"></p>
+                    <ol>
+                        <li [innerHTML]="'FORM.DOCUMENTATIONINFOCTRL' | translate"></li>
+                        <li [innerHTML]="'FORM.DOCUMENTATIONINFOSHIFT' | translate"></li>
+                    </ol>
             </section>
             <section ngClass="form documentation">
-                <h4>{{'ILS.DOCUMENTATION.REQUIRED.INFO' | translate}}</h4>
+                <h4>{{'ILS.REQUIREDDOCUMENTATIONINFO' | translate}}</h4>
                 <section>
                     <section ngClass="file-input">
                         <mat-form-field floatLabel="always">
-                            <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.CONSTITUTION' | translate}}</mat-label>
+                            <mat-label>{{'ILS.CONSTITUTION' | translate}}</mat-label>
                             <input 
                             matInput 
                             type="text" 
@@ -295,9 +294,9 @@
                             readonly
                             [value]="fileNames['file_escritura_empresa']"
                             (click)="file_escritura_empresa.click()"
-                            placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                            placeholder="{{'FILES.UPLOADFILES' | translate}}"
                             />
-                            <mat-error *ngIf="ilsForm.get('file_escritura_empresa')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                            <mat-error *ngIf="ilsForm.get('file_escritura_empresa')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                         </mat-form-field>
                         <input #file_escritura_empresa type="file" (change)="onFileChange($event, 'file_escritura_empresa')" hidden accept=".pdf" multiple />
                         <ul *ngIf="files['file_escritura_empresa'].length > 0">
@@ -306,7 +305,7 @@
                     </section>
                     <section ngClass="file-input">
                         <mat-form-field floatLabel="always">
-                            <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.BAT.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.BAT.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.BAT.ACRONYM' | translate}}</abbr>{{'ILS.DOCUMENTATION.REQUIRED.BAT.PART-2' | translate}}</mat-label>
+                            <mat-label>{{'ILS.BATPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.BAT.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.BAT.ACRONYM' | translate}}</abbr>{{'ILS.BATPART2' | translate}}</mat-label>
                             <input 
                             matInput 
                             type="text" 
@@ -314,9 +313,9 @@
                             readonly 
                             [value]="fileNames['file_certificadoIAE']"
                             (click)="file_certificadoIAE.click()"
-                            placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                            placeholder="{{'FILES.UPLOADFILES' | translate}}"
                             />
-                            <mat-error *ngIf="ilsForm.get('file_certificadoIAE')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                            <mat-error *ngIf="ilsForm.get('file_certificadoIAE')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                         </mat-form-field>
                         <input #file_certificadoIAE type="file" (change)="onFileChange($event, 'file_certificadoIAE')" hidden accept=".pdf" multiple>
                         <ul *ngIf="files['file_certificadoIAE'].length > 0">
@@ -325,11 +324,11 @@
                     </section>
                     <section>
                         <mat-radio-group ngClass="file-input" formControlName="radioGroupFile">
-                            <mat-radio-button value="option1">{{'ILS.DOCUMENTATION.REQUIRED.INPUT-RADIO.OPTION-1' | translate}}</mat-radio-button>
+                            <mat-radio-button value="option1">{{'ILS.INPUTRADIO1' | translate}}</mat-radio-button>
                             <section *ngIf="radioOptionDocs === 'option1'" ngClass="afterFormChange">
                                 <section ngClass="file-input">
                                     <mat-form-field floatLabel="always">
-                                        <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.SUMMARY' | translate}}</mat-label>
+                                        <mat-label>{{'ILS.SUMMARY' | translate}}</mat-label>
                                         <input
                                         matInput
                                         type="text"
@@ -337,9 +336,9 @@
                                         readonly
                                         [value]="fileNames['file_informeResumenIls']"
                                         (click)="file_informeResumenIls.click()"
-                                        placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                         />
-                                        <mat-error *ngIf="ilsForm.get('file_informeResumenIls')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                                        <mat-error *ngIf="ilsForm.get('file_informeResumenIls')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                                     </mat-form-field>
                                     <input #file_informeResumenIls type="file" (change)="onFileChange($event, 'file_informeResumenIls')" accept=".pdf" hidden multiple >
                                     <ul *ngIf="files['file_informeResumenIls'].length > 0">
@@ -348,7 +347,7 @@
                                 </section>
                                 <section ngClass="file-input">
                                     <mat-form-field floatLabel="always">
-                                        <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.INVENTORY' | translate}}</mat-label>
+                                        <mat-label>{{'ILS.INVENTORY' | translate}}</mat-label>
                                         <input
                                         matInput
                                         type="text"
@@ -356,9 +355,9 @@
                                         readonly
                                         [value]="fileNames['file_informeInventarioIls']"
                                         (click)="file_informeInventarioIls.click()"
-                                        placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                         />
-                                        <mat-error *ngIf="ilsForm.get('file_informeInventarioIls')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                                        <mat-error *ngIf="ilsForm.get('file_informeInventarioIls')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                                     </mat-form-field>
                                     <input #file_informeInventarioIls type="file" (change)="onFileChange($event, 'file_informeInventarioIls')" accept=".pdf" hidden multiple />
                                     <ul *ngIf="files['file_informeInventarioIls'].length > 0">
@@ -366,11 +365,11 @@
                                     </ul>
                                 </section>
                             </section>
-                            <mat-radio-button value="option2">{{'ILS.DOCUMENTATION.REQUIRED.INPUT-RADIO.OPTION-2' | translate}}</mat-radio-button>
+                            <mat-radio-button value="option2">{{'ILS.INPUTRADIO2' | translate}}</mat-radio-button>
                             <section *ngIf="radioOptionDocs==='option2'" ngClass="afterFormChange">
                                 <section ngClass="file-input">
                                     <mat-form-field floatLabel="always">
-                                        <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.ISO-VERIFICATION' | translate}}</mat-label>
+                                        <mat-label>{{'ILS.ISOVERIFICATION' | translate}}</mat-label>
                                         <input
                                         matInput
                                         type="text"
@@ -378,9 +377,9 @@
                                         readonly
                                         [value]="fileNames['file_certificado_verificacion_ISO']"
                                         (click)="file_certificado_verificacion_ISO.click()"
-                                        placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                         />
-                                        <mat-error *ngIf="ilsForm.get('file_certificado_verificacion_ISO')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                                        <mat-error *ngIf="ilsForm.get('file_certificado_verificacion_ISO')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                                     </mat-form-field>
                                     <input #file_certificado_verificacion_ISO type="file" (change)="onFileChange($event, 'file_certificado_verificacion_ISO')" accept=".pdf" hidden multiple />
                                     <ul *ngIf="files['file_certificado_verificacion_ISO'].length > 0">
@@ -392,7 +391,7 @@
                     </section>
                     <section ngClass="file-input">
                         <mat-form-field floatLabel="always">
-                            <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.GREENHOUSE-REDUCTION' | translate}}</mat-label>
+                            <mat-label>{{'ILS.GREENHOUSEREDUCTION' | translate}}</mat-label>
                             <input 
                             matInput
                             type="text"
@@ -400,9 +399,9 @@
                             readonly
                             [value]="fileNames['file_modeloEjemploIls']"
                             (click)="file_modeloEjemploIls.click()"
-                            placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                            placeholder="{{'FILES.UPLOADFILES' | translate}}"
                             />
-                            <mat-error *ngIf="ilsForm.get('file_modeloEjemploIls')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                            <mat-error *ngIf="ilsForm.get('file_modeloEjemploIls')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                         </mat-form-field>
                         <input #file_modeloEjemploIls type="file" (change)="onFileChange($event, 'file_modeloEjemploIls')" accept=".pdf" hidden multiple>
                         <ul *ngIf="files['file_modeloEjemploIls'].length > 0">
@@ -411,7 +410,7 @@
                     </section>
                     <section ngClass="file-input">
                         <mat-form-field floatLabel="always">
-                            <mat-label>{{'ILS.DOCUMENTATION.REQUIRED.TRAINING-ITINERARY' | translate}}</mat-label>
+                            <mat-label>{{'ILS.TRAININGITINERARY' | translate}}</mat-label>
                             <input 
                             matInput
                             type="text"
@@ -419,9 +418,9 @@
                             readonly
                             [value]="fileNames['file_certificado_itinerario_formativo']"
                             (click)="file_certificado_itinerario_formativo.click()"
-                            placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                            placeholder="{{'FILES.UPLOADFILES' | translate}}"
                             />
-                            <mat-error *ngIf="ilsForm.get('file_certificado_itinerario_formativo')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                            <mat-error *ngIf="ilsForm.get('file_certificado_itinerario_formativo')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                         </mat-form-field>
                         <input #file_certificado_itinerario_formativo type="file" (change)="onFileChange($event, 'file_certificado_itinerario_formativo')" accept=".pdf" hidden multiple>
                         <ul *ngIf="files['file_certificado_itinerario_formativo'].length > 0">
@@ -429,10 +428,10 @@
                         </ul>
                     </section>
                 </section>
-                <h4>{{'ILS.DOCUMENTATION.OPTIONAL.INFO' | translate}}</h4>
+                <h4>{{'ILS.OPTIONALDOCUMENTATIONINFO' | translate}}</h4>
                 <section ngClass="file-input">
                     <mat-form-field floatLabel="always">
-                        <mat-label>{{'ILS.DOCUMENTATION.OPTIONAL.TECHNICAL-MEMORY' | translate}}</mat-label>
+                        <mat-label>{{'ILS.TECHNICALMEMORY' | translate}}</mat-label>
                         <input 
                         matInput
                         type="text"
@@ -440,9 +439,9 @@
                         readonly
                         [value]="fileNames['file_memoriaTecnica']"
                         (click)="file_memoriaTecnica.click()"
-                        placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
                         />
-                        <mat-error *ngIf="ilsForm.get('file_memoriaTecnica')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                        <mat-error *ngIf="ilsForm.get('file_memoriaTecnica')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     </mat-form-field>
                     <input #file_memoriaTecnica type="file" (change)="onFileChange($event, 'file_memoriaTecnica')" accept=".pdf" hidden multiple>
                     <ul *ngIf="files['file_memoriaTecnica'].length > 0">
@@ -451,7 +450,7 @@
                 </section>
                 <section ngClass="file-input">
                     <mat-form-field floatLabel="always">
-                        <mat-label>{{'ILS.DOCUMENTATION.OPTIONAL.CIF.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.CIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.CIF.ACRONYM' | translate}}</abbr>{{'ILS.DOCUMENTATION.OPTIONAL.CIF.PART-2' | translate}}</mat-label>
+                        <mat-label>{{'ILS.CIFPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.CIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.CIF.ACRONYM' | translate}}</abbr>{{'ILS.CIFPART2' | translate}}</mat-label>
                         <input 
                         matInput
                         type="text"
@@ -459,9 +458,9 @@
                         readonly
                         [value]="fileNames['file_nifEmpresa']"
                         (click)="file_nifEmpresa.click()"
-                        placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
                         />
-                        <mat-error *ngIf="ilsForm.get('file_nifEmpresa')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                        <mat-error *ngIf="ilsForm.get('file_nifEmpresa')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     </mat-form-field>
                     <input #file_nifEmpresa type="file" (change)="onFileChange($event, 'file_nifEmpresa')" accept=".pdf" hidden multiple>
                     <ul *ngIf="files['file_nifEmpresa'].length > 0">
@@ -470,7 +469,7 @@
                 </section>
                 <section ngClass="file-input">
                     <mat-form-field floatLabel="always">
-                        <mat-label>{{'ILS.DOCUMENTATION.OPTIONAL.LOGO' | translate}}</mat-label>
+                        <mat-label>{{'ILS.LOGO' | translate}}</mat-label>
                         <input 
                         matInput
                         type="text"
@@ -478,9 +477,9 @@
                         readonly
                         [value]="fileNames['file_logotipoEmpresaIls']"
                         (click)="file_logotipoEmpresaIls.click()"
-                        placeholder="{{'COMMON.FILE.UPLOAD' | translate}}"
+                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
                         />
-                        <mat-error *ngIf="ilsForm.get('file_logotipoEmpresaIls')?.errors">{{'COMMON.FILE.ERROR' | translate}}</mat-error>
+                        <mat-error *ngIf="ilsForm.get('file_logotipoEmpresaIls')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     </mat-form-field>
                     <input #file_logotipoEmpresaIls type="file" (change)="onFileChange($event, 'file_logotipoEmpresaIls')" accept=".webp, .jpeg, .svg" hidden multiple>
                     <ul *ngIf="files['file_logotipoEmpresaIls'].length > 0">
@@ -493,5 +492,5 @@
     <mat-form-field style="display:none">
         <input matInput type="text" formControlName="tipo_tramite">
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="ilsForm.invalid">{{'COMMON.SEND' | translate}}</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="ilsForm.invalid">{{'FORM.SEND' | translate}}</button>
 </form>

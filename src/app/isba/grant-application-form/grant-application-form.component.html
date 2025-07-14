@@ -150,7 +150,7 @@
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'FORM.NIFREPRESENTANTE' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="nif_rep" (blur)="cleanBlank($event)" maxlength="9" minlength="9">
+                        <input matInput type="text" formControlName="nif_rep" maxlength="9" minlength="9">
                         <mat-error *ngIf="isbaForm.get('nif_rep')?.errors">{{'FORMERRORS.COMMON.NIFREPRESENTANTE' | translate}}</mat-error>
                     </mat-form-field>
                     <mat-form-field>

@@ -143,6 +143,60 @@
     "PROGRAM_IV": "",
     "PROGRAM_V": ""
   },
+  "ILS": {
+    "REQUIREDDOCINFO": "Before starting, it is advisable to have the following compliance documentation ready:",
+    "REQUIREDDOC1": "Deed of incorporation of the company.",
+    "REQUIREDDOC2PART1": "Industrial ",
+    "REQUIREDDOC2PART2": "registration certificate.",
+    "REQUIREDDOC3": "Carbon footprint calculation reports: <a href=''>Summary Report</a> + <a href=''>Inventory report</a> GEH according to ISO 14.064-1. or ISO 14064-1 verification certificate.",
+    "REQUIREDDOC4": "Commitment to reduce greenhouse gas emissions: <a href=''>Sample model</a>.",
+    "REQUIREDDOC5": "Training itinerary certificate.",
+    "OPTIONALDOCINFO": "Other optional documentation:",
+    "OPTIONALDOC1": "Technical report of the activity.",
+    "OPTIONALDOC2PART1": "The ",
+    "OPTIONALDOC2PART2": " of the company.",
+    "OPTIONALDOC3": "Company logo in WEBP, JPEG or SVG format.",
+    "AUTHORIZATIONPART1": "AUTHORIZATIONS: ",
+    "AUTHORIZATIONPART2": "the request implies the authorization (article 28.2 of Law 39/2015) so that ",
+    "AUTHORIZATIONPART3": " may verify ex officio that the applicant is up to date with its obligations to the ",
+    "AUTHORIZATIONPART4": " and the ",
+    "AUTHORIZATIONPART5": " except in the case of express refusal. In this case, the beneficiary must provide the following documentation:",
+    "AUTHORIZATIONDOC1": " of the applicant and/or authorized person and supporting documents, if necessary.",
+    "AUTHORIZATIONDOC2": "Certificate of being up to date of payment with the ",
+    "AUTHORIZATIONDOC3": "Certificate of being up to date with the ",
+    "NOTIFICATIONINFO": "At the end of this wizard you will receive, by e-mail, a PDF document containing:",
+    "NOTIFICATIONDOC1": "A responsible statement",
+    "NOTIFICATIONDOC2": "An application for membership in the ILS program.",
+    "WEBSITE": "Company website",
+    "PRESENTATIONVIDEO": "URL of the company's presentation video (published on Youtube or Vimeo)",
+    "AUTHORIZATIONDESCRIPTION": "Indicate your consent/non-consent on the following authorizations.",
+    "AUTHORIZATIONNIFPART1": "I give my consent so that ",
+    "AUTHORIZATIONNIFPART2": " can check ex officio the identification of the applicant and/or the authorized person for the company. In case of express refusal of consent, I attach the ",
+    "AUTHORIZATIONNIFPART3": " of the applicant and/or the authorized person and supporting documents, if necessary.",
+    "AUTHORIZATIONATIBPART1": "Certificate from the ",
+    "AUTHORIZATIONATIBPART2": " of being up to date with tax obligations with the autonomous community of the Balearic Islands.",
+    "NOAUTHORIZATED": "If you disagree, please attach the file previously indicated. [.pdf]",
+    "DECLARATION1": "That the company has an active production line in the Balearic Islands",
+    "DECLARATION2": "That I have sufficient representation capacity, duly accredited, to carry out the indicated procedure.",
+    "DECLARATION3": "That the beneficiary entity is registered in the Industrial Registry or in the Mining Registry of the Balearic Islands, if applicable.",
+    "DECLARATION4": "That the information contained in this document is true, that I meet all the requirements of the call for applications, and that I submit the corresponding documentation, in accordance with the resolution of the call for applications.",
+    "REQUIREDDOCUMENTATIONINFO": "Documentation related to compliance with the requirements.",
+    "CONSTITUTION": "Deed of incorporation of the company. [.pdf]",
+    "BATPART1": "Updated ",
+    "BATPART2": " certificate. [.pdf]",
+    "INPUTRADIO1": "Submit carbon footprint calculation reports: Summary Report + GEH Inventory Report according to ISO 14.064-1.",
+    "INPUTRADIO2": "Submit ISO 14064-1 verification certificate.",
+    "SUMMARY": "Carbon footprint summary report. [.pdf]",
+    "INVENTORY": "GEH inventory report according to ISO 14.064-1. [.pdf]",
+    "ISOVERIFICATION": "Verification certificate ISO 14064-1. [.pdf]",
+    "GREENHOUSEREDUCTION": "Commitment to reduce greenhouse gas emissions. [.pdf]",
+    "TRAININGITINERARY": "Certificate of having completed the training itinerary. [.pdf]",
+    "OPTIONALDOCUMENTATIONINFO": "Other optional documentation",
+    "TECHNICALMEMORY": "Descriptive document of the company and its activity. [.pdf]",
+    "CIFPART1": "The ",
+    "CIFPART2": " of the company. [.pdf]",
+    "LOGO": "Logo of the company that will appear in our section of adhered companies. [.webp, .jpeg, .svg]."
+  },
   "ISBA": {
     "TITLE": "Aid for financial expenses through the ISBA guarantee",
     "INFO": {
@@ -152,7 +206,7 @@
       "SIA-CODE": "<strong>SIA Code:</strong> 3153714",
       "PROCEDURE": "<strong>Form or procedure:</strong> Application for aid to micro, small and medium-sized industrial companies in the Balearic Islands that have approved financial operations guaranteed by ISBA SGR, to cover the financial costs of financing operations for productive investments, energy efficiency and digital transformation foreseen in the Industrial Strategic Plan 2018-2025."
     },
-    "REQUIREDOCINFO": "Before starting, it is advisable to have the following documentation ready:",
+    "REQUIREDDOCINFO": "Before starting, it is advisable to have the following documentation ready:",
     "REQUIREDDOC1": "The standard grant application document for this call, which is generated at the end of this wizard by clicking on the 'Send' button and which you will receive by e-mail.",
     "REQUIREDDOC2": "Description of the company and its activity, business model and details of the expected investment/investments.",
     "REQUIREDDOC3": "Responsible declaration of the veracity of the bank data provided, which is included in the application for aid.",
@@ -235,149 +289,6 @@
     "DOC12": "Contract of the financial operation. [.pdf, ,jpeg, .png]",
     "DOC13": "Contract or document of endorsement of the financial operation. [.pdf, .jpeg, .png]",
     "DOC14": "A Responsible Declaration, included in the standard application form, from the person who owns the company or who legally represents it, which is generated when sending this application."
-  },
-  "ILS": {
-    "RGPD": {
-      "TITLE": "GDPR and documentation",
-      "DESCRIPTION": "GDPR conditions and required documentation.",
-      "REQUIRED-DOCS": {
-        "INFO": "Before starting, it is advisable to have the following compliance documentation ready:",
-        "DOC-1": "Deed of incorporation of the company.",
-        "DOC-2": {
-          "PART-1": "Industrial ",
-          "PART-2": "registration certificate."
-        },
-        "DOC-3": "Carbon footprint calculation reports: <a href=''>Summary Report</a> + <a href=''>Inventory report</a> GEH according to ISO 14.064-1. or ISO 14064-1 verification certificate.",
-        "DOC-4": "Commitment to reduce greenhouse gas emissions: <a href=''>Sample model</a>.",
-        "DOC-5": "Training itinerary certificate."
-      },
-      "OPTIONAL-DOCS": {
-        "INFO": "Other optional documentation:",
-        "DOC-1": "Technical report of the activity.",
-        "DOC-2": {
-          "PART-1": "The ",
-          "PART-2": " of the company."
-        },
-        "DOC-3": "Company logo in WEBP, JPEG or SVG format."
-      },
-      "AUTHORIZATION": {
-        "INFO": {
-          "PART-1": "AUTHORIZATIONS: ",
-          "PART-2": "the request implies the authorization (article 28.2 of Law 39/2015) so that ",
-          "PART-3": " may verify ex officio that the applicant is up to date with its obligations to the ",
-          "PART-4": " and the ",
-          "PART-5": " except in the case of express refusal. In this case, the beneficiary must provide the following documentation:"
-        },
-        "DOC-1": " of the applicant and/or authorized person and supporting documents, if necessary.",
-        "DOC-2": "Certificate of being up to date of payment with the ",
-        "DOC-3": "Certificate of being up to date with the "
-      },
-      "NOTIFICATION": {
-        "INFO": "At the end of this wizard you will receive, by e-mail, a PDF document containing:",
-        "DOC-1": "A responsible statement",
-        "DOC-2": "An application for membership in the ILS program."
-      }
-    },
-    "GENERAL-DATA": {
-      "TITLE": "Data of the person concerned",
-      "DESCRIPTION": "Enter some data of the person conrcened.",
-      "APPLICANT": {
-        "NIF": {
-          "LABEL": "DNI/NIE of the applicant"
-        },
-        "CIF": {
-          "LABEL": "VAT number of the applicant"        }
-      },
-      "COMPANY-NAME": {
-        "LABEL": "Name or company name"      },
-      "ADDRESS": {
-        "LABEL": "Postal address of the applicant"      },
-      "ZIPCODE": {
-        "LABEL": "Zip code of the applicant [five digits]."      },
-      "TOWN": "Town",
-      "CONTACT-PHONE": {
-        "LABEL": "Contact phone number of the applicant"      },
-      "CNAE-CODE": {
-        "LABEL": "CNAE code"      },
-      "WEBSITE": "Company website",
-      "PRESENTATION-VIDEO": "URL of the company's presentation video (published on Youtube or Vimeo)",
-      "REPRESENTATIVE": {
-        "NAME": {
-          "LABEL": "Name of the legal representative"        },
-        "NIF": {
-          "LABEL": "DNI/NIE of the legal representative"        }
-      }
-    },
-    "NOTIFICATION-CHANNEL": {
-      "TITLE": "Notification channel",
-      "DESCRIPTION": "Enter your contact information to receive notifications.",
-      "INFO": "In accordance with section 17 of the call, notifications and communications to the applicant will be carried out telematically to the e-mail address designated by the applicant for notification purposes in this application form. Notices of the availability of the notification to the Citizen Folder of the <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=en' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> will be sent to the e-mail address designated in the declarant's data.",
-      "PHONE": {
-        "LABEL": "Applicant's or representative's phone number",
-        "ERROR": "The phone number entered is not valid."
-      },
-      "EMAIL": {
-        "LABEL": "E-mail address for notification purposes",
-        "ERROR": "The e-mail address entered is not valid."
-      }
-    },
-    "AUTHORIZATIONS": {
-      "TITLE": "Authorizations",
-      "DESCRIPTION": "Indicate your consent/non-consent on the following authorizations.",
-      "AUTHORIZATION-NIF": {
-        "PART-1": "I give my consent so that ",
-        "PART-2": " can check ex officio the identification of the applicant and/or the authorized person for the company. In case of express refusal of consent, I attach the ",
-        "PART-3": " of the applicant and/or the authorized person and supporting documents, if necessary."
-      },
-      "AUTHORIZATION-ATIB": {
-        "PART-1": "Certificate from the ",
-        "PART-2": " of being up to date with tax obligations with the autonomous community of the Balearic Islands."
-      },
-      "NO-AUTHORIZATED": "If you disagree, please attach the file previously indicated. [.pdf]"
-    },
-    "DECLARATIONS": {
-      "TITLE": "Responsible declaration",
-      "DESCRIPTION": "Please read the following responsible statements.",
-      "DECLARATION-1": "That the company has an active production line in the Balearic Islands",
-      "DECLARATION-2": "That I have sufficient representation capacity, duly accredited, to carry out the indicated procedure.",
-      "DECLARATION-3": "That the beneficiary entity is registered in the Industrial Registry or in the Mining Registry of the Balearic Islands, if applicable.",
-      "DECLARATION-4": "That the information contained in this document is true, that I meet all the requirements of the call for applications, and that I submit the corresponding documentation, in accordance with the resolution of the call for applications."
-    },
-    "DOCUMENTATION": {
-      "TITLE": "Required and optional documentation",
-      "DESCRIPTION": "Please attach the documents requested below.",
-      "INFO": {
-        "FORMAT-INFO": "In order for the attached documents to be accepted, they must be in the format indicated below and with a maximum size of <strong>10MB</strong>. In addition, below you will find some aids to help you upload documents easily:",
-        "CTRL-INFO": "When the files are <strong>not</strong> in a row in the folder or are not in the same folder, press the <strong>CTRL</strong> key and, without releasing it, mark the corresponding files with the mouse.",
-        "SHIFT-INFO": "When the files are <strong>in</strong> a row in the same folder, press the <strong>SHIFT</strong> key and, without releasing and using the mouse, mark the first and the last file, so that they are all selected."
-      },
-      "REQUIRED": {
-        "INFO": "Documentation related to compliance with the requirements.",
-        "CONSTITUTION": "Deed of incorporation of the company. [.pdf]",
-        "BAT": {
-          "PART-1": "Updated ",
-          "PART-2": " certificate. [.pdf]"
-        },
-        "INPUT-RADIO": {
-          "OPTION-1": "Submit carbon footprint calculation reports: Summary Report + GEH Inventory Report according to ISO 14.064-1.",
-          "OPTION-2": "Submit ISO 14064-1 verification certificate."
-        },
-        "SUMMARY": "Carbon footprint summary report. [.pdf]",
-        "INVENTORY": "GEH inventory report according to ISO 14.064-1. [.pdf]",
-        "ISO-VERIFICATION": "Verification certificate ISO 14064-1. [.pdf]",
-        "GREENHOUSE-REDUCTION": "Commitment to reduce greenhouse gas emissions. [.pdf]",
-        "TRAINING-ITINERARY": "Certificate of having completed the training itinerary. [.pdf]"
-      },
-      "OPTIONAL": {
-        "INFO": "Other optional documentation",
-        "TECHNICAL-MEMORY": "Descriptive document of the company and its activity. [.pdf]",
-        "CIF": {
-          "PART-1": "The ",
-          "PART-2": " of the company. [.pdf]"
-        },
-        "LOGO": "Logo of the company that will appear in our section of adhered companies. [.webp, .jpeg, .svg]."
-      }
-    }
   },
   "COMMON": {
     "RGPD-INFO": {

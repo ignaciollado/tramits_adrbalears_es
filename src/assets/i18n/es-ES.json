@@ -143,6 +143,60 @@
     "PROGRAM_IV": "",
     "PROGRAM_V": ""
   },
+  "ILS": {
+    "REQUIREDDOCINFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación relacionada con el cumplimiento de los requisitos:",
+    "REQUIREDDOC1": "Escritura de constitución de la empresa.",
+    "REQUIREDDOC2PART1": "El certificado de alta del ",
+    "REQUIREDDOC2PART2": "industrial",
+    "REQUIREDDOC3": "Informes de cálculo de la huella de carbono: <a href=''>Informe resumen</a> + <a href=''>Informe de inventario</a> de GEH según la norma ISO 14.064-1. o certificado de verificación ISO 14064-1.",
+    "REQUIREDDOC4": "Compromiso de reducción de las emisiones de gases de efecto invernadero: <a href=''>Modelo de ejemplo</a>.",
+    "REQUIREDDOC5": "Certificado itinerario formativo.",
+    "OPTIONALDOCINFO": "Otra documentación opcional:",
+    "OPTIONALDOC1": "Memoria técnica de la actividad.",
+    "OPTIONALDOC2PART1": "El ",
+    "OPTIONALDOC2PART2": " de la empresa.",
+    "OPTIONALDOC3": "Logotipo de la empresa en formato WEBP, JPEG o SVG.",
+    "AUTHORIZATIONPART1": "AUTORIZACIONES: ",
+    "AUTHORIZATIONPART2": "la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que ",
+    "AUTHORIZATIONPART3": " pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la ",
+    "AUTHORIZATIONPART4": " y la ",
+    "AUTHORIZATIONPART5": " excepto en caso de denegación expresa. En este caso, el beneficiario deberá aportar la siguiente documentación:",
+    "AUTHORIZATIONDOC1": " del solicitante i/o de la persona autorizada y los documentos acreditativos, si es necesario.",
+    "AUTHORIZATIONDOC2": "Certificado de estar al corriente de pago con la ",
+    "AUTHORIZATIONDOC3": "Certificado de estar al corriente de pago con la ",
+    "NOTIFICATIONINFO": "Al finalizar de este asistente recibirá, por correo electrónico, un documento en formato PDF que contendrá:",
+    "NOTIFICATIONDOC1": "Una declaración responsable.",
+    "NOTIFICATIONDOC2": "Una solicitud de adhesión al programa ILS.",
+    "WEBSITE": "Sitio web de la empresa",
+    "PRESENTATIONVIDEO": "La URL del video de presentación de la empresa (publicado en Youtube o en Vimeo)",
+    "AUTHORIZATIONDESCRIPTION": "Indique su consentimiento/disconformidad en las siguientes autorizaciones.",
+    "AUTHORIZATIONNIFPART1": "Doy mi consentimiento para que ",
+    "AUTHORIZATIONNIFPART2": " pueda comprobar de oficio la identificación de la persona solicitante y/o la persona autorizada para la empresa. En caso de denegación expresa del consentimiento, adjunto el ",
+    "AUTHORIZATIONNIFPART3": " del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario.",
+    "AUTHORIZATIONATIBPART1": "Certificado de la ",
+    "AUTHORIZATIONATIBPART2": " de estar al corriente de las obligaciones tributarias con la comunidad autónoma de las Islas Baleares.",
+    "NOAUTHORIZATED": "Al estar en disconformidad, por favor, adjunte el archivo previamente indicado. [.pdf]",
+    "DECLARATION1": "Que la empresa cuenta con una línea de producción activa en las Islas Baleares.",
+    "DECLARATION2": "Que dispongo de la capacidad de representación suficiente, debidamente acreditada, para llevar a cabo la tramitación indicada.",
+    "DECLARATION3": "Que la entidad beneficiaria está inscrita en el Registro Industrial o en el Registro Minero de las Islas Baleares, si procede.",
+    "DECLARATION4": "Que los datos consignados en este documento son ciertos, que cumplo con todos los requisitos exigidos en la convocatoria, y que presento adjunta la documentación correspondiente, de acuerdo con la resolución de la convocatoria.",
+    "REQUIREDDOCUMENTATIONINFO": "Documentación relacionada con el cumplimiento de los requisitos.",
+    "CONSTITUTION": "Escritura de constitución de la empresa. [.pdf]",
+    "BATPART1": "Certificado del ",
+    "BATPART2": " actualizado. [.pdf]",
+    "INPUTRADIO1": "Presentar informes de cálculo de la huella de carbono: Informe resumen + Informe de inventario de GEH según la norma ISO 14.064-1.",
+    "INPUTRADIO2": "Presentar certificado de verificación ISO 14064-1.",
+    "SUMMARY": "Informe resumen de la huella de carbono. [.pdf]",
+    "INVENTORY": "Informe de inventario de GEH según la norma ISO 14.064-1. [.pdf]",
+    "ISOVERIFICATION": "Certificado de verificación ISO 14064-1. [.pdf]",
+    "GREENHOUSEREDUCTION": "Compromiso de reducción de las emisiones de gases del efecto invernadero. [.pdf]",
+    "TRAININGITINERARY": "Certificado de haber realizado el itinerario formativo. [.pdf]",
+    "OPTIONALDOCUMENTATIONINFO": "Otra documentación opcional",
+    "TECHNICALMEMORY": "Documento descriptivo de la empresa y de su actividad. [.pdf]",
+    "CIFPART1": "El ",
+    "CIFPART2": " de la empresa. [.pdf]",
+    "LOGO": "Logotipo de la empresa que aparecerá en nuestro apartado de empresas adheridas. [.webp, .jpeg, .svg]"
+  },
   "ISBA": {
     "TITLE": "Ayudas a los gastos financieros a través del aval de ISBA",
     "INFO": {
@@ -235,155 +289,6 @@
     "DOC12": "Contrato de la operación financiera. [.pdf, ,jpeg, .png]",
     "DOC13": "Contrato o documento de aval de la operación financiera. [.pdf, .jpeg, .png]",
     "DOC14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente, la cual se genera al enviar esta solicitud."
-  },
-  "ILS": {
-    "RGPD": {
-      "TITLE": "RGPD y documentación",
-      "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
-      "REQUIRED-DOCS": {
-        "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación relacionada con el cumplimiento de los requisitos:",
-        "DOC-1": "Escritura de constitución de la empresa.",
-        "DOC-2": {
-          "PART-1": "El certificado de alta del ",
-          "PART-2": "industrial"
-        },
-        "DOC-3": "Informes de cálculo de la huella de carbono: <a href=''>Informe resumen</a> + <a href=''>Informe de inventario</a> de GEH según la norma ISO 14.064-1. o certificado de verificación ISO 14064-1.",
-        "DOC-4": "Compromiso de reducción de las emisiones de gases de efecto invernadero: <a href=''>Modelo de ejemplo</a>.",
-        "DOC-5": "Certificado itinerario formativo."
-      },
-      "OPTIONAL-DOCS": {
-        "INFO": "Otra documentación opcional:",
-        "DOC-1": "Memoria técnica de la actividad.",
-        "DOC-2": {
-          "PART-1": "El ",
-          "PART-2": " de la empresa."
-        },
-        "DOC-3": "Logotipo de la empresa en formato WEBP, JPEG o SVG."
-      },
-      "AUTHORIZATION": {
-        "INFO": {
-          "PART-1": "AUTORIZACIONES: ",
-          "PART-2": "la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que ",
-          "PART-3": " pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la ",
-          "PART-4": " y la ",
-          "PART-5": " excepto en caso de denegación expresa. En este caso, el beneficiario deberá aportar la siguiente documentación:"
-        },
-        "DOC-1": " del solicitante i/o de la persona autorizada y los documentos acreditativos, si es necesario.",
-        "DOC-2": "Certificado de estar al corriente de pago con la ",
-        "DOC-3": "Certificado de estar al corriente de pago con la "
-      },
-      "NOTIFICATION": {
-        "INFO": "Al finalizar de este asistente recibirá, por correo electrónico, un documento en formato PDF que contendrá:",
-        "DOC-1": "Una declaración responsable.",
-        "DOC-2": "Una solicitud de adhesión al programa ILS."
-      }
-    },
-    "GENERAL-DATA": {
-      "TITLE": "Datos del interesado",
-      "DESCRIPTION": "Introduzca algunos datos del interesado.",
-      "APPLICANT": {
-        "NIF": {
-          "LABEL": "DNI/NIE del solicitante"
-        },
-        "CIF": {
-          "LABEL": "CIF del solicitante"
-        }
-      },
-      "COMPANY-NAME": {
-        "LABEL": "Nombre o razón social"
-      },
-      "ADDRESS": {
-        "LABEL": "Dirección postal del solicitante"
-      },
-      "ZIPCODE": {
-        "LABEL": "Código postal del solicitante [cinco dígitos]"
-      },
-      "TOWN": "Población",
-      "CONTACT-PHONE": {
-        "LABEL": "Teléfono de contacto del solicitante"
-      },
-      "CNAE-CODE": {
-        "LABEL": "Código CNAE"
-      },
-      "WEBSITE": "Sitio web de la empresa",
-      "PRESENTATION-VIDEO": "La URL del video de presentación de la empresa (publicado en Youtube o en Vimeo)",
-      "REPRESENTATIVE": {
-        "NAME": {
-          "LABEL": "Nombre del representante legal"
-        },
-        "NIF": {
-          "LABEL": "DNI/NIE del representante legal"
-        }
-      }
-    },
-    "NOTIFICATION-CHANNEL": {
-      "TITLE": "Canal de notificación",
-      "DESCRIPTION": "Introduzca sus datos de contacto para recibir notificaciones.",
-      "INFO": "De acuerdo con el apartado 17 de la convocatoria, las notificaciones y las comunicaciones a la persona solicitante se llevarán a cabo por vía telemática a la dirección de correo electrónico que haya designado la persona solicitante a efectos de notificaciones en este formulario de solicitud. Los avisos de la puesta a disposición de la notificación a la Carpeta Ciudadana del <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=es' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> se enviarán a la dirección de correo que se han designado en los datos del declarante.",
-      "PHONE": {
-        "LABEL": "Teléfono móvil del solicitante o del representante"
-      },
-      "EMAIL": {
-        "LABEL": "Dirección electrónica a efectos de notificaciones"
-      }
-    },
-    "AUTHORIZATIONS": {
-      "TITLE": "Autorizaciones",
-      "DESCRIPTION": "Indique su consentimiento/disconformidad en las siguientes autorizaciones.",
-      "AUTHORIZATION-NIF": {
-        "PART-1": "Doy mi consentimiento para que ",
-        "PART-2": " pueda comprobar de oficio la identificación de la persona solicitante y/o la persona autorizada para la empresa. En caso de denegación expresa del consentimiento, adjunto el ",
-        "PART-3": " del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario."
-      },
-      "AUTHORIZATION-ATIB": {
-        "PART-1": "Certificado de la ",
-        "PART-2": " de estar al corriente de las obligaciones tributarias con la comunidad autónoma de las Islas Baleares."
-      },
-      "NO-AUTHORIZATED": "Al estar en disconformidad, por favor, adjunte el archivo previamente indicado. [.pdf]"
-    },
-    "DECLARATIONS": {
-      "TITLE": "Declaración responsable",
-      "DESCRIPTION": "Lea las siguientes declaraciones responsables.",
-      "DECLARATION-1": "Que la empresa cuenta con una línea de producción activa en las Islas Baleares.",
-      "DECLARATION-2": "Que dispongo de la capacidad de representación suficiente, debidamente acreditada, para llevar a cabo la tramitación indicada.",
-      "DECLARATION-3": "Que la entidad beneficiaria está inscrita en el Registro Industrial o en el Registro Minero de las Islas Baleares, si procede.",
-      "DECLARATION-4": "Que los datos consignados en este documento son ciertos, que cumplo con todos los requisitos exigidos en la convocatoria, y que presento adjunta la documentación correspondiente, de acuerdo con la resolución de la convocatoria."
-    },
-    "DOCUMENTATION": {
-      "TITLE": "Documentación requerida y opcional",
-      "DESCRIPTION": "Adjunte los documentos solicitados a continuación.",
-      "INFO": {
-        "FORMAT-INFO": "Para que se acepten los documentos adjuntados, estos deben ser del formato indicado posteriormente y con un máximo de tamaño de <strong>10MB</strong>. Además, a continuación, se indicarán algunas ayudas para realizar con facilidad dicha subida de documentos:",
-        "CTRL-INFO": "Cuando los archivos <strong>no</strong> estén seguidos en la carpeta o no estén dentro de la misma carpeta, pulse la tecla <strong>CTRL</strong> y, sin soltar, marque con el ratón los archivos correspondientes.",
-        "SHIFT-INFO": "Cuando los archivos <strong>si</strong> estén seguidos en la misma carpeta, pulse la tecla <strong>SHIFT</strong> y, sin soltar, y pulsando el ratón, marque el primer y el último archivo, de tal forma que se queden todos seleccionados."
-      },
-      "REQUIRED": {
-        "INFO": "Documentación relacionada con el cumplimiento de los requisitos.",
-        "CONSTITUTION": "Escritura de constitución de la empresa. [.pdf]",
-        "BAT": {
-          "PART-1": "Certificado del ",
-          "PART-2": " actualizado. [.pdf]"
-        },
-        "INPUT-RADIO": {
-          "OPTION-1": "Presentar informes de cálculo de la huella de carbono: Informe resumen + Informe de inventario de GEH según la norma ISO 14.064-1.",
-          "OPTION-2": "Presentar certificado de verificación ISO 14064-1."
-        },
-        "SUMMARY": "Informe resumen de la huella de carbono. [.pdf]",
-        "INVENTORY": "Informe de inventario de GEH según la norma ISO 14.064-1. [.pdf]",
-        "ISO-VERIFICATION": "Certificado de verificación ISO 14064-1. [.pdf]",
-        "GREENHOUSE-REDUCTION": "Compromiso de reducción de las emisiones de gases del efecto invernadero. [.pdf]",
-        "TRAINING-ITINERARY": "Certificado de haber realizado el itinerario formativo. [.pdf]"
-      },
-      "OPTIONAL": {
-        "INFO": "Otra documentación opcional",
-        "TECHNICAL-MEMORY": "Documento descriptivo de la empresa y de su actividad. [.pdf]",
-        "CIF": {
-          "PART-1": "El ",
-          "PART-2": " de la empresa. [.pdf]"
-        },
-        "LOGO": "Logotipo de la empresa que aparecerá en nuestro apartado de empresas adheridas. [.webp, .jpeg, .svg]"
-      }
-    }
   },
   "COMMON": {
     "RGPD-INFO": {
