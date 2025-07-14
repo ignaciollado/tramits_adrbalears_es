@@ -1,0 +1,84 @@
+<mat-card>
+  <h2>Acto Administrativo</h2>
+  <form [formGroup]="actoForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Denominación</mat-label>
+      <input matInput formControlName="denominacion" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo de Trámite</mat-label>
+      <input matInput formControlName="tipo_tramite" />
+    </mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Texto</mat-label>
+  <textarea
+    matInput
+    formControlName="texto"
+    matTextareaAutosize
+    matAutosizeMinRows="15"
+    matAutosizeMaxRows="30"
+    style="font-family: monospace; white-space: pre; background-color: #f5f5f5;"
+  ></textarea>
+  <div style="white-space: pre-wrap; font-family: monospace; background: #f0f0f0; padding: 10px; margin-top: 10px;">
+  <span [innerHTML]="resaltarTexto(actoForm.get('texto')?.value)"></span>
+</div>
+
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+  <mat-label>Texto (ES)</mat-label>
+  <textarea
+    matInput
+    formControlName="texto_es"
+    matTextareaAutosize
+    matAutosizeMinRows="15"
+    matAutosizeMaxRows="30"
+    style="font-family: monospace; white-space: pre; background-color: #f5f5f5;"
+  ></textarea>
+  <div style="white-space: pre-wrap; font-family: monospace; background: #f0f0f0; padding: 10px; margin-top: 10px;">
+  <span [innerHTML]="resaltarTexto(actoForm.get('texto')?.value)"></span>
+</div>
+
+</mat-form-field>
+
+
+
+    <button mat-raised-button color="primary" type="submit">
+      {{ editingId ? 'Actualizar' : 'Crear' }}
+    </button>
+    <button mat-button type="button" (click)="cancelEdit()" *ngIf="editingId">Cancelar</button>
+  </form>
+</mat-card>
+
+<mat-divider></mat-divider>
+
+<mat-card>
+  <h3>Registros Activos</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let acto of actos">
+      <div matLine>{{ acto.denominacion }} ({{ acto.tipo_tramite }})</div>
+      <button mat-icon-button color="accent" (click)="edit(acto)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="delete(acto.id!)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</mat-card>
+
+<mat-divider></mat-divider>
+
+<mat-card>
+  <h3>Registros Eliminados</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let acto of deletedActos">
+      <div matLine>{{ acto.denominacion }}</div>
+      <button mat-icon-button color="primary" (click)="restore(acto.id!)">
+        <mat-icon>restore</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

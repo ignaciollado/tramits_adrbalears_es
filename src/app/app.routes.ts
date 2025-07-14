@@ -8,6 +8,9 @@ import { AuthGuard } from './auth/auth.guard';
 import { XecsManagementComponent } from './xecs/management/xecs-management/xecs-management.component';
 import { PasswordRecoveryComponent } from './login/password-recovery/password-recovery.component';
 import { PasswordResetComponent } from './login/password-reset/password-reset.component';
+import { ActosComponent } from './management/actos-admin/actos.component';
+import { ListadoActosComponent } from './management/actos-admin/list/listado-actos.component';
+
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
@@ -22,6 +25,10 @@ export const routes: Routes = [
   { path: 'xecs-management', canActivate: [AuthGuard], component:XecsManagementComponent },
   { path: 'isba-management', canActivate: [AuthGuard], component:HomeComponent },
   { path: 'ils-management', canActivate: [AuthGuard], component:HomeComponent },
+
+  { path: 'actos-admin-list', canActivate: [AuthGuard], component: ListadoActosComponent},
+  { path: 'acto-admin-detail/:id', canActivate: [AuthGuard], component: ActosComponent},
+
 
   { path: 'contact', component: GrantApplicationFormComponent },
   { path: '**', component: HomeComponent }

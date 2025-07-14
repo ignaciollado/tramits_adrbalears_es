@@ -19,7 +19,7 @@ export class ExpedienteService {
 
   setEntorno(entorno: 'tramits' | 'pre-tramits'): void {
     this.entorno = entorno;
-    localStorage.setItem('entorno', entorno);
+    localStorage.setItem('pre-entorno', entorno);
   }
 
   private get apiUrl(): string {
