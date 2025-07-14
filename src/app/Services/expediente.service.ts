@@ -9,7 +9,7 @@ export class ExpedienteService {
   urlAPITramits: string;
 
   constructor(private http: HttpClient) {
-    this.urlAPITramits = "https://pre-tramits.idi.es/public/index.php"
+    this.urlAPITramits = "https://tramits.idi.es/public/index.php"
   }
 
   /* CRUD Expedientes */
