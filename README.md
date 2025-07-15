@@ -44,3 +44,7 @@ for the visual styling we're using the Angular Material library
 # Installation
 ng add @angular/material
 
+## Wrapper de angular para el editor Quill
+
+ngx-quill
+
