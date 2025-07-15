@@ -4,7 +4,7 @@
     <mat-label>Texto</mat-label>
     <section ngClass="editor-container">
       <nu-monaco-editor
-        (onInit)="onEditorInit($event)"
+        #editorRef
         formControlName="texto"
         language="json"
         class="custom-editor"
@@ -15,7 +15,7 @@
     <mat-label>Texto (ES)</mat-label>
     <section ngClass="editor-container">
       <nu-monaco-editor
-        (onInit)="onEditorInit($event)"
+        #editorRef
         formControlName="texto_es"
         language="json"
         ngClass="custom-editor"

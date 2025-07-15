@@ -12,7 +12,9 @@ import { ActoAdministrativoService, ActoAdministrativo } from '../../Services/ac
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { ViewChild, AfterViewInit } from '@angular/core';
 import { NuMonacoEditorModule } from '@ng-util/monaco-editor';
+import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 import * as monaco from 'monaco-editor';
   
   @Component({
@@ -42,10 +44,26 @@ export class ActosComponent implements OnInit {
   private editorDecorations: string[] = [];
 
   editorOptions = {
-/*     theme: 'myCustomTheme',
-    language: 'typescript', */
-/*     automaticLayout: true */
-  };
+  theme: 'vs-dark',
+  fontSize: 14,
+  minimap: { enabled: false },
+  wordWrap: 'on',
+  lineNumbers: 'on',
+  automaticLayout: true,
+  readOnly: false
+};
+
+
+  @ViewChild('editorRef') editorComponent!: NuMonacoEditorComponent;
+  ngAfterViewInit(): void {
+    const editor = this.editorComponent.editor;
+    if (editor) {
+      console.log('Editor cargado:', editor);
+
+      // Aquí puedes aplicar decoraciones, opciones, etc.
+      editor.updateOptions({ automaticLayout: true });
+    }
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -61,7 +79,6 @@ export class ActosComponent implements OnInit {
     });
   }
   
-
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
