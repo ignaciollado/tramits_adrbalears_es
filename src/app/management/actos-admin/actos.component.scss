@@ -31,3 +31,25 @@ input:not([type="checkbox"]) {
   }
 }
 
+.editor-container {
+ 
+  width: 100%;
+  border: 2px solid #0098cb;
+  border-radius: 5px;
+  /* padding: 1rem; */
+  margin-bottom: 1rem;
+}
+
+.custom-editor ::ng-deep .monaco-editor {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  display: block;
+}
+
+::ng-deep .highlighted-variable {
+  background-color: yellow;
+  border-radius: 3px;
+  padding: 0 2px;
+}
+
+

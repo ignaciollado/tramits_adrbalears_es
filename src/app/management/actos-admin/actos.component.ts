@@ -12,6 +12,8 @@ import { ActoAdministrativoService, ActoAdministrativo } from '../../Services/ac
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { NuMonacoEditorModule } from '@ng-util/monaco-editor';
+import * as monaco from 'monaco-editor';
   
   @Component({
   selector:  'app-actos',
@@ -26,7 +28,8 @@ import { Router } from '@angular/router';
     MatListModule,
     MatIconModule,
     MatDividerModule,
-    HttpClientModule
+    HttpClientModule,
+    NuMonacoEditorModule
   ],
   templateUrl: './actos.component.html',
   styleUrls: ['./actos.component.scss']
@@ -36,6 +39,13 @@ export class ActosComponent implements OnInit {
   editingId: number | null = null;
   actos: ActoAdministrativo[] = [];
   deletedActos: ActoAdministrativo[] = [];
+  private editorDecorations: string[] = [];
+
+  editorOptions = {
+/*     theme: 'myCustomTheme',
+    language: 'typescript', */
+/*     automaticLayout: true */
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +60,7 @@ export class ActosComponent implements OnInit {
       texto_es: ['', Validators.required]
     });
   }
+  
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -58,7 +69,6 @@ export class ActosComponent implements OnInit {
       this.editingId = id;
       this.actoService.getById(id).subscribe(acto => {
         if (acto) {
-          console.log ("acto", acto)
           this.actoForm.patchValue(acto);
         }
       });
@@ -118,9 +128,42 @@ export class ActosComponent implements OnInit {
     });
   }
 
-  resaltarTexto(texto: string): string {
-  if (!texto) return '';
-  return texto.replace(/%([^%]+)%/g, '<span style="background-color: yellow; font-weight: bold;">%$1%</span>');
+
+onEditorInit(editor: any):void {
+  console.log ("editor: ", editor)
+  const model = editor.getModel();
+
+  const applyHighlighting = () => {
+    if (!model) return;
+
+    const text = model.getValue();
+    const regex = /%([^%]+)%/g;
+    const matches = [...text.matchAll(regex)];
+
+    const decorations = matches.map(match => {
+      const start = model.getPositionAt(match.index!);
+      const end = model.getPositionAt(match.index! + match[0].length);
+      return {
+        range: new monaco.Range(
+          start.lineNumber,
+          start.column,
+          end.lineNumber,
+          end.column
+        ),
+        options: {
+          inlineClassName: 'highlighted-variable'
+        }
+      };
+    });
+
+    this.editorDecorations = editor.deltaDecorations(this.editorDecorations, decorations);
+  };
+
+  applyHighlighting();
+
+  model?.onDidChangeContent(() => {
+    applyHighlighting();
+  });
 }
 
 }

@@ -27,7 +27,7 @@ import { ActoAdministrativoService, ActoAdministrativo } from '../../../Services
   styleUrls: ['./listado-actos.component.scss']
 })
 export class ListadoActosComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'denominacion', 'tipo_tramite', 'acciones'];
+  displayedColumns: string[] = ['id', 'denominacion', 'tipo_tramite', 'updated_at', 'acciones'];
   dataSource = new MatTableDataSource<ActoAdministrativo>();
   selectedTipoTramite: string = '';
 
