@@ -28,15 +28,26 @@
       </div>
   </nav> 
 </mat-menu>
- <form [formGroup] = "languageForm">
-  <mat-slide-toggle formControlName="entorno">
-    {{ languageForm.get('entorno')?.value ? 'Entorno Tràmits' : 'Entorno Pre-tràmits' }}
-  </mat-slide-toggle>
-  <select formControlName = "preferredLang" (change)="onLanguageChange()">
-    <option value="es-ES">Castellano</option>
-    <option value="ca-ES">Català</option>
-    <option value="en-EN">English</option>
-  </select>
+<form [formGroup]="languageForm" class="language-form-row">
+  <!-- Toggle -->
+  <div class="toggle-container">
+    <mat-slide-toggle color="primary" formControlName="entorno">
+      {{ languageForm.get('entorno')?.value ? 'Entorno Tràmits' : 'Entorno Pre-tràmits' }}
+    </mat-slide-toggle>
+  </div>
+
+  <!-- Select -->
+  <div class="select-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Idioma preferido</mat-label>
+      <mat-select formControlName="preferredLang" (selectionChange)="onLanguageChange()">
+        <mat-option value="es-ES">Castellano</mat-option>
+        <mat-option value="ca-ES">Català</mat-option>
+        <mat-option value="en-EN">English</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 </form>
+
 
 </header>

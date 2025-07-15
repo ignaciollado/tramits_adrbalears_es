@@ -17,3 +17,17 @@ mat-list-item {
   justify-content: space-between;
   align-items: center;
 }
+
+input:not([type="checkbox"]) {
+  &:disabled {
+    color: #000 !important; // Azul oscuro para resaltar
+    font-weight: bold;
+    background-color: #e8eaf6; // Fondo suave para contraste
+  }
+
+  .mat-form-field-label {
+    color: #000 !important;
+    font-weight: 600;
+  }
+}
+

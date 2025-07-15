@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core'
-import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms'
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms'
 import { LanguageService } from './Services/language.service'
 
 import { CommonModule } from '@angular/common'
@@ -12,11 +12,14 @@ import { AuthService } from './Services/auth.service'
 import { Router } from '@angular/router'
 import { ExpedienteService } from './Services/expediente.service'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, TranslateModule, ReactiveFormsModule, RouterModule, MatMenuModule, MatIconModule, MatSlideToggleModule],
+  imports: [CommonModule, TranslateModule, ReactiveFormsModule, RouterModule, MatMenuModule, 
+    MatIconModule, MatSlideToggleModule, MatFormFieldModule, MatSelectModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

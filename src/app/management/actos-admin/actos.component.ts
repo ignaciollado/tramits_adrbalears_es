@@ -11,8 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ActoAdministrativoService, ActoAdministrativo } from '../../Services/acto-administrativo.service';
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute } from '@angular/router';
-
-  
+import { Router } from '@angular/router';
   
   @Component({
   selector:  'app-actos',
@@ -40,12 +39,13 @@ export class ActosComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private actoService: ActoAdministrativoService,
     private route: ActivatedRoute
   ) {
     this.actoForm = this.fb.group({
-      denominacion: ['', [Validators.required, Validators.maxLength(100)]],
-      tipo_tramite: ['', [Validators.required, Validators.maxLength(20)]],
+      denominacion: [{value:'', disabled: true}, [Validators.required, Validators.maxLength(100)]],
+      tipo_tramite: [{value:'', disabled: true},, [Validators.required, Validators.maxLength(20)]],
       texto: ['', Validators.required],
       texto_es: ['', Validators.required]
     });
@@ -101,6 +101,7 @@ export class ActosComponent implements OnInit {
   cancelEdit(): void {
     this.editingId = null;
     this.actoForm.reset();
+    this.router.navigate(['/actos-admin-list']); 
   }
 
   delete(id: number): void {

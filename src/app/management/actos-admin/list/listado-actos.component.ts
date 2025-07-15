@@ -1,27 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActoAdministrativoService, ActoAdministrativo } from '../../../Services/acto-administrativo.service';
 
 @Component({
   selector: 'app-listado-actos',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatButtonModule, RouterModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    RouterModule
+  ],
   templateUrl: './listado-actos.component.html',
   styleUrls: ['./listado-actos.component.scss']
 })
-export class ListadoActosComponent implements OnInit {
+export class ListadoActosComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['id', 'denominacion', 'tipo_tramite', 'acciones'];
-  dataSource: ActoAdministrativo[] = [];
+  dataSource = new MatTableDataSource<ActoAdministrativo>();
+  selectedTipoTramite: string = '';
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private actoService: ActoAdministrativoService) {}
 
   ngOnInit(): void {
     this.actoService.getAll().subscribe(data => {
-      this.dataSource = data;
-      console.log ("todos los actos admin", this.dataSource)
+      this.dataSource.data = data;
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(): void {
+    this.dataSource.filterPredicate = (data, filter) =>
+      filter === '' || data.tipo_tramite === filter;
+    this.dataSource.filter = this.selectedTipoTramite;
   }
 }
