@@ -102,8 +102,6 @@ export class IsbaGrantApplicationFormComponent {
   filteredOptions: Observable<ZipCodesIBDTO[]> | undefined
   actividadesCNAE: CnaeDTO[] = []
 
-  customTimestamp: string = ""
-  actualYear: string = ""
   idExp: string = ""
 
   accordion = viewChild.required(MatAccordion)
@@ -175,10 +173,6 @@ export class IsbaGrantApplicationFormComponent {
 
       tipo_tramite: this.fb.control<string>('ADR-ISBA')
     })
-
-    this.customTimestamp = this.commonService.generateCustomTimestamp()
-    this.actualYear = this.customTimestamp.split('_')[2]
-
   }
 
   ngOnInit(): void {
@@ -228,6 +222,10 @@ export class IsbaGrantApplicationFormComponent {
   }
 
   onSubmit(): void {
+    const customTimestamp = this.commonService.generateCustomTimestamp()
+    const convocatoria = new Date().getFullYear()
+    const cifnif_propietario = this.isbaForm.get('nif')?.value
+
     for (const [key, fileList] of Object.entries(this.files)) {
       if (fileList?.length != 0) {
         this.isbaForm.get(key)?.setValue('SI')
@@ -237,71 +235,54 @@ export class IsbaGrantApplicationFormComponent {
     }
 
     const rawValues = this.isbaForm.getRawValue()
+    // Añado datos necesarios
     rawValues.idExp = this.idExp
-    rawValues.selloDeTiempo = this.customTimestamp
-    rawValues.convocatoria = this.actualYear
+    rawValues.selloDeTiempo = customTimestamp
+    rawValues.convocatoria = convocatoria
     rawValues.cpostal = this.isbaForm.get('cpostal')?.value['zipCode']
 
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
-        const newId = respuesta.id
-        this.uploadDocuments(newId)
+        const newId = respuesta.id_sol
+        this.uploadDocuments(newId, customTimestamp, convocatoria, cifnif_propietario)
       }, error: (error) => { this.showSnackBar(error) }
     })
-
-    // Hardcodeado por el momento para el testeo
-    // this.uploadDocuments(1115)
   }
 
-  private uploadDocuments(id: number): void {
-    // const cifnif_propietario = this.isbaForm.get('nif')?.value
-    const mockCifnif_propietario: string = "11111111H"
-    const mockCustomTimestamp: string = "08_07_2025_09_47_43am"
-    const mockConvocatoria: string = "2025"
-
+  // Subida de archivos en BBDD y servidor
+  private uploadDocuments(id: number, customTimestamp: string, convocatoria: number, cifnif_propietario: string): void {
     for (const [key, fileList] of Object.entries(this.files)) {
       if (fileList.length != 0) {
         fileList.forEach(file => {
-          // BBDD
+          /* BBDD */
           const documentFormData = new FormData()
           const requiredDoc = this.requiredFiles.includes(key) ? 'SI' : 'NO'
 
           documentFormData.append('id_sol', id.toString())
-          // documentFormData.append('cifnif_propietario', cifnif_propietario)
-          documentFormData.append('cifnif_propietario', mockCifnif_propietario)
-          // documentFormData.append('convocatoria', this.actualYear)
-          documentFormData.append('convocatoria', mockConvocatoria)
-          documentFormData.append('name', file.name)
-          documentFormData.append('type', file.type)
+          documentFormData.append('cifnif_propietario', cifnif_propietario)
+          documentFormData.append('convocatoria', convocatoria.toString())
+          // documentFormData.append('name', file.name)
+          // documentFormData.append('type', file.type)
           documentFormData.append('tipo_tramite', 'ADR-ISBA')
           documentFormData.append('corresponde_documento', key)
-          // documentFormData.append('selloDeTiempo', this.customTimestamp)
-          documentFormData.append('selloDeTiempo', mockCustomTimestamp)
-          documentFormData.append('custodiado', '0')
-          documentFormData.append('fechaCustodiado', '0000-00-00')
+          documentFormData.append('selloDeTiempo', customTimestamp)
           documentFormData.append('fase_exped', 'Solicitud')
           documentFormData.append('estado', 'Pendent')
           documentFormData.append('docRequerido', requiredDoc)
-
           // this.documentService.insertDocuments(documentFormData).subscribe({
           //   error: (error) => {
           //     this.showSnackBar(error)
           //   }
           // })
 
-          // Servidor
+          /* Servidor */
           const serverDocumentFormData = new FormData()
           serverDocumentFormData.append('files', file)
-          // this.documentService.createDocument(cifnif_propietario, this.customTimestamp, documentFormData).subscribe({
+          // this.documentService.createDocument(cifnif_propietario, customTimestamp, serverDocumentFormData).subscribe({
           //   error: (error) => {
           //     this.showSnackBar(error)
           //   }
           // })
-          this.documentService.createDocument(mockCifnif_propietario, mockCustomTimestamp, serverDocumentFormData).subscribe({
-            error: (error) => {
-              this.showSnackBar(error)
-            }
-          })
         })
       }
     }

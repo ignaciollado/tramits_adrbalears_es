@@ -5,8 +5,11 @@
     "PASSWORD": "Contraseña",
     "FORGOT_PASSWORD": "Recuperar contraseña",
     "SEND": "Enviar",
-    "SENDING": "Enviando"
-
+    "SENDING": "Enviando",
+    "EXPANDALL": "Expandir todo",
+    "COLAPSEALL": "Encoger todo",
+    "YES": "Si",
+    "NO": "No"
   },
   "HOME": {
     "WELCOME": "Bienvenido a iTràmits, la plataforma oficial de ADR Balears para la gestión de ayudas y subvenciones",
@@ -65,7 +68,56 @@
     "RESPONSIBLEDECLARATION": "Declaración responsable",
     "RESPONSIBLEDECLARATIONEXPANDED": "Declaro que cumplo con los requisitos legales y normativos exigidos en la convocatoria, y que la información y documentación aportadas son veraces. La empresa beneficiaria cumple las condiciones para operar en las Islas Baleares.",
     "MINIMISIMPORT": "Importe minimis recibido",
-    "SEND": "Enviar"
+    "SEND": "Enviar",
+    "RGPDTITLE": "RGPD y documentación",
+    "RGPDDESCRIPTION": "Condiciones del RGPD y documentación requerida.",
+    "SELFEMPLOYEDBUSINESS": "Autónomo",
+    "SMALLBUSINESSNAME": "Pequeña empresa",
+    "SMALLBUSINESSINFO": "Se considera pequeña empresa la que tiene menos de 50 trabajadores y/o trabajadoras, un volumen de negocio anual o un balance general anual que no supere los 10 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto y otras empresas que no cumplen los requisitos para ser considerada PYME de acuerdo con el anexo I del Reglamento (CE) n.º 651/2014 de la Comisión Europea.",
+    "MEDIUMBUSINESSNAME": "Mediana empresa",
+    "MEDIUMBUSINESSINFO": "Se considera mediana empresa la que tiene entre 50 y 250 trabajadores y/o trabajadoras, un volumen de negocio anual entre 10 y 50 millones de euros o un balance general anual entre 10 y 43 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto en otras empresas que no cumplen los requisitos anteriores.",
+    "NIF": "DNI/NIE del solicitante",
+    "CIF": "CIF del solicitante",
+    "COMPANYNAME": "Nombre o razón social",
+    "NOTIFICATIONCHANELDESCRIPTION": "Introduzca sus datos de contacto para recibir notificaciones.",
+    "NOTIFICATIONCHANELINFO": "De acuerdo con el apartado 17 de la convocatoria, las notificaciones y las comunicaciones a la persona solicitante se llevarán a cabo por vía telemática a la dirección de correo electrónico que haya designado la persona solicitante a efectos de notificaciones en este formulario de solicitud. Los avisos de la puesta a disposición de la notificación a la Carpeta Ciudadana del <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=es' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> se enviarán a la dirección de correo que se han designado en los datos del declarante.",
+    "RESPONSIBLEDECLARATIONDESCRIPTION": "Lea las siguientes declaraciones responsables.",
+    "DOCUMENTATIONTITLE": "Documentación",
+    "DOCUMENTATIONDESCRIPTION": "Adjunte los documentos solicitados a continuación.",
+    "DOCUMENTATIONINFOFORMAT": "Para que se acepten los documentos adjuntados, estos deben ser del formato indicado posteriormente y con un máximo de tamaño de <strong>10MB</strong>. Además, a continuación, se indicarán algunas ayudas para realizar con facilidad dicha subida de documentos:",
+    "DOCUMENTATIONINFOCTRL": "Cuando los archivos <strong>no</strong> estén seguidos en la carpeta o no estén dentro de la misma carpeta, pulse la tecla <strong>CTRL</strong> y, sin soltar, marque con el ratón los archivos correspondientes.",
+    "DOCUMENTATIONINFOSHIFT": "Cuando los archivos <strong>si</strong> estén seguidos en la misma carpeta, pulse la tecla <strong>SHIFT</strong> y, sin soltar, y pulsando el ratón, marque el primer y el último archivo, de tal forma que se queden todos seleccionados."
+  },
+  "FORMERRORS": {
+    "COMMON": {
+      "NIF": "El DNI/NIE introducido no es válido.",
+      "CIF": "El CIF introducido no es válido.",
+      "COMPANYNAME": "El nombre o razón social introducido no es válido.",
+      "ADDRESS": "La dirección postal introducida no es válida.",
+      "ZIPCODE": "El código postal introducido no es válido.",
+      "CONTACTPHONE": "El teléfono de contacto introducido no es válido.",
+      "CNAECODE": "El código CNAE introducido no es válido.",
+      "NAMEREPRESENTANTE": "El nombre del representante legal introducido no es válido.",
+      "NIFREPRESENTANTE": "El DNI/NIE del representante legal introducido no es válido.",
+      "PHONEREPRESENTANTE": "El teléfono de contacto del representante legal introducido no es válido.",
+      "NOTIFICATIONPHONE": "El teléfono móvil introducido no es válido.",
+      "NOTIFICATIONEMAIL": "La dirección electrónica introducida no es válida.",
+      "FILE": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido."
+    },
+    "ISBA": {
+      "NOMBREENTIDAD": "El nombre de la entidad financiera introducido no es válido.",
+      "IMPORTEFINANCIERO": "El importe de la operación financiera introducido no es válido.",
+      "PLAZOFINANCIERO": "El plazo del préstamo introducido no es válido.",
+      "FORMALIZACIONAVAL": "La fecha de formalización del aval introducida no es válida.",
+      "PLAZOAVAL": "El plazo del aval introducido no es válido.",
+      "IMPORTEAVAL": "La cuantía del aval introducida no es válida.",
+      "PROPOSITOPROYECTO": "La finalidad de la inversión introducida no es válida.",
+      "IMPORTEPRESUPUESTO": "El importe del presupuesto introducido no es válido.",
+      "SUMASUBSNOIGUAL": "El total de las subvenciones no es igual al importe del presupuesto.",
+      "SUBVENCIONES": "La cuantía de subvención introducida no es válida.",
+      "SOLICITUDAYUDA": "El importe introducido no es válido.",
+      "DECLARACION5": "Los datos introducidos no son válidos."
+    }
   },
   "FILES": {
     "FILEINADR": "Este documento ya se encuentra en poder de la ADR Balears y no ha sufrido modificaciones (en este caso no hace falta aportarlo).",
@@ -92,164 +144,58 @@
     "PROGRAM_V": ""
   },
   "ILS": {
-    "RGPD": {
-      "TITLE": "RGPD y documentación",
-      "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
-      "REQUIRED-DOCS": {
-        "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación relacionada con el cumplimiento de los requisitos:",
-        "DOC-1": "Escritura de constitución de la empresa.",
-        "DOC-2": {
-          "PART-1": "El certificado de alta del ",
-          "PART-2": "industrial"
-        },
-        "DOC-3": "Informes de cálculo de la huella de carbono: <a href=''>Informe resumen</a> + <a href=''>Informe de inventario</a> de GEH según la norma ISO 14.064-1. o certificado de verificación ISO 14064-1.",
-        "DOC-4": "Compromiso de reducción de las emisiones de gases de efecto invernadero: <a href=''>Modelo de ejemplo</a>.",
-        "DOC-5": "Certificado itinerario formativo."
-      },
-      "OPTIONAL-DOCS": {
-        "INFO": "Otra documentación opcional:",
-        "DOC-1": "Memoria técnica de la actividad.",
-        "DOC-2": {
-          "PART-1": "El ",
-          "PART-2": " de la empresa."
-        },
-        "DOC-3": "Logotipo de la empresa en formato WEBP, JPEG o SVG."
-      },
-      "AUTHORIZATION": {
-        "INFO": {
-          "PART-1": "AUTORIZACIONES: ",
-          "PART-2": "la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que ",
-          "PART-3": " pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la ",
-          "PART-4": " y la ",
-          "PART-5": " excepto en caso de denegación expresa. En este caso, el beneficiario deberá aportar la siguiente documentación:"
-        },
-        "DOC-1": " del solicitante i/o de la persona autorizada y los documentos acreditativos, si es necesario.",
-        "DOC-2": "Certificado de estar al corriente de pago con la ",
-        "DOC-3": "Certificado de estar al corriente de pago con la "
-      },
-      "NOTIFICATION": {
-        "INFO": "Al finalizar de este asistente recibirá, por correo electrónico, un documento en formato PDF que contendrá:",
-        "DOC-1": "Una declaración responsable.",
-        "DOC-2": "Una solicitud de adhesión al programa ILS."
-      }
-    },
-    "GENERAL-DATA": {
-      "TITLE": "Datos del interesado",
-      "DESCRIPTION": "Introduzca algunos datos del interesado.",
-      "APPLICANT": {
-        "NIF": {
-          "LABEL": "DNI/NIE del solicitante",
-          "ERROR": "El DNI/NIE introducido no es válido."
-        },
-        "CIF": {
-          "LABEL": "CIF del solicitante",
-          "ERROR": "El CIF introducido no es válido."
-        }
-      },
-      "COMPANY-NAME": {
-        "LABEL": "Nombre o razón social",
-        "ERROR": "El nombre o razón social introducido no es válido."
-      },
-      "ADDRESS": {
-        "LABEL": "Dirección postal del solicitante",
-        "ERROR": "La dirección postal introducida no es válida."
-      },
-      "ZIPCODE": {
-        "LABEL": "Código postal del solicitante [cinco dígitos]",
-        "ERROR": "El código postal introducido no es válido."
-      },
-      "TOWN": "Población",
-      "CONTACT-PHONE": {
-        "LABEL": "Teléfono de contacto del solicitante",
-        "ERROR": "El teléfono de contacto introducido no es válido."
-      },
-      "CNAE-CODE": {
-        "LABEL": "Código CNAE",
-        "ERROR": "El código CNAE introducido no es válido."
-      },
-      "WEBSITE": "Sitio web de la empresa",
-      "PRESENTATION-VIDEO": "La URL del video de presentación de la empresa (publicado en Youtube o en Vimeo)",
-      "REPRESENTATIVE": {
-        "NAME": {
-          "LABEL": "Nombre del representante legal",
-          "ERROR": "El nombre del representante legal introducido no es válido."
-        },
-        "NIF": {
-          "LABEL": "DNI/NIE del representante legal",
-          "ERROR": "El DNI/NIE del representante legal introducido no es válido."
-        }
-      }
-    },
-    "NOTIFICATION-CHANNEL": {
-      "TITLE": "Canal de notificación",
-      "DESCRIPTION": "Introduzca sus datos de contacto para recibir notificaciones.",
-      "INFO": "De acuerdo con el apartado 17 de la convocatoria, las notificaciones y las comunicaciones a la persona solicitante se llevarán a cabo por vía telemática a la dirección de correo electrónico que haya designado la persona solicitante a efectos de notificaciones en este formulario de solicitud. Los avisos de la puesta a disposición de la notificación a la Carpeta Ciudadana del <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=es' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> se enviarán a la dirección de correo que se han designado en los datos del declarante.",
-      "PHONE": {
-        "LABEL": "Teléfono móvil del solicitante o del representante",
-        "ERROR": "El teléfono móvil introducido no es válido."
-      },
-      "EMAIL": {
-        "LABEL": "Dirección electrónica a efectos de notificaciones",
-        "ERROR": "La dirección electrónica introducida no es válida."
-      }
-    },
-    "AUTHORIZATIONS": {
-      "TITLE": "Autorizaciones",
-      "DESCRIPTION": "Indique su consentimiento/disconformidad en las siguientes autorizaciones.",
-      "AUTHORIZATION-NIF": {
-        "PART-1": "Doy mi consentimiento para que ",
-        "PART-2": " pueda comprobar de oficio la identificación de la persona solicitante y/o la persona autorizada para la empresa. En caso de denegación expresa del consentimiento, adjunto el ",
-        "PART-3": " del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario."
-      },
-      "AUTHORIZATION-ATIB": {
-        "PART-1": "Certificado de la ",
-        "PART-2": " de estar al corriente de las obligaciones tributarias con la comunidad autónoma de las Islas Baleares."
-      },
-      "NO-AUTHORIZATED": "Al estar en disconformidad, por favor, adjunte el archivo previamente indicado. [.pdf]"
-    },
-    "DECLARATIONS": {
-      "TITLE": "Declaración responsable",
-      "DESCRIPTION": "Lea las siguientes declaraciones responsables.",
-      "DECLARATION-1": "Que la empresa cuenta con una línea de producción activa en las Islas Baleares.",
-      "DECLARATION-2": "Que dispongo de la capacidad de representación suficiente, debidamente acreditada, para llevar a cabo la tramitación indicada.",
-      "DECLARATION-3": "Que la entidad beneficiaria está inscrita en el Registro Industrial o en el Registro Minero de las Islas Baleares, si procede.",
-      "DECLARATION-4": "Que los datos consignados en este documento son ciertos, que cumplo con todos los requisitos exigidos en la convocatoria, y que presento adjunta la documentación correspondiente, de acuerdo con la resolución de la convocatoria."
-    },
-    "DOCUMENTATION": {
-      "TITLE": "Documentación requerida y opcional",
-      "DESCRIPTION": "Adjunte los documentos solicitados a continuación.",
-      "INFO": {
-        "FORMAT-INFO": "Para que se acepten los documentos adjuntados, estos deben ser del formato indicado posteriormente y con un máximo de tamaño de <strong>10MB</strong>. Además, a continuación, se indicarán algunas ayudas para realizar con facilidad dicha subida de documentos:",
-        "CTRL-INFO": "Cuando los archivos <strong>no</strong> estén seguidos en la carpeta o no estén dentro de la misma carpeta, pulse la tecla <strong>CTRL</strong> y, sin soltar, marque con el ratón los archivos correspondientes.",
-        "SHIFT-INFO": "Cuando los archivos <strong>si</strong> estén seguidos en la misma carpeta, pulse la tecla <strong>SHIFT</strong> y, sin soltar, y pulsando el ratón, marque el primer y el último archivo, de tal forma que se queden todos seleccionados."
-      },
-      "REQUIRED": {
-        "INFO": "Documentación relacionada con el cumplimiento de los requisitos.",
-        "CONSTITUTION": "Escritura de constitución de la empresa. [.pdf]",
-        "BAT": {
-          "PART-1": "Certificado del ",
-          "PART-2": " actualizado. [.pdf]"
-        },
-        "INPUT-RADIO": {
-          "OPTION-1": "Presentar informes de cálculo de la huella de carbono: Informe resumen + Informe de inventario de GEH según la norma ISO 14.064-1.",
-          "OPTION-2": "Presentar certificado de verificación ISO 14064-1."
-        },
-        "SUMMARY": "Informe resumen de la huella de carbono. [.pdf]",
-        "INVENTORY": "Informe de inventario de GEH según la norma ISO 14.064-1. [.pdf]",
-        "ISO-VERIFICATION": "Certificado de verificación ISO 14064-1. [.pdf]",
-        "GREENHOUSE-REDUCTION": "Compromiso de reducción de las emisiones de gases del efecto invernadero. [.pdf]",
-        "TRAINING-ITINERARY": "Certificado de haber realizado el itinerario formativo. [.pdf]"
-      },
-      "OPTIONAL": {
-        "INFO": "Otra documentación opcional",
-        "TECHNICAL-MEMORY": "Documento descriptivo de la empresa y de su actividad. [.pdf]",
-        "CIF": {
-          "PART-1": "El ",
-          "PART-2": " de la empresa. [.pdf]"
-        },
-        "LOGO": "Logotipo de la empresa que aparecerá en nuestro apartado de empresas adheridas. [.webp, .jpeg, .svg]"
-      }
-    }
+    "REQUIREDDOCINFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación relacionada con el cumplimiento de los requisitos:",
+    "REQUIREDDOC1": "Escritura de constitución de la empresa.",
+    "REQUIREDDOC2PART1": "El certificado de alta del ",
+    "REQUIREDDOC2PART2": "industrial",
+    "REQUIREDDOC3": "Informes de cálculo de la huella de carbono: <a href=''>Informe resumen</a> + <a href=''>Informe de inventario</a> de GEH según la norma ISO 14.064-1. o certificado de verificación ISO 14064-1.",
+    "REQUIREDDOC4": "Compromiso de reducción de las emisiones de gases de efecto invernadero: <a href=''>Modelo de ejemplo</a>.",
+    "REQUIREDDOC5": "Certificado itinerario formativo.",
+    "OPTIONALDOCINFO": "Otra documentación opcional:",
+    "OPTIONALDOC1": "Memoria técnica de la actividad.",
+    "OPTIONALDOC2PART1": "El ",
+    "OPTIONALDOC2PART2": " de la empresa.",
+    "OPTIONALDOC3": "Logotipo de la empresa en formato WEBP, JPEG o SVG.",
+    "AUTHORIZATIONPART1": "AUTORIZACIONES: ",
+    "AUTHORIZATIONPART2": "la solicitud implica la autorización (artículo 28.2 de la Ley 39/2015) para que ",
+    "AUTHORIZATIONPART3": " pueda comprobar de oficio que el solicitante está al corriente de las obligaciones con la ",
+    "AUTHORIZATIONPART4": " y la ",
+    "AUTHORIZATIONPART5": " excepto en caso de denegación expresa. En este caso, el beneficiario deberá aportar la siguiente documentación:",
+    "AUTHORIZATIONDOC1": " del solicitante i/o de la persona autorizada y los documentos acreditativos, si es necesario.",
+    "AUTHORIZATIONDOC2": "Certificado de estar al corriente de pago con la ",
+    "AUTHORIZATIONDOC3": "Certificado de estar al corriente de pago con la ",
+    "NOTIFICATIONINFO": "Al finalizar de este asistente recibirá, por correo electrónico, un documento en formato PDF que contendrá:",
+    "NOTIFICATIONDOC1": "Una declaración responsable.",
+    "NOTIFICATIONDOC2": "Una solicitud de adhesión al programa ILS.",
+    "WEBSITE": "Sitio web de la empresa",
+    "PRESENTATIONVIDEO": "La URL del video de presentación de la empresa (publicado en Youtube o en Vimeo)",
+    "AUTHORIZATIONDESCRIPTION": "Indique su consentimiento/disconformidad en las siguientes autorizaciones.",
+    "AUTHORIZATIONNIFPART1": "Doy mi consentimiento para que ",
+    "AUTHORIZATIONNIFPART2": " pueda comprobar de oficio la identificación de la persona solicitante y/o la persona autorizada para la empresa. En caso de denegación expresa del consentimiento, adjunto el ",
+    "AUTHORIZATIONNIFPART3": " del solicitante y/o de la persona autorizada y los documentos acreditativos, si es necesario.",
+    "AUTHORIZATIONATIBPART1": "Certificado de la ",
+    "AUTHORIZATIONATIBPART2": " de estar al corriente de las obligaciones tributarias con la comunidad autónoma de las Islas Baleares.",
+    "NOAUTHORIZATED": "Al estar en disconformidad, por favor, adjunte el archivo previamente indicado. [.pdf]",
+    "DECLARATION1": "Que la empresa cuenta con una línea de producción activa en las Islas Baleares.",
+    "DECLARATION2": "Que dispongo de la capacidad de representación suficiente, debidamente acreditada, para llevar a cabo la tramitación indicada.",
+    "DECLARATION3": "Que la entidad beneficiaria está inscrita en el Registro Industrial o en el Registro Minero de las Islas Baleares, si procede.",
+    "DECLARATION4": "Que los datos consignados en este documento son ciertos, que cumplo con todos los requisitos exigidos en la convocatoria, y que presento adjunta la documentación correspondiente, de acuerdo con la resolución de la convocatoria.",
+    "REQUIREDDOCUMENTATIONINFO": "Documentación relacionada con el cumplimiento de los requisitos.",
+    "CONSTITUTION": "Escritura de constitución de la empresa. [.pdf]",
+    "BATPART1": "Certificado del ",
+    "BATPART2": " actualizado. [.pdf]",
+    "INPUTRADIO1": "Presentar informes de cálculo de la huella de carbono: Informe resumen + Informe de inventario de GEH según la norma ISO 14.064-1.",
+    "INPUTRADIO2": "Presentar certificado de verificación ISO 14064-1.",
+    "SUMMARY": "Informe resumen de la huella de carbono. [.pdf]",
+    "INVENTORY": "Informe de inventario de GEH según la norma ISO 14.064-1. [.pdf]",
+    "ISOVERIFICATION": "Certificado de verificación ISO 14064-1. [.pdf]",
+    "GREENHOUSEREDUCTION": "Compromiso de reducción de las emisiones de gases del efecto invernadero. [.pdf]",
+    "TRAININGITINERARY": "Certificado de haber realizado el itinerario formativo. [.pdf]",
+    "OPTIONALDOCUMENTATIONINFO": "Otra documentación opcional",
+    "TECHNICALMEMORY": "Documento descriptivo de la empresa y de su actividad. [.pdf]",
+    "CIFPART1": "El ",
+    "CIFPART2": " de la empresa. [.pdf]",
+    "LOGO": "Logotipo de la empresa que aparecerá en nuestro apartado de empresas adheridas. [.webp, .jpeg, .svg]"
   },
   "ISBA": {
     "TITLE": "Ayudas a los gastos financieros a través del aval de ISBA",
@@ -260,255 +206,96 @@
       "SIA-CODE": "<strong>Código SIA:</strong> 3153714",
       "PROCEDURE": "<strong>Trámite o procedimiento:</strong> Solicitud de ayudas a la microempresa, pequeña y mediana empresa de carácter industrial de las Illes Balears que tengan aprobadas operaciones financieras avaladas por ISBA SGR, para cubrir los gastos financieros de operaciones de financiación de inversiones productivas, eficiencia energética y transformación digital previstas en el Plan Estratégico Industrial 2018-2025."
     },
-    "RGPD": {
-      "TITLE": "RGPD y documentación",
-      "DESCRIPTION": "Condiciones del RGPD y documentación requerida.",
-      "REQUIRED-DOCS": {
-        "INFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación:",
-        "DOC-1": "El documento normalizado de solicitud de subvención de esta convocatoria, el cual se genera al final de este asistente al pulsar sobre el botón 'Enviar' y que recibirá por correo electrónico.",
-        "DOC-2": "Descripción de la empresa y su actividad, modelo de negocio y detalle de la inversión/inversiones previstas.",
-        "DOC-3": "Declaración responsable de la veracidad de los datos bancarios aportados que se encuentra incluido en la solicitud de la ayuda.",
-        "DOC-4": {
-          "PART-1": "Certificado del ",
-          "PART-2": " actualizado en el momento de la solicitud."
-        },
-        "DOC-5": {
-          "INFO": "En caso de que el solicitante sea una persona física, se requerirá:",
-          "DOC": "El certificado de estar en el régimen especial de trabajadores autónomos o en un régimen alternativo equivalente."
-        },
-        "DOC-6": {
-          "INFO": "En caso de que el solicitante sea una persona jurídica, se requerirá:",
-          "DOC-1": "Escritura pública y estatutos, debidamente inscritos en el registro correspondiente.",
-          "DOC-2": "Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante. La representación podrá acreditarse por cualquier forma válida en derecho."
-        },
-        "DOC-7": "Respecto al DNI/NIE de la persona solicitante y/o de la persona que le represente, la solicitud de ayudas implicará la autorización para que el ADR Balears pueda comprobar de oficio sus datos de identidad personal. En caso de denegación expresa del consentimiento, será necesario aportar esta documentación.",
-        "DOC-8": {
-          "PART-1": "Respecto a la acreditación de las obligaciones tributarias autonómicas con la ",
-          "PART-2": " y de las obligaciones con la Seguridad Social, la solicitud de ayudas implicará la autorización para que ",
-          "PART-3": " pueda obtener de la ",
-          "PART-4": " y de la ",
-          "PART-5": " la información relativa al cumplimiento de estas obligaciones, excepto en caso de denegación expresa del consentimiento, supuesto en el que la persona o la entidad solicitante debe aportar el certificado correspondiente, junto con la solicitud de las ayudas."
-        },
-        "DOC-9": "En cuanto a la acreditación del requisito de estar al corriente de las obligaciones tributarias con la Agencia Estatal de la Administración Tributaria, deberá aportarse el certificado acreditativo del cumplimiento de esta obligación.",
-        "DOC-10": "Para ayudas de importe superior a 30.000 €, deberá aportarse el certificado que establece el artículo 13.3 bis de la Ley 38/2003 de 17 de noviembre.",
-        "DOC-11": "El certificado de la sociedad de garantía recíproca que avale la operación financiera que acredite la fecha de entrada de la solicitud del beneficiario de petición del aval sobre la operación financiera a subvencionar.",
-        "DOC-12": "El contrato de la operación financiera.",
-        "DOC-13": "El contrato o documento de aval de la operación financiera.",
-        "DOC-14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente."
-      },
-      "NOTIFICATION": {
-        "INFO": "Al finalizar este trámite, recibirá por correo electrónico un documento pdf que contendrá:",
-        "DOC-1": "El documento normalizado de solicitud de subvención de esta convocatoria.",
-        "DOC-2": "Una Declaración responsable de la persona titular de la empresa o de quien la representa legalmente."
-      }
-    },
-    "GENERAL-DATA": {
-      "TITLE": "Datos del interesado",
-      "DESCRIPTION": "Introduzca algunos datos del interesado.",
-      "APPLICANT": {
-        "NIF": {
-          "LABEL": "DNI/NIE del solicitante",
-          "ERROR": "El DNI/NIE introducido no es válido."
-        },
-        "CIF": {
-          "LABEL": "CIF del solicitante",
-          "ERROR": "El CIF introducido no es válido."
-        }
-      },
-      "COMPANY-NAME": {
-        "LABEL": "Nombre o razón social",
-        "ERROR": "El nombre o razón social introducido no es válido."
-      },
-      "ADDRESS": {
-        "LABEL": "Dirección postal del solicitante",
-        "ERROR": "La dirección postal introducida no es válida."
-      },
-      "ZIPCODE": {
-        "LABEL": "Código postal del solicitante [cinco dígitos]",
-        "ERROR": "El código postal introducido no es válido."
-      },
-      "TOWN": "Población",
-      "CONTACT-PHONE": {
-        "LABEL": "Teléfono de contacto del solicitante",
-        "ERROR": "El teléfono de contacto introducido no es válido."
-      },
-      "CNAE-CODE": {
-        "LABEL": "Código CNAE",
-        "ERROR": "El código CNAE introducido no es válido."
-      },
-      "REPRESENTATIVE": {
-        "NAME": {
-          "LABEL": "Nombre del representante legal",
-          "ERROR": "El nombre del representante legal introducido no es válido."
-        },
-        "NIF": {
-          "LABEL": "DNI/NIE del representante legal",
-          "ERROR": "El DNI/NIE del representante legal introducido no es válido."
-        },
-        "PHONE": {
-          "LABEL": "Teléfono de contacto del representante legal",
-          "ERROR": "El teléfono de contacto del representante legal introducido no es válido."
-        }
-      }
-    },
-    "NOTIFICATION-CHANNEL": {
-      "TITLE": "Canal de notificación",
-      "DESCRIPTION": "Introduzca sus datos de contacto para recibir notificaciones.",
-      "INFO": "De acuerdo con el apartado 17 de la convocatoria, las notificaciones y las comunicaciones a la persona solicitante se llevarán a cabo por vía telemática a la dirección de correo electrónico que haya designado la persona solicitante a efectos de notificaciones en este formulario de solicitud. Los avisos de la puesta a disposición de la notificación a la Carpeta Ciudadana del <a href='https://carpetaciudadana.gob.es/carpeta/clave.htm?idioma=es' target='_blank'>Punto de Acceso General electrónico (Mi carpeta)</a> se enviarán a la dirección de correo que se han designado en los datos del declarante.",
-      "PHONE": {
-        "LABEL": "Teléfono móvil del solicitante o del representante",
-        "ERROR": "El teléfono móvil introducido no es válido."
-      },
-      "EMAIL": {
-        "LABEL": "Dirección electrónica a efectos de notificaciones",
-        "ERROR": "La dirección electrónica introducida no es válida."
-      }
-    },
-    "FINANCIAL-DATA": {
-      "TITLE": "Datos de la operación financiera",
-      "DESCRIPTION": "Introduzca algunos datos de la operación financiera.",
-      "ENTITY-NAME": {
-        "LABEL": "Nombre de la entidad financiera",
-        "ERROR": "El nombre de la entidad financiera introducido no es válido."
-      },
-      "TRANSACTION-AMOUNT": {
-        "LABEL": "Importe de la operación financiera (€)",
-        "ERROR": "El importe de la operación financiera introducido no es válido."
-      },
-      "LOAN-TERM": {
-        "LABEL": "Plazo del préstamo de la entidad financiera (en años)",
-        "ERROR": "El plazo del préstamo introducido no es válido."
-      },
-      "FORMALIZATION-DATE": {
-        "LABEL": "Fecha de formalización del aval",
-        "ERROR": "La fecha de formalización del aval introducida no es válida."
-      },
-      "AVAL-TERM": {
-        "LABEL": "Plazo del aval de ISBA, SGR (en años)",
-        "ERROR": "El plazo del aval introducido no es válido."
-      },
-      "AVAL-AMOUNT": {
-        "LABEL": "Cuantía del aval de ISBA, SGR (€)",
-        "ERROR": "La cuantía del aval introducida no es válida."
-      }
-    },
-    "PROJECT-BUDGET": {
-      "TITLE": "Proyecto de inversión y presupuesto",
-      "DESCRIPTION": "Introduzca algunos datos sobre la inversión y su presupuesto.",
-      "PURPOSE": {
-        "LABEL": "Finalidad de la inversión",
-        "ERROR": "La finalidad de la inversión introducida no es válida."
-      },
-      "IN-ILS": {
-        "LABEL": "En el momento de la solicitud, ¿su empresa está adherida al programa ILS?",
-        "YES": "Si",
-        "NO": "No",
-        "YES-INFO": "En el supuesto de que la empresa solicitante esté adherida al programa ILS (Industria Local Sostenible): El importe de la ayuda para cubrir el coste del aval de las operaciones financieras de inversiones productivas cubrirá los siete años de la operación original, y son: el 100% del coste del aval los siete años de la operación, con la limitación del 1,25% sobre el importe del aval."
-      },
-      "BUDGET-AMOUNT": {
-        "LABEL": "Importe del presupuesto (IVA incluido)",
-        "ERROR": "El importe del presupuesto introducido no es válido.",
-        "DETAILS": "Con las siguientes subvenciones:",
-        "INTEREST-SUBSIDY": "Una subvención de intereses, consistente en la cuantía de",
-        "COST-SUBSIDY": "Una subvención al coste del aval de ISBA, consistente en la cuantía de",
-        "START-STUDY-SUBSIDY": "Una subvención a los gastos de apertura y de estudio, consistente en la cuantía de",
-        "NOT-EQUAL-SUM-ERROR": "El total de las subvenciones no es igual al importe del presupuesto."
-      },
-      "REQUEST": {
-        "TITLE": "SOLICITO",
-        "INFO": "De acuerdo con la convocatoria para el año 2025 de ayudas a las empresas industriales con actividad en las Islas Baleares para cubrir las comisiones de apertura y de estudio, los intereses y el coste del aval para operaciones de financiación de inversiones productivas, aprobada por Resolución del consejero de Empresa, Ocupación y Energía, los importes correspondientes para la operación, avalada por sociedad de garantía recíproca ISBA, siguiente:",
-        "LABEL": "Solicito una ayuda por importe de",
-        "ERROR": "El importe introducido no es válido."
-      },
-      "SUBSIDY-ERROR": "La cuantía de subvención introducida no es válida."
-    },
-    "DECLARATIONS": {
-      "TITLE": "Declaración responsable",
-      "DESCRIPTION": "Lea las siguientes declaraciones responsables.",
-      "INFO": "Declaro:",
-      "DECLARATION-1": "La veracidad de los datos aportados en esta solicitud.",
-      "DECLARATION-2": "Que el solicitante cumple los requisitos de pequeña o mediana empresa, de acuerdo con el anexo 1 del Reglamento (UE) núm. 651/2014 de la Comisión, de 17 de junio de 2014 por el que se declaran determinadas categorías de ayuda compatibles con el mercado interior en aplicación de los artículos 107 y 108 del Tratado, cumple con los requisitos para ser considerado una pyme.",
-      "DECLARATION-3": "Que la persona o entidad beneficiaria no está sometida a ninguna causa de prohibición o de incompatibilidad para recibir la ayuda según la legislación vigente y que el solicitante no ha sido sancionado o condenado por resolución administrativa o sentencia judicial firme por discriminación salarial, acoso moral o cualquier tipo de trato desigual, por razón de sexo, en el ámbito de las relaciones laborales.",
-      "DECLARATION-4": "Que el solicitante va a llevar a cabo la actividad de inversión, así como la justificación de la realización de la actividad y el cumplimiento de los requisitos y condiciones que determinan la concesión de la subvención.",
-      "DECLARATION-5": "Que no ha solicitado o recibido ninguna otra ayuda de cualquier entidad, pública o privada, nacional o extranjera, relacionada con la operación financiera o con el proyecto de inversión; o, en caso contrario, relación de todas las ayudas y las subvenciones solicitadas o recibidas.",
-      "DECLARATION-5-NO": {
-        "LABEL": "Relación de todas las ayudas y subvenciones solicitadas o recibidas",
-        "ERROR": "Los datos introducidos no son válidos."
-      },
-      "DECLARATION-6": "Que el solicitante cumple con el reglamento (UE) n.º 1407/2013 de la Comisión de 18 de diciembre de 2013, relativo a la aplicación de los artículos 107 y 108 del Tratado de Funcionamiento de la Unión Europea de las ayudas de minimis.",
-      "DECLARATION-7": "Que el solicitante ha declarado las ayudas recibidas durante el ejercicio fiscal en curso y los dos ejercicios fiscales anteriores.",
-      "DECLARATION-8": "Que el solicitante tiene el cumplimiento de la capacidad de representación suficiente, debidamente acreditada, para realizar la tramitación indicada.",
-      "DECLARATION-9": "Que en el caso de ser una persona autónoma, el solicitante cumple el requisito relativo a la no participación superior al 25% de una o varias empresas, o de lo contrario señalar que es una empresa 'asociada' o una empresa 'vinculada' y que informa de las participaciones del 25% o más del capital social o de los derechos de voto en otras empresas en los términos establecidos en el artículo 3 del anexo 1 del reglamento (UE) núm. 651/2014 de la Comisión, de 17 de junio de 2014. En caso de ser empresa, empresa 'asociada' o una empresa 'vinculada', declara que el grupo de empresas resultante considerado 'única empresa' sigue cumpliendo con los requisitos para ser una PYME, tal como se indica en la definición del apartado 2.3 de esta convocatoria.",
-      "DECLARATION-10": "Que, en la fecha de la solicitud, está al corriente de los pagos de sus obligaciones tributarias con la Administración del Estado, la administración de la Comunidad Autónoma de las Illes Balears, así como al corriente de los pagos de sus obligaciones tributarias con la Seguridad Social.",
-      "DECLARATION-11": "Que el solicitante va a llevar a cabo la actividad de inversión en un centro de trabajo de la Comunidad autónoma de las Illes Balears, así como la justificación de la realización de la actividad y el cumplimiento de los requisitos y condiciones que determinan la concesión de la subvención.",
-      "DECLARATION-12": "Que para ayudas de importe superior a 30.000€ de acuerdo con la Ley 28/2003, de 17 de noviembre, General de Subvenciones; el solicitante cumple con los plazos previstos en la Ley 3/2004 de 29 de diciembre, por la que se establecen medidas de lucha contra la morosidad en las operaciones Comerciales.",
-      "DECLARATION-13": "Que el solicitante cumple con las condiciones de la convocatoria."
-    },
-    "DOCUMENTATION": {
-      "TITLE": "Documentación",
-      "DESCRIPTION": "Adjunte los documentos solicitados a continuación.",
-      "INFO": {
-        "FORMAT-INFO": "Para que se acepten los documentos adjuntados, estos deben ser del formato indicado posteriormente y con un máximo de tamaño de <strong>10MB</strong>. Además, a continuación, se indicarán algunas ayudas para realizar con facilidad dicha subida de documentos:",
-        "CTRL-INFO": "Cuando los archivos <strong>no</strong> estén seguidos en la carpeta o no estén dentro de la misma carpeta, pulse la tecla <strong>CTRL</strong> y, sin soltar, marque con el ratón los archivos correspondientes.",
-        "SHIFT-INFO": "Cuando los archivos <strong>si</strong> estén seguidos en la misma carpeta, pulse la tecla <strong>SHIFT</strong> y, sin soltar, y pulsando el ratón, marque el primer y el último archivo, de tal forma que se queden todos seleccionados."
-      },
-      "DOC-1": "El documento normalizado de solicitud de subvención de esta convocatoria, el cual se genera al enviar esta solicitud.",
-      "DOC-2": "Descripción de la empresa y su actividad y detalle de la inversión/inversiones previstas. [.pdf, .jpeg, .png]",
-      "DOC-3": "Declaración responsable de la veracidad de los datos bancarios según modelo CAIB. [.pdf, .jpeg, .png]",
-      "DOC-4": "Certificado del IAE actualizado en el momento de la solicitud. [.pdf, .jpeg, .png]",
-      "DOC-5": {
-        "TITLE": "<strong>Persona física</strong>:",
-        "DOC": "Certificado de estar en el régimen especial de trabajadores autónomos o en un régimen alternativo equivalente. [.pdf, .jpeg, .png]"
-      },
-      "DOC-6": {
-        "TITLE": "<strong>Persona jurídica:</strong>",
-        "DOC-1": "Escritura pública y estatutos, debidamente inscritos en el registro correspondiente.",
-        "DOC-2": "Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante. La representación podrá acreditarse por cualquier forma válida en derecho.",
-        "LABEL": "Documentación de persona jurídica. [.pdf, .jpeg, .png]"
-      },
-      "DOC-7": {
-        "DOC-INFO": "Respecto al DNI/NIE de la persona solicitante y/o de la persona que le represente, la solicitud de ayudas implicará la autorización para que ADR Balears pueda comprobar de oficio sus datos de identidad personal. En caso de denegación expresa del consentimiento, será necesario aportar esta documentación.",
-        "LABEL": "DNI/NIE de la persona solicitante y/o de la persona que le represente. [.pdf, .jpeg, .png]"
-      },
-      "DOC-8": {
-        "DOC-INFO": "Respecto a la acreditación de las obligaciones tributarias autonómicas con la Agencia Tributaria de las Illes Balears y de las obligaciones con la Seguridad Social, la solicitud de ayudas implicará la autorización para que ADR Balears pueda obtener de la Agencia Tributaria de las Illes Balears y de la Tesorería General de la Seguridad Social la información relativa al cumplimiento de estas obligaciones, excepto en caso de denegación expresa del consentimiento, supuesto en el que la persona o la entidad solicitante deberá aportar el certificado correspondiente.",
-        "LABEL": "Certificado cumplimiento de las obligaciones tributarias de ATIB y Seguridad Social. [.pdf, .jpeg, .png]"
-      },
-      "DOC-9": "Certificado de estar al corriente de las obligaciones tributarias con la Agencia Estatal de la Administración Tributaria (AEAT). [.pdf, .jpeg, .png]",
-      "DOC-10": "Para ayudas de importe superior a 30.000€, adjuntar el certificado que establece el artículo 13.3 bis de la Ley 38/2003 de 17 de noviembre. [.pdf, .jpeg, .png]",
-      "DOC-11": "El certificado de la sociedad de garantía recíproca que avale la operación financiera que acredite la fecha de entrada de la solicitud del beneficiario de petición del aval sobre la operación financiera a subvencionar. [.pdf, .jpeg, .png]",
-      "DOC-12": "Contrato de la operación financiera. [.pdf, ,jpeg, .png]",
-      "DOC-13": "Contrato o documento de aval de la operación financiera. [.pdf, .jpeg, .png]",
-      "DOC-14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente, la cual se genera al enviar esta solicitud."
-    }
+    "REQUIREDDOCINFO": "Antes de empezar, es recomendable tener preparada la siguiente documentación:",
+    "REQUIREDDOC1": "El documento normalizado de solicitud de subvención de esta convocatoria, el cual se genera al final de este asistente al pulsar sobre el botón 'Enviar' y que recibirá por correo electrónico.",
+    "REQUIREDDOC2": "Descripción de la empresa y su actividad, modelo de negocio y detalle de la inversión/inversiones previstas.",
+    "REQUIREDDOC3": "Declaración responsable de la veracidad de los datos bancarios aportados que se encuentra incluido en la solicitud de la ayuda.",
+    "REQUIREDDOC4PART1": "Certificado del ",
+    "REQUIREDDOC4PART2": " actualizado en el momento de la solicitud.",
+    "REQUIREDDOC5INFO": "En caso de que el solicitante sea una persona física, se requerirá:",
+    "REQUIREDDOC5DOC": "El certificado de estar en el régimen especial de trabajadores autónomos o en un régimen alternativo equivalente.",
+    "REQUIREDDOC6INFO": "En caso de que el solicitante sea una persona jurídica, se requerirá:",
+    "REQUIREDDOC6DOC1": "Escritura pública y estatutos, debidamente inscritos en el registro correspondiente.",
+    "REQUIREDDOC6DOC2": "Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante. La representación podrá acreditarse por cualquier forma válida en derecho.",
+    "REQUIREDDOC7": "Respecto al DNI/NIE de la persona solicitante y/o de la persona que le represente, la solicitud de ayudas implicará la autorización para que el ADR Balears pueda comprobar de oficio sus datos de identidad personal. En caso de denegación expresa del consentimiento, será necesario aportar esta documentación.",
+    "REQUIREDDOC8PART1": "Respecto a la acreditación de las obligaciones tributarias autonómicas con la ",
+    "REQUIREDDOC8PART2": " y de las obligaciones con la Seguridad Social, la solicitud de ayudas implicará la autorización para que ",
+    "REQUIREDDOC8PART3": " pueda obtener de la ",
+    "REQUIREDDOC8PART4": " y de la ",
+    "REQUIREDDOC8PART5": " la información relativa al cumplimiento de estas obligaciones, excepto en caso de denegación expresa del consentimiento, supuesto en el que la persona o la entidad solicitante debe aportar el certificado correspondiente, junto con la solicitud de las ayudas.",
+    "REQUIREDDOC9": "En cuanto a la acreditación del requisito de estar al corriente de las obligaciones tributarias con la Agencia Estatal de la Administración Tributaria, deberá aportarse el certificado acreditativo del cumplimiento de esta obligación.",
+    "REQUIREDDOC10": "Para ayudas de importe superior a 30.000 €, deberá aportarse el certificado que establece el artículo 13.3 bis de la Ley 38/2003 de 17 de noviembre.",
+    "REQUIREDDOC11": "El certificado de la sociedad de garantía recíproca que avale la operación financiera que acredite la fecha de entrada de la solicitud del beneficiario de petición del aval sobre la operación financiera a subvencionar.",
+    "REQUIREDDOC12": "El contrato de la operación financiera.",
+    "REQUIREDDOC13": "El contrato o documento de aval de la operación financiera.",
+    "REQUIREDDOC14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente.",
+    "NOTIFICATIONINFO": "Al finalizar este trámite, recibirá por correo electrónico un documento pdf que contendrá:",
+    "NOTIFICATIONDOC1": "El documento normalizado de solicitud de subvención de esta convocatoria.",
+    "NOTIFICATIONDOC2": "Una Declaración responsable de la persona titular de la empresa o de quien la representa legalmente.",
+    "PHONEREPRESENTANTE": "Teléfono del representante legal",
+    "FINANCIALDATA": "Datos de la operación financiera",
+    "FINANCIALDATADESCRIPTION": "Introduzca algunos datos de la operación financiera.",
+    "ENTITYNAME": "Nombre de la entidad financiera",
+    "TRANSACTIONAMOUNT": "Importe de la operación financiera (€)",
+    "LOANTERM": "Plazo del préstamo de la entidad financiera (en años)",
+    "FORMALIZATIONDATE": "Fecha de formalización del aval",
+    "AVALTERM": "Plazo del aval de ISBA, SGR (en años)",
+    "AVALAMOUNT": "Cuantía del aval de ISBA, SGR (€)",
+    "PROJECTBUDGET": "Proyecto de inversión y presupuesto",
+    "PROJECTBUDGETDESCRIPTION": "Introduzca algunos datos sobre la inversión y su presupuesto.",
+    "PROJECTPURPOSE": "Finalidad de la inversión",
+    "PROJECTINILS": "En el momento de la solicitud, ¿su empresa está adherida al programa ILS?",
+    "INILSYESINFO": "En el supuesto de que la empresa solicitante esté adherida al programa ILS (Industria Local Sostenible): El importe de la ayuda para cubrir el coste del aval de las operaciones financieras de inversiones productivas cubrirá los siete años de la operación original, y son: el 100% del coste del aval los siete años de la operación, con la limitación del 1,25% sobre el importe del aval.",
+    "BUDGETAMOUNT": "Importe del presupuesto (IVA incluido)",
+    "BUDGETAMOUNTDETAILS": "Con las siguientes subvenciones:",
+    "INTERESTSUBSIDY": "Una subvención de intereses, consistente en la cuantía de",
+    "COSTSUBSIDY": "Una subvención al coste del aval de ISBA, consistente en la cuantía de",
+    "STARTSTUDYSUBSIDY": "Una subvención a los gastos de apertura y de estudio, consistente en la cuantía de",
+    "REQUEST": "Solicito una ayuda por importe de",
+    "REQUESTINFO": "De acuerdo con la convocatoria para el año 2025 de ayudas a las empresas industriales con actividad en las Islas Baleares para cubrir las comisiones de apertura y de estudio, los intereses y el coste del aval para operaciones de financiación de inversiones productivas, aprobada por Resolución del consejero de Empresa, Ocupación y Energía, los importes correspondientes para la operación, avalada por sociedad de garantía recíproca ISBA, siguiente:",
+    "REQUESTTITLE": "SOLICITO",
+    "DECLARATIONINFO": "Declaro: ",
+    "DECLARATION1": "La veracidad de los datos aportados en esta solicitud.",
+    "DECLARATION2": "Que el solicitante cumple los requisitos de pequeña o mediana empresa, de acuerdo con el anexo 1 del Reglamento (UE) núm. 651/2014 de la Comisión, de 17 de junio de 2014 por el que se declaran determinadas categorías de ayuda compatibles con el mercado interior en aplicación de los artículos 107 y 108 del Tratado, cumple con los requisitos para ser considerado una pyme.",
+    "DECLARATION3": "Que la persona o entidad beneficiaria no está sometida a ninguna causa de prohibición o de incompatibilidad para recibir la ayuda según la legislación vigente y que el solicitante no ha sido sancionado o condenado por resolución administrativa o sentencia judicial firme por discriminación salarial, acoso moral o cualquier tipo de trato desigual, por razón de sexo, en el ámbito de las relaciones laborales.",
+    "DECLARATION4": "Que el solicitante va a llevar a cabo la actividad de inversión, así como la justificación de la realización de la actividad y el cumplimiento de los requisitos y condiciones que determinan la concesión de la subvención.",
+    "DECLARATION5": "Que no ha solicitado o recibido ninguna otra ayuda de cualquier entidad, pública o privada, nacional o extranjera, relacionada con la operación financiera o con el proyecto de inversión; o, en caso contrario, relación de todas las ayudas y las subvenciones solicitadas o recibidas.",
+    "DECLARATION5NO": "Relación de todas las ayudas y subvenciones solicitadas o recibidas",
+    "DECLARATION6": "Que el solicitante cumple con el reglamento (UE) n.º 1407/2013 de la Comisión de 18 de diciembre de 2013, relativo a la aplicación de los artículos 107 y 108 del Tratado de Funcionamiento de la Unión Europea de las ayudas de minimis.",
+    "DECLARATION7": "Que el solicitante ha declarado las ayudas recibidas durante el ejercicio fiscal en curso y los dos ejercicios fiscales anteriores.",
+    "DECLARATION8": "Que el solicitante tiene el cumplimiento de la capacidad de representación suficiente, debidamente acreditada, para realizar la tramitación indicada.",
+    "DECLARATION9": "Que en el caso de ser una persona autónoma, el solicitante cumple el requisito relativo a la no participación superior al 25% de una o varias empresas, o de lo contrario señalar que es una empresa 'asociada' o una empresa 'vinculada' y que informa de las participaciones del 25% o más del capital social o de los derechos de voto en otras empresas en los términos establecidos en el artículo 3 del anexo 1 del reglamento (UE) núm. 651/2014 de la Comisión, de 17 de junio de 2014. En caso de ser empresa, empresa 'asociada' o una empresa 'vinculada', declara que el grupo de empresas resultante considerado 'única empresa' sigue cumpliendo con los requisitos para ser una PYME, tal como se indica en la definición del apartado 2.3 de esta convocatoria.",
+    "DECLARATION10": "Que, en la fecha de la solicitud, está al corriente de los pagos de sus obligaciones tributarias con la Administración del Estado, la administración de la Comunidad Autónoma de las Illes Balears, así como al corriente de los pagos de sus obligaciones tributarias con la Seguridad Social.",
+    "DECLARATION11": "Que el solicitante va a llevar a cabo la actividad de inversión en un centro de trabajo de la Comunidad autónoma de las Illes Balears, así como la justificación de la realización de la actividad y el cumplimiento de los requisitos y condiciones que determinan la concesión de la subvención.",
+    "DECLARATION12": "Que para ayudas de importe superior a 30.000€ de acuerdo con la Ley 28/2003, de 17 de noviembre, General de Subvenciones; el solicitante cumple con los plazos previstos en la Ley 3/2004 de 29 de diciembre, por la que se establecen medidas de lucha contra la morosidad en las operaciones Comerciales.",
+    "DECLARATION13": "Que el solicitante cumple con las condiciones de la convocatoria.",
+    "DOC1": "El documento normalizado de solicitud de subvención de esta convocatoria, el cual se genera al enviar esta solicitud.",
+    "DOC2": "Descripción de la empresa y su actividad y detalle de la inversión/inversiones previstas. [.pdf, .jpeg, .png]",
+    "DOC3": "Declaración responsable de la veracidad de los datos bancarios según modelo CAIB. [.pdf, .jpeg, .png]",
+    "DOC4": "Certificado del IAE actualizado en el momento de la solicitud. [.pdf, .jpeg, .png]",
+    "DOC5TITLE": "<strong>Persona física</strong>:",
+    "DOC5DOC": "Certificado de estar en el régimen especial de trabajadores autónomos o en un régimen alternativo equivalente. [.pdf, .jpeg, .png]",
+    "DOC6TITLE": "<strong>Persona jurídica:</strong>",
+    "DOC6DOC1": "Escritura pública y estatutos, debidamente inscritos en el registro correspondiente.",
+    "DOC6DOC2": "Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante. La representación podrá acreditarse por cualquier forma válida en derecho.",
+    "DOC6LABEL": "Documentación de persona jurídica. [.pdf, .jpeg, .png]",
+    "DOC7INFO": "Respecto al DNI/NIE de la persona solicitante y/o de la persona que le represente, la solicitud de ayudas implicará la autorización para que ADR Balears pueda comprobar de oficio sus datos de identidad personal. En caso de denegación expresa del consentimiento, será necesario aportar esta documentación.",
+    "DOC7LABEL": "DNI/NIE de la persona solicitante y/o de la persona que le represente. [.pdf, .jpeg, .png]",
+    "DOC8INFO": "Respecto a la acreditación de las obligaciones tributarias autonómicas con la Agencia Tributaria de las Illes Balears y de las obligaciones con la Seguridad Social, la solicitud de ayudas implicará la autorización para que ADR Balears pueda obtener de la Agencia Tributaria de las Illes Balears y de la Tesorería General de la Seguridad Social la información relativa al cumplimiento de estas obligaciones, excepto en caso de denegación expresa del consentimiento, supuesto en el que la persona o la entidad solicitante deberá aportar el certificado correspondiente.",
+    "DOC8LABEL": "Certificado cumplimiento de las obligaciones tributarias de ATIB y Seguridad Social. [.pdf, .jpeg, .png]",
+    "DOC9": "Certificado de estar al corriente de las obligaciones tributarias con la Agencia Estatal de la Administración Tributaria (AEAT). [.pdf, .jpeg, .png]",
+    "DOC10": "Para ayudas de importe superior a 30.000€, adjuntar el certificado que establece el artículo 13.3 bis de la Ley 38/2003 de 17 de noviembre. [.pdf, .jpeg, .png]",
+    "DOC11": "El certificado de la sociedad de garantía recíproca que avale la operación financiera que acredite la fecha de entrada de la solicitud del beneficiario de petición del aval sobre la operación financiera a subvencionar. [.pdf, .jpeg, .png]",
+    "DOC12": "Contrato de la operación financiera. [.pdf, ,jpeg, .png]",
+    "DOC13": "Contrato o documento de aval de la operación financiera. [.pdf, .jpeg, .png]",
+    "DOC14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente, la cual se genera al enviar esta solicitud."
   },
   "COMMON": {
-    "EXPANDALL": "Expandir todo",
-    "COLAPSEALL": "Encoger todo",
-    "SEND": "Enviar",
-    "NO-CONSENT": "Expresamente no doy mi consentimiento / Me opongo a / No concedo / Deniego mi autorización para que se consulten los datos y documentos necesarios para la tramitación de esta solicitud. Por eso, presento los documentos que constan a continuación:",
-    "FILE": {
-      "UPLOAD": "Subir archivo",
-      "ERROR": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido."
-    },
     "RGPD-INFO": {
       "READ-AND-ACCEPTS": {
         "PART-1": "He leído y acepto las condiciones del ",
         "PART-2": " Los datos personales proporcionados serán tratados por ",
         "PART-3": " como responsable del tratamiento, con la finalidad de gestionar su solicitud. Puede ejercer sus derechos de acceso, rectificación, supresión y otros, según se detalla en la política de privacidad."
-      }
-    },
-    "BUSINESS-TYPE": {
-      "TITLE": "Tipo de solicitante",
-      "DESCRIPTION": "Seleccione la opción que represente el tipo de empresa.",
-      "SELF-EMPLOYED": "Autónomo",
-      "SMALL": {
-        "NAME": "Pequeña empresa",
-        "INFO": "Se considera pequeña empresa la que tiene menos de 50 trabajadores y/o trabajadoras, un volumen de negocio anual o un balance general anual que no supere los 10 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto y otras empresas que no cumplen los requisitos para ser considerada PYME de acuerdo con el anexo I del Reglamento (CE) n.º 651/2014 de la Comisión Europea."
-      },
-      "MEDIUM": {
-        "NAME": "Mediana empresa",
-        "INFO": "Se considera mediana empresa la que tiene entre 50 y 250 trabajadores y/o trabajadoras, un volumen de negocio anual entre 10 y 50 millones de euros o un balance general anual entre 10 y 43 millones de euros, y no participa en un 25% o más de su capital o de sus derechos de voto en otras empresas que no cumplen los requisitos anteriores."
       }
     },
     "ACRONYMS": {
