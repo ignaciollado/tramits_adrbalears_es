@@ -60,7 +60,7 @@ export class ActosComponent implements OnInit {
     if (editor) {
       console.log('Editor cargado:', editor);
 
-      // Aquí puedes aplicar decoraciones, opciones, etc.
+      // aplicar decoraciones, opciones, etc.
       editor.updateOptions({ automaticLayout: true });
     }
   }
