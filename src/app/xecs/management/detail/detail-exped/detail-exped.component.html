@@ -2,6 +2,12 @@
   <h2>Detalle del expediente #{{ idExpediente }}</h2>
   <form [formGroup]="form" class="detalle-formulario">
 
+    <!-- Información general -->
+    <mat-form-field appearance="outline">
+      <mat-label>ID</mat-label>
+      <input matInput formControlName="id" readonly>
+    </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Empresa</mat-label>
       <input matInput formControlName="empresa" readonly>
@@ -9,22 +15,74 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Tipo de trámite</mat-label>
-      <input matInput formControlName="tipoTramite" readonly>
+      <input matInput formControlName="tipo_tramite" readonly>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Importe</mat-label>
-      <input matInput formControlName="importe" readonly>
+      <mat-label>NIF</mat-label>
+      <input matInput formControlName="nif" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Domicilio</mat-label>
+      <input matInput formControlName="domicilio" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Localidad</mat-label>
+      <input matInput formControlName="localidad" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="telefono" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Importe ayuda (mínimis)</mat-label>
+      <input matInput formControlName="importe_minimis" readonly>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Situación</mat-label>
       <input matInput formControlName="situacion" readonly>
     </mat-form-field>
-<section ngClass="form-actions">
-  <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
-  <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
-</section>
 
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha solicitud</mat-label>
+      <input matInput formControlName="fecha_solicitud" readonly>
+    </mat-form-field>
+
+    <!-- Datos de consultor -->
+    <mat-form-field appearance="outline">
+      <mat-label>Consultor</mat-label>
+      <input matInput formControlName="nom_consultor" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Empresa Consultor</mat-label>
+      <input matInput formControlName="empresa_consultor" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email Consultor</mat-label>
+      <input matInput formControlName="mail_consultor" readonly>
+    </mat-form-field>
+
+    <!-- Campos adicionales -->
+    <mat-form-field appearance="outline">
+      <mat-label>Entidad Bancaria</mat-label>
+      <input matInput formControlName="nom_entidad" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>IBAN</mat-label>
+      <input matInput formControlName="cc_datos_bancarios" readonly>
+    </mat-form-field>
+
+    <section ngClass="form-actions">
+      <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
+      <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
+    </section>
   </form>
 </mat-card>
