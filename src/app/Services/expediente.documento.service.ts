@@ -32,7 +32,7 @@ export class ExpedienteDocumentoService {
     tipo_tramite: data.tipo_tramite,
     corresponde_documento: documentType,
     selloDeTiempo: data.selloDeTiempo,
-    fase_exped: "Solicitud",
+    fase_exped: "",
     docRequerido: "SI",
   };
 

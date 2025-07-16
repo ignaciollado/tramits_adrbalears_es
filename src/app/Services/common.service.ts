@@ -96,8 +96,13 @@ export class CommonService {
     let hours = date.getHours();
     const ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12 || 12;
-
     return `${pad(date.getDate())}_${pad(date.getMonth() + 1)}_${date.getFullYear()}_${pad(hours)}_${pad(date.getMinutes())}_${pad(date.getSeconds())}${ampm}`;
+  }
+
+  getCurrentDateTime(): string {
+    const now = new Date();
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
   }
 
   generatePDFDocument(dataToRender: any): void {

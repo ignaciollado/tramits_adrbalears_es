@@ -97,6 +97,7 @@ export class GrantApplicationFormComponent {
     nom_consultor: this.fb.control<string | null>(''),
     tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]{9}$')),
     mail_consultor: this.fb.control<string | null>('', Validators.email),
+    fecha_completado: this.fb.control(this.commonService.getCurrentDateTime()),
 
     memoriaTecnicaEnIDI: this.fb.control<boolean | null>(false, Validators.required),
     file_memoriaTecnica: this.fb.control<File | null>(null, Validators.required),

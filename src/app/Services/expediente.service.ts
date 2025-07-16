@@ -53,7 +53,7 @@ export class ExpedienteService {
   }
 
   createExpediente(expediente: any): Observable<any> {
-    const testAPIURL = "'https://pre-tramits.idi.es/public/index.php'"
+    const testAPIURL = "https://pre-tramits.idi.es/public/index.php"
     return this.http.post<any>(`${testAPIURL}/pindustexpediente/create`, expediente).pipe(catchError(this.handleError));
   }
 
