@@ -15,8 +15,8 @@ import { Router } from '@angular/router';
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { NuMonacoEditorModule } from '@ng-util/monaco-editor';
 import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
-import * as monaco from 'monaco-editor';
-  
+/* import * as monaco from 'monaco-editor';
+  */ 
   @Component({
   selector:  'app-actos',
   standalone: true,
