@@ -21,6 +21,10 @@
       <mat-label>Situación</mat-label>
       <input matInput formControlName="situacion" readonly>
     </mat-form-field>
+<section ngClass="form-actions">
+  <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
+  <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
+</section>
 
   </form>
 </mat-card>

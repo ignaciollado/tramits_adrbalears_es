@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-detalle-expediente',
@@ -19,7 +20,7 @@ import { of } from 'rxjs';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule,
+    MatCardModule, MatSnackBarModule,
   ]
 })
 export class DetailExpedComponent {
@@ -29,6 +30,8 @@ export class DetailExpedComponent {
 
   form!: FormGroup;
   idExpediente!: number;
+
+  constructor(private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
@@ -40,17 +43,55 @@ export class DetailExpedComponent {
       situacion: [{ value: '', disabled: true }],
     });
 
-    this.expedienteService.getOneExpediente(this.idExpediente)
-      .pipe(catchError(() => of(null)))
-      .subscribe(expediente => {
-        if (expediente) {
-          this.form.patchValue({
-            empresa: expediente.empresa,
-            tipoTramite: expediente.tipo_tramite,
-            importe: expediente.importe,
-            situacion: expediente.situacion
-          });
-        }
-      });
+    this.getExpedDetail(this.idExpediente)
   }
+
+
+getExpedDetail(id: number) {
+  this.expedienteService.getOneExpediente(id)
+    .pipe(
+      catchError(error => {
+        console.error('Error al obtener el expediente:', error);
+        this.showSnackBar('❌ Error al cargar el expediente. Inténtalo de nuevo más tarde.');
+        return of(null);
+      })
+    )
+    .subscribe(expediente => {
+      if (expediente) {
+        this.form.patchValue({
+          empresa: expediente.empresa,
+          tipoTramite: expediente.tipo_tramite,
+          importe: expediente.importe,
+          situacion: expediente.situacion
+        });
+        this.showSnackBar('✅ Expediente cargado correctamente.');
+      } else {
+        this.showSnackBar('⚠️ No se encontró información del expediente.');
+      }
+    });
+}
+
+enableEdit(): void {
+  this.form.enable();
+}
+
+saveExpediente(): void {
+  const expedienteActualizado = this.form.getRawValue();
+
+  this.expedienteService.updateExpediente(this.idExpediente, expedienteActualizado)
+    .subscribe({
+      next: () => this.showSnackBar('✅ Expediente guardado correctamente.'),
+      error: () => this.showSnackBar('❌ Error al guardar el expediente.')
+    });
+}
+
+
+private showSnackBar(error: string): void {
+    this.snackBar.open(error, 'Close', {
+      duration: 10000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
+      panelClass: ['custom-snackbar'],
+    });
+}
 }
