@@ -12,6 +12,7 @@ import { ActosComponent } from './management/actos-admin/actos.component';
 import { ListadoActosComponent } from './management/actos-admin/list/listado-actos.component';
 import { IsbaManagementComponent } from './isba/management/isba-management/isba-management.component';
 import { IlsManagementComponent } from './ils/management/ils-management/ils-management.component';
+import { DetailExpedComponent } from './xecs/management/detail/detail-exped/detail-exped.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,6 +28,8 @@ export const routes: Routes = [
   { path: 'xecs-management', canActivate: [AuthGuard], component:XecsManagementComponent },
   { path: 'isba-management', canActivate: [AuthGuard], component:IsbaManagementComponent },
   { path: 'ils-management', canActivate: [AuthGuard], component:IlsManagementComponent },
+
+  { path: 'detail-exped/:id', canActivate: [AuthGuard], component: DetailExpedComponent},
 
   { path: 'actos-admin-list', canActivate: [AuthGuard], component: ListadoActosComponent},
   { path: 'acto-admin-detail/:id', canActivate: [AuthGuard], component: ActosComponent},

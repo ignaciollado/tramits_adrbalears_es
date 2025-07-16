@@ -1,0 +1,26 @@
+<mat-card>
+  <h2>Detalle del expediente #{{ idExpediente }}</h2>
+  <form [formGroup]="form" class="detalle-formulario">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Empresa</mat-label>
+      <input matInput formControlName="empresa" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo de trámite</mat-label>
+      <input matInput formControlName="tipoTramite" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Importe</mat-label>
+      <input matInput formControlName="importe" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Situación</mat-label>
+      <input matInput formControlName="situacion" readonly>
+    </mat-form-field>
+
+  </form>
+</mat-card>

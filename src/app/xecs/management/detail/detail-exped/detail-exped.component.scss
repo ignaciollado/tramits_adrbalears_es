@@ -1,0 +1,55 @@
+:host {
+  display: block;
+  padding: 2rem;
+  background-color: #f9f9fb;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  color: #333;
+}
+
+mat-card {
+  max-width: 800px;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+
+  h2 {
+    margin-bottom: 2rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+  }
+}
+
+.detalle-formulario {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+
+  mat-form-field {
+    width: 100%;
+
+    input[readonly] {
+      background-color: #f3f6fa;
+      color: #555;
+      cursor: default;
+    }
+  }
+}
+
+/* Responsive optimization */
+@media (max-width: 600px) {
+  mat-card {
+    padding: 1rem;
+
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
+
+  .detalle-formulario {
+    grid-template-columns: 1fr;
+  }
+}
