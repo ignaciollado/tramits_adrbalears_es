@@ -65,12 +65,10 @@ export class GrantApplicationFormComponent {
   lastID: number = 0
 
   constructor ( private fb: FormBuilder, 
-    private http: HttpClient, 
     private commonService: CommonService, 
-    private sanitizer: DomSanitizer,
     private expedienteService: ExpedienteService,
     private documentosExpedienteService: ExpedienteDocumentoService,
-    private documentServive: DocumentService,
+    private documentService: DocumentService,
     private nifValidator: NifValidatorService, 
     private snackBar: MatSnackBar ) {
 
@@ -115,7 +113,7 @@ export class GrantApplicationFormComponent {
     consentimiento_certificadoATIB: this.fb.control<boolean | null>(true, Validators.required),  /* SI NO file_certificadoATIB de la tabla pindust_expediente*/
     file_certificadoATIB: this.fb.control<File | null>(null), 
     consentimiento_certificadoSegSoc: this.fb.control<boolean | null>(true, Validators.required), /* SI NO file_certificadoSegSoc de la tabla pindust_expediente*/
-    file_certificadoSegSoc: this.fb.control<File | null>(null), /* SI NO */
+    file_certificadoSegSoc: this.fb.control<File | null>(null),
 
     nom_entidad: this.fb.control<string | null>('', ),
     domicilio_sucursal: this.fb.control<string | null>('', ),
@@ -210,7 +208,7 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
 });
 
 
- this.xecsForm.get('tipo_solicitante')?.valueChanges.subscribe(value => {
+this.xecsForm.get('tipo_solicitante')?.valueChanges.subscribe(value => {
  nifControl?.enable()
 
  if (!nifControl) return;
@@ -239,13 +237,13 @@ codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
  }
 
  nifControl.updateValueAndValidity();
- });
+});
 
-  this.getAllcpostals()
-  this.getAllCnaes()
-  this.getAllXecsPrograms()
-  this.getResponsabilityDeclarations()
-  this.getDocumentationAndAuthorizations()
+this.getAllcpostals()
+this.getAllCnaes()
+this.getAllXecsPrograms()
+this.getResponsabilityDeclarations()
+this.getDocumentationAndAuthorizations()
 }
 
 setStep(index: number) {
@@ -278,9 +276,9 @@ file_escritura_empresaToUpload: File[] = []           // required and maybe in A
 file_document_acred_como_represToUpload: File[] = []  // required
 file_certificadoAEATToUpload: File[] = []             // required
 
-file_copiaNIFToUpload: File[] = [] // optional
-file_certificadoATIBToUpload: File[] = [] // optional
-file_certificadoSegSocToUpload: File[] = [] // optional
+file_copiaNIFToUpload: File[] = []                    // optional
+file_certificadoATIBToUpload: File[] = []             // optional
+file_certificadoSegSocToUpload: File[] = []           // optional
 
 onSubmit(): void {
   const datos = this.xecsForm.value;
@@ -306,7 +304,7 @@ onSubmit(): void {
     delete datos.consentimiento_certificadoSegSoc;
     delete datos.declaracion_responsable_ii;
 
-    // Agrupar archivos por tipo
+    // Agrupar archivos REQUIRED por tipo
     const filesToUpload = [
       { files: this.file_memoriaTecnicaToUpload, type: 'file_memoriaTecnica' },
       { files: this.file_certificadoIAEToUpload, type: 'file_certificadoIAE' },
@@ -339,6 +337,7 @@ onSubmit(): void {
           });
         });
 
+        console.log ("archivosValidos", archivosValidos.length)
         if (archivosValidos.length === 0) {
           this.showSnackBar('⚠️ No hay archivos válidos para subir.');
           return;
@@ -616,7 +615,7 @@ uploadTheFile(timestamp: string, files: File[] ): Observable<any> {
   });
   console.log (files)
 
-  return this.documentServive.createDocument( nif, timestamp, formData).pipe(
+  return this.documentService.createDocument( nif, timestamp, formData).pipe(
     tap((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:

@@ -346,12 +346,12 @@
                                 />
                                 <mat-error *ngIf="isbaForm.get('file_memoriaTecnica')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_memoriaTecnica type="file" (change)="onFileChange($event, 'file_memoriaTecnica')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_memoriaTecnica'].length > 0">
-                                <li *ngFor="let file of files['file_memoriaTecnica']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_memoriaTecnica type="file" (change)="onFileMemoriaTecnicaChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
+                                <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
                             </ul>
-                            
                         </section>
+
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
                                 <mat-label>{{'ISBA.DOC3' | translate}}</mat-label>
@@ -366,11 +366,12 @@
                                 />
                                 <mat-error *ngIf="isbaForm.get('file_document_veracidad_datos_bancarios')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_document_veracidad_datos_bancarios type="file" (change)="onFileChange($event, 'file_document_veracidad_datos_bancarios')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_document_veracidad_datos_bancarios'].length > 0">
-                                <li *ngFor="let file of files['file_document_veracidad_datos_bancarios']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_document_veracidad_datos_bancarios type="file" (change)="onfile_document_veracidad_datos_bancariosChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_document_veracidad_datos_bancariosToUpload.length > 0">
+                                <li *ngFor="let file of file_document_veracidad_datos_bancariosToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
+
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
                                 <mat-label>{{'ISBA.DOC4' | translate}}</mat-label>
@@ -385,9 +386,9 @@
                                 />
                                 <mat-error *ngIf="isbaForm.get('file_certificadoIAE')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_certificadoIAE type="file" (change)="onFileChange($event, 'file_certificadoIAE')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_certificadoIAE'].length > 0">
-                                <li *ngFor="let file of files['file_certificadoIAE']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_certificadoIAE type="file" (change)="onfile_certificadoIAEChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_certificadoIAEToUpload.length > 0">
+                                <li *ngFor="let file of file_certificadoIAEToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
 
@@ -459,9 +460,9 @@
                                     <mat-error *ngIf="isbaForm.get('file_nifRepresentante')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                                 </mat-form-field>
                             </section>
-                            <input #file_nifRepresentante type="file" (change)="onFileChange($event, 'file_nifRepresentante')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_nifRepresentante'].length > 0">
-                                <li *ngFor="let file of files['file_nifRepresentante']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_nifRepresentante type="file" (change)="onfile_nifRepresentanteChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_nifRepresentanteToUpload.length > 0">
+                                <li *ngFor="let file of file_nifRepresentanteToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
 
@@ -485,11 +486,12 @@
                                     <mat-error *ngIf="isbaForm.get('file_certificadoATIB')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                                 </mat-form-field>
                             </section>
-                            <input #file_certificadoATIB type="file" (change)="onFileChange($event, 'file_certificadoATIB')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_certificadoATIB'].length > 0">
-                                <li *ngFor="let file of files['file_certificadoATIB']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_certificadoATIB type="file" (change)="onfile_certificadoATIBChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_certificadoATIBToUpload.length > 0">
+                                <li *ngFor="let file of file_certificadoATIBToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
+
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
                                 <mat-label>{{'ISBA.DOC9' | translate}}</mat-label>
@@ -504,12 +506,13 @@
                                 />
                                 <mat-error *ngIf="isbaForm.get('file_certificadoAEAT')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_certificadoAEAT type="file" (change)="onFileChange($event, 'file_certificadoAEAT')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_certificadoAEAT'].length > 0">
-                                <li *ngFor="let file of files['file_certificadoAEAT']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_certificadoAEAT type="file" (change)="onfile_certificadoAEATChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_certificadoAEATToUpload.length > 0">
+                                <li *ngFor="let file of file_certificadoAEATToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
-                        <section ngClass="file-input" *ngIf="isSubsidyGreater">
+
+                        <section ngClass="file-input" *ngIf="isSubsidyGreater">***
                             <mat-form-field floatLabel="always">
                                 <mat-label>{{'ISBA.DOC10' | translate}}</mat-label>
                                 <input 
@@ -527,7 +530,8 @@
                             <ul *ngIf="files['file_certificadoLey382003'].length > 0">
                                 <li *ngFor="let file of files['file_certificadoLey382003']">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
-                        </section>
+                        ****</section>
+
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
                                 <mat-label>{{'ISBA.DOC11' | translate}}</mat-label>
@@ -542,11 +546,12 @@
                                 />
                                 <mat-error *ngIf="isbaForm.get('file_certificadoSGR')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_certificadoSGR type="file" (change)="onFileChange($event, 'file_certificadoSGR')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_certificadoSGR'].length > 0">
-                                <li *ngFor="let file of files['file_certificadoSGR']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_certificadoSGR type="file" (change)="onfile_certificadoSGRChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_certificadoSGRToUpload.length > 0">
+                                <li *ngFor="let file of file_certificadoSGRToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
+
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
                                 <mat-label>{{'ISBA.DOC12' | translate}}</mat-label>
@@ -561,11 +566,12 @@
                                 />
                                 <mat-error *ngIf="isbaForm.get('file_contratoOperFinanc')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_contratoOperFinanc type="file" (change)="onFileChange($event, 'file_contratoOperFinanc')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_contratoOperFinanc'].length > 0">
-                                <li *ngFor="let file of files['file_contratoOperFinanc']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_contratoOperFinanc type="file" (change)="onfile_contratoOperFinancChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_contratoOperFinancToUpload.length > 0">
+                                <li *ngFor="let file of file_contratoOperFinancToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
+
                         <section ngClass="file-input">
                             <mat-form-field floatLabel="always">
                                 <mat-label>{{'ISBA.DOC13' | translate}}</mat-label>
@@ -581,11 +587,12 @@
 
                                 <mat-error *ngIf="isbaForm.get('file_avalOperFinanc')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_avalOperFinanc type="file" (change)="onFileChange($event, 'file_avalOperFinanc')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_avalOperFinanc'].length > 0">
-                                <li *ngFor="let file of files['file_avalOperFinanc']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_avalOperFinanc type="file" (change)="onfile_avalOperFinancChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_avalOperFinancToUpload.length > 0">
+                                <li *ngFor="let file of file_avalOperFinancToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
+
                         <section ngClass="file-input">
                             <p>{{'ISBA.DOC14' | translate}}</p>
                         </section>

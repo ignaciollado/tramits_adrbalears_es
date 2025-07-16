@@ -335,7 +335,7 @@
       <ul *ngIf="file_nifEmpresaToUpload.length > 0">
         <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
-      <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
+      <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar>
     </section>
     
     <section ngClass="escritura-publica docs-in-adr">
