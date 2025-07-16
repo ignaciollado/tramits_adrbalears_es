@@ -124,7 +124,7 @@ loadAllExpedientes(): void {
         ...new Set(expedientesFiltrados.map((e: any) => e.situacion).filter(Boolean))
       ];
 
-      this.snackBar.open('Expedientes cargados correctamente ✅', 'Cerrar', {
+      this.snackBar.open('ADR-ISBA: expedientes cargados correctamente ✅', 'Cerrar', {
         duration: 5000,
         panelClass: 'snack-success'
       });
