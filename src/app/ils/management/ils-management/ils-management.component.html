@@ -1,0 +1,94 @@
+<form [formGroup]="form" (ngSubmit)="loadExpedientes()" class="filtros-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Convocatoria</mat-label>
+    <mat-select formControlName="convocatoria">
+      <mat-option *ngFor="let conv of uniqueConvocatorias" [value]="conv">{{ conv }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Tipo de Trámite</mat-label>
+    <mat-select formControlName="tipoTramite" multiple>
+      <mat-option *ngFor="let tipo of uniqueTiposTramite" [value]="tipo">{{ tipo }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+  <mat-label>Situación</mat-label>
+  <mat-select formControlName="situacion" multiple>
+    <mat-option *ngFor="let estado of uniqueSituaciones" [value]="estado">{{ estado }}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+  <mat-form-field appearance="outline" class="busqueda-form">
+  <mat-label>Buscar</mat-label>
+  <input matInput (keyup)="aplicarFiltro($event)" placeholder="Filtrar por solicitante, localidad, etc.">
+</mat-form-field>
+
+<div class="form-actions">
+  <button mat-raised-button color="accent" type="submit">Buscar</button>
+  <button mat-stroked-button color="warn" type="button" (click)="limpiarFiltros()">Limpiar filtros</button>
+</div>
+
+</form>
+
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" >
+  <ng-container matColumnDef="fechaComletado">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha completado </th>
+    <td mat-cell *matCellDef="let item">{{ item.fechaComletado || item.fecha_solicitud | date: 'yyyy/MM/dd HH:mm:ss' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="tipo_tramite">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Línea de trámite </th>
+    <td mat-cell *matCellDef="let item"> {{ item.tipo_tramite }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="idExp">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Expediente </th>
+    <td mat-cell *matCellDef="let item"> {{ item.idExp }}/{{item.convocatoria}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="empresa">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Solicitante </th>
+    <td mat-cell *matCellDef="let item"> {{ item.empresa }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="importeAyuda">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
+    <td mat-cell *matCellDef="let item"> {{ item.importeAyuda | currency:'EUR':'symbol':'1.2-2':'es' }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ordenDePago">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Orden de pago</th>
+    <td mat-cell *matCellDef="let item"> {{ item.ordenDePago }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="empresa_consultor">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa del consultor </th>
+    <td mat-cell *matCellDef="let item">{{ item.empresa_consultor }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="nom_consultor">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del consultor </th>
+    <td mat-cell *matCellDef="let item"> {{ item.nom_consultor }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="fecha_not_propuesta_resolucion_def">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Res. de concesión </th>
+    <td mat-cell *matCellDef="let item">{{ item.fecha_not_propuesta_resolucion_def | date:'yyyy/MM/dd' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="situacion">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Situación </th>
+    <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">{{ item.situacion }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-paginator [pageSize]="15" [pageSizeOptions]="[15, 30, 50, 100]" showFirstLastButtons></mat-paginator>
+

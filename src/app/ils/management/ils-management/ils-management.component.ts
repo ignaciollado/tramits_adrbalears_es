@@ -33,10 +33,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatSnackBarModule,
     MatSelectModule, MatButtonModule
   ],
-  templateUrl: './xecs-management.component.html',
-  styleUrls: ['./xecs-management.component.scss']
+  templateUrl: './ils-management.component.html',
+  styleUrls: ['./ils-management.component.scss']
 })
-export class XecsManagementComponent implements OnInit, AfterViewInit {
+export class IlsManagementComponent implements OnInit, AfterViewInit {
 
   dataSource = new MatTableDataSource<any>([]);
   
@@ -99,9 +99,9 @@ loadAllExpedientes(): void {
 
   this.expedienteService.getAllExpedientes().subscribe({
     next: (res) => {
-      // Excluir expedientes con tipo_tramite 'ILS' o 'ADR-ISBA'
+      // Excluir expedientes con tipo_tramite 'ILS'
       const expedientesFiltrados = res.filter(
-        (e: any) => e.tipo_tramite !== 'ILS' && e.tipo_tramite !== 'ADR-ISBA'
+        (e: any) => e.tipo_tramite === 'ILS'
       );
 
       this.actualizarTabla(expedientesFiltrados);

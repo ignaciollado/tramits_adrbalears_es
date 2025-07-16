@@ -10,6 +10,8 @@ import { PasswordRecoveryComponent } from './login/password-recovery/password-re
 import { PasswordResetComponent } from './login/password-reset/password-reset.component';
 import { ActosComponent } from './management/actos-admin/actos.component';
 import { ListadoActosComponent } from './management/actos-admin/list/listado-actos.component';
+import { IsbaManagementComponent } from './isba/management/isba-management/isba-management.component';
+import { IlsManagementComponent } from './ils/management/ils-management/ils-management.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,12 +25,11 @@ export const routes: Routes = [
   { path: 'ils-grant-subsidies-application-form', component: IlsGrantApplicationFormComponent},
 
   { path: 'xecs-management', canActivate: [AuthGuard], component:XecsManagementComponent },
-  { path: 'isba-management', canActivate: [AuthGuard], component:HomeComponent },
-  { path: 'ils-management', canActivate: [AuthGuard], component:HomeComponent },
+  { path: 'isba-management', canActivate: [AuthGuard], component:IsbaManagementComponent },
+  { path: 'ils-management', canActivate: [AuthGuard], component:IlsManagementComponent },
 
   { path: 'actos-admin-list', canActivate: [AuthGuard], component: ListadoActosComponent},
   { path: 'acto-admin-detail/:id', canActivate: [AuthGuard], component: ActosComponent},
-
 
   { path: 'contact', component: GrantApplicationFormComponent },
   { path: '**', component: HomeComponent }
