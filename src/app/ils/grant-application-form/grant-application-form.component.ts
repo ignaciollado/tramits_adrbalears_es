@@ -110,6 +110,8 @@ export class IlsGrantApplicationFormComponent {
     this.ilsForm = this.fb.group({
       
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
+      fecha_completado: this.fb.control(this.commonService.getCurrentDateTime()),
+
       tipo_solicitante: this.fb.control<string>('', [Validators.required]),
       nif: this.fb.control<string>({ value: '', disabled: true }, []), // Validadores seteados posteriormente
       empresa: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),

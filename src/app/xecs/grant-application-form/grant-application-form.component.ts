@@ -108,7 +108,7 @@ export class GrantApplicationFormComponent {
 
     file_document_acred_como_repres: this.fb.control<File | null>(null, Validators.required),
     file_certificadoAEAT: this.fb.control<File | null>(null, Validators.required),
-    copiaNIFSociedadEnIDI: this.fb.control<boolean | null>(true, Validators.required),
+    copiaNIFSociedadEnIDI: this.fb.control<boolean | null>(false, Validators.required),
     /* AUTORIZACIONES */
     consentimientocopiaNIF: this.fb.control<boolean | null>(true, Validators.required),  /* SI NO file_copiaNIF de la tabla pindust_expediente */
     file_copiaNIF: this.fb.control<File | null>(null),
@@ -288,13 +288,14 @@ onSubmit(): void {
   const convocatoria = new Date().getFullYear();
 
   this.expedienteService.getLastExpedienteIdXECS(convocatoria).subscribe((lastID: any) => {
-    datos.idExp = (+lastID.last_id) + 1;
-    datos.convocatoria = convocatoria;
-    datos.localidad = datos.cpostal;
-    datos.selloDeTiempo = timeStamp;
-    datos.file_copiaNIF = datos.consentimientocopiaNIF;
-    datos.file_certificadoATIB = datos.consentimiento_certificadoATIB;
-    datos.file_certificadoSegSoc = datos.consentimiento_certificadoSegSoc;
+    datos.idExp = (+lastID.last_id) + 1
+    datos.convocatoria = convocatoria
+    datos.localidad = datos.cpostal
+    datos.selloDeTiempo = timeStamp
+    datos.tipo_tramite = datos.tipo_tramite.replace(/_/g, ' ')
+    datos.file_copiaNIF = datos.consentimientocopiaNIF
+    datos.file_certificadoATIB = datos.consentimiento_certificadoATIB
+    datos.file_certificadoSegSoc = datos.consentimiento_certificadoSegSoc
 
     // Eliminar campos no necesarios
     delete datos.id_sol;

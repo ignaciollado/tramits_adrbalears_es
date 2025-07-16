@@ -282,7 +282,7 @@
       </ul>
     </section>
 
-  <section ngClass="certificado-iae">
+    <section ngClass="certificado-iae">
       <mat-form-field appearance="fill" class="full-width">
           <mat-label>{{ 'FILES.FILESCERTIAE' | translate }}</mat-label>
           <input
@@ -305,9 +305,9 @@
       <ul *ngIf="file_certificadoIAEToUpload.length > 0">
         <li *ngFor="let file of file_certificadoIAEToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
-  </section>
+    </section>
 
-  <section ngClass="copia-nif docs-in-adr">
+    <section ngClass="copia-nif docs-in-adr">
         <mat-checkbox ngClass="documento-en-adr"
           formControlName = "copiaNIFSociedadEnIDI"
           (change)="onCheckboxChange($event)">
@@ -336,8 +336,9 @@
         <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
       <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
-  </section>
-  <section ngClass="escritura-publica docs-in-adr">
+    </section>
+    
+    <section ngClass="escritura-publica docs-in-adr">
       <mat-checkbox ngClass="documento-en-adr"
           formControlName = "pJuridicaDocAcreditativaEnIDI"
           (change)="onCheckboxChange($event)">
@@ -366,9 +367,9 @@
         <li *ngFor="let file of file_escritura_empresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
       <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
-  </section>
+    </section>
 
-  <section ngClass="doc-acred-representante">
+    <section ngClass="doc-acred-representante">
       <mat-form-field appearance="fill" class="full-width">
           <mat-label>{{ 'FILES.FILEDOCACREDREPRESENTANTE' | translate }}</mat-label>
           <input
@@ -391,9 +392,9 @@
         <li *ngFor="let file of file_document_acred_como_represToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
       <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
-  </section>
+    </section>
 
-  <section ngClass="certificado-aeat">
+    <section ngClass="certificado-aeat">
       <mat-form-field appearance="fill" class="full-width">
           <mat-label>{{ 'FILES.FILECERTIFICADOAEAT' | translate }}</mat-label>
           <input
@@ -416,7 +417,7 @@
         <li *ngFor="let file of file_certificadoAEATToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
       <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
-  </section>
+    </section>
   </mat-expansion-panel>  
 
   <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
