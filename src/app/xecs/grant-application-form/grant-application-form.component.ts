@@ -123,7 +123,7 @@ export class GrantApplicationFormComponent {
 
     declaracion_responsable_i: this.fb.control<boolean | null>({ value: true, disabled: true }),
     declaracion_responsable_ii: this.fb.control<boolean | null>({ value: false, disabled: false }),
-    importe_minimis: this.fb.control<string | null>('', [Validators.required,this.twoDecimalValidator()]),
+    importe_minimis: this.fb.control<string | null>('', [Validators.required, this.twoDecimalValidator()]),
 
     declaracion_responsable_iv: this.fb.control<boolean | null>({ value: true, disabled: true }),
     declaracion_responsable_v: this.fb.control<boolean | null>({ value: true, disabled: true }),
@@ -139,102 +139,101 @@ export class GrantApplicationFormComponent {
 ngOnInit(): void {
 
  this.xecsForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
- this.rgpdAccepted = value;
+  this.rgpdAccepted = value;
  });
     
-this.filteredcpostals = this.xecsForm.get('cpostal')!.valueChanges.pipe(
-  startWith(''),
-  map(value => {
-    const input = typeof value === 'string' ? value : value?.cpostal || '';
-    return input ? this._filter(input) : this.cpostals.slice();
-  })
-);
+  this.filteredcpostals = this.xecsForm.get('cpostal')!.valueChanges.pipe(
+    startWith(''),
+    map(value => {
+      const input = typeof value === 'string' ? value : value?.cpostal || '';
+      return input ? this._filter(input) : this.cpostals.slice();
+    })
+  );
 
-const nifControl = this.xecsForm.get('nif')
-const nom_representanteControl = this.xecsForm.get('nom_representante')
-const nif_representanteControl = this.xecsForm.get('nif_representante')
-const opcionBancoControl = this.xecsForm.get('opcion_banco')
-const ccControl = this.xecsForm.get('cc_datos_bancarios')
-const codigo_BIC_SWIFTControl = this.xecsForm.get('codigo_BIC_SWIFT')
+  const nifControl = this.xecsForm.get('nif')
+  const nom_representanteControl = this.xecsForm.get('nom_representante')
+  const nif_representanteControl = this.xecsForm.get('nif_representante')
+  const opcionBancoControl = this.xecsForm.get('opcion_banco')
+  const ccControl = this.xecsForm.get('cc_datos_bancarios')
+  const codigo_BIC_SWIFTControl = this.xecsForm.get('codigo_BIC_SWIFT')
 
-opcionBancoControl?.valueChanges.subscribe((valor) => {
+  opcionBancoControl?.valueChanges.subscribe((valor) => {
  
   ccControl?.enable()
   ccControl?.setValue(''); // Limpia el campo al cambiar de opción
 
- if (valor === '1') {
- // Patrón para IBAN español (por ejemplo: empieza por ES y 22 dígitos)
-  ccControl?.setValidators([
-  Validators.required,
-  Validators.minLength(25),
-  Validators.maxLength(25),
-  Validators.pattern(/^ES\d{23}$/)
- ]);
+  if (valor === '1') {
+    // Patrón para IBAN español (por ejemplo: empieza por ES y 22 dígitos)
+    ccControl?.setValidators([
+      Validators.required,
+      Validators.minLength(25),
+      Validators.maxLength(25),
+      Validators.pattern(/^ES\d{23}$/)
+    ]);
  
-  ccControl?.valueChanges.subscribe((inputValue: string) => {
-    if (inputValue && !inputValue.startsWith('ES')) {
-      ccControl?.setValue('ES' + inputValue, { emitEvent: false });
-    }
+    ccControl?.valueChanges.subscribe((inputValue: string) => {
+      if (inputValue && !inputValue.startsWith('ES')) {
+        ccControl?.setValue('ES' + inputValue, { emitEvent: false });
+      }
+    });
+  } else if (valor === '2') {
+  // Patrón para cuentas internacionales (ejemplo genérico sin espacios)
+    ccControl?.setValidators([
+    Validators.required,
+    Validators.minLength(25),
+    Validators.maxLength(25),
+    Validators.pattern(/^\S+$/)
+  ]);
+  }
+    ccControl?.updateValueAndValidity();
   });
 
- } else if (valor === '2') {
- // Patrón para cuentas internacionales (ejemplo genérico sin espacios)
-  ccControl?.setValidators([
-  Validators.required,
-  Validators.minLength(25),
-  Validators.maxLength(25),
-  Validators.pattern(/^\S+$/)
- ]);
- }
-  ccControl?.updateValueAndValidity();
-});
+  nifControl?.valueChanges.subscribe((valor) => {
+    nifControl.setValue(valor.toUpperCase(), { emitEvent: false });
+  })
 
-nifControl?.valueChanges.subscribe((valor) => {
-  nifControl.setValue(valor.toUpperCase(), { emitEvent: false });
-})
+  nif_representanteControl?.valueChanges.subscribe((valor) => {
+    nif_representanteControl.setValue(valor.toUpperCase(), { emitEvent: false });
+  })
 
-nif_representanteControl?.valueChanges.subscribe((valor) => {
-  nif_representanteControl.setValue(valor.toUpperCase(), { emitEvent: false });
-})
+  ccControl?.valueChanges.subscribe((valor) => {
+  if (opcionBancoControl?.value === '1' && valor !== valor?.toUpperCase()) {
+      ccControl.setValue(valor.toUpperCase(), { emitEvent: false });
+  }
+  });
 
-ccControl?.valueChanges.subscribe((valor) => {
- if (opcionBancoControl?.value === '1' && valor !== valor?.toUpperCase()) {
-    ccControl.setValue(valor.toUpperCase(), { emitEvent: false });
- }
-});
-
-codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
-  codigo_BIC_SWIFTControl.setValue(valor.toUpperCase(), { emitEvent: false });
-});
+  codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
+    codigo_BIC_SWIFTControl.setValue(valor.toUpperCase(), { emitEvent: false });
+  });
 
 
-this.xecsForm.get('tipo_solicitante')?.valueChanges.subscribe(value => {
- nifControl?.enable()
+  this.xecsForm.get('tipo_solicitante')?.valueChanges.subscribe(value => {
+    nifControl?.enable()
 
- if (!nifControl) return;
+    if (!nifControl) return;
 
- // Limpia validadores anteriores
- nifControl.clearValidators();
+    // Limpia validadores anteriores
+    nifControl.clearValidators();
 
- if (value === 'autonomo') {
- nifControl.setValidators([
- Validators.required,
- Validators.minLength(9),
- Validators.maxLength(9),
- this.nifValidator.validateDniNie()
- ]);
-  nom_representanteControl?.disable()
-  nif_representanteControl?.disable()
- } else {
- nifControl.setValidators([
- Validators.required,
- Validators.minLength(9),
- Validators.maxLength(9),
- this.nifValidator.validateCif()
- ]);
-  nom_representanteControl?.enable()
-  nif_representanteControl?.enable()
- }
+    if (value === 'autonomo') {
+      nifControl.setValidators([
+        Validators.required,
+        Validators.minLength(9),
+        Validators.maxLength(9),
+        this.nifValidator.validateDniNie()
+      ]);
+      nom_representanteControl?.disable()
+      nif_representanteControl?.disable()
+    } else {
+      nifControl.setValidators([
+        Validators.required,
+        Validators.minLength(9),
+        Validators.maxLength(9),
+        this.nifValidator.validateCif()
+      ]);
+      nom_representanteControl?.enable()
+      nif_representanteControl?.enable()
+    }
 
  nifControl.updateValueAndValidity();
 });
@@ -269,16 +268,16 @@ twoDecimalValidator(): ValidatorFn {
   };
 }
 
-file_memoriaTecnicaToUpload: File[] = []              // required and maybe in ADR
-file_certificadoIAEToUpload: File[] = []              // required
-file_nifEmpresaToUpload: File[] = []                  // required and maybe in ADR
-file_escritura_empresaToUpload: File[] = []           // required and maybe in ADR
-file_document_acred_como_represToUpload: File[] = []  // required
-file_certificadoAEATToUpload: File[] = []             // required
+file_memoriaTecnicaToUpload: File[] = []              // REQUIRED and maybe in ADR
+file_certificadoIAEToUpload: File[] = []              // REQUIRED
+file_nifEmpresaToUpload: File[] = []                  // REQUIRED and maybe in ADR
+file_escritura_empresaToUpload: File[] = []           // REQUIRED and maybe in ADR
+file_document_acred_como_represToUpload: File[] = []  // REQUIRED
+file_certificadoAEATToUpload: File[] = []             // REQUIRED
 
-file_copiaNIFToUpload: File[] = []                    // optional
-file_certificadoATIBToUpload: File[] = []             // optional
-file_certificadoSegSocToUpload: File[] = []           // optional
+file_copiaNIFToUpload: File[] = []                    // OPC
+file_certificadoATIBToUpload: File[] = []             // OPC
+file_certificadoSegSocToUpload: File[] = []           // OPC
 
 onSubmit(): void {
   const datos = this.xecsForm.value;
@@ -304,7 +303,7 @@ onSubmit(): void {
     delete datos.consentimiento_certificadoSegSoc;
     delete datos.declaracion_responsable_ii;
 
-    // Agrupar archivos REQUIRED por tipo
+    // Archivos REQUIRED por tipo
     const filesToUpload = [
       { files: this.file_memoriaTecnicaToUpload, type: 'file_memoriaTecnica' },
       { files: this.file_certificadoIAEToUpload, type: 'file_certificadoIAE' },
@@ -314,12 +313,19 @@ onSubmit(): void {
       { files: this.file_certificadoAEATToUpload, type: 'file_certificadoAEAT' }
     ];
 
+    // Archivos OPC por tipo
+    const opcFilesToUpload = [
+      { files: this.file_copiaNIFToUpload, type: 'file_copiaNIF'},
+      { files: this.file_certificadoATIBToUpload, type: 'file_certificadoATIB'},
+      { files: this.file_certificadoSegSocToUpload, type: 'file_certificadoSegSoc'}
+    ]
+
     this.expedienteService.createExpediente(datos).subscribe({
       next: (resp) => {
         datos.id_sol = resp.id_sol;
         this.showSnackBar('✔️ Expediente creado con éxito ' + resp.message + ' ' + resp.id_sol);
 
-        // Validación y aplanado de archivos
+        // Validación y aplanado de archivos REQUIRED
         const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
           if (!files || files.length === 0) return [];
 
@@ -337,40 +343,51 @@ onSubmit(): void {
           });
         });
 
-        console.log ("archivosValidos", archivosValidos.length)
-        if (archivosValidos.length === 0) {
+
+        // Validación y aplanado de archivos OPCIONALES
+        const archivosOpcionalesValidos = opcFilesToUpload.flatMap(({ files, type }) => {
+          if (!files || files.length === 0) return [];
+
+            return Array.from(files).flatMap((file: File) => {
+              if (!file || file.size === 0 || file.size > 10 * 1024 * 1024) return [];
+              return [{ file, type }];
+            });
+          });
+
+        const todosLosArchivos = [...archivosValidos, ...archivosOpcionalesValidos];
+        if (todosLosArchivos.length === 0) {
           this.showSnackBar('⚠️ No hay archivos válidos para subir.');
           return;
         }
 
-        // Subida secuencial de archivos válidos
-        from(archivosValidos)
+        // Subida secuencial de todos los archivos válidos
+        from(todosLosArchivos)
           .pipe(
             concatMap(({ file, type }) =>
               this.documentosExpedienteService.createDocumentoExpediente([file], datos, type).pipe(
-                concatMap(() => this.uploadTheFile(timeStamp, [file]))
-              )
+              concatMap(() => this.uploadTheFile(timeStamp, [file]))
             )
           )
-          .subscribe({
-            next: (event) => {
-              let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
-              if (Array.isArray(event.file_name)) {
-                event.file_name.forEach((file: any) => {
-                  mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`;
-                });
-              } else {
-                mensaje += `⚠️ No se encontró información de archivo en el evento.`;
-              }
-              this.showSnackBar(mensaje);
-            },
-            complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
-            error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
-          });
+        )
+        .subscribe({
+          next: (event) => {
+            let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
+            if (Array.isArray(event.file_name)) {
+              event.file_name.forEach((file: any) => {
+                mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`;
+              });
+            } else {
+              mensaje += `⚠️ No se encontró información de archivo en el evento.`;
+            }
+            this.showSnackBar(mensaje);
+          },
+          complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
+          error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
+        });
       },
       error: (err) => {
         let msg = '❌ Error al crear el expediente.\n';
-        console.log("err", err);
+        this.showSnackBar("err: " + err);
         try {
           const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
           msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
@@ -382,14 +399,13 @@ onSubmit(): void {
               msg += ` • ${campo}: ${errorCampo}\n`;
             });
           }
-
           const datosRecibidos = errorMsgObj.datos_recibidos;
           if (datosRecibidos) {
             msg += '📦 Datos recibidos:\n';
             Object.entries(datosRecibidos).forEach(([key, value]) => {
-              msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
-            });
-          }
+            msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
+          });
+        }
         } catch (parseError) {
           msg += `⚠️ No se pudo interpretar el error: ${err}`;
         }
@@ -398,8 +414,6 @@ onSubmit(): void {
     });
   });
 }
-
-
 
 /* required files to upload */
 get memoriaTecnicaFileNames(): string {

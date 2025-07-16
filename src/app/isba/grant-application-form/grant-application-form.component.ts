@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal, viewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -133,19 +133,19 @@ export class IsbaGrantApplicationFormComponent {
       email_rep: this.fb.control<string>('', [Validators.required, Validators.email]),
 
       nom_entidad: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
-      importe_prestamo: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+      importe_prestamo: this.fb.control<string>('', [Validators.required, this.twoDecimalValidator()]),
       plazo_prestamo: this.fb.control<string>('', [Validators.required]),
       fecha_aval_idi_isba: this.fb.control<string>('', [Validators.required]),
       plazo_aval_idi_isba: this.fb.control<string>('', [Validators.required]),
-      cuantia_aval_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+      cuantia_aval_idi_isba: this.fb.control<string>('', [Validators.required, this.twoDecimalValidator()]),
 
       finalidad_inversion_idi_isba: this.fb.control<string>('', [Validators.required, customValidator.xssProtectorValidator()]),
       empresa_eco_idi_isba: this.fb.control<string>('', [Validators.required]),
-      importe_presupuesto_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
-      intereses_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
-      coste_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
-      gastos_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
-      importe_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, Validators.pattern('^\\d+(\\.\\d{1,2})?$')]),
+      importe_presupuesto_idi_isba: this.fb.control<string>('', [Validators.required, this.twoDecimalValidator()]),
+      intereses_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, this.twoDecimalValidator()]),
+      coste_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, this.twoDecimalValidator()]),
+      gastos_aval_solicita_idi_isba: this.fb.control<string>('', [Validators.required, this.twoDecimalValidator()]),
+      importe_ayuda_solicita_idi_isba: this.fb.control<string>('', [Validators.required, this.twoDecimalValidator()]),
 
       declaro_idi_isba_que_cumple_0: this.fb.control<string>({ value: 'SI', disabled: true }, []),
       declaro_idi_isba_que_cumple_1: this.fb.control<string>({ value: 'SI', disabled: true }, []),
@@ -241,6 +241,15 @@ export class IsbaGrantApplicationFormComponent {
     this.loadActividadesCNAE()
     this.generateIdExp()
   }
+
+  twoDecimalValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      const regex = /^\d+([.,]\d{2})$/;
+      return value && !regex.test(value) ? { invalidDecimal: true } : null;
+    };
+  }
+
   /* DOCUMENTACIÓN */
   file_memoriaTecnicaToUpload: File[] = []                        // required   Descripción de la empresa y su actividad ...
   file_document_veracidad_datos_bancariosToUpload: File[] = []    // required   Declaración responsable veracidad datos bancarios ...
@@ -287,7 +296,14 @@ export class IsbaGrantApplicationFormComponent {
       { files: this.file_certificadoSGRToUpload, type: 'file_certificadoSGR' },
       { files: this.file_contratoOperFinancToUpload, type: 'file_contratoOperFinanc' },
       { files: this.file_avalOperFinancToUpload, type: 'file_avalOperFinanc' }
-    ];
+    ]
+
+    const opcFilesToUpload = [
+      { files: this.file_altaAutonomosToUpload, type: 'file_altaAutonomos' },
+      { files: this.file_escrituraConstitucionToUpload, type: 'file_escrituraConstitucion' },
+      { files: this.file_nifRepresentanteToUpload, type: 'file_nifRepresentante' },
+      { files: this.file_certificadoATIBToUpload, type: 'file_certificadoATIB' },
+    ]
 
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
@@ -314,7 +330,6 @@ export class IsbaGrantApplicationFormComponent {
           });
         });
 
-        console.log ("archivosValidos", archivosValidos.length)
         if (archivosValidos.length === 0) {
           this.showSnackBar('⚠️ No hay archivos válidos para subir.');
           return;
@@ -347,7 +362,7 @@ export class IsbaGrantApplicationFormComponent {
              },
              error: (err) => {
                let msg = '❌ Error al crear el expediente.\n';
-               console.log("err", err);
+               this.showSnackBar("err: "+ err);
                try {
                  const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
                  msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
@@ -375,6 +390,7 @@ export class IsbaGrantApplicationFormComponent {
     });
   }
   
+  /* Documentos de subida obligada */
   get memoriaTecnicaFileNames(): string {
     return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
   }
@@ -382,7 +398,6 @@ export class IsbaGrantApplicationFormComponent {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       this.file_memoriaTecnicaToUpload = Array.from(input.files);
-      console.log ("this.file_memoriaTecnicaToUpload", this.file_memoriaTecnicaToUpload)
     }
   }
 
@@ -393,7 +408,6 @@ export class IsbaGrantApplicationFormComponent {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       this.file_document_veracidad_datos_bancariosToUpload = Array.from(input.files);
-      console.log ("this.file_document_veracidad_datos_bancariosToUpload", this.file_document_veracidad_datos_bancariosToUpload)
     }
   }
 
@@ -404,7 +418,6 @@ export class IsbaGrantApplicationFormComponent {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       this.file_certificadoIAEToUpload = Array.from(input.files);
-      console.log ("this.file_certificadoIAEToUpload", this.file_certificadoIAEToUpload)
     }
   }
 
@@ -415,7 +428,6 @@ export class IsbaGrantApplicationFormComponent {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       this.file_nifRepresentanteToUpload = Array.from(input.files);
-      console.log ("this.file_nifRepresentanteToUpload", this.file_nifRepresentanteToUpload)
     }
   }
 
@@ -426,7 +438,6 @@ export class IsbaGrantApplicationFormComponent {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       this.file_certificadoATIBToUpload = Array.from(input.files);
-      console.log ("this.file_certificadoATIBToUpload", this.file_certificadoATIBToUpload)
     }
   }
 
@@ -437,7 +448,6 @@ export class IsbaGrantApplicationFormComponent {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       this.file_certificadoAEATToUpload = Array.from(input.files);
-      console.log ("this.file_certificadoAEATToUpload", this.file_certificadoAEATToUpload)
     }
   }
 
@@ -448,7 +458,6 @@ export class IsbaGrantApplicationFormComponent {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       this.file_certificadoSGRToUpload = Array.from(input.files);
-      console.log ("this.file_certificadoSGRToUpload", this.file_certificadoSGRToUpload)
     }
   }
 
@@ -459,7 +468,6 @@ export class IsbaGrantApplicationFormComponent {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       this.file_contratoOperFinancToUpload = Array.from(input.files);
-      console.log ("this.file_contratoOperFinancToUpload", this.file_contratoOperFinancToUpload)
     }
   }
 
@@ -470,9 +478,10 @@ export class IsbaGrantApplicationFormComponent {
     const input = event.target as HTMLInputElement;
     if (input.files) {
       this.file_avalOperFinancToUpload = Array.from(input.files);
-      console.log ("this.file_avalOperFinancToUpload", this.file_avalOperFinancToUpload)
     }
   }
+  /* Documentos de subida opcional */
+
 
   // Subida de archivos en BBDD y servidor
   private uploadDocuments(id: number, timeStamp: string, convocatoria: number, cifnif_propietario: string): void {
