@@ -267,128 +267,130 @@ export class IsbaGrantApplicationFormComponent {
   file_contratoOperFinancToUpload: File[] = []                    // required   Contrato de la operación financiera
   file_avalOperFinancToUpload: File[] = []                        // required   Contrato o documento de aval de la operación financiera
 
-  onSubmit(): void {
-    const timeStamp = this.commonService.generateCustomTimestamp()
-    const convocatoria = new Date().getFullYear()
-    const cifnif_propietario = this.isbaForm.get('nif')?.value
+onSubmit(): void {
+  const timeStamp = this.commonService.generateCustomTimestamp();
+  const convocatoria = new Date().getFullYear();
+  const cifnif_propietario = this.isbaForm.get('nif')?.value;
 
-    for (const [key, fileList] of Object.entries(this.files)) {
-      if (fileList?.length != 0) {
-        this.isbaForm.get(key)?.setValue('SI')
-      } else {
-        this.isbaForm.get(key)?.setValue('NO')
-      }
-    }
-
-    const rawValues = this.isbaForm.getRawValue()
-    // Añado datos necesarios
-    rawValues.idExp = this.idExp
-    rawValues.selloDeTiempo = timeStamp
-    rawValues.convocatoria = convocatoria
-    rawValues.cpostal = this.isbaForm.get('cpostal')?.value['zipCode']
-
-    // Agrupar archivos REQUIRED por tipo
-    const filesToUpload = [
-      { files: this.file_memoriaTecnicaToUpload, type: 'file_memoriaTecnica' },
-      { files: this.file_document_veracidad_datos_bancariosToUpload, type: 'file_document_veracidad_datos_bancarios'},
-      { files: this.file_certificadoIAEToUpload, type: 'file_certificadoIAE' },
-      { files: this.file_certificadoAEATToUpload, type: 'file_certificadoAEAT' },
-      { files: this.file_certificadoSGRToUpload, type: 'file_certificadoSGR' },
-      { files: this.file_contratoOperFinancToUpload, type: 'file_contratoOperFinanc' },
-      { files: this.file_avalOperFinancToUpload, type: 'file_avalOperFinanc' }
-    ]
-
-    const opcFilesToUpload = [
-      { files: this.file_altaAutonomosToUpload, type: 'file_altaAutonomos' },
-      { files: this.file_escrituraConstitucionToUpload, type: 'file_escrituraConstitucion' },
-      { files: this.file_nifRepresentanteToUpload, type: 'file_nifRepresentante' },
-      { files: this.file_certificadoATIBToUpload, type: 'file_certificadoATIB' },
-    ]
-
-    this.expedienteService.createExpediente(rawValues).subscribe({
-      next: (respuesta) => {
-        rawValues.id_sol = respuesta.id_sol
-        this.showSnackBar('✔️ Expediente creado con éxito ' + respuesta.message + ' ' + respuesta.id_sol);
-
-        // Validación y aplanado de archivos
-       
-        const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
-           console.log (files, files.length)
-          if (!files || files.length === 0) return [];
-
-          return Array.from(files).flatMap((file: File) => {
-            if (!file) return [];
-            if (file.size === 0) {
-              this.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`);
-              return [];
-            }
-            if (file.size > 10 * 1024 * 1024) {
-              this.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`);
-              return [];
-            }
-            return [{ file, type }];
-          });
-        });
-
-        if (archivosValidos.length === 0) {
-          this.showSnackBar('⚠️ No hay archivos válidos para subir.');
-          return;
-        }
-        //this.uploadDocuments(newId, timeStamp, convocatoria, cifnif_propietario)
-       // Subida secuencial de archivos válidos
-               from(archivosValidos)
-                 .pipe(
-                   concatMap(({ file, type }) =>
-                     this.documentosExpedienteService.createDocumentoExpediente([file], rawValues, type).pipe(
-                       concatMap(() => this.uploadTheFile(timeStamp, [file]))
-                     )
-                   )
-                 )
-                 .subscribe({
-                   next: (event) => {
-                     let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
-                     if (Array.isArray(event.file_name)) {
-                       event.file_name.forEach((file: any) => {
-                         mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`;
-                       });
-                     } else {
-                       mensaje += `⚠️ No se encontró información de archivo en el evento.`;
-                     }
-                     this.showSnackBar(mensaje);
-                   },
-                   complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
-                   error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
-                 });
-             },
-             error: (err) => {
-               let msg = '❌ Error al crear el expediente.\n';
-               this.showSnackBar("err: "+ err);
-               try {
-                 const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
-                 msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
-       
-                 const erroresDetallados = errorMsgObj.errores_detallados;
-                 if (erroresDetallados) {
-                   msg += '🔍 Errores detallados:\n';
-                   Object.entries(erroresDetallados).forEach(([campo, errorCampo]) => {
-                     msg += ` • ${campo}: ${errorCampo}\n`;
-                   });
-                 }
-       
-                 const datosRecibidos = errorMsgObj.datos_recibidos;
-                 if (datosRecibidos) {
-                   msg += '📦 Datos recibidos:\n';
-                   Object.entries(datosRecibidos).forEach(([key, value]) => {
-                     msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
-                   });
-                 }
-               } catch (parseError) {
-                 msg += `⚠️ No se pudo interpretar el error: ${err}`;
-               }
-               this.showSnackBar(msg);
-             }
-    });
+  for (const [key, fileList] of Object.entries(this.files)) {
+    this.isbaForm.get(key)?.setValue(fileList?.length ? 'SI' : 'NO');
   }
+
+  const rawValues = this.isbaForm.getRawValue();
+  rawValues.idExp = this.idExp;
+  rawValues.selloDeTiempo = timeStamp;
+  rawValues.convocatoria = convocatoria;
+  rawValues.cpostal = this.isbaForm.get('cpostal')?.value['zipCode'];
+
+  const filesToUpload = [
+    { files: this.file_memoriaTecnicaToUpload, type: 'file_memoriaTecnica' },
+    { files: this.file_document_veracidad_datos_bancariosToUpload, type: 'file_document_veracidad_datos_bancarios' },
+    { files: this.file_certificadoIAEToUpload, type: 'file_certificadoIAE' },
+    { files: this.file_certificadoAEATToUpload, type: 'file_certificadoAEAT' },
+    { files: this.file_certificadoSGRToUpload, type: 'file_certificadoSGR' },
+    { files: this.file_contratoOperFinancToUpload, type: 'file_contratoOperFinanc' },
+    { files: this.file_avalOperFinancToUpload, type: 'file_avalOperFinanc' }
+  ];
+
+  const opcFilesToUpload = [
+    { files: this.file_altaAutonomosToUpload, type: 'file_altaAutonomos' },
+    { files: this.file_escrituraConstitucionToUpload, type: 'file_escrituraConstitucion' },
+    { files: this.file_nifRepresentanteToUpload, type: 'file_nifRepresentante' },
+    { files: this.file_certificadoATIBToUpload, type: 'file_certificadoATIB' }
+  ];
+
+  this.expedienteService.createExpediente(rawValues).subscribe({
+    next: (respuesta) => {
+      rawValues.id_sol = respuesta.id_sol;
+      this.showSnackBar('✔️ Expediente creado con éxito ' + respuesta.message + ' ' + respuesta.id_sol);
+
+      const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
+        if (!files || files.length === 0) return [];
+
+        return Array.from(files).flatMap((file: File) => {
+          if (!file) return [];
+          if (file.size === 0) {
+            this.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`);
+            return [];
+          }
+          if (file.size > 10 * 1024 * 1024) {
+            this.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`);
+            return [];
+          }
+          return [{ file, type }];
+        });
+      });
+
+      const archivosOpcionalesValidos = opcFilesToUpload.flatMap(({ files, type }) => {
+        if (!files || files.length === 0) return [];
+
+        return Array.from(files).flatMap((file: File) => {
+          if (!file || file.size === 0 || file.size > 10 * 1024 * 1024) return [];
+          return [{ file, type }];
+        });
+      });
+
+      const todosLosArchivos = [...archivosValidos, ...archivosOpcionalesValidos];
+
+      if (todosLosArchivos.length === 0) {
+        this.showSnackBar('⚠️ No hay archivos válidos para subir.');
+        return;
+      }
+
+      from(todosLosArchivos)
+        .pipe(
+          concatMap(({ file, type }) =>
+            this.documentosExpedienteService.createDocumentoExpediente([file], rawValues, type).pipe(
+              concatMap(() => this.uploadTheFile(timeStamp, [file]))
+            )
+          )
+        )
+        .subscribe({
+          next: (event) => {
+            let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
+            if (Array.isArray(event.file_name)) {
+              event.file_name.forEach((file: any) => {
+                mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`;
+              });
+            } else {
+              mensaje += `⚠️ No se encontró información de archivo en el evento.`;
+            }
+            this.showSnackBar(mensaje);
+          },
+          complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
+          error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
+        });
+    },
+    error: (err) => {
+      let msg = '❌ Error al crear el expediente.\n';
+      this.showSnackBar("err: " + err);
+      try {
+        const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
+        msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
+
+        const erroresDetallados = errorMsgObj.errores_detallados;
+        if (erroresDetallados) {
+          msg += '🔍 Errores detallados:\n';
+          Object.entries(erroresDetallados).forEach(([campo, errorCampo]) => {
+            msg += ` • ${campo}: ${errorCampo}\n`;
+          });
+        }
+
+        const datosRecibidos = errorMsgObj.datos_recibidos;
+        if (datosRecibidos) {
+          msg += '📦 Datos recibidos:\n';
+          Object.entries(datosRecibidos).forEach(([key, value]) => {
+            msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
+          });
+        }
+      } catch (parseError) {
+        msg += `⚠️ No se pudo interpretar el error: ${err}`;
+      }
+      this.showSnackBar(msg);
+    }
+  });
+}
+
   
   /* Documentos de subida obligada */
   get memoriaTecnicaFileNames(): string {
