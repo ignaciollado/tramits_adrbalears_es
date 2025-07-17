@@ -21,7 +21,7 @@
       <mat-row *matRowDef="let row; columns: ['name', 'size'];"></mat-row>
     </mat-table>
 
-    <h3>{{'FORM.UPLOADEDDOCUMENTS' | translate}}</h3>{{id}}
+    <h3>{{'FORM.UPLOADEDDOCUMENTS' | translate}}</h3>{{id}} {{origin}}
     <mat-table [dataSource]="documents" ngClass="mat-elevation-z8 tablecontainer">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> {{'FORM.DOCUMENTNAME' | translate}} </mat-header-cell>

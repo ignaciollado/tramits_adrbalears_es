@@ -25,8 +25,8 @@ export class DocumentService {
   } */
 
   /* En el sistema de archivos del servidor backend */
-  listDocuments(nif: string, timestamp: string): Observable<any[]> {
-    console.log (nif, timestamp)
+  listDocuments(timestamp: string, nif: string): Observable<any[]> {
+    console.log (timestamp, nif)
     return this.http.get<any[]>(`${this.urlAPITramits}/documents/${nif}/${timestamp}`)
       .pipe(catchError(this.handleError));
   }

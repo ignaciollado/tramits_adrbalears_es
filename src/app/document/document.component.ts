@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -43,20 +44,29 @@ export class DocumentComponent implements OnInit {
   message: string = '';
   progress: number = 0;
 
-  @Input() id: string | undefined;
-  @Input() origin: string | undefined;
+  @Input() id!: string;
+  @Input() origin!: string;
+
+
+ ngOnChanges(changes: SimpleChanges): void {
+    if (changes['id'] || changes['origin']) {
+      console.log('ngOnChanges - id:', this.id, 'origin:', this.origin);
+    }
+  }
+
 
   constructor(
     private documentService: DocumentService,
     private dialog: MatDialog,
     private commonService: CommonService
-  ) {}
+  ) {  }
 
-  ngOnInit(): void {
-    this.foldername = this.origin;
-    this.subfolderId = +(this.id ?? 0);
-    this.loadDocuments();
-  }
+ngOnInit(): void {
+  setTimeout(() => {
+    console.log("ngOnInit con delay:", this.origin, this.id);
+    this.loadDocuments(this.origin, this.id);
+  });
+}
 
   onFileSelected(event: any): void {
     this.selectedFiles = Array.from(event.target.files);
@@ -67,13 +77,13 @@ export class DocumentComponent implements OnInit {
     this.uploadDocuments();
   }
 
-  loadDocuments() {
+  loadDocuments(origin: string, id:string) {
     if (!this.foldername || this.subfolderId === undefined) {
       this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
 
-    this.documentService.listDocuments(this.foldername, this.subfolderId.toString()).subscribe(
+    this.documentService.listDocuments(origin, id).subscribe(
       (data) => {
         this.documents = data;
         this.commonService.showSnackBar("Documents listed successfully!!");
@@ -95,21 +105,21 @@ export class DocumentComponent implements OnInit {
       const formData = new FormData();
       this.selectedFiles.forEach(file => formData.append('documents[]', file, file.name));
 
-      this.documentService.createDocument(this.foldername, this.subfolderId.toString(), formData).subscribe(
+      this.documentService.createDocument(this.origin, this.id, formData).subscribe(
         (event) => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progress = Math.round(100 * event.loaded / (event.total ?? 1));
           } else if (event.type === HttpEventType.Response) {
             this.isLoading = false;
             this.commonService.showSnackBar('Documents uploaded successfully!');
-            this.loadDocuments();
+            this.loadDocuments(this.origin, this.id);
             this.selectedFiles = [];
             this.progress = 0;
           }
         },
         (error: any) => {
           this.commonService.showSnackBar(error);
-          this.loadDocuments();
+          this.loadDocuments(this.origin, this.id);
         }
       );
     }
@@ -137,7 +147,7 @@ export class DocumentComponent implements OnInit {
       () => {
         this.documents = this.documents.filter(doc => doc.id !== docName);
         this.commonService.showSnackBar('Document deleted successfully!');
-        this.loadDocuments();
+        this.loadDocuments(this.origin, this.id);
       },
       (error) => this.commonService.showSnackBar(error)
     );
