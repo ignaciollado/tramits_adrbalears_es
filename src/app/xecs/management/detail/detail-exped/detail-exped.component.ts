@@ -105,7 +105,7 @@ getExpedDetail(id: number) {
 
 enableEdit(): void {
   Object.keys(this.form.controls).forEach(controlName => {
-    if (controlName !== 'nif') {
+    if ((controlName !== 'nif') && (controlName !== 'tipo_tramite')) {
       this.form.get(controlName)?.enable();
     } else {
       this.form.get(controlName)?.disable();
