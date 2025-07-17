@@ -29,7 +29,8 @@ import { ExpedienteService } from '../../Services/expediente.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule,
-    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule, TranslateModule, MatTooltipModule, MatAutocompleteModule, MatDialogModule],
+    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule, 
+    TranslateModule, MatTooltipModule, MatAutocompleteModule, MatDialogModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
 })

@@ -113,7 +113,6 @@ enableEdit(): void {
   });
 }
 
-
 saveExpediente(): void {
   const expedienteActualizado = this.form.getRawValue();
 
@@ -124,10 +123,9 @@ saveExpediente(): void {
     });
 }
 
-
 private showSnackBar(error: string): void {
     this.snackBar.open(error, 'Close', {
-      duration: 10000,
+      duration: 15000,
       verticalPosition: 'bottom',
       horizontalPosition: 'center',
       panelClass: ['custom-snackbar'],

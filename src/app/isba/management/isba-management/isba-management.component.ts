@@ -16,6 +16,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { CommonService } from '../../../Services/common.service';
 
 @Component({
   selector: 'app-xecs-management',
@@ -46,6 +47,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
   private snackBar = inject(MatSnackBar);
+  private commonService = inject(CommonService)
   uniqueConvocatorias: number[] = [];
   uniqueTiposTramite: string[] = [];
   uniqueSituaciones: string[] = [];
@@ -123,26 +125,15 @@ loadAllExpedientes(): void {
       this.uniqueSituaciones = [
         ...new Set(expedientesFiltrados.map((e: any) => e.situacion).filter(Boolean))
       ];
-
-      this.snackBar.open('ADR-ISBA: expedientes cargados correctamente ✅', 'Cerrar', {
-        duration: 5000,
-        panelClass: 'snack-success'
-      });
+      this.commonService.showSnackBar('ADR-ISBA: expedientes cargados correctamente ✅')
     },
 
     error: (err) => {
       this.dataSource.data = [];
       if (err.status === 404 && err.error?.messages?.error) {
-        this.snackBar.open(err.error.messages.error, 'Cerrar', {
-          duration: 5000,
-          panelClass: 'snack-warning'
-        });
+        this.commonService.showSnackBar(err.error.messages.error)
       } else {
-        console.error('Error inesperado:', err);
-        this.snackBar.open('Ocurrió un error inesperado ❌', 'Cerrar', {
-          duration: 4000,
-          panelClass: 'snack-error'
-        });
+        this.commonService.showSnackBar('Ocurrió un error inesperado ❌'+err)
       }
     },
 
@@ -156,10 +147,7 @@ loadExpedientes(): void {
   const { convocatoria, tipoTramite, situacion } = this.form.value;
 
   if (!convocatoria) {
-    this.snackBar.open('Selecciona una convocatoria 🧐', 'Cerrar', {
-      duration: 4000,
-      panelClass: 'snack-warning'
-    });
+    this.commonService.showSnackBar('Selecciona una convocatoria 🧐')
     return;
   }
 
@@ -188,19 +176,13 @@ loadExpedientes(): void {
 
       this.actualizarTabla(filtrados);
       this.dataSource.paginator = this.paginator;
+      this.commonService.showSnackBar('Expedientes filtrados correctamente ✅')
 
-      this.snackBar.open('Expedientes filtrados correctamente ✅', 'Cerrar', {
-        duration: 5000,
-        panelClass: 'snack-success'
-      });
     },
     error: (err) => {
       this.dataSource.data = [];
       const backendMessage = err.error?.messages?.error || err.message || 'Error sin mensaje definido';
-      this.snackBar.open(`❌ Error: ${backendMessage}`, 'Cerrar', {
-        duration: 7000,
-        panelClass: 'snack-error'
-      });
+      this.commonService.showSnackBar(`❌ Error: ${backendMessage}`)
     },
     complete: () => {
       this.loading = false;

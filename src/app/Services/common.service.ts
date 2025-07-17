@@ -7,6 +7,7 @@ import { XecsProgramsDTO } from '../Models/xecs-programs-dto';
 import { AuthorizationTextDTO } from '../Models/authorization-texts-dto';
 import jsPDF from 'jspdf';
 import { ResponsabilityDeclarationDTO } from '../Models/responsability-declaration-dto';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class CommonService {
   private urlAPIMock: string
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.urlAPIMock = '../../assets/data/';
 
     this.urlAPI = "https://data.ibrelleu.es/public/index.php"
@@ -104,6 +105,15 @@ export class CommonService {
     const pad = (n: number) => n.toString().padStart(2, '0');
     return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
   }
+
+  showSnackBar(error: string): void {
+    this.snackBar.open(error, 'Close', {
+      duration: 15000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'center',
+      panelClass: ['custom-snackbar'],
+    });
+}
 
   generatePDFDocument(dataToRender: any): void {
     const doc = new jsPDF();
