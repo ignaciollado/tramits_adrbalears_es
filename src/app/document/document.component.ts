@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -47,14 +46,6 @@ export class DocumentComponent implements OnInit {
   @Input() id!: string;
   @Input() origin!: string;
 
-
- ngOnChanges(changes: SimpleChanges): void {
-    if (changes['id'] || changes['origin']) {
-      console.log('ngOnChanges - id:', this.id, 'origin:', this.origin);
-    }
-  }
-
-
   constructor(
     private documentService: DocumentService,
     private dialog: MatDialog,
@@ -63,7 +54,6 @@ export class DocumentComponent implements OnInit {
 
 ngOnInit(): void {
   setTimeout(() => {
-    console.log("ngOnInit con delay:", this.origin, this.id);
     this.loadDocuments(this.origin, this.id);
   });
 }
@@ -78,7 +68,7 @@ ngOnInit(): void {
   }
 
   loadDocuments(origin: string, id:string) {
-    if (!this.foldername || this.subfolderId === undefined) {
+    if (!origin || !id) {
       this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
