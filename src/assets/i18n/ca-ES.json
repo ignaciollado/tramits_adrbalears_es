@@ -95,6 +95,9 @@
     "RESPONSIBLEDECLARATIONDESCRIPTION": "Llegeixi les següents declaracions responsables.",
     "DOCUMENTATIONTITLE": "Documentació",
     "DOCUMENTATIONDESCRIPTION": "Adjunti els documents sol·licitats a continuació.",
+    "DOCUMENTSIZE": "Mida",
+    "DOCUMENTNAME": "Nom de l'arxiu",
+    "UPLOADEDDOCUMENTS": "Documents pujats",
     "DOCUMENTATIONINFOFORMAT": "Perquè s'acceptin els documents adjuntats, aquests han de ser del format indicat posteriorment i amb un màxim de grandària de <strong>10MB</strong>. A més, a continuació, s'indicaran algunes ajudes per a realitzar amb facilitat aquesta pujada de documents:",
     "DOCUMENTATIONINFOCTRL": "Quan els arxius <strong>no</strong> estiguin seguits en la carpeta o no estiguin dins de la mateixa carpeta, premi la tecla <strong>CTRL</strong> i, sense deixar anar, marqui amb el ratolí els arxius corresponents.",
     "DOCUMENTATIONINFOSHIFT": "Quan els arxius <strong>si</strong> estiguin seguits en la mateixa carpeta, premi la tecla <strong>SHIFT</strong> i, sense deixar anar, i prement el ratolí, marqui el primer i l'últim arxiu, de tal forma que es quedin tots seleccionats."

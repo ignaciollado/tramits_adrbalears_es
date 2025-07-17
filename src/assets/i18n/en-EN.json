@@ -95,6 +95,9 @@
     "RESPONSIBLEDECLARATIONDESCRIPTION": "Please read the following responsible statements.",
     "DOCUMENTATIONTITLE": "Documentation",
     "DOCUMENTATIONDESCRIPTION": "Please attach the documents requested below.",
+    "DOCUMENTSIZE": "Size",
+    "DOCUMENTNAME": "File Name",
+    "UPLOADEDDOCUMENTS": "Uploaded documents",
     "DOCUMENTATIONINFOFORMAT": "In order for the attached documents to be accepted, they must be in the format indicated below and with a maximum size of <strong>10MB</strong>. In addition, below you will find some aids to help you upload documents easily:",
     "DOCUMENTATIONINFOCTRL": "When the files are <strong>not</strong> in a row in the folder or are not in the same folder, press the <strong>CTRL</strong> key and, without releasing it, mark the corresponding files with the mouse.",
     "DOCUMENTATIONINFOSHIFT": "When the files are <strong>in</strong> a row in the same folder, press the <strong>SHIFT</strong> key and, without releasing and using the mouse, mark the first and the last file, so that they are all selected."

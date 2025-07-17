@@ -11,16 +11,16 @@ import { of } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { DocumentComponent } from '../../../../document/document.component';
 @Component({
   selector: 'app-detalle-expediente',
   standalone: true,
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss',
   imports: [
-    CommonModule,
+    CommonModule, DocumentComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule,
@@ -32,10 +32,11 @@ export class DetailExpedComponent {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
 
-  form!: FormGroup;
-  idExpediente!: number;
-
-  constructor(private snackBar: MatSnackBar) {}
+  form!: FormGroup
+  idExpediente!: number
+  actualNif!: string
+  actualTimeStamp!: string
+constructor(private snackBar: MatSnackBar) {}
 
 ngOnInit(): void {
   this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
@@ -96,6 +97,8 @@ getExpedDetail(id: number) {
     .subscribe(expediente => {
       if (expediente) {
         this.form.patchValue(expediente);
+        this.actualNif = expediente.nif
+        this.actualTimeStamp = expediente.selloDeTiempo	
         this.showSnackBar('✅ Expediente cargado correctamente.');
       } else {
         this.showSnackBar('⚠️ No se encontró información del expediente.');

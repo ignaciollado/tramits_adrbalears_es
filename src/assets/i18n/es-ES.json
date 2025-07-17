@@ -95,6 +95,9 @@
     "RESPONSIBLEDECLARATIONDESCRIPTION": "Lea las siguientes declaraciones responsables.",
     "DOCUMENTATIONTITLE": "Documentación",
     "DOCUMENTATIONDESCRIPTION": "Adjunte los documentos solicitados a continuación.",
+    "DOCUMENTSIZE": "Tamaño",
+    "DOCUMENTNAME": "Nombre del archivo",
+    "UPLOADEDDOCUMENTS": "Documentos subidos",
     "DOCUMENTATIONINFOFORMAT": "Para que se acepten los documentos adjuntados, estos deben ser del formato indicado posteriormente y con un máximo de tamaño de <strong>10MB</strong>. Además, a continuación, se indicarán algunas ayudas para realizar con facilidad dicha subida de documentos:",
     "DOCUMENTATIONINFOCTRL": "Cuando los archivos <strong>no</strong> estén seguidos en la carpeta o no estén dentro de la misma carpeta, pulse la tecla <strong>CTRL</strong> y, sin soltar, marque con el ratón los archivos correspondientes.",
     "DOCUMENTATIONINFOSHIFT": "Cuando los archivos <strong>si</strong> estén seguidos en la misma carpeta, pulse la tecla <strong>SHIFT</strong> y, sin soltar, y pulsando el ratón, marque el primer y el último archivo, de tal forma que se queden todos seleccionados."

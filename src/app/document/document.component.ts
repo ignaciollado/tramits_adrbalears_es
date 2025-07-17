@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +12,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { CommonService } from '../Services/common.service';
 
 @Component({
   selector: 'app-document',
@@ -48,8 +48,8 @@ export class DocumentComponent implements OnInit {
 
   constructor(
     private documentService: DocumentService,
-    private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private commonService: CommonService
   ) {}
 
   ngOnInit(): void {
@@ -69,23 +69,22 @@ export class DocumentComponent implements OnInit {
 
   loadDocuments() {
     if (!this.foldername || this.subfolderId === undefined) {
-      this.showSnackBar("Faltan datos para cargar los documentos.");
+      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
 
-    this.documentService.getDocuments(this.foldername, this.subfolderId.toString()).subscribe(
+    this.documentService.listDocuments(this.foldername, this.subfolderId.toString()).subscribe(
       (data) => {
         this.documents = data;
-        console.log("documentos: ", this.documents);
-        this.showSnackBar("Documents listed successfully!!");
+        this.commonService.showSnackBar("Documents listed successfully!!");
       },
-      (error) => this.showSnackBar(error)
+      (error) => this.commonService.showSnackBar(error)
     );
   }
 
   uploadDocuments() {
     if (!this.foldername || this.subfolderId === undefined) {
-      this.showSnackBar("Faltan datos para cargar los documentos.");
+      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
 
@@ -102,14 +101,14 @@ export class DocumentComponent implements OnInit {
             this.progress = Math.round(100 * event.loaded / (event.total ?? 1));
           } else if (event.type === HttpEventType.Response) {
             this.isLoading = false;
-            this.showSnackBar('Documents uploaded successfully!');
+            this.commonService.showSnackBar('Documents uploaded successfully!');
             this.loadDocuments();
             this.selectedFiles = [];
             this.progress = 0;
           }
         },
         (error: any) => {
-          this.showSnackBar(error);
+          this.commonService.showSnackBar(error);
           this.loadDocuments();
         }
       );
@@ -118,7 +117,7 @@ export class DocumentComponent implements OnInit {
 
   viewDocument(path: string) {
     if (!this.foldername || this.subfolderId === undefined) {
-      this.showSnackBar("Faltan datos para cargar los documentos.");
+      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
 
@@ -130,26 +129,17 @@ export class DocumentComponent implements OnInit {
 
   deleteDocument(docName: string) {
     if (!this.foldername || this.subfolderId === undefined) {
-      this.showSnackBar("Faltan datos para cargar los documentos.");
+      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
 
     this.documentService.deleteDocument(this.foldername, this.subfolderId, docName).subscribe(
       () => {
         this.documents = this.documents.filter(doc => doc.id !== docName);
-        this.showSnackBar('Document deleted successfully!');
+        this.commonService.showSnackBar('Document deleted successfully!');
         this.loadDocuments();
       },
-      (error) => this.showSnackBar(error)
+      (error) => this.commonService.showSnackBar(error)
     );
-  }
-
-  private showSnackBar(message: string): void {
-    this.snackBar.open(message, 'Close', {
-      duration: 5000,
-      verticalPosition: 'top',
-      horizontalPosition: 'center',
-      panelClass: ['custom-snackbar']
-    });
   }
 }

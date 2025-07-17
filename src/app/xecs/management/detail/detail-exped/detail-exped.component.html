@@ -2,7 +2,7 @@
   <mat-tab label="{{ 'APP.DETAIL' | translate }}"> 
   <mat-card>
   <form [formGroup]="form" class="detalle-formulario">
-<section>    
+  <section>    
     <mat-form-field appearance="outline">
       <mat-label>{{'FORM.SOLICITOR' | translate}}</mat-label>
       <input matInput formControlName="empresa" readonly>
@@ -57,13 +57,14 @@
       <mat-label>Representante legal</mat-label>
       <input matInput formControlName="nombre_rep" readonly>
     </mat-form-field>
-    <section ngClass="autorizaciones"><h2>Autoriza a consultar:</h2>
+    <section ngClass="autorizaciones"><h4>Autoriza a consultar:</h4>
       <mat-checkbox [checked]="form.get('file_copiaNIF')?.value === 'SI'" disabled>Copia NIF</mat-checkbox>
       <mat-checkbox [checked]="form.get('file_certificadoATIB')?.value === 'SI'" disabled>Certificado ATIB</mat-checkbox>
       <mat-checkbox [checked]="form.get('file_certificadoSegSoc')?.value === 'SI'" disabled>Certificado Seguridad Social</mat-checkbox>
     </section>
-</section>
-<section>
+  </section>
+
+  <section>
     <mat-form-field appearance="outline">
       <mat-label>Comentarios</mat-label>
       <textarea matInput formControlName="comments" readonly></textarea>
@@ -96,7 +97,7 @@
       <mat-label>Situación</mat-label>
       <input matInput formControlName="situacion" readonly>
     </mat-form-field>
-    <section ngClass="documentos-en-ADR"><h2>La administración ya dispone de:</h2>
+    <section ngClass="documentos-en-ADR"><h4>La administración ya dispone de:</h4>
       <mat-checkbox [checked]="form.get('memoriaTecnicaEnIDI')?.value === 'SI'" disabled>Memoria técnica</mat-checkbox>
       <mat-checkbox [checked]="form.get('certificadoIAEEnIDI')?.value === 'SI'" disabled>Certificado IAE</mat-checkbox>
       <mat-checkbox [checked]="form.get('copiaNIFSociedadEnIDI')?.value === 'SI'" disabled>NIF empresa</mat-checkbox>
@@ -131,15 +132,16 @@
       <mat-label>Fecha de pago</mat-label>
       <input matInput formControlName="fecha_de_pago" readonly>
     </mat-form-field>       
-</section>
-<section>
- 
-</section>
+  </section>
 
-<section ngClass="form-actions">
-  <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
-  <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
-</section>
+  <section>{{actualNif}}
+    <app-document [id]="actualNif" [origin]="actualTimeStamp"></app-document>
+  </section>
+
+  <section ngClass="form-actions">
+    <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
+    <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
+  </section>
 </form>
 </mat-card>  
   </mat-tab>
