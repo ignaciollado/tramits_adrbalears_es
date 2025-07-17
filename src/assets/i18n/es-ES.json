@@ -9,7 +9,13 @@
     "EXPANDALL": "Expandir todo",
     "COLAPSEALL": "Encoger todo",
     "YES": "Si",
-    "NO": "No"
+    "NO": "No",
+    "DETAIL": "Detalle",
+    "REQUEST": "Solicitud",
+    "VALIDATION": "Validación",
+    "EXECUTION": "Ejecución",
+    "JUSTIFICATION": "Justificación",
+    "DISCLAIMER": "Desestimiento o renuncia"
   },
   "HOME": {
     "WELCOME": "Bienvenido a iTràmits, la plataforma oficial de ADR Balears para la gestión de ayudas y subvenciones",

@@ -11,6 +11,8 @@ import { of } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatTabsModule} from '@angular/material/tabs';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-detalle-expediente',
@@ -20,8 +22,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   imports: [
     CommonModule,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatFormFieldModule, MatTabsModule,
+    MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
   ]
 })
@@ -46,6 +48,27 @@ ngOnInit(): void {
     domicilio: [{ value: '', disabled: true }],
     localidad: [{ value: '', disabled: true }],
     telefono: [{ value: '', disabled: true }],
+    telefono_rep: [{ value: '', disabled: true }],
+    email_rep: [{ value: '', disabled: true }],
+    cpostal: [{ value: '', disabled: true }],
+    iae: [{ value: '', disabled: true }],
+    nombre_rep: [{ value: '', disabled: true }],
+    file_copiaNIF: [{ value: '', disabled: true }],
+    file_certificadoATIB: [{ value: '', disabled: true }],
+    file_certificadoSegSoc: [{ value: '', disabled: true }],
+    comments: [{ value: '', disabled: true }],
+    nif_rep: [{ value: '', disabled: true }],
+    tel_consultor: [{ value: '', disabled: true }],
+    tecnicoAsignado: [{ value: '', disabled: true }],
+    importeAyuda: [{ value: '', disabled: true }],
+    porcentajeConcedido: [{ value: '', disabled: true }],
+    ordenDePago: [{ value: '', disabled: true }],
+    fechaEnvioAdministracion: [{ value: '', disabled: true }],
+    fecha_de_pago: [{ value: '', disabled: true }],
+    memoriaTecnicaEnIDI: [{ value: '', disabled: true }],
+    certificadoIAEEnIDI: [{ value: '', disabled: true }],
+    copiaNIFSociedadEnIDI: [{ value: '', disabled: true }],
+    pJuridicaDocAcreditativaEnIDI: [{ value: '', disabled: true }],
     importe_minimis: [{ value: '', disabled: true }],
     situacion: [{ value: '', disabled: true }],
     fecha_solicitud: [{ value: '', disabled: true }],
@@ -82,7 +105,7 @@ getExpedDetail(id: number) {
 
 enableEdit(): void {
   Object.keys(this.form.controls).forEach(controlName => {
-    if (controlName !== 'id') {
+    if (controlName !== 'nif') {
       this.form.get(controlName)?.enable();
     } else {
       this.form.get(controlName)?.disable();

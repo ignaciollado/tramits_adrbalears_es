@@ -9,7 +9,13 @@
     "EXPANDALL": "Expand all",
     "COLAPSEALL": "Colapse all",
     "YES": "Yes",
-    "NO": "No"
+    "NO": "No",
+    "DETAIL": "Detail",
+    "REQUEST": "Request",
+    "VALIDATION": "Validation",
+    "EXECUTION": "Execution",
+    "JUSTIFICATION": "Justification",
+    "DISCLAIMER": "Disclaimer"
   },
   "HOME": {
     "WELCOME": "Welcome to iTràmits, the official platform of ADR Balears for the management of grants and subsidies",

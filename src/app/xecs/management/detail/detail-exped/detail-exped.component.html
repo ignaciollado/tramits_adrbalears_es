@@ -1,28 +1,33 @@
-<mat-card>
-  <h2>Detalle del expediente #{{ idExpediente }}</h2>
+<mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+  <mat-tab label="{{ 'APP.DETAIL' | translate }}"> 
+  <mat-card>
   <form [formGroup]="form" class="detalle-formulario">
-
-    <!-- Información general -->
+<section>    
     <mat-form-field appearance="outline">
-      <mat-label>ID</mat-label>
-      <input matInput formControlName="id" readonly>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Empresa</mat-label>
+      <mat-label>{{'FORM.SOLICITOR' | translate}}</mat-label>
       <input matInput formControlName="empresa" readonly>
     </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Tipo de trámite</mat-label>
-      <input matInput formControlName="tipo_tramite" readonly>
-    </mat-form-field>
-
     <mat-form-field appearance="outline">
       <mat-label>NIF</mat-label>
       <input matInput formControlName="nif" readonly>
     </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha solicitud</mat-label>
+      <input matInput formControlName="fecha_solicitud" readonly>
+    </mat-form-field>
 
+    <mat-form-field appearance="outline">
+      <mat-label>Línea de trámite</mat-label>
+      <input matInput formControlName="tipo_tramite" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Movil a efectos de notificaciones</mat-label>
+      <input matInput formControlName="telefono_rep" readonly>
+    </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>Dirección electrónica a efectos de notificaciones</mat-label>
+      <input matInput formControlName="email_rep" readonly>
+    </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Domicilio</mat-label>
       <input matInput formControlName="domicilio" readonly>
@@ -32,44 +37,79 @@
       <mat-label>Localidad</mat-label>
       <input matInput formControlName="localidad" readonly>
     </mat-form-field>
-
     <mat-form-field appearance="outline">
-      <mat-label>Teléfono</mat-label>
+      <mat-label>Código postal</mat-label>
+      <input matInput formControlName="cpostal" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Teléfono de contacto</mat-label>
       <input matInput formControlName="telefono" readonly>
     </mat-form-field>
-
     <mat-form-field appearance="outline">
-      <mat-label>Importe ayuda (mínimis)</mat-label>
+      <mat-label>Actividad económica (IAE)</mat-label>
+      <input matInput formControlName="iae" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Importe mínimis (€)</mat-label>
       <input matInput formControlName="importe_minimis" readonly>
     </mat-form-field>
-
+    <mat-form-field appearance="outline">
+      <mat-label>Representante legal</mat-label>
+      <input matInput formControlName="nombre_rep" readonly>
+    </mat-form-field>
+    <section ngClass="autorizaciones"><h2>Autoriza a consultar:</h2>
+      <mat-checkbox [checked]="form.get('file_copiaNIF')?.value === 'SI'" disabled>Copia NIF</mat-checkbox>
+      <mat-checkbox [checked]="form.get('file_certificadoATIB')?.value === 'SI'" disabled>Certificado ATIB</mat-checkbox>
+      <mat-checkbox [checked]="form.get('file_certificadoSegSoc')?.value === 'SI'" disabled>Certificado Seguridad Social</mat-checkbox>
+    </section>
+</section>
+<section>
+    <mat-form-field appearance="outline">
+      <mat-label>Comentarios</mat-label>
+      <textarea matInput formControlName="comments" readonly></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>NIF representante legal</mat-label>
+      <input matInput formControlName="nif_rep" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Empresa del consultor</mat-label>
+      <input matInput formControlName="empresa_consultor" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre del consultor</mat-label>
+      <input matInput formControlName="nom_consultor" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Teléfono del consultor</mat-label>
+      <input matInput formControlName="tel_consultor" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Email del consultor</mat-label>
+      <input matInput formControlName="mail_consultor" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Técnico/a asignado/a</mat-label>
+      <input matInput formControlName="tecnicoAsignado" readonly>
+    </mat-form-field>    
     <mat-form-field appearance="outline">
       <mat-label>Situación</mat-label>
       <input matInput formControlName="situacion" readonly>
     </mat-form-field>
-
+    <section ngClass="documentos-en-ADR"><h2>La administración ya dispone de:</h2>
+      <mat-checkbox [checked]="form.get('memoriaTecnicaEnIDI')?.value === 'SI'" disabled>Memoria técnica</mat-checkbox>
+      <mat-checkbox [checked]="form.get('certificadoIAEEnIDI')?.value === 'SI'" disabled>Certificado IAE</mat-checkbox>
+      <mat-checkbox [checked]="form.get('copiaNIFSociedadEnIDI')?.value === 'SI'" disabled>NIF empresa</mat-checkbox>
+      <mat-checkbox [checked]="form.get('pJuridicaDocAcreditativaEnIDI')?.value === 'SI'" disabled>Documento acreditativo de representación</mat-checkbox>
+    </section>
     <mat-form-field appearance="outline">
-      <mat-label>Fecha solicitud</mat-label>
-      <input matInput formControlName="fecha_solicitud" readonly>
+      <mat-label>Importe ayuda</mat-label>
+      <input matInput formControlName="importeAyuda" readonly>
     </mat-form-field>
-
-    <!-- Datos de consultor -->
     <mat-form-field appearance="outline">
-      <mat-label>Consultor</mat-label>
-      <input matInput formControlName="nom_consultor" readonly>
+      <mat-label>Porcentaje concedido</mat-label>
+      <input matInput formControlName="porcentajeConcedido" readonly>
     </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Empresa Consultor</mat-label>
-      <input matInput formControlName="empresa_consultor" readonly>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Email Consultor</mat-label>
-      <input matInput formControlName="mail_consultor" readonly>
-    </mat-form-field>
-
-    <!-- Campos adicionales -->
     <mat-form-field appearance="outline">
       <mat-label>Entidad Bancaria</mat-label>
       <input matInput formControlName="nom_entidad" readonly>
@@ -79,10 +119,42 @@
       <mat-label>IBAN</mat-label>
       <input matInput formControlName="cc_datos_bancarios" readonly>
     </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Enviado a pago</mat-label>
+      <input matInput formControlName="ordenDePago" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de envió a administración</mat-label>
+      <input matInput formControlName="fechaEnvioAdministracion" readonly>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de pago</mat-label>
+      <input matInput formControlName="fecha_de_pago" readonly>
+    </mat-form-field>       
+</section>
+<section>
+ 
+</section>
 
-    <section ngClass="form-actions">
-      <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
-      <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
-    </section>
-  </form>
-</mat-card>
+<section ngClass="form-actions">
+  <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
+  <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
+</section>
+</form>
+</mat-card>  
+  </mat-tab>
+  <mat-tab label="{{ 'APP.REQUEST' | translate }}"> 
+    <mat-card>xxxx</mat-card>  
+  </mat-tab>
+  <mat-tab label="{{ 'APP.VALIDATION' | translate }}"> 
+    <mat-card>yyyy</mat-card>
+  </mat-tab>
+  <mat-tab label="{{ 'APP.EXECUTION' | translate }}"> 
+    <mat-card>zzzzz</mat-card>  
+  </mat-tab>
+  <mat-tab label="{{ 'APP.DISCLAIMER' | translate }}">
+    <mat-card>aaaa</mat-card>
+  </mat-tab>
+</mat-tab-group>
+
+

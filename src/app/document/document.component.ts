@@ -1,33 +1,49 @@
-7
 import { Component, OnInit, Input } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 import { DocumentService } from '../Services/document.service';
 import { HttpEventType } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-document',
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    FormsModule
+  ],
   templateUrl: './document.component.html',
   styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
-  showConfirmation:boolean = false;
-  isLoading:boolean = false;
+  showConfirmation: boolean = false;
+  isLoading: boolean = false;
   documents: any[] = [];
   selectedFiles: File[] = [];
-  foldername: string = '';
+  foldername: string | undefined;
   subfolderId: number | undefined;
   message: string = '';
-  progress: number = 0
+  progress: number = 0;
 
   @Input() id: string | undefined;
   @Input() origin: string | undefined;
 
-  constructor(private documentService: DocumentService, private snackBar: MatSnackBar, private dialog: MatDialog) { }
+  constructor(
+    private documentService: DocumentService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.foldername = this.origin
-    this.subfolderId = +this.id
+    this.foldername = this.origin;
+    this.subfolderId = +(this.id ?? 0);
     this.loadDocuments();
   }
 
@@ -41,23 +57,35 @@ export class DocumentComponent implements OnInit {
   }
 
   loadDocuments() {
-    this.documentService.getDocuments(this.foldername, this.subfolderId).subscribe(
+    if (!this.foldername || this.subfolderId === undefined) {
+      this.showSnackBar("Faltan datos para cargar los documentos.");
+      return;
+    }
+
+    this.documentService.getDocuments(this.foldername, this.subfolderId.toString()).subscribe(
       (data) => {
-        this.documents = data
-        console.log ("documentos: ", this.documents)
-        this.showSnackBar("Documents listed successfully!!")
+        this.documents = data;
+        console.log("documentos: ", this.documents);
+        this.showSnackBar("Documents listed successfully!!");
       },
       (error) => this.showSnackBar(error)
     );
   }
 
   uploadDocuments() {
+    if (!this.foldername || this.subfolderId === undefined) {
+      this.showSnackBar("Faltan datos para cargar los documentos.");
+      return;
+    }
+
     this.isLoading = true;
-    this.showConfirmation = false
+    this.showConfirmation = false;
+
     if (this.selectedFiles.length > 0) {
       const formData = new FormData();
       this.selectedFiles.forEach(file => formData.append('documents[]', file, file.name));
-      this.documentService.uploadDocuments(this.foldername, this.subfolderId, formData).subscribe(
+
+      this.documentService.createDocument(this.foldername, this.subfolderId.toString(), formData).subscribe(
         (event) => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progress = Math.round(100 * event.loaded / (event.total ?? 1));
@@ -70,25 +98,33 @@ export class DocumentComponent implements OnInit {
           }
         },
         (error: any) => {
-          this.showSnackBar(error)
-          this.loadDocuments()
+          this.showSnackBar(error);
+          this.loadDocuments();
         }
       );
     }
   }
 
   viewDocument(path: string) {
-    let newPath: string = ""
-    newPath = path.replace('/home/dataibrelleu/www/writable/uploads/', '')
-    this.documentService.viewDocument(newPath)
-    .subscribe((doc:any) => {
-      console.log (doc)
-    })
+    if (!this.foldername || this.subfolderId === undefined) {
+      this.showSnackBar("Faltan datos para cargar los documentos.");
+      return;
+    }
+
+    const newPath = path.replace('/home/dataibrelleu/www/writable/uploads/', '');
+    this.documentService.listDocuments(this.foldername, newPath).subscribe((doc: any) => {
+      console.log(doc);
+    });
   }
 
   deleteDocument(docName: string) {
+    if (!this.foldername || this.subfolderId === undefined) {
+      this.showSnackBar("Faltan datos para cargar los documentos.");
+      return;
+    }
+
     this.documentService.deleteDocument(this.foldername, this.subfolderId, docName).subscribe(
-      (response) => {
+      () => {
         this.documents = this.documents.filter(doc => doc.id !== docName);
         this.showSnackBar('Document deleted successfully!');
         this.loadDocuments();
@@ -97,14 +133,12 @@ export class DocumentComponent implements OnInit {
     );
   }
 
-  private showSnackBar(error: string): void {
-    this.snackBar.open( error, 'Close', { duration: 5000, verticalPosition: 'top', 
-      horizontalPosition: 'center', panelClass: ["custom-snackbar"]} );
-  }
-
- /*  openFileContent(document: any) {
-    this.dialog.open(FileContentDialogComponent, {
-      data: { name: document.name, path: document.path }
+  private showSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      verticalPosition: 'top',
+      horizontalPosition: 'center',
+      panelClass: ['custom-snackbar']
     });
-  } */
+  }
 }

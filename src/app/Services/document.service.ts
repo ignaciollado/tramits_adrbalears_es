@@ -18,11 +18,11 @@ export class DocumentService {
     return this.http.get<any[]>(`${this.urlAPITramits}/pindustdocument/${nif}/${timestamp}`)
       .pipe(catchError(this.handleError));
   }
-  insertDocuments(formData: FormData): Observable<HttpEvent<any>> {
+/*   insertDocuments(formData: FormData): Observable<HttpEvent<any>> {
     return this.http.post<any>(`${this.urlAPITramits}/pindustdocument/create`, formData, {
       reportProgress: true, observe: 'events'})
       .pipe(catchError(this.handleError));
-  }
+  } */
 
   /* En el sistema de archivos del servidor backend */
   listDocuments(nif: string, timestamp: string): Observable<any[]> {
@@ -33,6 +33,11 @@ export class DocumentService {
   createDocument(nif:string, timestamp: string, formData: FormData): Observable<HttpEvent<any>> {
     return this.http.post<any>(`${this.urlAPITramits}/document/upload/${nif}/${timestamp}`, formData, {
       reportProgress: true, observe: 'events'})
+      .pipe(catchError(this.handleError));
+  }
+
+    deleteDocument(folderName: string, id: number, docName: string): Observable<any> {
+    return this.http.delete<any>(`${this.urlAPITramits}/api/documents/delete/${folderName}/${id}/${docName}`)
       .pipe(catchError(this.handleError));
   }
 
