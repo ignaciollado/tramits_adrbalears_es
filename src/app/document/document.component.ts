@@ -7,6 +7,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { DocumentService } from '../Services/document.service';
 import { HttpEventType } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-document',
@@ -17,7 +23,12 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatCheckboxModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    MatTableModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+    TranslateModule
   ],
   templateUrl: './document.component.html',
   styleUrls: ['./document.component.scss']
