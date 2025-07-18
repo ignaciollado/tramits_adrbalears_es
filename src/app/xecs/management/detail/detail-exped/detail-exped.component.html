@@ -134,12 +134,13 @@
     </mat-form-field>       
   </section>
 
-  <section> <h4>Documentación requerida de la solicitud</h4>
+  <section> 
+    <h4>Documentación requerida de la solicitud</h4>
     <app-document [idSol]="idExpediente" [requriedDocs]="'SI'"></app-document>
-  </section>
-  <section> <h4>Documentación opcional de la solicitud</h4>
+    <h4>Documentación opcional de la solicitud</h4>
     <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
   </section>
+
   <section ngClass="form-actions">
     <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
     <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>

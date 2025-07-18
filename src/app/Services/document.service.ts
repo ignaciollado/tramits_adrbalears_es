@@ -26,7 +26,6 @@ export class DocumentService {
 
   /* En el sistema de archivos del servidor backend */
   listDocuments(idSol: number, isRequiredDoc: string): Observable<any[]> {
-    console.log ("en listDocuments: ", idSol, isRequiredDoc)
     return this.http.get<any[]>(`${this.urlAPITramits}/documents/${idSol}/${isRequiredDoc}`)
       .pipe(catchError(this.handleError));
   }

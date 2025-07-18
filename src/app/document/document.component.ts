@@ -77,10 +77,15 @@ listDocuments(idSol: number, isRequiredDoc: string): void {
   }
 
   this.documentService.listDocuments(idSol, isRequiredDoc).subscribe(
-    (response:any) => {
+    (response: any) => {
       if (response.status === 'success') {
-        this.documents = response.data
-        console.log ("response.data", response.data, this.documents)
+        // Añadir id_sol a cada documento
+        const documentosConId = response.data.map((doc: any) => ({
+          ...doc,
+          id_sol: idSol
+        }));
+
+        this.documents = documentosConId;
 
         if (this.documents.length > 0) {
           this.commonService.showSnackBar("Documentos cargados correctamente.");
@@ -92,8 +97,7 @@ listDocuments(idSol: number, isRequiredDoc: string): void {
       }
     },
     (error) => {
-      console.error("Error al obtener documentos:", error);
-      this.commonService.showSnackBar("Error al obtener los documentos del servidor.");
+      this.commonService.showSnackBar("Error al obtener los documentos del servidor: " + error);
     }
   );
 }
