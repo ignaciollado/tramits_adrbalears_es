@@ -44,7 +44,10 @@ export class DocumentComponent implements OnInit {
   progress: number = 0;
 
   @Input() id!: string;
+  @Input() idSol!: number;
   @Input() origin!: string;
+  @Input() requriedDocs!: string;
+  @Input() convocatoria!: number;
 
   constructor(
     private documentService: DocumentService,
@@ -54,7 +57,7 @@ export class DocumentComponent implements OnInit {
 
 ngOnInit(): void {
   setTimeout(() => {
-    this.loadDocuments(this.origin, this.id);
+    this.listDocuments(this.idSol, this.requriedDocs);
   });
 }
 
@@ -67,20 +70,34 @@ ngOnInit(): void {
     this.uploadDocuments();
   }
 
-  loadDocuments(origin: string, id:string) {
-    if (!origin || !id) {
-      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
-      return;
-    }
-
-    this.documentService.listDocuments(origin, id).subscribe(
-      (data) => {
-        this.documents = data;
-        this.commonService.showSnackBar("Documents listed successfully!!");
-      },
-      (error) => this.commonService.showSnackBar(error)
-    );
+listDocuments(idSol: number, isRequiredDoc: string): void {
+  if (!idSol) {
+    this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
+    return;
   }
+
+  this.documentService.listDocuments(idSol, isRequiredDoc).subscribe(
+    (response:any) => {
+      if (response.status === 'success') {
+        this.documents = response.data
+        console.log ("response.data", response.data, this.documents)
+
+        if (this.documents.length > 0) {
+          this.commonService.showSnackBar("Documentos cargados correctamente.");
+        } else {
+          this.commonService.showSnackBar("No se encontraron documentos válidos.");
+        }
+      } else {
+        this.commonService.showSnackBar("Error al cargar los documentos.");
+      }
+    },
+    (error) => {
+      console.error("Error al obtener documentos:", error);
+      this.commonService.showSnackBar("Error al obtener los documentos del servidor.");
+    }
+  );
+}
+
 
   uploadDocuments() {
     if (!this.foldername || this.subfolderId === undefined) {
@@ -102,14 +119,14 @@ ngOnInit(): void {
           } else if (event.type === HttpEventType.Response) {
             this.isLoading = false;
             this.commonService.showSnackBar('Documents uploaded successfully!');
-            this.loadDocuments(this.origin, this.id);
+            this.listDocuments(+this.idSol, this.requriedDocs);
             this.selectedFiles = [];
             this.progress = 0;
           }
         },
         (error: any) => {
           this.commonService.showSnackBar(error);
-          this.loadDocuments(this.origin, this.id);
+          this.listDocuments(+this.idSol, this.requriedDocs);
         }
       );
     }
@@ -122,7 +139,7 @@ ngOnInit(): void {
     }
 
     const newPath = path.replace('/home/dataibrelleu/www/writable/uploads/', '');
-    this.documentService.listDocuments(this.foldername, newPath).subscribe((doc: any) => {
+    this.documentService.listDocuments(this.idSol, this.requriedDocs).subscribe((doc: any) => {
       console.log(doc);
     });
   }
@@ -137,9 +154,13 @@ ngOnInit(): void {
       () => {
         this.documents = this.documents.filter(doc => doc.id !== docName);
         this.commonService.showSnackBar('Document deleted successfully!');
-        this.loadDocuments(this.origin, this.id);
+        this.listDocuments(this.idSol, this.requriedDocs);
       },
       (error) => this.commonService.showSnackBar(error)
     );
+  }
+
+  aproveDocument(docName: string) {
+    console.log (docName)
   }
 }

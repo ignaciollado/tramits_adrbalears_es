@@ -36,7 +36,9 @@ export class DetailExpedComponent {
   idExpediente!: number
   actualNif!: string
   actualTimeStamp!: string
-constructor(private snackBar: MatSnackBar) {}
+  actualConvocatoria!: number
+
+  constructor(private snackBar: MatSnackBar) {}
 
 ngOnInit(): void {
   this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
@@ -45,6 +47,7 @@ ngOnInit(): void {
     id: [{ value: '', disabled: true }],
     empresa: [{ value: '', disabled: true }],
     tipo_tramite: [{ value: '', disabled: true }],
+    convocatoria: [{ value: '', disabled: true }],
     nif: [{ value: '', disabled: true }],
     domicilio: [{ value: '', disabled: true }],
     localidad: [{ value: '', disabled: true }],
@@ -83,14 +86,11 @@ ngOnInit(): void {
   this.getExpedDetail(this.idExpediente);
 }
 
-
-
 getExpedDetail(id: number) {
   this.expedienteService.getOneExpediente(id)
     .pipe(
       catchError(error => {
-        console.error('Error al obtener el expediente:', error);
-        this.showSnackBar('❌ Error al cargar el expediente. Inténtalo de nuevo más tarde.');
+        this.showSnackBar('❌ Error al cargar el expediente. Inténtalo de nuevo más tarde. '+error);
         return of(null);
       })
     )
@@ -99,6 +99,7 @@ getExpedDetail(id: number) {
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
         this.actualTimeStamp = expediente.selloDeTiempo	
+        this.actualConvocatoria = expediente.convocatoria
         this.showSnackBar('✅ Expediente cargado correctamente.');
       } else {
         this.showSnackBar('⚠️ No se encontró información del expediente.');
