@@ -85,10 +85,8 @@ export class DocumentComponent implements OnInit {
       this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
-
-  this.documentService.listDocuments(idSol, isRequiredDoc).subscribe(
+    this.documentService.listDocuments(idSol, isRequiredDoc).subscribe(
     (response: any) => {
-      console.log ("response", response.data)
       if (response.status === 'success') {
         const documentosConId = response.data.map((doc: any) => (
         {
@@ -147,14 +145,14 @@ export class DocumentComponent implements OnInit {
   }
 
   viewDocument(path: string) {
-    if (!this.foldername || this.subfolderId === undefined) {
+    console.log (path)
+    if (!path) {
       this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
 
-    const newPath = path.replace('/home/dataibrelleu/www/writable/uploads/', '');
+    const newPath = path.replace('/home/pretramitsidi/www/writable/uploads/', '');
     this.documentService.listDocuments(this.idSol, this.requriedDocs).subscribe((doc: any) => {
-      console.log(doc);
     });
   }
 
@@ -190,7 +188,6 @@ export class DocumentComponent implements OnInit {
         const index = this.documents.findIndex(doc =>
           doc.id_sol === documento.id_sol && doc.name === documento.name
         );
-        console.log ("index", index)
         if (index !== -1) {
           // Reemplazar el objeto por una nueva referencia con el estado actualizado
           this.documents[index] = {
@@ -204,7 +201,6 @@ export class DocumentComponent implements OnInit {
       }
     },
     error: (error) => {
-      console.error('Error al cambiar estado del documento:', error);
       this.commonService.showSnackBar('Error al cambiar estado del documento: ' + (error.message || error));
     }
   });
