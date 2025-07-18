@@ -21,13 +21,12 @@
       <mat-row *matRowDef="let row; columns: ['name', 'size'];"></mat-row>
     </mat-table>
 
-    <!-- <h3>{{'FORM.UPLOADEDDOCUMENTS' | translate}}</h3> -->
     <mat-table [dataSource]="documents" ngClass="mat-elevation-z8 tablecontainer">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> {{'FORM.DOCUMENTNAME' | translate}} </mat-header-cell>
           <mat-cell *matCellDef="let document">
             <ng-container >
-              <img *ngIf="document.extension !== 'pdf' && document.extension !== 'doc' && document.extension !== 'docx' && document.extension !== 'xls' && document.extension !== 'xlsx'" width="40px" src='https://data.ibrelleu.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{ document.name }}' alt='https://data.ibrelleu.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
+              <img *ngIf="document.extension !== 'pdf' && document.extension !== 'doc' && document.extension !== 'docx' && document.extension !== 'xls' && document.extension !== 'xlsx'" width="40px" src='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{ document.name }}' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
               <img *ngIf="document.extension == 'pdf'"  width="40px" src='../../assets/images/logo-2-pdf.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
               <img *ngIf="document.extension == 'docx' || document.extension == 'doc'" width="40px" src='../../assets/images/logo-docx.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
               <img *ngIf="document.extension == 'xlsx' || document.extension == 'xls'" width="40px" src='../../assets/images/logo-xlsx.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
@@ -43,7 +42,7 @@
       </ng-container>
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-        <mat-cell *matCellDef="let document">
+        <mat-cell *matCellDef="let document" ngClass="action-buttons">
           <button (click)="viewDocument(document.path)" mat-raised-button>View</button>
           <button (click)="deleteDocument(document.name)" mat-raised-button color="warn">Delete</button>
           <button (click)="changeDocumentState(document)" mat-raised-button [color]="getButtonColor(document.estado)"><mat-icon>{{ getButtonIcon(document.estado) }}</mat-icon>{{ document.estado }}</button>

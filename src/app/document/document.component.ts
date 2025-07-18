@@ -213,11 +213,11 @@ export class DocumentComponent implements OnInit {
   getButtonColor(state: string): 'primary' | 'accent' | 'warn' | undefined {
   switch (state) {
     case 'Aprovat':
-      return 'primary'; // azul
+      return 'accent'; // morado
     case 'Rebutjat':
       return 'warn'; // rojo
     case 'Pendent':
-      return 'accent'; // morado
+      return 'primary'; // azul
     default:
       return undefined;
   }

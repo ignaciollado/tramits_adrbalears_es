@@ -20,7 +20,11 @@ a:hover {
   border-top: 1px solid transparent;
   cursor: pointer;
 }
-
 .mat-mdc-row:hover .mat-mdc-cell {
   border-color: currentColor;
+}
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: .5rem;
 }
