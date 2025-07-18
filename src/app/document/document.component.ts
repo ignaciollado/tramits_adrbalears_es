@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonService } from '../Services/common.service';
 import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 export interface Documento {
   id_sol: number;
@@ -60,15 +61,15 @@ export class DocumentComponent implements OnInit {
 
   constructor(
     private documentService: DocumentService,
-    private dialog: MatDialog,
+    private dialog: MatDialog, private cdr: ChangeDetectorRef,
     private commonService: CommonService, private expedienteDocumentoService: ExpedienteDocumentoService
   ) {  }
 
-ngOnInit(): void {
-  setTimeout(() => {
-    this.listDocuments(this.idSol, this.requriedDocs);
-  });
-}
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.listDocuments(this.idSol, this.requriedDocs);
+    });
+  } 
 
   onFileSelected(event: any): void {
     this.selectedFiles = Array.from(event.target.files);
@@ -87,15 +88,16 @@ ngOnInit(): void {
 
   this.documentService.listDocuments(idSol, isRequiredDoc).subscribe(
     (response: any) => {
+      console.log ("response", response.data)
       if (response.status === 'success') {
-        const documentosConId = response.data.map((doc: any) => ({
+        const documentosConId = response.data.map((doc: any) => (
+        {
           ...doc,
-          id_sol: idSol
+          id_sol: idSol,
+          estado: doc.state || 'Pendent'
         }));
 
         this.documents = documentosConId;
-        console.log (this.documents)
-
         if (this.documents.length > 0) {
           this.commonService.showSnackBar("Documentos cargados correctamente.");
         } else {
@@ -108,7 +110,7 @@ ngOnInit(): void {
     (error) => {
       this.commonService.showSnackBar("Error al obtener los documentos del servidor: " + error);
     }
-  );
+    );
   }
 
   uploadDocuments() {
@@ -173,21 +175,64 @@ ngOnInit(): void {
   }
 
   changeDocumentState(documento: Documento) {
-    const payload = {
-      id_sol: documento.id_sol,
-      name: documento.name
-    };
+  const payload = {
+    id_sol: documento.id_sol,
+    name: documento.name
+  };
 
-    this.expedienteDocumentoService.changeDocumentoExpedienteState(payload).subscribe({
-      next: (respuesta) => {
-        console.log (respuesta)
-        this.commonService.showSnackBar(respuesta.message);
-      },
-      error: (error) => {
-        console.log (error)
-        this.commonService.showSnackBar('Error al cambiar estado del documento: '+ error);
+  this.expedienteDocumentoService.changeDocumentoExpedienteState(payload).subscribe({
+    next: (respuesta) => {
+      console.log('Respuesta del backend:', respuesta);
+      this.commonService.showSnackBar(respuesta.message);
+
+      if (respuesta?.data?.estadoNuevo) {
+        // Buscar el índice del documento en la lista
+        const index = this.documents.findIndex(doc =>
+          doc.id_sol === documento.id_sol && doc.name === documento.name
+        );
+        console.log ("index", index)
+        if (index !== -1) {
+          // Reemplazar el objeto por una nueva referencia con el estado actualizado
+          this.documents[index] = {
+            ...this.documents[index],
+            estado: respuesta.data.estadoNuevo
+          };
+
+          // Forzar detección de cambios (opcional si no se actualiza automáticamente)
+          this.documents = [...this.documents];
+        }
       }
-    });
+    },
+    error: (error) => {
+      console.error('Error al cambiar estado del documento:', error);
+      this.commonService.showSnackBar('Error al cambiar estado del documento: ' + (error.message || error));
+    }
+  });
   }
 
+  getButtonColor(state: string): 'primary' | 'accent' | 'warn' | undefined {
+  switch (state) {
+    case 'Aprovat':
+      return 'primary'; // azul
+    case 'Rebutjat':
+      return 'warn'; // rojo
+    case 'Pendent':
+      return 'accent'; // morado
+    default:
+      return undefined;
+  }
+  }
+
+  getButtonIcon(state: string): string {
+  switch (state) {
+    case 'Aprovat':
+      return 'check_circle'; // ✅
+    case 'Rebutjat':
+      return 'cancel'; // ❌
+    case 'Pendent':
+      return 'hourglass_empty'; // ⏳
+    default:
+      return 'help_outline'; // ?
+  }
+  }
 }

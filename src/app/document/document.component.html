@@ -46,8 +46,7 @@
         <mat-cell *matCellDef="let document">
           <button (click)="viewDocument(document.path)" mat-raised-button>View</button>
           <button (click)="deleteDocument(document.name)" mat-raised-button color="warn">Delete</button>
-          <button (click)="changeDocumentState(document)" mat-raised-button color="accent">Pending</button>
-
+          <button (click)="changeDocumentState(document)" mat-raised-button [color]="getButtonColor(document.estado)"><mat-icon>{{ getButtonIcon(document.estado) }}</mat-icon>{{ document.estado }}</button>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="['name', 'actions']"></mat-header-row>
