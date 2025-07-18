@@ -46,7 +46,7 @@
         <mat-cell *matCellDef="let document">
           <button (click)="viewDocument(document.path)" mat-raised-button>View</button>
           <button (click)="deleteDocument(document.name)" mat-raised-button color="warn">Delete</button>
-          <button (click)="aproveDocument(document)" mat-raised-button color="accent">Pending</button>
+          <button (click)="changeDocumentState(document)" mat-raised-button color="accent">Pending</button>
 
         </mat-cell>
       </ng-container>

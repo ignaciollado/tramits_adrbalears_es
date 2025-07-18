@@ -13,6 +13,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonService } from '../Services/common.service';
+import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
+
+export interface Documento {
+  id_sol: number;
+  name: string;
+  extension: string;
+  url: string;
+  estado: string;
+}
 
 @Component({
   selector: 'app-document',
@@ -52,7 +61,7 @@ export class DocumentComponent implements OnInit {
   constructor(
     private documentService: DocumentService,
     private dialog: MatDialog,
-    private commonService: CommonService
+    private commonService: CommonService, private expedienteDocumentoService: ExpedienteDocumentoService
   ) {  }
 
 ngOnInit(): void {
@@ -70,22 +79,22 @@ ngOnInit(): void {
     this.uploadDocuments();
   }
 
-listDocuments(idSol: number, isRequiredDoc: string): void {
-  if (!idSol) {
-    this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
-    return;
-  }
+  listDocuments(idSol: number, isRequiredDoc: string): void {
+    if (!idSol) {
+      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
+      return;
+    }
 
   this.documentService.listDocuments(idSol, isRequiredDoc).subscribe(
     (response: any) => {
       if (response.status === 'success') {
-        // Añadir id_sol a cada documento
         const documentosConId = response.data.map((doc: any) => ({
           ...doc,
           id_sol: idSol
         }));
 
         this.documents = documentosConId;
+        console.log (this.documents)
 
         if (this.documents.length > 0) {
           this.commonService.showSnackBar("Documentos cargados correctamente.");
@@ -100,8 +109,7 @@ listDocuments(idSol: number, isRequiredDoc: string): void {
       this.commonService.showSnackBar("Error al obtener los documentos del servidor: " + error);
     }
   );
-}
-
+  }
 
   uploadDocuments() {
     if (!this.foldername || this.subfolderId === undefined) {
@@ -164,7 +172,22 @@ listDocuments(idSol: number, isRequiredDoc: string): void {
     );
   }
 
-  aproveDocument(docName: string) {
-    console.log (docName)
+  changeDocumentState(documento: Documento) {
+    const payload = {
+      id_sol: documento.id_sol,
+      name: documento.name
+    };
+
+    this.expedienteDocumentoService.changeDocumentoExpedienteState(payload).subscribe({
+      next: (respuesta) => {
+        console.log (respuesta)
+        this.commonService.showSnackBar(respuesta.message);
+      },
+      error: (error) => {
+        console.log (error)
+        this.commonService.showSnackBar('Error al cambiar estado del documento: '+ error);
+      }
+    });
   }
+
 }

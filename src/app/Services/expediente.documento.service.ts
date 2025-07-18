@@ -21,24 +21,29 @@ export class ExpedienteDocumentoService {
 
   // CREATE
   createDocumentoExpediente(fileData: any[], data: any, documentType: string): Observable<any> {
-    console.log ("recibido en create doc", fileData, data)
-  const payload = {
-   /*  ...fileData, */
-    id_sol: data.id_sol,
-    cifnif_propietario: data.nif,
-    convocatoria: data.convocatoria,
-    name: fileData[0].name,
-    type: fileData[0].type,
-    tipo_tramite: data.tipo_tramite,
-    corresponde_documento: documentType,
-    selloDeTiempo: data.selloDeTiempo,
-    fase_exped: "",
-    docRequerido: "SI",
-  };
+    const payload = {
+      id_sol: data.id_sol,
+      cifnif_propietario: data.nif,
+      convocatoria: data.convocatoria,
+      name: fileData[0].name,
+      type: fileData[0].type,
+      tipo_tramite: data.tipo_tramite,
+      corresponde_documento: documentType,
+      selloDeTiempo: data.selloDeTiempo,
+      fase_exped: "",
+      docRequerido: "SI",
+    };
 
-  return this.http.post<any>(`${this.urlAPITramits}/pindustdocument/create`, payload)
-    .pipe(catchError(this.handleError));
+    return this.http.post<any>(`${this.urlAPITramits}/pindustdocument/create`, payload)
+      .pipe(catchError(this.handleError));
   }
+
+  // Cambia el estedo del documento 'name' y de la solicitud 'id_sol'
+  changeDocumentoExpedienteState(payload: { id_sol: number; name: string }): Observable<any> {
+    const url = `${this.urlAPITramits}/pindustdocument/change-state`;
+    return this.http.post<any>(url, payload);
+  }
+
 
   // UPDATE
 /*   updateExpediente(id: number, expediente: any): Observable<any> {

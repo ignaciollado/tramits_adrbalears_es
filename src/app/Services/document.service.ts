@@ -18,11 +18,6 @@ export class DocumentService {
     return this.http.get<any[]>(`${this.urlAPITramits}/pindustdocument/${nif}/${timestamp}`)
       .pipe(catchError(this.handleError));
   }
-/*   insertDocuments(formData: FormData): Observable<HttpEvent<any>> {
-    return this.http.post<any>(`${this.urlAPITramits}/pindustdocument/create`, formData, {
-      reportProgress: true, observe: 'events'})
-      .pipe(catchError(this.handleError));
-  } */
 
   /* En el sistema de archivos del servidor backend */
   listDocuments(idSol: number, isRequiredDoc: string): Observable<any[]> {
