@@ -14,14 +14,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentComponent } from '../../../../document/document.component';
-import { ViewEncapsulation } from '@angular/core';
+import { CommonService } from '../../../../Services/common.service';
 
 @Component({
   selector: 'app-detalle-expediente',
   standalone: true,
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss',
-    encapsulation: ViewEncapsulation.None,
+
   imports: [
     CommonModule, DocumentComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
@@ -41,7 +41,7 @@ export class XecsDetailExpedComponent {
   actualTimeStamp!: string
   actualConvocatoria!: number
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor( private commonService: CommonService ) {}
 
 ngOnInit(): void {
   this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
@@ -93,7 +93,7 @@ getExpedDetail(id: number) {
   this.expedienteService.getOneExpediente(id)
     .pipe(
       catchError(error => {
-        this.showSnackBar('❌ Error al cargar el expediente. Inténtalo de nuevo más tarde. '+error);
+        this.commonService.showSnackBar('❌ Error al cargar el expediente. Inténtalo de nuevo más tarde. '+error);
         return of(null);
       })
     )
@@ -103,9 +103,9 @@ getExpedDetail(id: number) {
         this.actualNif = expediente.nif
         this.actualTimeStamp = expediente.selloDeTiempo	
         this.actualConvocatoria = expediente.convocatoria
-        this.showSnackBar('✅ Expediente cargado correctamente.');
+        this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
       } else {
-        this.showSnackBar('⚠️ No se encontró información del expediente.');
+        this.commonService.showSnackBar('⚠️ No se encontró información del expediente.');
       }
     });
 }
@@ -125,17 +125,8 @@ saveExpediente(): void {
 
   this.expedienteService.updateExpediente(this.idExpediente, expedienteActualizado)
     .subscribe({
-      next: () => this.showSnackBar('✅ Expediente guardado correctamente.'),
-      error: () => this.showSnackBar('❌ Error al guardar el expediente.')
-    });
-}
-
-private showSnackBar(error: string): void {
-    this.snackBar.open(error, 'Close', {
-      duration: 15000,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'center',
-      panelClass: ['custom-snackbar'],
+      next: () => this.commonService.showSnackBar('✅ Expediente guardado correctamente.'),
+      error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
     });
 }
 }

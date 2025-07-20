@@ -17,7 +17,7 @@ import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/d
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { DocumentService } from '../../Services/document.service';
@@ -32,6 +32,7 @@ import { AuthorizationTextDTO } from '../../Models/authorization-texts-dto';
 import { ResponsabilityDeclarationDTO } from '../../Models/responsability-declaration-dto';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ExpedienteDocumentoService } from '../../Services/expediente.documento.service';
+
 
 @Component({
   selector: 'app-grant-application-form',
@@ -323,7 +324,7 @@ onSubmit(): void {
     this.expedienteService.createExpediente(datos).subscribe({
       next: (resp) => {
         datos.id_sol = resp.id_sol;
-        this.showSnackBar('✔️ Expediente creado con éxito ' + resp.message + ' ' + resp.id_sol);
+        this.commonService.showSnackBar('✔️ Expediente creado con éxito ' + resp.message + ' ' + resp.id_sol);
 
         // Validación y aplanado de archivos REQUIRED
         const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
@@ -332,11 +333,11 @@ onSubmit(): void {
           return Array.from(files).flatMap((file: File) => {
             if (!file) return [];
             if (file.size === 0) {
-              this.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`);
+              this.commonService.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`);
               return [];
             }
             if (file.size > 10 * 1024 * 1024) {
-              this.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`);
+              this.commonService.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`);
               return [];
             }
             return [{ file, type }];
@@ -356,7 +357,7 @@ onSubmit(): void {
 
         const todosLosArchivos = [...archivosValidos, ...archivosOpcionalesValidos];
         if (todosLosArchivos.length === 0) {
-          this.showSnackBar('⚠️ No hay archivos válidos para subir.');
+          this.commonService.showSnackBar('⚠️ No hay archivos válidos para subir.');
           return;
         }
 
@@ -379,15 +380,15 @@ onSubmit(): void {
             } else {
               mensaje += `⚠️ No se encontró información de archivo en el evento.`;
             }
-            this.showSnackBar(mensaje);
+            this.commonService.showSnackBar(mensaje);
           },
-          complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
-          error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
+          complete: () => this.commonService.showSnackBar('✅ Todas las subidas finalizadas'),
+          error: (err) => this.commonService.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
         });
       },
       error: (err) => {
         let msg = '❌ Error al crear el expediente.\n';
-        this.showSnackBar("err: " + err);
+        this.commonService.showSnackBar("err: " + err);
         try {
           const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
           msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
@@ -409,7 +410,7 @@ onSubmit(): void {
         } catch (parseError) {
           msg += `⚠️ No se pudo interpretar el error: ${err}`;
         }
-        this.showSnackBar(msg);
+        this.commonService.showSnackBar(msg);
       }
     });
   });
@@ -577,7 +578,7 @@ private getAllcpostals() {
   this.commonService.getZipCodes().subscribe((zpCodes: ZipCodesIBDTO[]) => {
       const zpCodesFiltered: ZipCodesIBDTO[] = zpCodes.filter((zpCode: ZipCodesIBDTO) => zpCode.deleted_at?.toString() === "0000-00-00 00:00:00")
        this.cpostals = zpCodesFiltered; 
-      }, (error) => { this.showSnackBar(error) });
+      }, (error) => { this.commonService.showSnackBar(error) });
 }
 
 private getAllCnaes() {
@@ -586,7 +587,7 @@ private getAllCnaes() {
       this.cnaes = cnaesFiltered;
       this.cnaes = cnaes
       }, (error) => {  console.error("Error real:", error);
-  this.showSnackBar(error + ' ' + error.message || 'Error'); });
+  this.commonService.showSnackBar(error + ' ' + error.message || 'Error'); });
 }
 
 private getAllXecsPrograms() {
@@ -633,7 +634,7 @@ uploadTheFile(timestamp: string, files: File[] ): Observable<any> {
     tap((event: HttpEvent<any>) => {
       switch (event.type) {
         case HttpEventType.Sent:
-          this.showSnackBar('Archivos enviados al servidor...');
+          this.commonService.showSnackBar('Archivos enviados al servidor...');
           break;
         case HttpEventType.UploadProgress:
           if (event.total) {
@@ -641,24 +642,16 @@ uploadTheFile(timestamp: string, files: File[] ): Observable<any> {
           }
           break;
         case HttpEventType.Response:
-          this.showSnackBar('Archivos subidos con éxito: '+ event.body);
+          this.commonService.showSnackBar('Archivos subidos con éxito: '+ event.body);
           this.uploadProgress = 100;
           break;
       }
     }),
     catchError(err => {
-      this.showSnackBar('Error al subir los archivos: ' + err);
+      this.commonService.showSnackBar('Error al subir los archivos: ' + err);
       return throwError(() => err);
     })
   );
 }
   
-private showSnackBar(error: string): void {
-    this.snackBar.open(error, 'Close', {
-      duration: 15000,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'center',
-      panelClass: ['custom-snackbar'],
-    });
-}
 }

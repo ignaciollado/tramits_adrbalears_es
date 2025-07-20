@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterModule } from '@angular/router';
+import { CommonService } from '../Services/common.service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginComponent {
   isSuperUser: boolean = false
 
   constructor(private fb: FormBuilder, private translate: TranslateService,
+        private commonService: CommonService, 
         private authService: AuthService,
         private router: Router,  
         private snackBar: MatSnackBar,
@@ -66,7 +68,7 @@ export class LoginComponent {
             console.log (decodedToken)
             this.authService.setUserInfo(decodedToken.name, decodedToken.role, +item.days_to_expire_pwd);
 
-            this.showSnackBar(errorResponse + " as " + this.jwtHelper.decodeToken(item.access_token).name)
+            this.commonService.showSnackBar(errorResponse + " as " + this.jwtHelper.decodeToken(item.access_token).name)
            
             if (decodedToken.role === 'admin') {
               this.isSuperUser = true;
@@ -90,20 +92,11 @@ export class LoginComponent {
   }
 
   console.error('Error durante el login:', error);
-  this.showSnackBar(message);
+  this.commonService.showSnackBar(message);
   this.loginForm.reset();
 }
         )
     }
   }
-
-private showSnackBar(message: string, panelClass = 'custom-snackbar'): void {
-  this.snackBar.open(message, 'X', {
-    duration: 10000,
-    verticalPosition: 'top',
-    horizontalPosition: 'center',
-    panelClass: [panelClass]
-  });
-}
 
 }

@@ -80,36 +80,45 @@ export class DocumentComponent implements OnInit {
     this.uploadDocuments();
   }
 
-  listDocuments(idSol: number, isRequiredDoc: string): void {
-    if (!idSol) {
-      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
-      return;
-    }
-    this.documentService.listDocuments(idSol, isRequiredDoc).subscribe(
+listDocuments(idSol: number, isRequiredDoc: string): void {
+  if (!idSol) {
+    this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
+    return;
+  }
+
+  this.documentService.listDocuments(idSol, isRequiredDoc).subscribe(
     (response: any) => {
       if (response.status === 'success') {
-        const documentosConId = response.data.map((doc: any) => (
-        {
+        const documentosConId = response.data.map((doc: any) => ({
           ...doc,
           id_sol: idSol,
           estado: doc.state || 'Pendent'
         }));
 
         this.documents = documentosConId;
+
         if (this.documents.length > 0) {
           this.commonService.showSnackBar("Documentos cargados correctamente.");
         } else {
           this.commonService.showSnackBar("No se encontraron documentos válidos.");
         }
-      } else {
-        this.commonService.showSnackBar("Error al cargar los documentos.");
+      } else if (response.status === 'error') {
+        this.commonService.showSnackBar(response.message || "Error al cargar los documentos.");
       }
     },
     (error) => {
-      this.commonService.showSnackBar("Error al obtener los documentos del servidor: " + error);
+      console.error(error);
+      // Verificar si el backend devolvió un error con cuerpo en formato JSON
+      if (error?.error?.message) {
+        this.commonService.showSnackBar(error.error.message);
+      } else {
+        //this.commonService.showSnackBar("Ocurrió un error al comunicarse con el servidor.");
+      }
     }
-    );
-  }
+  );
+}
+
+
 
   uploadDocuments() {
     if (!this.foldername || this.subfolderId === undefined) {
