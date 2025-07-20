@@ -108,7 +108,7 @@ export class CommonService {
 
   showSnackBar(error: string): void {
     this.snackBar.open(error, 'Close', {
-      duration: 15000,
+      duration: 5000,
       verticalPosition: 'bottom',
       horizontalPosition: 'center',
       panelClass: ['custom-snackbar'],

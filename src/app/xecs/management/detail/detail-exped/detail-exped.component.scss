@@ -48,6 +48,11 @@ mat-card {
   margin-bottom: 1rem;
 }
 
+.mdc-tab .mat-mdc-tab {
+  background-color: #ffe0b2 !important; /* Cambia este color */
+}
+
+
 @media (max-width: 600px) {
   mat-card {
     padding: 1rem;

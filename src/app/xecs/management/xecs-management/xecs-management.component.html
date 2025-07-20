@@ -48,7 +48,7 @@
 
   <ng-container matColumnDef="idExp">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Expediente </th>
-    <td mat-cell *matCellDef="let item"><a ngClass="custom-link" [routerLink]="['/detail-exped', item.id]">{{ item.idExp }}/{{ item.convocatoria }}</a></td>
+    <td mat-cell *matCellDef="let item"><a ngClass="custom-link" [routerLink]="['/xecs-detail-exped', item.id]">{{ item.idExp }}/{{ item.convocatoria }}</a></td>
   </ng-container>
 
   <ng-container matColumnDef="empresa">

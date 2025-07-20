@@ -16,6 +16,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 import { CommonService } from '../../../Services/common.service';
 
 @Component({
@@ -31,7 +32,7 @@ import { CommonService } from '../../../Services/common.service';
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
-    MatSnackBarModule,
+    MatSnackBarModule, RouterModule,
     MatSelectModule, MatButtonModule
   ],
   templateUrl: './isba-management.component.html',

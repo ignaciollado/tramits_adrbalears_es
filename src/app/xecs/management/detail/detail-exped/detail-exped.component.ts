@@ -14,11 +14,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentComponent } from '../../../../document/document.component';
+import { ViewEncapsulation } from '@angular/core';
+
 @Component({
   selector: 'app-detalle-expediente',
   standalone: true,
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss',
+    encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule, DocumentComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
@@ -27,7 +30,7 @@ import { DocumentComponent } from '../../../../document/document.component';
     MatCardModule, MatSnackBarModule,
   ]
 })
-export class DetailExpedComponent {
+export class XecsDetailExpedComponent {
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
