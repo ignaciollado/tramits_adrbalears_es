@@ -89,6 +89,16 @@ ngOnInit(): void {
   this.getExpedDetail(this.idExpediente);
 }
 
+ngAfterViewInit(): void {
+  const activeTab = document.querySelector('.mdc-tab--active') as HTMLElement;
+  if (activeTab) {
+    activeTab.style.backgroundColor = '#0BE3F2FF';
+    activeTab.style.color = '#fff';
+
+  }
+}
+
+
 getExpedDetail(id: number) {
   this.expedienteService.getOneExpediente(id)
     .pipe(

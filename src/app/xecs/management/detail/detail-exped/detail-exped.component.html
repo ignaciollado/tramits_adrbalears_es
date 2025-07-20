@@ -1,4 +1,4 @@
-<mat-tab-group mat-stretch-tabs >
+<mat-tab-group mat-stretch-tabs (selectedIndexChange)="ngAfterViewInit()">
   <mat-tab label="{{ 'APP.DETAIL' | translate }}"> 
   <mat-card>
   <form [formGroup]="form" class="detalle-formulario">
