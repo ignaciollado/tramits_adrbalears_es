@@ -48,13 +48,30 @@ mat-card {
   margin-bottom: 1rem;
 }
 
-.detail-tab {
-  background-color: #ffcc80;
+.exped-tab {
+  color: #fff;
   padding: .5rem 2rem;
   border-radius: 4px;
+
 }
-
-
+  .detail-tab {
+    background-color: #cccccc;
+  }
+  .solicitud-tab {
+    background-color: #080081;
+  }
+  .validacion-tab {
+    background-color: #1ecbe1;
+  }
+  .ejecucion-tab {
+    background-color: #d9e90d;
+  }
+  .justificacion-tab {
+    background-color: #f37020;
+  }
+  .desestimiento-tab {
+    background-color: #782400;
+  }
 @media (max-width: 600px) {
   mat-card {
     padding: 1rem;

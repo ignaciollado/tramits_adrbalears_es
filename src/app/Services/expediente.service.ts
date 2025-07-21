@@ -52,6 +52,10 @@ export class ExpedienteService {
     return this.http.get<any[]>(`${this.apiUrl}/pindustexpediente/convocatoria/${convocatoria}?tipo_tramite=${tipo_tramite}`).pipe(catchError(this.handleError));
   }
 
+  getTotalNumberOfApplicationsFromSolicitor(nif: string, tipo_tramite: string, convocatoria: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/pindustexpediente/totalNumberOfApplications/${nif}/${tipo_tramite}/${convocatoria}`).pipe(catchError(this.handleError));
+  }
+
   createExpediente(expediente: any): Observable<any> {
     const testAPIURL = "https://pre-tramits.idi.es/public/index.php"
     return this.http.post<any>(`${testAPIURL}/pindustexpediente/create`, expediente).pipe(catchError(this.handleError));

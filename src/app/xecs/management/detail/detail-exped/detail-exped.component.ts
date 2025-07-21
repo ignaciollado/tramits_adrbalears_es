@@ -40,6 +40,7 @@ export class XecsDetailExpedComponent {
   actualNif!: string
   actualTimeStamp!: string
   actualConvocatoria!: number
+  actualTipoTramite!: string
 
   constructor( private commonService: CommonService ) {}
 
@@ -85,7 +86,6 @@ ngOnInit(): void {
     nom_entidad: [{ value: '', disabled: true }],
     cc_datos_bancarios: [{ value: '', disabled: true }]
   });
-
   this.getExpedDetail(this.idExpediente);
 }
 
@@ -103,7 +103,9 @@ getExpedDetail(id: number) {
         this.actualNif = expediente.nif
         this.actualTimeStamp = expediente.selloDeTiempo	
         this.actualConvocatoria = expediente.convocatoria
+        this.actualTipoTramite = expediente.tipo_tramite
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
+         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
       } else {
         this.commonService.showSnackBar('⚠️ No se encontró información del expediente.');
       }
@@ -127,6 +129,24 @@ saveExpediente(): void {
     .subscribe({
       next: () => this.commonService.showSnackBar('✅ Expediente guardado correctamente.'),
       error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
+    });
+}
+
+getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: number) {
+  this.expedienteService.getTotalNumberOfApplicationsFromSolicitor(nif, tipoTramite, convocatoria)
+   .pipe(
+      catchError(error => {
+        this.commonService.showSnackBar('❌ Error al contar el número de solicitudes. Inténtalo de nuevo más tarde. '+error);
+        return of(null);
+      })
+    )
+    .subscribe(totalSolitudes => {
+      if (totalSolitudes) {
+        console.log (totalSolitudes.data.totalConvos)
+        this.commonService.showSnackBar('✅ Solcitudes encontradas: '+totalSolitudes.data.totalConvos);
+      } else {
+        this.commonService.showSnackBar('⚠️ No se encontró información sobre el número de solicitudes.');
+      }
     });
 }
 }

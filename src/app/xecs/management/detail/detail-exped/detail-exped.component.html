@@ -1,7 +1,7 @@
 <mat-tab-group mat-stretch-tabs>
   <mat-tab>
     <ng-template mat-tab-label>
-      <span class="detail-tab">{{ 'APP.DETAIL' | translate }}</span>
+      <span ngClass="exped-tab detail-tab">{{ 'APP.DETAIL' | translate }}</span>
     </ng-template>
   <mat-card>
   <form [formGroup]="form" class="detalle-formulario">
@@ -151,16 +151,28 @@
 </form>
 </mat-card>  
   </mat-tab>
-  <mat-tab label="{{ 'APP.REQUEST' | translate }}"> 
+  <mat-tab> 
+    <ng-template mat-tab-label>
+      <span ngClass="exped-tab solicitud-tab">{{ 'APP.REQUEST' | translate }}</span>
+    </ng-template>
     <mat-card>xxxx</mat-card>  
   </mat-tab>
-  <mat-tab label="{{ 'APP.VALIDATION' | translate }}"> 
+  <mat-tab> 
+    <ng-template mat-tab-label>
+      <span ngClass="exped-tab validacion-tab">{{ 'APP.VALIDATION' | translate }}</span>
+    </ng-template>
     <mat-card>yyyy</mat-card>
   </mat-tab>
-  <mat-tab label="{{ 'APP.EXECUTION' | translate }}"> 
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span ngClass="exped-tab ejecucion-tab">{{ 'APP.EXECUTION' | translate }}</span>
+    </ng-template>
     <mat-card>zzzzz</mat-card>  
   </mat-tab>
-  <mat-tab label="{{ 'APP.DISCLAIMER' | translate }}">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span ngClass="exped-tab desestimiento-tab">{{ 'APP.DISCLAIMER' | translate }}</span>
+    </ng-template>    
     <mat-card>aaaa</mat-card>
   </mat-tab>
 </mat-tab-group>
