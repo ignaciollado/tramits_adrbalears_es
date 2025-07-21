@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -41,6 +41,7 @@ export class XecsDetailExpedComponent {
   actualTimeStamp!: string
   actualConvocatoria!: number
   actualTipoTramite!: string
+  totalSolicitudesPrevias!: number
 
   constructor( private commonService: CommonService ) {}
 
@@ -142,8 +143,8 @@ getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: num
     )
     .subscribe(totalSolitudes => {
       if (totalSolitudes) {
-        console.log (totalSolitudes.data.totalConvos)
-        this.commonService.showSnackBar('✅ Solcitudes encontradas: '+totalSolitudes.data.totalConvos);
+        this.totalSolicitudesPrevias = totalSolitudes.data.totalConvos
+     /*    this.commonService.showSnackBar('✅ Solcitudes encontradas: '+totalSolitudes.data.totalConvos); */
       } else {
         this.commonService.showSnackBar('⚠️ No se encontró información sobre el número de solicitudes.');
       }

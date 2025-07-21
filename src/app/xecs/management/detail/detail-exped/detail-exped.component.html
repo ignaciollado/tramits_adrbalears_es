@@ -5,7 +5,9 @@
     </ng-template>
   <mat-card>
   <form [formGroup]="form" class="detalle-formulario">
-  <section>    
+   
+  <section>
+     <h3>Total solicitudes previas: {{totalSolicitudesPrevias}}</h3>
     <mat-form-field appearance="outline">
       <mat-label>{{'FORM.SOLICITOR' | translate}}</mat-label>
       <input matInput formControlName="empresa" readonly>

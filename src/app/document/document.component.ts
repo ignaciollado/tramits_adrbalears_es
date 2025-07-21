@@ -98,7 +98,7 @@ listDocuments(idSol: number, isRequiredDoc: string): void {
         this.documents = documentosConId;
 
         if (this.documents.length > 0) {
-          this.commonService.showSnackBar("Documentos cargados correctamente.");
+          /* this.commonService.showSnackBar("Documentos cargados correctamente."); */
         } else {
           this.commonService.showSnackBar("No se encontraron documentos válidos.");
         }
