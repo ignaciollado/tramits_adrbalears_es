@@ -190,7 +190,7 @@ export class DocumentComponent implements OnInit {
 
   deleteDocument(docName: string) {
     if (!this.foldername || this.subfolderId === undefined) {
-      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
+      this.commonService.showSnackBar("Faltan datos para eliminar el documento");
       return;
     }
 
