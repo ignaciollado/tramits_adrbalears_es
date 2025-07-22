@@ -16,7 +16,6 @@ import { CommonService } from '../Services/common.service';
 import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { NgOptimizedImage } from '@angular/common';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
@@ -57,6 +56,7 @@ export class DocumentComponent implements OnInit {
   message: string = ''
   progress: number = 0
   pdfUrl: SafeResourceUrl | null = null;
+  showPdfViewer:boolean = false;
 
   @Input() id!: string;
   @Input() idSol!: number;
@@ -158,9 +158,10 @@ export class DocumentComponent implements OnInit {
 
   viewDocument(nif: string, folder: string, filename: string) {
     const url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
-  window.open(url);
+    // window.open(url);
+    // Sanitiza la URL para evitar errores de seguridad Angular
+    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
-
 
   deleteDocument(docName: string) {
     if (!this.foldername || this.subfolderId === undefined) {
