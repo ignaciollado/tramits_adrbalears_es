@@ -188,16 +188,16 @@ export class DocumentComponent implements OnInit {
     this.imageUrl = undefined;
   }
 
-  deleteDocument(docName: string) {
+  deleteDocument(nif: string, folder: string, filename: string) {
     if (!this.foldername || this.subfolderId === undefined) {
       this.commonService.showSnackBar("Faltan datos para eliminar el documento");
       return;
     }
 
-    this.documentService.deleteDocument(this.foldername, this.subfolderId, docName).subscribe(
-      () => {
-        this.documents = this.documents.filter(doc => doc.id !== docName);
-        this.commonService.showSnackBar('Document deleted successfully!');
+    this.documentService.deleteDocument(nif, folder, filename).subscribe(
+      (resp:any) => {
+    
+        this.commonService.showSnackBar('Document deleted successfully! '+resp);
         this.listDocuments(this.idSol, this.requriedDocs);
       },
       (error) => this.commonService.showSnackBar(error)

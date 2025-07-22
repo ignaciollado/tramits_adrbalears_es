@@ -31,7 +31,7 @@ export class DocumentService {
       .pipe(catchError(this.handleError));
   }
 
-  deleteDocument(folderName: string, id: number, docName: string): Observable<any> {
+  deleteDocument(folderName: string, id: string, docName: string): Observable<any> {
     return this.http.delete<any>(`${this.urlAPITramits}/api/documents/delete/${folderName}/${id}/${docName}`)
       .pipe(catchError(this.handleError));
   }
