@@ -54,3 +54,4 @@
 </section>
 
 <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
+<button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closePdf()">Cerrar ✖</button>
