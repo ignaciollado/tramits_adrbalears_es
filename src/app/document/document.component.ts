@@ -183,6 +183,11 @@ export class DocumentComponent implements OnInit {
     this.pdfUrl = null;
   }
 
+    closeImg() {
+    this.showImageViewer = false;
+    this.imageUrl = undefined;
+  }
+
   deleteDocument(docName: string) {
     if (!this.foldername || this.subfolderId === undefined) {
       this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
