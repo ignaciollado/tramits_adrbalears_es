@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CommonService } from '../Services/common.service';
 import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
@@ -56,7 +56,7 @@ export class DocumentComponent implements OnInit {
   message: string = ''
   progress: number = 0
   pdfUrl: SafeResourceUrl | null = null;
-  imageUrl: SafeResourceUrl | null = null;
+  imageUrl: SafeUrl | undefined
   showPdfViewer: boolean = false;
   showImageViewer: boolean = false;
 
@@ -170,7 +170,7 @@ export class DocumentComponent implements OnInit {
       this.showPdfViewer = false;
     } else {
       this.pdfUrl = sanitizedUrl;
-      this.imageUrl = null;
+      this.imageUrl = undefined;
       this.showPdfViewer = true;
       this.showImageViewer = false;
     }
