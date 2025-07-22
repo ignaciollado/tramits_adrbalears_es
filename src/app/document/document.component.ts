@@ -15,8 +15,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CommonService } from '../Services/common.service';
 import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { SafeUrlPipe } from '../pipe/safeurl.pipe';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { NgOptimizedImage } from '@angular/common';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 export interface Documento {
   id_sol: number;
@@ -31,10 +33,10 @@ export interface Documento {
   standalone: true,
   imports: [
     CommonModule,
-    MatSnackBarModule,
+    MatSnackBarModule, HttpClientModule,
     MatDialogModule,
-    MatCheckboxModule,
-    MatButtonModule, SafeUrlPipe,
+    MatCheckboxModule, PdfViewerModule,
+    MatButtonModule,
     FormsModule,
     MatTableModule,
     MatProgressBarModule,
@@ -54,7 +56,7 @@ export class DocumentComponent implements OnInit {
   subfolderId: number | undefined
   message: string = ''
   progress: number = 0
-  safeUrl: SafeResourceUrl | null = null;
+  pdfUrl: SafeResourceUrl | null = null;
 
   @Input() id!: string;
   @Input() idSol!: number;
@@ -62,7 +64,7 @@ export class DocumentComponent implements OnInit {
   @Input() requriedDocs!: string;
   @Input() convocatoria!: number;
 
-  constructor( private sanitizer: DomSanitizer,
+  constructor( private sanitizer: DomSanitizer,  private http: HttpClient,
     private documentService: DocumentService,
     private dialog: MatDialog, private cdr: ChangeDetectorRef,
     private commonService: CommonService, private expedienteDocumentoService: ExpedienteDocumentoService
@@ -83,7 +85,7 @@ export class DocumentComponent implements OnInit {
     this.uploadDocuments();
   }
 
-listDocuments(idSol: number, isRequiredDoc: string): void {
+  listDocuments(idSol: number, isRequiredDoc: string): void {
   if (!idSol) {
     this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
     return;
@@ -119,9 +121,7 @@ listDocuments(idSol: number, isRequiredDoc: string): void {
       }
     }
   );
-}
-
-
+  }
 
   uploadDocuments() {
     if (!this.foldername || this.subfolderId === undefined) {
@@ -156,20 +156,9 @@ listDocuments(idSol: number, isRequiredDoc: string): void {
     }
   }
 
-  viewDocument(path: string) {
-    if (!path) {
-      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
-      return;
-    }
-
-    // Construye la URL pública (ajusta la ruta base según tu servidor)
-
-    console.log(path);
-    const basePath = 'https://pre-tramits.idi.es/writable/documentos/';
-    const finalUrl = basePath + path;
-
-    // Sanitizamos la URL
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(finalUrl);
+  viewDocument(nif: string, folder: string, filename: string) {
+    const url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+  window.open(url);
   }
 
 
