@@ -26,10 +26,13 @@
         <mat-header-cell *matHeaderCellDef> {{'FORM.DOCUMENTNAME' | translate}} </mat-header-cell>
           <mat-cell *matCellDef="let document">
             <ng-container >
-              <img *ngIf="document.extension !== 'pdf' && document.extension !== 'doc' && document.extension !== 'docx' && document.extension !== 'xls' && document.extension !== 'xlsx'" width="40px" src='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{ document.name }}' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
+              <img *ngIf="document.extension !== 'pdf' && document.extension !== 'doc' && document.extension !== 'docx' && document.extension !== 'xls' && document.extension !== 'xlsx' && document.extension !== 'jpg' && document.extension !== 'jpeg' && document.extension !== 'zip'" width="40px" src='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{ document.name }}' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
               <img *ngIf="document.extension == 'pdf'"  width="40px" src='../../assets/images/logo-2-pdf.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
               <img *ngIf="document.extension == 'docx' || document.extension == 'doc'" width="40px" src='../../assets/images/logo-docx.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
               <img *ngIf="document.extension == 'xlsx' || document.extension == 'xls'" width="40px" src='../../assets/images/logo-xlsx.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
+              <img *ngIf="document.extension == 'jpg' || document.extension == 'jpeg'" width="40px" src='../../assets/images/logo-jpeg.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
+              <img *ngIf="document.extension == 'zip'" width="40px" src='../../assets/images/logo-zip.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">            
+
             </ng-container>
             {{document.name}}
           </mat-cell>
@@ -37,13 +40,14 @@
             <img *ngIf="document.extension !== 'pdf'" width="40px" src='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{ document.name }}' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
             <img *ngIf="document.extension == 'pdf'" width="40px" src='../../assets/images/logo-2-pdf.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
             <img *ngIf="document.extension == 'docx'" width="40px" src='../../assets/images/logo-docx.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
+            
             {{document.name}}
           </mat-cell>
       </ng-container>
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
         <mat-cell *matCellDef="let document" ngClass="action-buttons">
-          <button (click)="viewDocument('43036826P','03_10_2024_08_20_51am','1727936451_3aa4b7a8d561a459b8e1.pdf')" mat-raised-button>View</button>
+          <button (click)="viewDocument(document.nif, document.timeStamp, document.name, document.extension)" mat-raised-button>View</button>
           <button (click)="deleteDocument(document.name)" mat-raised-button color="warn">Delete</button>
           <button (click)="changeDocumentState(document)" mat-raised-button [color]="getButtonColor(document.estado)"><mat-icon>{{ getButtonIcon(document.estado) }}</mat-icon>{{ document.estado }}</button>
         </mat-cell>
@@ -55,3 +59,11 @@
 
 <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
 <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closePdf()">Cerrar ✖</button>
+
+<!-- <ng-container *ngIf="showPdfViewer">
+  <pdf-viewer [src]="pdfUrl" [render-text]="true" style="display: block;"></pdf-viewer>
+</ng-container> -->
+
+<ng-container *ngIf="showImageViewer">{{imageUrl}}
+  <img [src]="imageUrl" alt="Documento imagen" style="max-width: 100%; height: auto;" />
+</ng-container>

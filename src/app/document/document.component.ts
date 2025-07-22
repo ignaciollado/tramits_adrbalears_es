@@ -17,6 +17,7 @@ import { ExpedienteDocumentoService } from '../Services/expediente.documento.ser
 import { ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 export interface Documento {
   id_sol: number;
@@ -34,7 +35,7 @@ export interface Documento {
     MatSnackBarModule, HttpClientModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatButtonModule,
+    MatButtonModule, PdfViewerModule,
     FormsModule,
     MatTableModule,
     MatProgressBarModule,
@@ -55,7 +56,9 @@ export class DocumentComponent implements OnInit {
   message: string = ''
   progress: number = 0
   pdfUrl: SafeResourceUrl | null = null;
+  imageUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
+  showImageViewer: boolean = false;
 
   @Input() id!: string;
   @Input() idSol!: number;
@@ -155,11 +158,25 @@ export class DocumentComponent implements OnInit {
     }
   }
 
-  viewDocument(nif: string, folder: string, filename: string) {
+ viewDocument(nif: string, folder: string, filename: string, extension: string) {
     const url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
-    this.pdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    this.showPdfViewer = true
+    const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+    const ext = extension.toLowerCase();
+    if (ext === 'jpg' || ext === 'jpeg') {
+      this.imageUrl = sanitizedUrl;
+      this.pdfUrl = null;
+      this.showImageViewer = true;
+      this.showPdfViewer = false;
+    } else {
+      this.pdfUrl = sanitizedUrl;
+      this.imageUrl = null;
+      this.showPdfViewer = true;
+      this.showImageViewer = false;
+    }
   }
+
+
 
   closePdf() {
     this.showPdfViewer = false;
