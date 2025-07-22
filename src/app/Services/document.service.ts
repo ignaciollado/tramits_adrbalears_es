@@ -36,6 +36,12 @@ export class DocumentService {
       .pipe(catchError(this.handleError));
   }
 
+  viewDocument(nif: string, timeStamp: string, docName: string): Observable<any> {
+    return this.http.delete<any>(`${this.urlAPITramits}/documents/view/${nif}/${timeStamp}/${docName}`)
+      .pipe(catchError(this.handleError));
+  }
+
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '¡Error desconocido!';
     if (error.error instanceof ErrorEvent) {

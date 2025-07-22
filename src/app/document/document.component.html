@@ -52,4 +52,7 @@
       <mat-row *matRowDef="let row; columns: ['name', 'actions'];"></mat-row>
     </mat-table>
 </section>
-  
+<div *ngIf="safeUrl">
+  <h3>The document:</h3>
+  <iframe [src]="safeUrl" width="100%" height="600px" style="border: none;"></iframe>
+</div>

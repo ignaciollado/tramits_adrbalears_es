@@ -15,6 +15,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CommonService } from '../Services/common.service';
 import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { SafeUrlPipe } from '../pipe/safeurl.pipe';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 export interface Documento {
   id_sol: number;
@@ -32,7 +34,7 @@ export interface Documento {
     MatSnackBarModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatButtonModule,
+    MatButtonModule, SafeUrlPipe,
     FormsModule,
     MatTableModule,
     MatProgressBarModule,
@@ -44,14 +46,15 @@ export interface Documento {
   styleUrls: ['./document.component.scss']
 })
 export class DocumentComponent implements OnInit {
-  showConfirmation: boolean = false;
-  isLoading: boolean = false;
-  documents: any[] = [];
-  selectedFiles: File[] = [];
-  foldername: string | undefined;
-  subfolderId: number | undefined;
-  message: string = '';
-  progress: number = 0;
+  showConfirmation: boolean = false
+  isLoading: boolean = false
+  documents: any[] = []
+  selectedFiles: File[] = []
+  foldername: string | undefined
+  subfolderId: number | undefined
+  message: string = ''
+  progress: number = 0
+  safeUrl: SafeResourceUrl | null = null;
 
   @Input() id!: string;
   @Input() idSol!: number;
@@ -59,7 +62,7 @@ export class DocumentComponent implements OnInit {
   @Input() requriedDocs!: string;
   @Input() convocatoria!: number;
 
-  constructor(
+  constructor( private sanitizer: DomSanitizer,
     private documentService: DocumentService,
     private dialog: MatDialog, private cdr: ChangeDetectorRef,
     private commonService: CommonService, private expedienteDocumentoService: ExpedienteDocumentoService
@@ -154,16 +157,21 @@ listDocuments(idSol: number, isRequiredDoc: string): void {
   }
 
   viewDocument(path: string) {
-    console.log (path)
     if (!path) {
       this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
 
-    const newPath = path.replace('/home/pretramitsidi/www/writable/uploads/', '');
-    this.documentService.listDocuments(this.idSol, this.requriedDocs).subscribe((doc: any) => {
-    });
+    // Construye la URL pública (ajusta la ruta base según tu servidor)
+
+    console.log(path);
+    const basePath = 'https://pre-tramits.idi.es/writable/documentos/';
+    const finalUrl = basePath + path;
+
+    // Sanitizamos la URL
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(finalUrl);
   }
+
 
   deleteDocument(docName: string) {
     if (!this.foldername || this.subfolderId === undefined) {
