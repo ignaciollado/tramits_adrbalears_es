@@ -1,10 +1,11 @@
-<mat-tab-group mat-stretch-tabs>
-  <form [formGroup]="form" class="detalle-formulario">
+<form [formGroup]="form" ngClass="detalle-formulario">
+  <mat-tab-group mat-stretch-tabs>
     <mat-tab>
     <ng-template mat-tab-label>
       <span ngClass="exped-tab detail-tab">{{ 'APP.DETAIL' | translate }}</span>
-    </ng-template>    
-    <mat-card>
+    </ng-template> 
+
+    <mat-card ngClass="mat-card-detalle">
     <section>
      <h3>Total solicitudes previas: {{totalSolicitudesPrevias}}</h3>
     <mat-form-field appearance="outline">
@@ -144,38 +145,40 @@
     <h4>Documentación opcional de la solicitud</h4>
     <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
     </section>
+
     </mat-card>  
     </mat-tab>
+
     <mat-tab> 
     <ng-template mat-tab-label>
       <span ngClass="exped-tab solicitud-tab">{{ 'APP.REQUEST' | translate }}</span>
     </ng-template>
-    <mat-card>
+    <mat-card ngClass="mat-card-solicitud">
       <section>
-      <mat-form-field appearance="outline">
-      <mat-label>{{'FORM.FECHA_REC' | translate}}</mat-label>
-      <input matInput formControlName="fecha_REC" readonly>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-      <mat-label>{{'FORM.REF_REC' | translate}}</mat-label>
-      <input matInput formControlName="ref_REC" readonly>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-      <mat-label>{{'FORM.FECHA_REC_ENMIENDA' | translate}}</mat-label>
-      <input matInput formControlName="fecha_REC_enmienda" readonly>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-      <mat-label>{{'FORM.REF_REC_ENMIENDA' | translate}}</mat-label>
-      <input matInput formControlName="ref_REC_enmienda" readonly>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-      <mat-label>{{"FROM.FECHA_REQUERIMIENTO" | translate}}</mat-label>
-      <input matInput formControlName="fecha_requerimiento" readonly>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-      <mat-label>{{"FROM.FECHA_REQUERIMIENTO_NOTIF" | translate}}</mat-label>
-      <input matInput formControlName="fecha_requerimiento_notif" readonly>
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.FECHA_REC' | translate}}</mat-label>
+        <input matInput formControlName="fecha_REC" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.REF_REC' | translate}}</mat-label>
+        <input matInput formControlName="ref_REC" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.FECHA_REC_ENMIENDA' | translate}}</mat-label>
+        <input matInput formControlName="fecha_REC_enmienda" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.REF_REC_ENMIENDA' | translate}}</mat-label>
+        <input matInput formControlName="ref_REC_enmienda" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+        <mat-label>{{"FROM.FECHA_REQUERIMIENTO" | translate}}</mat-label>
+        <input matInput formControlName="fecha_requerimiento" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+        <mat-label>{{"FROM.FECHA_REQUERIMIENTO_NOTIF" | translate}}</mat-label>
+        <input matInput formControlName="fecha_requerimiento_notif" readonly>
+        </mat-form-field>
       </section>
       <section>
       <h4>Actos administrativos</h4>
@@ -183,9 +186,7 @@
         <li>Requerimiento</li>
         <li>Resolución de desestimiento por no enmendar</li>
       </ol>
-      </section>
-      <section>
-      <h4>Mejoras</h4>
+       <h4>Mejoras</h4>
       <table></table>
       </section>
       <section>
@@ -199,7 +200,7 @@
     <ng-template mat-tab-label>
       <span ngClass="exped-tab validacion-tab">{{ 'APP.VALIDATION' | translate }}</span>
     </ng-template>
-    <mat-card>
+    <mat-card ngClass="mat-card-validacion">
       <section>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_infor_fav_desf' | translate}}</mat-label>
@@ -262,7 +263,7 @@
     <ng-template mat-tab-label>
       <span ngClass="exped-tab justificacion-tab">{{ 'APP.EXECUTION' | translate }}</span>
     </ng-template>
-    <mat-card>
+    <mat-card ngClass="mat-card-ejecucion">
       <section>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_kick_off' | translate}}</mat-label>
@@ -411,11 +412,9 @@
       </section>         
     </mat-card>
     </mat-tab>
-  <section ngClass="">
+  </mat-tab-group>
+  <section>
     <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
     <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
   </section>
-  </form>
-</mat-tab-group>
-
-
+</form>

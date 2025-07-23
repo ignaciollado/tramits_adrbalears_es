@@ -23,9 +23,30 @@ mat-card {
   }
 }
 
+mat-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+/* .mat-card-solicitud {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.mat-card-validacion {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.mat-card-ejecucion {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+ */
 .detalle-formulario {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); // Tres columnas fijas
+  grid-template-columns: repeat(1, 1fr); // Tres columnas fijas
   gap: 1rem;
 
   mat-form-field {
@@ -34,7 +55,7 @@ mat-card {
     input[readonly] {
       background-color: #f3f6fa;
       color: #555;
-      cursor: default;
+      cursor:not-allowed;
     }
   }
 }
