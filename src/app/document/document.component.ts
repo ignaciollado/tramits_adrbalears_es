@@ -176,11 +176,14 @@ export class DocumentComponent implements OnInit {
     }
   }
 
-
-
   closePdf() {
     this.showPdfViewer = false;
     this.pdfUrl = null;
+  }
+
+  closeImage() {
+    this.showImageViewer = false;
+    this.imageUrl = null;
   }
 
   deleteDocument(docName: string) {

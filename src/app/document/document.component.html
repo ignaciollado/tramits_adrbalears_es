@@ -60,10 +60,17 @@
 <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
 <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closePdf()">Cerrar ✖</button>
 
-<!-- <ng-container *ngIf="showPdfViewer">
-  <pdf-viewer [src]="pdfUrl" [render-text]="true" style="display: block;"></pdf-viewer>
-</ng-container> -->
-
-<ng-container *ngIf="showImageViewer">{{imageUrl}}
-  <img [src]="imageUrl" alt="Documento imagen" style="max-width: 100%; height: auto;" />
+<ng-container *ngIf="showImageViewer">
+  <div class="image-viewer-container">
+    <img [src]="imageUrl" alt="Documento imagen" />
+    <button
+      mat-button
+      color="warn"
+      ngClass="close-button"
+      *ngIf="showImageViewer"
+      (click)="closeImage()"
+    >
+      Cerrar ✖
+    </button>
+  </div>
 </ng-container>

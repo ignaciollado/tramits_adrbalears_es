@@ -35,3 +35,41 @@ a:hover {
   border: 1px solid #3606e6;
   margin-top: 1rem;
 }
+
+// Define un contenedor para centrar y aplicar estilo
+.image-viewer-container {
+  position: relative;
+  display: inline-block;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  max-width: 90%;
+  margin: 2rem auto;
+  text-align: center;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); // sombra en la imagen
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
+
+  .close-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    font-size: 0.8rem;
+    line-height: 1rem;
+    padding: 0.25rem 0.5rem;
+    z-index: 10;
+  }
+}
