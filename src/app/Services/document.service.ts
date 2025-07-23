@@ -20,16 +20,17 @@ export class DocumentService {
   }
 
   /* En el sistema de archivos del servidor backend */
-  listDocuments(idSol: number, isRequiredDoc?: string, faseExped?: string): Observable<any[]> {
+  listDocuments(idSol: number, isRequiredDoc: string = 'SI', faseExped?: string): Observable<any[]> {
     let url = `${this.urlAPITramits}/documents/${idSol}`;
-    // Si isRequiredDoc está presente, la agregamos como query param
+
     if (isRequiredDoc) {
-      url += `/${encodeURIComponent(isRequiredDoc)}`;
+      url += `/${isRequiredDoc}`;
     }
-    // Si faseExped está presente, la agregamos como query param
+
     if (faseExped) {
-      url += `/${encodeURIComponent(faseExped)}`;
+      url += `/${faseExped}`;
     }
+
     return this.http.get<any[]>(url).pipe(
       catchError(this.handleError)
     );
