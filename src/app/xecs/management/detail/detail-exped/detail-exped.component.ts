@@ -87,14 +87,14 @@ ngOnInit(): void {
     mail_consultor: [{ value: '', disabled: true }],
     nom_entidad: [{ value: '', disabled: true }],
     cc_datos_bancarios: [{ value: '', disabled: true }],
-    /* solicitud */
+    /* Solicitud */
     fecha_REC: [{ value: '', disabled: true }],
     ref_REC: [{ value: '', disabled: true }],
     fecha_REC_enmienda: [{ value: '', disabled: true }],
     ref_REC_enmienda: [{ value: '', disabled: true }],
     fecha_requerimiento: [{ value: '', disabled: true }],
     fecha_requerimiento_notif: [{ value: '', disabled: true }],
-    /* validación */
+    /* Validación */
     fecha_infor_fav_desf: [{ value: '', disabled: true }],
     fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }],
     fecha_not_propuesta_resolucion_prov: [{ value: '', disabled: true }],
