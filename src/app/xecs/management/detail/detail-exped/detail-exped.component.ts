@@ -49,6 +49,7 @@ ngOnInit(): void {
   this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
 
   this.form = this.fb.group({
+    /* detalle */
     id: [{ value: '', disabled: true }],
     empresa: [{ value: '', disabled: true }],
     tipo_tramite: [{ value: '', disabled: true }],
@@ -85,7 +86,47 @@ ngOnInit(): void {
     empresa_consultor: [{ value: '', disabled: true }],
     mail_consultor: [{ value: '', disabled: true }],
     nom_entidad: [{ value: '', disabled: true }],
-    cc_datos_bancarios: [{ value: '', disabled: true }]
+    cc_datos_bancarios: [{ value: '', disabled: true }],
+    /* solicitud */
+    fecha_REC: [{ value: '', disabled: true }],
+    ref_REC: [{ value: '', disabled: true }],
+    fecha_REC_enmienda: [{ value: '', disabled: true }],
+    ref_REC_enmienda: [{ value: '', disabled: true }],
+    fecha_requerimiento: [{ value: '', disabled: true }],
+    fecha_requerimiento_notif: [{ value: '', disabled: true }],
+    /* validación */
+    fecha_infor_fav_desf: [{ value: '', disabled: true }],
+    fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }],
+    fecha_not_propuesta_resolucion_prov: [{ value: '', disabled: true }],
+    fecha_firma_propuesta_resolucion_def: [{ value: '', disabled: true }],
+    fecha_not_propuesta_resolucion_def: [{ value: '', disabled: true }],
+    fecha_firma_res: [{ value: '', disabled: true }],
+    fecha_notificacion_resolucion: [{ value: '', disabled: true }],
+    /* Ejecución */
+    fecha_kick_off: [{ value: '', disabled: true }],
+    fecha_limite_consultoria: [{ value: '', disabled: true }],
+    fecha_reunion_cierre: [{ value: '', disabled: true }],
+    fecha_limite_justificacion: [{ value: '', disabled: true }],
+    fecha_max_desp_ampliacion: [{ value: '', disabled: true }],
+    fecha_REC_amp_termino: [{ value: '', disabled: true }],
+    ref_REC_amp_termino: [{ value: '', disabled: true }],
+    fecha_amp_termino: [{ value: '', disabled: true }],
+    /* Justificación */
+    fecha_REC_justificacion: [{ value: '', disabled: true }],
+    ref_REC_justificacion: [{ value: '', disabled: true }],
+    fecha_firma_res_pago_just: [{ value: '', disabled: true }],
+    fecha_not_res_pago: [{ value: '', disabled: true }],
+    fecha_firma_requerimiento_justificacion: [{ value: '', disabled: true }],
+    fecha_not_req_just: [{ value: '', disabled: true }],
+    fecha_REC_requerimiento_justificacion: [{ value: '', disabled: true }],
+    ref_REC_requerimiento_justificacion: [{ value: '', disabled: true }],
+    fecha_propuesta_rev: [{ value: '', disabled: true }],
+    fecha_resolucion_rev: [{ value: '', disabled: true }],
+    /* Desestimiento o renuncia */
+    fecha_REC_desestimiento: [{ value: '', disabled: true }],
+    ref_REC_desestimiento: [{ value: '', disabled: true }],
+    fecha_firma_resolucion_desestimiento: [{ value: '', disabled: true }],
+    fecha_notificacion_desestimiento: [{ value: '', disabled: true }],   
   });
   this.getExpedDetail(this.idExpediente);
 }

@@ -1,12 +1,11 @@
 <mat-tab-group mat-stretch-tabs>
-  <mat-tab>
+  <form [formGroup]="form" class="detalle-formulario">
+    <mat-tab>
     <ng-template mat-tab-label>
       <span ngClass="exped-tab detail-tab">{{ 'APP.DETAIL' | translate }}</span>
-    </ng-template>
-  <mat-card>
-  <form [formGroup]="form" class="detalle-formulario">
-   
-  <section>
+    </ng-template>    
+    <mat-card>
+    <section>
      <h3>Total solicitudes previas: {{totalSolicitudesPrevias}}</h3>
     <mat-form-field appearance="outline">
       <mat-label>{{'FORM.SOLICITOR' | translate}}</mat-label>
@@ -67,9 +66,9 @@
       <mat-checkbox [checked]="form.get('file_certificadoATIB')?.value === 'SI'" disabled>Certificado ATIB</mat-checkbox>
       <mat-checkbox [checked]="form.get('file_certificadoSegSoc')?.value === 'SI'" disabled>Certificado Seguridad Social</mat-checkbox>
     </section>
-  </section>
+    </section>
 
-  <section>
+    <section>
     <mat-form-field appearance="outline">
       <mat-label>Comentarios</mat-label>
       <textarea matInput formControlName="comments" readonly></textarea>
@@ -137,46 +136,283 @@
       <mat-label>Fecha de pago</mat-label>
       <input matInput formControlName="fecha_de_pago" readonly>
     </mat-form-field>       
-  </section>
+    </section>
 
-  <section> 
+    <section> 
     <h4>Documentación requerida de la solicitud</h4>
     <app-document [idSol]="idExpediente" [requriedDocs]="'SI'"></app-document>
     <h4>Documentación opcional de la solicitud</h4>
     <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
-  </section>
-
-  <section ngClass="form-actions">
-    <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
-    <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
-  </section>
-</form>
-</mat-card>  
-  </mat-tab>
-  <mat-tab> 
+    </section>
+    </mat-card>  
+    </mat-tab>
+    <mat-tab> 
     <ng-template mat-tab-label>
       <span ngClass="exped-tab solicitud-tab">{{ 'APP.REQUEST' | translate }}</span>
     </ng-template>
-    <mat-card>xxxx</mat-card>  
-  </mat-tab>
-  <mat-tab> 
+    <mat-card>
+      <section>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.FECHA_REC' | translate}}</mat-label>
+      <input matInput formControlName="fecha_REC" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.REF_REC' | translate}}</mat-label>
+      <input matInput formControlName="ref_REC" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.FECHA_REC_ENMIENDA' | translate}}</mat-label>
+      <input matInput formControlName="fecha_REC_enmienda" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.REF_REC_ENMIENDA' | translate}}</mat-label>
+      <input matInput formControlName="ref_REC_enmienda" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{"FROM.FECHA_REQUERIMIENTO" | translate}}</mat-label>
+      <input matInput formControlName="fecha_requerimiento" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{"FROM.FECHA_REQUERIMIENTO_NOTIF" | translate}}</mat-label>
+      <input matInput formControlName="fecha_requerimiento_notif" readonly>
+      </mat-form-field>
+      </section>
+      <section>
+      <h4>Actos administrativos</h4>
+      <ol>
+        <li>Requerimiento</li>
+        <li>Resolución de desestimiento por no enmendar</li>
+      </ol>
+      </section>
+      <section>
+      <h4>Mejoras</h4>
+      <table></table>
+      </section>
+      <section>
+        <h4>Documentos del expediente</h4>
+        <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
+      </section>
+    </mat-card>   
+    </mat-tab>
+    <mat-tab> 
     <ng-template mat-tab-label>
       <span ngClass="exped-tab validacion-tab">{{ 'APP.VALIDATION' | translate }}</span>
     </ng-template>
-    <mat-card>yyyy</mat-card>
-  </mat-tab>
-  <mat-tab>
+    <mat-card>
+      <section>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.fecha_infor_fav_desf' | translate}}</mat-label>
+      <input matInput formControlName="fecha_infor_fav_desf" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.fecha_firma_propuesta_resolucion_prov' | translate}}</mat-label>
+      <input matInput formControlName="fecha_firma_propuesta_resolucion_prov" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.fecha_not_propuesta_resolucion_prov' | translate}}</mat-label>
+      <input matInput formControlName="fecha_not_propuesta_resolucion_prov" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.fecha_firma_propuesta_resolucion_def' | translate}}</mat-label>
+      <input matInput formControlName="fecha_firma_propuesta_resolucion_def" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{"FROM.fecha_not_propuesta_resolucion_def" | translate}}</mat-label>
+      <input matInput formControlName="fecha_not_propuesta_resolucion_def" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{"FROM.fecha_firma_res" | translate}}</mat-label>
+      <input matInput formControlName="fecha_firma_res" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{"FROM.fecha_notificacion_resolucion" | translate}}</mat-label>
+      <input matInput formControlName="fecha_notificacion_resolucion" readonly>
+      </mat-form-field>
+      </section>
+      <section>
+      <h4>Actos administrativos</h4>
+      <ol start="3">
+        <li>Informe favorable</li>
+        <li>Informe favorable amb requeriment</li>
+        <li>Informe desfavorable</li>
+        <li>Informe desfavorable amb requeriment</li>
+        <li>Proposta de resolució provisional favorable</li>
+        <li>Proposta de resolució provisional favorable amb requeriment</li>
+        <li>Proposta resolució provisional desfavorable</li>
+        <li>Proposta resolució provisional desfavorable amb requeriment</li>
+        <li>Proposta de resolució definitiva favorable</li>
+        <li>Proposta de resolució definitiva favorable amb requeriment </li>
+        <li>Proposta de resolució definitiva desfavorable</li>
+        <li>Proposta de resolució definitiva desfavorable amb requeriment</li>
+        <li>Resolució concessió favorable</li>
+        <li>Resolució concessió favorable amb requeriment</li>
+        <li>Resolució denegació</li>
+        <li>Resolució denegació amb requeriment</li>
+      </ol>
+      </section>
+      <section>
+        <h4>Documentos del expediente</h4>
+        <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
+      </section>
+    </mat-card>
+    </mat-tab>
+    <mat-tab>
     <ng-template mat-tab-label>
-      <span ngClass="exped-tab ejecucion-tab">{{ 'APP.EXECUTION' | translate }}</span>
+      <span ngClass="exped-tab justificacion-tab">{{ 'APP.EXECUTION' | translate }}</span>
     </ng-template>
-    <mat-card>zzzzz</mat-card>  
-  </mat-tab>
-  <mat-tab>
+    <mat-card>
+      <section>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.fecha_kick_off' | translate}}</mat-label>
+      <input matInput formControlName="fecha_kick_off" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.fecha_limite_consultoria' | translate}}</mat-label>
+      <input matInput formControlName="fecha_limite_consultoria" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.fecha_reunion_cierre' | translate}}</mat-label>
+      <input matInput formControlName="fecha_reunion_cierre" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{'FORM.fecha_limite_justificacion' | translate}}</mat-label>
+      <input matInput formControlName="fecha_limite_justificacion" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{"FROM.fecha_max_desp_ampliacion" | translate}}</mat-label>
+      <input matInput formControlName="fecha_max_desp_ampliacion" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{"FROM.fecha_REC_amp_termino" | translate}}</mat-label>
+      <input matInput formControlName="fecha_REC_amp_termino" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{"FROM.ref_REC_amp_termino" | translate}}</mat-label>
+      <input matInput formControlName="ref_REC_amp_termino" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+      <mat-label>{{"FROM.fecha_amp_termino" | translate}}</mat-label>
+      <input matInput formControlName="fecha_amp_termino" readonly>
+      </mat-form-field>      
+      </section>
+      <section>
+      <h4>Actos administrativos</h4>
+      <ol start="19">
+        <li>Acta de Kick off</li>
+        <li>Acta de tancament</li>
+      </ol>
+      </section>
+      <section>
+        <h4>Documentos del expediente</h4>
+        <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
+      </section>
+    </mat-card>  
+    </mat-tab>
+    <mat-tab>
+    <ng-template mat-tab-label>
+      <span ngClass="exped-tab ejecucion-tab">{{ 'APP.JUSTIFICATION' | translate }}</span>
+    </ng-template>
+    <mat-card>
+    <section>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.fecha_REC_justificacion' | translate}}</mat-label>
+        <input matInput formControlName="fecha_REC_justificacion" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.ref_REC_justificacion' | translate}}</mat-label>
+        <input matInput formControlName="ref_REC_justificacion" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.fecha_firma_res_pago_just' | translate}}</mat-label>
+        <input matInput formControlName="fecha_firma_res_pago_just" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.fecha_limite_justificacion' | translate}}</mat-label>
+        <input matInput formControlName="fecha_limite_justificacion" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{"FROM.fecha_not_res_pago" | translate}}</mat-label>
+        <input matInput formControlName="fecha_not_res_pago" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{"FROM.fecha_firma_requerimiento_justificacion" | translate}}</mat-label>
+        <input matInput formControlName="fecha_firma_requerimiento_justificacion" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{"FROM.fecha_not_req_just" | translate}}</mat-label>
+        <input matInput formControlName="fecha_not_req_just" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{"FROM.fecha_REC_requerimiento_justificacion" | translate}}</mat-label>
+        <input matInput formControlName="fecha_REC_requerimiento_justificacion" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{"FROM.ref_REC_requerimiento_justificacion" | translate}}</mat-label>
+        <input matInput formControlName="ref_REC_requerimiento_justificacion" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{"FROM.fecha_propuesta_rev" | translate}}</mat-label>
+        <input matInput formControlName="fecha_propuesta_rev" readonly>
+      </mat-form-field>      
+    </section>
+    <section>
+      <h4>Actos administrativos</h4>
+      <ol start="21">
+        <li>Informe inici requeriment justificació (Pendent crear plantilla json)</li>
+        <li>Requeriment d'esmena justificació (Pendent crear plantilla json)</li>
+        <li>Informe post esmena justificació (Pendent crear plantilla json)</li>
+        <li>Resolució de pagament sense requeriment</li>
+      </ol>
+    </section>
+    <section>
+      <h4>Documentos del expediente</h4>
+      <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
+    </section>
+    </mat-card>  
+    </mat-tab>
+
+    <mat-tab>
     <ng-template mat-tab-label>
       <span ngClass="exped-tab desestimiento-tab">{{ 'APP.DISCLAIMER' | translate }}</span>
     </ng-template>    
-    <mat-card>aaaa</mat-card>
-  </mat-tab>
+    <mat-card>
+      <section>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.fecha_REC_desestimiento' | translate}}</mat-label>
+        <input matInput formControlName="fecha_REC_desestimiento" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.ref_REC_desestimiento' | translate}}</mat-label>
+        <input matInput formControlName="ref_REC_desestimiento" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.fecha_firma_resolucion_desestimiento' | translate}}</mat-label>
+        <input matInput formControlName="fecha_firma_resolucion_desestimiento" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.fecha_notificacion_desestimiento' | translate}}</mat-label>
+        <input matInput formControlName="fecha_notificacion_desestimiento" readonly>
+      </mat-form-field>
+      </section>
+      <section>
+        <h4>Actos administrativos</h4>
+        <ol start="25">
+          <li>Resolució desistiment per renúncia</li>
+          <li>Proposta resolució revocació per no justificar (Pendent crear plantilla json)</li>
+          <li>Resolució revocació per no justificar</li>
+        </ol>
+      </section>
+      <section>
+        <h4>Documentos del expediente</h4>
+        <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
+      </section>         
+    </mat-card>
+    </mat-tab>
+  <section ngClass="">
+    <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
+    <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
+  </section>
+  </form>
 </mat-tab-group>
 
 
