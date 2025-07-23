@@ -24,11 +24,11 @@ export class DocumentService {
     let url = `${this.urlAPITramits}/documents/${idSol}`;
     // Si isRequiredDoc está presente, la agregamos como query param
     if (isRequiredDoc) {
-      url += `?isRequiredDoc=${encodeURIComponent(isRequiredDoc)}`;
+      url += `/${encodeURIComponent(isRequiredDoc)}`;
     }
     // Si faseExped está presente, la agregamos como query param
     if (faseExped) {
-      url += `?faseExped=${encodeURIComponent(faseExped)}`;
+      url += `/${encodeURIComponent(faseExped)}`;
     }
     return this.http.get<any[]>(url).pipe(
       catchError(this.handleError)
