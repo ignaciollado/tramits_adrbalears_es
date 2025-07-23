@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CommonService } from '../Services/common.service';
 import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
 import { ChangeDetectorRef } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 
@@ -56,7 +56,7 @@ export class DocumentComponent implements OnInit {
   message: string = ''
   progress: number = 0
   pdfUrl: SafeResourceUrl | null = null;
-  imageUrl: SafeResourceUrl | null = null;
+  imageUrl: SafeUrl | undefined
   showPdfViewer: boolean = false;
   showImageViewer: boolean = false;
 
@@ -170,7 +170,7 @@ export class DocumentComponent implements OnInit {
       this.showPdfViewer = false;
     } else {
       this.pdfUrl = sanitizedUrl;
-      this.imageUrl = null;
+      this.imageUrl = undefined;
       this.showPdfViewer = true;
       this.showImageViewer = false;
     }
@@ -181,21 +181,21 @@ export class DocumentComponent implements OnInit {
     this.pdfUrl = null;
   }
 
-  closeImage() {
+    closeImg() {
     this.showImageViewer = false;
-    this.imageUrl = null;
+    this.imageUrl = undefined;
   }
 
-  deleteDocument(docName: string) {
-    if (!this.foldername || this.subfolderId === undefined) {
-      this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
+  deleteDocument(nif: string, folder: string, filename: string) {
+    if (!nif || !folder || !filename) {
+      this.commonService.showSnackBar("Faltan datos para eliminar el documento");
       return;
     }
 
-    this.documentService.deleteDocument(this.foldername, this.subfolderId, docName).subscribe(
-      () => {
-        this.documents = this.documents.filter(doc => doc.id !== docName);
-        this.commonService.showSnackBar('Document deleted successfully!');
+    this.documentService.deleteDocument(nif, folder, filename).subscribe(
+      (resp:any) => {
+    
+        this.commonService.showSnackBar('Document deleted successfully! '+resp);
         this.listDocuments(this.idSol, this.requriedDocs);
       },
       (error) => this.commonService.showSnackBar(error)
