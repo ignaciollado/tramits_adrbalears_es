@@ -32,15 +32,45 @@ a:hover {
 .pdf-container {
   height: 80vh;
   overflow: auto;
-  border: 1px solid #3606e6;
   margin-top: 1rem;
+
+  background-color: #fff;
+  border: 1px solid  adr-colors.$primary-adr;
+  border-radius: 8px;
+
+  // Sombra elegante
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  // Scroll personalizado (opcional)
+  scrollbar-width: thin;
+  scrollbar-color:  adr-colors.$primary-adr #f1f1f1;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color:  adr-colors.$primary-adr;
+    border-radius: 4px;
+  }
+
+  // Transición suave al cargar o cambiar
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  }
 }
+
 
 // Define un contenedor para centrar y aplicar estilo
 .image-viewer-container {
   position: relative;
   display: inline-block;
-  padding: 1rem;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -62,10 +92,10 @@ a:hover {
 
   .close-button {
     position: absolute;
-    top: 0.5rem;
+    bottom: -2.5rem;
     right: 0.5rem;
     background-color: white;
-    border-radius: 50%;
+    border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
     font-size: 0.8rem;
     line-height: 1rem;
