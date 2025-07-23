@@ -190,10 +190,11 @@
       </section>
       <section>
         <h4>Documentos del expediente</h4>
-        <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
+        <app-document [idSol]="idExpediente" [requriedDocs]="'NO'" [faseExped]="'Solicitud'"></app-document>
       </section>
     </mat-card>   
     </mat-tab>
+
     <mat-tab> 
     <ng-template mat-tab-label>
       <span ngClass="exped-tab validacion-tab">{{ 'APP.VALIDATION' | translate }}</span>
@@ -256,6 +257,7 @@
       </section>
     </mat-card>
     </mat-tab>
+
     <mat-tab>
     <ng-template mat-tab-label>
       <span ngClass="exped-tab justificacion-tab">{{ 'APP.EXECUTION' | translate }}</span>
@@ -308,6 +310,7 @@
       </section>
     </mat-card>  
     </mat-tab>
+
     <mat-tab>
     <ng-template mat-tab-label>
       <span ngClass="exped-tab ejecucion-tab">{{ 'APP.JUSTIFICATION' | translate }}</span>

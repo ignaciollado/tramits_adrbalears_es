@@ -20,11 +20,21 @@ export class DocumentService {
   }
 
   /* En el sistema de archivos del servidor backend */
-  listDocuments(idSol: number, isRequiredDoc: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.urlAPITramits}/documents/${idSol}/${isRequiredDoc}`)
-      .pipe(catchError(this.handleError));
+  listDocuments(idSol: number, isRequiredDoc?: string, faseExped?: string): Observable<any[]> {
+    let url = `${this.urlAPITramits}/documents/${idSol}`;
+    // Si isRequiredDoc está presente, la agregamos como query param
+    if (isRequiredDoc) {
+      url += `?isRequiredDoc=${encodeURIComponent(isRequiredDoc)}`;
+    }
+    // Si faseExped está presente, la agregamos como query param
+    if (faseExped) {
+      url += `?faseExped=${encodeURIComponent(faseExped)}`;
+    }
+    return this.http.get<any[]>(url).pipe(
+      catchError(this.handleError)
+    );
   }
-  
+
   createDocument(nif:string, timestamp: string, formData: FormData): Observable<HttpEvent<any>> {
     return this.http.post<any>(`${this.urlAPITramits}/document/upload/${nif}/${timestamp}`, formData, {
       reportProgress: true, observe: 'events'})

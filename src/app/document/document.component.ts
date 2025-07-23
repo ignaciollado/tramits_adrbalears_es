@@ -55,16 +55,17 @@ export class DocumentComponent implements OnInit {
   subfolderId: number | undefined
   message: string = ''
   progress: number = 0
-  pdfUrl: SafeResourceUrl | null = null;
+  pdfUrl: SafeResourceUrl | null = null
   imageUrl: SafeUrl | undefined
-  showPdfViewer: boolean = false;
-  showImageViewer: boolean = false;
+  showPdfViewer: boolean = false
+  showImageViewer: boolean = false
 
-  @Input() id!: string;
-  @Input() idSol!: number;
-  @Input() origin!: string;
-  @Input() requriedDocs!: string;
-  @Input() convocatoria!: number;
+  @Input() id!: string
+  @Input() idSol!: number
+  @Input() origin!: string
+  @Input() requriedDocs!: string
+  @Input() convocatoria!: number
+  @Input() faseExped!: string
 
   constructor( private sanitizer: DomSanitizer,  private http: HttpClient,
     private documentService: DocumentService,
@@ -74,7 +75,7 @@ export class DocumentComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.listDocuments(this.idSol, this.requriedDocs);
+      this.listDocuments(this.idSol, this.requriedDocs, this.faseExped);
     });
   } 
 
@@ -87,13 +88,13 @@ export class DocumentComponent implements OnInit {
     this.uploadDocuments();
   }
 
-  listDocuments(idSol: number, isRequiredDoc: string): void {
+  listDocuments(idSol: number, isRequiredDoc?: string, faseExped?: string): void {
   if (!idSol) {
     this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
     return;
   }
 
-  this.documentService.listDocuments(idSol, isRequiredDoc).subscribe(
+  this.documentService.listDocuments(idSol, isRequiredDoc, faseExped).subscribe(
     (response: any) => {
       if (response.status === 'success') {
         const documentosConId = response.data.map((doc: any) => ({
