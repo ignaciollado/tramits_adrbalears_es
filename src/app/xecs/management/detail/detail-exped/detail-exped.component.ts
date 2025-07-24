@@ -16,6 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DocumentComponent } from '../../../../document/document.component';
 import { CommonService } from '../../../../Services/common.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
+import { DocSignedDTO } from '../../../../Models/docsigned.dto';
 @Component({
   selector: 'app-detalle-expediente',
   standalone: true,
@@ -42,8 +43,8 @@ export class XecsDetailExpedComponent {
   actualConvocatoria!: number
   actualTipoTramite!: string
   totalSolicitudesPrevias!: number
-  signedDocData: string = ""
-
+  signedDocData!: DocSignedDTO
+  publicAccessId: string = ""
   constructor( private commonService: CommonService, private viafirmaService: ViafirmaService ) {}
 
 ngOnInit(): void {
@@ -88,6 +89,7 @@ ngOnInit(): void {
     mail_consultor: [{ value: '', disabled: true }],
     nom_entidad: [{ value: '', disabled: true }],
     cc_datos_bancarios: [{ value: '', disabled: true }],
+    PublicAccessId: [{ value: '', disabled: true }],
     /* Solicitud */
     fecha_REC: [{ value: '', disabled: true }],
     ref_REC: [{ value: '', disabled: true }],
@@ -147,6 +149,8 @@ getExpedDetail(id: number) {
         this.actualTimeStamp = expediente.selloDeTiempo	
         this.actualConvocatoria = expediente.convocatoria
         this.actualTipoTramite = expediente.tipo_tramite
+        this.publicAccessId = expediente.PublicAccessId
+        this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
       } else {
@@ -194,12 +198,28 @@ getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: num
     });
 }
 
-checkViafirmaSign() {
-  this.viafirmaService.getOneSignedDocument('QZHH-0YMT-5EUA-7W4S').subscribe(
-    (resp:any) => {
-      console.log(resp)
-      this.signedDocData = resp
+checkViafirmaSign(publicKey: string) {
+  this.viafirmaService.getData(publicKey).subscribe(
+    (resp: DocSignedDTO) => {
+      // Éxito
+      this.commonService.showSnackBar('✅ Documento firmado recibido correctamente:'+ resp);
+      this.signedDocData = resp;
+            console.log (this.signedDocData.status)
+    },
+    (error: any) => {
+      // Error
+      this.commonService.showSnackBar('❌ Error al obtener documento firmado');
+
+      if (error.status === 0) {
+        // CORS o problema de red
+        this.commonService.showSnackBar('🌐 Error de red o CORS (status 0):'+ error.message);
+      } else {
+        // Error HTTP con código real
+        this.commonService.showSnackBar(`📡 Error HTTP ${error.status}:`+ error.error || error.message);
+        this.commonService.showSnackBar(`Ha ocurrido un error al consultar el estado de la firma.\nCódigo: ${error.status}\nMensaje: ${error.message}`);
+      }
     }
-  )
+  );
 }
+
 }

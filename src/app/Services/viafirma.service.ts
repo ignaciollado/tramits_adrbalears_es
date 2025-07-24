@@ -1,28 +1,10 @@
 
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { DocSignedDTO } from '../Models/docsigned.dto';
 
-  // ENTORNO PREPRODUCCIÓN
-  const PRE_REST_API_URL = "https://sandbox.viafirma.com/inbox/api/v3/"
-  const PRE_REST_API_KEY = "dev_idi"
-  const PRE_REST_API_PASS = "V3CBFZVZS6THXSWZG9HL3AFF06KD4NGAQHGXGF6Y"
-
-	// ENTORNO PRODUCCIÓN
-  const REST_API_URL = "https://inbox.viafirma.com/inbox/api/v3/";
-  const REST_API_KEY = "viafirma";
-  const REST_API_PASS = "HXN91O5HBYNUNGVRVTQKBFXWDLPIOMBPKIBSJNCC";
-
-
-	const username = 'REST_API_KEY';
-  const password = 'REST_API_PASS';
-
-  const credentials = btoa(`${username}:${password}`);
-  const headers = new HttpHeaders({
-    'Authorization': `Basic ${credentials}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  });
+const tramitsURL = 'https://tramits.idi.es/public/index.php'
 
   @Injectable({
     providedIn: 'root',
@@ -32,18 +14,8 @@ export class ViafirmaService {
 
   constructor( private http: HttpClient ) { }
 
-getOneSignedDocument(publicAccessId: string): Observable<any> {
-  const username = 'REST_API_KEY'; // reemplaza con tu clave
-  const password = 'REST_API_PASS'; // reemplaza con tu pass
-
-  const credentials = btoa(`${username}:${password}`);
-  const headers = new HttpHeaders({
-    'Authorization': `Basic ${credentials}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json, text/javascript, */*; q=0.01'
-  });
-
-  return this.http.get<any>(`${REST_API_URL}requests/${publicAccessId}`, { headers })
+getData(publicAccessId: string): Observable<DocSignedDTO> {
+  return this.http.get<DocSignedDTO>(`${tramitsURL}/api/viafirma/request/${publicAccessId}`)
     .pipe(catchError(this.handleError));
 }
 

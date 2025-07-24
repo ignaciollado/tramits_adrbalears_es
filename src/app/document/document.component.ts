@@ -93,7 +93,7 @@ export class DocumentComponent implements OnInit {
     this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
     return;
   }
-
+  
   this.documentService.listDocuments(idSol, isRequiredDoc, faseExped).subscribe(
     (response: any) => {
       if (response.status === 'success') {

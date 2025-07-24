@@ -1,0 +1,8 @@
+{
+  "/inbox/api": {
+    "target": "https://inbox.viafirma.com",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
