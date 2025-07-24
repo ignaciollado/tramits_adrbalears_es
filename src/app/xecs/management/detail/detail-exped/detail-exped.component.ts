@@ -199,7 +199,7 @@ getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: num
 }
 
 checkViafirmaSign(publicKey: string) {
-  this.viafirmaService.getData(publicKey).subscribe(
+  this.viafirmaService.getDocumentStatus(publicKey).subscribe(
     (resp: DocSignedDTO) => {
       // Éxito
       this.commonService.showSnackBar('✅ Documento firmado recibido correctamente:'+ resp);
@@ -217,6 +217,29 @@ checkViafirmaSign(publicKey: string) {
         // Error HTTP con código real
         this.commonService.showSnackBar(`📡 Error HTTP ${error.status}:`+ error.error || error.message);
         this.commonService.showSnackBar(`Ha ocurrido un error al consultar el estado de la firma.\nCódigo: ${error.status}\nMensaje: ${error.message}`);
+      }
+    }
+  );
+}
+
+showSignedDocument(publicKey: string) {
+   this.viafirmaService.viewDocument(publicKey).subscribe(
+    (resp: DocSignedDTO) => {
+      // Éxito
+      this.commonService.showSnackBar('✅ Documento firmado recibido correctamente:'+ resp);
+      console.log (this.signedDocData.status)
+    },
+    (error: any) => {
+      // Error
+      this.commonService.showSnackBar('❌ Error al obtener documento firmado');
+
+      if (error.status === 0) {
+        // CORS o problema de red
+        this.commonService.showSnackBar('🌐 Error de red o CORS (status 0):'+ error.message);
+      } else {
+        // Error HTTP con código real
+        this.commonService.showSnackBar(`📡 Error HTTP ${error.status}:`+ error.error || error.message);
+        this.commonService.showSnackBar(`Ha ocurrido un error al consultar documento de la firma.\nCódigo: ${error.status}\nMensaje: ${error.message}`);
       }
     }
   );

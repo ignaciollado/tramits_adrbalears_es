@@ -14,8 +14,13 @@ export class ViafirmaService {
 
   constructor( private http: HttpClient ) { }
 
-getData(publicAccessId: string): Observable<DocSignedDTO> {
+getDocumentStatus(publicAccessId: string): Observable<DocSignedDTO> {
   return this.http.get<DocSignedDTO>(`${tramitsURL}/api/viafirma/request/${publicAccessId}`)
+    .pipe(catchError(this.handleError));
+}
+
+viewDocument(publicAccessId: string): Observable<DocSignedDTO> {
+  return this.http.get<DocSignedDTO>(`${tramitsURL}/api/viafirma/viewDoc/${publicAccessId}`)
     .pipe(catchError(this.handleError));
 }
 

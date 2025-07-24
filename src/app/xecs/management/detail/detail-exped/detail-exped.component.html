@@ -145,7 +145,7 @@
       <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
       <section *ngIf="signedDocData">
           <div *ngIf="signedDocData.status === 'COMPLETED'">
-            <button mat-raised-button color="accent">Documento firmado</button>
+            <button mat-raised-button color="accent" (click)="showSignedDocument(publicAccessId)">Documento firmado</button>
           </div>
           <div *ngIf="signedDocData.status === 'REJECTED'">
             <button mat-raised-button color="warn">Firma rechazada</button>
