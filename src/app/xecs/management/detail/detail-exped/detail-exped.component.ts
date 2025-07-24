@@ -223,26 +223,45 @@ checkViafirmaSign(publicKey: string) {
 }
 
 showSignedDocument(publicKey: string) {
-   this.viafirmaService.viewDocument(publicKey).subscribe(
+  this.viafirmaService.viewDocument(publicKey).subscribe(
     (resp: DocSignedDTO) => {
-      // Éxito
-      this.commonService.showSnackBar('✅ Documento firmado recibido correctamente:'+ resp);
-      console.log (this.signedDocData.status)
+      console.log ("resp", resp)
+      if (!resp || !resp.base64 || !resp.filename) {
+        this.commonService.showSnackBar('⚠️ Respuesta inválida del servidor.');
+        return;
+      }
+
+      try {
+        // Decodificar base64 a binario
+        const byteCharacters = atob(resp.base64);
+        const byteNumbers = Array.from(byteCharacters, char => char.charCodeAt(0));
+        const byteArray = new Uint8Array(byteNumbers);
+
+        // Crear Blob y URL
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
+        const fileURL = URL.createObjectURL(blob);
+
+        // Abrir en nueva pestaña
+        window.open(fileURL, '_blank');
+
+        this.commonService.showSnackBar('✅ Documento firmado recibido correctamente: ' + resp.filename);
+      } catch (e) {
+        this.commonService.showSnackBar('❌ Error al procesar el documento PDF.');
+        console.error('Error al decodificar base64:', e);
+      }
     },
     (error: any) => {
-      // Error
       this.commonService.showSnackBar('❌ Error al obtener documento firmado');
-
       if (error.status === 0) {
-        // CORS o problema de red
-        this.commonService.showSnackBar('🌐 Error de red o CORS (status 0):'+ error.message);
+        this.commonService.showSnackBar('🌐 Error de red o CORS (status 0): ' + error.message);
       } else {
-        // Error HTTP con código real
-        this.commonService.showSnackBar(`📡 Error HTTP ${error.status}:`+ error.error || error.message);
-        this.commonService.showSnackBar(`Ha ocurrido un error al consultar documento de la firma.\nCódigo: ${error.status}\nMensaje: ${error.message}`);
+        const errorMsg = error.error?.message || error.message || 'Error desconocido';
+        this.commonService.showSnackBar(`📡 Error HTTP ${error.status}: ${errorMsg}`);
+        this.commonService.showSnackBar(`Ha ocurrido un error al consultar documento de la firma.\nCódigo: ${error.status}\nMensaje: ${errorMsg}`);
       }
     }
   );
 }
+
 
 }

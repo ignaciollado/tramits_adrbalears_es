@@ -182,7 +182,7 @@ export class DocumentComponent implements OnInit {
     this.pdfUrl = null;
   }
 
-    closeImg() {
+  closeImg() {
     this.showImageViewer = false;
     this.imageUrl = undefined;
   }

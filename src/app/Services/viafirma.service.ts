@@ -24,6 +24,7 @@ viewDocument(publicAccessId: string): Observable<DocSignedDTO> {
     .pipe(catchError(this.handleError));
 }
 
+
 private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Error desconocido';
 

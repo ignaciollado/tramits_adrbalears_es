@@ -29,21 +29,6 @@ mat-card {
   gap: 1rem;
 }
 
-/* .mat-card-solicitud {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.mat-card-validacion {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.mat-card-ejecucion {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
- */
 .detalle-formulario {
   display: grid;
   grid-template-columns: repeat(1, 1fr); // Tres columnas fijas
@@ -93,6 +78,13 @@ mat-card {
   .desestimiento-tab {
     background-color: #782400;
   }
+
+@media (max-width: 992px) {
+  mat-card {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 600px) {
   mat-card {
     padding: 1rem;

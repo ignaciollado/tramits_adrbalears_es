@@ -8,6 +8,8 @@
 // match the expected interface, even if the JSON is valid.
 
 export interface DocSignedDTO {
+    filename:                       string;
+    base64:                         string;
     sender:                         Sender;
     subject:                        string;
     message:                        string;
