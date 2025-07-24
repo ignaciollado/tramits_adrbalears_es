@@ -1,11 +1,10 @@
 <form [formGroup]="form" ngClass="detalle-formulario">
   <mat-tab-group mat-stretch-tabs>
     <mat-tab>
-    <ng-template mat-tab-label>
+      <ng-template mat-tab-label>
       <span ngClass="exped-tab detail-tab">{{ 'APP.DETAIL' | translate }}</span>
-    </ng-template> 
-
-    <mat-card ngClass="mat-card-detalle">
+      </ng-template> 
+      <mat-card ngClass="mat-card-detalle">
     <section>
      <h3>Total solicitudes previas: {{totalSolicitudesPrevias}}</h3>
     <mat-form-field appearance="outline">
@@ -146,15 +145,15 @@
     <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
     </section>
 
-    </mat-card>  
+      </mat-card>  
     </mat-tab>
 
     <mat-tab> 
-    <ng-template mat-tab-label>
-      <span ngClass="exped-tab solicitud-tab">{{ 'APP.REQUEST' | translate }}</span>
-    </ng-template>
-    <mat-card ngClass="mat-card-solicitud">
-      <section>
+      <ng-template mat-tab-label>
+        <span ngClass="exped-tab solicitud-tab">{{ 'APP.REQUEST' | translate }}</span>
+      </ng-template>
+      <mat-card ngClass="mat-card-solicitud">
+        <section>
         <mat-form-field appearance="outline">
         <mat-label>{{'FORM.FECHA_REC' | translate}}</mat-label>
         <input matInput formControlName="fecha_REC" readonly>
@@ -179,21 +178,23 @@
         <mat-label>{{"FROM.FECHA_REQUERIMIENTO_NOTIF" | translate}}</mat-label>
         <input matInput formControlName="fecha_requerimiento_notif" readonly>
         </mat-form-field>
-      </section>
-      <section>
+        </section>
+        <section>
       <h4>Actos administrativos</h4>
+       <button mat-raised-button color="accent" (click)="checkViafirmaSign()">Comprobar firma</button>
+       <section>{{signedDocData}}</section>
       <ol>
         <li>Requerimiento</li>
         <li>Resolución de desestimiento por no enmendar</li>
       </ol>
        <h4>Mejoras</h4>
       <table></table>
-      </section>
-      <section>
+        </section>
+        <section>
         <h4>Documentos del expediente</h4>
         <app-document [idSol]="idExpediente" [requriedDocs]="'NO'" [faseExped]="'Solicitud'"></app-document>
-      </section>
-    </mat-card>   
+        </section>
+      </mat-card>   
     </mat-tab>
 
     <mat-tab> 

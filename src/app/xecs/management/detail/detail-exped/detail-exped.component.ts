@@ -15,7 +15,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentComponent } from '../../../../document/document.component';
 import { CommonService } from '../../../../Services/common.service';
-
+import { ViafirmaService } from '../../../../Services/viafirma.service';
 @Component({
   selector: 'app-detalle-expediente',
   standalone: true,
@@ -42,8 +42,9 @@ export class XecsDetailExpedComponent {
   actualConvocatoria!: number
   actualTipoTramite!: string
   totalSolicitudesPrevias!: number
+  signedDocData: string = ""
 
-  constructor( private commonService: CommonService ) {}
+  constructor( private commonService: CommonService, private viafirmaService: ViafirmaService ) {}
 
 ngOnInit(): void {
   this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
@@ -147,7 +148,7 @@ getExpedDetail(id: number) {
         this.actualConvocatoria = expediente.convocatoria
         this.actualTipoTramite = expediente.tipo_tramite
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
-         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
+        this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
       } else {
         this.commonService.showSnackBar('⚠️ No se encontró información del expediente.');
       }
@@ -184,11 +185,21 @@ getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: num
     )
     .subscribe(totalSolitudes => {
       if (totalSolitudes) {
+        console.log (totalSolitudes.data.totalConvos)
         this.totalSolicitudesPrevias = totalSolitudes.data.totalConvos
      /*    this.commonService.showSnackBar('✅ Solcitudes encontradas: '+totalSolitudes.data.totalConvos); */
       } else {
         this.commonService.showSnackBar('⚠️ No se encontró información sobre el número de solicitudes.');
       }
     });
+}
+
+checkViafirmaSign() {
+  this.viafirmaService.getOneSignedDocument('QZHH-0YMT-5EUA-7W4S').subscribe(
+    (resp:any) => {
+      console.log(resp)
+      this.signedDocData = resp
+    }
+  )
 }
 }
