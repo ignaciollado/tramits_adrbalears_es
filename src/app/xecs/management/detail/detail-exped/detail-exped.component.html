@@ -144,13 +144,19 @@
       <h4>Documentación opcional de la solicitud</h4>
       <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
       <section *ngIf="signedDocData">
-          <div *ngIf="signedDocData.status === 'COMPLETED'; else statusText">
-            <button mat-raised-button color="accent">Firma completada con éxito</button>
+          <div *ngIf="signedDocData.status === 'COMPLETED'">
+            <button mat-raised-button color="accent">Documento firmado</button>
           </div>
-          <div *ngIf="signedDocData.status === 'REJECTED'; else statusText">
+          <div *ngIf="signedDocData.status === 'REJECTED'">
             <button mat-raised-button color="warn">Firma rechazada</button>
           </div>
-          <ng-template #statusText>{{ signedDocData.status }}</ng-template>
+          <div *ngIf="signedDocData.status === 'NOT_STARTED'">
+            <button mat-raised-button color="warn">Pendiente de firma</button>
+          </div>
+          <div *ngIf="signedDocData.status === 'IN_PROCESS'">
+            <button mat-raised-button color="warn">Firma en curso</button>
+          </div>
+         <!--  <ng-template #statusText>{{ signedDocData.status }}</ng-template> -->
       </section>
     </section>
 
