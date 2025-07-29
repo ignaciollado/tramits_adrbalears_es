@@ -169,10 +169,24 @@ getExpedDetail(id: number) {
 
 enableEdit(): void {
   Object.keys(this.form.controls).forEach(controlName => {
-    if ((controlName !== 'nif') && (controlName !== 'tipo_tramite')) {
-      this.form.get(controlName)?.enable();
+    const control = this.form.get(controlName);
+
+    if (controlName !== 'nif' && controlName !== 'tipo_tramite' && controlName !== 'importeAyuda') {
+      control?.enable();
+
+      // Quitar el atributo readonly del elemento si existe en el DOM
+      const element = document.querySelector(`[formControlName="${controlName}"]`) as HTMLInputElement;
+      if (element) {
+        element.readOnly = false;
+      }
     } else {
-      this.form.get(controlName)?.disable();
+      control?.disable();
+
+      // Asegurar que el campo quede en readonly
+      const element = document.querySelector(`[formControlName="${controlName}"]`) as HTMLInputElement;
+      if (element) {
+        element.readOnly = true;
+      }
     }
   });
 }
@@ -358,6 +372,5 @@ calculateAidAmount() {
     }
   );
 }
-
 
 }
