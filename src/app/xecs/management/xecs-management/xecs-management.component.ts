@@ -54,7 +54,7 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   uniqueSituaciones: string[] = [];
 
   form!: FormGroup;
-  displayedColumns: string[] = ['fechaComletado', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda', 
+  displayedColumns: string[] = ['fecha_completado', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda', 
     'ordenDePago', 'empresa_consultor', 'nom_consultor', 'fecha_not_propuesta_resolucion_def',
      'situacion'];
   loading = false;
@@ -102,6 +102,7 @@ loadAllExpedientes(): void {
 
   this.expedienteService.getAllExpedientes().subscribe({
     next: (res) => {
+      console.log (res)
       // Excluir expedientes con tipo_tramite 'ILS' o 'ADR-ISBA', 'company', 'FELIB'
       const expedientesFiltrados = res.filter(
         (e: any) => e.tipo_tramite !== 'ILS' && e.tipo_tramite !== 'ADR-ISBA' && e.tipo_tramite !== 'company' && e.tipo_tramite !== 'FELIB'

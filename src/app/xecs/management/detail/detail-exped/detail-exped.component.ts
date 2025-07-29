@@ -70,7 +70,7 @@ export class XecsDetailExpedComponent {
       this.adapter.setLocale('es')
   }
 
-  ngOnInit(): void {
+ngOnInit(): void {
     this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
 
     this.form = this.fb.group({
@@ -167,6 +167,7 @@ getExpedDetail(id: number) {
     )
     .subscribe(expediente => {
       if (expediente) {
+        console.log ("expediente", expediente)
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
         this.actualTimeStamp = expediente.selloDeTiempo	
