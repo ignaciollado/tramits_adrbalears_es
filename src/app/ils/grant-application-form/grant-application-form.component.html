@@ -126,7 +126,7 @@
                     <mat-label>{{'FORM.SELECTIAE' | translate}}</mat-label>
                     <mat-select formControlName="iae">
                         <mat-option *ngFor="let cnae of actividadesCNAE;"
-                            [value]="cnae.id">{{cnae.label_cas}}</mat-option>
+                            [value]="cnae.cnae">{{cnae.label_cas}}</mat-option>
                     </mat-select>
                     <mat-error *ngIf="ilsForm.get('iae')?.errors">{{'FORMERRORS.COMMON.CNAECODE' |
                         translate}}</mat-error>

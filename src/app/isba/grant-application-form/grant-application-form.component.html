@@ -139,7 +139,7 @@
                     <mat-form-field>
                         <mat-label>{{'FORM.SELECTIAE' | translate}}</mat-label>
                         <mat-select formControlName="iae">
-                            <mat-option *ngFor="let actividad of actividadesCNAE" [value]="actividad.id">{{actividad.label_cas}}</mat-option>
+                            <mat-option *ngFor="let actividad of actividadesCNAE" [value]="actividad.cnae">{{actividad.label_cas}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="isbaForm.get('iae')?.errors">{{'FORMERRORS.COMMON.CNAECODE' | translate}}</mat-error>
                     </mat-form-field>
