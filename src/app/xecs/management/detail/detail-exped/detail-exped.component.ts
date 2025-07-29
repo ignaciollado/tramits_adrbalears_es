@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Injectable } from '@angular/core';
+import { NativeDateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -19,11 +20,21 @@ import { CommonService } from '../../../../Services/common.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { DocSignedDTO } from '../../../../Models/docsigned.dto';
 import { PindustLineaAyudaDTO } from '../../../../Models/linea-ayuda-dto';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
 
-
+@Injectable()
+export class CustomDateAdapter extends NativeDateAdapter {
+  override getFirstDayOfWeek(): number {
+    return 1; // 0 = domingo, 1 = lunes
+  }
+}
 @Component({
   selector: 'app-detalle-expediente',
   standalone: true,
+  providers: [ { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: DateAdapter, useClass: CustomDateAdapter },],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss',
 
@@ -32,9 +43,12 @@ import { PindustLineaAyudaDTO } from '../../../../Models/linea-ayuda-dto';
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule,
-    MatCardModule, MatSnackBarModule,
+    MatCardModule, MatSnackBarModule, MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule
   ]
 })
+
 export class XecsDetailExpedComponent {
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
@@ -51,7 +65,10 @@ export class XecsDetailExpedComponent {
   signedDocData!: DocSignedDTO
   publicAccessId: string = ""
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
-  constructor( private commonService: CommonService, private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService ) {}
+  constructor( private commonService: CommonService, private adapter: DateAdapter<any>,
+    private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService ) {
+      this.adapter.setLocale('es')
+  }
 
   ngOnInit(): void {
     this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
@@ -81,8 +98,8 @@ export class XecsDetailExpedComponent {
     importeAyuda: [{ value: '', disabled: true }],
     porcentajeConcedido: [{ value: '', disabled: true }],
     ordenDePago: [{ value: '', disabled: true }],
-    fechaEnvioAdministracion: [{ value: '', disabled: true }],
-    fecha_de_pago: [{ value: '', disabled: true }],
+    fechaEnvioAdministracion: [null],
+    fecha_de_pago: [null],
     memoriaTecnicaEnIDI: [{ value: '', disabled: true }],
     certificadoIAEEnIDI: [{ value: '', disabled: true }],
     copiaNIFSociedadEnIDI: [{ value: '', disabled: true }],
@@ -138,7 +155,6 @@ export class XecsDetailExpedComponent {
     fecha_notificacion_desestimiento: [{ value: '', disabled: true }],   
   });
   this.getExpedDetail(this.idExpediente)
-  
 }
 
 getExpedDetail(id: number) {
@@ -160,7 +176,6 @@ getExpedDetail(id: number) {
         this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
-        
       } else {
         this.commonService.showSnackBar('⚠️ No se encontró información del expediente.');
       }
@@ -172,7 +187,7 @@ enableEdit(): void {
     const control = this.form.get(controlName);
 
     // Solo deshabilitamos 'nif' y 'tipo_tramite'
-    if (controlName !== 'nif' && controlName !== 'tipo_tramite' && controlName !== 'importeAyuda') {
+    if (controlName !== 'nif' && controlName !== 'tipo_tramite' && controlName !== 'importeAyuda' ) {
       control?.enable();
 
       // Eliminar completamente el atributo readonly si existe
@@ -191,8 +206,6 @@ enableEdit(): void {
     }
   });
 }
-
-
 
 saveExpediente(): void {
   const expedienteActualizado = this.form.getRawValue();

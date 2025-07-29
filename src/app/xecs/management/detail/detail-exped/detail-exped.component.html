@@ -118,20 +118,26 @@
 
     <mat-form-field appearance="outline">
       <mat-label>IBAN</mat-label>
-      <input matInput formControlName="cc_datos_bancarios" readonly>
+      <input matInput formControlName="cc_datos_bancarios" readonly minlength="25" maxlength="25">
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Enviado a pago</mat-label>
       <input matInput formControlName="ordenDePago" readonly>
     </mat-form-field>
+
     <mat-form-field appearance="outline">
-      <mat-label>Fecha de envió a administración</mat-label>
-      <input matInput formControlName="fechaEnvioAdministracion" readonly>
+      <mat-label>Fecha de envío a administración</mat-label>
+      <input matInput [matDatepicker]="pickerEnvio" formControlName="fechaEnvioAdministracion" readonly>
+      <mat-datepicker-toggle matSuffix [for]="pickerEnvio"></mat-datepicker-toggle>
+      <mat-datepicker #pickerEnvio></mat-datepicker>
     </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Fecha de pago</mat-label>
-      <input matInput formControlName="fecha_de_pago" readonly>
-    </mat-form-field>       
+      <input matInput [matDatepicker]="pickerPago" formControlName="fecha_de_pago" readonly>
+      <mat-datepicker-toggle matSuffix [for]="pickerPago"></mat-datepicker-toggle>
+      <mat-datepicker #pickerPago></mat-datepicker>
+    </mat-form-field>
     </section>
 
     <section> 
