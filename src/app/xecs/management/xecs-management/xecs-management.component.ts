@@ -102,9 +102,9 @@ loadAllExpedientes(): void {
 
   this.expedienteService.getAllExpedientes().subscribe({
     next: (res) => {
-      // Excluir expedientes con tipo_tramite 'ILS' o 'ADR-ISBA'
+      // Excluir expedientes con tipo_tramite 'ILS' o 'ADR-ISBA', 'company', 'FELIB'
       const expedientesFiltrados = res.filter(
-        (e: any) => e.tipo_tramite !== 'ILS' && e.tipo_tramite !== 'ADR-ISBA'
+        (e: any) => e.tipo_tramite !== 'ILS' && e.tipo_tramite !== 'ADR-ISBA' && e.tipo_tramite !== 'company' && e.tipo_tramite !== 'FELIB'
       );
 
       this.actualizarTabla(expedientesFiltrados);

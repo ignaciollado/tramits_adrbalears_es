@@ -34,6 +34,7 @@
 </form>
 
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+<mat-paginator [pageSize]="15" [pageSizeOptions]="[15, 30, 50, 100]" showFirstLastButtons></mat-paginator>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" >
   <ng-container matColumnDef="fechaComletado">
@@ -89,5 +90,3 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-
-<mat-paginator [pageSize]="15" [pageSizeOptions]="[15, 30, 50, 100]" showFirstLastButtons></mat-paginator>
