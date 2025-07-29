@@ -171,13 +171,14 @@ enableEdit(): void {
   Object.keys(this.form.controls).forEach(controlName => {
     const control = this.form.get(controlName);
 
+    // Solo deshabilitamos 'nif' y 'tipo_tramite'
     if (controlName !== 'nif' && controlName !== 'tipo_tramite' && controlName !== 'importeAyuda') {
       control?.enable();
 
-      // Quitar el atributo readonly del elemento si existe en el DOM
+      // Eliminar completamente el atributo readonly si existe
       const element = document.querySelector(`[formControlName="${controlName}"]`) as HTMLInputElement;
-      if (element) {
-        element.readOnly = false;
+      if (element && element.hasAttribute('readonly')) {
+        element.removeAttribute('readonly');
       }
     } else {
       control?.disable();
@@ -185,11 +186,13 @@ enableEdit(): void {
       // Asegurar que el campo quede en readonly
       const element = document.querySelector(`[formControlName="${controlName}"]`) as HTMLInputElement;
       if (element) {
-        element.readOnly = true;
+        element.setAttribute('readonly', 'true');
       }
     }
   });
 }
+
+
 
 saveExpediente(): void {
   const expedienteActualizado = this.form.getRawValue();

@@ -13,7 +13,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>NIF</mat-label>
-      <input matInput formControlName="nif" readonly>
+      <input matInput formControlName="nif" readonly minlength="9" maxlength="9">
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Fecha solicitud</mat-label>
@@ -26,7 +26,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Movil a efectos de notificaciones</mat-label>
-      <input matInput formControlName="telefono_rep" readonly>
+      <input matInput formControlName="telefono_rep" readonly minlength="9" maxlength="9">
     </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>Dirección electrónica a efectos de notificaciones</mat-label>
@@ -43,11 +43,11 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Código postal</mat-label>
-      <input matInput formControlName="cpostal" readonly>
+      <input matInput formControlName="cpostal" readonly minlength="5" maxlength="5">
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Teléfono de contacto</mat-label>
-      <input matInput formControlName="telefono" readonly>
+      <input matInput formControlName="telefono" readonly minlength="9" maxlength="9">
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Actividad económica (IAE)</mat-label>
@@ -110,10 +110,6 @@
     <mat-form-field appearance="outline">
       <mat-label>Importe ayuda</mat-label>
       <input matInput formControlName="importeAyuda" readonly>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Porcentaje concedido</mat-label>
-      <input matInput formControlName="porcentajeConcedido" readonly>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Entidad Bancaria</mat-label>
