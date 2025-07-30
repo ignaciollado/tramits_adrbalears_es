@@ -219,7 +219,7 @@ saveExpediente(): void {
   this.expedienteService.updateExpediente(this.idExpediente, expedienteActualizado)
     .subscribe({
       next: (resp:any) => {
-        this.commonService.showSnackBar('✅ Expediente guardado correctamente.')
+        this.commonService.showSnackBar('✅ Expediente actualizado correctamente.')
       },
       error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
     });
