@@ -63,7 +63,7 @@ export class LoginComponent {
             const decodedToken = this.jwtHelper.decodeToken(item.access_token);
             sessionStorage.setItem('ibrelleu_user', decodedToken.name)
             sessionStorage.setItem('access_token', item.access_token)
-            sessionStorage.setItem("preferredLang", "cat")
+            sessionStorage.setItem("preferredLang", "ca-ES")
             sessionStorage.setItem("days_to_expire_pwd", item.days_to_expire_pwd)
             console.log (decodedToken)
             this.authService.setUserInfo(decodedToken.name, decodedToken.role, +item.days_to_expire_pwd);

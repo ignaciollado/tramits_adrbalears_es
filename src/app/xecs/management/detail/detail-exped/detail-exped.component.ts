@@ -252,7 +252,7 @@ checkViafirmaSign(publicKey: string) {
       // Éxito
       this.commonService.showSnackBar('✅ Documento firmado recibido correctamente:'+ resp);
       this.signedDocData = resp;
-      console.log (this.signedDocData.status)
+      console.log ("signeddocdata status", this.signedDocData.status)
     },
     (error: any) => {
       // Error
