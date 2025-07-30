@@ -57,6 +57,8 @@ export class XecsDetailExpedComponent {
   form!: FormGroup
   idExpediente!: number
   actualNif!: string
+  actualIdExp!: number
+  actualEmpresa!: string
   actualTimeStamp!: string
   actualConvocatoria!: number
   actualTipoTramite!: string
@@ -171,6 +173,9 @@ getExpedDetail(id: number) {
       if (expediente) {
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
+        this.actualIdExp = expediente.idExp
+        this.actualEmpresa = expediente.empresa
+
         this.actualTimeStamp = expediente.selloDeTiempo	
         this.actualConvocatoria = expediente.convocatoria
         this.actualTipoTramite = expediente.tipo_tramite
