@@ -18,13 +18,13 @@ export class ViafirmaService {
   };
 
   constructor(private http: HttpClient) {
-    const entornoGuardado = localStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
+    const entornoGuardado = sessionStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
     this.entorno = entornoGuardado || 'pre-tramits';
   }
 
   setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
     this.entorno = entorno;
-    localStorage.setItem('entorno', entorno);
+    sessionStorage.setItem('entorno', entorno);
     console.log ("entorno actual: ", this.entorno)
   }
 

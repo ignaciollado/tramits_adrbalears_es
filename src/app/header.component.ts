@@ -55,11 +55,11 @@ export class HeaderComponent implements OnInit {
     this.languageForm.get('entorno')?.valueChanges.subscribe((value: boolean | null) => {
       const isPreTramits = value === true; // Asegura que solo true activa pre-tràmits
       const entorno = isPreTramits ? 'pre-tramits' : 'tramits';
-      localStorage.setItem('entorno', entorno);
+      sessionStorage.setItem('entorno', entorno);
       this.expedienteService.setEntorno(entorno);
       window.location.reload()
     });
-    const storedLang = localStorage.getItem('preferredLang') || 'es-ES';
+    const storedLang = sessionStorage.getItem('preferredLang') || 'es-ES';
     this.translate.use(storedLang);
   }
 
