@@ -159,7 +159,8 @@
       "PHONEREPRESENTANTE": "El teléfono de contacto del representante legal introducido no es válido.",
       "NOTIFICATIONPHONE": "El teléfono móvil introducido no es válido.",
       "NOTIFICATIONEMAIL": "La dirección electrónica introducida no es válida.",
-      "FILE": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido."
+      "FILE": "El archivo subido no es válido debido a un formato incorrecto o un tamaño que excede el máximo permitido.",
+      "DECIMAL": "El importe debe tener exactamente dos decimales y punto ('.') como separador de decimales (ej: 1234.56)"
     },
     "ISBA": {
       "NOMBREENTIDAD": "El nombre de la entidad financiera introducido no es válido.",

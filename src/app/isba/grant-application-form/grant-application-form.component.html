@@ -201,7 +201,7 @@
                 <mat-form-field>
                     <mat-label>{{'ISBA.TRANSACTIONAMOUNT' | translate}}</mat-label>
                     <input matInput type="decimal" formControlName="importe_prestamo" min="1" (blur)="cleanBlank($event)">
-                    <mat-error *ngIf="isbaForm.get('importe_prestamo')?.errors">{{'FORMERRORS.ISBA.IMPORTEFINANCIERO' | translate}}</mat-error>
+                    <mat-error *ngIf="isbaForm.get('importe_prestamo')?.errors">{{((isbaForm.get('importe_prestamo')?.hasError('invalidDecimal') ? 'FORMERRORS.COMMON.DECIMAL' : 'FORMERRORS.ISBA.IMPORTEFINANCIERO') | translate)}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ISBA.LOANTERM' | translate}}</mat-label>
@@ -221,7 +221,7 @@
                 <mat-form-field>
                     <mat-label>{{'ISBA.AVALAMOUNT' | translate}}</mat-label>
                     <input matInput type="decimal" formControlName="cuantia_aval_idi_isba" min="1" (blur)="cleanBlank($event)">
-                    <mat-error *ngIf="isbaForm.get('cuantia_aval_idi_isba')?.errors">{{'FORMERRORS.ISBA.IMPORTEAVAL' | translate}}</mat-error>
+                    <mat-error *ngIf="isbaForm.get('cuantia_aval_idi_isba')?.errors">{{((isbaForm.get('cuantia_aval_idi_isba')?.hasError('invalidDecimal') ? 'FORMERRORS.COMMON.DECIMAL' : 'FORMERRORS.ISBA.IMPORTEAVAL') | translate)}}</mat-error>
                 </mat-form-field>
                 </section>
             </mat-expansion-panel>
@@ -253,22 +253,36 @@
                     <mat-form-field>
                         <mat-label>{{'ISBA.BUDGETAMOUNT' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="importe_presupuesto_idi_isba" (blur)="checkTotalAmount()">
-                        <mat-error *ngIf="isbaForm.get('importe_presupuesto_idi_isba')?.errors">{{'FORMERRORS.ISBA.IMPORTEPRESUPUESTO' | translate}}</mat-error>
+                        <mat-error *ngIf="isbaForm.get('importe_presupuesto_idi_isba')?.errors">{{((isbaForm.get('importe_presupuesto_idi_isba')?.hasError('invalidDecimal') ? 'FORMERRORS.COMMON.DECIMAL' : 'FORMERRORS.ISBA.IMPORTEPRESUPUESTO') | translate)}}</mat-error>
                     </mat-form-field>
                     <p><strong>{{'ISBA.BUDGETAMOUNTDETAILS' | translate}}</strong></p>
                     <mat-form-field>
                         <mat-label>{{'ISBA.INTERESTSUBSIDY' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="intereses_ayuda_solicita_idi_isba" (blur)="checkTotalAmount()">
-                        <mat-error *ngIf="isbaForm.get('intereses_ayuda_solicita_idi_isba')?.errors">{{((isbaForm.get('intereses_ayuda_solicita_idi_isba')?.hasError('notEqualError') ? 'FORMERRORS.ISBA.SUMASUBSNOIGUAL' : 'FORMERRORS.ISBA.SUBVENCIONES') | translate)}}</mat-error>
+                        <mat-error *ngIf="isbaForm.get('intereses_ayuda_solicita_idi_isba')?.errors as errores">
+                            <ng-container *ngIf="errores['invalidDecimal']">{{'FORMERRORS.COMMON.DECIMAL' | translate}}</ng-container>
+                            <ng-container *ngIf="errores['notEqualError']">{{'FORMERRORS.ISBA.SUMASUBSNOIGUAL' | translate}}</ng-container>
+                            <ng-container *ngIf="!errores['invalidDecimal'] && !errores['notEqualError']">{{'FORMERRORS.ISBA.SUBVENCIONES' | translate}}</ng-container>
+                        </mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.COSTSUBSIDY' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="coste_aval_solicita_idi_isba" (blur)="checkTotalAmount()">
-                        <mat-error *ngIf="isbaForm.get('coste_aval_solicita_idi_isba')?.errors">{{((isbaForm.get('coste_aval_solicita_idi_isba')?.hasError('notEqualError') ? 'FORMERRORS.ISBA.SUMASUBSNOIGUAL' : 'FORMERRORS.ISBA.SUBVENCIONES') | translate)}}</mat-error>                    </mat-form-field>
+                        <mat-error *ngIf="isbaForm.get('coste_aval_solicita_idi_isba')?.errors as errores">
+                            <ng-container *ngIf="errores['invalidDecimal']">{{'FORMERRORS.COMMON.DECIMAL' | translate}}</ng-container>
+                            <ng-container *ngIf="errores['notEqualError']">{{'FORMERRORS.ISBA.SUMASUBSNOIGUAL' | translate}}</ng-container>
+                            <ng-container *ngIf="!errores['invalidDecimal'] && !errores['notEqualError']">{{'FORMERRORS.ISBA.SUBVENCIONES' | translate}}</ng-container>
+                        </mat-error>
+                    </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.STARTSTUDYSUBSIDY' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="gastos_aval_solicita_idi_isba" (blur)="checkTotalAmount()">
-                        <mat-error *ngIf="isbaForm.get('gastos_aval_solicita_idi_isba')?.errors">{{((isbaForm.get('gastos_aval_solicita_idi_isba')?.hasError('notEqualError') ? 'FORMERRORS.ISBA.SUMASUBSNOIGUAL' : 'FORMERRORS.ISBA.SUBVENCIONES') | translate)}}</mat-error>                    </mat-form-field>
+                        <mat-error *ngIf="isbaForm.get('gastos_aval_solicita_idi_isba')?.errors as errores">
+                            <ng-container *ngIf="errores['invalidDecimal']">{{'FORMERRORS.COMMON.DECIMAL' | translate}}</ng-container>
+                            <ng-container *ngIf="errores['notEqualError']">{{'FORMERRORS.ISBA.SUMASUBSNOIGUAL' | translate}}</ng-container>
+                            <ng-container *ngIf="!errores['invalidDecimal'] && !errores['notEqualError']">{{'FORMERRORS.ISBA.SUBVENCIONES' | translate}}</ng-container>
+                        </mat-error>
+                    </mat-form-field>
                 </section>
                 <section style="padding-bottom: 1.1rem;">
                     <dl><h4>{{'ISBA.REQUESTTITLE' | translate}}</h4></dl>
@@ -278,7 +292,7 @@
                     <mat-form-field>
                         <mat-label>{{'ISBA.REQUEST' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event); checkAmount()" min="0" formControlName="importe_ayuda_solicita_idi_isba">
-                        <mat-error *ngIf="isbaForm.get('importe_ayuda_solicita_idi_isba')?.errors">{{'FORMERRORS.ISBA.SOLICITUDAYUDA' | translate}}</mat-error>
+                        <mat-error *ngIf="isbaForm.get('importe_ayuda_solicita_idi_isba')?.errors">{{((isbaForm.get('importe_ayuda_solicita_idi_isba')?.hasError('invalidDecimal') ? 'FORMERRORS.COMMON.DECIMAL' : 'FORMERRORS.ISBA.SOLICITUDAYUDA') | translate)}}</mat-error>
                     </mat-form-field>
                 </section>
             </mat-expansion-panel>

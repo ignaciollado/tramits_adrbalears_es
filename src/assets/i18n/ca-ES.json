@@ -159,7 +159,8 @@
       "PHONEREPRESENTANTE": "El telèfon de contacte del representant legal introduït no és vàlid.",
       "NOTIFICATIONPHONE": "El telèfon mòbil introduït no és vàlid.",
       "NOTIFICATIONEMAIL": "L'adreça electrònica introduïda no és vàlida.",
-      "FILE": "L'arxiu pujat no és vàlid a causa d'un format incorrecte o una grandària que excedeix el màxim permès."
+      "FILE": "L'arxiu pujat no és vàlid a causa d'un format incorrecte o una grandària que excedeix el màxim permès.",
+      "DECIMAL": "L'import ha de tenir exactament dos decimals i punt ('.') com a separador de decimals (ej: 1234.56)"
     },
     "ISBA": {
       "NOMBREENTIDAD": "El nom de l'entitat financera introduït no és vàlid.",

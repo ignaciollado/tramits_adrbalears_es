@@ -537,14 +537,18 @@ export class IsbaGrantApplicationFormComponent {
       const subsidyTotal = (+interestSubsidyControl?.value + +costSubsidyControl?.value + +startStudySubsidyControl?.value).toFixed(2)
       const totalAmount = (+totalAmountControl?.value).toFixed(2)
 
-      if (subsidyTotal != totalAmount) {
-        interestSubsidyControl?.setErrors({ notEqualError: true })
-        costSubsidyControl?.setErrors({ notEqualError: true })
-        startStudySubsidyControl?.setErrors({ notEqualError: true })
+      if (subsidyTotal !== totalAmount) {
+        interestSubsidyControl?.setErrors({ ...interestSubsidyControl.errors, notEqualError: true })
+        costSubsidyControl?.setErrors({ ...costSubsidyControl.errors, notEqualError: true })
+        startStudySubsidyControl?.setErrors({ ...startStudySubsidyControl.errors, notEqualError: true })
       } else {
-        interestSubsidyControl?.setErrors(null)
-        costSubsidyControl?.setErrors(null)
-        startStudySubsidyControl?.setErrors(null)
+        [interestSubsidyControl, costSubsidyControl, startStudySubsidyControl].forEach(control => {
+          const errors = { ...control?.errors };
+          if (errors && errors['notEqualError']) {
+            delete errors['notEqualError'];
+            control?.setErrors(Object.keys(errors).length ? errors : null)
+          }
+        })
       }
     }
   }

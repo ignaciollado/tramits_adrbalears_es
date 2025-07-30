@@ -159,7 +159,8 @@
       "PHONEREPRESENTANTE": "The contact phone number of the legal representative entered is not valid.",
       "NOTIFICATIONPHONE": "The phone number entered is not valid",
       "NOTIFICATIONEMAIL": "The e-mail address entered is not valid.",
-      "FILE": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed."
+      "FILE": "The uploaded file is not valid due to an incorrect format or a size that exceeds the maximum allowed.",
+      "DECIMAL": "The amount must have exactly two decimals and a dot ('.') as the decimal separator (e.g., 1234.56)"
     },
     "ISBA": {
       "NOMBREENTIDAD": "The name of the financial institution entered is not valid.",
