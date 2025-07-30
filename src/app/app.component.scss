@@ -19,7 +19,12 @@ app-footer {
   text-align: center;
 }
 
-@media screen and (max-width: 992px) {
+a:hover {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 960px) {
   .main-content {
     padding: 0;
   }
