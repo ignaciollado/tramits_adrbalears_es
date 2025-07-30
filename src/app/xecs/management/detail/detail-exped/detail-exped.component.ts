@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -42,7 +44,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
     CommonModule, DocumentComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
-    MatInputModule, TranslateModule,
+    MatInputModule, TranslateModule, MatSelectModule,
     MatCardModule, MatSnackBarModule, MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule
@@ -235,7 +237,7 @@ getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: num
     )
     .subscribe(totalSolitudes => {
       if (totalSolitudes) {
-        this.totalSolicitudesPrevias = totalSolitudes.data.totalConvos
+        this.totalSolicitudesPrevias = totalSolitudes.data.totalConvos +1 /* LE SUMA 1 PORQUE SE CUENTA PRIMERA CONVOCATORIA, SEGUNDA CONVO, TERCERA... Y NO CONVOCATORIA CERO */
         this.calculateAidAmount()
       } else {
         this.commonService.showSnackBar('⚠️ No se encontró información sobre el número de solicitudes.');
@@ -318,6 +320,7 @@ calculateAidAmount() {
       });
     const rawImporte = this.form.get('importeAyuda')?.value
     const importe = Number(rawImporte) || 0
+    console.log ("this.lineaXecsConfig", this.lineaXecsConfig, (this.actualTipoTramite).trim().toLowerCase(), this.totalSolicitudesPrevias)
     if (importe === 0) {
       switch ((this.actualTipoTramite).trim().toLowerCase()) {
         case 'programa i':
@@ -360,6 +363,7 @@ calculateAidAmount() {
                     break;
                 default:
                     //this.importeAyuda = $objs->Programa_III->edicion->Segunda[0]*($objs->Programa_III->edicion->Segunda[1]/100);
+                    console.log ("---->", JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[0],JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[1])
                     this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[1]/100)
                     this.form.patchValue({ importeAyuda: this.newAidAmount })
             }

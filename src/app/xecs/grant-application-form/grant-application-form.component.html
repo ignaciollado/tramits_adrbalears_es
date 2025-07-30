@@ -485,7 +485,7 @@
           <input matInput formControlName="importe_minimis" />
         </mat-form-field>
         <mat-error *ngIf="xecsForm.get('importe_minimis')?.hasError('invalidDecimal')">
-          El importe debe tener exactamente dos decimales (ej. 1234.56)
+          El importe debe tener exactamente dos decimales y el punto (`.`) como separador decimal (ej: 1234.56)
         </mat-error>
 
         <mat-checkbox
