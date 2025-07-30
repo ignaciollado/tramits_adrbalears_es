@@ -60,8 +60,9 @@
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Importe mínimis (€)</mat-label>
-      <input matInput formControlName="importe_minimis" readonly>
+      <input matInput formControlName="importe_minimis" [value]="form.get('importe_minimis')?.value | currency:'EUR':'symbol':'1.2-2'" readonly>
     </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Representante legal</mat-label>
       <input matInput formControlName="nombre_rep" readonly>
@@ -112,10 +113,16 @@
       <mat-checkbox [checked]="form.get('copiaNIFSociedadEnIDI')?.value === 'SI'" disabled>NIF empresa</mat-checkbox>
       <mat-checkbox [checked]="form.get('pJuridicaDocAcreditativaEnIDI')?.value === 'SI'" disabled>Documento acreditativo de representación</mat-checkbox>
     </section>
-    <mat-form-field appearance="outline">
+   <!--  <mat-form-field appearance="outline">
       <mat-label>Importe ayuda</mat-label>
       <input matInput formControlName="importeAyuda" readonly>
+    </mat-form-field> -->
+    <mat-form-field appearance="outline">
+      <mat-label>Importe ayuda (€)</mat-label>
+      <input matInput formControlName="importeAyuda" [value]="form.get('importeAyuda')?.value | currency:'EUR':'symbol':'1.2-2'" readonly>
     </mat-form-field>
+
+
     <mat-form-field appearance="outline">
       <mat-label>Entidad Bancaria</mat-label>
       <input matInput formControlName="nom_entidad" readonly>
