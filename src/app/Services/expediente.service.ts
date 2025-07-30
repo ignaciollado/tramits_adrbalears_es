@@ -14,12 +14,13 @@ export class ExpedienteService {
 
   constructor(private http: HttpClient) {
     const entornoGuardado = localStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
-    this.entorno = entornoGuardado || 'tramits';
+    this.entorno = entornoGuardado || 'pre-tramits';
   }
 
-  setEntorno(entorno: 'tramits' | 'pre-tramits'): void {
+  setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
     this.entorno = entorno;
-    localStorage.setItem('pre-entorno', entorno);
+    localStorage.setItem('entorno', entorno);
+    console.log ("entorno actual: ", this.entorno)
   }
 
   private get apiUrl(): string {

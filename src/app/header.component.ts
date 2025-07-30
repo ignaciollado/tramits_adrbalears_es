@@ -26,7 +26,6 @@ import { MatSelectModule } from '@angular/material/select';
 
 export class HeaderComponent implements OnInit {
 
-
   languageForm = this.fb.group({
     preferredLang: ['es-ES'],
     entorno: [false] // valor por defecto
@@ -43,25 +42,22 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     const entornoGuardado = localStorage.getItem('entorno');
     const isPreTramits = entornoGuardado === 'pre-tramits';
-
 
     // Establecer el valor inicial del formulario
     this.languageForm.patchValue({ entorno: isPreTramits });
 
-
     // Establecer entorno en el servicio
     this.expedienteService.setEntorno(isPreTramits ? 'tramits' : 'pre-tramits');
 
-    
     // Escuchar cambios del toggle
     this.languageForm.get('entorno')?.valueChanges.subscribe((value: boolean | null) => {
       const isPreTramits = value === true; // Asegura que solo true activa pre-tràmits
       const entorno = isPreTramits ? 'pre-tramits' : 'tramits';
       localStorage.setItem('entorno', entorno);
       this.expedienteService.setEntorno(entorno);
+      window.location.reload()
     });
     const storedLang = localStorage.getItem('preferredLang') || 'es-ES';
     this.translate.use(storedLang);

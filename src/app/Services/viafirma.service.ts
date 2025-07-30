@@ -11,21 +11,39 @@ const tramitsURL = 'https://tramits.idi.es/public/index.php'
   })
 
 export class ViafirmaService { 
+  private entorno: 'tramits' | 'pre-tramits';
+  private readonly urls = {
+    'tramits': 'https://tramits.idi.es/public/index.php',
+    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
+  };
 
-  constructor( private http: HttpClient ) { }
+  constructor(private http: HttpClient) {
+    const entornoGuardado = localStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
+    this.entorno = entornoGuardado || 'pre-tramits';
+  }
 
-getDocumentStatus(publicAccessId: string): Observable<DocSignedDTO> {
-  return this.http.get<DocSignedDTO>(`${tramitsURL}/api/viafirma/request/${publicAccessId}`)
+  setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
+    this.entorno = entorno;
+    localStorage.setItem('entorno', entorno);
+    console.log ("entorno actual: ", this.entorno)
+  }
+
+  private get apiUrl(): string {
+    return this.urls[this.entorno];
+  }
+
+  getDocumentStatus(publicAccessId: string): Observable<DocSignedDTO> {
+    return this.http.get<DocSignedDTO>(`${this.apiUrl}/api/viafirma/request/${publicAccessId}`)
     .pipe(catchError(this.handleError));
-}
+  }
 
-viewDocument(publicAccessId: string): Observable<DocSignedDTO> {
-  return this.http.get<DocSignedDTO>(`${tramitsURL}/api/viafirma/viewDoc/${publicAccessId}`)
+  viewDocument(publicAccessId: string): Observable<DocSignedDTO> {
+    return this.http.get<DocSignedDTO>(`${this.apiUrl}/api/viafirma/viewDoc/${publicAccessId}`)
     .pipe(catchError(this.handleError));
-}
+  }
 
 
-private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Error desconocido';
 
     if (error.status === 400 && error.error?.messages?.error) {

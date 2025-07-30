@@ -239,6 +239,7 @@ getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: num
 }
 
 checkViafirmaSign(publicKey: string) {
+  if(!publicKey) {return}
   this.viafirmaService.getDocumentStatus(publicKey).subscribe(
     (resp: DocSignedDTO) => {
       // Éxito
