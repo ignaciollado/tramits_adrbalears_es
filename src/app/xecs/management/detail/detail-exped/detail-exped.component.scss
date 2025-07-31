@@ -70,6 +70,15 @@ mat-card {
   padding: .25rem;
 }
 
+.completed {
+  background-color: #057718;
+  text-align: center;
+  a {
+    color: #fff;
+  }
+  
+}
+
 .not_started {
   background-color: #f37020;
   color: #fff;
