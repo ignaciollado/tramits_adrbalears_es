@@ -359,7 +359,9 @@
     "DOC14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente, la cual se genera al enviar esta solicitud."
   },
   "ACTOSADMINISTRATIVOS": {
-    "TITLE": "Actos administrativos"
+    "TITLE": "Actos administrativos",
+    "REQUERIMIENTO": "Requerimiento",
+    "RESOLUCIONDESESTIMIENTOPORNOENMENDAR": "Resolución desestimento per no enmendar"
   },
   "COMMON": {
     "RGPD-INFO": {

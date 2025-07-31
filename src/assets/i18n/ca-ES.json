@@ -358,7 +358,9 @@
     "DOC14": "Una Declaració responsable, inclosa en el model normalitzat de sol·licitud, de la persona titular de l'empresa o de qui la representa legalment, la qual es genera en enviar aquesta sol·licitud."
   },
   "ACTOSADMINISTRATIVOS": {
-    "TITLE": "Acte administratius"
+    "TITLE": "Acte administratius",
+    "REQUERIMIENTO": "Requeriment",
+    "RESOLUCIONDESESTIMIENTOPORNOENMENDAR": "Resolució desistiment per no esmenar"
   },
   "COMMON": {
     "RGPD-INFO": {
