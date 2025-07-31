@@ -130,6 +130,7 @@ ngOnInit(): void {
     ref_REC_enmienda: [{ value: '', disabled: true }],
     fecha_requerimiento: [{ value: '', disabled: true }],
     fecha_requerimiento_notif: [{ value: '', disabled: true }],
+    motivoRequerimientoTexto:[''],
     /* Validación */
     fecha_infor_fav_desf: [{ value: '', disabled: true }],
     fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }],

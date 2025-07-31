@@ -219,51 +219,28 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> Requerimiento </mat-panel-title>
-      <mat-panel-description>
-        Type your name and age
+   <!--    <mat-panel-description>
+        Generar un requerimiento para el solicitante
         <mat-icon>account_circle</mat-icon>
-      </mat-panel-description>
+      </mat-panel-description> -->
     </mat-expansion-panel-header>
 
-    <mat-form-field>
-      <mat-label>First name</mat-label>
-      <input matInput />
+   <mat-form-field appearance="outline">
+      <mat-label>Motivo del requerimiento</mat-label>
+      <textarea matInput formControlName="motivoRequerimientoTexto"></textarea>
     </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Age</mat-label>
-      <input matInput type="number" min="1" />
-    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Guardar</button>
+    <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
   </mat-expansion-panel>
 
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> Resolución de desestimiento por no enmendar </mat-panel-title>
-      <mat-panel-description>
-        Inform the date you wish to travel
-        <mat-icon>date_range</mat-icon>
-      </mat-panel-description>
     </mat-expansion-panel-header>
-
-    <mat-form-field>
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly />
-    </mat-form-field>
-    <mat-datepicker #picker></mat-datepicker>
+    <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
   </mat-expansion-panel>
 </mat-accordion>
-
-
-      <ol>
-        <li>
-          <span>Requerimiento</span>
-          <section>
-            <textarea name='' id=''></textarea>
-          </section>
-        </li>
-        <li>Resolución de desestimiento por no enmendar</li>
-      </ol>
        <h4>Mejoras</h4>
       <table></table>
         </section>
