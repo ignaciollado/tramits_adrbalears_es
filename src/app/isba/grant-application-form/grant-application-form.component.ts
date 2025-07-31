@@ -47,56 +47,6 @@ export class IsbaGrantApplicationFormComponent {
   atib_no_consent: boolean = false // Checkbox consentimiento en ATIB
   isSubsidyGreater: boolean = false
 
-  // Files
-
-  // Nombres de archivos para printado en formulario
-  fileNames: { [key: string]: string } = {
-    file_memoriaTecnica: '',
-    file_document_veracidad_datos_bancarios: '',
-    file_certificadoIAE: '',
-    file_altaAutonomos: '',
-    file_escrituraConstitucion: '',
-    file_nifRepresentante: '',
-    file_certificadoATIB: '',
-    file_certificadoAEAT: '',
-    file_certificadoLey382003: '',
-    file_certificadoSGR: '',
-    file_contratoOperFinanc: '',
-    file_avalOperFinanc: '',
-  }
-
-  // Archivos crudos para subir.
-  files: { [key: string]: File[] } = {
-    file_memoriaTecnica: [],
-    file_document_veracidad_datos_bancarios: [],
-    file_certificadoIAE: [],
-    file_altaAutonomos: [],
-    file_escrituraConstitucion: [],
-    file_nifRepresentante: [],
-    file_certificadoATIB: [],
-    file_certificadoAEAT: [],
-    file_certificadoLey382003: [],
-    file_certificadoSGR: [],
-    file_contratoOperFinanc: [],
-    file_avalOperFinanc: [],
-  }
-
-  // Files obligatorios
-  requiredFiles: string[] = [
-    "file_memoriaTecnica",
-    "file_document_veracidad_datos_bancarios",
-    "file_certificadoIAE",
-    "file_altaAutonomos",
-    "file_escrituraConstitucion",
-    "file_nifRepresentante",
-    "file_certificadoATIB",
-    "file_certificadoAEAT",
-    "file_certificadoLey382003",
-    "file_certificadoSGR",
-    "file_contratoOperFinanc",
-    "file_avalOperFinanc"
-  ]
-
   // 10 MB máximos
   maxFileSizeBytes: number = 10 * 1024 * 1024
 
@@ -108,9 +58,9 @@ export class IsbaGrantApplicationFormComponent {
   idExp: string = ""
 
   accordion = viewChild.required(MatAccordion)
-  constructor(private commonService: CommonService, private expedienteService: ExpedienteService, 
+  constructor(private commonService: CommonService, private expedienteService: ExpedienteService,
     private documentosExpedienteService: ExpedienteDocumentoService,
-    private documentService: DocumentService, private customValidator: CustomValidatorsService, 
+    private documentService: DocumentService, private customValidator: CustomValidatorsService,
     private fb: FormBuilder, private snackBar: MatSnackBar) {
     this.isbaForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
@@ -163,20 +113,6 @@ export class IsbaGrantApplicationFormComponent {
       declaro_idi_isba_que_cumple_15: this.fb.control<string>({ value: 'SI', disabled: true }, []),
 
       /* Documentación */
-/*       file_memoriaTecnica: this.fb.control<File | null>(null, [Validators.required]),
-      file_document_veracidad_datos_bancarios: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificadoIAE: this.fb.control<File | null>(null, [Validators.required]),
-      file_altaAutonomos: this.fb.control<File | null>(null, []), // Persona física
-      file_escrituraConstitucion: this.fb.control<File | null>(null, []), // Persona jurídica
-      dni_no_consent: this.fb.control<boolean>(false, []),
-      file_nifRepresentante: this.fb.control<File | null>(null, []), // DNI/NIE con consentimiento
-      atib_no_consent: this.fb.control<boolean>(false, []),
-      file_certificadoATIB: this.fb.control<File | null>(null, []), // Certificado ATIB y SS con consentimiento
-      file_certificadoAEAT: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificadoLey382003: this.fb.control<File | null>(null, []), // Ayudas superiores a 30.000€
-      file_certificadoSGR: this.fb.control<File | null>(null, [Validators.required]),
-      file_contratoOperFinanc: this.fb.control<File | null>(null, [Validators.required]),
-      file_avalOperFinanc: this.fb.control<File | null>(null, [Validators.required]), */
       file_memoriaTecnica: this.fb.control<File | null>(null, []),
       file_document_veracidad_datos_bancarios: this.fb.control<File | null>(null, []),
       file_certificadoIAE: this.fb.control<File | null>(null, []),
@@ -228,12 +164,12 @@ export class IsbaGrantApplicationFormComponent {
 
     // Aparición/desaparición del input file DNI/NIE
     this.isbaForm.get('dni_no_consent')?.valueChanges.subscribe((value: boolean) => {
-      this.docsCheckboxChanges('file_nifRepresentante', value, "dni_no_consent")
+      this.dni_no_consent = value;
     })
 
     // Aparición/desaparición del input file ATIB/Seg. Socia
     this.isbaForm.get('atib_no_consent')?.valueChanges.subscribe((value: boolean) => {
-      this.docsCheckboxChanges('file_certificadoATIB', value, 'atib_no_consent')
+      this.atib_no_consent = value;
     })
 
 
@@ -263,135 +199,133 @@ export class IsbaGrantApplicationFormComponent {
   file_certificadoATIBToUpload: File[] = []                       // OPT        Certificado cumplimiento de las obligaciones tributarias de ATIB y Seguridad Social
 
   file_certificadoAEATToUpload: File[] = []                       // required   Certificado de estar al corriente de las obligaciones tributarias con la Agencia Estatal ...
+  /* Si el importe de ayuda es igual o superior a 30.000 */
+  file_certificadoLey382003ToUpload: File[] = []                  // OPT        Certificado que establece el artículo 13.3 bis de la Ley 38/2003 para ayudas superiores a 30.000€ ...
   file_certificadoSGRToUpload: File[] = []                        // required   El certificado de la sociedad de garantía recíproca que avale la operación financiera ...
   file_contratoOperFinancToUpload: File[] = []                    // required   Contrato de la operación financiera
   file_avalOperFinancToUpload: File[] = []                        // required   Contrato o documento de aval de la operación financiera
 
-onSubmit(): void {
-  const timeStamp = this.commonService.generateCustomTimestamp();
-  const convocatoria = new Date().getFullYear();
-  const cifnif_propietario = this.isbaForm.get('nif')?.value;
+  onSubmit(): void {
+    const timeStamp = this.commonService.generateCustomTimestamp();
+    const convocatoria = new Date().getFullYear();
 
-  for (const [key, fileList] of Object.entries(this.files)) {
-    this.isbaForm.get(key)?.setValue(fileList?.length ? 'SI' : 'NO');
-  }
 
-  const rawValues = this.isbaForm.getRawValue();
-  rawValues.idExp = this.idExp;
-  rawValues.selloDeTiempo = timeStamp;
-  rawValues.convocatoria = convocatoria;
-  rawValues.cpostal = this.isbaForm.get('cpostal')?.value['zipCode'];
+    const rawValues = this.isbaForm.getRawValue();
+    rawValues.idExp = this.idExp;
+    rawValues.selloDeTiempo = timeStamp;
+    rawValues.convocatoria = convocatoria;
+    rawValues.cpostal = this.isbaForm.get('cpostal')?.value['zipCode'];
 
-  const filesToUpload = [
-    { files: this.file_memoriaTecnicaToUpload, type: 'file_memoriaTecnica' },
-    { files: this.file_document_veracidad_datos_bancariosToUpload, type: 'file_document_veracidad_datos_bancarios' },
-    { files: this.file_certificadoIAEToUpload, type: 'file_certificadoIAE' },
-    { files: this.file_certificadoAEATToUpload, type: 'file_certificadoAEAT' },
-    { files: this.file_certificadoSGRToUpload, type: 'file_certificadoSGR' },
-    { files: this.file_contratoOperFinancToUpload, type: 'file_contratoOperFinanc' },
-    { files: this.file_avalOperFinancToUpload, type: 'file_avalOperFinanc' }
-  ];
+    const filesToUpload = [
+      { files: this.file_memoriaTecnicaToUpload, type: 'file_memoriaTecnica' },
+      { files: this.file_document_veracidad_datos_bancariosToUpload, type: 'file_document_veracidad_datos_bancarios' },
+      { files: this.file_certificadoIAEToUpload, type: 'file_certificadoIAE' },
+      { files: this.file_certificadoAEATToUpload, type: 'file_certificadoAEAT' },
+      { files: this.file_certificadoSGRToUpload, type: 'file_certificadoSGR' },
+      { files: this.file_contratoOperFinancToUpload, type: 'file_contratoOperFinanc' },
+      { files: this.file_avalOperFinancToUpload, type: 'file_avalOperFinanc' }
+    ];
 
-  const opcFilesToUpload = [
-    { files: this.file_altaAutonomosToUpload, type: 'file_altaAutonomos' },
-    { files: this.file_escrituraConstitucionToUpload, type: 'file_escrituraConstitucion' },
-    { files: this.file_nifRepresentanteToUpload, type: 'file_nifRepresentante' },
-    { files: this.file_certificadoATIBToUpload, type: 'file_certificadoATIB' }
-  ];
+    const opcFilesToUpload = [
+      { files: this.file_altaAutonomosToUpload, type: 'file_altaAutonomos' },
+      { files: this.file_escrituraConstitucionToUpload, type: 'file_escrituraConstitucion' },
+      { files: this.file_nifRepresentanteToUpload, type: 'file_nifRepresentante' },
+      { files: this.file_certificadoATIBToUpload, type: 'file_certificadoATIB' },
+      { files: this.file_certificadoLey382003ToUpload, type: 'file_certificadoLey382003' }
+    ];
 
-  this.expedienteService.createExpediente(rawValues).subscribe({
-    next: (respuesta) => {
-      rawValues.id_sol = respuesta.id_sol;
-      this.showSnackBar('✔️ Expediente creado con éxito ' + respuesta.message + ' ' + respuesta.id_sol);
+    this.expedienteService.createExpediente(rawValues).subscribe({
+      next: (respuesta) => {
+        rawValues.id_sol = respuesta.id_sol;
+        this.showSnackBar('✔️ Expediente creado con éxito ' + respuesta.message + ' ' + respuesta.id_sol);
 
-      const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
-        if (!files || files.length === 0) return [];
+        const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
+          if (!files || files.length === 0) return [];
 
-        return Array.from(files).flatMap((file: File) => {
-          if (!file) return [];
-          if (file.size === 0) {
-            this.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`);
-            return [];
-          }
-          if (file.size > 10 * 1024 * 1024) {
-            this.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`);
-            return [];
-          }
-          return [{ file, type }];
+          return Array.from(files).flatMap((file: File) => {
+            if (!file) return [];
+            if (file.size === 0) {
+              this.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`);
+              return [];
+            }
+            if (file.size > 10 * 1024 * 1024) {
+              this.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`);
+              return [];
+            }
+            return [{ file, type }];
+          });
         });
-      });
 
-      const archivosOpcionalesValidos = opcFilesToUpload.flatMap(({ files, type }) => {
-        if (!files || files.length === 0) return [];
+        const archivosOpcionalesValidos = opcFilesToUpload.flatMap(({ files, type }) => {
+          if (!files || files.length === 0) return [];
 
-        return Array.from(files).flatMap((file: File) => {
-          if (!file || file.size === 0 || file.size > 10 * 1024 * 1024) return [];
-          return [{ file, type }];
+          return Array.from(files).flatMap((file: File) => {
+            if (!file || file.size === 0 || file.size > 10 * 1024 * 1024) return [];
+            return [{ file, type }];
+          });
         });
-      });
 
-      const todosLosArchivos = [...archivosValidos, ...archivosOpcionalesValidos];
+        const todosLosArchivos = [...archivosValidos, ...archivosOpcionalesValidos];
 
-      if (todosLosArchivos.length === 0) {
-        this.showSnackBar('⚠️ No hay archivos válidos para subir.');
-        return;
-      }
+        if (todosLosArchivos.length === 0) {
+          this.showSnackBar('⚠️ No hay archivos válidos para subir.');
+          return;
+        }
 
-      from(todosLosArchivos)
-        .pipe(
-          concatMap(({ file, type }) =>
-            this.documentosExpedienteService.createDocumentoExpediente([file], rawValues, type).pipe(
-              concatMap(() => this.uploadTheFile(timeStamp, [file]))
+        from(todosLosArchivos)
+          .pipe(
+            concatMap(({ file, type }) =>
+              this.documentosExpedienteService.createDocumentoExpediente([file], rawValues, type).pipe(
+                concatMap(() => this.uploadTheFile(timeStamp, [file]))
+              )
             )
           )
-        )
-        .subscribe({
-          next: (event) => {
-            let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
-            if (Array.isArray(event.file_name)) {
-              event.file_name.forEach((file: any) => {
-                mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`;
-              });
-            } else {
-              mensaje += `⚠️ No se encontró información de archivo en el evento.`;
-            }
-            this.showSnackBar(mensaje);
-          },
-          complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
-          error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
-        });
-    },
-    error: (err) => {
-      let msg = '❌ Error al crear el expediente.\n';
-      this.showSnackBar("err: " + err);
-      try {
-        const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
-        msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
-
-        const erroresDetallados = errorMsgObj.errores_detallados;
-        if (erroresDetallados) {
-          msg += '🔍 Errores detallados:\n';
-          Object.entries(erroresDetallados).forEach(([campo, errorCampo]) => {
-            msg += ` • ${campo}: ${errorCampo}\n`;
+          .subscribe({
+            next: (event) => {
+              let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
+              if (Array.isArray(event.file_name)) {
+                event.file_name.forEach((file: any) => {
+                  mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`;
+                });
+              } else {
+                mensaje += `⚠️ No se encontró información de archivo en el evento.`;
+              }
+              this.showSnackBar(mensaje);
+            },
+            complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
+            error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
           });
-        }
+      },
+      error: (err) => {
+        let msg = '❌ Error al crear el expediente.\n';
+        this.showSnackBar("err: " + err);
+        try {
+          const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
+          msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
 
-        const datosRecibidos = errorMsgObj.datos_recibidos;
-        if (datosRecibidos) {
-          msg += '📦 Datos recibidos:\n';
-          Object.entries(datosRecibidos).forEach(([key, value]) => {
-            msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
-          });
+          const erroresDetallados = errorMsgObj.errores_detallados;
+          if (erroresDetallados) {
+            msg += '🔍 Errores detallados:\n';
+            Object.entries(erroresDetallados).forEach(([campo, errorCampo]) => {
+              msg += ` • ${campo}: ${errorCampo}\n`;
+            });
+          }
+
+          const datosRecibidos = errorMsgObj.datos_recibidos;
+          if (datosRecibidos) {
+            msg += '📦 Datos recibidos:\n';
+            Object.entries(datosRecibidos).forEach(([key, value]) => {
+              msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
+            });
+          }
+        } catch (parseError) {
+          msg += `⚠️ No se pudo interpretar el error: ${err}`;
         }
-      } catch (parseError) {
-        msg += `⚠️ No se pudo interpretar el error: ${err}`;
+        this.showSnackBar(msg);
       }
-      this.showSnackBar(msg);
-    }
-  });
-}
+    });
+  }
 
-  
   /* Documentos de subida obligada */
   get memoriaTecnicaFileNames(): string {
     return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
@@ -483,75 +417,34 @@ onSubmit(): void {
     }
   }
   /* Documentos de subida opcional */
-
-
-  // Subida de archivos en BBDD y servidor
-  private uploadDocuments(id: number, timeStamp: string, convocatoria: number, cifnif_propietario: string): void {
-    for (const [key, fileList] of Object.entries(this.files)) {
-      if (fileList.length != 0) {
-        fileList.forEach(file => {
-          /* BBDD */
-          const documentFormData = new FormData()
-          const requiredDoc = this.requiredFiles.includes(key) ? 'SI' : 'NO'
-
-          documentFormData.append('id_sol', id.toString())
-          documentFormData.append('cifnif_propietario', cifnif_propietario)
-          documentFormData.append('convocatoria', convocatoria.toString())
-          // documentFormData.append('name', file.name)
-          // documentFormData.append('type', file.type)
-          documentFormData.append('tipo_tramite', 'ADR-ISBA')
-          documentFormData.append('corresponde_documento', key)
-          documentFormData.append('selloDeTiempo', timeStamp)
-          documentFormData.append('fase_exped', 'Solicitud')
-          documentFormData.append('estado', 'Pendent')
-          documentFormData.append('docRequerido', requiredDoc)
-          // this.documentService.insertDocuments(documentFormData).subscribe({
-          //   error: (error) => {
-          //     this.showSnackBar(error)
-          //   }
-          // })
-
-          /* Servidor */
-          const serverDocumentFormData = new FormData()
-          serverDocumentFormData.append('files', file)
-          // this.documentService.createDocument(cifnif_propietario, timeStamp, serverDocumentFormData).subscribe({
-          //   error: (error) => {
-          //     this.showSnackBar(error)
-          //   }
-          // })
-        })
-      }
+  get file_altaAutonomosFilesNames(): string {
+    return this.file_altaAutonomosToUpload.map(f => f.name).join(', ')
+  }
+  onfile_altaAutonomosChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_altaAutonomosToUpload = Array.from(input.files);
     }
   }
 
-  /* Cambiado a fecha 30/06. Cambios:
-    - Cambio totalmente la forma de guardado. Ahora se guarda el archivo entero en un objeto de clase llamado file y el nombre del archivo en un objeto llamado fileNames
-    - Permito que se guarde correctamente habiendo más de un file para subir.
-    - Ahora hay un listado de archivos preparados 
-  */
-  onFileChange(event: Event, controlName: string): void {
-    const input = event.target as HTMLInputElement
-    const controlNameForm = this.isbaForm.get(controlName)
-    const inputFiles: File[] = []
-    const inputFilesNames: string[] = []
-
-    controlNameForm?.setErrors(null)
-
+  get file_escrituraConstitucionFileNames(): string {
+    return this.file_escrituraConstitucionToUpload.map(f => f.name).join(', ')
+  }
+  onfile_escrituraConstitucionChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
     if (input.files) {
-      for (let index = 0; index < input.files.length; index++) {
-        const file = input.files.item(index)
-        if (file) {
-          if (file.size > this.maxFileSizeBytes) {
-            controlNameForm?.setErrors({ invalidFile: true })
-          }
-          inputFiles.push(file)
-          inputFilesNames.push(file.name)
-        }
-      }
+      this.file_escrituraConstitucionToUpload = Array.from(input.files)
     }
+  }
 
-    this.files[controlName] = inputFiles;
-    this.fileNames[controlName] = inputFilesNames.join(', ')
+  get file_certificadoLey382003FileNames(): string {
+    return this.file_certificadoLey382003ToUpload.map(f => f.name).join(', ')
+  }
+  onfile_certificadoLey382003Change(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_certificadoLey382003ToUpload = Array.from(input.files);
+    }
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
@@ -594,16 +487,9 @@ onSubmit(): void {
     const repPhone = this.isbaForm.get('telefono_contacto_rep')
     const repPhoneValidators = [Validators.minLength(9), Validators.maxLength(9), Validators.pattern('[0-9]{9}')]
 
-    const docsPersFis = this.isbaForm.get('file_altaAutonomos')
-    const docsPersFisValidators = []
-
-    const docsPersJur = this.isbaForm.get('file_escrituraConstitucion')
-    const docsPersJurValidators = []
-
     if (tipo_solicitante === "autonomo") {
       this.businessType = "autonomo"
-      applicantNifValidators.push(this.customValidator.dniNieValidator())
-      docsPersFisValidators.push(Validators.required);
+      applicantNifValidators.push(this.customValidator.dniNieValidator());
 
       [repName, repNif, repPhone].forEach(control => {
         control?.disable()
@@ -611,8 +497,7 @@ onSubmit(): void {
       })
     } else {
       this.businessType = "otros"
-      applicantNifValidators.push(this.customValidator.cifValidator())
-      docsPersJurValidators.push(Validators.required)
+      applicantNifValidators.push(this.customValidator.cifValidator());
 
       repNameValidators.push(Validators.required)
       repNifValidators.push(Validators.required)
@@ -628,11 +513,9 @@ onSubmit(): void {
     applicantNif?.setValidators(applicantNifValidators)
     repName?.setValidators(repNameValidators)
     repNif?.setValidators(repNifValidators)
-    repPhone?.setValidators(repPhoneValidators)
-    docsPersFis?.setValidators(docsPersFisValidators)
-    docsPersJur?.setValidators(docsPersJurValidators);
+    repPhone?.setValidators(repPhoneValidators);
 
-    [applicantNif, repName, repNif, repPhone, docsPersFis, docsPersJur].forEach(control => control?.updateValueAndValidity())
+    [applicantNif, repName, repNif, repPhone].forEach(control => control?.updateValueAndValidity())
     applicantNif?.enable()
   }
 
@@ -654,35 +537,24 @@ onSubmit(): void {
       const subsidyTotal = (+interestSubsidyControl?.value + +costSubsidyControl?.value + +startStudySubsidyControl?.value).toFixed(2)
       const totalAmount = (+totalAmountControl?.value).toFixed(2)
 
-      if (subsidyTotal != totalAmount) {
-        interestSubsidyControl?.setErrors({ notEqualError: true })
-        costSubsidyControl?.setErrors({ notEqualError: true })
-        startStudySubsidyControl?.setErrors({ notEqualError: true })
+      if (subsidyTotal !== totalAmount) {
+        interestSubsidyControl?.setErrors({ ...interestSubsidyControl.errors, notEqualError: true })
+        costSubsidyControl?.setErrors({ ...costSubsidyControl.errors, notEqualError: true })
+        startStudySubsidyControl?.setErrors({ ...startStudySubsidyControl.errors, notEqualError: true })
       } else {
-        interestSubsidyControl?.setErrors(null)
-        costSubsidyControl?.setErrors(null)
-        startStudySubsidyControl?.setErrors(null)
+        [interestSubsidyControl, costSubsidyControl, startStudySubsidyControl].forEach(control => {
+          const errors = { ...control?.errors };
+          if (errors && errors['notEqualError']) {
+            delete errors['notEqualError'];
+            control?.setErrors(Object.keys(errors).length ? errors : null)
+          }
+        })
       }
     }
   }
 
   setStep(index: number): void {
     this.step.set(index)
-  }
-
-  private docsCheckboxChanges(docField: string, value: boolean, booleanName: string): void {
-    const targetDoc = this.isbaForm.get(docField)
-    const targetValidators = []
-
-    if (value === true) {
-      targetValidators.push(Validators.required)
-    }
-
-    targetDoc?.reset(null)
-    targetDoc?.setValidators(targetValidators);
-
-    (this as any)[booleanName] = value;
-
   }
 
   private loadZipcodes(): void {
@@ -719,18 +591,6 @@ onSubmit(): void {
   // Comprobación del importe de ayuda solicitado: Si es mayor de 30.000, debe habilitarse un campo de documento
   checkAmount(): void {
     const importeSubvencionSolicitada = this.isbaForm.get('importe_ayuda_solicita_idi_isba')?.value;
-    const documentoSubvencionValidators = []
-    const documentoSubvencion = this.isbaForm.get('file_certificadoLey382003')
-
-    if (+importeSubvencionSolicitada > 30000) {
-      documentoSubvencionValidators.push(Validators.required)
-    }
-
-    documentoSubvencion?.reset('')
-    documentoSubvencion?.setValidators(documentoSubvencionValidators)
-
-    documentoSubvencion?.updateValueAndValidity()
-
     this.isSubsidyGreater = +importeSubvencionSolicitada > 30000 ? true : false
   }
 
@@ -747,19 +607,19 @@ onSubmit(): void {
     return this.options.filter((option) => option.zipCode.includes(filterValue))
   }
 
-  uploadTheFile(timestamp: string, files: File[] ): Observable<any> {
+  uploadTheFile(timestamp: string, files: File[]): Observable<any> {
     if (!files || files.length === 0) {
       return of(null); // Devuelve observable vacío si no hay archivos
     }
-  
+
     const formData = new FormData();
     const nif = this.isbaForm.value.nif;
     files.forEach(file => {
       formData.append('files[]', file);
     });
-    console.log (files)
-  
-    return this.documentService.createDocument( nif, timestamp, formData).pipe(
+    console.log(files)
+
+    return this.documentService.createDocument(nif, timestamp, formData).pipe(
       tap((event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.Sent:
@@ -771,7 +631,7 @@ onSubmit(): void {
             }
             break;
           case HttpEventType.Response:
-            this.showSnackBar('Archivos subidos con éxito: '+ event.body);
+            this.showSnackBar('Archivos subidos con éxito: ' + event.body);
             this.uploadProgress = 100;
             break;
         }
@@ -782,8 +642,6 @@ onSubmit(): void {
       })
     );
   }
-    
-
 
   private showSnackBar(error: string): void {
     this.snackBar.open(error, 'Close', {

@@ -139,7 +139,7 @@
                     <mat-form-field>
                         <mat-label>{{'FORM.SELECTIAE' | translate}}</mat-label>
                         <mat-select formControlName="iae">
-                            <mat-option *ngFor="let actividad of actividadesCNAE" [value]="actividad.id">{{actividad.label_cas}}</mat-option>
+                            <mat-option *ngFor="let actividad of actividadesCNAE" [value]="actividad.cnae">{{actividad.label_cas}}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="isbaForm.get('iae')?.errors">{{'FORMERRORS.COMMON.CNAECODE' | translate}}</mat-error>
                     </mat-form-field>
@@ -201,7 +201,7 @@
                 <mat-form-field>
                     <mat-label>{{'ISBA.TRANSACTIONAMOUNT' | translate}}</mat-label>
                     <input matInput type="decimal" formControlName="importe_prestamo" min="1" (blur)="cleanBlank($event)">
-                    <mat-error *ngIf="isbaForm.get('importe_prestamo')?.errors">{{'FORMERRORS.ISBA.IMPORTEFINANCIERO' | translate}}</mat-error>
+                    <mat-error *ngIf="isbaForm.get('importe_prestamo')?.errors">{{((isbaForm.get('importe_prestamo')?.hasError('invalidDecimal') ? 'FORMERRORS.COMMON.DECIMAL' : 'FORMERRORS.ISBA.IMPORTEFINANCIERO') | translate)}}</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>{{'ISBA.LOANTERM' | translate}}</mat-label>
@@ -221,7 +221,7 @@
                 <mat-form-field>
                     <mat-label>{{'ISBA.AVALAMOUNT' | translate}}</mat-label>
                     <input matInput type="decimal" formControlName="cuantia_aval_idi_isba" min="1" (blur)="cleanBlank($event)">
-                    <mat-error *ngIf="isbaForm.get('cuantia_aval_idi_isba')?.errors">{{'FORMERRORS.ISBA.IMPORTEAVAL' | translate}}</mat-error>
+                    <mat-error *ngIf="isbaForm.get('cuantia_aval_idi_isba')?.errors">{{((isbaForm.get('cuantia_aval_idi_isba')?.hasError('invalidDecimal') ? 'FORMERRORS.COMMON.DECIMAL' : 'FORMERRORS.ISBA.IMPORTEAVAL') | translate)}}</mat-error>
                 </mat-form-field>
                 </section>
             </mat-expansion-panel>
@@ -253,22 +253,36 @@
                     <mat-form-field>
                         <mat-label>{{'ISBA.BUDGETAMOUNT' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="importe_presupuesto_idi_isba" (blur)="checkTotalAmount()">
-                        <mat-error *ngIf="isbaForm.get('importe_presupuesto_idi_isba')?.errors">{{'FORMERRORS.ISBA.IMPORTEPRESUPUESTO' | translate}}</mat-error>
+                        <mat-error *ngIf="isbaForm.get('importe_presupuesto_idi_isba')?.errors">{{((isbaForm.get('importe_presupuesto_idi_isba')?.hasError('invalidDecimal') ? 'FORMERRORS.COMMON.DECIMAL' : 'FORMERRORS.ISBA.IMPORTEPRESUPUESTO') | translate)}}</mat-error>
                     </mat-form-field>
                     <p><strong>{{'ISBA.BUDGETAMOUNTDETAILS' | translate}}</strong></p>
                     <mat-form-field>
                         <mat-label>{{'ISBA.INTERESTSUBSIDY' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="intereses_ayuda_solicita_idi_isba" (blur)="checkTotalAmount()">
-                        <mat-error *ngIf="isbaForm.get('intereses_ayuda_solicita_idi_isba')?.errors">{{((isbaForm.get('intereses_ayuda_solicita_idi_isba')?.hasError('notEqualError') ? 'FORMERRORS.ISBA.SUMASUBSNOIGUAL' : 'FORMERRORS.ISBA.SUBVENCIONES') | translate)}}</mat-error>
+                        <mat-error *ngIf="isbaForm.get('intereses_ayuda_solicita_idi_isba')?.errors as errores">
+                            <ng-container *ngIf="errores['invalidDecimal']">{{'FORMERRORS.COMMON.DECIMAL' | translate}}</ng-container>
+                            <ng-container *ngIf="errores['notEqualError']">{{'FORMERRORS.ISBA.SUMASUBSNOIGUAL' | translate}}</ng-container>
+                            <ng-container *ngIf="!errores['invalidDecimal'] && !errores['notEqualError']">{{'FORMERRORS.ISBA.SUBVENCIONES' | translate}}</ng-container>
+                        </mat-error>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.COSTSUBSIDY' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="coste_aval_solicita_idi_isba" (blur)="checkTotalAmount()">
-                        <mat-error *ngIf="isbaForm.get('coste_aval_solicita_idi_isba')?.errors">{{((isbaForm.get('coste_aval_solicita_idi_isba')?.hasError('notEqualError') ? 'FORMERRORS.ISBA.SUMASUBSNOIGUAL' : 'FORMERRORS.ISBA.SUBVENCIONES') | translate)}}</mat-error>                    </mat-form-field>
+                        <mat-error *ngIf="isbaForm.get('coste_aval_solicita_idi_isba')?.errors as errores">
+                            <ng-container *ngIf="errores['invalidDecimal']">{{'FORMERRORS.COMMON.DECIMAL' | translate}}</ng-container>
+                            <ng-container *ngIf="errores['notEqualError']">{{'FORMERRORS.ISBA.SUMASUBSNOIGUAL' | translate}}</ng-container>
+                            <ng-container *ngIf="!errores['invalidDecimal'] && !errores['notEqualError']">{{'FORMERRORS.ISBA.SUBVENCIONES' | translate}}</ng-container>
+                        </mat-error>
+                    </mat-form-field>
                     <mat-form-field>
                         <mat-label>{{'ISBA.STARTSTUDYSUBSIDY' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event)" min="0" formControlName="gastos_aval_solicita_idi_isba" (blur)="checkTotalAmount()">
-                        <mat-error *ngIf="isbaForm.get('gastos_aval_solicita_idi_isba')?.errors">{{((isbaForm.get('gastos_aval_solicita_idi_isba')?.hasError('notEqualError') ? 'FORMERRORS.ISBA.SUMASUBSNOIGUAL' : 'FORMERRORS.ISBA.SUBVENCIONES') | translate)}}</mat-error>                    </mat-form-field>
+                        <mat-error *ngIf="isbaForm.get('gastos_aval_solicita_idi_isba')?.errors as errores">
+                            <ng-container *ngIf="errores['invalidDecimal']">{{'FORMERRORS.COMMON.DECIMAL' | translate}}</ng-container>
+                            <ng-container *ngIf="errores['notEqualError']">{{'FORMERRORS.ISBA.SUMASUBSNOIGUAL' | translate}}</ng-container>
+                            <ng-container *ngIf="!errores['invalidDecimal'] && !errores['notEqualError']">{{'FORMERRORS.ISBA.SUBVENCIONES' | translate}}</ng-container>
+                        </mat-error>
+                    </mat-form-field>
                 </section>
                 <section style="padding-bottom: 1.1rem;">
                     <dl><h4>{{'ISBA.REQUESTTITLE' | translate}}</h4></dl>
@@ -278,7 +292,7 @@
                     <mat-form-field>
                         <mat-label>{{'ISBA.REQUEST' | translate}}</mat-label>
                         <input matInput type="decimal" (blur)="cleanBlank($event); checkAmount()" min="0" formControlName="importe_ayuda_solicita_idi_isba">
-                        <mat-error *ngIf="isbaForm.get('importe_ayuda_solicita_idi_isba')?.errors">{{'FORMERRORS.ISBA.SOLICITUDAYUDA' | translate}}</mat-error>
+                        <mat-error *ngIf="isbaForm.get('importe_ayuda_solicita_idi_isba')?.errors">{{((isbaForm.get('importe_ayuda_solicita_idi_isba')?.hasError('invalidDecimal') ? 'FORMERRORS.COMMON.DECIMAL' : 'FORMERRORS.ISBA.SOLICITUDAYUDA') | translate)}}</mat-error>
                     </mat-form-field>
                 </section>
             </mat-expansion-panel>
@@ -340,7 +354,7 @@
                                 type="text"
                                 formControlName="file_memoriaTecnica"
                                 readonly
-                                [value]="fileNames['file_memoriaTecnica']"
+                                [value]="memoriaTecnicaFileNames"
                                 (click)="file_memoriaTecnica.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 />
@@ -360,7 +374,7 @@
                                 type="text"
                                 formControlName="file_document_veracidad_datos_bancarios"
                                 readonly
-                                [value]="fileNames['file_document_veracidad_datos_bancarios']"
+                                [value]="document_veracidad_datos_bancariosFileNames"
                                 (click)="file_document_veracidad_datos_bancarios.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 />
@@ -380,7 +394,7 @@
                                 type="text"
                                 formControlName="file_certificadoIAE"
                                 readonly
-                                [value]="fileNames['file_certificadoIAE']"
+                                [value]="file_certificadoIAEFileNames"
                                 (click)="file_certificadoIAE.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 />
@@ -396,21 +410,21 @@
                         <section ngClass="file-input" *ngIf="businessType === 'autonomo'">
                             <p [innerHTML]="'ISBA.DOC5TITLE' | translate"></p>
                             <mat-form-field floatLabel="always">
-                                <mat-label [innerHTML]="'ISBA.DOC5DOC' | translate"></mat-label>
-                                <input 
+                                <mat-label>{{'ISBA.DOC5DOC' | translate}}</mat-label>
+                                <input
                                 matInput
                                 type="text"
                                 formControlName="file_altaAutonomos"
                                 readonly
-                                [value]="fileNames['file_altaAutonomos']"
+                                [value]="file_altaAutonomosFilesNames"
                                 (click)="file_altaAutonomos.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 />
                                 <mat-error *ngIf="isbaForm.get('file_altaAutonomos')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_altaAutonomos type="file" (change)="onFileChange($event, 'file_altaAutonomos')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_altaAutonomos'].length > 0">
-                                <li *ngFor="let file of files['file_altaAutonomos']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_altaAutonomos type="file" (change)="onfile_altaAutonomosChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_altaAutonomosToUpload.length > 0">
+                                <li *ngFor="let file of file_altaAutonomosToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
 
@@ -428,15 +442,15 @@
                                 type="text"
                                 formControlName="file_escrituraConstitucion"
                                 readonly
-                                [value]="fileNames['file_escrituraConstitucion']"
+                                [value]="file_escrituraConstitucionFileNames"
                                 (click)="file_escrituraConstitucion.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 />
                                 <mat-error *ngIf="isbaForm.get('file_escrituraConstitucion')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_escrituraConstitucion type="file" (change)="onFileChange($event, 'file_escrituraConstitucion')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_escrituraConstitucion'].length > 0">
-                                <li *ngFor="let file of files['file_escrituraConstitucion']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_escrituraConstitucion type="file" (change)="onfile_escrituraConstitucionChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_escrituraConstitucionToUpload.length > 0">
+                                <li *ngFor="let file of file_escrituraConstitucionToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         </section>
 
@@ -453,7 +467,7 @@
                                     type="text"
                                     formControlName="file_nifRepresentante"
                                     readonly
-                                    [value]="fileNames['file_nifRepresentante']"
+                                    [value]="file_nifRepresentanteFileNames"
                                     (click)="file_nifRepresentante.click()"
                                     placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                     />
@@ -479,7 +493,7 @@
                                     type="text"
                                     formControlName="file_certificadoATIB"
                                     readonly
-                                    [value]="fileNames['file_certificadoATIB']"
+                                    [value]="file_certificadoATIBFileNames"
                                     (click)="file_certificadoATIB.click()"
                                     placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                     />
@@ -500,7 +514,7 @@
                                 type="text"
                                 formControlName="file_certificadoAEAT"
                                 readonly
-                                [value]="fileNames['file_certificadoAEAT']"
+                                [value]="file_certificadoAEATFileNames"
                                 (click)="file_certificadoAEAT.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 />
@@ -520,15 +534,15 @@
                                 type="text"
                                 formControlName="file_certificadoLey382003"
                                 readonly
-                                [value]="fileNames['file_certificadoLey382003']"
+                                [value]="file_certificadoLey382003FileNames"
                                 (click)="file_certificadoLey382003.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 />
                                 <mat-error *ngIf="isbaForm.get('file_certificadoLey382003')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             </mat-form-field>
-                            <input #file_certificadoLey382003 type="file" (change)="onFileChange($event, 'file_certificadoLey382003')" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="files['file_certificadoLey382003'].length > 0">
-                                <li *ngFor="let file of files['file_certificadoLey382003']">{{file.name}} {{file.size/1000}} KB</li>
+                            <input #file_certificadoLey382003 type="file" (change)="onfile_certificadoLey382003Change($event)" hidden accept=".pdf, .jpeg, .png" multiple>
+                            <ul *ngIf="file_certificadoLey382003ToUpload.length > 0">
+                                <li *ngFor="let file of file_certificadoLey382003ToUpload">{{file.name}} {{file.size/1000}} KB</li>
                             </ul>
                         ****</section>
 
@@ -540,7 +554,7 @@
                                 type="text"
                                 formControlName="file_certificadoSGR"
                                 readonly
-                                [value]="fileNames['file_certificadoSGR']"
+                                [value]="file_certificadoSGRFileNames"
                                 (click)="file_certificadoSGR.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 />
@@ -560,7 +574,7 @@
                                 type="text"
                                 formControlName="file_contratoOperFinanc"
                                 readonly
-                                [value]="fileNames['file_contratoOperFinanc']"
+                                [value]="file_contratoOperFinancFileNames"
                                 (click)="file_contratoOperFinanc.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 />
@@ -579,7 +593,7 @@
                                 matInput
                                 type="text"
                                 readonly
-                                [value]="fileNames['file_avalOperFinanc']"
+                                [value]="file_avalOperFinancFileNames"
                                 (click)="file_avalOperFinanc.click()"
                                 placeholder="{{'FILES.UPLOADFILES' | translate}}"
                                 formControlName="file_avalOperFinanc"
