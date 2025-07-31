@@ -41,27 +41,28 @@ export class HeaderComponent implements OnInit {
     this.translate.use ('es-ES');
   }
 
-  ngOnInit(): void {
-    const entornoGuardado = localStorage.getItem('entorno');
-    const isPreTramits = entornoGuardado === 'pre-tramits';
+ngOnInit(): void {
+  const entornoGuardado = sessionStorage.getItem('entorno'); // usa sessionStorage también al leer
+  const isTramits = entornoGuardado === 'tramits';
 
-    // Establecer el valor inicial del formulario
-    this.languageForm.patchValue({ entorno: isPreTramits });
+  this.languageForm.patchValue({ entorno: isTramits });
 
-    // Establecer entorno en el servicio
-    this.expedienteService.setEntorno(isPreTramits ? 'tramits' : 'pre-tramits');
+  // Establece el entorno en expedienteService
+  this.expedienteService.setEntorno(isTramits ? 'tramits' : 'pre-tramits');
 
-    // Escuchar cambios del toggle
-    this.languageForm.get('entorno')?.valueChanges.subscribe((value: boolean | null) => {
-      const isPreTramits = value === true; // Asegura que solo true activa pre-tràmits
-      const entorno = isPreTramits ? 'pre-tramits' : 'tramits';
-      sessionStorage.setItem('entorno', entorno);
-      this.expedienteService.setEntorno(entorno);
-      window.location.reload()
-    });
-    const storedLang = sessionStorage.getItem('preferredLang') || 'es-ES';
-    this.translate.use(storedLang);
-  }
+  // Escucha cambios del toggle
+  this.languageForm.get('entorno')?.valueChanges.subscribe((value: boolean | null) => {
+    const entorno = value ? 'tramits' : 'pre-tramits';
+    sessionStorage.setItem('entorno', entorno);
+    this.expedienteService.setEntorno(entorno);
+    window.location.reload();
+  });
+
+  // Idioma
+  const storedLang = sessionStorage.getItem('preferredLang') || 'es-ES';
+  this.languageForm.patchValue({ preferredLang: storedLang });
+  this.translate.use(storedLang);
+}
 
   onLanguageChange(): void {
     const selectedLang = this.languageForm.get('preferredLang')?.value ?? 'es-ES';
