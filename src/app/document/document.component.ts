@@ -160,7 +160,14 @@ export class DocumentComponent implements OnInit {
   }
 
  viewDocument(nif: string, folder: string, filename: string, extension: string) {
-    const url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    const entorno = sessionStorage.getItem("entorno")
+    let url = ""
+    if (entorno === 'tramits') {
+       url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    } else {
+     url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    }
+  
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
     const ext = extension.toLowerCase();
