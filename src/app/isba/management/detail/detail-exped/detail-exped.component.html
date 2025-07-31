@@ -147,7 +147,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUIREDDOCUMENTATIONDETAILS' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'SI'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'SI'"></app-document>
                     <section *ngIf="signedDocData">
                         <div *ngIf="signedDocData.status === 'COMPLETED'">
                             <button mat-raised-button color="accent"
@@ -185,7 +185,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'NO'" [faseExped]="'Solicitud'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Solicitud'"></app-document>
                 </section>
             </mat-card>
         </mat-tab>
@@ -210,7 +210,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'NO'" [faseExped]="'Validacion'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Validacion'"></app-document>
                 </section>
             </mat-card>
         </mat-tab>
@@ -228,7 +228,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'NO'" [faseExped]="'Justificacion'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Justificacion'"></app-document>
                 </section>
             </mat-card>
         </mat-tab>
@@ -281,7 +281,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'NO'" [faseExped]="'Desestimiento'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Desestimiento'"></app-document>
                 </section>
             </mat-card>
         </mat-tab>

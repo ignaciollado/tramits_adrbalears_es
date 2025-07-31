@@ -81,9 +81,9 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUIREDDOCUMENTATIONDETAILS' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'SI'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'SI'"></app-document>
                     <h4 [innerHTML]="'FORM.OPTIONALDOCUMENTATIONDETAILS' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"></app-document>
                     <section *ngIf="signedDocData">
                         <div *ngIf="signedDocData.status ==='COMPLETED'">
                             <button mat-raised-button color="accent"
@@ -148,7 +148,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'NO'" [faseExped]="'Solicitud'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Solicitud'"></app-document>
                 </section>
             </mat-card>
         </mat-tab>
@@ -188,7 +188,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'NO'" [faseExped]="'Adhesion'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Adhesion'"></app-document>
                 </section>
             </mat-card>
         </mat-tab>
@@ -227,7 +227,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"
                         [faseExped]="'Seguimiento'"></app-document>
                 </section>
             </mat-card>
@@ -296,7 +296,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"
                         [faseExped]="'Renovacion'"></app-document>
                 </section>
             </mat-card>
