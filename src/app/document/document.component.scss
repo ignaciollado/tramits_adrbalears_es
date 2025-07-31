@@ -23,11 +23,6 @@ a:hover {
 .mat-mdc-row:hover .mat-mdc-cell {
   border-color: currentColor;
 }
-.action-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  column-gap: .5rem;
-}
 
 .pdf-container {
   height: 80vh;
