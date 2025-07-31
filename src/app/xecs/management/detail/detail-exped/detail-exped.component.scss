@@ -64,6 +64,17 @@ mat-card {
   margin-bottom: 1rem;
 }
 
+.doc-status {
+  border-radius: .25rem;
+  border: 1px solid ;
+  padding: .25rem;
+}
+
+.not_started {
+  background-color: #f37020;
+  color: #fff;
+}
+
 .exped-tab {
   color: #fff;
   padding: .5rem 2rem;

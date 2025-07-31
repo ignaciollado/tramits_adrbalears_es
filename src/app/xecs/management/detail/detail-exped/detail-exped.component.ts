@@ -3,6 +3,7 @@ import { NativeDateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -68,6 +69,8 @@ export class XecsDetailExpedComponent {
   importeAyuda: number = 0
   signedDocData!: DocSignedDTO
   externalSignUrl: string = ""
+  sendedUserToSign: string = ""
+  sendedDateToSign!: Date 
   publicAccessId: string = ""
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
   newAidAmount: number = 0
@@ -259,6 +262,11 @@ checkViafirmaSign(publicKey: string) {
       // Éxito
       this.commonService.showSnackBar('✅ Documento firmado recibido correctamente: ' + (resp.errorMessage || ''));
       this.signedDocData = resp;
+      console.log ("signedDocData", this.signedDocData, this.signedDocData.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode)
+      this.sendedUserToSign =  this.signedDocData.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
+      const sendedDateToSign = this.signedDocData.creationDate
+      this.sendedDateToSign = new Date(sendedDateToSign)
+
       this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl
     },
     (error: any) => {

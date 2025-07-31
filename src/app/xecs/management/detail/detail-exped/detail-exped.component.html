@@ -157,17 +157,18 @@
       <h4>Documentación opcional de la solicitud</h4>
       <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
       <section *ngIf="signedDocData">
-          <div *ngIf="signedDocData.status === 'COMPLETED'">
-            <a href='{{externalSignUrl}}' target="_blank">Ver la declaración responsable firmada</a>
-          <!--   <button mat-raised-button color="accent" (click)="showSignedDocument(publicAccessId)">Documento firmado</button> -->
+          <div *ngIf="signedDocData.status === 'COMPLETED'" ngClass="doc-status">
+            <a ngClass="custom-link" href='{{externalSignUrl}}' target="_blank">Ver la declaración responsable firmada</a>
           </div>
-          <div *ngIf="signedDocData.status === 'REJECTED'">
+          <div *ngIf="signedDocData.status === 'REJECTED'" ngClass="doc-status">
             <button mat-raised-button color="warn">Firma rechazada</button>
           </div>
-          <div *ngIf="signedDocData.status === 'NOT_STARTED'">
-            <button mat-raised-button color="warn">Pendiente de firma</button>
+          <div *ngIf="signedDocData.status === 'NOT_STARTED'" ngClass="doc-status not_started">
+            <span>Pendiente de firma.</span><br>
+            <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
+            <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
           </div>
-          <div *ngIf="signedDocData.status === 'IN_PROCESS'">
+          <div *ngIf="signedDocData.status === 'IN_PROCESS'" ngClass="doc-status">
             <button mat-raised-button color="warn">Firma en curso</button>
           </div>
          <!--  <ng-template #statusText>{{ signedDocData.status }}</ng-template> -->
