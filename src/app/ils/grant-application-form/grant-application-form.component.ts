@@ -14,7 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
-import { map, Observable, startWith } from 'rxjs';
+import { catchError, concatMap, from, map, Observable, of, startWith, tap, throwError } from 'rxjs';
 import { CnaeDTO } from '../../Models/cnae.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
@@ -22,6 +22,8 @@ import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { DocumentService } from '../../Services/document.service';
 import { ExpedienteService } from '../../Services/expediente.service';
+import { ExpedienteDocumentoService } from '../../Services/expediente.documento.service';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 
 @Component({
@@ -29,7 +31,7 @@ import { ExpedienteService } from '../../Services/expediente.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatSelectModule, MatExpansionModule,
-    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule, 
+    MatAccordion, MatIconModule, MatCheckboxModule, MatRadioModule,
     TranslateModule, MatTooltipModule, MatAutocompleteModule, MatDialogModule],
   templateUrl: './grant-application-form.component.html',
   styleUrl: './grant-application-form.component.scss'
@@ -38,57 +40,11 @@ import { ExpedienteService } from '../../Services/expediente.service';
 export class IlsGrantApplicationFormComponent {
   readonly dialog = inject(MatDialog)
   step = signal(0)
+  uploadProgress: number = 0;
   ilsForm: FormGroup
   radioOptionDocs: string = ""
   rgpdAccepted = false
   businessType: string = "";
-
-  // Files
-
-  // Guardaré los nombres de los files aquí para su printado en el formulario y el listado de files
-  fileNames: { [key: string]: string } = {
-    file_enviardocumentoIdentificacion: "",
-    file_certificadoATIB: "",
-    file_escritura_empresa: "",
-    file_certificadoIAE: "",
-    file_informeResumenIls: "",
-    file_informeInventarioIls: "",
-    file_certificado_verificacion_ISO: "",
-    file_modeloEjemploIls: "",
-    file_certificado_itinerario_formativo: "",
-    file_memoriaTecnica: "",
-    file_nifEmpresa: "",
-    file_logotipoEmpresaIls: ""
-  }
-
-  // Guardaré todos los files crudos aquí
-  files: { [key: string]: File[] } = {
-    file_enviardocumentoIdentificacion: [],
-    file_certificadoATIB: [],
-    file_escritura_empresa: [],
-    file_certificadoIAE: [],
-    file_informeResumenIls: [],
-    file_informeInventarioIls: [],
-    file_certificado_verificacion_ISO: [],
-    file_modeloEjemploIls: [],
-    file_certificado_itinerario_formativo: [],
-    file_memoriaTecnica: [],
-    file_nifEmpresa: [],
-    file_logotipoEmpresaIls: []
-  }
-
-  // Files obligatorios
-  requiredFiles: string[] = [
-    'file_enviardocumentoIdentificacion',
-    'file_certificadoATIB',
-    'file_escritura_empresa',
-    'file_certificadoIAE',
-    'file_informeResumenIls',
-    'file_informeInventarioIls',
-    'file_certificado_verificacion_ISO',
-    'file_modeloEjemploIls',
-    'file_certificado_itinerario_formativo'
-  ]
 
   // 10 MB máximos
   maxFileSizeBytes: number = 10 * 1024 * 1024
@@ -107,9 +63,13 @@ export class IlsGrantApplicationFormComponent {
 
 
   accordion = viewChild.required(MatAccordion)
-  constructor(private commonService: CommonService, private expedienteService: ExpedienteService, private documentService: DocumentService, private customValidator: CustomValidatorsService, private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private commonService: CommonService, private expedienteService: ExpedienteService,
+    private documentService: DocumentService,
+    private documentosExpedienteService: ExpedienteDocumentoService,
+    private customValidator: CustomValidatorsService, private fb: FormBuilder,
+    private snackBar: MatSnackBar) {
     this.ilsForm = this.fb.group({
-      
+
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
       fecha_completado: this.fb.control(this.commonService.getCurrentDateTime()),
 
@@ -139,14 +99,14 @@ export class IlsGrantApplicationFormComponent {
       cumpleNormativaSegInd_dec_resp: this.fb.control<string>({ value: 'SI', disabled: true }, []),
 
       // Documentación
-      file_escritura_empresa: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificadoIAE: this.fb.control<File | null>(null, [Validators.required]),
-      radioGroupFile: this.fb.control(null, [Validators.required]),
+      file_escritura_empresa: this.fb.control<File | null>(null, []),
+      file_certificadoIAE: this.fb.control<File | null>(null, []),
+      radioGroupFile: this.fb.control(null, []),
       file_informeResumenIls: this.fb.control<File | null>(null, []), // Primera opción radio
       file_informeInventarioIls: this.fb.control<File | null>(null, []), // Primera opción radio
       file_certificado_verificacion_ISO: this.fb.control<File | null>(null, []), // Segunda opción radio
-      file_modeloEjemploIls: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificado_itinerario_formativo: this.fb.control<File | null>(null, [Validators.required]),
+      file_modeloEjemploIls: this.fb.control<File | null>(null, []),
+      file_certificado_itinerario_formativo: this.fb.control<File | null>(null, []),
 
       file_memoriaTecnica: this.fb.control<File | null>(null, []),
       file_nifEmpresa: this.fb.control<File | null>(null, []),
@@ -170,115 +130,326 @@ export class IlsGrantApplicationFormComponent {
       })
     );
 
-    // Validadores dinámicos con checkboxes (Autorizaciones)
     this.ilsForm.get('checkboxID')?.valueChanges.subscribe((value: boolean) => {
-      this.applyConditionalValidator("checkboxID", "file_enviardocumentoIdentificacion", value)
+      this.checkboxID = value
+
+      if (!value) {
+        this.file_enviardocumentoIdentificacionToUpload = [];
+      }
     });
 
     this.ilsForm.get('checkboxATIB')?.valueChanges.subscribe((value: boolean) => {
-      this.applyConditionalValidator('checkboxATIB', 'file_certificadoATIB', value)
+      this.checkboxATIB = value
+      if (!value) {
+        this.file_certificadoATIBToUpload = [];
+      }
     })
 
-    // Validadores dinámicos con radio-buttons (Documentación requerida)
     this.ilsForm.get('radioGroupFile')?.valueChanges.subscribe((value: string) => {
-      this.radioOptionDocs = value;
-      this.applyRadioConditionalValidators(value)
+      this.radioOptionDocs = value
+      if (value === "option1") {
+        this.file_certificado_verificacion_ISOToUpload = [];
+      } else {
+        this.file_informeResumenIlsToUpload = [];
+        this.file_informeInventarioIlsToUpload = [];
+      }
     })
 
     this.loadZipcodes()
     this.loadActividadesCNAE()
     this.generateIdExp()
   }
+  file_enviardocumentoIdentificacionToUpload: File[] = []       // OPT
+  file_certificadoATIBToUpload: File[] = []                     // OPT
+
+  file_escritura_empresaToUpload: File[] = []                   // required
+  file_certificadoIAEToUpload: File[] = []                      // required
+  file_informeResumenIlsToUpload: File[] = []                   // OPT --> Opción 1 radio
+  file_informeInventarioIlsToUpload: File[] = []                // OPT --> Opción 1 radio
+  file_certificado_verificacion_ISOToUpload: File[] = []        // OPT --> Opción 2 radio
+  file_modeloEjemploIlsToUpload: File[] = []                    // required
+  file_certificado_itinerario_formativoToUpload: File[] = []    // required
+  file_memoriaTecnicaToUpload: File[] = []                      // OPT
+  file_nifEmpresaToUpload: File[] = []                          // OPT
+  file_logotipoEmpresaIlsToUpload: File[] = []                  // OPT
 
   onSubmit(): void {
-    const customTimestamp = this.commonService.generateCustomTimestamp()
+    const timeStamp = this.commonService.generateCustomTimestamp()
     const convocatoria = new Date().getFullYear();
-    const cifnif_propietario = this.ilsForm.get('nif')?.value
 
-    for (const [key, fileList] of Object.entries(this.files)) {
-      if (fileList?.length != 0) {
-        this.ilsForm.get(key)?.setValue('SI')
-      } else {
-        this.ilsForm.get(key)?.setValue('NO')
-      }
-    }
-    const rawValues = this.ilsForm.getRawValue()
-    // Datos añadidos a los valores del formulario
-    rawValues.idExp = this.idExp
-    rawValues.selloDeTiempo = customTimestamp
+    const rawValues = this.ilsForm.getRawValue();
+    rawValues.idExp = this.idExp;
+    rawValues.selloDeTiempo = timeStamp;
     rawValues.convocatoria = convocatoria
     rawValues.cpostal = this.ilsForm.get('cpostal')?.value['zipCode']
 
+    const filesToUpload = [
+      { files: this.file_escritura_empresaToUpload, type: 'file_escritura_empresa' },
+      { files: this.file_certificadoIAEToUpload, type: 'file_certificadoIAE' },
+      { files: this.file_modeloEjemploIlsToUpload, type: 'file_modeloEjemploIls' },
+      { files: this.file_certificado_itinerario_formativoToUpload, type: 'file_certificado_itinerario_formativo' }
+
+    ]
+
+    const opcFilesToUpload = [
+      { files: this.file_enviardocumentoIdentificacionToUpload, type: 'file_enviardocumentoIdentificacion' },
+      { files: this.file_certificadoATIBToUpload, type: 'file_certificadoATIB' },
+      { files: this.file_informeResumenIlsToUpload, type: 'file_informeResumenIls' },
+      { files: this.file_informeInventarioIlsToUpload, type: 'file_informeInventarioIls' },
+      { files: this.file_certificado_verificacion_ISOToUpload, type: 'file_certificado_verificacion_ISO' },
+      { files: this.file_memoriaTecnicaToUpload, type: 'file_memoriaTecnica' },
+      { files: this.file_nifEmpresaToUpload, type: 'file_nifEmpresa' },
+      { files: this.file_logotipoEmpresaIlsToUpload, type: 'file_logotipoEmpresaIls' }
+    ]
+
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
-        const newId = respuesta.id_sol
-        this.uploadDocuments(newId, customTimestamp, convocatoria, cifnif_propietario)
-      }, error: (error) => { this.showSnackBar(error) }
-    })
-  }
+        rawValues.id_sol = respuesta.id_sol
+        this.showSnackBar('✔️ Expediente creado con éxito ' + respuesta.message + ' ' + respuesta.id_sol)
 
-  // Subida de archivos en BBDD y servidor
-  private uploadDocuments(id: number, customTimestamp: string, convocatoria: number, cifnif_propietario: string): void {
-    for (const [key, fileList] of Object.entries(this.files)) {
-      if (fileList.length != 0) {
-        fileList.forEach(file => {
-          /* BBDD */
-          const documentFormData = new FormData()
-          const requiredDoc = this.requiredFiles.includes(key) ? 'SI' : 'NO'
+        const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
+          if (!files || files.length === 0) return [];
 
-          documentFormData.append('id_sol', id.toString())
-          documentFormData.append('cifnif_propietario', cifnif_propietario)
-          documentFormData.append('convocatoria', convocatoria.toString())
-          // documentFormData.append('name', file.name)
-          // documentFormData.append('type', file.type)
-          documentFormData.append('tipo_tramite', 'ILS')
-          documentFormData.append('corresponde_documento', key)
-          documentFormData.append('selloDeTiempo', customTimestamp)
-          documentFormData.append('fase_exped', 'Solicitud')
-          documentFormData.append('estado', 'Pendent')
-          documentFormData.append('docRequerido', requiredDoc)
-          // this.documentService.insertDocuments(documentFormData).subscribe({
-          //   error: (error) => {
-          //     this.showSnackBar(error)
-          //   }
-          // })
+          return Array.from(files).flatMap((file: File) => {
+            if (!file) return [];
+            if (file.size === 0) {
+              this.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`)
+              return [];
+            }
+            if (file.size > this.maxFileSizeBytes) {
+              this.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`)
+              return [];
+            }
+            return [{ file, type }];
+          });
+        });
 
-          /* Servidor */
-          const serverDocumentFormData = new FormData()
-          serverDocumentFormData.append('files', file)
-          // this.documentService.createDocument(cifnif_propietario, customTimestamp, serverDocumentFormData).subscribe({
-          //   error: (error) => {
-          //     this.showSnackBar(error)
-          //   }
-          // })
-        })
-      };
-    }
-  }
+        const archivosOpcionalesValidos = opcFilesToUpload.flatMap(({ files, type }) => {
+          if (!files || files.length === 0) return [];
 
-  onFileChange(event: Event, controlName: string): void {
-    const input = event.target as HTMLInputElement
-    const controlNameForm = this.ilsForm.get(controlName)
-    const inputFiles: File[] = [];
-    const inputFilesNames: string[] = []
+          return Array.from(files).flatMap((file: File) => {
+            if (!file || file.size === 0 || file.size > this.maxFileSizeBytes) return [];
+            return [{ file, type }]
+          });
+        });
 
-    controlNameForm?.setErrors(null)
+        const todosLosArchivos = [...archivosValidos, ...archivosOpcionalesValidos]
 
-    if (input.files) {
-      for (let index = 0; index < input.files.length; index++) {
-        const file = input.files.item(index)
-        if (file) {
-          if (file.size > this.maxFileSizeBytes) {
-            controlNameForm?.setErrors({ invalidFile: true })
-          }
-          inputFiles.push(file)
-          inputFilesNames.push(file.name)
+        if (todosLosArchivos.length === 0) {
+          this.showSnackBar('⚠️ No hay archivos válidos para subir.');
+          return;
         }
+
+        from(todosLosArchivos)
+          .pipe(
+            concatMap(({ file, type }) =>
+              this.documentosExpedienteService.createDocumentoExpediente([file], rawValues, type).pipe(
+                concatMap(() => this.uploadTheFile(timeStamp, [file]))
+              )
+            )
+          )
+          .subscribe({
+            next: (event) => {
+              let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
+              if (Array.isArray(event.file_name)) {
+                event.file_name.forEach((file: any) => {
+                  mensaje += `🗂️ Archivo: ${file.name}\n📁 Ruta: ${file.path}\n`
+                });
+              } else {
+                mensaje += `⚠️ No se encontró información de archivo en el evento.`
+              }
+              this.showSnackBar(mensaje);
+            },
+            complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
+            error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
+          })
+      },
+      error: (err) => {
+        let msg = '❌ Error al crear el expediente.\n'
+        this.showSnackBar("err: " + err);
+        try {
+          const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
+          msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`
+
+          const erroresDetallados = errorMsgObj.errores_detallados;
+          if (erroresDetallados) {
+            msg += '🔍 Errores detallados:\n'
+            Object.entries(erroresDetallados).forEach(([campo, errorCampo]) => {
+              msg += ` • ${campo}: ${errorCampo}\n`
+            });
+          }
+
+          const datosRecibidos = errorMsgObj.datos_recibidos;
+          if (datosRecibidos) {
+            msg += '📦 Datos recibidos:\n';
+            Object.entries(datosRecibidos).forEach(([key, value]) => {
+              msg += ` - ${key}: ${Array.isArray(value) ? value.join(', ') : value}\n`;
+            });
+          }
+        } catch (parseError) {
+          msg += `⚠️ No se pudo interpretar el error: ${err}`
+        }
+        this.showSnackBar(msg)
       }
+    });
+  }
+
+  private uploadTheFile(timestamp: string, files: File[]): Observable<any> {
+    if (!files || files.length === 0) {
+      return of(null); // Devuelve vacío si no hay archivos
     }
 
-    this.files[controlName] = inputFiles
-    this.fileNames[controlName] = inputFilesNames.join(', ')
+    const formData = new FormData();
+    const nif = this.ilsForm.value.nif
+    files.forEach(file => {
+      formData.append('files[]', file);
+    })
+    console.log(files)
+
+    return this.documentService.createDocument(nif, timestamp, formData).pipe(
+      tap((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.Sent:
+            this.showSnackBar('Archivos enviados al servidor...')
+            break;
+
+          case HttpEventType.UploadProgress:
+            if (event.total) {
+              this.uploadProgress = Math.round((100 * event.loaded) / event.total)
+            }
+            break;
+
+          case HttpEventType.Response:
+            this.showSnackBar('Archivos subidos con éxito: ' + event.body)
+            this.uploadProgress = 100;
+            break;
+        }
+      }),
+      catchError(err => {
+        this.showSnackBar('Error al subir los archivos: ' + err);
+        return throwError(() => err);
+      })
+    )
+  }
+
+  /* Documentos de subida obligatoria */
+  get file_escritura_empresaFileNames(): string {
+    return this.file_escritura_empresaToUpload.map(f => f.name).join(', ')
+  }
+  onfile_escritura_empresaChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_escritura_empresaToUpload = Array.from(input.files)
+    }
+  }
+
+  get file_certificadoIAEFileNames(): string {
+    return this.file_certificadoIAEToUpload.map(f => f.name).join(', ')
+  }
+  onfile_certificadoIAEChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_certificadoIAEToUpload = Array.from(input.files)
+    }
+  }
+
+  get file_modeloEjemploIlsFileNames(): string {
+    return this.file_modeloEjemploIlsToUpload.map(f => f.name).join(', ')
+  }
+  onfile_modeloEjemploIlsChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_modeloEjemploIlsToUpload = Array.from(input.files)
+    }
+  }
+
+  get file_certificado_itinerario_formativoFileNames(): string {
+    return this.file_certificado_itinerario_formativoToUpload.map(f => f.name).join(', ')
+  }
+  onfile_certificado_itinerario_formativoChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_certificado_itinerario_formativoToUpload = Array.from(input.files)
+    }
+  }
+
+  /* Documentos de subida opcional */
+  get file_enviardocumentoIdentificacionFileNames(): string {
+    return this.file_enviardocumentoIdentificacionToUpload.map(f => f.name).join(', ')
+  }
+  onfile_enviardocumentoIdentificacionChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_enviardocumentoIdentificacionToUpload = Array.from(input.files)
+    }
+  }
+
+  get file_certificadoATIBFileNames(): string {
+    return this.file_certificadoATIBToUpload.map(f => f.name).join(', ')
+  }
+  onfile_certificadoATIBChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_certificadoATIBToUpload = Array.from(input.files)
+    }
+  }
+
+  get file_informeResumenIlsFileNames(): string {
+    return this.file_informeResumenIlsToUpload.map(f => f.name).join(', ')
+  }
+  onfile_informeResumenIlsChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_informeResumenIlsToUpload = Array.from(input.files)
+    }
+  }
+
+  get file_informeInventarioIlsFileNames(): string {
+    return this.file_informeInventarioIlsToUpload.map(f => f.name).join(', ')
+  }
+  onfile_informeInventarioIlsChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_informeInventarioIlsToUpload = Array.from(input.files)
+    }
+  }
+
+  get file_certificado_verificacion_ISOFileNames(): string {
+    return this.file_certificado_verificacion_ISOToUpload.map(f => f.name).join(', ')
+  }
+  onfile_certificado_verificacion_ISOChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_certificado_verificacion_ISOToUpload = Array.from(input.files)
+    }
+  }
+
+  get file_memoriaTecnicaFileNames(): string {
+    return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
+  }
+  onfile_memoriaTecnicaChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_memoriaTecnicaToUpload = Array.from(input.files)
+    }
+  }
+  get file_nifEmpresaFileNames(): string {
+    return this.file_nifEmpresaToUpload.map(f => f.name).join(', ')
+  }
+  onfile_nifEmpresaChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_nifEmpresaToUpload = Array.from(input.files)
+    }
+  }
+  get file_logotipoEmpresaIlsFileNames(): string {
+    return this.file_logotipoEmpresaIlsToUpload.map(f => f.name).join(', ')
+  }
+  onfile_logotipoEmpresaIlsChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      this.file_logotipoEmpresaIlsToUpload = Array.from(input.files)
+    }
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questionText: string, toolTipText: string, doc1: string, doc2: string): void {
@@ -342,44 +513,6 @@ export class IlsGrantApplicationFormComponent {
       this.idExp = (+id.last_id + 1).toString()
     }, error => { this.showSnackBar(error) })
 
-  }
-
-  // Validador con checkboxes
-  private applyConditionalValidator(checkboxName: string, fileControlName: string, checked: boolean): void {
-    const fileControl = this.ilsForm.get(fileControlName)
-
-    if (checked === false) {
-      fileControl?.setValidators([Validators.required])
-    } else {
-      fileControl?.clearValidators();
-      fileControl?.setValue(null)
-    }
-
-    checkboxName === "checkboxID" ? this.checkboxID = checked : this.checkboxATIB = checked
-
-    fileControl?.updateValueAndValidity();
-  }
-
-  // Validador con radio
-  private applyRadioConditionalValidators(option: string): void {
-    const isOption1 = option === 'option1';
-
-    const option1Fields = ['file_informeResumenIls', 'file_informeInventarioIls'];
-    const option2Fields = ['file_certificado_verificacion_ISO'];
-
-    option1Fields.forEach(field => {
-      const control = this.ilsForm.get(field)
-      control?.setValidators(isOption1 ? Validators.required : null);
-      control?.setValue(isOption1 ? control?.value : null);
-      control?.updateValueAndValidity();
-    });
-
-    option2Fields.forEach(field => {
-      const control = this.ilsForm.get(field)
-      control?.setValidators(isOption1 ? null : Validators.required);
-      control?.setValue(isOption1 ? null : control?.value);
-      control?.updateValueAndValidity();
-    });
   }
 
   setStep(index: number) {

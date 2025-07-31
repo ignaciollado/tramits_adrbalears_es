@@ -19,7 +19,7 @@ export class ExpedienteDocumentoService {
     return this.http.get<any[]>(`${this.urlAPITramits}pindustdocument/expediente/${id}`).pipe(catchError(this.handleError))
   }
 
-  // CREATE
+  // CREATE // BBDD
   createDocumentoExpediente(fileData: any[], data: any, documentType: string): Observable<any> {
     const payload = {
       id_sol: data.id_sol,
