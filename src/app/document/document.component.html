@@ -46,7 +46,7 @@
         <mat-header-cell *matHeaderCellDef> {{'FILES.ACTIONS' | translate}} </mat-header-cell>
         <mat-cell *matCellDef="let document" ngClass="action-buttons">
           <button (click)="viewDocument(document.nif, document.timeStamp, document.name, document.extension)" mat-raised-button>{{'FILES.VIEW' | translate}}</button>
-          <button (click)="deleteDocument(document.nif, document.timeStamp, document.name)" mat-raised-button color="warn">{{'FILES.DELETE' | translate}}</button>
+          <button  *ngIf="faseExped === 'Solicitud' || faseExped === 'Validacion' || faseExped === 'Ejecucion' || faseExped === 'Justificacion' || faseExped === 'Desestimiento'" (click)="deleteDocument(document.nif, document.timeStamp, document.name)" mat-raised-button color="warn">{{'FILES.DELETE' | translate}}</button>
           <button (click)="changeDocumentState(document)" mat-raised-button [color]="getButtonColor(document.estado)"><mat-icon>{{ getButtonIcon(document.estado) }}</mat-icon>{{ document.estado }}</button>
         </mat-cell>
       </ng-container>

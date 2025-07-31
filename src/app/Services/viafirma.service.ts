@@ -22,12 +22,13 @@ export class ViafirmaService {
     this.entorno = entornoGuardado || 'pre-tramits';
   }
 
-  setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
+/*   setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
     this.entorno = entorno;
     sessionStorage.setItem('entorno', entorno);
     console.log ("entorno actual: ", this.entorno)
   }
-
+ */
+  
   private get apiUrl(): string {
     return this.urls[this.entorno];
   }

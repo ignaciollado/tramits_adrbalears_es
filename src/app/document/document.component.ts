@@ -63,7 +63,7 @@ export class DocumentComponent implements OnInit {
   @Input() id!: string
   @Input() idSol!: number
   @Input() origin!: string
-  @Input() requriedDocs!: string
+  @Input() requiredDocs!: string
   @Input() convocatoria!: number
   @Input() faseExped!: string
 
@@ -75,7 +75,7 @@ export class DocumentComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.listDocuments(this.idSol, this.requriedDocs, this.faseExped);
+      this.listDocuments(this.idSol, this.requiredDocs, this.faseExped);
     });
   } 
 
@@ -146,14 +146,14 @@ export class DocumentComponent implements OnInit {
           } else if (event.type === HttpEventType.Response) {
             this.isLoading = false;
             this.commonService.showSnackBar('Documents uploaded successfully!');
-            this.listDocuments(+this.idSol, this.requriedDocs);
+            this.listDocuments(+this.idSol, this.requiredDocs);
             this.selectedFiles = [];
             this.progress = 0;
           }
         },
         (error: any) => {
           this.commonService.showSnackBar(error);
-          this.listDocuments(+this.idSol, this.requriedDocs);
+          this.listDocuments(+this.idSol, this.requiredDocs);
         }
       );
     }
@@ -197,7 +197,7 @@ export class DocumentComponent implements OnInit {
       (resp:any) => {
     
         this.commonService.showSnackBar('Document deleted successfully! '+resp);
-        this.listDocuments(this.idSol, this.requriedDocs);
+        this.listDocuments(this.idSol, this.requiredDocs);
       },
       (error) => this.commonService.showSnackBar(error)
     );

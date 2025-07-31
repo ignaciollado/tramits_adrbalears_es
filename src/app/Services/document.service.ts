@@ -7,21 +7,30 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class DocumentService {
-    private urlAPITramits: string
+  private entorno: 'tramits' | 'pre-tramits';
+  private readonly urls = {
+    'tramits': 'https://tramits.idi.es/public/index.php',
+    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
+  };
    
   constructor(private http: HttpClient) {
-    this.urlAPITramits = "https://pre-tramits.idi.es/public/index.php"
+    const entornoGuardado = sessionStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
+    this.entorno = entornoGuardado || 'pre-tramits';
+  }
+
+  private get apiUrl(): string {
+    return this.urls[this.entorno];
   }
 
   /* En la BBDD */
   getDocuments(nif: string, timestamp: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.urlAPITramits}/pindustdocument/${nif}/${timestamp}`)
+    return this.http.get<any[]>(`${this.apiUrl}/pindustdocument/${nif}/${timestamp}`)
       .pipe(catchError(this.handleError));
   }
 
   /* En el sistema de archivos del servidor backend */
   listDocuments(idSol: number, isRequiredDoc: string = 'SI', faseExped?: string): Observable<any[]> {
-    let url = `${this.urlAPITramits}/documents/${idSol}`;
+    let url = `${this.apiUrl}/documents/${idSol}`;
 
     if (isRequiredDoc) {
       url += `/${isRequiredDoc}`;
@@ -37,18 +46,18 @@ export class DocumentService {
   }
 
   createDocument(nif:string, timestamp: string, formData: FormData): Observable<HttpEvent<any>> {
-    return this.http.post<any>(`${this.urlAPITramits}/document/upload/${nif}/${timestamp}`, formData, {
+    return this.http.post<any>(`${this.apiUrl}/document/upload/${nif}/${timestamp}`, formData, {
       reportProgress: true, observe: 'events'})
       .pipe(catchError(this.handleError));
   }
 
   deleteDocument(folderName: string, id: string, docName: string): Observable<any> {
-    return this.http.delete<any>(`${this.urlAPITramits}/api/documents/delete/${folderName}/${id}/${docName}`)
+    return this.http.delete<any>(`${this.apiUrl}/api/documents/delete/${folderName}/${id}/${docName}`)
       .pipe(catchError(this.handleError));
   }
 
   viewDocument(nif: string, timeStamp: string, docName: string): Observable<any> {
-    return this.http.delete<any>(`${this.urlAPITramits}/documents/view/${nif}/${timeStamp}/${docName}`)
+    return this.http.delete<any>(`${this.apiUrl}/documents/view/${nif}/${timeStamp}/${docName}`)
       .pipe(catchError(this.handleError));
   }
 
