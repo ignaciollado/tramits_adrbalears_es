@@ -18,7 +18,8 @@
     "DISCLAIMER": "Desestimiento o renuncia",
     "ADHESION": "Adhesión",
     "TRACKING": "Seguimiento",
-    "RENOVATION": "Renovación"
+    "RENOVATION": "Renovación",
+    "GENERAL": "General"
   },
   "HOME": {
     "WELCOME": "Bienvenido a iTràmits, la plataforma oficial de ADR Balears para la gestión de ayudas y subvenciones",
@@ -143,7 +144,9 @@
     "REC-JUSTIFICATION-REF": "Referencia REC justificación",
     "RENOVATION-RESOLUTION": "Resolución renovación",
     "RENOVATION-NOTIFICATION": "Notificación renovación",
-    "REVOCATION-RESOLUTION": "Resolución revocación"
+    "REVOCATION-RESOLUTION": "Resolución revocación",
+    "COMMENTS": "Comentarios",
+    "COMMENTS-PLACEHOLDER": "Escribe tus comentarios aquí..."
   },
   "FORMERRORS": {
     "COMMON": {

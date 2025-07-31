@@ -18,7 +18,8 @@
     "DISCLAIMER": "Disclaimer",
     "ADHESION": "Adhesion",
     "TRACKING": "Tracking",
-    "RENOVATION": "Renovation"
+    "RENOVATION": "Renovation",
+    "GENERAL": "General"
   },
   "HOME": {
     "WELCOME": "Welcome to iTràmits, the official platform of ADR Balears for the management of grants and subsidies",
@@ -143,7 +144,9 @@
     "REC-JUSTIFICATION-REF": "REC justification reference",
     "RENOVATION-RESOLUTION": "Renovation resolution",
     "RENOVATION-NOTIFICATION": "Renovation notification",
-    "REVOCATION-RESOLUTION": "Revocation resolution"
+    "REVOCATION-RESOLUTION": "Revocation resolution",
+    "COMMENTS": "Comments",
+    "COMMENTS-PLACEHOLDER": "Write your comments here..."
   },
   "FORMERRORS": {
     "COMMON": {
