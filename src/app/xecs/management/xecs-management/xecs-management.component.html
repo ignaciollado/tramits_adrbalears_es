@@ -1,20 +1,20 @@
 <form [formGroup]="form" (ngSubmit)="loadExpedientes()" class="filtros-form">
   <mat-form-field appearance="outline">
-    <mat-label>Convocatoria</mat-label>
+    <mat-label>{{'FORM.CONOVOCATORIA' | translate}}</mat-label>
     <mat-select formControlName="convocatoria">
       <mat-option *ngFor="let conv of uniqueConvocatorias" [value]="conv">{{ conv }}</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-    <mat-label>Tipo de Trámite</mat-label>
+    <mat-label>{{'FORM.TIPOTRAMITE' | translate}}</mat-label>
     <mat-select formControlName="tipoTramite" multiple>
       <mat-option *ngFor="let tipo of uniqueTiposTramite" [value]="tipo">{{ tipo }}</mat-option>
     </mat-select>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-  <mat-label>Situación</mat-label>
+  <mat-label>{{'FORM.SITUACION' | translate}}</mat-label>
   <mat-select formControlName="situacion" multiple>
     <mat-option *ngFor="let estado of uniqueSituaciones" [value]="estado">{{ estado }}</mat-option>
   </mat-select>
@@ -22,13 +22,13 @@
 
 
   <mat-form-field appearance="outline" class="busqueda-form">
-  <mat-label>Buscar</mat-label>
+  <mat-label>{{'FORM.BUSCARPOR' | translate}}</mat-label>
   <input matInput (keyup)="aplicarFiltro($event)" placeholder="Filtrar por solicitante, localidad, etc.">
 </mat-form-field>
 
 <div class="form-actions">
-  <button mat-raised-button color="accent" type="submit">Buscar</button>
-  <button mat-stroked-button color="warn" type="button" (click)="limpiarFiltros()">Limpiar filtros</button>
+  <button mat-raised-button color="accent" type="submit">{{'FORM.BUSCAR' | translate}}</button>
+  <button mat-stroked-button color="warn" type="button" (click)="limpiarFiltros()">{{'FORM.LIMPIARFILTROS' | translate}}</button>
 </div>
 
 </form>

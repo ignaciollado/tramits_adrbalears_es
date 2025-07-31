@@ -7,7 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { ExpedienteService } from '../../../Services/expediente.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateModule } from '@ngx-translate/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -30,7 +31,7 @@ import { CommonService } from '../../../Services/common.service';
     MatTableModule,
     MatProgressBarModule,
     MatFormFieldModule,
-    MatInputModule,
+    MatInputModule, TranslateModule,
     HttpClientModule,
     MatSnackBarModule, RouterModule,
     MatSelectModule, MatButtonModule
