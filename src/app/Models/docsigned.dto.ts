@@ -29,6 +29,8 @@ export interface DocSignedDTO {
     documentsToSign:                DocumentsToSign[];
     comments:                       any[];
     disableInboxEmailNotifications: boolean;
+    errorCode:                      string;
+    errorMessage:                   string;
 }
 
 export interface AddresseeLine {

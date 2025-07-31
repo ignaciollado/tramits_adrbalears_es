@@ -11,7 +11,6 @@
       </ng-template> 
       <mat-card ngClass="mat-card-detalle">
     <section>
-    
     <mat-form-field appearance="outline">
       <mat-label>{{'FORM.SOLICITOR' | translate}}</mat-label>
       <input matInput formControlName="empresa" readonly>
@@ -159,7 +158,8 @@
       <app-document [idSol]="idExpediente" [requriedDocs]="'NO'"></app-document>
       <section *ngIf="signedDocData">
           <div *ngIf="signedDocData.status === 'COMPLETED'">
-            <button mat-raised-button color="accent" (click)="showSignedDocument(publicAccessId)">Documento firmado</button>
+            <a href='{{externalSignUrl}}' target="_blank">Ver la declaración responsable firmada</a>
+          <!--   <button mat-raised-button color="accent" (click)="showSignedDocument(publicAccessId)">Documento firmado</button> -->
           </div>
           <div *ngIf="signedDocData.status === 'REJECTED'">
             <button mat-raised-button color="warn">Firma rechazada</button>

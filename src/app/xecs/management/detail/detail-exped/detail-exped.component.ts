@@ -67,14 +67,15 @@ export class XecsDetailExpedComponent {
   totalSolicitudesPrevias!: number
   importeAyuda: number = 0
   signedDocData!: DocSignedDTO
+  externalSignUrl: string = ""
   publicAccessId: string = ""
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
   newAidAmount: number = 0
 
-  constructor( private commonService: CommonService, private adapter: DateAdapter<any>,
+constructor( private commonService: CommonService, private adapter: DateAdapter<any>,
     private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService ) {
       this.adapter.setLocale('es')
-  }
+}
 
 ngOnInit(): void {
     this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
@@ -246,13 +247,19 @@ getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: num
 }
 
 checkViafirmaSign(publicKey: string) {
-  if(!publicKey) {return}
+  if (!publicKey) return;
+
   this.viafirmaService.getDocumentStatus(publicKey).subscribe(
     (resp: DocSignedDTO) => {
+      // Comprobar si la respuesta es un error conocido
+      if (resp?.errorCode === 'WS_ERROR_CODE_1' && resp?.errorMessage === 'Unable to find request') {
+        this.commonService.showSnackBar('❌ Error: No se ha encontrado la solicitud de firma.');
+        return;
+      }
       // Éxito
-      this.commonService.showSnackBar('✅ Documento firmado recibido correctamente:'+ resp);
+      this.commonService.showSnackBar('✅ Documento firmado recibido correctamente: ' + (resp.errorMessage || ''));
       this.signedDocData = resp;
-      console.log ("signeddocdata status", this.signedDocData.status)
+      this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl
     },
     (error: any) => {
       // Error
@@ -260,20 +267,22 @@ checkViafirmaSign(publicKey: string) {
 
       if (error.status === 0) {
         // CORS o problema de red
-        this.commonService.showSnackBar('🌐 Error de red o CORS (status 0):'+ error.message);
+        this.commonService.showSnackBar('🌐 Error de red o CORS (status 0): ' + error.message);
       } else {
         // Error HTTP con código real
-        this.commonService.showSnackBar(`📡 Error HTTP ${error.status}:`+ error.error || error.message);
+        const mensaje = error.error?.error || error.message;
+        this.commonService.showSnackBar(`📡 Error HTTP ${error.status}: ${mensaje}`);
         this.commonService.showSnackBar(`Ha ocurrido un error al consultar el estado de la firma.\nCódigo: ${error.status}\nMensaje: ${error.message}`);
       }
     }
   );
 }
 
+
 showSignedDocument(publicKey: string) {
   this.viafirmaService.viewDocument(publicKey).subscribe(
     (resp: DocSignedDTO) => {
-      console.log ("resp", resp)
+      console.log ("publicKey", publicKey, resp)
       if (!resp || !resp.base64 || !resp.filename) {
         this.commonService.showSnackBar('⚠️ Respuesta inválida del servidor.');
         return;
@@ -305,6 +314,7 @@ showSignedDocument(publicKey: string) {
       } else {
         const errorMsg = error.error?.message || error.message || 'Error desconocido';
         this.commonService.showSnackBar(`📡 Error HTTP ${error.status}: ${errorMsg}`);
+        console.log ("error", error.status, error.message)
         this.commonService.showSnackBar(`Ha ocurrido un error al consultar documento de la firma.\nCódigo: ${error.status}\nMensaje: ${errorMsg}`);
       }
     }
@@ -320,7 +330,6 @@ calculateAidAmount() {
       });
     const rawImporte = this.form.get('importeAyuda')?.value
     const importe = Number(rawImporte) || 0
-    console.log ("this.lineaXecsConfig", this.lineaXecsConfig, (this.actualTipoTramite).trim().toLowerCase(), this.totalSolicitudesPrevias)
     if (importe === 0) {
       switch ((this.actualTipoTramite).trim().toLowerCase()) {
         case 'programa i':
@@ -363,7 +372,6 @@ calculateAidAmount() {
                     break;
                 default:
                     //this.importeAyuda = $objs->Programa_III->edicion->Segunda[0]*($objs->Programa_III->edicion->Segunda[1]/100);
-                    console.log ("---->", JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[0],JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[1])
                     this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[1]/100)
                     this.form.patchValue({ importeAyuda: this.newAidAmount })
             }
