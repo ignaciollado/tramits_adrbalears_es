@@ -41,35 +41,33 @@ export class HeaderComponent implements OnInit {
     this.translate.use ('es-ES');
   }
 
-ngOnInit(): void {
-  const entornoGuardado = sessionStorage.getItem('entorno'); // usa sessionStorage también al leer
+  ngOnInit(): void {
+  // Leer entorno desde sessionStorage
+  const entornoGuardado = sessionStorage.getItem('entorno');
   const isTramits = entornoGuardado === 'tramits';
-
   this.languageForm.patchValue({ entorno: isTramits });
-
-  // Establece el entorno en expedienteService
   this.expedienteService.setEntorno(isTramits ? 'tramits' : 'pre-tramits');
 
-  // Escucha cambios del toggle
+  // Leer idioma desde sessionStorage
+  const storedLang = sessionStorage.getItem('preferredLang') || 'es-ES';
+  this.languageForm.patchValue({ preferredLang: storedLang });
+  this.translate.use(storedLang);
+
+  // Listener de entorno
   this.languageForm.get('entorno')?.valueChanges.subscribe((value: boolean | null) => {
     const entorno = value ? 'tramits' : 'pre-tramits';
     sessionStorage.setItem('entorno', entorno);
     this.expedienteService.setEntorno(entorno);
     window.location.reload();
   });
-
-  // Idioma
-  const storedLang = sessionStorage.getItem('preferredLang') || 'es-ES';
-  this.languageForm.patchValue({ preferredLang: storedLang });
-  this.translate.use(storedLang);
-}
-
-  onLanguageChange(): void {
-    const selectedLang = this.languageForm.get('preferredLang')?.value ?? 'es-ES';
-    this.languageService.setLanguage(selectedLang);
-    this.translate.use(selectedLang);
   }
 
+  onLanguageChange(): void {
+  const selectedLang = this.languageForm.get('preferredLang')?.value ?? 'es-ES';
+  sessionStorage.setItem('preferredLang', selectedLang); // <--- Guarda la selección
+  this.languageService.setLanguage(selectedLang);
+  this.translate.use(selectedLang);
+  }
 
   logout(): void {
     this.authService.logout();

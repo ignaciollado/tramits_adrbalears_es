@@ -135,6 +135,11 @@
     }
   },
   "FILES": {
+    "VIEW": "Visualizar",
+    "DELETE": "Eliminar",
+    "APROVED": "Aprobado",
+    "PENDING": "Pendiente",
+    "REGRET": "Rechazado",
     "FILEINADR": "Este documento ya se encuentra en poder de la ADR Balears y no ha sufrido modificaciones (en este caso no hace falta aportarlo).",
     "UPLOADFILES": "Cargar documentos",
     "FILES": "Seleccione los documentos (PDF o imagen)",

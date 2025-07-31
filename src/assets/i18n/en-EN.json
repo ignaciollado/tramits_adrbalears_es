@@ -135,6 +135,11 @@
     }
   },
   "FILES": {
+    "VIEW": "View",
+    "DELETE": "Delete",
+    "APROVED": "Aproved",
+    "PENDING": "Pending",
+    "REGRET": "Regreted",
     "FILEINADR": "This document is already in the possession of the ADR Balears and has not been modified (in this case it is not necessary to provide it).",
     "UPLOADFILES": "Upload documents",
     "LOADFILESFORSENDING": "Upload the required documentation for submission. The documents you need to send are listed below.",

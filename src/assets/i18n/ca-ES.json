@@ -135,6 +135,11 @@
     }
   },
   "FILES": {
+    "VIEW": "Visualitzar",
+    "DELETE": "Eliminar",
+    "APROVED": "Aprovat",
+    "PENDING": "Pendent",
+    "REGRET": "Rebutjat",
     "FILEINADR": "Aquest document ja es troba en poder de l'ADR Balears i no ha sofert modificacions (en aquest cas no cal aportar-lo).",
     "UPLOADFILES": "Carregar documents",
     "LOADFILESFORSENDING": "Carregui la documentació requerida per a l'enviament. A continuació, s'indiquen els documents que ha de remetre.",

@@ -33,6 +33,11 @@ export class ExpedienteService {
     return this.http.get<any[]>(`${this.apiUrl}/pindustexpediente`).pipe(catchError(this.handleError));
   }
 
+  getAllLineExpedientes(line: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/pindustexpediente/line/${line}`).pipe(catchError(this.handleError));
+  }
+
+
   getOneExpediente(id: number): Observable<any> {
     return this.http.get<any[]>(`${this.apiUrl}/pindustexpediente/${id}`).pipe(catchError(this.handleError));
   }

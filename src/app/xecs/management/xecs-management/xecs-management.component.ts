@@ -47,11 +47,11 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
 
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
-  private snackBar = inject(MatSnackBar);
   private commonService = inject(CommonService)
   uniqueConvocatorias: number[] = [];
   uniqueTiposTramite: string[] = [];
   uniqueSituaciones: string[] = [];
+  expedientesFiltrados: any[] = []
 
   form!: FormGroup;
   displayedColumns: string[] = ['fecha_completado', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda', 
@@ -67,9 +67,9 @@ ngOnInit(): void {
   });
 
   // Verifica si hay filtros guardados y si los valores son válidos
-  const savedConv = localStorage.getItem('filtroConvocatoria');
-  const savedTipo = localStorage.getItem('filtroTipoTramite');
-  const savedSit = localStorage.getItem('filtroSituacion');
+  const savedConv = sessionStorage.getItem('filtroConvocatoria');
+  const savedTipo = sessionStorage.getItem('filtroTipoTramite');
+  const savedSit = sessionStorage.getItem('filtroSituacion');
 
   if (savedConv) {
     this.form.patchValue({
@@ -88,11 +88,11 @@ ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
 
     this.paginator.page.subscribe(() => {
-      localStorage.setItem('paginaExpedientes', this.paginator.pageIndex.toString());
+      sessionStorage.setItem('paginaExpedientes', this.paginator.pageIndex.toString());
     });
 
   this.sort.sortChange.subscribe(sort => {
-    localStorage.setItem('tablaOrden', JSON.stringify(sort));
+    sessionStorage.setItem('tablaOrden', JSON.stringify(sort));
   });
     
 }
@@ -100,32 +100,33 @@ ngAfterViewInit(): void {
 loadAllExpedientes(): void {
   this.loading = true;
 
-  this.expedienteService.getAllExpedientes().subscribe({
+  this.expedienteService.getAllLineExpedientes('XECS').subscribe({
     next: (res) => {
       console.log (res)
       // Excluir expedientes con tipo_tramite 'ILS' o 'ADR-ISBA', 'company', 'FELIB'
-      const expedientesFiltrados = res.filter(
+/*       const expedientesFiltrados = res.filter(
         (e: any) => e.tipo_tramite !== 'ILS' && e.tipo_tramite !== 'ADR-ISBA' && e.tipo_tramite !== 'company' && e.tipo_tramite !== 'FELIB'
-      );
+      ); */
+      this.expedientesFiltrados = res
 
-      this.actualizarTabla(expedientesFiltrados);
+      this.actualizarTabla(this.expedientesFiltrados);
 
-      const paginaGuardada = localStorage.getItem('paginaExpedientes');
+      const paginaGuardada = sessionStorage.getItem('paginaExpedientes');
       if (paginaGuardada) {
         this.paginator.pageIndex = +paginaGuardada;
       }
       this.dataSource.paginator = this.paginator;
 
       this.uniqueConvocatorias = [
-        ...new Set<number>(expedientesFiltrados.map((e: any) => Number(e.convocatoria)))
+        ...new Set<number>(this.expedientesFiltrados.map((e: any) => Number(e.convocatoria)))
       ];
 
       this.uniqueTiposTramite = [
-        ...new Set<string>(expedientesFiltrados.map((e: any) => e.tipo_tramite))
+        ...new Set<string>(this.expedientesFiltrados.map((e: any) => e.tipo_tramite))
       ];
 
       this.uniqueSituaciones = [
-        ...new Set(expedientesFiltrados.map((e: any) => e.situacion).filter(Boolean))
+        ...new Set(this.expedientesFiltrados.map((e: any) => e.situacion).filter(Boolean))
       ];
       this.commonService.showSnackBar('XECS: expedientes cargados correctamente ✅')
     },
@@ -150,53 +151,49 @@ loadExpedientes(): void {
   const { convocatoria, tipoTramite, situacion } = this.form.value;
 
   if (!convocatoria) {
-    this.commonService.showSnackBar('Selecciona una convocatoria 🧐')
+    this.commonService.showSnackBar('Selecciona una convocatoria 🧐');
     return;
   }
 
   this.loading = true;
-  localStorage.setItem('filtroConvocatoria', convocatoria.toString());
-  localStorage.setItem('filtroTipoTramite', JSON.stringify(tipoTramite));
-  localStorage.setItem('filtroSituacion', situacion || '');
 
-  this.expedienteService.getExpedientesByConvocatoria(convocatoria).subscribe({
-    next: (res) => {
-      let filtrados = res;
+  // Guardar filtros en sessionStorage
+  sessionStorage.setItem('filtroConvocatoria', convocatoria.toString());
+  sessionStorage.setItem('filtroTipoTramite', JSON.stringify(tipoTramite));
+  sessionStorage.setItem('filtroSituacion', situacion || '');
 
+  // Filtrar sobre los expedientes ya cargados
+  let filtrados = this.expedientesFiltrados.filter(
+    (e: any) => Number(e.convocatoria) === Number(convocatoria)
+  );
 
-    // Filtrar por tipo de trámite si hay selección
-    if (tipoTramite?.length) {
-      filtrados = filtrados.filter((e: any) => tipoTramite.includes(e.tipo_tramite));
-    }
+  if (tipoTramite?.length) {
+    filtrados = filtrados.filter((e: any) =>
+      tipoTramite.includes(e.tipo_tramite)
+    );
+  }
 
-    // Filtrar por situación si hay selección
-    if (situacion?.length) {
-      filtrados = filtrados.filter((e: any) => situacion.includes(e.situacion));
-    }
+  if (situacion?.length) {
+    filtrados = filtrados.filter((e: any) =>
+      situacion.includes(e.situacion)
+    );
+  }
 
-      this.paginator.pageIndex = 0;
-      localStorage.setItem('paginaExpedientes', '0');
+  this.paginator.pageIndex = 0;
+  sessionStorage.setItem('paginaExpedientes', '0');
 
-      this.actualizarTabla(filtrados);
-      this.dataSource.paginator = this.paginator;
-      this.commonService.showSnackBar('Expedientes filtrados correctamente ✅')
-    },
-    error: (err) => {
-      this.dataSource.data = [];
-      const backendMessage = err.error?.messages?.error || err.message || 'Error sin mensaje definido';
-        this.commonService.showSnackBar(`❌ Error: ${backendMessage}`)
-    },
-    complete: () => {
-      this.loading = false;
-    }
-  });
+  this.actualizarTabla(filtrados);
+  this.dataSource.paginator = this.paginator;
+  this.commonService.showSnackBar('Expedientes filtrados correctamente ✅');
+  this.loading = false;
 }
+
 
 
 private actualizarTabla(res: any[]): void {
   this.dataSource.data = res;
 
-  const ordenGuardado = localStorage.getItem('tablaOrden');
+  const ordenGuardado = sessionStorage.getItem('tablaOrden');
   if (ordenGuardado) {
     const { active, direction } = JSON.parse(ordenGuardado);
     this.sort.active = active;
@@ -220,10 +217,10 @@ aplicarFiltro(event: Event): void {
 
 limpiarFiltros(): void {
   this.form.reset();
-  localStorage.removeItem('filtroConvocatoria');
-  localStorage.removeItem('filtroTipoTramite');
+  sessionStorage.removeItem('filtroConvocatoria');
+  sessionStorage.removeItem('filtroTipoTramite');
   this.paginator.pageIndex = 0;
-  localStorage.setItem('paginaExpedientes', '0');
+  sessionStorage.setItem('paginaExpedientes', '0');
   this.loadAllExpedientes();
 }
 
