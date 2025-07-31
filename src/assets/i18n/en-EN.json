@@ -310,6 +310,9 @@
     "DOC13": "Contract or document of endorsement of the financial operation. [.pdf, .jpeg, .png]",
     "DOC14": "A Responsible Declaration, included in the standard application form, from the person who owns the company or who legally represents it, which is generated when sending this application."
   },
+  "ACTOSADMINISTRATIVOS": {
+    "TITLE": "Actos administrativos"
+  },
   "COMMON": {
     "RGPD-INFO": {
       "READ-AND-ACCEPTS": {

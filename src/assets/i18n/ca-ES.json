@@ -310,6 +310,9 @@
     "DOC13": "Contracte o document d'aval de l'operació financera. [.pdf, .jpeg, .png]",
     "DOC14": "Una Declaració responsable, inclosa en el model normalitzat de sol·licitud, de la persona titular de l'empresa o de qui la representa legalment, la qual es genera en enviar aquesta sol·licitud."
   },
+  "ACTOSADMINISTRATIVOS": {
+    "TITLE": "Acte administratius"
+  },
   "COMMON": {
     "RGPD-INFO": {
       "READ-AND-ACCEPTS": {

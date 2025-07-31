@@ -1,4 +1,4 @@
-import { Component, inject, Injectable } from '@angular/core';
+import { Component, inject, Injectable, viewChild } from '@angular/core';
 import { NativeDateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -45,7 +45,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
     CommonModule, DocumentComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
-    MatInputModule, TranslateModule, MatSelectModule,
+    MatInputModule, TranslateModule, MatSelectModule, MatExpansionModule,
     MatCardModule, MatSnackBarModule, MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule

@@ -210,10 +210,58 @@
         </mat-form-field>
         </section>
         <section>
-      <h4>Actos administrativos</h4>
-       <section *ngIf="signedDocData">{{signedDocData.status}}</section>
+      <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+     <div class="example-action-buttons">
+ <!--  <button matButton (click)="accordion().openAll()">Expand All</button>
+  <button matButton (click)="accordion().closeAll()">Collapse All</button> -->
+</div>
+<mat-accordion class="example-headers-align" multi>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Requerimiento </mat-panel-title>
+      <mat-panel-description>
+        Type your name and age
+        <mat-icon>account_circle</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>First name</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Age</mat-label>
+      <input matInput type="number" min="1" />
+    </mat-form-field>
+  </mat-expansion-panel>
+
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Resolución de desestimiento por no enmendar </mat-panel-title>
+      <mat-panel-description>
+        Inform the date you wish to travel
+        <mat-icon>date_range</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly />
+    </mat-form-field>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
       <ol>
-        <li>Requerimiento</li>
+        <li>
+          <span>Requerimiento</span>
+          <section>
+            <textarea name='' id=''></textarea>
+          </section>
+        </li>
         <li>Resolución de desestimiento por no enmendar</li>
       </ol>
        <h4>Mejoras</h4>
