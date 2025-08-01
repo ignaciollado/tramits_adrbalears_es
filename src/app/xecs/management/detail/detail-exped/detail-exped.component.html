@@ -112,15 +112,11 @@
       <mat-checkbox [checked]="form.get('copiaNIFSociedadEnIDI')?.value === 'SI'" disabled>NIF empresa</mat-checkbox>
       <mat-checkbox [checked]="form.get('pJuridicaDocAcreditativaEnIDI')?.value === 'SI'" disabled>Documento acreditativo de representación</mat-checkbox>
     </section>
-   <!--  <mat-form-field appearance="outline">
-      <mat-label>Importe ayuda</mat-label>
-      <input matInput formControlName="importeAyuda" readonly>
-    </mat-form-field> -->
+
     <mat-form-field appearance="outline">
       <mat-label>Importe ayuda (€)</mat-label>
       <input matInput formControlName="importeAyuda" [value]="form.get('importeAyuda')?.value | currency:'EUR':'symbol':'1.2-2'" readonly>
     </mat-form-field>
-
 
     <mat-form-field appearance="outline">
       <mat-label>Entidad Bancaria</mat-label>
@@ -212,9 +208,7 @@
         <section>
       <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
      <div class="example-action-buttons">
- <!--  <button matButton (click)="accordion().openAll()">Expand All</button>
-  <button matButton (click)="accordion().closeAll()">Collapse All</button> -->
-</div>
+    </div>
 <mat-accordion class="example-headers-align" multi>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
