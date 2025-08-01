@@ -361,7 +361,23 @@
   "ACTOSADMINISTRATIVOS": {
     "TITLE": "Actos administrativos",
     "REQUERIMIENTO": "Requerimiento",
-    "RESOLUCIONDESESTIMIENTOPORNOENMENDAR": "Resolución desestimento per no enmendar"
+    "RESOLUCIONDESESTIMIENTOPORNOENMENDAR": "Resolución desestimento per no enmendar",
+    "INFORMEFAVORABLE": "Informe favorable",
+    "INFORMEFAVORABLECONREQUERIMIENTO": "Informe favorable con requerimiento",
+    "INFORMEDESFAVORABLE": "Informe desfavorable",
+    "INFORMEDESFAVORABLECONREQUERIMIENTO": "Informe desfavorable con requerimiento",
+    "PROPPUESTARESOLUCIONPROVISIONALFAVORABLE": "Propuesta de resolución provisional favorable",
+    "PROPPUESTARESOLUCIONPROVISIONALFAVORABLECONREQUERIMIENTO": "Propuesta de resolución provisional favorable con requerimiento",
+    "PROPUESTARESOLUCIONPROVISIONALDESFAVORABLE" : "Propuesta de resolución provisional desfavorable",
+    "PROPUESTARESOLUCIONPROVISIONALDESFAVORABLECONREQUERIMIENTO" : "Propuesta de resolución provisional desfavorable con requerimiento",
+    "PROPUESTARESOLUCIONDEFINITIVAFAVORABLE" : "Propuesta de resolución definitiva favorable",
+    "PROPUESTARESOLUCIONDEFINITIVAFAVORABLECONREQUERIMIENTO" : "Propuesta de resolución definitiva favorable con requerimiento",
+    "PROPUESTARESOLUCIONDEFINITIVADESFAVORABLE" : "Propuesta de resolución definitiva desfavorable",
+    "PROPUESTARESOLUCIONDEFINITIVADESFAVORABLECONREQUERIMIENTO" : "Propuesta de resolución definitiva desfavorable con requerimiento",
+    "RESOLUCIONCONCESIONFAVORABLE" : "Resolución concesión favorable",
+    "RESOLUCIONCONCESIONFAVORABLECONREQUERIMIENTO" : "Resolución concesión favorable con requerimiento",
+    "RESOLUCIONDENEGACION" : "Resolución de denegación",
+    "RESOLUCIONDENEGACIONCONREQUERIMIENTO" : "Resolución de denegación con requerimiento"
   },
   "COMMON": {
     "RGPD-INFO": {

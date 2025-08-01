@@ -360,7 +360,23 @@
   "ACTOSADMINISTRATIVOS": {
     "TITLE": "Acte administratius",
     "REQUERIMIENTO": "Requeriment",
-    "RESOLUCIONDESESTIMIENTOPORNOENMENDAR": "Resolució desistiment per no esmenar"
+    "RESOLUCIONDESESTIMIENTOPORNOENMENDAR": "Resolució desistiment per no esmenar",
+    "INFORMEFAVORABLE": "Informe favorable",
+    "INFORMEFAVORABLECONREQUERIMIENTO": "Informe favorable amb requerimient",
+    "INFORMEDESFAVORABLE": "Informe desfavorable",
+    "INFORMEDESFAVORABLECONREQUERIMIENTO": "Informe desfavorable amb requerimient",
+    "PROPPUESTARESOLUCIONPROVISIONALFAVORABLE": "Proposta de resolució provisional favorable",
+    "PROPPUESTARESOLUCIONPROVISIONALFAVORABLECONREQUERIMIENTO": "Proposta de resolució provisional favorable amb requerimient",
+    "PROPUESTARESOLUCIONPROVISIONALDESFAVORABLE" : "Proposta de resolució provisional desfavorable",
+    "PROPUESTARESOLUCIONPROVISIONALDESFAVORABLECONREQUERIMIENTO" : "Proposta de resolució provisional desfavorable amb requerimient",
+    "PROPUESTARESOLUCIONDEFINITIVAFAVORABLE" : "Proposta de resolució definitiva favorable",
+    "PROPUESTARESOLUCIONDEFINITIVAFAVORABLECONREQUERIMIENTO" : "Proposta de resolució definitiva favorable amb requerimient",
+    "PROPUESTARESOLUCIONDEFINITIVADESFAVORABLE" : "Proposta de resolució definitiva desfavorable",
+    "PROPUESTARESOLUCIONDEFINITIVADESFAVORABLECONREQUERIMIENTO" : "Proposta de resolució definitiva desfavorable amb requerimient",
+    "RESOLUCIONCONCESIONFAVORABLE" : "Resolució concessió favorable",
+    "RESOLUCIONCONCESIONFAVORABLECONREQUERIMIENTO" : "Resolució concessió favorable amb requerimient",
+    "RESOLUCIONDENEGACION" : "Resolució de denegació",
+    "RESOLUCIONDENEGACIONCONREQUERIMIENTO" : "Resolució de denegació amb requerimient"
   },
   "COMMON": {
     "RGPD-INFO": {
