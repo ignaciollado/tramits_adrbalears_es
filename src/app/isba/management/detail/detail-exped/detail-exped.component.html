@@ -42,7 +42,7 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.ZIPCODE' | translate}}</mat-label>
-                        <input matInput type=text formControlName="cpostal">
+                        <input matInput type=text formControlName="cpostal" minlength="5" maxlength="5">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.CONTACTPHONE' | translate}}</mat-label>
@@ -58,7 +58,7 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.NIFREPRESENTANTE' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="nif_rep" maxlength="9">
+                        <input matInput type="text" formControlName="nif_rep" maxlength="9" minlength="9">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.PHONEREPRESENTANTE' | translate}}</mat-label>
@@ -97,19 +97,19 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.TRANSACTIONAMOUNT' | translate}}</mat-label>
-                        <input matInput type="decimal" formControlName="importe_prestamo">
+                        <input matInput type="decimal" formControlName="importe_prestamo" min="1">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.LOANTERM' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="plazo_prestamo">
+                        <input matInput type="number" formControlName="plazo_prestamo" min="1">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.AVALAMOUNT' | translate}}</mat-label>
-                        <input matInput type="decimal" formControlName="cuantia_aval_idi_isba">
+                        <input matInput type="decimal" formControlName="cuantia_aval_idi_isba" min="1">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.AVALTERM' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="plazo_aval_idi_isba">
+                        <input matInput type="number" formControlName="plazo_aval_idi_isba" min="1">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.FORMALIZATIONDATE' | translate}}</mat-label>
@@ -117,21 +117,21 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.REQUEST' | translate}}</mat-label>
-                        <input matInput type="decimal" formControlName="importe_ayuda_solicita_idi_isba">
+                        <input matInput type="decimal" formControlName="importe_ayuda_solicita_idi_isba" min="1">
                     </mat-form-field>
                     <section ngClass="budget-details">
                         <h4>{{'ISBA.BUDGETAMOUNTDETAILS' | translate}}</h4>
                         <mat-form-field appearance="outline">
                             <mat-label>{{'ISBA.INTERESTSUBSIDY' | translate}}</mat-label>
-                            <input matInput type="decimal" formControlName="intereses_ayuda_solicita_idi_isba">
+                            <input matInput type="decimal" formControlName="intereses_ayuda_solicita_idi_isba" min="1">
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>{{'ISBA.COSTSUBSIDY' | translate}}</mat-label>
-                            <input matInput type="decimal" formControlName="coste_aval_solicita_idi_isba">
+                            <input matInput type="decimal" formControlName="coste_aval_solicita_idi_isba" min="1">
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>{{'ISBA.STARTSTUDYSUBSIDY' | translate}}</mat-label>
-                            <input matInput type="decimal" formControlName="gastos_aval_solicita_idi_isba">
+                            <input matInput type="decimal" formControlName="gastos_aval_solicita_idi_isba" min="1">
                         </mat-form-field>
                     </section>
                     <mat-form-field appearance="outline">
@@ -287,7 +287,7 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REC_JUSTIFICACION' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="fecha_REC_justificacion">
+                        <input matInput type="date" formControlName="fecha_REC_justificacion">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REF_REC_JUSTIFICACION' | translate}}</mat-label>

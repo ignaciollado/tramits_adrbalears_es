@@ -59,7 +59,7 @@ export class IsbaDetailExpedComponent {
     this.form = this.fb.group({
       /* Detalle */
       id: [{ value: '', disabled: true }, []],
-      empresa: [{ value: '', disabled: true }, []],
+      empresa: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
       nif: [{ value: '', disabled: true }, []],
       fecha_solicitud: [{ value: '', disabled: true }, []],
       tipo_tramite: [{ value: '', disabled: true }, []],
@@ -67,7 +67,7 @@ export class IsbaDetailExpedComponent {
       email_rep: [{ value: '', disabled: true }, [Validators.email, this.customValidatorService.xssProtectorValidator()]],
       domicilio: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
       localidad: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
-      cpostal: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      cpostal: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator(), Validators.minLength(5), Validators.maxLength(5), Validators.pattern('^\\d+$')]],
       telefono: [{ value: '', disabled: true }, [Validators.maxLength(9), Validators.minLength(9), Validators.pattern('^\\d{1,9}$')]],
       iae: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
       nombre_rep: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
