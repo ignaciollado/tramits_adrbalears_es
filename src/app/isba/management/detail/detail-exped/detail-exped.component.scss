@@ -35,12 +35,6 @@ mat-card {
 
   mat-form-field {
     width: 100%;
-
-    input[readonly] {
-      background-color: #f3f6fa;
-      color: #555;
-      cursor: not-allowed;
-    }
   }
 }
 
