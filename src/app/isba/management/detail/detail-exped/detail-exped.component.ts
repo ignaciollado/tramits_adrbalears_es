@@ -69,7 +69,7 @@ export class IsbaDetailExpedComponent {
       localidad: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
       cpostal: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator(), Validators.minLength(5), Validators.maxLength(5), Validators.pattern('^\\d+$')]],
       telefono: [{ value: '', disabled: true }, [Validators.maxLength(9), Validators.minLength(9), Validators.pattern('^\\d{1,9}$')]],
-      iae: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      iae: [{ value: '', disabled: true }, []],
       nombre_rep: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
       nif_rep: [{ value: '', disabled: true }, [this.customValidatorService.dniNieValidator()]],
       telefono_contacto_rep: [{ value: '', disabled: true }, [Validators.maxLength(9), Validators.minLength(9), Validators.pattern('^\\d{1,9}$')]],

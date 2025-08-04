@@ -9,7 +9,7 @@
                     <h3>Total solicitudes previas: {{totalSolicitudesPrevias}}</h3>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.SOLICITOR' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="empresa" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="empresa">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label *ngIf="businessType === 'autonomo'">{{'FORM.NIF' | translate}}</mat-label>
@@ -18,7 +18,7 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REQUESTDATE' | translate}}</mat-label>
-                        <input matInput type="datetime-local" step="1" formControlName="fecha_solicitud" [readonly]="!isEditing">
+                        <input matInput type="datetime-local" step="1" formControlName="fecha_solicitud" readonly>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.PROCESSLINE' | translate}}</mat-label>
@@ -26,57 +26,57 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.NOTIFICATIONMOBILE' | translate}}</mat-label>
-                        <input matInput type="tel" formControlName="telefono_rep" [readonly]="!isEditing">
+                        <input matInput type="tel" formControlName="telefono_rep" maxlength="9" minlength="9">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.NOTIFICATIONMAIL' | translate}}</mat-label>
-                        <input matInput type="email" formControlName="email_rep" [readonly]="!isEditing">
+                        <input matInput type="email" formControlName="email_rep">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.ADDRESS' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="domicilio" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="domicilio">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.TOWN' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="localidad" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="localidad">
                     </mat-form-field>
                 </section>
                 <section>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.ZIPCODE' | translate}}</mat-label>
-                        <input matInput type=text formControlName="cpostal" [readonly]="!isEditing">
+                        <input matInput type=text formControlName="cpostal" maxlength="5" minlength="5">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.CONTACTPHONE' | translate}}</mat-label>
-                        <input matInput type="tel" formControlName="telefono" [readonly]="!isEditing">
+                        <input matInput type="tel" formControlName="telefono" maxlength="9" minlength="9">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.CNAE' | translate}}</mat-label>
-                        <input matInput formControlName="iae" [readonly]="!isEditing">
+                        <input matInput formControlName="iae">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.NOMREPRESENTANTE' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="nombre_rep" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="nombre_rep">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.NIFREPRESENTANTE' | translate}}</mat-label>
-                        <input matInput type=text formControlName="nif_rep" [readonly]="!isEditing">
+                        <input matInput type=text formControlName="nif_rep" maxlength="9" minlength="9">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.ASSIGNEDTECHNICIAN' | translate}}</mat-label>
-                        <input matInput formControlName="tecnicoAsignado" [readonly]="!isEditing">
+                        <input matInput formControlName="tecnicoAsignado">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.SITUATION' | translate}}</mat-label>
-                        <input matInput formControlName="situacion" [readonly]="!isEditing">
+                        <input matInput formControlName="situacion">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.WEBSITEDETAILS' | translate}}</mat-label>
-                        <input matInput type="url" formControlName="sitio_web_empresa" [readonly]="!isEditing">
+                        <input matInput type="url" formControlName="sitio_web_empresa">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.VIDEODETAILS' | translate}}</mat-label>
-                        <input matInput type="url" formControlName="video_empresa" [readonly]="!isEditing">
+                        <input matInput type="url" formControlName="video_empresa">
                     </mat-form-field>
                 </section>
                 <section>
@@ -111,31 +111,31 @@
                 <section>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REC' | translate}}</mat-label>
-                        <input matInput type="datetime-local" step="1" formControlName="fecha_REC" [readonly]="!isEditing">
+                        <input matInput type="datetime-local" step="1" formControlName="fecha_REC">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REF_REC' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ref_REC" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="ref_REC">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REC_ENMIENDA' | translate}}</mat-label>
-                        <input matInput type="datetime-local" step="1" formControlName="fecha_REC_enmienda" [readonly]="!isEditing">
+                        <input matInput type="datetime-local" step="1" formControlName="fecha_REC_enmienda">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REF_REC_ENMIENDA' | translate}}</mat-label>
-                        <input matInput type=text formControlName="ref_REC_enmienda" [readonly]="!isEditing">
+                        <input matInput type=text formControlName="ref_REC_enmienda">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REQUERIMIENTO' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_requerimiento" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_requerimiento">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REQUERIMIENTO_NOTIF' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_requerimiento_notif" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_requerimiento_notif">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_MAXIMA_ENMIENDA' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_maxima_enmienda" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_maxima_enmienda">
                     </mat-form-field>
                 </section>
                 <section>
@@ -160,19 +160,19 @@
                 <section>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FAVORABLE-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_infor_fav" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_infor_fav">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.UNFAVORABLE-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_infor_desf" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_infor_desf">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.RESOLUTION-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_resolucion" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_resolucion">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.RESOLUTION-NOTIFICATION' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_notificacion_resolucion" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_notificacion_resolucion">
                     </mat-form-field>
                 </section>
                 <section>
@@ -200,23 +200,23 @@
                 <section>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.ADHESION-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_adhesion_ils" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_adhesion_ils">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.TRACKING-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_seguimiento_adhesion_ils" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_seguimiento_adhesion_ils">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.PRESENTATION-DEADLINE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_limite_presentacion" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_limite_presentacion">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REC-REPORT-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_rec_informe_seguimiento" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_rec_informe_seguimiento">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REC-REPORT-REF' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ref_REC_informe_seguimiento" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="ref_REC_informe_seguimiento">
                     </mat-form-field>
                 </section>
                 <section>
@@ -240,47 +240,47 @@
                 <section>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.BRAND-RENOVATION-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_renovacion" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_renovacion">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.RENOVATION-FAVORABLE-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_infor_fav_renov" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_infor_fav_renov">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.RENOVATION-UNFAVORABLE-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_infor_desf_renov" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_infor_desf_renov">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REQUIREMENT-SIGNATURE-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_firma_req_renov" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_firma_req_renov">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REQUIREMENT-NOTIFICATION-DATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_notif_req_renov" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_notif_req_renov">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REC-ENMIENDA-DATE' | translate}}</mat-label>
-                        <input matInput type="datetime-local" formControlName="fecha_REC_enmienda_renov" [readonly]="!isEditing">
+                        <input matInput type="datetime-local" formControlName="fecha_REC_enmienda_renov">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REC-JUSTIFICATION-DATE' | translate}}</mat-label>
-                        <input matInput type="datetime-local" formControlName="fecha_REC_justificacion_renov" [readonly]="!isEditing">
+                        <input matInput type="datetime-local" formControlName="fecha_REC_justificacion_renov">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REC-JUSTIFICATION-REF' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ref_REC_justificacion_renov" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="ref_REC_justificacion_renov">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.RENOVATION-RESOLUTION' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_resolucion_renov" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_resolucion_renov">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.RENOVATION-NOTIFICATION' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_notificacion_renov" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_notificacion_renov">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REVOCATION-RESOLUTION' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_res_revocacion_marca" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_res_revocacion_marca">
                     </mat-form-field>
                 </section>
                 <section>
