@@ -9,7 +9,7 @@
                     <h3>Total solicitudes previas: {{totalSolicitudesPrevias}}</h3>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.SOLICITOR' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="empresa" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="empresa">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label *ngIf="businessType === 'autonomo'">{{'FORM.NIF' | translate}}</mat-label>
@@ -26,123 +26,125 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.NOTIFICATIONMOBILE' | translate}}</mat-label>
-                        <input matInput type="tel" formControlName="telefono_rep" [readonly]="!isEditing">
+                        <input matInput type="tel" formControlName="telefono_rep" maxlength="9" minlength="9">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.NOTIFICATIONMAIL' | translate}}</mat-label>
-                        <input matInput type="tel" formControlName="email_rep" [readonly]="!isEditing">
+                        <input matInput type="email" formControlName="email_rep">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.ADDRESS' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="domicilio" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="domicilio">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.TOWN' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="localidad" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="localidad">
                     </mat-form-field>
-                </section>
-                <section>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.ZIPCODE' | translate}}</mat-label>
-                        <input matInput type=text formControlName="cpostal" [readonly]="!isEditing">
+                        <input matInput type=text formControlName="cpostal" minlength="5" maxlength="5">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.CONTACTPHONE' | translate}}</mat-label>
-                        <input matInput type="tel" formControlName="telefono" [readonly]="!isEditing">
+                        <input matInput type="tel" formControlName="telefono" maxlength="9" minlength="9">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.CNAE' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="iae" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="iae">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.NOMREPRESENTANTE' | translate}}</mat-label>
-                        <input matInput type=text formControlName="nombre_rep" [readonly]="!isEditing">
+                        <input matInput type=text formControlName="nombre_rep">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.NIFREPRESENTANTE' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="nif_rep" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="nif_rep" maxlength="9" minlength="9">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.PHONEREPRESENTANTE' | translate}}</mat-label>
-                        <input matInput type="tel" formControlName="telefono_contacto_rep" [readonly]="!isEditing">
+                        <input matInput type="tel" formControlName="telefono_contacto_rep" maxlength="9" minlength="9">
                     </mat-form-field>
                     <section ngClass="autorizaciones">
                         <h4>Autoriza a consultar:</h4>
-                        <mat-checkbox [checked]="form.get('file_copiaNIF')?.value === 'SI'" disabled>Copia NIF</mat-checkbox>
-                        <mat-checkbox [checked]="form.get('file_certificadoATIB')?.value === 'SI'" disabled>Certificado ATIB</mat-checkbox>
-                        <mat-checkbox [checked]="form.get('file_certificadoSegSoc')?.value === 'SI'" disabled>Certificado Seguridad Social</mat-checkbox>
+                        <mat-checkbox [checked]="form.get('file_copiaNIF')?.value === 'SI'" disabled>Copia
+                            NIF</mat-checkbox>
+                        <mat-checkbox [checked]="form.get('file_certificadoATIB')?.value === 'SI'" disabled>Certificado
+                            ATIB</mat-checkbox>
+                        <mat-checkbox [checked]="form.get('file_certificadoSegSoc')?.value === 'SI'"
+                            disabled>Certificado Seguridad Social</mat-checkbox>
                     </section>
                 </section>
                 <section>
                     <mat-form-field appearance="outline" floatLabel="always">
                         <mat-label>{{'FORM.COMMENTS' | translate}}</mat-label>
-                        <textarea matInput formControlName="comments" [readonly]="!isEditing" placeholder="{{'FORM.COMMENTS-PLACEHOLDER' | translate}}"></textarea>
+                        <textarea matInput formControlName="comments"
+                            placeholder="{{'FORM.COMMENTS-PLACEHOLDER' | translate}}"></textarea>
                     </mat-form-field>
-                    <section ngClass="radio-input">
+                    <section ngClass="ils-radio-input">
                         <mat-label><strong>{{'ISBA.PROJECTINILS' | translate}}</strong></mat-label>
-                        <mat-radio-group formControlName="empresa_eco_idi_isba" [disabled]="!isEditing">
+                        <mat-radio-group formControlName="empresa_eco_idi_isba">
                             <mat-radio-button value="SI">{{'APP.YES' | translate}}</mat-radio-button>
                             <mat-radio-button value="NO">{{'APP.NO' | translate}}</mat-radio-button>
                         </mat-radio-group>
                     </section>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.PROJECTPURPOSE' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="finalidad_inversion_idi_isba" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="finalidad_inversion_idi_isba">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.ENTITYNAME' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="nom_entidad" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="nom_entidad">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.TRANSACTIONAMOUNT' | translate}}</mat-label>
-                        <input matInput type="decimal" formControlName="importe_prestamo" [readonly]="!isEditing">
+                        <input matInput type="decimal" formControlName="importe_prestamo" min="1">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.LOANTERM' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="plazo_prestamo" [readonly]="!isEditing">
+                        <input matInput type="number" formControlName="plazo_prestamo" min="1">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.AVALAMOUNT' | translate}}</mat-label>
-                        <input matInput type="decimal" formControlName="cuantia_aval_idi_isba" [readonly]="!isEditing">
+                        <input matInput type="decimal" formControlName="cuantia_aval_idi_isba" min="1">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.AVALTERM' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="plazo_aval_idi_isba" [readonly]="!isEditing">
+                        <input matInput type="number" formControlName="plazo_aval_idi_isba" min="1">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.FORMALIZATIONDATE' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_aval_idi_isba" [readonly]="!isEditing">
+                        <input matInput type="date" formControlName="fecha_aval_idi_isba">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.REQUEST' | translate}}</mat-label>
-                        <input matInput type="decimal" formControlName="importe_ayuda_solicita_idi_isba" [readonly]="!isEditing">
+                        <input matInput type="decimal" formControlName="importe_ayuda_solicita_idi_isba" min="1">
                     </mat-form-field>
-                    <section>
+                    <section ngClass="budget-details">
                         <h4>{{'ISBA.BUDGETAMOUNTDETAILS' | translate}}</h4>
                         <mat-form-field appearance="outline">
                             <mat-label>{{'ISBA.INTERESTSUBSIDY' | translate}}</mat-label>
-                            <input matInput type="decimal" formControlName="intereses_ayuda_solicita_idi_isba" [readonly]="!isEditing">
+                            <input matInput type="decimal" formControlName="intereses_ayuda_solicita_idi_isba" min="1">
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>{{'ISBA.COSTSUBSIDY' | translate}}</mat-label>
-                            <input matInput type="decimal" formControlName="coste_aval_solicita_idi_isba" [readonly]="!isEditing">
+                            <input matInput type="decimal" formControlName="coste_aval_solicita_idi_isba" min="1">
                         </mat-form-field>
                         <mat-form-field appearance="outline">
                             <mat-label>{{'ISBA.STARTSTUDYSUBSIDY' | translate}}</mat-label>
-                            <input matInput type="decimal" formControlName="gastos_aval_solicita_idi_isba" [readonly]="!isEditing">
+                            <input matInput type="decimal" formControlName="gastos_aval_solicita_idi_isba" min="1">
                         </mat-form-field>
                     </section>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.DECLARATION5NO' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ayudasSubvenSICuales_dec_resp" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="ayudasSubvenSICuales_dec_resp">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.ASSIGNEDTECHNICIAN' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="tecnicoAsignado" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="tecnicoAsignado">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.SITUATION' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="situacion" [readonly]="!isEditing">
+                        <input matInput type="text" formControlName="situacion">
                     </mat-form-field>
                 </section>
                 <section>
@@ -172,13 +174,42 @@
                 <span ngClass="exped-tab solicitud-tab">{{'APP.REQUEST' | translate}}</span>
             </ng-template>
             <mat-card ngClass="mat-card-solicitud">
-                <section></section>
+                <section>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_REC' | translate}}</mat-label>
+                        <input matInput type="datetime-local" step="1" formControlName="fecha_REC">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.REF_REC' | translate}}</mat-label>
+                        <input matInput type="text" formControlName="ref_REC">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_REC_ENMIENDA' | translate}}</mat-label>
+                        <input matInput type="datetime-local" step="1" formControlName="fecha_REC_enmienda">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.REF_REC_ENMIENDA' | translate}}</mat-label>
+                        <input matInput type="text" formControlName="ref_REC_enmienda">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_REQUERIMIENTO' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_requerimiento">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_REQUERIMIENTO_NOTIF' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_requerimiento_notif">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_MAXIMA_ENMIENDA_ISBA' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_maxima_enmienda">
+                    </mat-form-field>
+                </section>
                 <section>
                     <h4>Actos administrativos</h4>
                     <section *ngIf="signedDocData">{{signedDocData.status}}</section>
                     <ol>
                         <li>Requerimiento</li>
-                        <li>Resolución desetimiento por no enmendar</li>
+                        <li>Resolución desestimiento por no enmendar</li>
                     </ol>
                     <h4>Mejoras</h4>
                     <table></table>
@@ -194,7 +225,32 @@
                 <span ngClass="exped-tab validacion-tab">{{'APP.VALIDATION' | translate}}</span>
             </ng-template>
             <mat-card ngClass="mat-card-validacion">
-                <section></section>
+                <section>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_INFOR_FAV_DESF' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_infor_fav_desf">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_FIRMA_PROPUESTA_RESOLUCION_PROV' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_firma_propuesta_resolucion_prov">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_NOT_PROPUESTA_RESOLUCION_PROV' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_not_propuesta_resolucion_prov">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_FIRMA_PROPUESTA_RESOLUCION_DEF' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_firma_propuesta_resolucion_def">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_NOT_PROPUESTA_RESOLUCION_DEF' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_not_propuesta_resolucion_def">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_FIRMA_RES' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_firma_res">
+                    </mat-form-field>
+                </section>
                 <section>
                     <h4>Actos administrativos</h4>
                     <ol start="3">
@@ -210,7 +266,8 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Validacion'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"
+                        [faseExped]="'Validacion'"></app-document>
                 </section>
             </mat-card>
         </mat-tab>
@@ -219,7 +276,56 @@
                 <span ngClass="exped-tab justificacion-tab">{{'APP.JUSTIFICATION' | translate}}</span>
             </ng-template>
             <mat-card ngClass="mat-card-justificacion">
-                <section></section>
+                <section>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_NOTIFICACION_RESOLUCION' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_notificacion_resolucion">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_LIMITE_JUSTIFICACION' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_limite_justificacion">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_REC_JUSTIFICACION' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_REC_justificacion">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.REF_REC_JUSTIFICACION' | translate}}</mat-label>
+                        <input matInput type="text" formControlName="ref_REC_justificacion">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_FIRMA_RES_PAGO_JUST' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_firma_res_pago_just">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_NOT_RES_PAGO' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_not_res_pago">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_INF_INICIO_REQ_JUSTIF' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_inf_inicio_req_justif">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_INF_POST_ENMIENDA_JUSTIF' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_inf_post_enmienda_justif">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_FIRMA_REQUERIMIENTO_JUSTIFICACION' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_firma_requerimiento_justificacion">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_NOT_REQ_JUST' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_not_req_just">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_REC_REQUERIMIENTO_JUSTIFICACION' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_REC_requerimiento_justificacion">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.REF_REC_REQUERIMIENTO_JUSTIFICACION' | translate}}</mat-label>
+                        <input matInput type="text" formControlName="ref_REC_requerimiento_justificacion">
+                    </mat-form-field>
+                </section>
                 <section>
                     <h4>Actos administrativos</h4>
                     <ol start="11">
@@ -228,7 +334,8 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Justificacion'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"
+                        [faseExped]="'Justificacion'"></app-document>
                 </section>
             </mat-card>
         </mat-tab>
@@ -238,38 +345,38 @@
             </ng-template>
             <mat-card ngClass="mat-card-desestimiento">
                 <section>
-                    <!-- <mat-form-field appearance="outline">
-                        <mat-label>{{'' | translate}}</mat-label>
-                        <input matInput type="" formControlName="" [readonly]="!isEditing">
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'FORM.FECHA_REC_DESESTIMIENTO' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_REC_desestimiento">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'' | translate}}</mat-label>
-                        <input matInput type="" formControlName="" [readonly]="!isEditing">
+                        <mat-label>{{'FORM.REF_REC_DESESTIMIENTO' | translate}}</mat-label>
+                        <input matInput type="text" formControlName="ref_REC_desestimiento">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'' | translate}}</mat-label>
-                        <input matInput type="" formControlName="" [readonly]="!isEditing">
+                        <mat-label>{{'FORM.FECHA_FIRMA_RESOLUCION_DESESTIMIENTO' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_firma_resolucion_desestimiento">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'' | translate}}</mat-label>
-                        <input matInput type="" formControlName="" [readonly]="!isEditing">
+                        <mat-label>{{'FORM.FECHA_NOTIFICACION_DESESTIMIENTO' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_notificacion_desestimiento">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'' | translate}}</mat-label>
-                        <input matInput type="" formControlName="" [readonly]="!isEditing">
+                        <mat-label>{{'FORM.FECHA_PROPUESTA_REV' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_propuesta_rev">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'' | translate}}</mat-label>
-                        <input matInput type="" formControlName="" [readonly]="!isEditing">
+                        <mat-label>{{'FORM.FECHA_NOT_PR_REVOCACION' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_not_pr_revocacion">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'' | translate}}</mat-label>
-                        <input matInput type="" formControlName="" [readonly]="!isEditing">
+                        <mat-label>{{'FORM.FECHA_RESOLUCION_REV' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_resolucion_rev">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'' | translate}}</mat-label>
-                        <input matInput type="" formControlName="" [readonly]="!isEditing">
-                    </mat-form-field> -->
+                        <mat-label>{{'FORM.FECHA_NOT_R_REVOCACION' | translate}}</mat-label>
+                        <input matInput type="date" formControlName="fecha_not_r_revocacion">
+                    </mat-form-field>
                 </section>
                 <section>
                     <h4>Actos administrativos</h4>
@@ -281,13 +388,15 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
-                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Desestimiento'"></app-document>
+                    <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"
+                        [faseExped]="'Desestimiento'"></app-document>
                 </section>
             </mat-card>
         </mat-tab>
     </mat-tab-group>
     <section>
         <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
-        <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid || !isEditing">Guardar</button>
+        <button mat-raised-button color="accent" (click)="saveExpediente()"
+            [disabled]="!form.valid || !isEditing">Guardar</button>
     </section>
 </form>

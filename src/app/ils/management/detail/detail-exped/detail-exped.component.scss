@@ -36,12 +36,6 @@ mat-card {
 
   mat-form-field {
     width: 100%;
-
-    input[readonly] {
-      background-color: #f3f6fa;
-      color: #555;
-      cursor: not-allowed;
-    }
   }
 }
 
@@ -56,17 +50,17 @@ mat-card {
 }
 
 .solicitud-tab {
-    background-color: #080081
+  background-color: #080081;
 }
 
 .adhesion-tab {
-    background-color: #1ecbe1;
+  background-color: #1ecbe1;
 }
 
 .seguimiento-tab {
-    background-color: #f37020;
+  background-color: #f37020;
 }
 
 .renovacion-tab {
-    background-color: #d9e90d;
+  background-color: #d9e90d;
 }

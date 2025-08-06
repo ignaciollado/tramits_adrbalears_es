@@ -1,0 +1,81 @@
+:host {
+  display: block;
+  background-color: #f9f9fb;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  color: #333;
+}
+
+mat-card {
+  max-width: 100%;
+  margin: auto;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+
+  h2 {
+    margin-bottom: 2rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+  }
+}
+
+mat-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.detalle-formulario {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.autorizaciones,
+.budget-details {
+  border: 1px solid #0098cb;
+  border-radius: 5px;
+  background-color: #f8f4e9;
+  display: grid;
+  grid-template-rows: 1fr;
+  margin-bottom: 1rem;
+}
+
+.ils-radio-input {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding-bottom: 1.05rem;
+}
+
+.exped-tab {
+  color: #fff;
+  padding: 0.5rem 2rem;
+  border-radius: 4px;
+}
+
+.general-tab {
+  background-color: #cccccc;
+}
+
+.solicitud-tab {
+  background-color: #080081;
+}
+
+.validacion-tab {
+  background-color: #1ecbe1;
+}
+
+.justificacion-tab {
+  background-color: #f37020;
+}
+
+.desestimiento-tab {
+  background-color: #d9e90d;
+}

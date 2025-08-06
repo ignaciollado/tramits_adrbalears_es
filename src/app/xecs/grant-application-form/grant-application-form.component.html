@@ -81,19 +81,19 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <mat-radio-group aria-label="Select an option" formControlName="tipo_solicitante">
-        <mat-radio-button value="autonomo">Autónomo</mat-radio-button>
-        <mat-radio-button value="pequenya">Pequeña empresa</mat-radio-button>
-        <mat-radio-button value="mediana">Mediana empresa</mat-radio-button>
+        <mat-radio-button value="autonomo">{{'FORM.SELFEMPLOYEDBUSINESS' | translate}}</mat-radio-button>
+        <mat-radio-button value="pequenya">{{'FORM.SMALLBUSINESSNAME' | translate}}</mat-radio-button>
+        <mat-radio-button value="mediana">{{'FORM.MEDIUMBUSINESSNAME' | translate}}</mat-radio-button>
       </mat-radio-group>
       <section>
         <ul>
           <li>
-            <strong>{{ 'ILS.BUSINESS-TYPE.SMALL.NAME' | translate}}:</strong>
-            {{ 'ILS.BUSINESS-TYPE.SMALL.INFO' | translate}}
+            <strong>{{'FORM.SMALLBUSINESSNAME' | translate}}:</strong>
+            {{'FORM.SMALLBUSINESSINFO' | translate}}
           </li>
           <li>
-              <strong>{{ 'ILS.BUSINESS-TYPE.MEDIUM.NAME' | translate}}:</strong>
-            {{ 'ILS.BUSINESS-TYPE.MEDIUM.INFO' | translate}}
+              <strong>{{'FORM.MEDIUMBUSINESSNAME' | translate}}:</strong>
+            {{ 'FORM.MEDIUMBUSINESSINFO' | translate}}
           </li>
         </ul>
       </section>

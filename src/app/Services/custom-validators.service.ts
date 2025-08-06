@@ -187,7 +187,7 @@ export class CustomValidatorsService {
 
   xssProtectorValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      const value: string = control.value.toString().trim().toLowerCase()
+      const value: string = control.value?.toString().trim().toLowerCase()
       return this.patronesProhibidos.some(p => p.test(value)) ? { unsafeContent: true } : null
     }
   }
