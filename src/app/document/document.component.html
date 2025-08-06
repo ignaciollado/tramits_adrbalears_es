@@ -4,7 +4,7 @@
       <button *ngIf="showConfirmation" (click)="uploadDocuments()" mat-raised-button color="primary">{{'upload' | translate}}</button>
     </section>
 
-    <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+    <mat-progress-bar mode="determinate" [value]="progress" *ngIf="isLoading"></mat-progress-bar>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
     <mat-table [dataSource]="selectedFiles" ngClass="mat-elevation-z8 tablecontainer">
       <ng-container matColumnDef="name">
