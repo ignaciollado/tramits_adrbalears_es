@@ -51,8 +51,8 @@ export class DocumentComponent implements OnInit {
   isLoading: boolean = false
   documents: any[] = []
   selectedFiles: File[] = []
-  foldername: string | undefined
-  subfolderId: number | undefined
+  folderName: string | undefined
+  subfolderName: string | undefined
   message: string = ''
   progress: number = 0
   pdfUrl: SafeResourceUrl | null = null
@@ -66,10 +66,12 @@ export class DocumentComponent implements OnInit {
   @Input() requiredDocs!: string
   @Input() convocatoria!: number
   @Input() faseExped!: string
+  @Input() nif!: string
+  @Input() timeStamp!: string
+
 
   constructor( private sanitizer: DomSanitizer,  private http: HttpClient,
     private documentService: DocumentService,
-    private dialog: MatDialog, private cdr: ChangeDetectorRef,
     private commonService: CommonService, private expedienteDocumentoService: ExpedienteDocumentoService
   ) {  }
 
@@ -77,15 +79,12 @@ export class DocumentComponent implements OnInit {
     setTimeout(() => {
       this.listDocuments(this.idSol, this.requiredDocs, this.faseExped);
     });
+    console.log ("id-idSol-origin-requireddocs...", this.id, this.idSol, this.origin, this.requiredDocs, this.convocatoria, this.faseExped)
   } 
 
   onFileSelected(event: any): void {
     this.selectedFiles = Array.from(event.target.files);
     this.showConfirmation = true;
-  }
-
-  confirmUpload() {
-    this.uploadDocuments();
   }
 
   listDocuments(idSol: number, isRequiredDoc?: string, faseExped?: string): void {
@@ -126,8 +125,11 @@ export class DocumentComponent implements OnInit {
   );
   }
 
-  uploadDocuments() {
-    if (!this.foldername || this.subfolderId === undefined) {
+  uploadDocuments(isRequired: string) {
+    this.folderName = this.nif
+    this.subfolderName = this.commonService.generateCustomTimestamp();
+
+    if (!this.folderName || this.subfolderName === undefined) {
       this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
@@ -137,9 +139,13 @@ export class DocumentComponent implements OnInit {
 
     if (this.selectedFiles.length > 0) {
       const formData = new FormData();
-      this.selectedFiles.forEach(file => formData.append('documents[]', file, file.name));
+      this.selectedFiles.forEach(file => formData.append('files[]', file, file.name));
+      // Añado atributos adicionales para, en el backend, hacer un INSERT en la tabla pindust_documents
+      formData.append('isRequired', isRequired);
+      formData.append('folderName', this.folderName);
+      formData.append('subfolderName', this.subfolderName);
 
-      this.documentService.createDocument(this.origin, this.id, formData).subscribe(
+      this.documentService.createDocument(this.folderName, this.subfolderName, formData, this.idSol, isRequired).subscribe(
         (event) => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progress = Math.round(100 * event.loaded / (event.total ?? 1));
@@ -159,7 +165,7 @@ export class DocumentComponent implements OnInit {
     }
   }
 
- viewDocument(nif: string, folder: string, filename: string, extension: string) {
+  viewDocument(nif: string, folder: string, filename: string, extension: string) {
     const entorno = sessionStorage.getItem("entorno")
     let url = ""
     if (entorno === 'tramits') {

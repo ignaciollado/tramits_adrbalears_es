@@ -46,8 +46,8 @@ export class DocumentService {
   }
 
   // Servidor
-  createDocument(nif:string, timestamp: string, formData: FormData): Observable<HttpEvent<any>> {
-    return this.http.post<any>(`${this.apiUrl}/document/upload/${nif}/${timestamp}`, formData, {
+  createDocument(nif:string, timestamp: string, formData: FormData, idSol?: number, isRequired?: string): Observable<HttpEvent<any>> {
+    return this.http.post<any>(`${this.apiUrl}/document/upload/${nif}/${timestamp}/${idSol}/${isRequired}`, formData, {
       reportProgress: true, observe: 'events'})
       .pipe(catchError(this.handleError));
   }

@@ -1,7 +1,7 @@
 <section ngClass="uploaddocumentarea">{{faseExped}}
     <section>
       <input type="file" (change)="onFileSelected($event)">
-      <button *ngIf="showConfirmation" (click)="uploadDocuments()" mat-raised-button color="primary">{{'upload' | translate}}</button>
+      <button *ngIf="showConfirmation" (click)="uploadDocuments('SI')" mat-raised-button color="warn">{{'upload' | translate}}</button>
     </section>
 
     <mat-progress-bar mode="determinate" [value]="progress" *ngIf="isLoading"></mat-progress-bar>

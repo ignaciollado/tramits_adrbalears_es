@@ -70,8 +70,8 @@ export class GrantApplicationFormComponent {
     private expedienteService: ExpedienteService,
     private documentosExpedienteService: ExpedienteDocumentoService,
     private documentService: DocumentService,
-    private nifValidator: NifValidatorService, 
-    private snackBar: MatSnackBar ) {
+    private nifValidator: NifValidatorService
+   ) {
 
   this.xecsForm = this.fb.group ({
     id_sol: this.fb.control(0),
@@ -198,9 +198,9 @@ ngOnInit(): void {
   })
 
   ccControl?.valueChanges.subscribe((valor) => {
-  if (opcionBancoControl?.value === '1' && valor !== valor?.toUpperCase()) {
+    if (opcionBancoControl?.value === '1' && valor !== valor?.toUpperCase()) {
       ccControl.setValue(valor.toUpperCase(), { emitEvent: false });
-  }
+    }
   });
 
   codigo_BIC_SWIFTControl?.valueChanges.subscribe((valor) => {
