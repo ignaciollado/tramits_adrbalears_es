@@ -127,26 +127,34 @@
       <mat-label>IBAN</mat-label>
       <input matInput formControlName="cc_datos_bancarios" readonly minlength="25" maxlength="25">
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Enviado a pago</mat-label>
-      <input matInput formControlName="ordenDePago" readonly>
-    </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Fecha de envío a administración</mat-label>
       <input matInput [matDatepicker]="pickerEnvio" formControlName="fechaEnvioAdministracion" readonly>
       <mat-datepicker-toggle matSuffix [for]="pickerEnvio"></mat-datepicker-toggle>
-      <mat-datepicker #pickerEnvio></mat-datepicker>
+        <mat-icon matSuffix *ngIf="form.get('fechaEnvioAdministracion')?.value"
+            (click)="form.get('fechaEnvioAdministracion')?.setValue(null)"
+            style="cursor: pointer;">close</mat-icon>
+          <mat-datepicker #pickerEnvio></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Fecha de pago</mat-label>
-      <input matInput [matDatepicker]="pickerPago" formControlName="fecha_de_pago" readonly>
+      <input matInput [matDatepicker]="pickerPago" formControlName="fecha_de_pago">
       <mat-datepicker-toggle matSuffix [for]="pickerPago"></mat-datepicker-toggle>
+      <mat-icon matSuffix *ngIf="form.get('fecha_de_pago')?.value"
+            (click)="form.get('fecha_de_pago')?.setValue(null)"
+            style="cursor: pointer;">
+            close
+      </mat-icon>
       <mat-datepicker #pickerPago></mat-datepicker>
     </mat-form-field>
-    </section>
 
+    <mat-form-field appearance="outline">
+      <mat-label>Enviado a pago</mat-label>
+      <input matInput formControlName="ordenDePago" readonly>
+    </mat-form-field>
+    </section>
     <section> 
       <h4>Documentación requerida de la solicitud</h4>
       <app-document [idSol]="idExpediente" [requiredDocs]="'SI'" [nif]="actualNif" [timeStamp]="actualTimeStamp"></app-document>
@@ -183,6 +191,9 @@
         <mat-form-field appearance="outline">
         <mat-label>{{'FORM.FECHA_REC' | translate}}</mat-label>
         <input matInput formControlName="fecha_REC" readonly>
+              <mat-icon matSuffix *ngIf="form.get('fecha_REC')?.value"
+            (click)="form.get('fecha_REC')?.setValue(null)"
+            style="cursor: pointer;">close</mat-icon>
         </mat-form-field>
         <mat-form-field appearance="outline">
         <mat-label>{{'FORM.REF_REC' | translate}}</mat-label>
@@ -197,23 +208,37 @@
         <input matInput formControlName="ref_REC_enmienda" readonly>
         </mat-form-field>
         <mat-form-field appearance="outline">
-        <mat-label>{{"FROM.FECHA_REQUERIMIENTO" | translate}}</mat-label>
-        <input matInput formControlName="fecha_requerimiento" readonly>
+          <mat-label>{{"FROM.FECHA_REQUERIMIENTO" | translate}}</mat-label>
+          <input matInput [matDatepicker]="pickerFechaRequerimiento" formControlName="fecha_requerimiento" readonly>
+          <mat-datepicker-toggle matSuffix [for]="pickerFechaRequerimiento"></mat-datepicker-toggle>
+          <mat-icon matSuffix *ngIf="form.get('fecha_requerimiento')?.value"
+              (click)="form.get('fecha_requerimiento')?.setValue(null)"
+              style="cursor: pointer;">
+              close
+          </mat-icon>
+          <mat-datepicker #pickerFechaRequerimiento></mat-datepicker>
         </mat-form-field>
         <mat-form-field appearance="outline">
-        <mat-label>{{"FROM.FECHA_REQUERIMIENTO_NOTIF" | translate}}</mat-label>
-        <input matInput formControlName="fecha_requerimiento_notif" readonly>
+          <mat-label>{{"FROM.FECHA_REQUERIMIENTO_NOTIF" | translate}}</mat-label>
+          <input matInput [matDatepicker]="pickerFechaRequerimientoNotif" formControlName="fecha_requerimiento_notif" readonly>
+          <mat-datepicker-toggle matSuffix [for]="pickerFechaRequerimientoNotif"></mat-datepicker-toggle>
+          <mat-icon matSuffix *ngIf="form.get('fecha_requerimiento_notif')?.value"
+              (click)="form.get('fecha_requerimiento_notif')?.setValue(null)"
+              style="cursor: pointer;">
+              close
+          </mat-icon>
+          <mat-datepicker #pickerFechaRequerimientoNotif></mat-datepicker>        
         </mat-form-field>
         </section>
         <section>
       <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
      <div class="example-action-buttons">
     </div>
-<mat-accordion class="example-headers-align" multi>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}} </mat-panel-title>
-    </mat-expansion-panel-header>
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}} </mat-panel-title>
+        </mat-expansion-panel-header>
 
    <mat-form-field appearance="outline">
       <mat-label>Motivo del requerimiento</mat-label>

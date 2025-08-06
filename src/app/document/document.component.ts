@@ -144,6 +144,8 @@ export class DocumentComponent implements OnInit {
       formData.append('isRequired', isRequired);
       formData.append('folderName', this.folderName);
       formData.append('subfolderName', this.subfolderName);
+      formData.append('idSol', String(this.idSol));
+      formData.append('convocatoria', String(this.convocatoria));
 
       this.documentService.createDocument(this.folderName, this.subfolderName, formData, this.idSol, isRequired).subscribe(
         (event) => {
