@@ -1,4 +1,4 @@
-import { Component, inject, Injectable, viewChild } from '@angular/core';
+import { Component, inject, Injectable } from '@angular/core';
 import { NativeDateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -18,6 +18,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentComponent } from '../../../../document/document.component';
+import { AddDocumentComponent } from '../../../../add-document/add-document.component';
 import { PindustLineaAyudaService } from '../../../../Services/linea-ayuda.service';
 import { CommonService } from '../../../../Services/common.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
@@ -26,6 +27,7 @@ import { PindustLineaAyudaDTO } from '../../../../Models/linea-ayuda-dto';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
@@ -33,6 +35,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
     return 1; // 0 = domingo, 1 = lunes
   }
 }
+
 @Component({
   selector: 'app-detalle-expediente',
   standalone: true,
@@ -42,13 +45,13 @@ export class CustomDateAdapter extends NativeDateAdapter {
   styleUrl: './detail-exped.component.scss',
 
   imports: [
-    CommonModule, DocumentComponent,
+    CommonModule, DocumentComponent, AddDocumentComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule, MatSelectModule, MatExpansionModule,
     MatCardModule, MatSnackBarModule, MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule, MatListModule
   ]
 })
 
@@ -75,15 +78,17 @@ export class XecsDetailExpedComponent {
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
   newAidAmount: number = 0
 
+
+
 constructor( private commonService: CommonService, private adapter: DateAdapter<any>,
     private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService ) {
       this.adapter.setLocale('es')
 }
 
 ngOnInit(): void {
-    this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
+  this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
 
-    this.form = this.fb.group({
+  this.form = this.fb.group({
     /* detalle */
     id: [{ value: '', disabled: true }],
     empresa: [{ value: '', disabled: true }],
@@ -167,9 +172,7 @@ ngOnInit(): void {
   });
   this.getExpedDetail(this.idExpediente)
 
-
-
-  // Observa cambios en el campo 'fecha_de_pago'
+  // Observo los cambios en 'fecha_de_pago'
   this.form.get('fecha_de_pago')?.valueChanges.subscribe(value => {
     const ordenDePagoControl = this.form.get('ordenDePago');
     if (value) {
@@ -177,9 +180,7 @@ ngOnInit(): void {
     } else {
       ordenDePagoControl?.setValue('NO');
     }
-    /* this.saveExpediente() */
   });
-
 }
 
 getExpedDetail(id: number) {
@@ -215,7 +216,7 @@ enableEdit(): void {
     const control = this.form.get(controlName);
 
     // Solo deshabilitamos 'nif' y 'tipo_tramite'
-    if (controlName !== 'nif' && controlName !== 'tipo_tramite' && controlName !== 'importeAyuda' && controlName !== 'ordenDePago') {
+    if (controlName !== 'nif' && controlName !== 'tipo_tramite' && controlName !== 'importeAyuda'  && controlName !== 'ordenDePago'  && controlName !== 'fechaEnvioAdministracion' && controlName !== 'fecha_de_pago') {
       control?.enable();
 
       // Eliminar completamente el atributo readonly si existe

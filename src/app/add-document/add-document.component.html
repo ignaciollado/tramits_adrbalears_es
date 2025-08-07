@@ -1,0 +1,21 @@
+<mat-accordion>
+  <mat-expansion-panel hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title> Añadir documentos </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form [formGroup]="form">
+      <mat-selection-list [formControl]="documentTypeControl" [multiple]="false">
+        @for (documentType of documentTypes; track documentType) {
+          <mat-list-option [value]="documentType.value">
+            {{ documentType.name }}
+          </mat-list-option>
+        }
+      </mat-selection-list>
+
+      <p>
+        Tipo de documento seleccionado: {{ documentTypeControl?.value || 'Ninguno' }}
+      </p>
+    </form>
+  </mat-expansion-panel>
+</mat-accordion>

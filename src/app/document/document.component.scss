@@ -4,22 +4,27 @@
 .uploaddocumentarea {
   margin-bottom: .5rem;
 }
+
 .tablecontainer {
   border: 1px solid adr-colors.$primary-adr;
+  border-radius: 5px;
 }
 
 a {
   color: adr-colors.$primary-adr;
   text-decoration: underline;
 }
+
 a:hover {
   font-weight: bold;
 }
+
 .mat-mdc-row .mat-mdc-cell {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
   cursor: pointer;
 }
+
 .mat-mdc-row:hover .mat-mdc-cell {
   border-color: currentColor;
 }

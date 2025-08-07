@@ -68,6 +68,7 @@ export class DocumentComponent implements OnInit {
   @Input() faseExped!: string
   @Input() nif!: string
   @Input() timeStamp!: string
+  @Input() documentType!: string
 
 
   constructor( private sanitizer: DomSanitizer,  private http: HttpClient,
@@ -127,9 +128,9 @@ export class DocumentComponent implements OnInit {
 
   uploadDocuments(isRequired: string) {
     this.folderName = this.nif
-    this.subfolderName = this.commonService.generateCustomTimestamp();
+    this.timeStamp = this.commonService.generateCustomTimestamp();
 
-    if (!this.folderName || this.subfolderName === undefined) {
+    if (!this.folderName || this.timeStamp === undefined) {
       this.commonService.showSnackBar("Faltan datos para cargar los documentos.");
       return;
     }
@@ -143,15 +144,24 @@ export class DocumentComponent implements OnInit {
       // Añado atributos adicionales para, en el backend, hacer un INSERT en la tabla pindust_documents
       formData.append('isRequired', isRequired);
       formData.append('folderName', this.folderName);
-      formData.append('subfolderName', this.subfolderName);
+      formData.append('subfolderName', this.timeStamp);
       formData.append('idSol', String(this.idSol));
       formData.append('convocatoria', String(this.convocatoria));
 
-      this.documentService.createDocument(this.folderName, this.subfolderName, formData, this.idSol, isRequired).subscribe(
+      this.documentService.createDocument(this.folderName, this.timeStamp, formData, this.idSol, isRequired).subscribe(
         (event) => {
           if (event.type === HttpEventType.UploadProgress) {
             this.progress = Math.round(100 * event.loaded / (event.total ?? 1));
           } else if (event.type === HttpEventType.Response) {
+            //insert into pindust_documentos
+            const data = {
+              id_sol: this.idSol,
+              nif: this.nif,
+              convocatoria: String(this.convocatoria),
+              tipo_tramite: "xxx",
+              selloDeTiempo: this.timeStamp
+            }
+            this.expedienteDocumentoService.createDocumentoExpediente(this.selectedFiles, data, this.selectedFiles[0].type).subscribe( )
             this.isLoading = false;
             this.commonService.showSnackBar('Documents uploaded successfully!');
             this.listDocuments(+this.idSol, this.requiredDocs);

@@ -34,6 +34,9 @@ export class ExpedienteDocumentoService {
       docRequerido: "SI",
     };
 
+/*     console.log (payload)
+    return throwError(() => new Error('Not implemented')); */
+
     return this.http.post<any>(`${this.urlAPITramits}/pindustdocument/create`, payload)
       .pipe(catchError(this.handleError));
   }
