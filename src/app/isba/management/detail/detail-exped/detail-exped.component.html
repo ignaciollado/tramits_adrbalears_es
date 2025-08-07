@@ -6,7 +6,6 @@
             </ng-template>
             <mat-card ngClass="mat-card-general">
                 <section>
-                    <h3>Total solicitudes previas: {{totalSolicitudesPrevias}}</h3>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.SOLICITOR' | translate}}</mat-label>
                         <input matInput type="text" formControlName="empresa">
@@ -149,6 +148,7 @@
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUIREDDOCUMENTATIONDETAILS' | translate"></h4>
+                    <app-add-document></app-add-document>
                     <app-document [idSol]="idExpediente" [requiredDocs]="'SI'"></app-document>
                     <section *ngIf="signedDocData">
                         <div *ngIf="signedDocData.status === 'COMPLETED'">

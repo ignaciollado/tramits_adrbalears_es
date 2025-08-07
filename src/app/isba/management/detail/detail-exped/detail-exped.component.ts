@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { DocumentComponent } from '../../../../document/document.component';
+import { AddDocumentComponent } from '../../../../add-document/add-document.component';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -23,7 +24,7 @@ import { CustomValidatorsService } from '../../../../Services/custom-validators.
   selector: 'app-detail-exped',
   standalone: true,
   imports: [
-    CommonModule, DocumentComponent,
+    CommonModule, DocumentComponent, AddDocumentComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule,
