@@ -130,22 +130,12 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Fecha de envío a administración</mat-label>
-      <input matInput [matDatepicker]="pickerEnvio" formControlName="fechaEnvioAdministracion" readonly>
-      <mat-datepicker-toggle matSuffix [for]="pickerEnvio"></mat-datepicker-toggle>
-        <mat-icon matSuffix *ngIf="form.get('fechaEnvioAdministracion')?.value"
-            (click)="form.get('fechaEnvioAdministracion')?.setValue(null)"
-            style="cursor: pointer;">close</mat-icon>
-          <mat-datepicker #pickerEnvio></mat-datepicker>
+      <input matInput type="date" formControlName="fechaEnvioAdministracion" readonly>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Fecha de pago</mat-label>
-      <input matInput [matDatepicker]="pickerPago" formControlName="fecha_de_pago" readonly>
-      <mat-datepicker-toggle matSuffix [for]="pickerPago"></mat-datepicker-toggle>
-      <mat-icon matSuffix *ngIf="form.get('fecha_de_pago')?.value"
-            (click)="form.get('fecha_de_pago')?.setValue(null)"
-            style="cursor: pointer;">close</mat-icon>
-      <mat-datepicker #pickerPago></mat-datepicker>
+      <input matInput type="date" formControlName="fecha_de_pago" readonly>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -189,7 +179,7 @@
         <section>
         <mat-form-field appearance="outline">
         <mat-label>{{'FORM.FECHA_REC' | translate}}</mat-label>
-        <input matInput formControlName="fecha_REC" readonly>
+        <input matInput formControlName="fecha_REC" type="datetime-local" step="1" readonly>
               <mat-icon matSuffix *ngIf="form.get('fecha_REC')?.value"
             (click)="form.get('fecha_REC')?.setValue(null)"
             style="cursor: pointer;">close</mat-icon>
@@ -200,33 +190,19 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
         <mat-label>{{'FORM.FECHA_REC_ENMIENDA' | translate}}</mat-label>
-        <input matInput formControlName="fecha_REC_enmienda" readonly>
+        <input matInput formControlName="fecha_REC_enmienda" type="datetime-local" step="1" readonly>
         </mat-form-field>
         <mat-form-field appearance="outline">
         <mat-label>{{'FORM.REF_REC_ENMIENDA' | translate}}</mat-label>
         <input matInput formControlName="ref_REC_enmienda" readonly>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>{{"FROM.FECHA_REQUERIMIENTO" | translate}}</mat-label>
-          <input matInput [matDatepicker]="pickerFechaRequerimiento" formControlName="fecha_requerimiento" readonly>
-          <mat-datepicker-toggle matSuffix [for]="pickerFechaRequerimiento"></mat-datepicker-toggle>
-          <mat-icon matSuffix *ngIf="form.get('fecha_requerimiento')?.value"
-              (click)="form.get('fecha_requerimiento')?.setValue(null)"
-              style="cursor: pointer;">
-              close
-          </mat-icon>
-          <mat-datepicker #pickerFechaRequerimiento></mat-datepicker>
+          <mat-label>{{"FORM.FECHA_REQUERIMIENTO" | translate}}</mat-label>
+          <input matInput type="date" formControlName="fecha_requerimiento" readonly>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>{{"FROM.FECHA_REQUERIMIENTO_NOTIF" | translate}}</mat-label>
-          <input matInput [matDatepicker]="pickerFechaRequerimientoNotif" formControlName="fecha_requerimiento_notif" readonly>
-          <mat-datepicker-toggle matSuffix [for]="pickerFechaRequerimientoNotif"></mat-datepicker-toggle>
-          <mat-icon matSuffix *ngIf="form.get('fecha_requerimiento_notif')?.value"
-              (click)="form.get('fecha_requerimiento_notif')?.setValue(null)"
-              style="cursor: pointer;">
-              close
-          </mat-icon>
-          <mat-datepicker #pickerFechaRequerimientoNotif></mat-datepicker>        
+          <mat-label>{{"FORM.FECHA_REQUERIMIENTO_NOTIF" | translate}}</mat-label>
+          <input matInput type="date" formControlName="fecha_requerimiento_notif" readonly>      
         </mat-form-field>
         </section>
         <section>
@@ -272,31 +248,31 @@
       <section>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_infor_fav_desf' | translate}}</mat-label>
-      <input matInput formControlName="fecha_infor_fav_desf" readonly>
+      <input matInput formControlName="fecha_infor_fav_desf" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_firma_propuesta_resolucion_prov' | translate}}</mat-label>
-      <input matInput formControlName="fecha_firma_propuesta_resolucion_prov" readonly>
+      <input matInput formControlName="fecha_firma_propuesta_resolucion_prov" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_not_propuesta_resolucion_prov' | translate}}</mat-label>
-      <input matInput formControlName="fecha_not_propuesta_resolucion_prov" readonly>
+      <input matInput formControlName="fecha_not_propuesta_resolucion_prov" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_firma_propuesta_resolucion_def' | translate}}</mat-label>
-      <input matInput formControlName="fecha_firma_propuesta_resolucion_def" readonly>
+      <input matInput formControlName="fecha_firma_propuesta_resolucion_def" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
-      <mat-label>{{"FROM.fecha_not_propuesta_resolucion_def" | translate}}</mat-label>
-      <input matInput formControlName="fecha_not_propuesta_resolucion_def" readonly>
+      <mat-label>{{"FORM.fecha_not_propuesta_resolucion_def" | translate}}</mat-label>
+      <input matInput formControlName="fecha_not_propuesta_resolucion_def" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
-      <mat-label>{{"FROM.fecha_firma_res" | translate}}</mat-label>
-      <input matInput formControlName="fecha_firma_res" readonly>
+      <mat-label>{{"FORM.fecha_firma_res" | translate}}</mat-label>
+      <input matInput formControlName="fecha_firma_res" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
-      <mat-label>{{"FROM.fecha_notificacion_resolucion" | translate}}</mat-label>
-      <input matInput formControlName="fecha_notificacion_resolucion" readonly>
+      <mat-label>{{"FORM.fecha_notificacion_resolucion" | translate}}</mat-label>
+      <input matInput formControlName="fecha_notificacion_resolucion" type="date" readonly>
       </mat-form-field>
       </section>
       <section>
@@ -427,41 +403,41 @@
 
     <mat-tab>
     <ng-template mat-tab-label>
-      <span ngClass="exped-tab justificacion-tab">{{ 'APP.EXECUTION' | translate }}</span>
+      <span ngClass="exped-tab ejecucion-tab">{{ 'APP.EXECUTION' | translate }}</span>
     </ng-template>
     <mat-card ngClass="mat-card-ejecucion">
       <section>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_kick_off' | translate}}</mat-label>
-      <input matInput formControlName="fecha_kick_off" readonly>
+      <input matInput formControlName="fecha_kick_off" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_limite_consultoria' | translate}}</mat-label>
-      <input matInput formControlName="fecha_limite_consultoria" readonly>
+      <input matInput formControlName="fecha_limite_consultoria" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_reunion_cierre' | translate}}</mat-label>
-      <input matInput formControlName="fecha_reunion_cierre" readonly>
+      <input matInput formControlName="fecha_reunion_cierre" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_limite_justificacion' | translate}}</mat-label>
-      <input matInput formControlName="fecha_limite_justificacion" readonly>
+      <input matInput formControlName="fecha_limite_justificacion" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{"FROM.fecha_max_desp_ampliacion" | translate}}</mat-label>
-      <input matInput formControlName="fecha_max_desp_ampliacion" readonly>
+      <input matInput formControlName="fecha_max_desp_ampliacion" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
-      <mat-label>{{"FROM.fecha_REC_amp_termino" | translate}}</mat-label>
-      <input matInput formControlName="fecha_REC_amp_termino" readonly>
+      <mat-label>{{"FORM.fecha_REC_amp_termino" | translate}}</mat-label>
+      <input matInput formControlName="fecha_REC_amp_termino" type="datetime-local" step="1" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
-      <mat-label>{{"FROM.ref_REC_amp_termino" | translate}}</mat-label>
+      <mat-label>{{"FORM.ref_REC_amp_termino" | translate}}</mat-label>
       <input matInput formControlName="ref_REC_amp_termino" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
-      <mat-label>{{"FROM.fecha_amp_termino" | translate}}</mat-label>
-      <input matInput formControlName="fecha_amp_termino" readonly>
+      <mat-label>{{"FORM.fecha_amp_termino" | translate}}</mat-label>
+      <input matInput formControlName="fecha_amp_termino" type="date" readonly>
       </mat-form-field>      
       </section>
       <section>
@@ -480,13 +456,13 @@
 
     <mat-tab>
     <ng-template mat-tab-label>
-      <span ngClass="exped-tab ejecucion-tab">{{ 'APP.JUSTIFICATION' | translate }}</span>
+      <span ngClass="exped-tab justificacion-tab">{{ 'APP.JUSTIFICATION' | translate }}</span>
     </ng-template>
     <mat-card>
     <section>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.fecha_REC_justificacion' | translate}}</mat-label>
-        <input matInput formControlName="fecha_REC_justificacion" readonly>
+        <input matInput formControlName="fecha_REC_justificacion" type="datetime-local" step="1" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.ref_REC_justificacion' | translate}}</mat-label>
@@ -494,27 +470,23 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.fecha_firma_res_pago_just' | translate}}</mat-label>
-        <input matInput formControlName="fecha_firma_res_pago_just" readonly>
+        <input matInput formControlName="fecha_firma_res_pago_just" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>{{'FORM.fecha_limite_justificacion' | translate}}</mat-label>
-        <input matInput formControlName="fecha_limite_justificacion" readonly>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>{{"FROM.fecha_not_res_pago" | translate}}</mat-label>
-        <input matInput formControlName="fecha_not_res_pago" readonly>
+        <mat-label>{{'FORM.fecha_not_res_pago' | translate}}</mat-label>
+        <input matInput formControlName="fecha_not_res_pago" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{"FROM.fecha_firma_requerimiento_justificacion" | translate}}</mat-label>
-        <input matInput formControlName="fecha_firma_requerimiento_justificacion" readonly>
+        <input matInput formControlName="fecha_firma_requerimiento_justificacion" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{"FROM.fecha_not_req_just" | translate}}</mat-label>
-        <input matInput formControlName="fecha_not_req_just" readonly>
+        <input matInput formControlName="fecha_not_req_just" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{"FROM.fecha_REC_requerimiento_justificacion" | translate}}</mat-label>
-        <input matInput formControlName="fecha_REC_requerimiento_justificacion" readonly>
+        <input matInput formControlName="fecha_REC_requerimiento_justificacion" type="datetime-local" step="1" readonly="">
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{"FROM.ref_REC_requerimiento_justificacion" | translate}}</mat-label>
@@ -522,7 +494,11 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{"FROM.fecha_propuesta_rev" | translate}}</mat-label>
-        <input matInput formControlName="fecha_propuesta_rev" readonly>
+        <input matInput formControlName="fecha_propuesta_rev" type="date" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>{{"FROM.fecha_resolucion_rev" | translate}}</mat-label>
+        <input matInput formControlName="fecha_resolucion_rev" type="date" readonly>
       </mat-form-field>      
     </section>
     <section>
@@ -549,7 +525,7 @@
       <section>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.fecha_REC_desestimiento' | translate}}</mat-label>
-        <input matInput formControlName="fecha_REC_desestimiento" readonly>
+        <input matInput formControlName="fecha_REC_desestimiento" type="datetime-local" step="1" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.ref_REC_desestimiento' | translate}}</mat-label>
@@ -557,11 +533,11 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.fecha_firma_resolucion_desestimiento' | translate}}</mat-label>
-        <input matInput formControlName="fecha_firma_resolucion_desestimiento" readonly>
+        <input matInput formControlName="fecha_firma_resolucion_desestimiento" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.fecha_notificacion_desestimiento' | translate}}</mat-label>
-        <input matInput formControlName="fecha_notificacion_desestimiento" readonly>
+        <input matInput formControlName="fecha_notificacion_desestimiento" type="date" readonly>
       </mat-form-field>
       </section>
       <section>

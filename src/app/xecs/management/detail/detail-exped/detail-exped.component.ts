@@ -216,7 +216,7 @@ enableEdit(): void {
     const control = this.form.get(controlName);
 
     // Solo deshabilitamos 'nif' y 'tipo_tramite'
-    if (controlName !== 'nif' && controlName !== 'tipo_tramite' && controlName !== 'importeAyuda'  && controlName !== 'ordenDePago'  && controlName !== 'fechaEnvioAdministracion' && controlName !== 'fecha_de_pago') {
+    if (controlName !== 'nif' && controlName !== 'tipo_tramite' && controlName !== 'importeAyuda' && controlName !== 'fecha_solicitud' && controlName !== 'ordenDePago') {
       control?.enable();
 
       // Eliminar completamente el atributo readonly si existe
