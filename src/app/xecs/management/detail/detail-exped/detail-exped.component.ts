@@ -135,7 +135,7 @@ ngOnInit(): void {
     ref_REC_enmienda: [{ value: '', disabled: true }],
     fecha_requerimiento: [{ value: '', disabled: true }],
     fecha_requerimiento_notif: [{ value: '', disabled: true }],
-    motivoRequerimientoTexto:[''],
+    motivoRequerimiento:[''],
     /* Validación */
     fecha_infor_fav_desf: [{ value: '', disabled: true }],
     fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }],
@@ -192,6 +192,7 @@ getExpedDetail(id: number) {
       })
     )
     .subscribe(expediente => {
+      console.log ("expediente", expediente)
       if (expediente) {
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
@@ -249,6 +250,13 @@ saveExpediente(): void {
       }
     });
 }
+
+saveReasonRequest(): void {
+  const motivo = this.form.get('motivoRequerimiento')?.value;
+  console.log('Motivo del requerimiento:', motivo);
+  this.saveExpediente()
+}
+
 
 disableEdit(): void {
   Object.keys(this.form.controls).forEach(controlName => {

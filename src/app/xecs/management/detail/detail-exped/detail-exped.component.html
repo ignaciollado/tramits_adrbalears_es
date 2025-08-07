@@ -217,10 +217,11 @@
 
    <mat-form-field appearance="outline">
       <mat-label>Motivo del requerimiento</mat-label>
-      <textarea matInput formControlName="motivoRequerimientoTexto"></textarea>
+      <textarea matInput formControlName="motivoRequerimiento" required></textarea>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Guardar</button>
-    <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+    <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
+    <button mat-raised-button color="accent" (click)="enableEdit()" disabled>Generar</button>
+    <button mat-raised-button color="warn" (click)="enableEdit()" disabled>Send to sign</button>
   </mat-expansion-panel>
 
   <mat-expansion-panel>
