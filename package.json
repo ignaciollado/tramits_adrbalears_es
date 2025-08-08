@@ -25,6 +25,7 @@
     "@ngx-translate/http-loader": "^16.0.1",
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
+    "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
     "monaco-editor": "^0.52.2",
     "ng2-pdf-viewer": "^10.4.0",
