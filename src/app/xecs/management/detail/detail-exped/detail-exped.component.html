@@ -215,13 +215,13 @@
           <mat-panel-title> {{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}} </mat-panel-title>
         </mat-expansion-panel-header>
 
-   <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline">
       <mat-label>Motivo del requerimiento</mat-label>
       <textarea matInput formControlName="motivoRequerimiento" required></textarea>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
-    <button mat-raised-button color="accent" (click)="enableEdit()" disabled>Generar</button>
-    <button mat-raised-button color="warn" (click)="enableEdit()" disabled>Send to sign</button>
+    <button mat-raised-button color="accent" (click)="generatePDFDoc('1_requerimiento', 'XECS')" [disabled]="noRequestReasonText">Generar</button>
+    <button mat-raised-button color="warn" (click)="sendPDFDocToSign()" disabled>Send to sign</button>
   </mat-expansion-panel>
 
   <mat-expansion-panel>
