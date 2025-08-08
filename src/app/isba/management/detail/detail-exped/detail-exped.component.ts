@@ -19,6 +19,7 @@ import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { catchError, of } from 'rxjs';
 import { MatRadioModule } from '@angular/material/radio';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
+import { MatExpansionModule } from "@angular/material/expansion";
 
 @Component({
   selector: 'app-detail-exped',
@@ -29,8 +30,9 @@ import { CustomValidatorsService } from '../../../../Services/custom-validators.
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
-    MatRadioModule
-  ],
+    MatRadioModule,
+    MatExpansionModule
+],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
 })
@@ -39,6 +41,7 @@ export class IsbaDetailExpedComponent {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
   private customValidatorService = inject(CustomValidatorsService)
+  noRequestReasonText: boolean = true;
 
   form!: FormGroup;
   idExpediente!: number;
@@ -50,7 +53,7 @@ export class IsbaDetailExpedComponent {
   signedDocData!: DocSignedDTO;
   publicAccessId: string = "";
   businessType: string = "";
-  isEditing: boolean = false;
+  isEditing: boolean = true;
 
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
@@ -101,6 +104,7 @@ export class IsbaDetailExpedComponent {
       fecha_requerimiento: [{ value: '', disabled: true }, []],
       fecha_requerimiento_notif: [{ value: '', disabled: true }, []],
       fecha_maxima_enmienda: [{ value: '', disabled: true }, []],
+      motivoRequerimiento: [{value: '', disabled: false}, []], 
       /* Validación */
       fecha_infor_fav_desf: [{ value: '', disabled: true }, []],
       fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }, []],
@@ -152,6 +156,9 @@ export class IsbaDetailExpedComponent {
       )
       .subscribe(expediente => {
         if (expediente) {
+          if (expediente.motivoRequerimiento) {
+            this.noRequestReasonText = false;
+          }
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;
           this.actualTimeStamp = expediente.selloDeTiempo;
@@ -252,7 +259,7 @@ export class IsbaDetailExpedComponent {
   enableEdit(): void {
     this.isEditing = !this.isEditing
     Object.keys(this.form.controls).forEach(controlName => {
-      if ((controlName !== 'nif') && (controlName !== 'tipo_tramite') && (controlName !== 'fecha_solicitud')) {
+      if ((controlName !== 'nif') && (controlName !== 'tipo_tramite') && (controlName !== 'fecha_solicitud') && (controlName !== "motivoRequerimiento")) {
         if (this.isEditing) {
           this.form.get(controlName)?.enable();
         } else {
@@ -272,5 +279,11 @@ export class IsbaDetailExpedComponent {
         },
         error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
       })
+  }
+
+  saveReasonRequest(): void {
+    this.isEditing = !this.isEditing;
+    this.saveExpediente();
+    this.noRequestReasonText == false ? false : true;
   }
 }
