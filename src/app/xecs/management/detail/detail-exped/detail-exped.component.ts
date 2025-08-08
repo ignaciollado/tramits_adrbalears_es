@@ -28,6 +28,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { ActoAdministrativoService } from '../../../../Services/acto-administrativo.service';
+import { jsPDF } from 'jspdf';
 
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
@@ -59,6 +61,7 @@ export class XecsDetailExpedComponent {
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
+  noRequestReasonText:boolean = true
 
   form!: FormGroup
   idExpediente!: number
@@ -81,7 +84,8 @@ export class XecsDetailExpedComponent {
 
 
 constructor( private commonService: CommonService, private adapter: DateAdapter<any>,
-    private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService ) {
+    private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
+    private actoAdminService: ActoAdministrativoService ) {
       this.adapter.setLocale('es')
 }
 
@@ -192,7 +196,6 @@ getExpedDetail(id: number) {
       })
     )
     .subscribe(expediente => {
-      console.log ("expediente", expediente)
       if (expediente) {
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
@@ -253,10 +256,94 @@ saveExpediente(): void {
 
 saveReasonRequest(): void {
   const motivo = this.form.get('motivoRequerimiento')?.value;
-  console.log('Motivo del requerimiento:', motivo);
   this.saveExpediente()
+  this.noRequestReasonText = !this.noRequestReasonText
 }
 
+generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
+  const doc = new jsPDF({
+    orientation: 'p',
+    unit: 'mm',
+    format: 'a4',
+    putOnlyUsedFonts: true,
+    floatPrecision: 16
+  });
+
+  doc.setProperties({
+    title: `requerimiento ${this.actualIdExp + '_' + this.actualConvocatoria}`,
+    subject: 'Tràmits administratius',
+    author: 'ADR Balears',
+    keywords: 'ayudas, subvenciones, xecs, ils, adr-isba',
+    creator: 'Angular App'
+  });
+
+  const footerText = 'Plaça de Son Castelló, 1\n07009 Polígon de Son Castelló - Palma\nTel. 971 17 61 61\nwww.adrbalears.es';
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+
+  const marginLeft = 25;
+  const lineHeight = 4;
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const lines = footerText.split('\n');
+
+  lines.reverse().forEach((line, index) => {
+    const y = pageHeight - 10 - (index * lineHeight);
+    doc.text(line, marginLeft, y);
+  });
+
+  this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
+    .subscribe((docDataString: any) => {
+      const rawTexto = docDataString.texto;
+      const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
+      let jsonObject;
+      try {
+        jsonObject = JSON.parse(cleanedTexto);
+      } catch (error) {
+        console.error("Error al convertir el string a JSON:", error);
+        return;
+      }
+
+      doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.text(jsonObject.asunto, 25, 90);
+      doc.setFont('helvetica', 'normal');
+      doc.text(jsonObject.p1, 25, 100);
+      doc.text(jsonObject.p2, 25, 120);
+      doc.text(jsonObject.p3, 25, 130);
+      doc.text(jsonObject.firma, 25, 180);
+      doc.text(`Palma, en fecha de la firma electrónica`, 25, 220);
+
+      // Convertir a Blob
+      const pdfBlob = doc.output('blob');
+
+      // Crear FormData
+      const formData = new FormData();
+      const fileName = `requeriment_${this.actualIdExp + '_' + this.actualConvocatoria}.pdf`;
+      formData.append('file', pdfBlob, fileName);
+      formData.append('id_sol', String(this.actualIdExp));
+      formData.append('convocatoria', String(this.actualConvocatoria));
+      formData.append('nifcif_propietario', String(this.actualNif));
+      formData.append('timeStamp', String( this.commonService.generateCustomTimestamp()));
+
+      // Enviar al backend usando el servicio
+      this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
+        next: (response) => {
+          const mensaje = response?.message || '✅ PDF guardado correctamente.';
+          this.commonService.showSnackBar(mensaje);
+          
+        },
+        error: (err) => {
+          const errorMsg = err?.error?.message || '❌ Error al guardar el PDF.';
+          this.commonService.showSnackBar(errorMsg);
+        }
+      });
+    });
+    
+}
+
+sendPDFDocToSign(): void {
+}
 
 disableEdit(): void {
   Object.keys(this.form.controls).forEach(controlName => {
@@ -327,7 +414,6 @@ checkViafirmaSign(publicKey: string) {
     }
   );
 }
-
 
 showSignedDocument(publicKey: string) {
   this.viafirmaService.viewDocument(publicKey).subscribe(

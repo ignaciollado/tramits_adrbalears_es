@@ -54,6 +54,10 @@ export class ActoAdministrativoService {
     return this.http.get<ActoAdministrativo>(`${this.apiUrl}/api/pindust/acto/${id}`);
   }
 
+    getByNameAndTipoTramite(name: string, tipoTramite: string): Observable<ActoAdministrativo> {
+    return this.http.get<ActoAdministrativo>(`${this.apiUrl}/api/pindust/acto/${name}/${tipoTramite}`);
+  }
+
   create(data: ActoAdministrativo): Observable<any> {
     return this.http.post(this.apiUrl, data, this.httpOptions);
   }
@@ -72,5 +76,10 @@ export class ActoAdministrativoService {
 
   restore(id: number): Observable<any> {
     return this.http.patch(`${this.apiUrl}/api/pindust/acto/restore/${id}`, {}, this.httpOptions);
+  }
+
+  sendPDFToBackEnd(formData: FormData): Observable<any> {
+    console.log ("formdata", formData)
+    return this.http.post(`${this.apiUrl}/api/pindust/pdf/upload`, formData);
   }
 }
