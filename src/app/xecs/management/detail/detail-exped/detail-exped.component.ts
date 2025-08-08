@@ -18,12 +18,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
 import { DocumentComponent } from '../../../../document/document.component';
-import { AddDocumentComponent } from '../../../../add-document/add-document.component';
 import { PindustLineaAyudaService } from '../../../../Services/linea-ayuda.service';
+import { DocumentosGeneradosService } from '../../../../Services/documentos-generados.service';
 import { CommonService } from '../../../../Services/common.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { DocSignedDTO } from '../../../../Models/docsigned.dto';
 import { PindustLineaAyudaDTO } from '../../../../Models/linea-ayuda-dto';
+import { DocumentoGeneradoDTO } from '../../../../Models/documentos-generados-dto';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -47,7 +48,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
   styleUrl: './detail-exped.component.scss',
 
   imports: [
-    CommonModule, DocumentComponent, AddDocumentComponent,
+    CommonModule, DocumentComponent, 
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule, MatSelectModule, MatExpansionModule,
@@ -79,13 +80,25 @@ export class XecsDetailExpedComponent {
   sendedDateToSign!: Date 
   publicAccessId: string = ""
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
+  docGeneradoInsert: DocumentoGeneradoDTO = {
+    id_sol: 0,
+    cifnif_propietario: '',
+    convocatoria: '',
+    name: '',
+    type: '',
+    created_at: '',
+    tipo_tramite: '',
+    corresponde_documento: '',
+    selloDeTiempo: '',
+    publicAccessId: '-'
+    // Añade aquí cualquier otra propiedad obligatoria de DocumentoGeneradoDTO con valores por defecto apropiados
+  }
   newAidAmount: number = 0
 
-
-
-constructor( private commonService: CommonService, private adapter: DateAdapter<any>,
-    private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
-    private actoAdminService: ActoAdministrativoService ) {
+constructor(  private commonService: CommonService, private adapter: DateAdapter<any>,
+              private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
+              private documentosGeneradosService: DocumentosGeneradosService,
+              private actoAdminService: ActoAdministrativoService ) {
       this.adapter.setLocale('es')
 }
 
@@ -139,7 +152,7 @@ ngOnInit(): void {
     ref_REC_enmienda: [{ value: '', disabled: true }],
     fecha_requerimiento: [{ value: '', disabled: true }],
     fecha_requerimiento_notif: [{ value: '', disabled: true }],
-    motivoRequerimiento:[''],
+    motivoRequerimiento:[{ value: '', disabled: false }],
     /* Validación */
     fecha_infor_fav_desf: [{ value: '', disabled: true }],
     fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }],
@@ -201,7 +214,6 @@ getExpedDetail(id: number) {
         this.actualNif = expediente.nif
         this.actualIdExp = expediente.idExp
         this.actualEmpresa = expediente.empresa
-
         this.actualTimeStamp = expediente.selloDeTiempo	
         this.actualConvocatoria = expediente.convocatoria
         this.actualTipoTramite = expediente.tipo_tramite
@@ -261,6 +273,7 @@ saveReasonRequest(): void {
 }
 
 generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
+  const timeStamp = this.commonService.generateCustomTimestamp()
   const doc = new jsPDF({
     orientation: 'p',
     unit: 'mm',
@@ -291,6 +304,7 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
     doc.text(line, marginLeft, y);
   });
 
+  // obtengo el template json del acto adiministrativo y del tipo trámite: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
       const rawTexto = docDataString.texto;
@@ -314,6 +328,7 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
       doc.text(jsonObject.firma, 25, 180);
       doc.text(`Palma, en fecha de la firma electrónica`, 25, 220);
 
+      // además de generar el pdf del acto administrativo, hay que enviarlo al backend
       // Convertir a Blob
       const pdfBlob = doc.output('blob');
 
@@ -324,21 +339,37 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
       formData.append('id_sol', String(this.actualIdExp));
       formData.append('convocatoria', String(this.actualConvocatoria));
       formData.append('nifcif_propietario', String(this.actualNif));
-      formData.append('timeStamp', String( this.commonService.generateCustomTimestamp()));
+      formData.append('timeStamp', String(timeStamp));
 
       // Enviar al backend usando el servicio
       this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
         next: (response) => {
-          const mensaje = response?.message || '✅ PDF guardado correctamente.';
+          // ToDo: al haberse generado con éxito, ahora hay que:
+            // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado 'last_insert_id'
+            this.docGeneradoInsert.id_sol = this.actualIdExp
+            this.docGeneradoInsert.cifnif_propietario = this.actualNif
+            this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
+            this.docGeneradoInsert.name = "doc_"+fileName
+            this.docGeneradoInsert.type = 'application/pdf'
+            this.docGeneradoInsert.created_at = response.path
+            this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite
+            this.docGeneradoInsert.corresponde_documento = `doc_requeriment_${this.actualIdExp + '_' + this.actualConvocatoria}`
+            this.docGeneradoInsert.selloDeTiempo = timeStamp
+            
+            this.documentosGeneradosService.create(this.docGeneradoInsert)
+            .subscribe((resp:any) => {
+                console.log (resp)
+            })
+            // Hacer un UPDATE del campo doc_nombreActoAdministrativo, en la tabla pindust_expediente, con el valor de last_insert_id
+          const mensaje = response?.message || '✅ Acto administrativo guardado correctamente.';
           this.commonService.showSnackBar(mensaje);
-          
         },
         error: (err) => {
-          const errorMsg = err?.error?.message || '❌ Error al guardar el PDF.';
+          const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
           this.commonService.showSnackBar(errorMsg);
         }
       });
-    });
+  });
     
 }
 
