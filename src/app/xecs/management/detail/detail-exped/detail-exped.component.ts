@@ -31,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ActoAdministrativoService } from '../../../../Services/acto-administrativo.service';
 import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
@@ -267,7 +268,7 @@ saveExpediente(): void {
 }
 
 saveReasonRequest(): void {
-  const motivo = this.form.get('motivoRequerimiento')?.value;
+  const motivo = this.form.get('motivoRequerimiento')?.value
   this.saveExpediente()
   this.noRequestReasonText = !this.noRequestReasonText
 }
@@ -295,6 +296,7 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
   doc.setFontSize(8);
 
   const marginLeft = 25;
+  const maxTextWidth = 160; // Ajusta según el margen derecho
   const lineHeight = 4;
   const pageHeight = doc.internal.pageSize.getHeight();
   const lines = footerText.split('\n');
@@ -320,13 +322,14 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(10);
-      doc.text(jsonObject.asunto, 25, 90);
+      doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
       doc.setFont('helvetica', 'normal');
-      doc.text(jsonObject.p1, 25, 100);
-      doc.text(jsonObject.p2, 25, 120);
-      doc.text(jsonObject.p3, 25, 130);
-      doc.text(jsonObject.firma, 25, 180);
-      doc.text(`Palma, en fecha de la firma electrónica`, 25, 220);
+      doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft, 100);
+      doc.text(doc.splitTextToSize(`• ${this.form.get('motivoRequerimiento')?.value}`, maxTextWidth), marginLeft, 125);
+      doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, 135);
+      doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 150);
+      doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+      doc.text(doc.splitTextToSize(`Palma, en fecha de la firma electrónica`, maxTextWidth), marginLeft, 225);
 
       // además de generar el pdf del acto administrativo, hay que enviarlo al backend
       // Convertir a Blob
@@ -345,33 +348,53 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
       this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
         next: (response) => {
           // ToDo: al haberse generado con éxito, ahora hay que:
-            // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado 'last_insert_id'
-            this.docGeneradoInsert.id_sol = this.actualIdExp
-            this.docGeneradoInsert.cifnif_propietario = this.actualNif
-            this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
-            this.docGeneradoInsert.name = "doc_"+fileName
-            this.docGeneradoInsert.type = 'application/pdf'
-            this.docGeneradoInsert.created_at = response.path
-            this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite
-            this.docGeneradoInsert.corresponde_documento = `doc_requeriment_${this.actualIdExp + '_' + this.actualConvocatoria}`
-            this.docGeneradoInsert.selloDeTiempo = timeStamp
-            
-            this.documentosGeneradosService.create(this.docGeneradoInsert)
-            .subscribe((resp:any) => {
-                console.log (resp)
-            })
-            // Hacer un UPDATE del campo doc_nombreActoAdministrativo, en la tabla pindust_expediente, con el valor de last_insert_id
-          const mensaje = response?.message || '✅ Acto administrativo guardado correctamente.';
-          this.commonService.showSnackBar(mensaje);
-        },
-        error: (err) => {
-          const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
-          this.commonService.showSnackBar(errorMsg);
-        }
-      });
-  });
-    
-}
+          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado 'last_insert_id'
+          this.docGeneradoInsert.id_sol = this.actualIdExp
+          this.docGeneradoInsert.cifnif_propietario = this.actualNif
+          this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
+          this.docGeneradoInsert.name = "doc_"+fileName
+          this.docGeneradoInsert.type = 'application/pdf'
+          this.docGeneradoInsert.created_at = response.path
+          this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite
+          this.docGeneradoInsert.corresponde_documento = `doc_requeriment_${this.actualIdExp + '_' + this.actualConvocatoria}`
+          this.docGeneradoInsert.selloDeTiempo = timeStamp
+          // Insertar documento generado
+          this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
+          next: (resp: any) => {
+            console.log(resp);
+            const lastInsertId = resp?.id;
+            if (lastInsertId) {
+              // Realizar el UPDATE en pindust_expediente con el last_insert_id
+              const updatePayload = {
+                doc_nombreActoAdministrativo: lastInsertId
+              };
+              /* this.expedienteService.update(this.actualIdExp, updatePayload).subscribe({
+                next: () => {
+                const mensaje = response?.message || '✅ Acto administrativo guardado y expediente actualizado correctamente.';
+                this.commonService.showSnackBar(mensaje);
+              },
+              error: (updateErr) => {
+                const updateErrorMsg = updateErr?.error?.message || '⚠️ Documento guardado, pero error al actualizar el expediente.';
+                this.commonService.showSnackBar(updateErrorMsg);
+              }
+              }); */
+            } else {
+              this.commonService.showSnackBar('⚠️ Documento guardado, pero no se recibió el ID para actualizar el expediente.');
+            }
+          },
+          error: (insertErr) => {
+            const insertErrorMsg = insertErr?.error?.message || '❌ Error al guardar el documento generado.';
+            this.commonService.showSnackBar(insertErrorMsg);
+          }
+        });
+      },
+      error: (err) => {
+        const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
+        this.commonService.showSnackBar(errorMsg);
+      }
+    });
+    });
+  }
 
 sendPDFDocToSign(): void {
 }
