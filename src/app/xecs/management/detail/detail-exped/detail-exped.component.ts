@@ -31,7 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ActoAdministrativoService } from '../../../../Services/acto-administrativo.service';
 import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
@@ -68,6 +68,7 @@ export class XecsDetailExpedComponent {
   form!: FormGroup
   idExpediente!: number
   actualNif!: string
+  actualID!: number
   actualIdExp!: number
   actualEmpresa!: string
   actualTimeStamp!: string
@@ -80,6 +81,7 @@ export class XecsDetailExpedComponent {
   sendedUserToSign: string = ""
   sendedDateToSign!: Date 
   publicAccessId: string = ""
+  reqGenerado: boolean = false
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
@@ -95,8 +97,15 @@ export class XecsDetailExpedComponent {
     // Añade aquí cualquier otra propiedad obligatoria de DocumentoGeneradoDTO con valores por defecto apropiados
   }
   newAidAmount: number = 0
+  nifDocgenerado: string = ""
+  timeStampDocGenerado: string = ""
+  nameDocgenerado: string = ""
+  pdfUrl: SafeResourceUrl | null = null
+  imageUrl: SafeUrl | undefined
+  showPdfViewer: boolean = false
+  showImageViewer: boolean = false
 
-constructor(  private commonService: CommonService, private adapter: DateAdapter<any>,
+  constructor(  private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
               private documentosGeneradosService: DocumentosGeneradosService,
               private actoAdminService: ActoAdministrativoService ) {
@@ -213,6 +222,7 @@ getExpedDetail(id: number) {
       if (expediente) {
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
+        this.actualID = expediente.id
         this.actualIdExp = expediente.idExp
         this.actualEmpresa = expediente.empresa
         this.actualTimeStamp = expediente.selloDeTiempo	
@@ -222,6 +232,23 @@ getExpedDetail(id: number) {
         this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
+        this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
+        .subscribe({
+          next: (docGenerado: DocumentoGeneradoDTO[]) => {
+            /* console.log("docGenerado", docGenerado); */
+            // Si hay contenido => true, si no => false
+            if (docGenerado.length === 1) {
+              this.reqGenerado = true;
+            }
+            this.nifDocgenerado = docGenerado[0].cifnif_propietario
+            this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
+            this.nameDocgenerado = docGenerado[0].name
+          },
+          error: (err) => {
+            console.error('Error obteniendo documentos', err);
+            this.reqGenerado = false; // En caso de error lo dejamos en false
+          }
+        });
       } else {
         this.commonService.showSnackBar('⚠️ No se encontró información del expediente.');
       }
@@ -271,9 +298,10 @@ saveReasonRequest(): void {
   const motivo = this.form.get('motivoRequerimiento')?.value
   this.saveExpediente()
   this.noRequestReasonText = !this.noRequestReasonText
+  this.reqGenerado = !this.reqGenerado
 }
 
-generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
+generatePDFDoc(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
   const timeStamp = this.commonService.generateCustomTimestamp()
   const doc = new jsPDF({
     orientation: 'p',
@@ -284,7 +312,7 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
   });
 
   doc.setProperties({
-    title: `requerimiento ${this.actualIdExp + '_' + this.actualConvocatoria}`,
+    title: `${this.actualIdExp + '_' + this.actualConvocatoria + '_' + docFieldToUpdate}`,
     subject: 'Tràmits administratius',
     author: 'ADR Balears',
     keywords: 'ayudas, subvenciones, xecs, ils, adr-isba',
@@ -337,9 +365,9 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
 
       // Crear FormData
       const formData = new FormData();
-      const fileName = `requeriment_${this.actualIdExp + '_' + this.actualConvocatoria}.pdf`;
+      const fileName = `${this.actualIdExp + '_' + this.actualConvocatoria+'_'+docFieldToUpdate}.pdf`;
       formData.append('file', pdfBlob, fileName);
-      formData.append('id_sol', String(this.actualIdExp));
+      formData.append('id_sol', String(this.actualID));
       formData.append('convocatoria', String(this.actualConvocatoria));
       formData.append('nifcif_propietario', String(this.actualNif));
       formData.append('timeStamp', String(timeStamp));
@@ -348,45 +376,77 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
       this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
         next: (response) => {
           // ToDo: al haberse generado con éxito, ahora hay que:
-          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado 'last_insert_id'
-          this.docGeneradoInsert.id_sol = this.actualIdExp
+          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. Antes elimina los documentos generados, para evitar repeticiones
+          this.docGeneradoInsert.id_sol = this.actualID
           this.docGeneradoInsert.cifnif_propietario = this.actualNif
           this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
-          this.docGeneradoInsert.name = "doc_"+fileName
+          this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`
           this.docGeneradoInsert.type = 'application/pdf'
           this.docGeneradoInsert.created_at = response.path
           this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite
-          this.docGeneradoInsert.corresponde_documento = `doc_requeriment_${this.actualIdExp + '_' + this.actualConvocatoria}`
+          this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`
           this.docGeneradoInsert.selloDeTiempo = timeStamp
-          // Insertar documento generado
+          // delete documentos generados antes del insert para evitar duplicados
+         this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
+          .subscribe({
+            next: () => {
+              this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
+                next: (resp: any) => {
+                  const lastInsertId = resp?.id;
+                  if (lastInsertId) {
+                    this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, lastInsertId)
+                    .subscribe({
+                      next: (response: any) => {
+                      const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
+                      this.reqGenerado = true
+                      this.commonService.showSnackBar(mensaje);
+                    },
+                    error: (updateErr) => {
+                      const updateErrorMsg = updateErr?.error?.message || '⚠️ Documento generado, pero error al actualizar el expediente.';
+                      this.commonService.showSnackBar(updateErrorMsg);
+                    }
+                    });
+                  } else {
+                    this.commonService.showSnackBar('⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.');
+                  }
+                },
+                error: (insertErr) => {
+                  const insertErrorMsg = insertErr?.error?.message || '❌ Error al guardar el documento generado.';
+                  this.commonService.showSnackBar(insertErrorMsg);
+                }
+              });
+            },
+          error: (deleteErr) => {
+            const deleteErrMsg = deleteErr?.error?.message || '❌ Error al eliminar el documento previo.';
+            this.commonService.showSnackBar(deleteErrMsg);
+      }
+  });
+
+/*           // Insertar documento generado
           this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
           next: (resp: any) => {
-            console.log(resp);
             const lastInsertId = resp?.id;
             if (lastInsertId) {
               // Realizar el UPDATE en pindust_expediente con el last_insert_id
-              const updatePayload = {
-                doc_nombreActoAdministrativo: lastInsertId
-              };
-              /* this.expedienteService.update(this.actualIdExp, updatePayload).subscribe({
+              this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate , lastInsertId).subscribe({
                 next: () => {
-                const mensaje = response?.message || '✅ Acto administrativo guardado y expediente actualizado correctamente.';
+                const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
                 this.commonService.showSnackBar(mensaje);
               },
               error: (updateErr) => {
-                const updateErrorMsg = updateErr?.error?.message || '⚠️ Documento guardado, pero error al actualizar el expediente.';
+                const updateErrorMsg = updateErr?.error?.message || '⚠️ Documento generado, pero error al actualizar el expediente.';
                 this.commonService.showSnackBar(updateErrorMsg);
               }
-              }); */
+              });
             } else {
-              this.commonService.showSnackBar('⚠️ Documento guardado, pero no se recibió el ID para actualizar el expediente.');
+              this.commonService.showSnackBar('⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.');
             }
           },
           error: (insertErr) => {
             const insertErrorMsg = insertErr?.error?.message || '❌ Error al guardar el documento generado.';
             this.commonService.showSnackBar(insertErrorMsg);
           }
-        });
+        }); */
       },
       error: (err) => {
         const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
@@ -394,6 +454,39 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string): void {
       }
     });
     });
+}
+
+viewDocument(nif: string, folder: string, filename: string, extension: string) {
+    console.log ("viewDocument", nif, folder, filename, extension)
+    const entorno = sessionStorage.getItem("entorno")
+    filename = filename.replace(/^doc_/, "")
+    filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
+    let url = ""
+    if (entorno === 'tramits') {
+        url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    } else {
+        url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    }
+  
+    const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+    const ext = extension.toLowerCase();
+    if (ext === 'jpg' || ext === 'jpeg') {
+      this.imageUrl = sanitizedUrl;
+      this.pdfUrl = null;
+      this.showImageViewer = true;
+      this.showPdfViewer = false;
+    } else {
+      this.pdfUrl = sanitizedUrl;
+      this.imageUrl = undefined;
+      this.showPdfViewer = true;
+      this.showImageViewer = false;
+    }
+}
+
+ closePdf() {
+    this.showPdfViewer = false;
+    this.pdfUrl = null;
   }
 
 sendPDFDocToSign(): void {

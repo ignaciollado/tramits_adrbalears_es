@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 
@@ -69,6 +69,14 @@ export class ExpedienteService {
 
   updateExpediente(id: number, expediente: any): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/pindustexpediente/update/${id}`, expediente).pipe(catchError(this.handleError));
+  }
+
+  updateDocFieldExpediente(id: number, field: string, value: number): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    // Payload dinámico
+    const body: any = {};
+    body[field] = value;
+    return this.http.put(`${this.apiUrl}/pindustexpediente/update-doc-field/${id}`, body, { headers });
   }
 
   deleteExpediente(id: number): Observable<void> {
