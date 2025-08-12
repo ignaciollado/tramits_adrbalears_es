@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { DocumentService } from '../Services/document.service';
@@ -14,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonService } from '../Services/common.service';
 import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
-import { ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -80,7 +79,7 @@ export class DocumentComponent implements OnInit {
     setTimeout(() => {
       this.listDocuments(this.idSol, this.requiredDocs, this.faseExped);
     });
-    console.log ("id-idSol-origin-requireddocs...", this.id, this.idSol, this.origin, this.requiredDocs, this.convocatoria, this.faseExped)
+    //console.log ("id-idSol-origin-requireddocs...", this.id, this.idSol, this.origin, this.requiredDocs, this.convocatoria, this.faseExped)
   } 
 
   onFileSelected(event: any): void {
@@ -236,7 +235,7 @@ export class DocumentComponent implements OnInit {
 
   this.expedienteDocumentoService.changeDocumentoExpedienteState(payload).subscribe({
     next: (respuesta) => {
-      console.log('Respuesta del backend:', respuesta);
+      //console.log('Respuesta del backend:', respuesta);
       this.commonService.showSnackBar(respuesta.message);
 
       if (respuesta?.data?.estadoNuevo) {

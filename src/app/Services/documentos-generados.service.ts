@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
 import { DocumentoGeneradoDTO } from '../Models/documentos-generados-dto';
 
 
@@ -33,6 +33,19 @@ export class DocumentosGeneradosService {
     return this.http.get<DocumentoGeneradoDTO>(`${this.apiUrl}/api/documentos/${id}`);
   }
 
+  // Obtener un documento por ID
+  getDocumentosGenerados( id_sol: number | string, cifnif_propietario: string, convocatoria: number | string, corresponde_documento: string ): Observable<DocumentoGeneradoDTO> 
+  {
+    const params = new HttpParams()
+      .set('id_sol', String(id_sol))
+      .set('cifnif_propietario', cifnif_propietario)
+      .set('convocatoria', String(convocatoria))
+      .set('corresponde_documento', corresponde_documento);
+
+    return this.http.get<DocumentoGeneradoDTO[]>(`${this.apiUrl}/api/documentos-generados`,{ params })
+      .pipe(map((res:any) => res.data));
+  }
+
   // Crear un nuevo documento
   create(documento: DocumentoGeneradoDTO): Observable<any> {
     return this.http.post(`${this.apiUrl}/api/documentos`, documento);
@@ -46,6 +59,16 @@ export class DocumentosGeneradosService {
   // Eliminar un documento
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/api/documentos/${id}`);
+  }
+
+  deleteByIdSolNifConvoTipoDoc( id_sol: string | number, cifnif_propietario: string, convocatoria: string | number, corresponde_documento: string): Observable<any> {
+    const httpParams = new HttpParams()
+      .set('id_sol', id_sol)
+      .set('cifnif_propietario', cifnif_propietario)
+      .set('convocatoria', convocatoria)
+      .set('corresponde_documento', corresponde_documento);
+
+    return this.http.delete<any>(`${this.apiUrl}/api/documentos-generados`, { params: httpParams });
   }
 
   // Preflight OPTIONS (opcional si usas interceptores o configuración global)
