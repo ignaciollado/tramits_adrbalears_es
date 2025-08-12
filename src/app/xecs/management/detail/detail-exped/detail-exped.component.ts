@@ -234,13 +234,15 @@ getExpedDetail(id: number) {
         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
         this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
         .subscribe({
-          next: (docGenerado: DocumentoGeneradoDTO) => {
-          console.log("docGenerado", docGenerado);
-          // Si hay contenido => true, si no => false
-          this.reqGenerado = false;
-          this.nifDocgenerado = docGenerado.cifnif_propietario
-          this.timeStampDocGenerado = docGenerado.selloDeTiempo
-          this.nameDocgenerado = docGenerado.name
+          next: (docGenerado: DocumentoGeneradoDTO[]) => {
+            /* console.log("docGenerado", docGenerado); */
+            // Si hay contenido => true, si no => false
+            if (docGenerado.length === 1) {
+              this.reqGenerado = true;
+            }
+            this.nifDocgenerado = docGenerado[0].cifnif_propietario
+            this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
+            this.nameDocgenerado = docGenerado[0].name
           },
           error: (err) => {
             console.error('Error obteniendo documentos', err);
@@ -456,11 +458,13 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string, docFieldToUpda
 viewDocument(nif: string, folder: string, filename: string, extension: string) {
     console.log ("viewDocument", nif, folder, filename, extension)
     const entorno = sessionStorage.getItem("entorno")
+    filename = filename.replace(/^doc_/, "")
+    filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
     let url = ""
     if (entorno === 'tramits') {
-       url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+        url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
     } else {
-     url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+        url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
     }
   
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
@@ -478,6 +482,11 @@ viewDocument(nif: string, folder: string, filename: string, extension: string) {
       this.showImageViewer = false;
     }
 }
+
+ closePdf() {
+    this.showPdfViewer = false;
+    this.pdfUrl = null;
+  }
 
 sendPDFDocToSign(): void {
 }

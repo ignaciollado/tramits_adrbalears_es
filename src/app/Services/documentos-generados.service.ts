@@ -34,7 +34,7 @@ export class DocumentosGeneradosService {
   }
 
   // Obtener un documento por ID
-  getDocumentosGenerados( id_sol: number | string, cifnif_propietario: string, convocatoria: number | string, corresponde_documento: string ): Observable<DocumentoGeneradoDTO> 
+  getDocumentosGenerados( id_sol: number | string, cifnif_propietario: string, convocatoria: number | string, corresponde_documento: string ): Observable<DocumentoGeneradoDTO[]> 
   {
     const params = new HttpParams()
       .set('id_sol', String(id_sol))

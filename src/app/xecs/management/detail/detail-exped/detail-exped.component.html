@@ -216,10 +216,12 @@
           <textarea matInput formControlName="motivoRequerimiento" required></textarea>
         </mat-form-field>
         <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
-        <button mat-raised-button color="accent" (click)="reqGenerado ? viewDocument(actualNif, timeStampDocGenerado, nameDocgenerado, 'pdf') : generatePDFDoc('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">
+        <button mat-raised-button color="accent" (click)="reqGenerado ? viewDocument(actualNif, 'informes', nameDocgenerado, 'pdf') : generatePDFDoc('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">
           {{ reqGenerado ? 'Ver documento' : 'Generar' }}
         </button>
         <button mat-raised-button color="warn" (click)="sendPDFDocToSign()" disabled>Send to sign</button>
+        <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
+        <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closePdf()">Cerrar ✖</button>
       </mat-expansion-panel>
 
       <mat-expansion-panel>
