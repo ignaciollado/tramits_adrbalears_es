@@ -298,6 +298,7 @@ saveReasonRequest(): void {
   const motivo = this.form.get('motivoRequerimiento')?.value
   this.saveExpediente()
   this.noRequestReasonText = !this.noRequestReasonText
+  this.reqGenerado = !this.reqGenerado
 }
 
 generatePDFDoc(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
