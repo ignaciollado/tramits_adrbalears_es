@@ -10,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ExpedienteService } from '../../../../Services/expediente.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -517,19 +517,20 @@ sendPDFDocToSign(nif: string, folder: string, filename: string, extension: strin
       last_insert_id: ''
     };
 
-    this.viafirmaService.createSignatureRequest(payload).subscribe({
-      next: (res) => {
-        this.response = res;
-        this.loading = false;
-        // Si quieres extraer y mostrar el publicAccessId:
-        // const id = res.publicAccessId;
-        // TODO: notificar al usuario, navegar, etc.
-      },
-      error: (err) => {
-        this.error = err?.message || 'No se pudo enviar la solicitud de firma';
-        this.loading = false;
-      }
-    });
+   this.viafirmaService.createSignatureRequest(payload)
+  .pipe(finalize(() => { this.loading = false; }))
+  .subscribe({
+    next: (res) => {
+      this.response = res;
+      const id = res?.publicAccessId;
+      this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id}` : 'Solicitud de firma creada correctamente');
+    },
+    error: (err) => {
+      const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+      this.error = msg;
+      this.commonService.showSnackBar(msg);
+    }
+  });
 }
 
 disableEdit(): void {
