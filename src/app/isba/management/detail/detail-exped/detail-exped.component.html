@@ -214,7 +214,7 @@
 
                             <mat-form-field appearance="outline">
                                 <mat-label>Motivo del requerimiento</mat-label>
-                                <textarea matInput formControlName="motivoRequerimiento" required></textarea>
+                                <textarea matInput formControlName="motivoRequerimiento"></textarea>
                             </mat-form-field>
                             <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
                             <!-- <button mat-raised-button color="accent" (click)="generatePDFDoc('isba_1_requerimiento', 'ADR-ISBA')" [disabled]="noRequestReasonText">Generar</button> -->
@@ -226,7 +226,8 @@
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}}</mat-panel-title>
                             </mat-expansion-panel-header>
-                            <button mat-raised-button color="accent">Generar</button>
+                            <!-- Campos requeridos: fecha_REC, ref_REC, fecha_requerimiento_notif-->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
                         </mat-expansion-panel>
                     </mat-accordion>
                     <h4>Mejoras</h4>
@@ -270,6 +271,23 @@
                     </mat-form-field>
                 </section>
                 <section>
+                    <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <mat-accordion ngClass="example-headers-align" multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLE' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLECONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </section>
+                <!-- <section>
                     <h4>Actos administrativos</h4>
                     <ol start="3">
                         <li>Informe favorable</li>
@@ -281,7 +299,7 @@
                         <li>Resolución de concesión</li>
                         <li>Resolución de concesión con requerimientos</li>
                     </ol>
-                </section>
+                </section> -->
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
                     <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"

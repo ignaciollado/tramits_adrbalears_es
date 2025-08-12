@@ -32,7 +32,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
     MatCardModule, MatSnackBarModule,
     MatRadioModule,
     MatExpansionModule
-],
+  ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
 })
@@ -53,7 +53,7 @@ export class IsbaDetailExpedComponent {
   signedDocData!: DocSignedDTO;
   publicAccessId: string = "";
   businessType: string = "";
-  isEditing: boolean = true;
+  isEditing: boolean = false;
 
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
@@ -104,7 +104,7 @@ export class IsbaDetailExpedComponent {
       fecha_requerimiento: [{ value: '', disabled: true }, []],
       fecha_requerimiento_notif: [{ value: '', disabled: true }, []],
       fecha_maxima_enmienda: [{ value: '', disabled: true }, []],
-      motivoRequerimiento: [{value: '', disabled: false}, []], 
+      motivoRequerimiento: [{ value: '', disabled: false }, []],
       /* Validación */
       fecha_infor_fav_desf: [{ value: '', disabled: true }, []],
       fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }, []],
@@ -282,8 +282,8 @@ export class IsbaDetailExpedComponent {
   }
 
   saveReasonRequest(): void {
-    this.isEditing = !this.isEditing;
     this.saveExpediente();
-    this.noRequestReasonText == false ? false : true;
+    this.form.get('motivoRequerimiento')?.value ? this.noRequestReasonText = false : this.noRequestReasonText = true
+    this.isEditing = !this.isEditing;
   }
 }
