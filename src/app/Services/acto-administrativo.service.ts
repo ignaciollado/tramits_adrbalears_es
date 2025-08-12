@@ -30,11 +30,14 @@ export class ActoAdministrativoService {
     })
   };
 
-    constructor(private http: HttpClient) {
-    const entornoGuardado = localStorage.getItem('entorno') as 'pre-tramits' | 'tramits';
+  constructor(private http: HttpClient) {
+    /* Me está dando error CORS debido a que nunca coge el entorno pre-tramits en desarrollo. Utilizo sessionStorage para poder ver los documentos */
+    // const entornoGuardado = localStorage.getItem('entorno') as 'pre-tramits' | 'tramits'; Me da error en desarrollo debido a que está cogiendo tramits pero nunca coge pre-tramits
+    const entornoGuardado = sessionStorage.getItem('entorno') as 'pre-tramits' | 'tramits';
     this.entorno = entornoGuardado || 'pre-tramits';
   }
 
+  // Creo que es innecesario, debido a que el slider de entornos utiliza el servicio de expedientes
   setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
     this.entorno = entorno;
     localStorage.setItem('entorno', entorno);
@@ -54,7 +57,7 @@ export class ActoAdministrativoService {
     return this.http.get<ActoAdministrativo>(`${this.apiUrl}/api/pindust/acto/${id}`);
   }
 
-    getByNameAndTipoTramite(name: string, tipoTramite: string): Observable<ActoAdministrativo> {
+  getByNameAndTipoTramite(name: string, tipoTramite: string): Observable<ActoAdministrativo> {
     return this.http.get<ActoAdministrativo>(`${this.apiUrl}/api/pindust/acto/${name}/${tipoTramite}`);
   }
 
@@ -79,7 +82,7 @@ export class ActoAdministrativoService {
   }
 
   sendPDFToBackEnd(formData: FormData): Observable<any> {
-    console.log ("formdata", formData)
+    console.log("formdata", formData)
     return this.http.post(`${this.apiUrl}/api/pindust/pdf/upload`, formData);
   }
 }

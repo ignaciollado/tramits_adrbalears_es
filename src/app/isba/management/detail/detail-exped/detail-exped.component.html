@@ -211,12 +211,11 @@
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}}</mat-panel-title>
                             </mat-expansion-panel-header>
-
                             <mat-form-field appearance="outline">
                                 <mat-label>Motivo del requerimiento</mat-label>
                                 <textarea matInput formControlName="motivoRequerimiento"></textarea>
                             </mat-form-field>
-                            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
+                            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest('motivoRequerimiento')">Guardar</button>
                             <!-- <button mat-raised-button color="accent" (click)="generatePDFDoc('isba_1_requerimiento', 'ADR-ISBA')" [disabled]="noRequestReasonText">Generar</button> -->
                             <button mat-raised-button color="accent" [disabled]="noRequestReasonText">Generar</button>
                             <!-- <button mat-raised-button color="warn" (click)="sendPDFDocToSign()" disabled>Send to sign</button> -->
@@ -226,7 +225,8 @@
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}}</mat-panel-title>
                             </mat-expansion-panel-header>
-                            <!-- Campos requeridos: fecha_REC, ref_REC, fecha_requerimiento_notif-->
+                            <!-- Campos requeridos: 3
+                             fecha_REC, ref_REC, fecha_requerimiento_notif -->
                             <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
                         </mat-expansion-panel>
                     </mat-accordion>
@@ -277,29 +277,86 @@
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLE' | translate}}</mat-panel-title>
                             </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 2
+                             fecha_REC, ref_REC 
+                            -->
                             <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
                         </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLECONREQUERIMIENTO' | translate}}</mat-panel-title>
                             </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 5
+                             fecha_REC, ref_REC, fecha_requerimiento_notif,
+                             fecha_REC_enmienda, ref_REC_enmienda 
+                            -->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONPROVISIONAL' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 3
+                             fecha_REC, ref_REC, fecha_infor_fav_desf
+                            -->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONPROVISIONALCONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 5
+                             fecha_REC, ref_REC, fecha_infor_fav_desf, 
+                             fecha_REC_enmienda, ref_REC_enmienda
+                            -->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONDEFINITIVA' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 5
+                             fecha_firma_propuesta_resolucion_prov, fecha_not_propuesta_resolucion_prov,
+                             fecha_REC, ref_REC, fecha_infor_fav_desf      
+                            -->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONDEFINITIVACONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 6
+                             fecha_REC, ref_REC, fecha_infor_fav_desf,
+                            fecha_maxima_enmienda, fecha_firma_propuesta_resolucion_prov,
+                            fecha_not_propuesta_resolucion_prov
+                            -->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESION' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 7
+                             fecha_REC, ref_REC, fecha_infor_fav_desf, 
+                             fecha_firma_propuesta_resolucion_prov, fecha_not_propuesta_resolucion_prov, 
+                             fecha_firma_propuesta_resolucion_def, fecha_not_propuesta_resolucion_def,
+                             -->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESIONCONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 9 
+                             fecha_REC, ref_REC, fecha_infor_fav_desf, 
+                             fecha_firma_propuesta_resolucion_prov, fecha_not_propuesta_resolucion_prov, 
+                             fecha_firma_propuesta_resolucion_def, fecha_not_propuesta_resolucion_def,
+                             fecha_REC_enmienda, ref_REC_enmienda
+                             -->
                             <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
                         </mat-expansion-panel>
                     </mat-accordion>
                 </section>
-                <!-- <section>
-                    <h4>Actos administrativos</h4>
-                    <ol start="3">
-                        <li>Informe favorable</li>
-                        <li>Informe favorable con requerimientos</li>
-                        <li>Propuesta de resolución provisional</li>
-                        <li>Propuesta de resolución provisional con requerimientos</li>
-                        <li>Propuesta de resolución definitiva</li>
-                        <li>Propuesta de resolución definitiva con requerimientos</li>
-                        <li>Resolución de concesión</li>
-                        <li>Resolución de concesión con requerimientos</li>
-                    </ol>
-                </section> -->
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
                     <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"
@@ -363,10 +420,21 @@
                     </mat-form-field>
                 </section>
                 <section>
-                    <h4>Actos administrativos</h4>
-                    <ol start="11">
-                        <li>Resolución de pago y justificación</li>
-                    </ol>
+                    <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <mat-accordion ngClass="example-headers-align" multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONPAGOYJUSTIFICACION' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 8
+                             fecha_not_propuesta_resolucion_prov, fecha_firma_propuesta_resolucion_prov,
+                             fecha_firma_propuesta_resolucion_def, fecha_not_propuesta_resolucion_def,
+                             fecha_firma_res, fecha_notificacion_resolucion, fecha_REC_justificacion, 
+                             ref_REC_justificacion   
+                            -->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                    </mat-accordion>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
@@ -415,12 +483,41 @@
                     </mat-form-field>
                 </section>
                 <section>
-                    <h4>Actos administrativos</h4>
-                    <ol start="12">
-                        <li>Resolución desestimiento por renuncia</li>
-                        <li>Propuesta de resolución de revocación por no justificar</li>
-                        <li>Resolución revocación por no justificar</li>
-                    </ol>
+                    <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <mat-accordion ngClass="example-headers-align" multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTORENUNCIA' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 2
+                             fecha_REC_desestimiento, ref_REC_desestimiento
+                            -->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONREVOCACIONNOJUSTIFICAR' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <!-- Campos requeridos: 1
+                             fecha_notificacion_resolucion
+                            -->
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONREVOCACIONNOJUSTIFICAR' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Motivo de la revocación</mat-label>
+                                <textarea matInput formControlName="motivoResolucionRevocacionPorNoJustificar"></textarea>
+                            </mat-form-field>
+                            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest('motivoResolucionRevocacionPorNoJustificar')">Guardar</button>
+                            <!-- <button mat-raised-button color="accent" (click)="generatePDFDoc('isba_17_resolucion_revocacion_no_justificar', 'ADR-ISBA')" [disabled]="noRevocationReasonText">Generar</button> -->
+                            <button mat-raised-button color="accent" [disabled]="noRevocationReasonText">Generar</button>
+                            <!-- <button mat-raised-button color="warn" (click)="sendPDFDocToSign()" disabled>Send to sign</button> -->
+                            <button mat-raised-button color="warn" disabled>Send to sign</button>
+                        </mat-expansion-panel>
+                    </mat-accordion>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>

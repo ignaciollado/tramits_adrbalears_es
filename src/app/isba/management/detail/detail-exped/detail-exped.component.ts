@@ -42,6 +42,7 @@ export class IsbaDetailExpedComponent {
   private expedienteService = inject(ExpedienteService)
   private customValidatorService = inject(CustomValidatorsService)
   noRequestReasonText: boolean = true;
+  noRevocationReasonText: boolean = true;
 
   form!: FormGroup;
   idExpediente!: number;
@@ -104,7 +105,7 @@ export class IsbaDetailExpedComponent {
       fecha_requerimiento: [{ value: '', disabled: true }, []],
       fecha_requerimiento_notif: [{ value: '', disabled: true }, []],
       fecha_maxima_enmienda: [{ value: '', disabled: true }, []],
-      motivoRequerimiento: [{ value: '', disabled: false }, []],
+      motivoRequerimiento: [{ value: '', disabled: false }, [this.customValidatorService.xssProtectorValidator()]],
       /* Validación */
       fecha_infor_fav_desf: [{ value: '', disabled: true }, []],
       fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }, []],
@@ -133,7 +134,8 @@ export class IsbaDetailExpedComponent {
       fecha_propuesta_rev: [{ value: '', disabled: true }, []],
       fecha_not_pr_revocacion: [{ value: '', disabled: true }, []],
       fecha_resolucion_rev: [{ value: '', disabled: true }, []],
-      fecha_not_r_revocacion: [{ value: '', disabled: true }, []]
+      fecha_not_r_revocacion: [{ value: '', disabled: true }, []],
+      motivoResolucionRevocacionPorNoJustificar: [{ value: '', disabled: false }, [this.customValidatorService.xssProtectorValidator()]]
     });
     this.getExpedDetail(this.idExpediente)
   }
@@ -158,6 +160,9 @@ export class IsbaDetailExpedComponent {
         if (expediente) {
           if (expediente.motivoRequerimiento) {
             this.noRequestReasonText = false;
+          }
+          if (expediente.motivoResolucionRevocacionPorNoJustificar) {
+            this.noRevocationReasonText = false;
           }
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;
@@ -259,7 +264,7 @@ export class IsbaDetailExpedComponent {
   enableEdit(): void {
     this.isEditing = !this.isEditing
     Object.keys(this.form.controls).forEach(controlName => {
-      if ((controlName !== 'nif') && (controlName !== 'tipo_tramite') && (controlName !== 'fecha_solicitud') && (controlName !== "motivoRequerimiento")) {
+      if ((controlName !== 'nif') && (controlName !== 'tipo_tramite') && (controlName !== 'fecha_solicitud') && (controlName !== "motivoRequerimiento") && (controlName !== 'motivoResolucionRevocacionPorNoJustificar')) {
         if (this.isEditing) {
           this.form.get(controlName)?.enable();
         } else {
@@ -281,9 +286,14 @@ export class IsbaDetailExpedComponent {
       })
   }
 
-  saveReasonRequest(): void {
+  saveReasonRequest(formName: string): void {
     this.saveExpediente();
-    this.form.get('motivoRequerimiento')?.value ? this.noRequestReasonText = false : this.noRequestReasonText = true
+    const targetFormValue = this.form.get(formName)?.value
+    if (targetFormValue === "motivoRequerimiento") {
+      targetFormValue ? this.noRequestReasonText = false : this.noRequestReasonText = true;
+    } else {
+      targetFormValue ? this.noRevocationReasonText = false : this.noRevocationReasonText = true;
+    }
     this.isEditing = !this.isEditing;
   }
 }
