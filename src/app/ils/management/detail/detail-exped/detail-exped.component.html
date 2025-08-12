@@ -139,12 +139,29 @@
                     </mat-form-field>
                 </section>
                 <section>
-                    <h4>Actos administrativos</h4>
-                    <section *ngIf="signedDocData">{{signedDocData.status}}</section>
-                    <ol>
-                        <li>Requerimiento</li>
-                        <li>Resolución de desestimiento por no enmendar</li>
-                    </ol>
+                    <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <mat-accordion ngClass="example-headers-align" multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Motivo del requerimiento</mat-label>
+                                <textarea matInput formControlName="motivoRequerimientoIls"></textarea>
+                            </mat-form-field>
+                            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
+                            <!-- <button mat-raised-button color="accent" (click)="generatePDFDoc('', 'ILS')" [disabled]="noRequestReasonText">Generar</button> -->
+                            <button mat-raised-button color="accent" [disabled]="noRequestReasonText">Generar</button>
+                            <!-- <button mat-raised-button color="warn" (click)="sendPDFDocToSign()" disabled>Send to sign</button> -->
+                            <button mat-raised-button color="warn" disabled>Send to sign</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                    </mat-accordion>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
@@ -176,15 +193,45 @@
                     </mat-form-field>
                 </section>
                 <section>
-                    <h4>Actos administrativos</h4>
-                    <ol start="3">
-                        <li>Informe favorable con requerimiento</li>
-                        <li>Informe favorable sin requerimiento</li>
-                        <li>Informe desfavorable con requerimiento</li>
-                        <li>Resolución de denegación con requerimiento</li>
-                        <li>Resolución concesión adhesión con requerimiento</li>
-                        <li>Resolución concesión adhesión sin requerimiento</li>
-                    </ol>
+                    <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <mat-accordion ngClass="example-headers-align" multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLECONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLE' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEDESFAVORABLECONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONDENEGACIONCONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESIONADHESION' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESIONADHESIONCONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                    </mat-accordion>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
@@ -220,10 +267,15 @@
                     </mat-form-field>
                 </section>
                 <section>
-                    <h4>Actos administrativos</h4>
-                    <ol start="9">
-                        <li>Enviar Modelo seguimiento</li>
-                    </ol>
+                    <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <mat-accordion ngClass="example-headers-align" multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.MODELOSEGUIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                    </mat-accordion>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
@@ -284,15 +336,45 @@
                     </mat-form-field>
                 </section>
                 <section>
-                    <h4>Actos administrativos</h4>
-                    <ol start="10">
-                        <li>Informe favorable</li>
-                        <li>Informe favorable con requerimiento</li>
-                        <li>Informe desfavorable con requerimiento</li>
-                        <li>Resolución de renovación de marca</li>
-                        <li>Resolución de renovación de marca con requerimiento</li>
-                        <li>Resolución de revocación</li>
-                    </ol>
+                    <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <mat-accordion ngClass="example-headers-align" multi>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLE' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLECONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEDESFAVORABLECONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONRENOVACIONMARCA' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONREVOCACION' | translate}}</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
+                        </mat-expansion-panel>
+                    </mat-accordion>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>

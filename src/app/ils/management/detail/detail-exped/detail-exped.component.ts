@@ -17,6 +17,7 @@ import { CommonService } from '../../../../Services/common.service';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-detail-exped',
@@ -26,7 +27,8 @@ import { ViafirmaService } from '../../../../Services/viafirma.service';
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule,
-    MatCardModule, MatSnackBarModule
+    MatCardModule, MatSnackBarModule,
+    MatExpansionModule
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
@@ -36,6 +38,7 @@ export class IlsDetailExpedComponent {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService)
   private customValidatorService = inject(CustomValidatorsService)
+  noRequestReasonText: boolean = true;
 
   form!: FormGroup
   idExpediente!: number
@@ -83,6 +86,7 @@ export class IlsDetailExpedComponent {
       fecha_requerimiento: [{ value: '', disabled: true }, []],
       fecha_requerimiento_notif: [{ value: '', disabled: true }, []],
       fecha_maxima_enmienda: [{ value: '', disabled: true }, []],
+      motivoRequerimientoIls: [{ value: '', disabled: false }, [this.customValidatorService.xssProtectorValidator()]],
 
       /* Adhesión */
       fecha_infor_fav: [{ value: '', disabled: true }, []],
@@ -124,6 +128,9 @@ export class IlsDetailExpedComponent {
       )
       .subscribe(expediente => {
         if (expediente) {
+          if (expediente.motivoRequerimientoIls) {
+            this.noRequestReasonText = false;
+          }
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;
           this.actualTimeStamp = expediente.selloDeTiempo;
@@ -222,7 +229,7 @@ export class IlsDetailExpedComponent {
   enableEdit(): void {
     this.isEditing = !this.isEditing;
     Object.keys(this.form.controls).forEach(controlName => {
-      if ((controlName !== 'nif') && (controlName !== 'tipo_tramite') && (controlName !== "fecha_solicitud")) {
+      if ((controlName !== 'nif') && (controlName !== 'tipo_tramite') && (controlName !== "fecha_solicitud") && (controlName !== "motivoRequerimientoIls")) {
         if (this.isEditing) {
           this.form.get(controlName)?.enable();
         } else {
@@ -234,6 +241,7 @@ export class IlsDetailExpedComponent {
 
   saveExpediente(): void {
     const expedienteActualizado = this.form.getRawValue()
+    console.log(expedienteActualizado)
     this.expedienteService.updateExpediente(this.idExpediente, expedienteActualizado)
       .subscribe({
         next: () => {
@@ -242,5 +250,11 @@ export class IlsDetailExpedComponent {
         },
         error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
       })
+  }
+
+  saveReasonRequest(): void {
+    this.saveExpediente();
+    this.form.get('motivoRequerimientoIls')?.value ? this.noRequestReasonText = false : this.noRequestReasonText = true;
+    this.isEditing = !this.isEditing;
   }
 }

@@ -286,6 +286,7 @@ export class IsbaDetailExpedComponent {
       })
   }
 
+  // Hay 2 documentos que requieren un motivo, por lo que paso un parámetro para no duplicar funcionalidad
   saveReasonRequest(formName: string): void {
     this.saveExpediente();
     const targetFormValue = this.form.get(formName)?.value
