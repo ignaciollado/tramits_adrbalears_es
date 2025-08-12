@@ -1,8 +1,9 @@
 
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { DocSignedDTO } from '../Models/docsigned.dto';
+import { CreateSignatureRequest, SignatureResponse } from '../Models/signature.dto';
 
 const tramitsURL = 'https://tramits.idi.es/public/index.php'
 
@@ -33,16 +34,37 @@ export class ViafirmaService {
     return this.urls[this.entorno];
   }
 
+  /** 
+   * Obtiene el estado de firma de un documento enviado a VIAFIRMA
+  */
   getDocumentStatus(publicAccessId: string): Observable<DocSignedDTO> {
     return this.http.get<DocSignedDTO>(`${this.apiUrl}/api/viafirma/request/${publicAccessId}`)
     .pipe(catchError(this.handleError));
   }
+
+  /**
+   * Visualiza un documento  
+  */
 
   viewDocument(publicAccessId: string): Observable<DocSignedDTO> {
     return this.http.get<DocSignedDTO>(`${this.apiUrl}/api/viafirma/viewDoc/${publicAccessId}`)
     .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Crea una solicitud de firma en el backend.
+   * POST /api/signature-request
+   */
+  createSignatureRequest(payload: CreateSignatureRequest): Observable<SignatureResponse> {
+    const url = `${this.apiUrl}/api/signature-request`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<SignatureResponse>(url, payload, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Error desconocido';

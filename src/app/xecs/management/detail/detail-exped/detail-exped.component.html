@@ -219,7 +219,7 @@
         <button mat-raised-button color="accent" (click)="reqGenerado ? viewDocument(actualNif, 'informes', nameDocgenerado, 'pdf') : generatePDFDoc('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">
           {{ reqGenerado ? 'Ver documento' : 'Generar' }}
         </button>
-        <button mat-raised-button color="warn" (click)="sendPDFDocToSign()" [disabled]="!reqGenerado">Send to sign</button>
+        <button mat-raised-button color="warn" (click)="sendPDFDocToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign</button>
         <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
         <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closePdf()">Cerrar ✖</button>
       </mat-expansion-panel>

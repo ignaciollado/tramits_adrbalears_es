@@ -32,6 +32,7 @@ import { MatListModule } from '@angular/material/list';
 import { ActoAdministrativoService } from '../../../../Services/acto-administrativo.service';
 import { jsPDF } from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { CreateSignatureRequest, SignatureResponse } from '../../../../Models/signature.dto';
 
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
@@ -81,22 +82,26 @@ export class XecsDetailExpedComponent {
   sendedUserToSign: string = ""
   sendedDateToSign!: Date 
   publicAccessId: string = ""
+  telefono_rep: string | undefined
+  email_rep: string | undefined
   reqGenerado: boolean = false
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
+
   docGeneradoInsert: DocumentoGeneradoDTO = {
-    id_sol: 0,
-    cifnif_propietario: '',
-    convocatoria: '',
-    name: '',
-    type: '',
-    created_at: '',
-    tipo_tramite: '',
-    corresponde_documento: '',
-    selloDeTiempo: '',
-    publicAccessId: '-'
-    // Añade aquí cualquier otra propiedad obligatoria de DocumentoGeneradoDTO con valores por defecto apropiados
+                    id_sol: 0,
+                    cifnif_propietario: '',
+                    convocatoria: '',
+                    name: '',
+                    type: '',
+                    created_at: '',
+                    tipo_tramite: '',
+                    corresponde_documento: '',
+                    selloDeTiempo: '',
+                    publicAccessId: '-'
+                    // Añade aquí cualquier otra propiedad obligatoria de DocumentoGeneradoDTO con valores por defecto apropiados
   }
-  newAidAmount: number = 0
+  lastInsertId: number | undefined
+  newAidAmount: number | undefined
   nifDocgenerado: string = ""
   timeStampDocGenerado: string = ""
   nameDocgenerado: string = ""
@@ -105,12 +110,16 @@ export class XecsDetailExpedComponent {
   showPdfViewer: boolean = false
   showImageViewer: boolean = false
 
+  loading: boolean = false;
+  response?: SignatureResponse;
+  error?: string;
+
   constructor(  private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
               private documentosGeneradosService: DocumentosGeneradosService,
               private actoAdminService: ActoAdministrativoService ) {
       this.adapter.setLocale('es')
-}
+  }
 
 ngOnInit(): void {
   this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
@@ -229,6 +238,9 @@ getExpedDetail(id: number) {
         this.actualConvocatoria = expediente.convocatoria
         this.actualTipoTramite = expediente.tipo_tramite
         this.publicAccessId = expediente.PublicAccessId
+        this.email_rep = expediente.email_rep
+        this.telefono_rep = expediente.telefono_rep
+
         this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
@@ -392,9 +404,9 @@ generatePDFDoc(actoAdministrivoName: string, tipoTramite: string, docFieldToUpda
             next: () => {
               this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
                 next: (resp: any) => {
-                  const lastInsertId = resp?.id;
-                  if (lastInsertId) {
-                    this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, lastInsertId)
+                  this.lastInsertId = resp?.id;
+                  if (this.lastInsertId) {
+                    this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, this.lastInsertId)
                     .subscribe({
                       next: (response: any) => {
                       const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
@@ -484,12 +496,40 @@ viewDocument(nif: string, folder: string, filename: string, extension: string) {
     }
 }
 
- closePdf() {
+closePdf() {
     this.showPdfViewer = false;
     this.pdfUrl = null;
-  }
+}
 
-sendPDFDocToSign(): void {
+sendPDFDocToSign(nif: string, folder: string, filename: string, extension: string): void {
+    // Limpiar estados previos
+    this.error = undefined;
+    this.response = undefined;
+    this.loading = true;
+    filename = filename.replace(/^doc_/, "")
+    filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
+    
+    const payload: CreateSignatureRequest = {
+      adreca_mail: this.email_rep ?? '',
+      telefono_cont: this.telefono_rep ?? '',
+      nombreDocumento: filename,
+      nif: nif,
+      last_insert_id: ''
+    };
+
+    this.viafirmaService.createSignatureRequest(payload).subscribe({
+      next: (res) => {
+        this.response = res;
+        this.loading = false;
+        // Si quieres extraer y mostrar el publicAccessId:
+        // const id = res.publicAccessId;
+        // TODO: notificar al usuario, navegar, etc.
+      },
+      error: (err) => {
+        this.error = err?.message || 'No se pudo enviar la solicitud de firma';
+        this.loading = false;
+      }
+    });
 }
 
 disableEdit(): void {
