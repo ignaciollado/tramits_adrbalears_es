@@ -192,6 +192,8 @@ export class RequerimientoComponent implements OnChanges {
         console.error("Error al convertir el string a JSON:", error);
         return;
       }
+      /* Reemplazo de las variables por su valor */
+      jsonObject.replace("%BOIBNUM%", "¡¡¡FALTA EL BOIB!!!")
 
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
