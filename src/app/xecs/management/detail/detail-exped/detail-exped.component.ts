@@ -3,7 +3,8 @@ import { NativeDateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-
+import { DocumentComponent } from '../../../../document/document.component';
+import { RequerimientoComponent } from '../../../../actos-admin/requerimiento/requerimiento.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -17,7 +18,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
-import { DocumentComponent } from '../../../../document/document.component';
+
 import { PindustLineaAyudaService } from '../../../../Services/linea-ayuda.service';
 import { DocumentosGeneradosService } from '../../../../Services/documentos-generados.service';
 import { CommonService } from '../../../../Services/common.service';
@@ -50,7 +51,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
   styleUrl: './detail-exped.component.scss',
 
   imports: [
-    CommonModule, DocumentComponent, 
+    CommonModule, DocumentComponent, RequerimientoComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule, MatSelectModule, MatExpansionModule,
@@ -84,6 +85,7 @@ export class XecsDetailExpedComponent {
   publicAccessId: string = ""
   telefono_rep: string | undefined
   email_rep: string | undefined
+  motivoRequerimiento: string = ""
   reqGenerado: boolean = false
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
 
@@ -98,7 +100,6 @@ export class XecsDetailExpedComponent {
                     corresponde_documento: '',
                     selloDeTiempo: '',
                     publicAccessId: '-'
-                    // Añade aquí cualquier otra propiedad obligatoria de DocumentoGeneradoDTO con valores por defecto apropiados
   }
   lastInsertId: number | undefined
   newAidAmount: number | undefined
@@ -123,7 +124,6 @@ export class XecsDetailExpedComponent {
 
 ngOnInit(): void {
   this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
-
   this.form = this.fb.group({
     /* detalle */
     id: [{ value: '', disabled: true }],
@@ -206,6 +206,7 @@ ngOnInit(): void {
     fecha_firma_resolucion_desestimiento: [{ value: '', disabled: true }],
     fecha_notificacion_desestimiento: [{ value: '', disabled: true }],   
   });
+
   this.getExpedDetail(this.idExpediente)
 
   // Observo los cambios en 'fecha_de_pago'
@@ -240,6 +241,7 @@ getExpedDetail(id: number) {
         this.publicAccessId = expediente.PublicAccessId
         this.email_rep = expediente.email_rep
         this.telefono_rep = expediente.telefono_rep
+        this.motivoRequerimiento = expediente.motivoRequerimiento
 
         this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');

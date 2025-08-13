@@ -204,26 +204,23 @@
         </section>
         <section>
       <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
-     <div class="example-action-buttons">
-    </div>
-    <mat-accordion class="example-headers-align" multi>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
+    
+<!--     <mat-expansion-panel>
+      <mat-expansion-panel-header>
           <mat-panel-title> {{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}} </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-form-field appearance="outline">
-          <mat-label>Motivo del requerimiento</mat-label>
-          <textarea matInput formControlName="motivoRequerimiento" required></textarea>
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
-        <button mat-raised-button color="accent" (click)="reqGenerado ? viewDocument(actualNif, 'informes', nameDocgenerado, 'pdf') : generatePDFDoc('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">
-          {{ reqGenerado ? 'Ver documento' : 'Generar' }}
-        </button>
-        <button mat-raised-button color="warn" (click)="sendPDFDocToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign</button>
-        <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
-        <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closePdf()">Cerrar ✖</button>
-      </mat-expansion-panel>
-
+      </mat-expansion-panel-header>
+      <mat-form-field appearance="outline">
+        <mat-label>Motivo del requerimiento</mat-label>
+        <textarea matInput formControlName="motivoRequerimiento" required></textarea>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
+      <button mat-raised-button color="accent" (click)="reqGenerado ? viewDocument(actualNif, 'informes', nameDocgenerado, 'pdf') : generatePDFDoc('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">{{ reqGenerado ? 'Ver documento' : 'Generar' }}</button>
+      <button mat-raised-button color="warn" (click)="sendPDFDocToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign</button>
+      <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
+      <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closePdf()">Cerrar ✖</button>
+    </mat-expansion-panel> -->
+    <app-requerimiento [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [email_rep]="email_rep" [telefono_rep]="telefono_rep" [actualTipoTramite]="actualTipoTramite" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
+    <mat-accordion multi>   
       <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> {{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}} </mat-panel-title>
