@@ -94,8 +94,7 @@ export class RequerimientoComponent implements OnChanges {
       this.actualConvocatoria != null &&
       !!this.email_rep &&
       !!this.telefono_rep &&
-      !!this.actualTipoTramite &&
-      !!this.publicAccessId
+      !!this.actualTipoTramite
     );
   }
 
