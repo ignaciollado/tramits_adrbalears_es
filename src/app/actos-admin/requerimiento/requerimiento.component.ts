@@ -97,36 +97,34 @@ export class RequerimientoComponent implements OnChanges {
   }
 
   ngOnInit(): void {
-  this.formRequerimiento = this.fb.group({
-    motivoRequerimiento:[{ value: '', disabled: false }],
-  })
+    this.formRequerimiento = this.fb.group({
+      motivoRequerimiento:[{ value: '', disabled: false }],
+    })
   }
 
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
-          console.log("docGenerado", docGenerado);
-          // Si hay contenido => true, si no => false
           if (docGenerado.length === 1) {
             this.reqGenerado = true;
+            this.nifDocgenerado = docGenerado[0].cifnif_propietario
+            this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
+            this.nameDocgenerado = docGenerado[0].name
+            this.lastInsertId = docGenerado[0].id
           }
-          this.nifDocgenerado = docGenerado[0].cifnif_propietario
-          this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
-          this.nameDocgenerado = docGenerado[0].name
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.reqGenerado = false; // En caso de error lo dejamos en false
+          this.reqGenerado = false; 
         }
       });
   }
 
   saveReasonRequest(): void {
-  const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value
- /*  this.saveExpediente() */
-  this.noRequestReasonText = !this.noRequestReasonText
-  this.reqGenerado = !this.reqGenerado
+    const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value
+    this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe()
+    this.noRequestReasonText = false
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
@@ -162,7 +160,7 @@ export class RequerimientoComponent implements OnChanges {
     doc.text(line, marginLeft, y);
   });
 
-  // obtengo el template json del acto adiministrativo y del tipo trámite: XECS, ADR-ISBA o ILS
+  // obtengo el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
       const rawTexto = docDataString.texto;
@@ -187,7 +185,7 @@ export class RequerimientoComponent implements OnChanges {
       doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
       doc.text(doc.splitTextToSize(`Palma, en fecha de la firma electrónica`, maxTextWidth), marginLeft, 225);
 
-      // además de generar el pdf del acto administrativo, hay que enviarlo al backend
+      // además de generar el pdf del acto administrativo ya que hay que enviarlo al backend
       // Convertir a Blob
       const pdfBlob = doc.output('blob');
 
@@ -215,14 +213,36 @@ export class RequerimientoComponent implements OnChanges {
           this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`
           this.docGeneradoInsert.selloDeTiempo = timeStamp
           // delete documentos generados antes del insert para evitar duplicados
-         this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
-          .subscribe({
+          this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
+            .subscribe({
+              next: () => {
+                // Eliminado correctamente, o no había nada que eliminar
+                console.log ("Eliminado correctamente, o no había nada que eliminar")
+                this.crearDocumentoGenerado(docFieldToUpdate);
+              },
+              error: (deleteErr) => {
+                const status = deleteErr?.status;
+                const msg = deleteErr?.error?.message || '';
+                // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
+                if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
+                  this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
+                  this.crearDocumentoGenerado(docFieldToUpdate);
+                } else {
+                // Otros errores sí se notifican y no continúan
+                  const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
+                  this.commonService.showSnackBar(deleteErrMsg);
+                }
+              }
+            });
+         
+            /*         this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
+            .subscribe({
             next: () => {
               this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
                 next: (resp: any) => {
                   this.lastInsertId = resp?.id;
                   if (this.lastInsertId) {
-                    this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, this.lastInsertId)
+                    this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId))
                     .subscribe({
                       next: (response: any) => {
                       const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
@@ -244,44 +264,56 @@ export class RequerimientoComponent implements OnChanges {
                 }
               });
             },
-          error: (deleteErr) => {
-            const deleteErrMsg = deleteErr?.error?.message || '❌ Error al eliminar el documento previo.';
-            this.commonService.showSnackBar(deleteErrMsg);
-      }
-  });
-
-/*           // Insertar documento generado
-          this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
-          next: (resp: any) => {
-            const lastInsertId = resp?.id;
-            if (lastInsertId) {
-              // Realizar el UPDATE en pindust_expediente con el last_insert_id
-              this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate , lastInsertId).subscribe({
-                next: () => {
-                const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                this.commonService.showSnackBar(mensaje);
-              },
-              error: (updateErr) => {
-                const updateErrorMsg = updateErr?.error?.message || '⚠️ Documento generado, pero error al actualizar el expediente.';
-                this.commonService.showSnackBar(updateErrorMsg);
-              }
-              });
-            } else {
-              this.commonService.showSnackBar('⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.');
+            error: (deleteErr) => {
+              const deleteErrMsg = deleteErr?.error?.message || '❌ Error al eliminar el documento previo.';
+              this.commonService.showSnackBar(deleteErrMsg);
             }
-          },
-          error: (insertErr) => {
-            const insertErrorMsg = insertErr?.error?.message || '❌ Error al guardar el documento generado.';
-            this.commonService.showSnackBar(insertErrorMsg);
-          }
-        }); */
-      },
-      error: (err) => {
-        const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
-        this.commonService.showSnackBar(errorMsg);
+            }); */
+        },
+        error: (err) => {
+          const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
+          this.commonService.showSnackBar(errorMsg);
+        }
+      });
+    });
+  }
+
+  /** Método auxiliar para no repetir el bloque de creación */
+  crearDocumentoGenerado(docFieldToUpdate: string): void {
+  this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
+    next: (resp: any) => {
+      this.lastInsertId = resp?.id;
+      if (this.lastInsertId) {
+        this.expedienteService
+          .updateDocFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
+          .subscribe({
+            next: (response: any) => {
+              const mensaje =
+                response?.message ||
+                '✅ Acto administrativo generado y expediente actualizado correctamente.';
+              this.reqGenerado = true;
+              this.commonService.showSnackBar(mensaje);
+            },
+            error: (updateErr) => {
+              const updateErrorMsg =
+                updateErr?.error?.message ||
+                '⚠️ Documento generado, pero error al actualizar el expediente.';
+              this.commonService.showSnackBar(updateErrorMsg);
+            }
+          });
+      } else {
+        this.commonService.showSnackBar(
+          '⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.'
+        );
       }
-    });
-    });
+    },
+    error: (insertErr) => {
+      const insertErrorMsg =
+        insertErr?.error?.message ||
+        '❌ Error al guardar el documento generado.';
+      this.commonService.showSnackBar(insertErrorMsg);
+    }
+  });
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
