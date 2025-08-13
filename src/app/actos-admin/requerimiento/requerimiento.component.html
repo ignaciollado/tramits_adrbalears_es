@@ -2,7 +2,7 @@
     <mat-accordion multi>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>**{{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}}**</mat-panel-title>
+          <mat-panel-title>{{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}}</mat-panel-title>
         </mat-expansion-panel-header>
         <mat-form-field appearance="outline">
           <mat-label>Motivo del requerimiento</mat-label>
@@ -12,7 +12,7 @@
         <button mat-raised-button color="accent" (click)="reqGenerado ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">
           {{ reqGenerado ? 'Ver documento' : 'Generar' }}
         </button>
-        <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign</button>
+        <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado"> {{ publicAccessId ? 'View sign state' : 'Send to sign' }}</button> *{{ publicAccessId }}*
         <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
         <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closeActoAdmin()">Cerrar ✖</button>
       </mat-expansion-panel>

@@ -34,6 +34,7 @@ export class RequerimientoComponent implements OnChanges {
   formRequerimiento!: FormGroup
   noRequestReasonText:boolean = true
   reqGenerado: boolean = false
+  sendedToSign: boolean = false
   nifDocgenerado: string = ""
   timeStampDocGenerado: string = ""
   nameDocgenerado: string = ""
@@ -55,6 +56,7 @@ export class RequerimientoComponent implements OnChanges {
                     publicAccessId: '-'
   }
   lastInsertId: number | undefined
+  publicAccessId: string = ""
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
@@ -92,7 +94,8 @@ export class RequerimientoComponent implements OnChanges {
       this.actualConvocatoria != null &&
       !!this.email_rep &&
       !!this.telefono_rep &&
-      !!this.actualTipoTramite 
+      !!this.actualTipoTramite &&
+      !!this.publicAccessId
     );
   }
 
@@ -112,6 +115,7 @@ export class RequerimientoComponent implements OnChanges {
             this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
             this.nameDocgenerado = docGenerado[0].name
             this.lastInsertId = docGenerado[0].id
+            this.publicAccessId = docGenerado[0].publicAccessId
           }
         },
         error: (err) => {
@@ -212,6 +216,8 @@ export class RequerimientoComponent implements OnChanges {
           this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite
           this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`
           this.docGeneradoInsert.selloDeTiempo = timeStamp
+
+          this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
           // delete documentos generados antes del insert para evitar duplicados
           this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
             .subscribe({
@@ -371,7 +377,8 @@ export class RequerimientoComponent implements OnChanges {
     next: (res) => {
       this.response = res;
       const id = res?.publicAccessId;
-      this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id}` : 'Solicitud de firma creada correctamente');
+      this.publicAccessId = id ?? '';
+      this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${this.email_rep}` : 'Solicitud de firma creada correctamente');
     },
     error: (err) => {
       const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
