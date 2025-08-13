@@ -60,6 +60,10 @@ export class RequerimientoComponent implements OnChanges {
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
+  signatureDocState: string = ""
+  externalSignUrl: string = ""
+  sendedUserToSign: string = ""
+  sendedDateToSign!: Date
 
   @Input() actualID!: number
   @Input() actualIdExp!: number
@@ -74,6 +78,16 @@ export class RequerimientoComponent implements OnChanges {
               private viafirmaService: ViafirmaService,
               private documentosGeneradosService: DocumentosGeneradosService,
               private actoAdminService: ActoAdministrativoService ) { }
+
+  get stateClass(): string {
+    const map: Record<string, string> = {
+      NOT_STARTED: 'req-state--not-started',
+      IN_PROCESS: 'req-state--in-process',
+      COMPLETED: 'req-state--completed',
+      REJECTED: 'req-state--rejected',
+    };
+    return map[this.signatureDocState ?? ''] ?? 'req-state--not-started';
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
@@ -115,6 +129,9 @@ export class RequerimientoComponent implements OnChanges {
             this.nameDocgenerado = docGenerado[0].name
             this.lastInsertId = docGenerado[0].id
             this.publicAccessId = docGenerado[0].publicAccessId
+            if (this.publicAccessId) {
+              this.viewSignState(this.publicAccessId)
+            }
           }
         },
         error: (err) => {
@@ -378,6 +395,7 @@ export class RequerimientoComponent implements OnChanges {
       const id = res?.publicAccessId;
       this.publicAccessId = id ?? '';
       this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${this.email_rep}` : 'Solicitud de firma creada correctamente');
+      this.viewSignState(this.publicAccessId)
     },
     error: (err) => {
       const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
@@ -385,6 +403,16 @@ export class RequerimientoComponent implements OnChanges {
       this.commonService.showSnackBar(msg);
     }
   });
-  }  
+  }
 
+  viewSignState(publicAccessId: string) {
+    this.viafirmaService.getDocumentStatus(publicAccessId)
+    .subscribe((resp:DocSignedDTO) => {
+      this.signatureDocState = resp.status
+      this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl
+      this.sendedUserToSign =  resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
+      const sendedDateToSign = resp.creationDate
+      this.sendedDateToSign = new Date(sendedDateToSign)
+    })
+  }
 }

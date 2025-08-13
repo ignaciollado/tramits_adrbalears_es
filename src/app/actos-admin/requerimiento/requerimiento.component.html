@@ -1,4 +1,4 @@
-<form [formGroup]="formRequerimiento" ngClass="detalle-formulario">
+<form [formGroup]="formRequerimiento" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
     <mat-accordion multi>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -12,7 +12,24 @@
         <button mat-raised-button color="accent" (click)="reqGenerado ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">
           {{ reqGenerado ? 'Ver documento' : 'Generar' }}
         </button>
-        <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado"> {{ publicAccessId ? 'View sign state' : 'Send to sign' }}</button> *{{ publicAccessId }}*
+        <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign</button>
+        <!-- <button *ngIf="publicAccessId" mat-raised-button [ngClass]="['detalle-formulario', 'req-state', stateClass]" (click)="viewSignState(publicAccessId)" [disabled]="!reqGenerado"> -->
+        <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
+          <div *ngIf="signatureDocState === 'COMPLETED'">
+            <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
+          </div>
+          <div *ngIf="signatureDocState === 'REJECTED'">Firma rechazada</div>
+          <div *ngIf="signatureDocState === 'NOT_STARTED'">
+            <span>Pendiente de firma.</span><br>
+            <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
+            <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
+          </div>
+          <div *ngIf="signatureDocState === 'IN_PROCESS'">
+            <button mat-raised-button color="warn">Firma en curso</button>
+          </div>
+         <!--  <ng-template #statusText>{{ signedDocData.status }}</ng-template> -->
+      </section>
+    <!-- </button> -->
         <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
         <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closeActoAdmin()">Cerrar ✖</button>
       </mat-expansion-panel>
