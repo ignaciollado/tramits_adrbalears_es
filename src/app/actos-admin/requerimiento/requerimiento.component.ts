@@ -362,7 +362,7 @@ export class RequerimientoComponent implements OnChanges {
       telefono_cont: this.telefono_rep ?? '',
       nombreDocumento: filename,
       nif: nif,
-      last_insert_id: ''
+      last_insert_id: this.lastInsertId
     };
 
    this.viafirmaService.createSignatureRequest(payload)
