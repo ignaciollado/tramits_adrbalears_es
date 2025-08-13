@@ -23,6 +23,7 @@
             <span>Pendiente de firma.</span><br>
             <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
             <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
+            <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign again</button>
           </div>
           <div *ngIf="signatureDocState === 'IN_PROCESS'">
             <button mat-raised-button color="warn">Firma en curso</button>
