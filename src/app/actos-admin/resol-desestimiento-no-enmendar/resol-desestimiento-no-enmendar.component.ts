@@ -168,6 +168,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
       let rawTexto = docDataString.texto;
+      console.log (rawTexto)
       /* Reemplazo de las variables por su valor */
       rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
       
@@ -183,7 +184,7 @@ export class ResolDesestimientoNoEnmendarComponent {
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(8);
-      doc.text("Document: requeriment", marginLeft+110, 45);
+      doc.text("Document: resolució desestiment", marginLeft+110, 45);
       doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft+110, 48);
       doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, marginLeft+110, 51);
       doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);

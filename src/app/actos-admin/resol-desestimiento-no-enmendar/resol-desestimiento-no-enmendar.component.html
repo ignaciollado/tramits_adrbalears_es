@@ -3,8 +3,11 @@
         <mat-expansion-panel-header>
           <mat-panel-title> 2. {{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}} </mat-panel-title>
         </mat-expansion-panel-header>
+        <button mat-raised-button color="accent" (click)="generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')" [disabled]="!reqGenerado">
+          Generar
+        </button>
         <button mat-raised-button color="accent" (click)="reqGenerado ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')" [disabled]="!reqGenerado">
-          {{ reqGenerado ? 'Ver documento' : 'Generar' }}
+         {{ reqGenerado ? 'Ver documento' : 'Generar' }}
         </button>{{publicAccessId}}
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
           <section *ngIf="signatureDocState === 'COMPLETED'">
