@@ -74,6 +74,7 @@ export class RequerimientoComponent implements OnChanges {
   @Input() email_rep!: string | undefined
   @Input() telefono_rep!: string | undefined
   @Input() actualTipoTramite!: string
+  @Input() actualEmpresa!: string
   @Input() motivoRequerimiento!: string
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
@@ -201,6 +202,15 @@ export class RequerimientoComponent implements OnChanges {
 
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text("Document: requeriment", marginLeft+110, 45);
+      doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft+110, 48);
+      doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, marginLeft+110, 51);
+      doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);
+      doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, 57); 
+      doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
+      doc.text("Codi SIA: 3173118", marginLeft+110, 63); 
+
       doc.setFontSize(10);
       doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
       doc.setFont('helvetica', 'normal');
@@ -262,41 +272,6 @@ export class RequerimientoComponent implements OnChanges {
                 }
               }
             });
-         
-            /*         this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
-            .subscribe({
-            next: () => {
-              this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
-                next: (resp: any) => {
-                  this.lastInsertId = resp?.id;
-                  if (this.lastInsertId) {
-                    this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId))
-                    .subscribe({
-                      next: (response: any) => {
-                      const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                      this.reqGenerado = true
-                      this.commonService.showSnackBar(mensaje);
-                    },
-                    error: (updateErr) => {
-                      const updateErrorMsg = updateErr?.error?.message || '⚠️ Documento generado, pero error al actualizar el expediente.';
-                      this.commonService.showSnackBar(updateErrorMsg);
-                    }
-                    });
-                  } else {
-                    this.commonService.showSnackBar('⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.');
-                  }
-                },
-                error: (insertErr) => {
-                  const insertErrorMsg = insertErr?.error?.message || '❌ Error al guardar el documento generado.';
-                  this.commonService.showSnackBar(insertErrorMsg);
-                }
-              });
-            },
-            error: (deleteErr) => {
-              const deleteErrMsg = deleteErr?.error?.message || '❌ Error al eliminar el documento previo.';
-              this.commonService.showSnackBar(deleteErrMsg);
-            }
-            }); */
         },
         error: (err) => {
           const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
