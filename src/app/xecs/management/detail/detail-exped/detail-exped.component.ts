@@ -85,7 +85,13 @@ export class CustomDateAdapter extends NativeDateAdapter {
   styleUrl: './detail-exped.component.scss',
 
   imports: [
-    CommonModule, DocumentComponent, RequerimientoComponent, ResolDesestimientoNoEnmendarComponent,
+    CommonModule, DocumentComponent, RequerimientoComponent, ResolDesestimientoNoEnmendarComponent, InformeFavorableComponent,
+    InformeFavorableConRequerimientoComponent, InformeDesfavorableComponent, InformeDesfavorableConRequerimientoComponent, PrProvisionalFavorableComponent,
+    PrProvisionalFavorableConRequerimientoComponent, PrProvisionalDesfavorableComponent, PrProvisionalDesfavorableConRequerimientoComponent, PrDefinitivaFavorableComponent,
+    PrDefinitivaFavorableConRequerimientoComponent, PrDefinitivaDesfavorableComponent, PrDefinitivaDesfavorableConRequerimientoComponent, ResolConcesionFavorableComponent,
+    ResolConcesionFavorableConRequerimientoComponent, ResolDenegacionComponent, ResolDenegacionConRequerimientoComponent, ActaDeKickOffComponent, ActaDeCierreComponent,
+    InformeInicioReqJustificacionComponent, ReqEnmiendaJustificacionComponent, InformePostEnmiendaJustificacionComponent, ResolDePagoComponent,
+    ResolDesestimientoPorRenunciaComponent, PrRevocacionPorNoJustificarComponent, ResolRevocacionPorNoJustificarComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule, MatSelectModule, MatExpansionModule,
@@ -135,6 +141,7 @@ export class XecsDetailExpedComponent {
                     selloDeTiempo: '',
                     publicAccessId: '-'
   }
+  
   lastInsertId: number | undefined
   newAidAmount: number | undefined
   nifDocgenerado: string = ""
