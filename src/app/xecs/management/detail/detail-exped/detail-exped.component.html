@@ -204,15 +204,18 @@
         </section>
         <section>
       <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
-    <app-requerimiento [signedBy]="'tecnico'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [email_rep]="email_rep" [telefono_rep]="telefono_rep" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
-    <mat-accordion multi>   
+    <app-requerimiento [signedBy]="'tecnico'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
+    <app-resol-desestimiento-no-enmendar [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resol-desestimiento-no-enmendar>
+
+<!--     <mat-accordion multi>   
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> {{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}} </mat-panel-title>
         </mat-expansion-panel-header>
         <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
       </mat-expansion-panel>
-    </mat-accordion>
+    </mat-accordion> -->
+    
        <h4>Mejoras</h4>
       <table></table>
         </section>

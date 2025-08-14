@@ -1,6 +1,6 @@
 export interface CreateSignatureRequest {
-  adreca_mail: string;
-  telefono_cont: string;   // solo números, sin +34
+  adreca_mail?: string;
+  telefono_cont?: string;   // solo números, sin +34
   nombreDocumento: string; // ej. "contrato.pdf"
   nif: string;             // ej. "12345678A"
   last_insert_id?: number;

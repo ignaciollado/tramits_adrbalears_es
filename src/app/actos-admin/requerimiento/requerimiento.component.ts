@@ -16,7 +16,6 @@ import { ExpedienteService } from '../../Services/expediente.service';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
@@ -76,8 +75,6 @@ export class RequerimientoComponent implements OnChanges {
   @Input() actualIdExp!: number
   @Input() actualNif!: string
   @Input() actualConvocatoria!: number
-  @Input() email_rep!: string | undefined
-  @Input() telefono_rep!: string | undefined
   @Input() actualTipoTramite!: string
   @Input() actualEmpresa!: string
   @Input() motivoRequerimiento!: string
@@ -116,8 +113,6 @@ export class RequerimientoComponent implements OnChanges {
       this.actualIdExp != null &&
       !!this.actualNif &&
       this.actualConvocatoria != null &&
-      !!this.email_rep &&
-      !!this.telefono_rep &&
       !!this.actualTipoTramite
     );
   }
@@ -371,7 +366,7 @@ export class RequerimientoComponent implements OnChanges {
       adreca_mail: this.signedBy === 'tecnico'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
-      telefono_cont: this.telefono_rep ?? '',
+      /* telefono_cont: this.telefono_rep ?? '', */
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
