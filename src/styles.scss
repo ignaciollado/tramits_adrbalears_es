@@ -255,6 +255,8 @@ section {
   border-left: 4px solid transparent;
   padding-left: 12px;
   transition: background-color 160ms ease, border-color 160ms ease;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
 
   &.req-state--not-started {
     border-color: #9e9e9e;

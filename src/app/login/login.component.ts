@@ -61,7 +61,8 @@ export class LoginComponent {
             console.log ("Welcome to IBRelleu Market Place created by the ADR Balears ...")
             errorResponse = "Logged in"
             const decodedToken = this.jwtHelper.decodeToken(item.access_token);
-            sessionStorage.setItem('ibrelleu_user', decodedToken.name)
+            sessionStorage.setItem('tramits_user_name', decodedToken.name)
+            sessionStorage.setItem('tramits_user_email', decodedToken.email)
             sessionStorage.setItem('access_token', item.access_token)
             sessionStorage.setItem("preferredLang", "ca-ES")
             sessionStorage.setItem("days_to_expire_pwd", item.days_to_expire_pwd)

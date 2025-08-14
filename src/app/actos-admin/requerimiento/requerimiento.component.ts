@@ -2,7 +2,7 @@ import { Component, inject, Input, OnChanges, SimpleChanges} from '@angular/core
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { DocumentComponent } from '../../document/document.component';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +17,7 @@ import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { finalize } from 'rxjs';
@@ -66,7 +67,11 @@ export class RequerimientoComponent implements OnChanges {
   externalSignUrl: string = ""
   sendedUserToSign: string = ""
   sendedDateToSign!: Date
+  accessToken: string = ""
+  userLoginEmail: string = ""
+  ceoEmail: string = "nachollv@hotmail.com"
 
+  @Input() signedBy!: string
   @Input() actualID!: number
   @Input() actualIdExp!: number
   @Input() actualNif!: string
@@ -80,7 +85,9 @@ export class RequerimientoComponent implements OnChanges {
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
               private documentosGeneradosService: DocumentosGeneradosService,
-              private actoAdminService: ActoAdministrativoService ) { }
+              private actoAdminService: ActoAdministrativoService, private jwtHelper: JwtHelperService ) { 
+              this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
+              }
 
   get stateClass(): string {
     const map: Record<string, string> = {
@@ -347,7 +354,7 @@ export class RequerimientoComponent implements OnChanges {
     }
   }
 
-  closeActoAdmin() {
+  closeViewActoAdmin() {
     this.showPdfViewer = false;
     this.pdfUrl = null;
   }
@@ -361,7 +368,9 @@ export class RequerimientoComponent implements OnChanges {
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
     
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.email_rep ?? '',
+      adreca_mail: this.signedBy === 'tecnico'
+      ? this.userLoginEmail           // correo del usuario logeado
+      : this.ceoEmail,                // correo de coe,
       telefono_cont: this.telefono_rep ?? '',
       nombreDocumento: filename,
       nif: nif,
@@ -375,7 +384,7 @@ export class RequerimientoComponent implements OnChanges {
       this.response = res;
       const id = res?.publicAccessId;
       this.publicAccessId = id ?? '';
-      this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${this.email_rep}` : 'Solicitud de firma creada correctamente');
+      this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
       this.viewSignState(this.publicAccessId)
     },
     error: (err) => {
