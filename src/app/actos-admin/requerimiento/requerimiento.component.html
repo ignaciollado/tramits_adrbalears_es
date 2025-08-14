@@ -1,8 +1,8 @@
-<form [formGroup]="formRequerimiento" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
-    <mat-accordion multi>
+<form [formGroup]="formRequerimiento">
+    <mat-accordion [ngClass]="['detalle-formulario', 'req-state', stateClass]">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>{{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}}</mat-panel-title>
+          <mat-panel-title>1. {{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}}</mat-panel-title>
         </mat-expansion-panel-header>
         <mat-form-field appearance="outline">
           <mat-label>Motivo del requerimiento</mat-label>
@@ -32,4 +32,4 @@
         <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closeViewActoAdmin()">Cerrar ✖</button>
       </mat-expansion-panel>
     </mat-accordion>
-  </form>
+</form>
