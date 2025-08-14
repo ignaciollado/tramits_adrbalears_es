@@ -145,7 +145,6 @@ export class RequerimientoComponent implements OnChanges {
 
   saveReasonRequest(): void {
     const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value
-    console.log (motivo)
     this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe()
     this.noRequestReasonText = false
     this.reqGenerado = false
@@ -198,7 +197,7 @@ export class RequerimientoComponent implements OnChanges {
       }
       /* Reemplazo de las variables por su valor */
       console.log (jsonObject.p1)
-      jsonObject.p1.replace("%BOIBNUM%", "¡¡¡FALTA EL BOIB!!!")
+      jsonObject.p1.replace(/%BOIBNUM%/g, "¡¡¡FALTA EL BOIB!!!")
       console.log (jsonObject.p1)
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
@@ -212,7 +211,7 @@ export class RequerimientoComponent implements OnChanges {
       doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
       doc.text(doc.splitTextToSize(`Palma, en fecha de la firma electrónica`, maxTextWidth), marginLeft, 225);
 
-      // además de generar el pdf del acto administrativo ya que hay que enviarlo al backend
+      // además de generar el pdf del acto administrativo hay que enviarlo al backend
       // Convertir a Blob
       const pdfBlob = doc.output('blob');
 
