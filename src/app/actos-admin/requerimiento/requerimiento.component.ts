@@ -16,6 +16,7 @@ import { ExpedienteService } from '../../Services/expediente.service';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { finalize } from 'rxjs';
@@ -55,6 +56,7 @@ export class RequerimientoComponent implements OnChanges {
                     selloDeTiempo: '',
                     publicAccessId: '-'
   }
+
   lastInsertId: number | undefined
   publicAccessId: string = ""
   loading: boolean = false;
@@ -170,7 +172,7 @@ export class RequerimientoComponent implements OnChanges {
   doc.setFontSize(8);
 
   const marginLeft = 25;
-  const maxTextWidth = 160; // Ajusta según el margen derecho
+  const maxTextWidth = 160;
   const lineHeight = 4;
   const pageHeight = doc.internal.pageSize.getHeight();
   const lines = footerText.split('\n');
