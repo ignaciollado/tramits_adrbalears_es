@@ -11,7 +11,7 @@
         <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
         <button mat-raised-button color="accent" (click)="reqGenerado ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">
           {{ reqGenerado ? 'Ver documento' : 'Generar' }}
-        </button>
+        </button>{{publicAccessId}}
         <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
           <section *ngIf="signatureDocState === 'COMPLETED'">

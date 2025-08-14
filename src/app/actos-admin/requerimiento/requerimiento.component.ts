@@ -54,7 +54,7 @@ export class RequerimientoComponent implements OnChanges {
                     tipo_tramite: '',
                     corresponde_documento: '',
                     selloDeTiempo: '',
-                    publicAccessId: '-'
+                    publicAccessId: ''
   }
 
   lastInsertId: number | undefined
@@ -186,7 +186,10 @@ export class RequerimientoComponent implements OnChanges {
   // obtengo, desde bbdd, el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
-      const rawTexto = docDataString.texto;
+      let rawTexto = docDataString.texto;
+      /* Reemplazo de las variables por su valor */
+      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
+      
       const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
       let jsonObject;
       try {
@@ -195,10 +198,7 @@ export class RequerimientoComponent implements OnChanges {
         console.error("Error al convertir el string a JSON:", error);
         return;
       }
-      /* Reemplazo de las variables por su valor */
-      console.log (jsonObject.p1)
-      jsonObject.p1.replace(/%BOIBNUM%/g, "¡¡¡FALTA EL BOIB!!!")
-      console.log (jsonObject.p1)
+
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(10);
