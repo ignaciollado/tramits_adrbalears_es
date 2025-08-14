@@ -145,8 +145,10 @@ export class RequerimientoComponent implements OnChanges {
 
   saveReasonRequest(): void {
     const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value
+    console.log (motivo)
     this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe()
     this.noRequestReasonText = false
+    this.reqGenerado = false
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
@@ -182,7 +184,7 @@ export class RequerimientoComponent implements OnChanges {
     doc.text(line, marginLeft, y);
   });
 
-  // obtengo el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
+  // obtengo, desde bbdd, el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
       const rawTexto = docDataString.texto;
