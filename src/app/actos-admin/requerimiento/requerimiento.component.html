@@ -14,19 +14,19 @@
         </button>
         <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
-          <div *ngIf="signatureDocState === 'COMPLETED'">
+          <section *ngIf="signatureDocState === 'COMPLETED'">
             <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
-          </div>
-          <div *ngIf="signatureDocState === 'REJECTED'">Firma rechazada</div>
-          <div *ngIf="signatureDocState === 'NOT_STARTED'">
+          </section>
+          <section *ngIf="signatureDocState === 'REJECTED'">Firma rechazada</section>
+          <section *ngIf="signatureDocState === 'NOT_STARTED'">
             <span>Pendiente de firma.</span><br>
             <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
             <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
             <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign again</button>
-          </div>
-          <div *ngIf="signatureDocState === 'IN_PROCESS'">
-            <button mat-raised-button color="warn">Firma en curso</button>
-          </div>
+          </section>
+          <section *ngIf="signatureDocState === 'IN_PROCESS'">
+            <span>Firma en curso</span>
+          </section>
          <!--  <ng-template #statusText>{{ signedDocData.status }}</ng-template> -->
         </section>
         <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>

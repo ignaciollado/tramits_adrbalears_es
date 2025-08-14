@@ -197,8 +197,9 @@ export class RequerimientoComponent implements OnChanges {
         return;
       }
       /* Reemplazo de las variables por su valor */
-      jsonObject.replace("%BOIBNUM%", "¡¡¡FALTA EL BOIB!!!")
-
+      console.log (jsonObject.p1)
+      jsonObject.p1.replace("%BOIBNUM%", "¡¡¡FALTA EL BOIB!!!")
+      console.log (jsonObject.p1)
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(10);
