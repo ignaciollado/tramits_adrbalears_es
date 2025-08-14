@@ -47,6 +47,9 @@ export class IsbaDetailExpedComponent {
   form!: FormGroup;
   idExpediente!: number;
   actualNif!: string;
+  actualID!: number;
+  actualIdExp!: number;
+  actualEmpresa!: string;
   actualTimeStamp!: string;
   actualConvocatoria!: number;
   actualTipoTramite!: string;
@@ -64,27 +67,27 @@ export class IsbaDetailExpedComponent {
     this.form = this.fb.group({
       /* Detalle */
       id: [{ value: '', disabled: true }, []],
-      empresa: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      empresa: [{ value: '', disabled: true }, []],
       nif: [{ value: '', disabled: true }, []],
       fecha_solicitud: [{ value: '', disabled: true }, []],
       tipo_tramite: [{ value: '', disabled: true }, []],
       telefono_rep: [{ value: '', disabled: true }, [Validators.maxLength(9), Validators.minLength(9), Validators.pattern('^\\d{1,9}$')]],
-      email_rep: [{ value: '', disabled: true }, [Validators.email, this.customValidatorService.xssProtectorValidator()]],
-      domicilio: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
-      localidad: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
-      cpostal: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator(), Validators.minLength(5), Validators.maxLength(5), Validators.pattern('^\\d+$')]],
+      email_rep: [{ value: '', disabled: true }, [Validators.email]],
+      domicilio: [{ value: '', disabled: true }, []],
+      localidad: [{ value: '', disabled: true }, []],
+      cpostal: [{ value: '', disabled: true }, [Validators.minLength(5), Validators.maxLength(5), Validators.pattern('^\\d+$')]],
       telefono: [{ value: '', disabled: true }, [Validators.maxLength(9), Validators.minLength(9), Validators.pattern('^\\d{1,9}$')]],
       iae: [{ value: '', disabled: true }, []],
-      nombre_rep: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      nombre_rep: [{ value: '', disabled: true }, []],
       nif_rep: [{ value: '', disabled: true }, [this.customValidatorService.dniNieValidator()]],
       telefono_contacto_rep: [{ value: '', disabled: true }, [Validators.maxLength(9), Validators.minLength(9), Validators.pattern('^\\d{1,9}$')]],
       file_copiaNIF: [{ value: '', disabled: true }, []],
       file_certificadoATIB: [{ value: '', disabled: true }, []],
       file_certificadoSegSoc: [{ value: '', disabled: true }, []],
-      comments: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      comments: [{ value: '', disabled: true }, []],
       empresa_eco_idi_isba: [{ value: '', disabled: true }, []],
-      finalidad_inversion_idi_isba: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
-      nom_entidad: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      finalidad_inversion_idi_isba: [{ value: '', disabled: true }, []],
+      nom_entidad: [{ value: '', disabled: true }, []],
       importe_prestamo: [{ value: '', disabled: true }, [this.twoDecimalValidator()]],
       plazo_prestamo: [{ value: '', disabled: true }, []],
       cuantia_aval_idi_isba: [{ value: '', disabled: true }, [this.twoDecimalValidator()]],
@@ -94,18 +97,18 @@ export class IsbaDetailExpedComponent {
       intereses_ayuda_solicita_idi_isba: [{ value: '', disabled: true }, [this.twoDecimalValidator()]],
       coste_aval_solicita_idi_isba: [{ value: '', disabled: true }, [this.twoDecimalValidator()]],
       gastos_aval_solicita_idi_isba: [{ value: '', disabled: true }, [this.twoDecimalValidator()]],
-      ayudasSubvenSICuales_dec_resp: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ayudasSubvenSICuales_dec_resp: [{ value: '', disabled: true }, []],
       tecnicoAsignado: [{ value: '', disabled: true }, []],
       situacion: [{ value: '', disabled: true }, []],
       /* Solicitud */
       fecha_REC: [{ value: '', disabled: true }, []],
-      ref_REC: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ref_REC: [{ value: '', disabled: true }, []],
       fecha_REC_enmienda: [{ value: '', disabled: true }, []],
-      ref_REC_enmienda: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ref_REC_enmienda: [{ value: '', disabled: true }, []],
       fecha_requerimiento: [{ value: '', disabled: true }, []],
       fecha_requerimiento_notif: [{ value: '', disabled: true }, []],
       fecha_maxima_enmienda: [{ value: '', disabled: true }, []],
-      motivoRequerimiento: [{ value: '', disabled: false }, [this.customValidatorService.xssProtectorValidator()]],
+      motivoRequerimiento: [{ value: '', disabled: false }, []],
       /* Validación */
       fecha_infor_fav_desf: [{ value: '', disabled: true }, []],
       fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }, []],
@@ -117,7 +120,7 @@ export class IsbaDetailExpedComponent {
       fecha_notificacion_resolucion: [{ value: '', disabled: true }, []],
       fecha_limite_justificacion: [{ value: '', disabled: true }, []],
       fecha_REC_justificacion: [{ value: '', disabled: true }, []],
-      ref_REC_justificacion: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ref_REC_justificacion: [{ value: '', disabled: true }, []],
       fecha_firma_res_pago_just: [{ value: '', disabled: true }, []],
       fecha_not_res_pago: [{ value: '', disabled: true }, []],
       fecha_inf_inicio_req_justif: [{ value: '', disabled: true }, []],
@@ -125,17 +128,17 @@ export class IsbaDetailExpedComponent {
       fecha_firma_requerimiento_justificacion: [{ value: '', disabled: true }, []],
       fecha_not_req_just: [{ value: '', disabled: true }, []],
       fecha_REC_requerimiento_justificacion: [{ value: '', disabled: true }, []],
-      ref_REC_requerimiento_justificacion: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ref_REC_requerimiento_justificacion: [{ value: '', disabled: true }, []],
       /* Desestimiento o renuncia */
       fecha_REC_desestimiento: [{ value: '', disabled: true }, []],
-      ref_REC_desestimiento: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ref_REC_desestimiento: [{ value: '', disabled: true }, []],
       fecha_firma_resolucion_desestimiento: [{ value: '', disabled: true }, []],
       fecha_notificacion_desestimiento: [{ value: '', disabled: true }, []],
       fecha_propuesta_rev: [{ value: '', disabled: true }, []],
       fecha_not_pr_revocacion: [{ value: '', disabled: true }, []],
       fecha_resolucion_rev: [{ value: '', disabled: true }, []],
       fecha_not_r_revocacion: [{ value: '', disabled: true }, []],
-      motivoResolucionRevocacionPorNoJustificar: [{ value: '', disabled: false }, [this.customValidatorService.xssProtectorValidator()]]
+      motivoResolucionRevocacionPorNoJustificar: [{ value: '', disabled: false }, []]
     });
     this.getExpedDetail(this.idExpediente)
   }
@@ -164,8 +167,12 @@ export class IsbaDetailExpedComponent {
           if (expediente.motivoResolucionRevocacionPorNoJustificar) {
             this.noRevocationReasonText = false;
           }
+          this.form.patchValue(expediente);
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;
+          this.actualID = expediente.id;
+          this.actualIdExp = expediente.idExp;
+          this.actualEmpresa = expediente.empresa;
           this.actualTimeStamp = expediente.selloDeTiempo;
           this.actualConvocatoria = expediente.convocatoria;
           this.actualTipoTramite = expediente.tipo_tramite;
@@ -173,7 +180,6 @@ export class IsbaDetailExpedComponent {
           this.checkViafirmaSign(this.publicAccessId)
           this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
           this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
-          this.form.patchValue(expediente);
         } else {
           this.commonService.showSnackBar('⚠️ No se encontró información del expediente.')
         }
