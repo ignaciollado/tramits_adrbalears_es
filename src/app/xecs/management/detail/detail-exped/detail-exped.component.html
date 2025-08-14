@@ -203,21 +203,11 @@
         </mat-form-field>
         </section>
         <section>
-      <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
-    <app-requerimiento [signedBy]="'tecnico'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
-    <app-resol-desestimiento-no-enmendar [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resol-desestimiento-no-enmendar>
-
-<!--     <mat-accordion multi>   
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title> {{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}} </mat-panel-title>
-        </mat-expansion-panel-header>
-        <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-      </mat-expansion-panel>
-    </mat-accordion> -->
-    
-       <h4>Mejoras</h4>
-      <table></table>
+          <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+          <app-requerimiento [signedBy]="'tecnico'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
+          <app-resol-desestimiento-no-enmendar [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resol-desestimiento-no-enmendar>
+          <h4>Mejoras</h4>
+          <table></table>
         </section>
         <section>
         <h4>Documentos del expediente</h4>

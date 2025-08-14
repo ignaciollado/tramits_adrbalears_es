@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DocumentComponent } from '../../../../document/document.component';
-import { RequerimientoComponent } from '../../../../actos-admin/requerimiento/requerimiento.component';
-import { ResolDesestimientoNoEnmendarComponent } from '../../../../actos-admin/resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
+
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
@@ -33,6 +32,42 @@ import { MatListModule } from '@angular/material/list';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { SignatureResponse } from '../../../../Models/signature.dto';
+
+/* tab solicitud */
+import { RequerimientoComponent } from '../../../../actos-admin/requerimiento/requerimiento.component';
+import { ResolDesestimientoNoEnmendarComponent } from '../../../../actos-admin/resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
+/* tab validación */
+import { InformeFavorableComponent } from '../../../../actos-admin/informe-favorable/informe-favorable.component';
+import { InformeFavorableConRequerimientoComponent } from '../../../../actos-admin/informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
+import { InformeDesfavorableComponent } from '../../../../actos-admin/informe-desfavorable/informe-desfavorable.component';
+import { InformeDesfavorableConRequerimientoComponent } from '../../../../actos-admin/informe-desfavorable-con-requerimiento/informe-desfavorable-con-requerimiento.component';
+import { PrProvisionalFavorableComponent } from '../../../../actos-admin/pr-provisional-favorable/pr-provisional-favorable.component';
+import { PrProvisionalFavorableConRequerimientoComponent } from '../../../../actos-admin/pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
+import { PrProvisionalDesfavorableComponent } from '../../../../actos-admin/pr-provisional-desfavorable/pr-provisional-desfavorable.component';
+import { PrProvisionalDesfavorableConRequerimientoComponent } from '../../../../actos-admin/pr-provisional-desfavorable-con-requerimiento/pr-provisional-desfavorable-con-requerimiento.component';
+import { PrDefinitivaFavorableComponent } from '../../../../actos-admin/pr-definitiva-favorable/pr-definitiva-favorable.component';
+import { PrDefinitivaFavorableConRequerimientoComponent } from '../../../../actos-admin/pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.component';
+import { PrDefinitivaDesfavorableComponent } from '../../../../actos-admin/pr-definitiva-desfavorable/pr-definitiva-desfavorable.component';
+import { PrDefinitivaDesfavorableConRequerimientoComponent } from '../../../../actos-admin/pr-definitiva-desfavorable-con-requerimiento/pr-definitiva-desfavorable-con-requerimiento.component';
+import { ResolConcesionFavorableComponent } from '../../../../actos-admin/resol-concesion-favorable/resol-concesion-favorable.component';
+import { ResolConcesionFavorableConRequerimientoComponent } from '../../../../actos-admin/resol-concesion-favorable-con-requerimiento/resol-concesion-favorable-con-requerimiento.component';
+import { ResolDenegacionComponent } from '../../../../actos-admin/resol-denegacion/resol-denegacion.component';
+import { ResolDenegacionConRequerimientoComponent } from '../../../../actos-admin/resol-denegacion-con-requerimiento/resol-denegacion-con-requerimiento.component';
+/* tab ejecución */
+import { ActaDeKickOffComponent } from '../../../../actos-admin/acta-de-kick-off/acta-de-kick-off.component';
+import { ActaDeCierreComponent } from '../../../../actos-admin/acta-de-cierre/acta-de-cierre.component';
+/* tab justificación */
+import { InformeInicioReqJustificacionComponent } from '../../../../actos-admin/informe-inicio-req-justificacion/informe-inicio-req-justificacion.component';
+import { ReqEnmiendaJustificacionComponent } from '../../../../actos-admin/req-enmienda-justificacion/req-enmienda-justificacion.component';
+import { InformePostEnmiendaJustificacionComponent } from '../../../../actos-admin/informe-post-enmienda-justificacion/informe-post-enmienda-justificacion.component';
+import { ResolDePagoComponent } from '../../../../actos-admin/resol-de-pago/resol-de-pago.component';
+/* tab desestimiento o renuncia */
+import { ResolDesestimientoPorRenunciaComponent } from '../../../../actos-admin/resol-desestimiento-por-renuncia/resol-desestimiento-por-renuncia.component';
+import { PrRevocacionPorNoJustificarComponent } from '../../../../actos-admin/pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
+import { ResolRevocacionPorNoJustificarComponent } from '../../../../actos-admin/resol-revocacion-por-no-justificar/resol-revocacion-por-no-justificar.component';
+
+
+
 
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
