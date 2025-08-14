@@ -69,6 +69,7 @@ export class RequerimientoComponent implements OnChanges {
   accessToken: string = ""
   userLoginEmail: string = ""
   ceoEmail: string = "nachollv@hotmail.com"
+  codigoSIAConvo:string = "en bbdd de la convo y de la línea de ayudas"
 
   @Input() signedBy!: string
   @Input() actualID!: number
@@ -211,7 +212,7 @@ export class RequerimientoComponent implements OnChanges {
       doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);
       doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, 57); 
       doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
-      doc.text("Codi SIA: 3173118", marginLeft+110, 63); 
+      doc.text(`Codi SIA: ${this.codigoSIAConvo}`, marginLeft+110, 63); 
 
       doc.setFontSize(10);
       doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
