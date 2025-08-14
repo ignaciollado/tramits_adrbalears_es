@@ -71,12 +71,12 @@ export class ExpedienteService {
     return this.http.put<any>(`${this.apiUrl}/pindustexpediente/update/${id}`, expediente).pipe(catchError(this.handleError));
   }
 
-  updateDocFieldExpediente(id: number, field: string, value: number): Observable<any> {
+  updateDocFieldExpediente(id: number, field: string, value: string): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     // Payload dinámico
     const body: any = {};
     body[field] = value;
-    return this.http.put(`${this.apiUrl}/pindustexpediente/update-doc-field/${id}`, body, { headers });
+    return this.http.put(`${this.apiUrl}/pindustexpediente/update-one-field/${id}`, body, { headers });
   }
 
   deleteExpediente(id: number): Observable<void> {

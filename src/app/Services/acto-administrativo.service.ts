@@ -82,7 +82,6 @@ export class ActoAdministrativoService {
   }
 
   sendPDFToBackEnd(formData: FormData): Observable<any> {
-    console.log("formdata", formData)
     return this.http.post(`${this.apiUrl}/api/pindust/pdf/upload`, formData);
   }
 }

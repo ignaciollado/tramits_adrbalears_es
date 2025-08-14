@@ -39,7 +39,7 @@ mat-card {
   gap: 1rem;
 }
 
-.detalle-formulario {
+/* .detalle-formulario {
   display: grid;
   grid-template-columns: repeat(1, 1fr); // Tres columnas fijas
   gap: 1rem;
@@ -53,7 +53,7 @@ mat-card {
       cursor:not-allowed;
     }
   }
-}
+} */
 
 .autorizaciones, .documentos-en-ADR {
   border: 1px solid #0098cb;
@@ -115,7 +115,7 @@ mat-card {
   }
 }
 
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   mat-card {
     padding: 1rem;
 
@@ -127,4 +127,4 @@ mat-card {
   .detalle-formulario {
     grid-template-columns: 1fr;
   }
-}
+} */

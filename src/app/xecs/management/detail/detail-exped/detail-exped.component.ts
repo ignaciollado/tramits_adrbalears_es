@@ -3,6 +3,7 @@ import { NativeDateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { DocumentComponent } from '../../../../document/document.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,9 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
-import { DocumentComponent } from '../../../../document/document.component';
+
 import { PindustLineaAyudaService } from '../../../../Services/linea-ayuda.service';
-import { DocumentosGeneradosService } from '../../../../Services/documentos-generados.service';
 import { CommonService } from '../../../../Services/common.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { DocSignedDTO } from '../../../../Models/docsigned.dto';
@@ -29,10 +29,45 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { ActoAdministrativoService } from '../../../../Services/acto-administrativo.service';
-import { jsPDF } from 'jspdf';
+
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
-import { CreateSignatureRequest, SignatureResponse } from '../../../../Models/signature.dto';
+import { SignatureResponse } from '../../../../Models/signature.dto';
+
+/* tab solicitud */
+import { RequerimientoComponent } from '../../../../actos-admin/requerimiento/requerimiento.component';
+import { ResolDesestimientoNoEnmendarComponent } from '../../../../actos-admin/resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
+/* tab validación */
+import { InformeFavorableComponent } from '../../../../actos-admin/informe-favorable/informe-favorable.component';
+import { InformeFavorableConRequerimientoComponent } from '../../../../actos-admin/informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
+import { InformeDesfavorableComponent } from '../../../../actos-admin/informe-desfavorable/informe-desfavorable.component';
+import { InformeDesfavorableConRequerimientoComponent } from '../../../../actos-admin/informe-desfavorable-con-requerimiento/informe-desfavorable-con-requerimiento.component';
+import { PrProvisionalFavorableComponent } from '../../../../actos-admin/pr-provisional-favorable/pr-provisional-favorable.component';
+import { PrProvisionalFavorableConRequerimientoComponent } from '../../../../actos-admin/pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
+import { PrProvisionalDesfavorableComponent } from '../../../../actos-admin/pr-provisional-desfavorable/pr-provisional-desfavorable.component';
+import { PrProvisionalDesfavorableConRequerimientoComponent } from '../../../../actos-admin/pr-provisional-desfavorable-con-requerimiento/pr-provisional-desfavorable-con-requerimiento.component';
+import { PrDefinitivaFavorableComponent } from '../../../../actos-admin/pr-definitiva-favorable/pr-definitiva-favorable.component';
+import { PrDefinitivaFavorableConRequerimientoComponent } from '../../../../actos-admin/pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.component';
+import { PrDefinitivaDesfavorableComponent } from '../../../../actos-admin/pr-definitiva-desfavorable/pr-definitiva-desfavorable.component';
+import { PrDefinitivaDesfavorableConRequerimientoComponent } from '../../../../actos-admin/pr-definitiva-desfavorable-con-requerimiento/pr-definitiva-desfavorable-con-requerimiento.component';
+import { ResolConcesionFavorableComponent } from '../../../../actos-admin/resol-concesion-favorable/resol-concesion-favorable.component';
+import { ResolConcesionFavorableConRequerimientoComponent } from '../../../../actos-admin/resol-concesion-favorable-con-requerimiento/resol-concesion-favorable-con-requerimiento.component';
+import { ResolDenegacionComponent } from '../../../../actos-admin/resol-denegacion/resol-denegacion.component';
+import { ResolDenegacionConRequerimientoComponent } from '../../../../actos-admin/resol-denegacion-con-requerimiento/resol-denegacion-con-requerimiento.component';
+/* tab ejecución */
+import { ActaDeKickOffComponent } from '../../../../actos-admin/acta-de-kick-off/acta-de-kick-off.component';
+import { ActaDeCierreComponent } from '../../../../actos-admin/acta-de-cierre/acta-de-cierre.component';
+/* tab justificación */
+import { InformeInicioReqJustificacionComponent } from '../../../../actos-admin/informe-inicio-req-justificacion/informe-inicio-req-justificacion.component';
+import { ReqEnmiendaJustificacionComponent } from '../../../../actos-admin/req-enmienda-justificacion/req-enmienda-justificacion.component';
+import { InformePostEnmiendaJustificacionComponent } from '../../../../actos-admin/informe-post-enmienda-justificacion/informe-post-enmienda-justificacion.component';
+import { ResolDePagoComponent } from '../../../../actos-admin/resol-de-pago/resol-de-pago.component';
+/* tab desestimiento o renuncia */
+import { ResolDesestimientoPorRenunciaComponent } from '../../../../actos-admin/resol-desestimiento-por-renuncia/resol-desestimiento-por-renuncia.component';
+import { PrRevocacionPorNoJustificarComponent } from '../../../../actos-admin/pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
+import { ResolRevocacionPorNoJustificarComponent } from '../../../../actos-admin/resol-revocacion-por-no-justificar/resol-revocacion-por-no-justificar.component';
+
+
+
 
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
@@ -50,7 +85,13 @@ export class CustomDateAdapter extends NativeDateAdapter {
   styleUrl: './detail-exped.component.scss',
 
   imports: [
-    CommonModule, DocumentComponent, 
+    CommonModule, DocumentComponent, RequerimientoComponent, ResolDesestimientoNoEnmendarComponent, InformeFavorableComponent,
+    InformeFavorableConRequerimientoComponent, InformeDesfavorableComponent, InformeDesfavorableConRequerimientoComponent, PrProvisionalFavorableComponent,
+    PrProvisionalFavorableConRequerimientoComponent, PrProvisionalDesfavorableComponent, PrProvisionalDesfavorableConRequerimientoComponent, PrDefinitivaFavorableComponent,
+    PrDefinitivaFavorableConRequerimientoComponent, PrDefinitivaDesfavorableComponent, PrDefinitivaDesfavorableConRequerimientoComponent, ResolConcesionFavorableComponent,
+    ResolConcesionFavorableConRequerimientoComponent, ResolDenegacionComponent, ResolDenegacionConRequerimientoComponent, ActaDeKickOffComponent, ActaDeCierreComponent,
+    InformeInicioReqJustificacionComponent, ReqEnmiendaJustificacionComponent, InformePostEnmiendaJustificacionComponent, ResolDePagoComponent,
+    ResolDesestimientoPorRenunciaComponent, PrRevocacionPorNoJustificarComponent, ResolRevocacionPorNoJustificarComponent,
     ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule, MatSelectModule, MatExpansionModule,
@@ -84,6 +125,7 @@ export class XecsDetailExpedComponent {
   publicAccessId: string = ""
   telefono_rep: string | undefined
   email_rep: string | undefined
+  motivoRequerimiento: string = ""
   reqGenerado: boolean = false
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
 
@@ -98,8 +140,8 @@ export class XecsDetailExpedComponent {
                     corresponde_documento: '',
                     selloDeTiempo: '',
                     publicAccessId: '-'
-                    // Añade aquí cualquier otra propiedad obligatoria de DocumentoGeneradoDTO con valores por defecto apropiados
   }
+  
   lastInsertId: number | undefined
   newAidAmount: number | undefined
   nifDocgenerado: string = ""
@@ -116,14 +158,12 @@ export class XecsDetailExpedComponent {
 
   constructor(  private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
-              private documentosGeneradosService: DocumentosGeneradosService,
-              private actoAdminService: ActoAdministrativoService ) {
+              ) {
       this.adapter.setLocale('es')
   }
 
 ngOnInit(): void {
   this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
-
   this.form = this.fb.group({
     /* detalle */
     id: [{ value: '', disabled: true }],
@@ -206,6 +246,7 @@ ngOnInit(): void {
     fecha_firma_resolucion_desestimiento: [{ value: '', disabled: true }],
     fecha_notificacion_desestimiento: [{ value: '', disabled: true }],   
   });
+
   this.getExpedDetail(this.idExpediente)
 
   // Observo los cambios en 'fecha_de_pago'
@@ -240,27 +281,11 @@ getExpedDetail(id: number) {
         this.publicAccessId = expediente.PublicAccessId
         this.email_rep = expediente.email_rep
         this.telefono_rep = expediente.telefono_rep
+        this.motivoRequerimiento = expediente.motivoRequerimiento
 
         this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
-        this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
-        .subscribe({
-          next: (docGenerado: DocumentoGeneradoDTO[]) => {
-            /* console.log("docGenerado", docGenerado); */
-            // Si hay contenido => true, si no => false
-            if (docGenerado.length === 1) {
-              this.reqGenerado = true;
-            }
-            this.nifDocgenerado = docGenerado[0].cifnif_propietario
-            this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
-            this.nameDocgenerado = docGenerado[0].name
-          },
-          error: (err) => {
-            console.error('Error obteniendo documentos', err);
-            this.reqGenerado = false; // En caso de error lo dejamos en false
-          }
-        });
       } else {
         this.commonService.showSnackBar('⚠️ No se encontró información del expediente.');
       }
@@ -302,232 +327,6 @@ saveExpediente(): void {
       },
       error: () => {
         this.commonService.showSnackBar('❌ Error al guardar el expediente.');
-      }
-    });
-}
-
-saveReasonRequest(): void {
-  const motivo = this.form.get('motivoRequerimiento')?.value
-  this.saveExpediente()
-  this.noRequestReasonText = !this.noRequestReasonText
-  this.reqGenerado = !this.reqGenerado
-}
-
-generatePDFDoc(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-  const timeStamp = this.commonService.generateCustomTimestamp()
-  const doc = new jsPDF({
-    orientation: 'p',
-    unit: 'mm',
-    format: 'a4',
-    putOnlyUsedFonts: true,
-    floatPrecision: 16
-  });
-
-  doc.setProperties({
-    title: `${this.actualIdExp + '_' + this.actualConvocatoria + '_' + docFieldToUpdate}`,
-    subject: 'Tràmits administratius',
-    author: 'ADR Balears',
-    keywords: 'ayudas, subvenciones, xecs, ils, adr-isba',
-    creator: 'Angular App'
-  });
-
-  const footerText = 'Plaça de Son Castelló, 1\n07009 Polígon de Son Castelló - Palma\nTel. 971 17 61 61\nwww.adrbalears.es';
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
-
-  const marginLeft = 25;
-  const maxTextWidth = 160; // Ajusta según el margen derecho
-  const lineHeight = 4;
-  const pageHeight = doc.internal.pageSize.getHeight();
-  const lines = footerText.split('\n');
-
-  lines.reverse().forEach((line, index) => {
-    const y = pageHeight - 10 - (index * lineHeight);
-    doc.text(line, marginLeft, y);
-  });
-
-  // obtengo el template json del acto adiministrativo y del tipo trámite: XECS, ADR-ISBA o ILS
-  this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
-    .subscribe((docDataString: any) => {
-      const rawTexto = docDataString.texto;
-      const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
-      let jsonObject;
-      try {
-        jsonObject = JSON.parse(cleanedTexto);
-      } catch (error) {
-        console.error("Error al convertir el string a JSON:", error);
-        return;
-      }
-
-      doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(10);
-      doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
-      doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft, 100);
-      doc.text(doc.splitTextToSize(`• ${this.form.get('motivoRequerimiento')?.value}`, maxTextWidth), marginLeft, 125);
-      doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, 135);
-      doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 150);
-      doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
-      doc.text(doc.splitTextToSize(`Palma, en fecha de la firma electrónica`, maxTextWidth), marginLeft, 225);
-
-      // además de generar el pdf del acto administrativo, hay que enviarlo al backend
-      // Convertir a Blob
-      const pdfBlob = doc.output('blob');
-
-      // Crear FormData
-      const formData = new FormData();
-      const fileName = `${this.actualIdExp + '_' + this.actualConvocatoria+'_'+docFieldToUpdate}.pdf`;
-      formData.append('file', pdfBlob, fileName);
-      formData.append('id_sol', String(this.actualID));
-      formData.append('convocatoria', String(this.actualConvocatoria));
-      formData.append('nifcif_propietario', String(this.actualNif));
-      formData.append('timeStamp', String(timeStamp));
-
-      // Enviar al backend usando el servicio
-      this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
-        next: (response) => {
-          // ToDo: al haberse generado con éxito, ahora hay que:
-          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. Antes elimina los documentos generados, para evitar repeticiones
-          this.docGeneradoInsert.id_sol = this.actualID
-          this.docGeneradoInsert.cifnif_propietario = this.actualNif
-          this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
-          this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`
-          this.docGeneradoInsert.type = 'application/pdf'
-          this.docGeneradoInsert.created_at = response.path
-          this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite
-          this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`
-          this.docGeneradoInsert.selloDeTiempo = timeStamp
-          // delete documentos generados antes del insert para evitar duplicados
-         this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
-          .subscribe({
-            next: () => {
-              this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
-                next: (resp: any) => {
-                  this.lastInsertId = resp?.id;
-                  if (this.lastInsertId) {
-                    this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, this.lastInsertId)
-                    .subscribe({
-                      next: (response: any) => {
-                      const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                      this.reqGenerado = true
-                      this.commonService.showSnackBar(mensaje);
-                    },
-                    error: (updateErr) => {
-                      const updateErrorMsg = updateErr?.error?.message || '⚠️ Documento generado, pero error al actualizar el expediente.';
-                      this.commonService.showSnackBar(updateErrorMsg);
-                    }
-                    });
-                  } else {
-                    this.commonService.showSnackBar('⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.');
-                  }
-                },
-                error: (insertErr) => {
-                  const insertErrorMsg = insertErr?.error?.message || '❌ Error al guardar el documento generado.';
-                  this.commonService.showSnackBar(insertErrorMsg);
-                }
-              });
-            },
-          error: (deleteErr) => {
-            const deleteErrMsg = deleteErr?.error?.message || '❌ Error al eliminar el documento previo.';
-            this.commonService.showSnackBar(deleteErrMsg);
-      }
-  });
-
-/*           // Insertar documento generado
-          this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
-          next: (resp: any) => {
-            const lastInsertId = resp?.id;
-            if (lastInsertId) {
-              // Realizar el UPDATE en pindust_expediente con el last_insert_id
-              this.expedienteService.updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate , lastInsertId).subscribe({
-                next: () => {
-                const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                this.commonService.showSnackBar(mensaje);
-              },
-              error: (updateErr) => {
-                const updateErrorMsg = updateErr?.error?.message || '⚠️ Documento generado, pero error al actualizar el expediente.';
-                this.commonService.showSnackBar(updateErrorMsg);
-              }
-              });
-            } else {
-              this.commonService.showSnackBar('⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.');
-            }
-          },
-          error: (insertErr) => {
-            const insertErrorMsg = insertErr?.error?.message || '❌ Error al guardar el documento generado.';
-            this.commonService.showSnackBar(insertErrorMsg);
-          }
-        }); */
-      },
-      error: (err) => {
-        const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
-        this.commonService.showSnackBar(errorMsg);
-      }
-    });
-    });
-}
-
-viewDocument(nif: string, folder: string, filename: string, extension: string) {
-    console.log ("viewDocument", nif, folder, filename, extension)
-    const entorno = sessionStorage.getItem("entorno")
-    filename = filename.replace(/^doc_/, "")
-    filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    let url = ""
-    if (entorno === 'tramits') {
-        url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
-    } else {
-        url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
-    }
-  
-    const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-
-    const ext = extension.toLowerCase();
-    if (ext === 'jpg' || ext === 'jpeg') {
-      this.imageUrl = sanitizedUrl;
-      this.pdfUrl = null;
-      this.showImageViewer = true;
-      this.showPdfViewer = false;
-    } else {
-      this.pdfUrl = sanitizedUrl;
-      this.imageUrl = undefined;
-      this.showPdfViewer = true;
-      this.showImageViewer = false;
-    }
-}
-
-closePdf() {
-    this.showPdfViewer = false;
-    this.pdfUrl = null;
-}
-
-sendPDFDocToSign(nif: string, folder: string, filename: string, extension: string): void {
-    // Limpiar estados previos
-    this.error = undefined;
-    this.response = undefined;
-    this.loading = true;
-    filename = filename.replace(/^doc_/, "")
-    filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    
-    const payload: CreateSignatureRequest = {
-      adreca_mail: this.email_rep ?? '',
-      telefono_cont: this.telefono_rep ?? '',
-      nombreDocumento: filename,
-      nif: nif,
-      last_insert_id: ''
-    };
-
-    this.viafirmaService.createSignatureRequest(payload).subscribe({
-      next: (res) => {
-        this.response = res;
-        this.loading = false;
-        // Si quieres extraer y mostrar el publicAccessId:
-        // const id = res.publicAccessId;
-        // TODO: notificar al usuario, navegar, etc.
-      },
-      error: (err) => {
-        this.error = err?.message || 'No se pudo enviar la solicitud de firma';
-        this.loading = false;
       }
     });
 }
