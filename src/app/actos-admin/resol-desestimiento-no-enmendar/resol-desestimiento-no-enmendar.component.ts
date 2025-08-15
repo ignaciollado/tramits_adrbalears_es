@@ -195,23 +195,25 @@ export class ResolDesestimientoNoEnmendarComponent {
 
       doc.setFontSize(10);
       doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
+      doc.setFont('helvetica', 'bold');
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 110);
       doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 100);
-    
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2, maxTextWidth), marginLeft, 135);
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2, maxTextWidth), marginLeft, 115);
       /* Sólo debe aparecer cuando existan mejoras */
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_3_m, maxTextWidth), marginLeft, 150);
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_3_m, maxTextWidth), marginLeft, 130);
       /* +++++++++++++++++++++++++++++++++++++++++ */
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft, 150);
-
-      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 150);
-      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft, 150);
-      doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 150);
-      doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 150);
-      doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 150);
-      doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 150);
-      doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 150);
-
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft, 145);
+      // Salto de página
+      doc.addPage();
+      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 90);
+      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft, 120);
+      doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 140);
+      doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 160);
+      doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 180);
+      // Salto de página
+      doc.addPage();
+      doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 90);
+      doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 120);
       doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
       doc.text(doc.splitTextToSize(`Palma, en fecha de la firma electrónica`, maxTextWidth), marginLeft, 225);
 
