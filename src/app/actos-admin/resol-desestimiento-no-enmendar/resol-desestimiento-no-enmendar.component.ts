@@ -168,18 +168,20 @@ export class ResolDesestimientoNoEnmendarComponent {
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
       let rawTexto = docDataString.texto;
-      console.log (rawTexto)
-      /* Reemplazo de las variables por su valor */
-      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
-      
-      const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
-      let jsonObject;
-      try {
-        jsonObject = JSON.parse(cleanedTexto);
-      } catch (error) {
-        console.error("Error al convertir el string a JSON:", error);
+      if (!rawTexto) {
+        this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
       }
+      /* Reemplazo de las variables por su valor */
+      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
+      rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
+      rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
+      rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
+      rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
+      rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
+      console.log("rawTexto", rawTexto);
+      const jsonObject = JSON.parse(rawTexto);
+      console.log(jsonObject);
 
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
@@ -190,7 +192,7 @@ export class ResolDesestimientoNoEnmendarComponent {
       doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);
       doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, 57); 
       doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
-      doc.text("Codi SIA: 3173118", marginLeft+110, 63); 
+      doc.text("Codi SIA: ", marginLeft+110, 63); 
 
       doc.setFontSize(10);
       doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
