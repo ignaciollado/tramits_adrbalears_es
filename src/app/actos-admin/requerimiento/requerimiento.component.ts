@@ -34,7 +34,7 @@ export class RequerimientoComponent implements OnChanges {
   private expedienteService = inject(ExpedienteService)
   formRequerimiento!: FormGroup
   noRequestReasonText:boolean = true
-  reqGenerado: boolean = false
+  actoAdmin1: boolean = false
   sendedToSign: boolean = false
   nifDocgenerado: string = ""
   timeStampDocGenerado: string = ""
@@ -129,7 +129,7 @@ export class RequerimientoComponent implements OnChanges {
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
           if (docGenerado.length === 1) {
-            this.reqGenerado = true;
+            this.actoAdmin1 = true;
             this.nifDocgenerado = docGenerado[0].cifnif_propietario
             this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
             this.nameDocgenerado = docGenerado[0].name
@@ -142,7 +142,7 @@ export class RequerimientoComponent implements OnChanges {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.reqGenerado = false; 
+          this.actoAdmin1 = false; 
         }
       });
   }
@@ -151,7 +151,7 @@ export class RequerimientoComponent implements OnChanges {
     const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value
     this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe()
     this.noRequestReasonText = false
-    this.reqGenerado = false
+    this.actoAdmin1 = false
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
@@ -294,7 +294,7 @@ export class RequerimientoComponent implements OnChanges {
               const mensaje =
                 response?.message ||
                 '✅ Acto administrativo generado y expediente actualizado correctamente.';
-              this.reqGenerado = true;
+              this.actoAdmin1 = true;
               this.commonService.showSnackBar(mensaje);
             },
             error: (updateErr) => {

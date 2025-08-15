@@ -30,7 +30,7 @@ import { finalize } from 'rxjs';
 export class ResolDesestimientoNoEnmendarComponent {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
-  reqGenerado: boolean = false
+  actoAdmin2: boolean = false
   sendedToSign: boolean = false
   signatureDocState: string = ""
   nifDocgenerado: string = ""
@@ -113,20 +113,20 @@ export class ResolDesestimientoNoEnmendarComponent {
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
           if (docGenerado.length === 1) {
-            this.reqGenerado = true;
+            this.actoAdmin2 = true;
             this.nifDocgenerado = docGenerado[0].cifnif_propietario
             this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
             this.nameDocgenerado = docGenerado[0].name
             this.lastInsertId = docGenerado[0].id
             this.publicAccessId = docGenerado[0].publicAccessId
             if (this.publicAccessId) {
-              this.viewSignState(this.publicAccessId)
+              this.getSignState(this.publicAccessId)
             }
           }
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.reqGenerado = false; 
+          this.actoAdmin2 = false; 
         }
       });
   }
@@ -276,7 +276,7 @@ export class ResolDesestimientoNoEnmendarComponent {
               const mensaje =
                 response?.message ||
                 '✅ Acto administrativo generado y expediente actualizado correctamente.';
-              this.reqGenerado = true;
+              this.actoAdmin2 = true;
               this.commonService.showSnackBar(mensaje);
             },
             error: (updateErr) => {
@@ -361,7 +361,7 @@ export class ResolDesestimientoNoEnmendarComponent {
       const id = res?.publicAccessId;
       this.publicAccessId = id ?? '';
       this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
-      this.viewSignState(this.publicAccessId)
+      this.getSignState(this.publicAccessId)
     },
     error: (err) => {
       const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
@@ -371,7 +371,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   });
   }  
 
-  viewSignState(publicAccessId: string) {
+  getSignState(publicAccessId: string) {
     this.viafirmaService.getDocumentStatus(publicAccessId)
     .subscribe((resp:DocSignedDTO) => {
       this.signatureDocState = resp.status

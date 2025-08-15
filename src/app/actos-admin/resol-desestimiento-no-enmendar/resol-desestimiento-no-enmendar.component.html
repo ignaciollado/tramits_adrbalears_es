@@ -3,12 +3,8 @@
         <mat-expansion-panel-header>
           <mat-panel-title> 2. {{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}} </mat-panel-title>
         </mat-expansion-panel-header>
-        <button mat-raised-button color="accent" (click)="generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')" [disabled]="!reqGenerado">
-          Generar
-        </button>
-        <button mat-raised-button color="accent" (click)="reqGenerado ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')" [disabled]="!reqGenerado">
-         {{ reqGenerado ? 'Ver documento' : 'Generar' }}
-        </button>{{publicAccessId}}
+        <button mat-raised-button color="accent" (click)="generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')">Generar</button>
+        <button mat-raised-button color="accent" (click)="actoAdmin2 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')" [disabled]="!actoAdmin2">Ver documento</button>{{publicAccessId}}
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
           <section *ngIf="signatureDocState === 'COMPLETED'">
             <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
@@ -18,7 +14,7 @@
             <span>Pendiente de firma.</span><br>
             <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
             <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
-            <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign again</button>
+            <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin2">Send to sign again</button>
           </section>
           <section *ngIf="signatureDocState === 'IN_PROCESS'">
             <span>Firma en curso</span>
