@@ -136,7 +136,7 @@ export class RequerimientoComponent implements OnChanges {
             this.lastInsertId = docGenerado[0].id
             this.publicAccessId = docGenerado[0].publicAccessId
             if (this.publicAccessId) {
-              this.viewSignState(this.publicAccessId)
+              this.getSignState(this.publicAccessId)
             }
           }
         },
@@ -197,7 +197,7 @@ export class RequerimientoComponent implements OnChanges {
       }
       /* Reemplazo de las variables por su valor */
       rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
-      
+      console.log (rawTexto)
       let jsonObject = JSON.parse(rawTexto);
 
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
@@ -378,7 +378,7 @@ export class RequerimientoComponent implements OnChanges {
       const id = res?.publicAccessId;
       this.publicAccessId = id ?? '';
       this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
-      this.viewSignState(this.publicAccessId)
+      this.getSignState(this.publicAccessId)
     },
     error: (err) => {
       const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
@@ -388,7 +388,7 @@ export class RequerimientoComponent implements OnChanges {
   });
   }
 
-  viewSignState(publicAccessId: string) {
+  getSignState(publicAccessId: string) {
     this.viafirmaService.getDocumentStatus(publicAccessId)
     .subscribe((resp:DocSignedDTO) => {
       this.signatureDocState = resp.status
