@@ -179,12 +179,11 @@ export class ResolDesestimientoNoEnmendarComponent {
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
       rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
       rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
-      console.log("rawTexto", rawTexto);
+   
       const jsonObject = JSON.parse(rawTexto);
-      console.log(jsonObject);
-
-      doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
+      // Defino el contenido del pdf
       doc.setFont('helvetica', 'bold');
+      doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFontSize(8);
       doc.text("Document: resolució desestiment", marginLeft+110, 45);
       doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft+110, 48);

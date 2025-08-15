@@ -191,17 +191,14 @@ export class RequerimientoComponent implements OnChanges {
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
       let rawTexto = docDataString.texto;
+      if (!rawTexto) {
+        this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
+        return;
+      }
       /* Reemplazo de las variables por su valor */
       rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
       
-      const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
-      let jsonObject;
-      try {
-        jsonObject = JSON.parse(cleanedTexto);
-      } catch (error) {
-        console.error("Error al convertir el string a JSON:", error);
-        return;
-      }
+      let jsonObject = JSON.parse(rawTexto);
 
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
