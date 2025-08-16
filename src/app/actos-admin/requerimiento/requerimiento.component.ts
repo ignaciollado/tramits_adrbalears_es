@@ -128,6 +128,7 @@ export class RequerimientoComponent implements OnChanges {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
+          this.actoAdmin1 = false; // Reset the flag before checking
           if (docGenerado.length === 1) {
             this.actoAdmin1 = true;
             this.nifDocgenerado = docGenerado[0].cifnif_propietario
@@ -197,7 +198,6 @@ export class RequerimientoComponent implements OnChanges {
       }
       /* Reemplazo de las variables por su valor */
       rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
-      console.log (rawTexto)
       let jsonObject = JSON.parse(rawTexto);
 
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
@@ -255,7 +255,6 @@ export class RequerimientoComponent implements OnChanges {
             .subscribe({
               next: () => {
                 // Eliminado correctamente, o no había nada que eliminar
-                console.log ("Eliminado correctamente, o no había nada que eliminar")
                 this.crearDocumentoGenerado(docFieldToUpdate);
               },
               error: (deleteErr) => {
@@ -320,7 +319,6 @@ export class RequerimientoComponent implements OnChanges {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
-    console.log ("viewDocument", nif, folder, filename, extension)
     const entorno = sessionStorage.getItem("entorno")
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`

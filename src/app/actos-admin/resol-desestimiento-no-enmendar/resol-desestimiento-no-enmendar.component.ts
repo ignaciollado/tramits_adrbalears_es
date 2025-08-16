@@ -251,7 +251,6 @@ export class ResolDesestimientoNoEnmendarComponent {
             .subscribe({
               next: () => {
                 // Eliminado correctamente, o no había nada que eliminar
-                console.log ("Eliminado correctamente, o no había nada que eliminar")
                 this.crearDocumentoGenerado(docFieldToUpdate);
               },
               error: (deleteErr) => {
@@ -317,7 +316,6 @@ export class ResolDesestimientoNoEnmendarComponent {
 
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
-    console.log ("viewDocument", nif, folder, filename, extension)
     const entorno = sessionStorage.getItem("entorno")
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
