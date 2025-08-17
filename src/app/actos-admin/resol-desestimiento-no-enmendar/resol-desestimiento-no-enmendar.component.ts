@@ -187,17 +187,31 @@ export class ResolDesestimientoNoEnmendarComponent {
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFontSize(8);
       const marginLeft = 25;
+      const maxCharsPerLine = 21;
+      const x = marginLeft + 110;
+      const y = 54;
       const maxTextWidth = 160;
+
       const lineHeight = 4;
       const pageHeight = doc.internal.pageSize.getHeight();
 
       doc.text("Document: resolució desistiment", marginLeft+110, 45);
       doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft+110, 48);
       doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, marginLeft+110, 51);
-      doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);
-      doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, 57); 
-      doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
-      doc.text("Codi SIA: ", marginLeft+110, 63); 
+      if (this.actualEmpresa.length > maxCharsPerLine) {
+        const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
+        const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+        doc.text(`Nom sol·licitant: ${firstLine}`, x, y);
+        doc.text(secondLine, x, y + 3);
+        doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, y + 6); 
+        doc.text("Emissor (DIR3): A04003714", marginLeft+110, y + 9); 
+        doc.text("Codi SIA: ", marginLeft+110, y + 12); 
+      } else {
+        doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
+        doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, 57); 
+        doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
+        doc.text("Codi SIA: ", marginLeft+110, 63); 
+      }
 
       doc.setFontSize(10);
       doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
