@@ -186,7 +186,12 @@ export class ResolDesestimientoNoEnmendarComponent {
       doc.setFont('helvetica', 'bold');
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFontSize(8);
-      doc.text("Document: resolució desestiment", marginLeft+110, 45);
+      const marginLeft = 25;
+      const maxTextWidth = 160;
+      const lineHeight = 4;
+      const pageHeight = doc.internal.pageSize.getHeight();
+
+      doc.text("Document: resolució desistiment", marginLeft+110, 45);
       doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft+110, 48);
       doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, marginLeft+110, 51);
       doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);
@@ -206,17 +211,40 @@ export class ResolDesestimientoNoEnmendarComponent {
       doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft, 175);
       // Salto de página
       doc.addPage();
-      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 30);
-      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft, 35);
-      doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 75);
-      doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 115);
-      doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 155);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+
+      lines.reverse().forEach((line, index) => {
+        const y = pageHeight - 10 - (index * lineHeight);
+        doc.text(line, marginLeft, y);
+      });
+      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 20, 20);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
+      doc.setFont('helvetica', 'normal');
+      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft, 70);
+      doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 140);
+      doc.setFont('helvetica', 'bold');
+      doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 150);
+      doc.setFont('helvetica', 'normal');
+      doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 157);
       // Salto de página
       doc.addPage();
-      doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 90);
-      doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 120);
-      doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
-      doc.text(doc.splitTextToSize(`Palma, en fecha de la firma electrónica`, maxTextWidth), marginLeft, 225);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+
+      lines.reverse().forEach((line, index) => {
+        const y = pageHeight - 10 - (index * lineHeight);
+        doc.text(line, marginLeft, y);
+      });
+      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 20, 20);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 60);
+      doc.setFont('helvetica', 'normal');
+      doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 70);
+      doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 210);
 
       // además de generar el pdf del acto administrativo hay que enviarlo al backend
       // Convertir a Blob
