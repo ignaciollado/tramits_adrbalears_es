@@ -81,7 +81,7 @@ export class ResolDesestimientoNoEnmendarComponent {
               this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
             }
 
-  get stateClass(): string {
+  get stateClassActAdmin2(): string {
     const map: Record<string, string> = {
       NOT_STARTED: 'req-state--not-started',
       IN_PROCESS: 'req-state--in-process',
@@ -112,6 +112,7 @@ export class ResolDesestimientoNoEnmendarComponent {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
+          this.actoAdmin2 = false; 
           if (docGenerado.length === 1) {
             this.actoAdmin2 = true;
             this.nifDocgenerado = docGenerado[0].cifnif_propietario
@@ -234,7 +235,8 @@ export class ResolDesestimientoNoEnmendarComponent {
       this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
         next: (response) => {
           // ToDo: al haberse generado con éxito, ahora hay que:
-          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. Antes elimina los documentos generados, para evitar repeticiones
+          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. 
+          // Antes elimina los documentos generados para evitar duplicados.
           this.docGeneradoInsert.id_sol = this.actualID
           this.docGeneradoInsert.cifnif_propietario = this.actualNif
           this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
@@ -247,7 +249,7 @@ export class ResolDesestimientoNoEnmendarComponent {
 
           this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
           // delete documentos generados antes del insert para evitar duplicados
-          this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
+          this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
             .subscribe({
               next: () => {
                 // Eliminado correctamente, o no había nada que eliminar

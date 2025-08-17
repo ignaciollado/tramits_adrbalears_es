@@ -128,9 +128,11 @@ export class RequerimientoComponent implements OnChanges {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin1 = false; // Reset the flag before checking
+          this.actoAdmin1 = false
+          console.log('Documentos generados:', docGenerado, docGenerado.length)
           if (docGenerado.length === 1) {
             this.actoAdmin1 = true;
+            console.log('Documento generado encontrado:', docGenerado, this.actoAdmin1);
             this.nifDocgenerado = docGenerado[0].cifnif_propietario
             this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
             this.nameDocgenerado = docGenerado[0].name
@@ -238,7 +240,8 @@ export class RequerimientoComponent implements OnChanges {
       this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
         next: (response) => {
           // ToDo: al haberse generado con éxito, ahora hay que:
-          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. Antes elimina los documentos generados, para evitar repeticiones
+          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. 
+          // Antes elimina los documentos generados, para evitar duplicados.
           this.docGeneradoInsert.id_sol = this.actualID
           this.docGeneradoInsert.cifnif_propietario = this.actualNif
           this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
