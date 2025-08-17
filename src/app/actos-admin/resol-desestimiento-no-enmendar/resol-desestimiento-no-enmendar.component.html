@@ -5,6 +5,7 @@
         </mat-expansion-panel-header>
         <button mat-raised-button color="accent" (click)="generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')">Generar</button>
         <button mat-raised-button color="accent" (click)="actoAdmin2 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')" [disabled]="!actoAdmin2">Ver documento</button>{{publicAccessId}}
+        <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin2">Send to sign</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClassActAdmin2]">
           <section *ngIf="signatureDocState === 'COMPLETED'">
             <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
