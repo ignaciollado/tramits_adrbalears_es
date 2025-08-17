@@ -362,7 +362,7 @@ export class RequerimientoComponent implements OnChanges {
       adreca_mail: this.signedBy === 'tecnico'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
-      /* telefono_cont: this.telefono_rep ?? '', */
+      //telefono_cont: this.telefono_rep ?? '', 
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
