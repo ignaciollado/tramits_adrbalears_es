@@ -253,7 +253,7 @@ export class ResolDesestimientoNoEnmendarComponent {
             .subscribe({
               next: () => {
                 // Eliminado correctamente, o no había nada que eliminar
-                this.crearDocumentoGenerado(docFieldToUpdate);
+                this.InsertDocumentoGenerado(docFieldToUpdate);
               },
               error: (deleteErr) => {
                 const status = deleteErr?.status;
@@ -261,7 +261,7 @@ export class ResolDesestimientoNoEnmendarComponent {
                 // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
                 if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
                   this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                  this.crearDocumentoGenerado(docFieldToUpdate);
+                  this.InsertDocumentoGenerado(docFieldToUpdate);
                 } else {
                 // Otros errores sí se notifican y no continúan
                   const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
@@ -279,7 +279,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   /** Método auxiliar para no repetir el bloque de creación */
-  crearDocumentoGenerado(docFieldToUpdate: string): void {
+  InsertDocumentoGenerado(docFieldToUpdate: string): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
     next: (resp: any) => {
       this.lastInsertId = resp?.id;
