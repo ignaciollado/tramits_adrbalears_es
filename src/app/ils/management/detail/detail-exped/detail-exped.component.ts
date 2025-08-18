@@ -49,7 +49,6 @@ export class IlsDetailExpedComponent {
   actualTimeStamp!: string;
   actualConvocatoria!: number;
   actualTipoTramite!: string;
-  totalSolicitudesPrevias!: number;
   signedDocData!: DocSignedDTO;
   publicAccessId: string = "";
   businessType: string = "";
@@ -146,26 +145,8 @@ export class IlsDetailExpedComponent {
           this.publicAccessId = expediente.PublicAccessId;
           this.checkViafirmaSign(this.publicAccessId);
           this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
-          this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
         } else {
           this.commonService.showSnackBar('⚠️ No se encontró información del expediente.')
-        }
-      })
-  }
-
-  getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: number) {
-    this.expedienteService.getTotalNumberOfApplicationsFromSolicitor(nif, tipoTramite, convocatoria)
-      .pipe(
-        catchError(error => {
-          this.commonService.showSnackBar('❌ Error al contar el número de solicitudes. Inténtalo de nuevo más tarde. ' + error)
-          return of(null)
-        })
-      )
-      .subscribe(totalSolicitudes => {
-        if (totalSolicitudes) {
-          this.totalSolicitudesPrevias = totalSolicitudes.data.totalConvos
-        } else {
-          this.commonService.showSnackBar('⚠️ No se encontró información sobre el número de solicitudes.');
         }
       })
   }
