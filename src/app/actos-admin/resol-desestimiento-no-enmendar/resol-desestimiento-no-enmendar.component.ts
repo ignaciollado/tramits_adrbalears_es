@@ -111,15 +111,15 @@ export class ResolDesestimientoNoEnmendarComponent {
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
       .subscribe({
-        next: (docGenerado: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin2 = false; 
-          if (docGenerado.length === 1) {
+        next: (docActoAdmin2: DocumentoGeneradoDTO[]) => {
+          this.actoAdmin2 = false;
+          if (docActoAdmin2.length === 1) {
             this.actoAdmin2 = true;
-            this.nifDocgenerado = docGenerado[0].cifnif_propietario
-            this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
-            this.nameDocgenerado = docGenerado[0].name
-            this.lastInsertId = docGenerado[0].id
-            this.publicAccessId = docGenerado[0].publicAccessId
+            this.nifDocgenerado = docActoAdmin2[0].cifnif_propietario
+            this.timeStampDocGenerado = docActoAdmin2[0].selloDeTiempo
+            this.nameDocgenerado = docActoAdmin2[0].name
+            this.lastInsertId = docActoAdmin2[0].id
+            this.publicAccessId = docActoAdmin2[0].publicAccessId
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId)
             }
@@ -155,7 +155,6 @@ export class ResolDesestimientoNoEnmendarComponent {
     doc.setFontSize(8);
 
     const marginLeft = 25;
-    const maxTextWidth = 160;
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
@@ -180,7 +179,6 @@ export class ResolDesestimientoNoEnmendarComponent {
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
       rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
       rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
-   
       const jsonObject = JSON.parse(rawTexto);
       // Defino el contenido del pdf
       doc.setFont('helvetica', 'bold');

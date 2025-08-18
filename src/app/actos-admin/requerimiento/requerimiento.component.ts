@@ -127,17 +127,16 @@ export class RequerimientoComponent implements OnChanges {
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
       .subscribe({
-        next: (docGenerado: DocumentoGeneradoDTO[]) => {
+        next: (docActoAdmin1: DocumentoGeneradoDTO[]) => {
           this.actoAdmin1 = false
-          console.log('Documentos generados:', docGenerado, docGenerado.length)
-          if (docGenerado.length === 1) {
+          if (docActoAdmin1.length === 1) {
             this.actoAdmin1 = true;
-            console.log('Documento generado encontrado:', docGenerado, this.actoAdmin1);
-            this.nifDocgenerado = docGenerado[0].cifnif_propietario
-            this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
-            this.nameDocgenerado = docGenerado[0].name
-            this.lastInsertId = docGenerado[0].id
-            this.publicAccessId = docGenerado[0].publicAccessId
+            console.log('Documento generado encontrado:', docActoAdmin1, this.actoAdmin1);
+            this.nifDocgenerado = docActoAdmin1[0].cifnif_propietario
+            this.timeStampDocGenerado = docActoAdmin1[0].selloDeTiempo
+            this.nameDocgenerado = docActoAdmin1[0].name
+            this.lastInsertId = docActoAdmin1[0].id
+            this.publicAccessId = docActoAdmin1[0].publicAccessId
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId)
             }
