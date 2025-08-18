@@ -36,6 +36,7 @@ import { SignatureResponse } from '../../../../Models/signature.dto';
 /* tab solicitud */
 import { RequerimientoComponent } from '../../../../actos-admin/requerimiento/requerimiento.component';
 import { ResolDesestimientoNoEnmendarComponent } from '../../../../actos-admin/resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
+import { MejorasSolicitudDetalleComponent } from '../../../mejoras-solicitud-detalle/mejoras-solicitud-detalle.component';
 /* tab validación */
 import { InformeFavorableComponent } from '../../../../actos-admin/informe-favorable/informe-favorable.component';
 import { InformeFavorableConRequerimientoComponent } from '../../../../actos-admin/informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
@@ -67,8 +68,6 @@ import { PrRevocacionPorNoJustificarComponent } from '../../../../actos-admin/pr
 import { ResolRevocacionPorNoJustificarComponent } from '../../../../actos-admin/resol-revocacion-por-no-justificar/resol-revocacion-por-no-justificar.component';
 
 
-
-
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
   override getFirstDayOfWeek(): number {
@@ -85,7 +84,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
   styleUrl: './detail-exped.component.scss',
 
   imports: [
-    CommonModule, DocumentComponent, RequerimientoComponent, ResolDesestimientoNoEnmendarComponent, InformeFavorableComponent,
+    CommonModule, DocumentComponent, RequerimientoComponent, ResolDesestimientoNoEnmendarComponent, MejorasSolicitudDetalleComponent, InformeFavorableComponent,
     InformeFavorableConRequerimientoComponent, InformeDesfavorableComponent, InformeDesfavorableConRequerimientoComponent, PrProvisionalFavorableComponent,
     PrProvisionalFavorableConRequerimientoComponent, PrProvisionalDesfavorableComponent, PrProvisionalDesfavorableConRequerimientoComponent, PrDefinitivaFavorableComponent,
     PrDefinitivaFavorableConRequerimientoComponent, PrDefinitivaDesfavorableComponent, PrDefinitivaDesfavorableConRequerimientoComponent, ResolConcesionFavorableComponent,

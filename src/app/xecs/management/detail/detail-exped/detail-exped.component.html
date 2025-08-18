@@ -207,7 +207,7 @@
           <app-requerimiento [signedBy]="'tecnico'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
           <app-resol-desestimiento-no-enmendar [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resol-desestimiento-no-enmendar>
           <h4>Mejoras</h4>
-          <table></table>
+          <app-mejoras-solicitud-detalle [id_sol]="actualID"></app-mejoras-solicitud-detalle>
         </section>
         <section>
         <h4>Documentos del expediente</h4>

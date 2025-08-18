@@ -1,0 +1,46 @@
+<div *ngIf="loading">Cargando solicitud...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
+
+  <ng-container matColumnDef="fecha_rec_mejora">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> fecha_rec_mejora </th>
+    <td mat-cell *matCellDef="let item">{{ item.fecha_rec_mejora | date: 'yyyy/MM/dd HH:mm:ss' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="ref_rec_mejora">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> ref_rec_mejora </th>
+    <td mat-cell *matCellDef="let item"> {{ item.ref_rec_mejora }} </td>
+  </ng-container>
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+    <td mat-cell *matCellDef="let item">
+    <button mat-button color="warn" (click)="delete(item)">Delete</button>
+  </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>  
+</table>
+
+<form [formGroup]="form" (ngSubmit)="save()" *ngIf="!loading" fxLayout="row" fxLayoutGap="16px" fxLayoutAlign="start center">
+  <mat-form-field appearance="outline" appearance="outline" fxFlex="50%">
+    <mat-label>Fecha Rec. Mejora</mat-label>
+    <input matInput type="datetime-local" formControlName="fecha_rec_mejora" />
+    <mat-error *ngIf="form.get('fecha_rec_mejora')?.invalid && form.get('fecha_rec_mejora')?.touched">
+      fecha_rec_mejora requerido
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" appearance="outline" fxFlex="50%">
+    <mat-label>Ref. Rec. Mejora</mat-label>
+    <input matInput type="text" formControlName="ref_rec_mejora" minlength="16" maxlength="16"/>
+    <mat-error *ngIf="form.get('ref_rec_mejora')?.invalid && form.get('ref_rec_mejora')?.touched">
+      ref_rec_mejora inválido
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+    Guardar
+  </button>
+</form>
+
