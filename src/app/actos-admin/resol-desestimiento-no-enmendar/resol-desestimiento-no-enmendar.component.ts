@@ -30,7 +30,7 @@ import { finalize } from 'rxjs';
 export class ResolDesestimientoNoEnmendarComponent {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
-  reqGenerado: boolean = false
+  actoAdmin2: boolean = false
   sendedToSign: boolean = false
   signatureDocState: string = ""
   nifDocgenerado: string = ""
@@ -69,10 +69,10 @@ export class ResolDesestimientoNoEnmendarComponent {
   @Input() signedBy!: string
   @Input() actualID!: number
   @Input() actualIdExp!: number
-  @Input() actualNif!: string
+  @Input() actualNif: string = ""
   @Input() actualConvocatoria!: number
   @Input() actualTipoTramite!: string
-  @Input() actualEmpresa!: string
+  @Input() actualEmpresa: string = ""
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
@@ -81,7 +81,7 @@ export class ResolDesestimientoNoEnmendarComponent {
               this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
             }
 
-  get stateClass(): string {
+  get stateClassActAdmin2(): string {
     const map: Record<string, string> = {
       NOT_STARTED: 'req-state--not-started',
       IN_PROCESS: 'req-state--in-process',
@@ -111,22 +111,23 @@ export class ResolDesestimientoNoEnmendarComponent {
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
       .subscribe({
-        next: (docGenerado: DocumentoGeneradoDTO[]) => {
-          if (docGenerado.length === 1) {
-            this.reqGenerado = true;
-            this.nifDocgenerado = docGenerado[0].cifnif_propietario
-            this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
-            this.nameDocgenerado = docGenerado[0].name
-            this.lastInsertId = docGenerado[0].id
-            this.publicAccessId = docGenerado[0].publicAccessId
+        next: (docActoAdmin2: DocumentoGeneradoDTO[]) => {
+          this.actoAdmin2 = false;
+          if (docActoAdmin2.length === 1) {
+            this.actoAdmin2 = true;
+            this.nifDocgenerado = docActoAdmin2[0].cifnif_propietario
+            this.timeStampDocGenerado = docActoAdmin2[0].selloDeTiempo
+            this.nameDocgenerado = docActoAdmin2[0].name
+            this.lastInsertId = docActoAdmin2[0].id
+            this.publicAccessId = docActoAdmin2[0].publicAccessId
             if (this.publicAccessId) {
-              this.viewSignState(this.publicAccessId)
+              this.getSignState(this.publicAccessId)
             }
           }
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.reqGenerado = false; 
+          this.actoAdmin2 = false; 
         }
       });
   }
@@ -154,7 +155,6 @@ export class ResolDesestimientoNoEnmendarComponent {
     doc.setFontSize(8);
 
     const marginLeft = 25;
-    const maxTextWidth = 160;
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
@@ -164,43 +164,100 @@ export class ResolDesestimientoNoEnmendarComponent {
       doc.text(line, marginLeft, y);
     });
 
-  // obtengo, desde bbdd, el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
+  // obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
       let rawTexto = docDataString.texto;
-      console.log (rawTexto)
-      /* Reemplazo de las variables por su valor */
-      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
-      
-      const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
-      let jsonObject;
-      try {
-        jsonObject = JSON.parse(cleanedTexto);
-      } catch (error) {
-        console.error("Error al convertir el string a JSON:", error);
+      if (!rawTexto) {
+        this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
       }
+      /* Reemplazo de las variables por su valor */
+      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
+      rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
+      rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
+      rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
+      rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
+      rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
+      const jsonObject = JSON.parse(rawTexto);
 
-      doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
+      // Defino el contenido del pdf
       doc.setFont('helvetica', 'bold');
+      doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFontSize(8);
-      doc.text("Document: resolució desestiment", marginLeft+110, 45);
+      const marginLeft = 25;
+      const maxCharsPerLine = 21;
+      const x = marginLeft + 110;
+      const y = 54;
+      const maxTextWidth = 160;
+
+      const lineHeight = 4;
+      const pageHeight = doc.internal.pageSize.getHeight();
+
+      doc.text("Document: resolució desistiment", marginLeft+110, 45);
       doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft+110, 48);
       doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, marginLeft+110, 51);
-      doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);
-      doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, 57); 
-      doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
-      doc.text("Codi SIA: 3173118", marginLeft+110, 63); 
+      if (this.actualEmpresa.length > maxCharsPerLine) {
+        const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
+        const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+        doc.text(`Nom sol·licitant: ${firstLine}`, x, y);
+        doc.text(secondLine, x, y + 3);
+        doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, y + 6); 
+        doc.text("Emissor (DIR3): A04003714", marginLeft+110, y + 9); 
+        doc.text("Codi SIA: ", marginLeft+110, y + 12); 
+      } else {
+        doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
+        doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, 57); 
+        doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
+        doc.text("Codi SIA: ", marginLeft+110, 63); 
+      }
 
       doc.setFontSize(10);
       doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
+      doc.setFont('helvetica', 'bold');
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 115);
       doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft, 100);
-    
-      doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, 135);
-      doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 150);
-      doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
-      doc.text(doc.splitTextToSize(`Palma, en fecha de la firma electrónica`, maxTextWidth), marginLeft, 225);
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2, maxTextWidth), marginLeft, 122);
+      /* Sólo debe aparecer cuando existan mejoras */
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_3_m, maxTextWidth), marginLeft, 160);
+      /* +++++++++++++++++++++++++++++++++++++++++ */
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft, 175);
+      // Salto de página
+      doc.addPage();
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+
+      lines.reverse().forEach((line, index) => {
+        const y = pageHeight - 10 - (index * lineHeight);
+        doc.text(line, marginLeft, y);
+      });
+      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 20, 20);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
+      doc.setFont('helvetica', 'normal');
+      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft, 70);
+      doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 140);
+      doc.setFont('helvetica', 'bold');
+      doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 150);
+      doc.setFont('helvetica', 'normal');
+      doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 157);
+      // Salto de página
+      doc.addPage();
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+
+      lines.reverse().forEach((line, index) => {
+        const y = pageHeight - 10 - (index * lineHeight);
+        doc.text(line, marginLeft, y);
+      });
+      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 20, 20);
+
+      doc.setFont('helvetica', 'bold');
+      doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 60);
+      doc.setFont('helvetica', 'normal');
+      doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 70);
+      doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 210);
 
       // además de generar el pdf del acto administrativo hay que enviarlo al backend
       // Convertir a Blob
@@ -219,7 +276,8 @@ export class ResolDesestimientoNoEnmendarComponent {
       this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
         next: (response) => {
           // ToDo: al haberse generado con éxito, ahora hay que:
-          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. Antes elimina los documentos generados, para evitar repeticiones
+          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. 
+          // Antes elimina los documentos generados para evitar duplicados.
           this.docGeneradoInsert.id_sol = this.actualID
           this.docGeneradoInsert.cifnif_propietario = this.actualNif
           this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
@@ -232,12 +290,11 @@ export class ResolDesestimientoNoEnmendarComponent {
 
           this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
           // delete documentos generados antes del insert para evitar duplicados
-          this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
+          this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
             .subscribe({
               next: () => {
                 // Eliminado correctamente, o no había nada que eliminar
-                console.log ("Eliminado correctamente, o no había nada que eliminar")
-                this.crearDocumentoGenerado(docFieldToUpdate);
+                this.InsertDocumentoGenerado(docFieldToUpdate);
               },
               error: (deleteErr) => {
                 const status = deleteErr?.status;
@@ -245,7 +302,7 @@ export class ResolDesestimientoNoEnmendarComponent {
                 // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
                 if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
                   this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                  this.crearDocumentoGenerado(docFieldToUpdate);
+                  this.InsertDocumentoGenerado(docFieldToUpdate);
                 } else {
                 // Otros errores sí se notifican y no continúan
                   const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
@@ -263,7 +320,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   /** Método auxiliar para no repetir el bloque de creación */
-  crearDocumentoGenerado(docFieldToUpdate: string): void {
+  InsertDocumentoGenerado(docFieldToUpdate: string): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
     next: (resp: any) => {
       this.lastInsertId = resp?.id;
@@ -275,7 +332,7 @@ export class ResolDesestimientoNoEnmendarComponent {
               const mensaje =
                 response?.message ||
                 '✅ Acto administrativo generado y expediente actualizado correctamente.';
-              this.reqGenerado = true;
+              this.actoAdmin2 = true;
               this.commonService.showSnackBar(mensaje);
             },
             error: (updateErr) => {
@@ -302,7 +359,6 @@ export class ResolDesestimientoNoEnmendarComponent {
 
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
-    console.log ("viewDocument", nif, folder, filename, extension)
     const entorno = sessionStorage.getItem("entorno")
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
@@ -360,7 +416,7 @@ export class ResolDesestimientoNoEnmendarComponent {
       const id = res?.publicAccessId;
       this.publicAccessId = id ?? '';
       this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
-      this.viewSignState(this.publicAccessId)
+      this.getSignState(this.publicAccessId)
     },
     error: (err) => {
       const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
@@ -370,7 +426,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   });
   }  
 
-  viewSignState(publicAccessId: string) {
+  getSignState(publicAccessId: string) {
     this.viafirmaService.getDocumentStatus(publicAccessId)
     .subscribe((resp:DocSignedDTO) => {
       this.signatureDocState = resp.status

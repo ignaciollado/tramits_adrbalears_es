@@ -9,10 +9,10 @@
           <textarea matInput formControlName="motivoRequerimiento" required rows="5"></textarea>
         </mat-form-field>
         <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
-        <button mat-raised-button color="accent" (click)="reqGenerado ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">
-          {{ reqGenerado ? 'Ver documento' : 'Generar' }}
+        <button mat-raised-button color="accent" (click)="actoAdmin1 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('1_requerimiento', 'XECS', 'requeriment')" [disabled]="!actoAdmin1 && noRequestReasonText">
+          {{ actoAdmin1 ? 'Ver documento' : 'Generar' }}
         </button>{{publicAccessId}}
-        <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign</button>
+        <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin1">Send to sign</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
           <section *ngIf="signatureDocState === 'COMPLETED'">
             <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
@@ -22,7 +22,7 @@
             <span>Pendiente de firma.</span><br>
             <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
             <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
-            <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!reqGenerado">Send to sign again</button>
+            <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin1">Send to sign again</button>
           </section>
           <section *ngIf="signatureDocState === 'IN_PROCESS'">
             <span>Firma en curso</span>

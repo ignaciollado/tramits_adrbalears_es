@@ -34,7 +34,7 @@ export class RequerimientoComponent implements OnChanges {
   private expedienteService = inject(ExpedienteService)
   formRequerimiento!: FormGroup
   noRequestReasonText:boolean = true
-  reqGenerado: boolean = false
+  actoAdmin1: boolean = false
   sendedToSign: boolean = false
   nifDocgenerado: string = ""
   timeStampDocGenerado: string = ""
@@ -127,22 +127,24 @@ export class RequerimientoComponent implements OnChanges {
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
       .subscribe({
-        next: (docGenerado: DocumentoGeneradoDTO[]) => {
-          if (docGenerado.length === 1) {
-            this.reqGenerado = true;
-            this.nifDocgenerado = docGenerado[0].cifnif_propietario
-            this.timeStampDocGenerado = docGenerado[0].selloDeTiempo
-            this.nameDocgenerado = docGenerado[0].name
-            this.lastInsertId = docGenerado[0].id
-            this.publicAccessId = docGenerado[0].publicAccessId
+        next: (docActoAdmin1: DocumentoGeneradoDTO[]) => {
+          this.actoAdmin1 = false
+          if (docActoAdmin1.length === 1) {
+            this.actoAdmin1 = true;
+            console.log('Documento generado encontrado:', docActoAdmin1, this.actoAdmin1);
+            this.nifDocgenerado = docActoAdmin1[0].cifnif_propietario
+            this.timeStampDocGenerado = docActoAdmin1[0].selloDeTiempo
+            this.nameDocgenerado = docActoAdmin1[0].name
+            this.lastInsertId = docActoAdmin1[0].id
+            this.publicAccessId = docActoAdmin1[0].publicAccessId
             if (this.publicAccessId) {
-              this.viewSignState(this.publicAccessId)
+              this.getSignState(this.publicAccessId)
             }
           }
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.reqGenerado = false; 
+          this.actoAdmin1 = false; 
         }
       });
   }
@@ -151,7 +153,7 @@ export class RequerimientoComponent implements OnChanges {
     const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value
     this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe()
     this.noRequestReasonText = false
-    this.reqGenerado = false
+    this.actoAdmin1 = false
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
@@ -190,18 +192,14 @@ export class RequerimientoComponent implements OnChanges {
   // obtengo, desde bbdd, el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
-      let rawTexto = docDataString.texto;
-      /* Reemplazo de las variables por su valor */
-      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
-      
-      const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
-      let jsonObject;
-      try {
-        jsonObject = JSON.parse(cleanedTexto);
-      } catch (error) {
-        console.error("Error al convertir el string a JSON:", error);
+      let rawTextoActoAdmin1 = docDataString.texto;
+      if (!rawTextoActoAdmin1) {
+        this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
       }
+      /* Reemplazo de las variables por su valor */
+      rawTextoActoAdmin1 = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
+      let jsonObject = JSON.parse(rawTextoActoAdmin1);
 
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
@@ -241,7 +239,8 @@ export class RequerimientoComponent implements OnChanges {
       this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
         next: (response) => {
           // ToDo: al haberse generado con éxito, ahora hay que:
-          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. Antes elimina los documentos generados, para evitar repeticiones
+          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. 
+          // Antes elimina los documentos generados, para evitar duplicados.
           this.docGeneradoInsert.id_sol = this.actualID
           this.docGeneradoInsert.cifnif_propietario = this.actualNif
           this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
@@ -258,8 +257,7 @@ export class RequerimientoComponent implements OnChanges {
             .subscribe({
               next: () => {
                 // Eliminado correctamente, o no había nada que eliminar
-                console.log ("Eliminado correctamente, o no había nada que eliminar")
-                this.crearDocumentoGenerado(docFieldToUpdate);
+                this.InsertDocumentoGenerado(docFieldToUpdate);
               },
               error: (deleteErr) => {
                 const status = deleteErr?.status;
@@ -267,7 +265,7 @@ export class RequerimientoComponent implements OnChanges {
                 // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
                 if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
                   this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                  this.crearDocumentoGenerado(docFieldToUpdate);
+                  this.InsertDocumentoGenerado(docFieldToUpdate);
                 } else {
                 // Otros errores sí se notifican y no continúan
                   const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
@@ -285,7 +283,7 @@ export class RequerimientoComponent implements OnChanges {
   }
 
   /** Método auxiliar para no repetir el bloque de creación */
-  crearDocumentoGenerado(docFieldToUpdate: string): void {
+  InsertDocumentoGenerado(docFieldToUpdate: string): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
     next: (resp: any) => {
       this.lastInsertId = resp?.id;
@@ -297,7 +295,7 @@ export class RequerimientoComponent implements OnChanges {
               const mensaje =
                 response?.message ||
                 '✅ Acto administrativo generado y expediente actualizado correctamente.';
-              this.reqGenerado = true;
+              this.actoAdmin1 = true;
               this.commonService.showSnackBar(mensaje);
             },
             error: (updateErr) => {
@@ -323,7 +321,6 @@ export class RequerimientoComponent implements OnChanges {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
-    console.log ("viewDocument", nif, folder, filename, extension)
     const entorno = sessionStorage.getItem("entorno")
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
@@ -367,7 +364,7 @@ export class RequerimientoComponent implements OnChanges {
       adreca_mail: this.signedBy === 'tecnico'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
-      /* telefono_cont: this.telefono_rep ?? '', */
+      //telefono_cont: this.telefono_rep ?? '', 
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
@@ -381,7 +378,7 @@ export class RequerimientoComponent implements OnChanges {
       const id = res?.publicAccessId;
       this.publicAccessId = id ?? '';
       this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
-      this.viewSignState(this.publicAccessId)
+      this.getSignState(this.publicAccessId)
     },
     error: (err) => {
       const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
@@ -391,7 +388,7 @@ export class RequerimientoComponent implements OnChanges {
   });
   }
 
-  viewSignState(publicAccessId: string) {
+  getSignState(publicAccessId: string) {
     this.viafirmaService.getDocumentStatus(publicAccessId)
     .subscribe((resp:DocSignedDTO) => {
       this.signatureDocState = resp.status
