@@ -20,6 +20,7 @@ import { catchError, of } from 'rxjs';
 import { MatRadioModule } from '@angular/material/radio';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { MatExpansionModule } from "@angular/material/expansion";
+import { RequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/requerimiento/requerimiento.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -31,7 +32,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
     MatRadioModule,
-    MatExpansionModule
+    MatExpansionModule, RequerimientoAdrIsbaComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
@@ -53,11 +54,14 @@ export class IsbaDetailExpedComponent {
   actualTimeStamp!: string;
   actualConvocatoria!: number;
   actualTipoTramite!: string;
-  totalSolicitudesPrevias!: number;
   signedDocData!: DocSignedDTO;
   publicAccessId: string = "";
   businessType: string = "";
+  motivoRequerimiento: string = "";
   isEditing: boolean = false;
+  externalSignUrl: string = "";
+  sendedUserToSign: string = "";
+  sendedDateToSign!: Date;
 
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
@@ -161,9 +165,6 @@ export class IsbaDetailExpedComponent {
       )
       .subscribe(expediente => {
         if (expediente) {
-          if (expediente.motivoRequerimiento) {
-            this.noRequestReasonText = false;
-          }
           if (expediente.motivoResolucionRevocacionPorNoJustificar) {
             this.noRevocationReasonText = false;
           }
@@ -176,40 +177,36 @@ export class IsbaDetailExpedComponent {
           this.actualTimeStamp = expediente.selloDeTiempo;
           this.actualConvocatoria = expediente.convocatoria;
           this.actualTipoTramite = expediente.tipo_tramite;
-          this.publicAccessId = expediente.PublicAccessId
+          this.publicAccessId = expediente.PublicAccessId;
+          this.motivoRequerimiento = expediente.motivoRequerimiento;
+
           this.checkViafirmaSign(this.publicAccessId)
           this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
-          this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
         } else {
           this.commonService.showSnackBar('⚠️ No se encontró información del expediente.')
         }
       });
   }
 
-  getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: number) {
-    this.expedienteService.getTotalNumberOfApplicationsFromSolicitor(nif, tipoTramite, convocatoria)
-      .pipe(
-        catchError(error => {
-          this.commonService.showSnackBar('❌ Error al contar el número de solicitudes. Inténtalo de nuevo más tarde. ' + error);
-          return of(null)
-        })
-      )
-      .subscribe(totalSolitudes => {
-        if (totalSolitudes) {
-          console.log(`Solicitudes previas: ${totalSolitudes.data.totalConvos}`)
-          this.totalSolicitudesPrevias = totalSolitudes.data.totalConvos
-        } else {
-          this.commonService.showSnackBar('⚠️ No se encontró información sobre el número de solicitudes.');
-        }
-      });
-  }
-
   checkViafirmaSign(publicKey: string) {
+    if (!publicKey) return;
+
     this.viafirmaService.getDocumentStatus(publicKey).subscribe(
       (resp: DocSignedDTO) => {
+        if (resp?.errorCode === "WS_ERROR_CODE_1" && resp?.errorMessage === "Unable to find request") {
+          this.commonService.showSnackBar('❌ Error: No se ha encontrado la solicitud de firma.');
+          return;
+        }
+
         this.commonService.showSnackBar('✅ Documento firmado recibido correctamente:' + resp);
         this.signedDocData = resp;
-        console.log(this.signedDocData.status)
+        console.log("signedDocData", this.signedDocData, this.signedDocData.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode)
+        this.sendedUserToSign = this.signedDocData.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
+        const sendedDateToSign = this.signedDocData.creationDate;
+        this.sendedDateToSign = new Date(sendedDateToSign);
+
+        this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
+
       },
       (error: any) => {
         this.commonService.showSnackBar('❌ Error al obtener documento firmado');
@@ -219,7 +216,8 @@ export class IsbaDetailExpedComponent {
           this.commonService.showSnackBar('🌐 Error de red o CORS (status 0):' + error.message);
         } else {
           // Error HTTP con código real
-          this.commonService.showSnackBar(`📡 Error HTTP ${error.status}:` + error.error || error.message);
+          const mensaje = error.error?.error || error.message;
+          this.commonService.showSnackBar(`📡 Error HTTP ${error.status}: ${mensaje}`);
           this.commonService.showSnackBar(`Ha ocurrido un error al consultar el estado de la firma.\nCódigo: ${error.status}\nMensaje: ${error.message}`);
         }
       }
