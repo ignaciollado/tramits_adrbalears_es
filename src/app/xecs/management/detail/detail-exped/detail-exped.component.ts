@@ -112,10 +112,10 @@ export class XecsDetailExpedComponent {
   actualNif!: string
   actualID!: number
   actualIdExp!: number
-  actualEmpresa!: string
-  actualTimeStamp!: string
+  actualEmpresa: string = ""
+  actualTimeStamp: string = ""
   actualConvocatoria!: number
-  actualTipoTramite!: string
+  actualTipoTramite: string = ""
   totalSolicitudesPrevias!: number
   importeAyuda: number = 0
   signedDocData!: DocSignedDTO

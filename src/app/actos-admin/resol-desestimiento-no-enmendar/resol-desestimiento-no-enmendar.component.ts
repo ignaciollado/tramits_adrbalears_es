@@ -69,10 +69,10 @@ export class ResolDesestimientoNoEnmendarComponent {
   @Input() signedBy!: string
   @Input() actualID!: number
   @Input() actualIdExp!: number
-  @Input() actualNif!: string
+  @Input() actualNif: string = ""
   @Input() actualConvocatoria!: number
   @Input() actualTipoTramite!: string
-  @Input() actualEmpresa!: string
+  @Input() actualEmpresa: string = ""
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
@@ -164,7 +164,7 @@ export class ResolDesestimientoNoEnmendarComponent {
       doc.text(line, marginLeft, y);
     });
 
-  // obtengo, desde bbdd, el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
+  // obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
       let rawTexto = docDataString.texto;
@@ -180,6 +180,7 @@ export class ResolDesestimientoNoEnmendarComponent {
       rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
       rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
       const jsonObject = JSON.parse(rawTexto);
+
       // Defino el contenido del pdf
       doc.setFont('helvetica', 'bold');
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);

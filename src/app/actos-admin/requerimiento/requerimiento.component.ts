@@ -192,14 +192,14 @@ export class RequerimientoComponent implements OnChanges {
   // obtengo, desde bbdd, el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
-      let rawTexto = docDataString.texto;
-      if (!rawTexto) {
+      let rawTextoActoAdmin1 = docDataString.texto;
+      if (!rawTextoActoAdmin1) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
       }
       /* Reemplazo de las variables por su valor */
-      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
-      let jsonObject = JSON.parse(rawTexto);
+      rawTextoActoAdmin1 = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
+      let jsonObject = JSON.parse(rawTextoActoAdmin1);
 
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
       doc.setFont('helvetica', 'bold');
