@@ -185,7 +185,7 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REF_REC' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ref_REC">
+                        <input matInput type="text" formControlName="ref_REC" maxlength="16">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REC_ENMIENDA' | translate}}</mat-label>
@@ -211,17 +211,14 @@
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
                     <app-requerimiento-adr-isba [signedBy]="'tecnico'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento-adr-isba>
-                        <!-- <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header> -->
-                            <!-- Campos requeridos: 3
-                             fecha_REC, ref_REC, fecha_requerimiento_notif -->
-                            <!-- <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
-                    </mat-accordion> -->
-                    <h4>Mejoras</h4>
-                    <table></table>
+                    <app-resol-desestimiento-no-enmendar-adr-isba 
+                    [signedBy]="'gerencia'" [actualID]="actualID" 
+                    [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+                    [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" 
+                    [actualEmpresa]="actualEmpresa" [fecha_REC]="fecha_REC" 
+                    [ref_REC]="ref_REC" [fecha_requerimiento_notif]="fecha_requerimiento_notif"
+                    [importe_ayuda]="importe_ayuda" [intereses_ayuda]="intereses_ayuda"
+                    [costes_aval]="costes_aval" [gastos_aval]="gastos_aval"></app-resol-desestimiento-no-enmendar-adr-isba>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>

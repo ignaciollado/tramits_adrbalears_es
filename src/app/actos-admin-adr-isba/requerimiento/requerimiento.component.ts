@@ -201,17 +201,16 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         doc.setFontSize(8);
         doc.text("Document: requeriment", marginLeft + 110, 45);
         doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft + 110, 48);
-        doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, marginLeft + 110, 51);
-        doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft + 110, 54);
-        doc.text(`NIF: ${this.actualNif}`, marginLeft + 110, 57);
-        doc.text("Emissor (DIR3): A04003714", marginLeft + 110, 60);
-        doc.text(`Codi SIA: ${this.codigoSIAConvo}`, marginLeft + 110, 63)
+        doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft + 110, 51);
+        doc.text(`NIF: ${this.actualNif}`, marginLeft + 110, 54);
+        doc.text("Emissor (DIR3): A04003714", marginLeft + 110, 57);
+        doc.text(`Codi SIA: ${this.codigoSIAConvo}`, marginLeft + 110, 60)
 
         doc.setFontSize(10);
         doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
         doc.setFont('helvetica', 'normal');
         doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft, 100);
-        doc.text(doc.splitTextToSize(`• ${this.formRequerimiento.get('motivoRequerimiento')?.value}`, maxTextWidth), marginLeft, 130);
+        doc.text(doc.splitTextToSize(`    • ${this.formRequerimiento.get('motivoRequerimiento')?.value}`, maxTextWidth), marginLeft, 130);
         doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, 140);
         doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 155);
         doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
