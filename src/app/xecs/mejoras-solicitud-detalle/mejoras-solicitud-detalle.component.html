@@ -1,5 +1,5 @@
-<div *ngIf="loading">Cargando solicitud...</div>
-<div *ngIf="error">{{ error }}</div>
+<section *ngIf="loading">Cargando solicitud...</section>
+<section *ngIf="error" [innerHTML] = [error]></section>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2">
 

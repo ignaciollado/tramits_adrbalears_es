@@ -115,6 +115,9 @@ export class XecsDetailExpedComponent {
   actualTimeStamp: string = ""
   actualConvocatoria!: number
   actualTipoTramite: string = ""
+  actualFechaSolicitud: string = ""
+  actualImporteSolicitud: string = "" 
+  actualFechaNotifReq: string = ""
   totalSolicitudesPrevias!: number
   importeAyuda: number = 0
   signedDocData!: DocSignedDTO
@@ -277,6 +280,9 @@ getExpedDetail(id: number) {
         this.actualTimeStamp = expediente.selloDeTiempo	
         this.actualConvocatoria = expediente.convocatoria
         this.actualTipoTramite = expediente.tipo_tramite
+        this.actualFechaSolicitud = expediente.fecha_solicitud
+        this.actualImporteSolicitud = expediente.importeAyuda
+        this.actualFechaNotifReq = expediente.fecha_requerimiento_notif
         this.publicAccessId = expediente.PublicAccessId
         this.email_rep = expediente.email_rep
         this.telefono_rep = expediente.telefono_rep

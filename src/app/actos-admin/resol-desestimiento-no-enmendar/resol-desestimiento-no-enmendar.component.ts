@@ -29,6 +29,7 @@ import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
   templateUrl: './resol-desestimiento-no-enmendar.component.html',
   styleUrl: './resol-desestimiento-no-enmendar.component.scss'
 })
+
 export class ResolDesestimientoNoEnmendarComponent {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
@@ -75,6 +76,9 @@ export class ResolDesestimientoNoEnmendarComponent {
   @Input() actualConvocatoria!: number
   @Input() actualTipoTramite!: string
   @Input() actualEmpresa: string = ""
+  @Input() actualFechaSolicitud: string = "******"
+  @Input() actualImporteSolicitud: string = "******"
+  @Input() actualFechaNotifReq: string = "******"
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
@@ -135,7 +139,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-    // obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
+    // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
       let rawTexto = docDataString.texto;
@@ -144,14 +148,27 @@ export class ResolDesestimientoNoEnmendarComponent {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
       }
-      // Reemplazo las variables que hay en el template por su valor correspondiente
-      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
-      rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
-      rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
-      rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
-      rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
-      rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
-      // Averiguo si hay mejoras en la solicitud
+    // Voy a crear el Texto que luego servirá para generar el archivo PDF
+    // Reemplazo las variables que hay en el template por su valor correspondiente
+    rawTexto = docDataString.texto.replace(/%BOIBNUM%/g,"¡¡¡ME FALTA EL BOIB!!!")
+    rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
+    rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
+    rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
+    rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
+    //rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
+    rawTexto = rawTexto.replace(/%FECHASOL%/g, this.actualFechaSolicitud);
+    // Formatear el importe en euros con dos decimales
+    const actualImporteSolicitudFormateado = new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(Number(this.actualImporteSolicitud));
+    rawTexto = rawTexto.replace(/%IMPORTE%/g, actualImporteSolicitudFormateado);
+    rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
+    rawTexto = rawTexto.replace(/%DATANOTREQ%/g, this.actualFechaNotifReq);
+
+    // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
         switchMap((nMejoras: any) => {
@@ -176,178 +193,182 @@ export class ResolDesestimientoNoEnmendarComponent {
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {
-        console.error('Error al parsear JSON:', error);
+          console.error('Error al parsear JSON:', error);
         }
       })
     )
     .subscribe();
   })
-}
+  }
 
   generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
-    const timeStamp = this.commonService.generateCustomTimestamp()
-    
-    const doc = new jsPDF({
+  const timeStamp = this.commonService.generateCustomTimestamp()
+  const doc = new jsPDF({
       orientation: 'p',
       unit: 'mm',
       format: 'a4',
       putOnlyUsedFonts: true,
       floatPrecision: 16
-    });
+  });
 
-    doc.setProperties({
+  doc.setProperties({
       title: `${this.actualIdExp + '_' + this.actualConvocatoria + '_' + docFieldToUpdate}`,
       subject: 'Tràmits administratius',
       author: 'ADR Balears',
       keywords: 'ayudas, subvenciones, xecs, ils, adr-isba',
       creator: 'Angular App'
-    });
+  });
 
-    const footerText = 'Plaça de Son Castelló, 1\n07009 Polígon de Son Castelló - Palma\nTel. 971 17 61 61\nwww.adrbalears.es';
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
+  const footerText = 'Plaça de Son Castelló, 1\n07009 Polígon de Son Castelló - Palma\nTel. 971 17 61 61\nwww.adrbalears.es';
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
     
-    const maxCharsPerLine = 21;
-    const marginLeft = 25;
-    const maxTextWidth = 160;
-    const lineHeight = 4;
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const lines = footerText.split('\n');
-    const xHeader = marginLeft + 110
-    const yHeader = 54;
+  const maxCharsPerLine = 21;
+  const marginLeft = 25;
+  const maxTextWidth = 160;
+  const lineHeight = 4;
+  const pageHeight = doc.internal.pageSize.getHeight();
+  let lines = footerText.split('\n');
+  const xHeader = marginLeft + 110
+  const yHeader = 54;
     
-    lines.reverse().forEach((line, index) => {
-      const y = pageHeight - 10 - (index * lineHeight);
-      doc.text(line, marginLeft, y);
-    });
+  lines.reverse().forEach((line, index) => {
+    const y = pageHeight - 10 - (index * lineHeight);
+    doc.text(line, marginLeft, y);
+  });
 
-    doc.setFont('helvetica', 'bold');
-    doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
-    doc.setFontSize(8);
-    doc.text("Document: resolució desistiment", xHeader, 45);
-    doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 48);
-    doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 51);
+  doc.setFont('helvetica', 'bold');
+  doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
+  doc.setFontSize(8);
+  doc.text("Document: resolució desistiment", xHeader, 45);
+  doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 48);
+  doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 51);
 
-    if (this.actualEmpresa.length > maxCharsPerLine) {
-      const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-      const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
-      doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
-      doc.text(secondLine, xHeader, yHeader + 3);
-      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
-      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
-      doc.text("Codi SIA: ", xHeader, yHeader + 12);
-    } else {
-      doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
-      doc.text(`NIF: ${this.nifDocgenerado}`, xHeader, 57);
-      doc.text("Emissor (DIR3): A04003714", xHeader, 60);
-      doc.text("Codi SIA: ", xHeader, 63);
-    }
+  if (this.actualEmpresa.length > maxCharsPerLine) {
+    const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
+    const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+    doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
+    doc.text(secondLine, xHeader, yHeader + 3);
+    doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
+    doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
+    doc.text("Codi SIA: ", xHeader, yHeader + 12);
+  } else {
+    doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
+    doc.text(`NIF: ${this.nifDocgenerado}`, xHeader, 57);
+    doc.text("Emissor (DIR3): A04003714", xHeader, 60);
+    doc.text("Codi SIA: ", xHeader, 63);
+  }
 
-    doc.setFontSize(10);
-    doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
-    doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 115);
-    doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2, maxTextWidth), marginLeft + 5, 130);
-    console.log ("hayMejoras", hayMejoras)
+  doc.setFontSize(10);
+  doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
+  doc.setFont('helvetica', 'bold');
+  doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 115);
+  doc.setFont('helvetica', 'normal');
+  doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2, maxTextWidth), marginLeft + 5, 130);
 
-    if (hayMejoras > 0) {
+  if (hayMejoras > 0) {
     doc.text(doc.splitTextToSize(jsonObject.antecedentes_3_m, maxTextWidth), marginLeft + 5, 170);
-    }
     doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft + 5, 182);
-    // Salto de página
-    doc.addPage();
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
+  } else {
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft + 5, 170);
+  }
 
-    lines.reverse().forEach((line, index) => {
-      const y = pageHeight - 10 - (index * lineHeight);
-      doc.text(line, marginLeft, y);
-    });
-    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
-    doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft, 70);
-    doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 140);
-    doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 150);
-    doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 157);
-    // Salto de página
-    doc.addPage();
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
+  // Salto de página
+  doc.addPage();
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+  lines = footerText.split('\n');
+  lines.reverse().forEach((line, index) => {
+    const y = pageHeight - 10 - (index * lineHeight);
+    doc.text(line, marginLeft, y);
+  });
 
-    lines.reverse().forEach((line, index) => {
-      const y = pageHeight - 10 - (index * lineHeight);
-      doc.text(line, marginLeft, y);
-    });
-    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 60);
-    doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 70);
-    doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 210);
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
+  doc.setFont('helvetica', 'normal');
+  doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft, 70);
+  
+  // Salto de página
+  doc.addPage();
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+  lines = footerText.split('\n');
+  lines.reverse().forEach((line, index) => {
+    const y = pageHeight - 10 - (index * lineHeight);
+    doc.text(line, marginLeft, y);
+  });
 
-    // además de generar el pdf del acto administrativo hay que enviarlo al backend
-    // Convertir a Blob
-    const pdfBlob = doc.output('blob');
+  doc.setFontSize(10);
+  doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 60);
+  doc.setFont('helvetica', 'bold');
+  doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 70);
+  doc.setFont('helvetica', 'normal');
+  doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 75);
+  doc.setFont('helvetica', 'bold');
+  doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 100);
+  doc.setFont('helvetica', 'normal');
+  doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 110);
+  doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 210);
 
-    // Crear FormData
-    const formData = new FormData();
-    const fileName = `${this.actualIdExp + '_' + this.actualConvocatoria+'_'+docFieldToUpdate}.pdf`;
-    formData.append('file', pdfBlob, fileName);
-    formData.append('id_sol', String(this.actualID));
-    formData.append('convocatoria', String(this.actualConvocatoria));
-    formData.append('nifcif_propietario', String(this.actualNif));
-    formData.append('timeStamp', String(timeStamp));
+  // además de generar el pdf del acto administrativo hay que enviarlo al backend
+  // Convertir a Blob
+  const pdfBlob = doc.output('blob');
 
-    // Enviar al backend usando el servicio
-    this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
-        next: (response) => {
-          // ToDo: al haberse generado con éxito, ahora hay que:
-          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. 
-          // y antes eliminar los documentos generados para evitar duplicados.
-          this.docGeneradoInsert.id_sol = this.actualID
-          this.docGeneradoInsert.cifnif_propietario = this.actualNif
-          this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
-          this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`
-          this.docGeneradoInsert.type = 'application/pdf'
-          this.docGeneradoInsert.created_at = response.path
-          this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite
-          this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`
-          this.docGeneradoInsert.selloDeTiempo = timeStamp
+  // Crear FormData
+  const formData = new FormData();
+  const fileName = `${this.actualIdExp + '_' + this.actualConvocatoria+'_'+docFieldToUpdate}.pdf`;
+  formData.append('file', pdfBlob, fileName);
+  formData.append('id_sol', String(this.actualID));
+  formData.append('convocatoria', String(this.actualConvocatoria));
+  formData.append('nifcif_propietario', String(this.actualNif));
+  formData.append('timeStamp', String(timeStamp));
 
-          this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
-          // delete documentos generados antes del insert para evitar duplicados
-          this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
-            .subscribe({
-              next: () => {
-                // Eliminado correctamente, o no había nada que eliminar
-                this.InsertDocumentoGenerado(docFieldToUpdate);
-              },
-              error: (deleteErr) => {
-                const status = deleteErr?.status;
-                const msg = deleteErr?.error?.message || '';
-                // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
-                if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
-                  this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                  this.InsertDocumentoGenerado(docFieldToUpdate);
-                } else {
-                // Otros errores sí se notifican y no continúan
-                  const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
-                  this.commonService.showSnackBar(deleteErrMsg);
-                }
-              }
-            });
-        },
-        error: (err) => {
-          const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
-          this.commonService.showSnackBar(errorMsg);
-        }
+  // Enviar al backend usando el servicio
+  this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
+    next: (response) => {
+      // ToDo: al haberse generado con éxito, ahora hay que:
+      // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. 
+      // y antes eliminar los documentos generados para evitar duplicados.
+      this.docGeneradoInsert.id_sol = this.actualID
+      this.docGeneradoInsert.cifnif_propietario = this.actualNif
+      this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
+      this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`
+      this.docGeneradoInsert.type = 'application/pdf'
+      this.docGeneradoInsert.created_at = response.path
+      this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite
+      this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`
+      this.docGeneradoInsert.selloDeTiempo = timeStamp
+
+      this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
+      // delete documentos generados antes del insert para evitar duplicados
+      this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
+        .subscribe({
+          next: () => {
+            // Eliminado correctamente, o no había nada que eliminar
+            this.InsertDocumentoGenerado(docFieldToUpdate);
+          },
+          error: (deleteErr) => {
+            const status = deleteErr?.status;
+            const msg = deleteErr?.error?.message || '';
+            // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
+            if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
+              this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
+              this.InsertDocumentoGenerado(docFieldToUpdate);
+            } else {
+            // Otros errores sí se notifican y no continúan
+              const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
+              this.commonService.showSnackBar(deleteErrMsg);
+            }
+            }
+        });
+      },
+      error: (err) => {
+        const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
+        this.commonService.showSnackBar(errorMsg);
+      }
       });   
   }
 
