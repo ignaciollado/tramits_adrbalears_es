@@ -1,4 +1,4 @@
-<div class="table-container">
+<section ngClass="table-container">
   <!-- Filtro por tipo_tramite -->
   <mat-form-field appearance="outline">
     <mat-label>Filtrar por Tipo de Trámite</mat-label>
@@ -33,11 +33,18 @@
       <td mat-cell *matCellDef="let element"> {{element.tipo_tramite}} </td>
     </ng-container>
 
-        <!-- Signed By Column -->
-    <ng-container matColumnDef="signedBy">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Signed By </th>
-      <td mat-cell *matCellDef="let element"> {{element.signedBy}} </td>
-    </ng-container>
+<!-- Signed By Column -->
+<ng-container matColumnDef="signedBy">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Signed By </th>
+  <td mat-cell *matCellDef="let element"
+      [ngClass]="{
+        'signed-ceo': element.signedBy === 'ceo',
+        'signed-technician': element.signedBy === 'technician'
+      }">
+    {{element.signedBy}}
+  </td>
+</ng-container>
+
 
     <!-- Tipo de Trámite Column -->
     <ng-container matColumnDef="updated_at">
@@ -56,4 +63,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-</div>
+</section>

@@ -6,3 +6,16 @@ mat-table {
 mat-header-cell, mat-cell {
   padding: 8px;
 }
+
+.signed-ceo {
+  background-color: #e3f2fd; // azul claro
+  color: #0d47a1;            // azul oscuro
+  font-weight: bold;
+}
+
+.signed-technician {
+  background-color: #e8f5e9; // verde claro
+  color: #2e7d32;            // verde oscuro
+  font-style: italic;
+}
+
