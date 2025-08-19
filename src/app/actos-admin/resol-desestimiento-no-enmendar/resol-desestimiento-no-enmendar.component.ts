@@ -74,9 +74,9 @@ export class ResolDesestimientoNoEnmendarComponent {
   @Input() actualConvocatoria!: number
   @Input() actualTipoTramite!: string
   @Input() actualEmpresa: string = ""
-  @Input() actualFechaSolicitud: string = "******"
-  @Input() actualImporteSolicitud: string = "******"
-  @Input() actualFechaNotifReq: string = "******"
+  @Input() actualFechaSolicitud: string = ""
+  @Input() actualImporteSolicitud: number = 0
+  @Input() actualFechaNotifReq: string = ""
 
   constructor( 
       private commonService: CommonService, private sanitizer: DomSanitizer,

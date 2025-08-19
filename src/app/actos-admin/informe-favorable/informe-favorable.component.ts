@@ -50,6 +50,10 @@ export class InformeFavorableComponent {
   externalSignUrl: string = ""
   sendedUserToSign: string = ""
   sendedDateToSign!: Date
+  pdfUrl: SafeResourceUrl | null = null
+  imageUrl: SafeUrl | undefined
+  showPdfViewer: boolean = false
+  showImageViewer: boolean = false
 
   get stateClass(): string {
     const map: Record<string, string> = {
@@ -69,7 +73,7 @@ export class InformeFavorableComponent {
   @Input() actualTipoTramite!: string
   @Input() actualEmpresa: string = ""
   @Input() actualFechaSolicitud: string = ""
-  @Input() actualImporteSolicitud: string = ""
+  @Input() actualImporteSolicitud!: number 
   @Input() actualFechaRec: string = ""
   @Input() actualRef_REC: string = ""
 
@@ -79,7 +83,20 @@ export class InformeFavorableComponent {
               private actoAdminService: ActoAdministrativoService ) { 
               this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
             }
-
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.tieneTodosLosValores()) {
+      this.getActoAdminDetail();
+    }
+  }
+  private tieneTodosLosValores(): boolean {
+    return (
+      this.actualID != null &&
+      this.actualIdExp != null &&
+      !!this.actualNif &&
+      this.actualConvocatoria != null &&
+      !!this.actualTipoTramite
+    );
+  }
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
       .subscribe({
@@ -109,8 +126,9 @@ export class InformeFavorableComponent {
       alert ("Falta indicar la fecha SEU sol·licitud")
       return
     }
+    if(this.actualImporteSolicitud === 0)
     if (!this.actualRef_REC) {
-      alert ("Falta indicar la Referència SEU sol·licitud")
+      alert ("Falta indicar el importe solicitado de la ayuda")
       return
     }
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
@@ -134,8 +152,6 @@ export class InformeFavorableComponent {
     rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
     rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.actualFechaRec)); 
     rawTexto = rawTexto.replace(/%NUMREC%/g, this.actualRef_REC.toUpperCase()); 
-
-    console.log ("racTexto", rawTexto)
     // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
@@ -158,6 +174,7 @@ export class InformeFavorableComponent {
       }),
       tap(() => {
         try {
+          console.log ("rawTexto", rawTexto)
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {
@@ -387,6 +404,38 @@ export class InformeFavorableComponent {
         const sendedDateToSign = resp.creationDate
         this.sendedDateToSign = new Date(sendedDateToSign)
       })
+  }
+
+  viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
+    const entorno = sessionStorage.getItem("entorno")
+    filename = filename.replace(/^doc_/, "")
+    filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
+    let url = ""
+    if (entorno === 'tramits') {
+        url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    } else {
+        url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    }
+  
+    const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+
+    const ext = extension.toLowerCase();
+    if (ext === 'jpg' || ext === 'jpeg') {
+      this.imageUrl = sanitizedUrl;
+      this.pdfUrl = null;
+      this.showImageViewer = true;
+      this.showPdfViewer = false;
+    } else {
+      this.pdfUrl = sanitizedUrl;
+      this.imageUrl = undefined;
+      this.showPdfViewer = true;
+      this.showImageViewer = false;
+    }
+  }
+
+  closeViewActoAdmin() {
+    this.showPdfViewer = false;
+    this.pdfUrl = null;
   }
 
 }

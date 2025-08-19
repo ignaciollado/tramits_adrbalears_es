@@ -116,7 +116,7 @@ export class XecsDetailExpedComponent {
   actualConvocatoria!: number
   actualTipoTramite: string = ""
   actualFechaSolicitud: string = ""
-  actualImporteSolicitud: string = ""
+  actualImporteSolicitud: number = 0
   actualFechaRec: string = ""
   actualRef_REC: string = ""
   actualFechaNotifReq: string = ""
