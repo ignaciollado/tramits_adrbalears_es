@@ -183,7 +183,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
         <mat-label>{{'FORM.REF_REC' | translate}}</mat-label>
-        <input matInput formControlName="ref_REC" readonly>
+        <input matInput formControlName="ref_REC" readonly minlength="16" maxlength="16">
         </mat-form-field>
         <mat-form-field appearance="outline">
         <mat-label>{{'FORM.FECHA_REC_ENMIENDA' | translate}}</mat-label>
@@ -205,7 +205,9 @@
         <section>
           <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
           <app-requerimiento [signedBy]="'tecnico'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
-          <app-resol-desestimiento-no-enmendar [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resol-desestimiento-no-enmendar>
+          <app-resol-desestimiento-no-enmendar [signedBy]="'ceo'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" 
+          [actualFechaSolicitud]="actualFechaSolicitud" [actualImporteSolicitud]="actualImporteSolicitud" [actualFechaNotifReq]="actualFechaNotifReq"></app-resol-desestimiento-no-enmendar>
           <h4>Mejoras</h4>
           <app-mejoras-solicitud-detalle [id_sol]="actualID"></app-mejoras-solicitud-detalle>
         </section>
@@ -253,21 +255,23 @@
       </section>
       <section>
         <mat-accordion class="example-headers-align" multi>
-          <app-informe-favorable></app-informe-favorable>
+          <app-informe-favorable [actualID]="actualID" [actualFechaRec]="actualFechaRec" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualRef_REC]="actualRef_REC" [actualImporteSolicitud]="actualImporteSolicitud"
+          [actualTipoTramite]="actualTipoTramite"></app-informe-favorable>
           <app-informe-favorable-con-requerimiento></app-informe-favorable-con-requerimiento>
           <app-informe-desfavorable></app-informe-desfavorable>
           <app-informe-desfavorable-con-requerimiento></app-informe-desfavorable-con-requerimiento>
           <app-pr-provisional-favorable></app-pr-provisional-favorable>
           <app-pr-provisional-favorable-con-requerimiento></app-pr-provisional-favorable-con-requerimiento>
           <app-pr-provisional-desfavorable></app-pr-provisional-desfavorable>
-<!--     <mat-expansion-panel>
+    <!-- <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> {{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONPROVISIONALDESFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
     </mat-expansion-panel-header>
     <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
   </mat-expansion-panel> -->
   <app-pr-provisional-desfavorable-con-requerimiento></app-pr-provisional-desfavorable-con-requerimiento>
-<!--     <mat-expansion-panel>
+    <!-- <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> {{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONDEFINITIVAFAVORABLE' | translate}} </mat-panel-title>
     </mat-expansion-panel-header>

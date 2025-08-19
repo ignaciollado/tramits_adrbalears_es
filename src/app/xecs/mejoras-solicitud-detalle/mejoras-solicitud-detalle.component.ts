@@ -22,6 +22,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './mejoras-solicitud-detalle.component.html',
   styleUrls: ['./mejoras-solicitud-detalle.component.scss']
 })
+
 export class MejorasSolicitudDetalleComponent implements OnChanges {
   @Input() id_sol!: number;
 
@@ -58,7 +59,7 @@ export class MejorasSolicitudDetalleComponent implements OnChanges {
     }
   }
 
-loadMejorasSolicitud(): void {
+  loadMejorasSolicitud(): void {
   this.loading = true;
   this.error = '';
   this.mejorasSolicitudService.getMejorasSolicitud(this.id_sol).subscribe({
@@ -67,28 +68,39 @@ loadMejorasSolicitud(): void {
       this.loading = false;
     },
     error: err => {
-      this.error = 'Error al cargar las mejoras de la solicitud';
+      this.error = '<strong>No se han encontrado mejoras para esta solicitud</strong>';
       this.loading = false;
     }
   });
-}
+  }
 
-
-save(): void {
+  save(): void {
   if (!this.form.valid) return;
 
+  const formValue = { ...this.form.value };
+
+  // Convertir ref_rec_mejora a mayúsculas si existe
+  if (formValue.ref_rec_mejora) {
+    formValue.ref_rec_mejora = formValue.ref_rec_mejora.toUpperCase();
+  }
+
   const newData: MejoraSolicitudDTO = {
-    ...this.form.value
+    ...formValue,
+    id_sol: this.id_sol
   };
 
   this.mejorasSolicitudService.createMejoraSolicitud(newData).subscribe({
-    next: () => alert('Mejora creada correctamente'),
-    error: () => alert('Error al crear la mejora')
+    next: (response) => {
+      alert(response.message || 'Mejora registrada correctamente');
+      this.loadMejorasSolicitud()
+      this.form.reset()
+    },
+    error: () => alert('Error al registrar la mejora')
   });
-}
 
+  }
 
- delete(item: any): void {
+  delete(item: any): void {
   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
     width: '300px',
     data: {
@@ -106,5 +118,5 @@ save(): void {
       this.dataSource.data = this.dataSource.data.filter(i => i !== item);
     }
   });
-}
+  }
 }
