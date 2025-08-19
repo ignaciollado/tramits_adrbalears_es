@@ -43,10 +43,12 @@ export class IlsDetailExpedComponent {
   form!: FormGroup
   idExpediente!: number
   actualNif!: string;
+  actualID!: number;
+  actualIdExp!: number;
+  actualEmpresa!: string;
   actualTimeStamp!: string;
   actualConvocatoria!: number;
   actualTipoTramite!: string;
-  totalSolicitudesPrevias!: number;
   signedDocData!: DocSignedDTO;
   publicAccessId: string = "";
   businessType: string = "";
@@ -60,33 +62,33 @@ export class IlsDetailExpedComponent {
     this.form = this.fb.group({
       /* Detalle */
       id: [{ value: '', disabled: true }, []],
-      empresa: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      empresa: [{ value: '', disabled: true }, []],
       nif: [{ value: '', disabled: true }, []],
       fecha_solicitud: [{ value: '', disabled: true }, []],
       tipo_tramite: [{ value: '', disabled: true }, []],
       telefono_rep: [{ value: '', disabled: true }, [Validators.maxLength(9), Validators.minLength(9), Validators.pattern('^\\d{1,9}$')]],
-      email_rep: [{ value: '', disabled: true }, [Validators.email, this.customValidatorService.xssProtectorValidator()]],
-      domicilio: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
-      localidad: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
-      cpostal: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator(), Validators.maxLength(5), Validators.minLength(5), Validators.pattern('^\\d+$')]],
+      email_rep: [{ value: '', disabled: true }, [Validators.email, ]],
+      domicilio: [{ value: '', disabled: true }, []],
+      localidad: [{ value: '', disabled: true }, []],
+      cpostal: [{ value: '', disabled: true }, [Validators.maxLength(5), Validators.minLength(5), Validators.pattern('^\\d+$')]],
       telefono: [{ value: '', disabled: true }, [Validators.maxLength(9), Validators.minLength(9), Validators.pattern('^\\d{1,9}$')]],
       iae: [{ value: '', disabled: true }, []],
-      nombre_rep: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      nombre_rep: [{ value: '', disabled: true }, []],
       nif_rep: [{ value: '', disabled: true }, [this.customValidatorService.dniNieValidator(), Validators.minLength(9), Validators.maxLength(9)]],
       tecnicoAsignado: [{ value: '', disabled: true }, []],
       situacion: [{ value: '', disabled: true }, []],
-      sitio_web_empresa: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
-      video_empresa: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      sitio_web_empresa: [{ value: '', disabled: true }, []],
+      video_empresa: [{ value: '', disabled: true }, []],
 
       /* Solicitud */
       fecha_REC: [{ value: '', disabled: true }, []],
-      ref_REC: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ref_REC: [{ value: '', disabled: true }, []],
       fecha_REC_enmienda: [{ value: '', disabled: true }, []],
-      ref_REC_enmienda: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ref_REC_enmienda: [{ value: '', disabled: true }, []],
       fecha_requerimiento: [{ value: '', disabled: true }, []],
       fecha_requerimiento_notif: [{ value: '', disabled: true }, []],
       fecha_maxima_enmienda: [{ value: '', disabled: true }, []],
-      motivoRequerimientoIls: [{ value: '', disabled: false }, [this.customValidatorService.xssProtectorValidator()]],
+      motivoRequerimientoIls: [{ value: '', disabled: false }, []],
 
       /* Adhesión */
       fecha_infor_fav: [{ value: '', disabled: true }, []],
@@ -99,7 +101,7 @@ export class IlsDetailExpedComponent {
       fecha_seguimiento_adhesion_ils: [{ value: '', disabled: true }, []],
       fecha_limite_presentacion: [{ value: '', disabled: true }, []],
       fecha_rec_informe_seguimiento: [{ value: '', disabled: true }, []],
-      ref_REC_informe_seguimiento: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ref_REC_informe_seguimiento: [{ value: '', disabled: true }, []],
 
       /* Renovación */
       fecha_renovacion: [{ value: '', disabled: true }, []],
@@ -109,7 +111,7 @@ export class IlsDetailExpedComponent {
       fecha_notif_req_renov: [{ value: '', disabled: true }, []],
       fecha_REC_enmienda_renov: [{ value: '', disabled: true }, []],
       fecha_REC_justificacion_renov: [{ value: '', disabled: true }, []],
-      ref_REC_justificacion_renov: [{ value: '', disabled: true }, [this.customValidatorService.xssProtectorValidator()]],
+      ref_REC_justificacion_renov: [{ value: '', disabled: true }, []],
       fecha_resolucion_renov: [{ value: '', disabled: true }, []],
       fecha_notificacion_renov: [{ value: '', disabled: true }, []],
       fecha_res_revocacion_marca: [{ value: '', disabled: true }, []]
@@ -131,35 +133,20 @@ export class IlsDetailExpedComponent {
           if (expediente.motivoRequerimientoIls) {
             this.noRequestReasonText = false;
           }
+          this.form.patchValue(expediente)
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;
+          this.actualID = expediente.id;
+          this.actualIdExp = expediente.idExp;
+          this.actualEmpresa = expediente.empresa;
           this.actualTimeStamp = expediente.selloDeTiempo;
           this.actualConvocatoria = expediente.convocatoria;
           this.actualTipoTramite = expediente.tipo_tramite;
           this.publicAccessId = expediente.PublicAccessId;
           this.checkViafirmaSign(this.publicAccessId);
           this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
-          this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
-          this.form.patchValue(expediente)
         } else {
           this.commonService.showSnackBar('⚠️ No se encontró información del expediente.')
-        }
-      })
-  }
-
-  getTotalNumberOfApplications(nif: string, tipoTramite: string, convocatoria: number) {
-    this.expedienteService.getTotalNumberOfApplicationsFromSolicitor(nif, tipoTramite, convocatoria)
-      .pipe(
-        catchError(error => {
-          this.commonService.showSnackBar('❌ Error al contar el número de solicitudes. Inténtalo de nuevo más tarde. ' + error)
-          return of(null)
-        })
-      )
-      .subscribe(totalSolicitudes => {
-        if (totalSolicitudes) {
-          this.totalSolicitudesPrevias = totalSolicitudes.data.totalConvos
-        } else {
-          this.commonService.showSnackBar('⚠️ No se encontró información sobre el número de solicitudes.');
         }
       })
   }
@@ -241,7 +228,6 @@ export class IlsDetailExpedComponent {
 
   saveExpediente(): void {
     const expedienteActualizado = this.form.getRawValue()
-    console.log(expedienteActualizado)
     this.expedienteService.updateExpediente(this.idExpediente, expedienteActualizado)
       .subscribe({
         next: () => {
