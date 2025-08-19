@@ -139,6 +139,11 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
+    // Verifico que existan todos los datos necesarios: %DATANOTREQ%,
+    if (this.actualFechaNotifReq === '0000-00-00' || this.actualFechaNotifReq === null) {
+      alert ("Falta indicar la fecha Notificació requeriment")
+      return
+    }
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
@@ -167,7 +172,6 @@ export class ResolDesestimientoNoEnmendarComponent {
     rawTexto = rawTexto.replace(/%IMPORTE%/g, actualImporteSolicitudFormateado);
     rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
     rawTexto = rawTexto.replace(/%DATANOTREQ%/g, this.actualFechaNotifReq);
-
     // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
