@@ -160,18 +160,10 @@ export class ResolDesestimientoNoEnmendarComponent {
     rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
     rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
     rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
-    //rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
-    rawTexto = rawTexto.replace(/%FECHASOL%/g, this.actualFechaSolicitud);
-    // Formatear el importe en euros con dos decimales
-    const actualImporteSolicitudFormateado = new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'EUR',
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }).format(Number(this.actualImporteSolicitud));
-    rawTexto = rawTexto.replace(/%IMPORTE%/g, actualImporteSolicitudFormateado);
+    rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.actualFechaSolicitud));
+    rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
     rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
-    rawTexto = rawTexto.replace(/%DATANOTREQ%/g, this.actualFechaNotifReq);
+    rawTexto = rawTexto.replace(/%DATANOTREQ%/g, this.commonService.formatDate(this.actualFechaNotifReq));
     // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
@@ -180,7 +172,7 @@ export class ResolDesestimientoNoEnmendarComponent {
           hayMejoras = nMejoras.total_mejoras;
           return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID).pipe(
             tap((ultimaMejora: MejoraSolicitudDTO) => {
-              rawTexto = rawTexto.replace(/%FECHARECM%/g, String(ultimaMejora.fecha_rec_mejora))
+              rawTexto = rawTexto.replace(/%FECHARECM%/g, this.commonService.formatDate(String(ultimaMejora.fecha_rec_mejora)))
               rawTexto = rawTexto.replace(/%NUMRECM%/g, String(ultimaMejora.ref_rec_mejora))
               rawTexto = rawTexto.replace(/%YYY%/g, String("4. "))
               rawTexto = rawTexto.replace(/%ZZZ%/g, String("5. "))
