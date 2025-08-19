@@ -135,14 +135,65 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
+    // obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
+    this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
+      let hayMejoras = 0
+      let rawTexto = docDataString.texto;
+      let jsonObject: any; 
+      if (!rawTexto) {
+        this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
+        return;
+      }
+      // Reemplazo las variables que hay en el template por su valor correspondiente
+      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
+      rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
+      rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
+      rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
+      rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
+      rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
+      // Averiguo si hay mejoras en la solicitud
+      this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
+      .pipe(
+        switchMap((nMejoras: any) => {
+        if (nMejoras.total_mejoras > 0) {
+          hayMejoras = nMejoras.total_mejoras;
+          return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID).pipe(
+            tap((ultimaMejora: MejoraSolicitudDTO) => {
+              rawTexto = rawTexto.replace(/%FECHARECM%/g, String(ultimaMejora.fecha_rec_mejora))
+              rawTexto = rawTexto.replace(/%NUMRECM%/g, String(ultimaMejora.ref_rec_mejora))
+              rawTexto = rawTexto.replace(/%YYY%/g, String("4. "))
+              rawTexto = rawTexto.replace(/%ZZZ%/g, String("5. "))
+            })
+          );
+        } else {
+          rawTexto = rawTexto.replace(/%YYY%/g, String("3. "))
+          rawTexto = rawTexto.replace(/%ZZZ%/g, String("4. "))
+          return of(null);
+        }
+      }),
+      tap(() => {
+        try {
+          jsonObject = JSON.parse(rawTexto);
+          this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
+        } catch (error) {
+        console.error('Error al parsear JSON:', error);
+        }
+      })
+    )
+    .subscribe();
+  })
+}
+
+  generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
+    
     const doc = new jsPDF({
-        orientation: 'p',
-        unit: 'mm',
-        format: 'a4',
-        putOnlyUsedFonts: true,
-        floatPrecision: 16
-      });
+      orientation: 'p',
+      unit: 'mm',
+      format: 'a4',
+      putOnlyUsedFonts: true,
+      floatPrecision: 16
+    });
 
     doc.setProperties({
       title: `${this.actualIdExp + '_' + this.actualConvocatoria + '_' + docFieldToUpdate}`,
@@ -155,161 +206,111 @@ export class ResolDesestimientoNoEnmendarComponent {
     const footerText = 'Plaça de Son Castelló, 1\n07009 Polígon de Son Castelló - Palma\nTel. 971 17 61 61\nwww.adrbalears.es';
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-
+    
+    const maxCharsPerLine = 21;
     const marginLeft = 25;
+    const maxTextWidth = 160;
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
-
+    const xHeader = marginLeft + 110
+    const yHeader = 54;
+    
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
       doc.text(line, marginLeft, y);
     });
 
-  // obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
-  this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
-    .subscribe((docDataString: any) => {
-      let hayMejoras = 0
-      let rawTexto = docDataString.texto;
-      if (!rawTexto) {
-        this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
-        return;
-      }
-      /* Reemplazo de las variables por su valor */
-      rawTexto = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
-      rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
-      rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
-      rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
-      rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
-      rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
-      /* Averiguar si hay mejoras en la solicitud */
-let jsonObject: any
-this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
-  .pipe(
-    switchMap((nMejoras: any) => {
-      if (nMejoras.total_mejoras > 0) {
-        hayMejoras = nMejoras.total_mejoras;
-        return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID).pipe(
-          tap((ultimaMejora: MejoraSolicitudDTO) => {
-            rawTexto = rawTexto.replace(/%FECHARECM%/g, String(ultimaMejora.fecha_rec_mejora));
-            rawTexto = rawTexto.replace(/%NUMRECM%/g, String(ultimaMejora.ref_rec_mejora));
-          })
-        );
-      } else {
-        return of(null); // No hay mejoras, pero seguimos para hacer el parse
-      }
-    }),
-    tap(() => {
-      try {
-        jsonObject = JSON.parse(rawTexto);
-        console.log('JSON generado:', jsonObject);
-        // Aquí puedes continuar con el uso de jsonObject
-      } catch (error) {
-        console.error('Error al parsear JSON:', error);
-      }
-    })
-  )
-  .subscribe();
+    doc.setFont('helvetica', 'bold');
+    doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
+    doc.setFontSize(8);
+    doc.text("Document: resolució desistiment", xHeader, 45);
+    doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 48);
+    doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 51);
 
+    if (this.actualEmpresa.length > maxCharsPerLine) {
+      const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
+      const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+      doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
+      doc.text(secondLine, xHeader, yHeader + 3);
+      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
+      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
+      doc.text("Codi SIA: ", xHeader, yHeader + 12);
+    } else {
+      doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
+      doc.text(`NIF: ${this.nifDocgenerado}`, xHeader, 57);
+      doc.text("Emissor (DIR3): A04003714", xHeader, 60);
+      doc.text("Codi SIA: ", xHeader, 63);
+    }
 
-      // Defino el contenido del pdf
-      doc.setFont('helvetica', 'bold');
-      doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
-      doc.setFontSize(8);
-      const marginLeft = 25;
-      const maxCharsPerLine = 21;
-      const x = marginLeft + 110;
-      const y = 54;
-      const maxTextWidth = 160;
+    doc.setFontSize(10);
+    doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
+    doc.setFont('helvetica', 'bold');
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 115);
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2, maxTextWidth), marginLeft + 5, 130);
+    console.log ("hayMejoras", hayMejoras)
 
-      const lineHeight = 4;
-      const pageHeight = doc.internal.pageSize.getHeight();
-      doc.text("Document: resolució desistiment", marginLeft+110, 45);
-      doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft+110, 48);
-      doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, marginLeft+110, 51);
-      if (this.actualEmpresa.length > maxCharsPerLine) {
-        const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-        const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
-        doc.text(`Nom sol·licitant: ${firstLine}`, x, y);
-        doc.text(secondLine, x, y + 3);
-        doc.text(`NIF: ${this.actualNif}`, marginLeft+110, y + 6); 
-        doc.text("Emissor (DIR3): A04003714", marginLeft+110, y + 9); 
-        doc.text("Codi SIA: ", marginLeft+110, y + 12); 
-      } else {
-        doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
-        doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, 57); 
-        doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
-        doc.text("Codi SIA: ", marginLeft+110, 63); 
-      }
+    if (hayMejoras > 0) {
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_3_m, maxTextWidth), marginLeft + 5, 170);
+    }
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft + 5, 182);
+    // Salto de página
+    doc.addPage();
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
 
-      doc.setFontSize(10);
-      doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
-      doc.setFont('helvetica', 'bold');
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 115);
-      doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2, maxTextWidth), marginLeft+10, 130);
-      /* Sólo debe aparecer cuando existan mejoras */
-      if (1 === 1) {
-        doc.text(doc.splitTextToSize(jsonObject.antecedentes_3_m, maxTextWidth), marginLeft+10, 170);
-      }
-      /* +++++++++++++++++++++++++++++++++++++++++ */
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft+10, 182);
-      // Salto de página
-      doc.addPage();
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
+    lines.reverse().forEach((line, index) => {
+      const y = pageHeight - 10 - (index * lineHeight);
+      doc.text(line, marginLeft, y);
+    });
+    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft, 70);
+    doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 140);
+    doc.setFont('helvetica', 'bold');
+    doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 150);
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 157);
+    // Salto de página
+    doc.addPage();
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
 
-      lines.reverse().forEach((line, index) => {
-        const y = pageHeight - 10 - (index * lineHeight);
-        doc.text(line, marginLeft, y);
-      });
-      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
-      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
-      doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft, 70);
-      doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 140);
-      doc.setFont('helvetica', 'bold');
-      doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 150);
-      doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 157);
-      // Salto de página
-      doc.addPage();
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
+    lines.reverse().forEach((line, index) => {
+      const y = pageHeight - 10 - (index * lineHeight);
+      doc.text(line, marginLeft, y);
+    });
+    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 60);
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 70);
+    doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 210);
 
-      lines.reverse().forEach((line, index) => {
-        const y = pageHeight - 10 - (index * lineHeight);
-        doc.text(line, marginLeft, y);
-      });
-      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'bold');
-      doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 60);
-      doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 70);
-      doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 210);
+    // además de generar el pdf del acto administrativo hay que enviarlo al backend
+    // Convertir a Blob
+    const pdfBlob = doc.output('blob');
 
-      // además de generar el pdf del acto administrativo hay que enviarlo al backend
-      // Convertir a Blob
-      const pdfBlob = doc.output('blob');
+    // Crear FormData
+    const formData = new FormData();
+    const fileName = `${this.actualIdExp + '_' + this.actualConvocatoria+'_'+docFieldToUpdate}.pdf`;
+    formData.append('file', pdfBlob, fileName);
+    formData.append('id_sol', String(this.actualID));
+    formData.append('convocatoria', String(this.actualConvocatoria));
+    formData.append('nifcif_propietario', String(this.actualNif));
+    formData.append('timeStamp', String(timeStamp));
 
-      // Crear FormData
-      const formData = new FormData();
-      const fileName = `${this.actualIdExp + '_' + this.actualConvocatoria+'_'+docFieldToUpdate}.pdf`;
-      formData.append('file', pdfBlob, fileName);
-      formData.append('id_sol', String(this.actualID));
-      formData.append('convocatoria', String(this.actualConvocatoria));
-      formData.append('nifcif_propietario', String(this.actualNif));
-      formData.append('timeStamp', String(timeStamp));
-
-      // Enviar al backend usando el servicio
-      this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
+    // Enviar al backend usando el servicio
+    this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
         next: (response) => {
           // ToDo: al haberse generado con éxito, ahora hay que:
           // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. 
-          // Antes elimina los documentos generados para evitar duplicados.
+          // y antes eliminar los documentos generados para evitar duplicados.
           this.docGeneradoInsert.id_sol = this.actualID
           this.docGeneradoInsert.cifnif_propietario = this.actualNif
           this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria)
@@ -347,8 +348,7 @@ this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
           const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
           this.commonService.showSnackBar(errorMsg);
         }
-      });
-    });
+      });   
   }
 
   /** Método auxiliar para no repetir el bloque de creación */
