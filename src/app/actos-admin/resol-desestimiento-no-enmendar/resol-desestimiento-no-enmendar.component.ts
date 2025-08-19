@@ -2,7 +2,6 @@ import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -62,7 +61,6 @@ export class ResolDesestimientoNoEnmendarComponent {
                     publicAccessId: ''
   }  
 
-
   lastInsertId: number | undefined
   publicAccessId: string = ""
   externalSignUrl: string = ""
@@ -80,12 +78,13 @@ export class ResolDesestimientoNoEnmendarComponent {
   @Input() actualImporteSolicitud: string = "******"
   @Input() actualFechaNotifReq: string = "******"
 
-  constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
-              private viafirmaService: ViafirmaService,
-              private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
-              private actoAdminService: ActoAdministrativoService, private jwtHelper: JwtHelperService ) { 
-              this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
-            }
+  constructor( 
+      private commonService: CommonService, private sanitizer: DomSanitizer,
+      private viafirmaService: ViafirmaService,
+      private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
+      private actoAdminService: ActoAdministrativoService ) { 
+        this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
+      }
 
   get stateClassActAdmin2(): string {
     const map: Record<string, string> = {
@@ -250,7 +249,7 @@ export class ResolDesestimientoNoEnmendarComponent {
     doc.text("Codi SIA: ", xHeader, yHeader + 12);
   } else {
     doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
-    doc.text(`NIF: ${this.nifDocgenerado}`, xHeader, 57);
+    doc.text(`NIF: ${this.actualNif}`, xHeader, 57);
     doc.text("Emissor (DIR3): A04003714", xHeader, 60);
     doc.text("Codi SIA: ", xHeader, 63);
   }
