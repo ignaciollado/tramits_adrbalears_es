@@ -1,6 +1,6 @@
 import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -12,13 +12,15 @@ import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
+import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { jsPDF } from 'jspdf';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
-import { finalize } from 'rxjs';
+import { finalize, of, switchMap, tap } from 'rxjs';
+import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 
 @Component({
   selector: 'app-resol-desestimiento-no-enmendar',
@@ -76,7 +78,7 @@ export class ResolDesestimientoNoEnmendarComponent {
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
-              private documentosGeneradosService: DocumentosGeneradosService,
+              private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
               private actoAdminService: ActoAdministrativoService, private jwtHelper: JwtHelperService ) { 
               this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
             }
@@ -133,8 +135,8 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-      const timeStamp = this.commonService.generateCustomTimestamp()
-      const doc = new jsPDF({
+    const timeStamp = this.commonService.generateCustomTimestamp()
+    const doc = new jsPDF({
         orientation: 'p',
         unit: 'mm',
         format: 'a4',
@@ -167,6 +169,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   // obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
+      let hayMejoras = 0
       let rawTexto = docDataString.texto;
       if (!rawTexto) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
@@ -179,7 +182,35 @@ export class ResolDesestimientoNoEnmendarComponent {
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
       rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
       rawTexto = rawTexto.replace(/%TIPOTRAMITE%/g, this.actualTipoTramite);
-      const jsonObject = JSON.parse(rawTexto);
+      /* Averiguar si hay mejoras en la solicitud */
+let jsonObject: any
+this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
+  .pipe(
+    switchMap((nMejoras: any) => {
+      if (nMejoras.total_mejoras > 0) {
+        hayMejoras = nMejoras.total_mejoras;
+        return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID).pipe(
+          tap((ultimaMejora: MejoraSolicitudDTO) => {
+            rawTexto = rawTexto.replace(/%FECHARECM%/g, String(ultimaMejora.fecha_rec_mejora));
+            rawTexto = rawTexto.replace(/%NUMRECM%/g, String(ultimaMejora.ref_rec_mejora));
+          })
+        );
+      } else {
+        return of(null); // No hay mejoras, pero seguimos para hacer el parse
+      }
+    }),
+    tap(() => {
+      try {
+        jsonObject = JSON.parse(rawTexto);
+        console.log('JSON generado:', jsonObject);
+        // Aquí puedes continuar con el uso de jsonObject
+      } catch (error) {
+        console.error('Error al parsear JSON:', error);
+      }
+    })
+  )
+  .subscribe();
+
 
       // Defino el contenido del pdf
       doc.setFont('helvetica', 'bold');
@@ -193,7 +224,6 @@ export class ResolDesestimientoNoEnmendarComponent {
 
       const lineHeight = 4;
       const pageHeight = doc.internal.pageSize.getHeight();
-
       doc.text("Document: resolució desistiment", marginLeft+110, 45);
       doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft+110, 48);
       doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, marginLeft+110, 51);
@@ -202,7 +232,7 @@ export class ResolDesestimientoNoEnmendarComponent {
         const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
         doc.text(`Nom sol·licitant: ${firstLine}`, x, y);
         doc.text(secondLine, x, y + 3);
-        doc.text(`NIF: ${this.nifDocgenerado}`, marginLeft+110, y + 6); 
+        doc.text(`NIF: ${this.actualNif}`, marginLeft+110, y + 6); 
         doc.text("Emissor (DIR3): A04003714", marginLeft+110, y + 9); 
         doc.text("Codi SIA: ", marginLeft+110, y + 12); 
       } else {
@@ -217,11 +247,13 @@ export class ResolDesestimientoNoEnmendarComponent {
       doc.setFont('helvetica', 'bold');
       doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 115);
       doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2, maxTextWidth), marginLeft, 122);
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2, maxTextWidth), marginLeft+10, 130);
       /* Sólo debe aparecer cuando existan mejoras */
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_3_m, maxTextWidth), marginLeft, 160);
+      if (1 === 1) {
+        doc.text(doc.splitTextToSize(jsonObject.antecedentes_3_m, maxTextWidth), marginLeft+10, 170);
+      }
       /* +++++++++++++++++++++++++++++++++++++++++ */
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft, 175);
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_5, maxTextWidth), marginLeft+10, 182);
       // Salto de página
       doc.addPage();
       doc.setFont('helvetica', 'normal');
@@ -231,8 +263,8 @@ export class ResolDesestimientoNoEnmendarComponent {
         const y = pageHeight - 10 - (index * lineHeight);
         doc.text(line, marginLeft, y);
       });
-      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 20, 20);
-
+      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+      doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
       doc.setFont('helvetica', 'normal');
@@ -251,8 +283,8 @@ export class ResolDesestimientoNoEnmendarComponent {
         const y = pageHeight - 10 - (index * lineHeight);
         doc.text(line, marginLeft, y);
       });
-      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 20, 20);
-
+      doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+      doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
       doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 60);
       doc.setFont('helvetica', 'normal');

@@ -188,8 +188,6 @@ loadExpedientes(): void {
   this.loading = false;
 }
 
-
-
 private actualizarTabla(res: any[]): void {
   this.dataSource.data = res;
 

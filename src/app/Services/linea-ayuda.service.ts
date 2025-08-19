@@ -8,21 +8,21 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PindustLineaAyudaService {
-  private entorno: 'tramits' | 'pre-tramits';
+private entorno: 'tramits' | 'pre-tramits';
   private readonly urls = {
     'tramits': 'https://tramits.idi.es/public/index.php',
     'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
   };
 
-
   constructor(private http: HttpClient) {
-     const entornoGuardado = localStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
-    this.entorno = entornoGuardado || 'tramits';
+    const entornoGuardado = sessionStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
+    this.entorno = entornoGuardado || 'pre-tramits';
   }
 
-  setEntorno(entorno: 'tramits' | 'pre-tramits'): void {
+  setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
     this.entorno = entorno;
-    localStorage.setItem('pre-entorno', entorno);
+    sessionStorage.setItem('entorno', entorno);
+    console.log ("entorno actual expedientes: ", this.entorno)
   }
 
   private get apiUrl(): string {
