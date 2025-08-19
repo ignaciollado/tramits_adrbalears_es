@@ -88,6 +88,7 @@ export class InformeFavorableComponent {
       this.getActoAdminDetail();
     }
   }
+  
   private tieneTodosLosValores(): boolean {
     return (
       this.actualID != null &&
@@ -97,6 +98,7 @@ export class InformeFavorableComponent {
       !!this.actualTipoTramite
     );
   }
+
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
       .subscribe({

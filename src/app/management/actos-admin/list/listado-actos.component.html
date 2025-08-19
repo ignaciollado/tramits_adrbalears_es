@@ -33,6 +33,12 @@
       <td mat-cell *matCellDef="let element"> {{element.tipo_tramite}} </td>
     </ng-container>
 
+        <!-- Signed By Column -->
+    <ng-container matColumnDef="signedBy">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Signed By </th>
+      <td mat-cell *matCellDef="let element"> {{element.signedBy}} </td>
+    </ng-container>
+
     <!-- Tipo de Trámite Column -->
     <ng-container matColumnDef="updated_at">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Última modificación </th>

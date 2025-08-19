@@ -405,7 +405,6 @@ export class ResolDesestimientoNoEnmendarComponent {
   });
   }
 
-
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
     const entorno = sessionStorage.getItem("entorno")
     filename = filename.replace(/^doc_/, "")

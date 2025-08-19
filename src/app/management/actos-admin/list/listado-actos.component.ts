@@ -8,7 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActoAdministrativoService, ActoAdministrativo } from '../../../Services/acto-administrativo.service';
+import { ActoAdministrativoService } from '../../../Services/acto-administrativo.service';
+import { ActoAdministrativoDTO } from '../../../Models/acto-administrativo-dto';
 
 @Component({
   selector: 'app-listado-actos',
@@ -27,8 +28,8 @@ import { ActoAdministrativoService, ActoAdministrativo } from '../../../Services
   styleUrls: ['./listado-actos.component.scss']
 })
 export class ListadoActosComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'denominacion', 'tipo_tramite', 'updated_at', 'acciones'];
-  dataSource = new MatTableDataSource<ActoAdministrativo>();
+  displayedColumns: string[] = ['id', 'denominacion', 'tipo_tramite', 'signedBy', 'updated_at', 'acciones'];
+  dataSource = new MatTableDataSource<ActoAdministrativoDTO>();
   selectedTipoTramite: string = '';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

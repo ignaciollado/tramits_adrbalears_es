@@ -22,6 +22,17 @@
         style="height: 700px;"
       ></nu-monaco-editor>
     </section>
+    <mat-label>Signed By</mat-label>
+    <section ngClass="editor-container">
+     <mat-form-field appearance="fill">
+    <mat-label>Role</mat-label>
+    <mat-select formControlName="signedBy">
+      <mat-option *ngFor="let role of roles" [value]="role.value">
+        {{ role.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+    </section>
     <button mat-raised-button color="primary" type="submit">
       {{ editingId ? 'Actualizar' : 'Crear' }}
     </button>

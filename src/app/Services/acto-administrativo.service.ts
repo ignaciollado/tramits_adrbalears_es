@@ -1,17 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ActoAdministrativoDTO } from '../Models/acto-administrativo-dto';
 
-export interface ActoAdministrativo {
-  id?: number;
-  denominacion: string;
-  tipo_tramite: string;
-  texto: string;
-  texto_es: string;
-  created_at?: string;
-  updated_at?: string;
-  deleted_at?: string | null;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -49,23 +40,23 @@ export class ActoAdministrativoService {
 
 
 
-  getAll(): Observable<ActoAdministrativo[]> {
-    return this.http.get<ActoAdministrativo[]>(`${this.apiUrl}/api/pindust/acto`);
+  getAll(): Observable<ActoAdministrativoDTO[]> {
+    return this.http.get<ActoAdministrativoDTO[]>(`${this.apiUrl}/api/pindust/acto`);
   }
 
-  getById(id: number): Observable<ActoAdministrativo> {
-    return this.http.get<ActoAdministrativo>(`${this.apiUrl}/api/pindust/acto/${id}`);
+  getById(id: number): Observable<ActoAdministrativoDTO> {
+    return this.http.get<ActoAdministrativoDTO>(`${this.apiUrl}/api/pindust/acto/${id}`);
   }
 
-  getByNameAndTipoTramite(name: string, tipoTramite: string): Observable<ActoAdministrativo> {
-    return this.http.get<ActoAdministrativo>(`${this.apiUrl}/api/pindust/acto/${name}/${tipoTramite}`);
+  getByNameAndTipoTramite(name: string, tipoTramite: string): Observable<ActoAdministrativoDTO> {
+    return this.http.get<ActoAdministrativoDTO>(`${this.apiUrl}/api/pindust/acto/${name}/${tipoTramite}`);
   }
 
-  create(data: ActoAdministrativo): Observable<any> {
+  create(data: ActoAdministrativoDTO): Observable<any> {
     return this.http.post(this.apiUrl, data, this.httpOptions);
   }
 
-  update(id: number, data: ActoAdministrativo): Observable<any> {
+  update(id: number, data: ActoAdministrativoDTO): Observable<any> {
     return this.http.put(`${this.apiUrl}/api/pindust/acto/${id}`, data, this.httpOptions);
   }
 
@@ -73,8 +64,8 @@ export class ActoAdministrativoService {
     return this.http.delete(`${this.apiUrl}/api/pindust/acto/${id}`);
   }
 
-  getDeleted(): Observable<ActoAdministrativo[]> {
-    return this.http.get<ActoAdministrativo[]>(`${this.apiUrl}/api/pindust/acto/deleted`);
+  getDeleted(): Observable<ActoAdministrativoDTO[]> {
+    return this.http.get<ActoAdministrativoDTO[]>(`${this.apiUrl}/api/pindust/acto/deleted`);
   }
 
   restore(id: number): Observable<any> {

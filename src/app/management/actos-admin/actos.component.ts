@@ -7,8 +7,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
-import { ActoAdministrativoService, ActoAdministrativo } from '../../Services/acto-administrativo.service';
+import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { MatDividerModule } from '@angular/material/divider';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
@@ -26,7 +29,7 @@ import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatListModule,
+    MatListModule, MatSelect, MatOption,
     MatIconModule,
     MatDividerModule,
     HttpClientModule,
@@ -38,8 +41,8 @@ import { NuMonacoEditorComponent } from '@ng-util/monaco-editor';
 export class ActosComponent implements OnInit {
   actoForm: FormGroup;
   editingId: number | null = null;
-  actos: ActoAdministrativo[] = [];
-  deletedActos: ActoAdministrativo[] = [];
+  actos: ActoAdministrativoDTO[] = [];
+  deletedActos: ActoAdministrativoDTO[] = [];
   private editorDecorations: string[] = [];
 
   editorOptions = {
@@ -51,7 +54,10 @@ export class ActosComponent implements OnInit {
   automaticLayout: true,
   readOnly: false
 };
-
+  roles = [
+    { value: 'ceo', viewValue: 'CEO' },
+    { value: 'technician', viewValue: 'Técnico' }
+  ];
 
   @ViewChild('editorRef') editorComponent!: NuMonacoEditorComponent;
   ngAfterViewInit(): void {
@@ -74,7 +80,8 @@ export class ActosComponent implements OnInit {
       denominacion: [{value:'', disabled: true}, [Validators.required, Validators.maxLength(100)]],
       tipo_tramite: [{value:'', disabled: true},, [Validators.required, Validators.maxLength(20)]],
       texto: ['', Validators.required],
-      texto_es: ['', Validators.required]
+      texto_es: ['', Validators.required],
+      signedBy: ['', Validators.required]
     });
   }
   
@@ -119,7 +126,7 @@ export class ActosComponent implements OnInit {
     }
   }
 
-  edit(acto: ActoAdministrativo): void {
+  edit(acto: ActoAdministrativoDTO): void {
     this.editingId = acto.id!;
     this.actoForm.patchValue(acto);
   }
