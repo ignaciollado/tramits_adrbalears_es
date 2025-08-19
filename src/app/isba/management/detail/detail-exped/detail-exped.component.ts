@@ -21,6 +21,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { MatExpansionModule } from "@angular/material/expansion";
 import { RequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/requerimiento/requerimiento.component';
+import { ResolDesestimientoNoEnmendarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -32,7 +33,7 @@ import { RequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
     MatRadioModule,
-    MatExpansionModule, RequerimientoAdrIsbaComponent
+    MatExpansionModule, RequerimientoAdrIsbaComponent, ResolDesestimientoNoEnmendarAdrIsbaComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
@@ -62,7 +63,13 @@ export class IsbaDetailExpedComponent {
   externalSignUrl: string = "";
   sendedUserToSign: string = "";
   sendedDateToSign!: Date;
-
+  fecha_REC!: string;
+  ref_REC!: string;
+  fecha_requerimiento_notif!: string;
+  importe_ayuda!: number;
+  intereses_ayuda!: number;
+  costes_aval!: number;
+  gastos_aval!: number;
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
   ngOnInit(): void {
@@ -106,7 +113,7 @@ export class IsbaDetailExpedComponent {
       situacion: [{ value: '', disabled: true }, []],
       /* Solicitud */
       fecha_REC: [{ value: '', disabled: true }, []],
-      ref_REC: [{ value: '', disabled: true }, []],
+      ref_REC: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       fecha_REC_enmienda: [{ value: '', disabled: true }, []],
       ref_REC_enmienda: [{ value: '', disabled: true }, []],
       fecha_requerimiento: [{ value: '', disabled: true }, []],
@@ -145,6 +152,32 @@ export class IsbaDetailExpedComponent {
       motivoResolucionRevocacionPorNoJustificar: [{ value: '', disabled: false }, []]
     });
     this.getExpedDetail(this.idExpediente)
+
+    /* Campos requeridos para el acto número 2 */
+    this.form.get('fecha_REC')?.valueChanges.subscribe(value => {
+      this.fecha_REC = value;
+    });
+
+    this.form.get('ref_REC')?.valueChanges.subscribe(value => {
+      this.ref_REC = value;
+    });
+    
+    this.form.get('fecha_requerimiento_notif')?.valueChanges.subscribe(value => {
+      this.fecha_requerimiento_notif = value;
+    });
+
+    this.form.get('importe_ayuda_solicita_idi_isba')?.valueChanges.subscribe(value => {
+      this.importe_ayuda = value;
+    });
+    this.form.get('intereses_ayuda_solicita_idi_isba')?.valueChanges.subscribe(value => {
+      this.intereses_ayuda = value;
+    });
+    this.form.get('coste_aval_solicita_idi_isba')?.valueChanges.subscribe(value => {
+      this.costes_aval = value;
+    });
+    this.form.get('gastos_aval_solicita_idi_isba')?.valueChanges.subscribe(value => {
+      this.gastos_aval = value;
+    });
   }
 
   twoDecimalValidator(): ValidatorFn {
