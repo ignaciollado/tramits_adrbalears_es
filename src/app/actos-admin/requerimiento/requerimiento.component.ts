@@ -131,7 +131,6 @@ export class RequerimientoComponent implements OnChanges {
           this.actoAdmin1 = false
           if (docActoAdmin1.length === 1) {
             this.actoAdmin1 = true;
-            console.log('Documento generado encontrado:', docActoAdmin1, this.actoAdmin1);
             this.nifDocgenerado = docActoAdmin1[0].cifnif_propietario
             this.timeStampDocGenerado = docActoAdmin1[0].selloDeTiempo
             this.nameDocgenerado = docActoAdmin1[0].name
