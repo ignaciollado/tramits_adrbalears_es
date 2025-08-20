@@ -25,8 +25,6 @@ import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
   styleUrl: './informe-desfavorable.component.scss'
 })
 export class InformeDesfavorableComponent {
-
-
   private expedienteService = inject(ExpedienteService)
   actoAdmin6: boolean = false
   signedBy: string = ""
