@@ -61,9 +61,9 @@ export class RequerimientoIlsComponent implements OnChanges {
   response?: SignatureResponse;
   loading: boolean = false;
   error?: string;
-  ceoEmail: string = "nachollv@hotmail.com";
+  ceoEmail: string = "jldejesus@adrbalears.caib.es"; // Temporal
+  signedBy!: string;
 
-  @Input() signedBy!: string;
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
   @Input() actualNif!: string;

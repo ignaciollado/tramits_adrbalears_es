@@ -210,13 +210,13 @@
                 </section>
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
-                    <app-requerimiento-adr-isba [signedBy]="'tecnico'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento-adr-isba>
+                    <app-requerimiento-adr-isba [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento-adr-isba>
                     <app-resol-desestimiento-no-enmendar-adr-isba 
-                    [signedBy]="'gerencia'" [actualID]="actualID" 
-                    [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
-                    [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" 
-                    [actualEmpresa]="actualEmpresa" [fecha_REC]="fecha_REC" 
-                    [ref_REC]="ref_REC" [fecha_requerimiento_notif]="fecha_requerimiento_notif"
+                    [actualID]="actualID" [actualIdExp]="actualIdExp" 
+                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" 
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" 
+                    [fecha_REC]="fecha_REC" [ref_REC]="ref_REC" 
+                    [fecha_requerimiento_notif]="fecha_requerimiento_notif"
                     [importe_ayuda]="importe_ayuda" [intereses_ayuda]="intereses_ayuda"
                     [costes_aval]="costes_aval" [gastos_aval]="gastos_aval"></app-resol-desestimiento-no-enmendar-adr-isba>
                 </section>
@@ -259,6 +259,7 @@
                 </section>
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>

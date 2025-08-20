@@ -65,8 +65,8 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   camposVacios: string[] = [];
   formattedFecha_REC!: string;
   formattedFecha_notif!: string;
-
-  @Input() signedBy!: string;
+  signedBy!: string;
+  
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
   @Input() actualNif: string = "";
@@ -186,6 +186,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrativoName, tipo_tramite)
       .subscribe((docDataString: ActoAdministrativoDTO) => {
         let rawTexto = docDataString.texto;
+        this.signedBy = docDataString.signedBy
         if (!rawTexto) {
           this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
           return
@@ -440,7 +441,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
 
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'tecnico' ? this.userLoginEmail : this.ceoEmail,
+      adreca_mail: this.signedBy === 'ceo' ? this.ceoEmail : this.userLoginEmail,
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId

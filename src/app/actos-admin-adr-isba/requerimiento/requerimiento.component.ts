@@ -65,8 +65,8 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   loading: boolean = false;
   error?: string;
   ceoEmail: string = "jldejesus@adrbalears.caib.es";
+  signedBy!: string;
 
-  @Input() signedBy!: string;
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
   @Input() actualNif!: string;
@@ -190,6 +190,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrativoName, tipoTramite)
       .subscribe((docDataString: ActoAdministrativoDTO) => {
         let rawTexto = docDataString.texto;
+        this.signedBy = docDataString.signedBy;
 
         // No tiene variables, por lo que no se hace replace
         const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
@@ -361,7 +362,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
 
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'tecnico' ? this.userLoginEmail : this.ceoEmail,
+      adreca_mail: this.signedBy === 'technician' ? this.userLoginEmail : this.ceoEmail,
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
