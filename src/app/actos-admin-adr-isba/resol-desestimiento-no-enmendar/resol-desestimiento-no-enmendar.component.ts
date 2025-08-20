@@ -4,9 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateModule } from '@ngx-translate/core';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import { finalize } from 'rxjs';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
@@ -87,9 +86,8 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   constructor(private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService,
     private documentosGeneradosService: DocumentosGeneradosService,
-    private actoAdminService: ActoAdministrativoService, private jwtHelper: JwtHelperService) {
+    private actoAdminService: ActoAdministrativoService) {
     this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || "";
-    console.log(this.userLoginEmail)
   }
 
   get stateClassActAdmin2(): string {
