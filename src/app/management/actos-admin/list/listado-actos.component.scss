@@ -7,15 +7,21 @@ mat-header-cell, mat-cell {
   padding: 8px;
 }
 
+.signed-conseller {
+  background-color: #7d9cd4; 
+  color: #222422;           
+  font-weight: bold;
+}
+
 .signed-ceo {
-  background-color: #e3f2fd; // azul claro
-  color: #0d47a1;            // azul oscuro
+  background-color: #e3f2fd; 
+  color: #0d47a1;            
   font-weight: bold;
 }
 
 .signed-technician {
-  background-color: #e8f5e9; // verde claro
-  color: #2e7d32;            // verde oscuro
+  background-color: #e8f5e9; 
+  color: #2e7d32;           
   font-style: italic;
 }
 

@@ -254,11 +254,14 @@
       </mat-form-field>
       </section>
       <section>
-        <mat-accordion class="example-headers-align" multi>
-          <app-informe-favorable [actualID]="actualID" [actualFechaRec]="actualFechaRec" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+        <!-- <mat-accordion> -->
+          <app-informe-favorable [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualFechaRec]="actualFechaRec" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualRef_REC]="actualRef_REC" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite"></app-informe-favorable>
-          <app-informe-favorable-con-requerimiento></app-informe-favorable-con-requerimiento>
+
+          <app-informe-favorable-con-requerimiento [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualFechaRec]="actualFechaRec" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualRef_REC]="actualRef_REC" [actualImporteSolicitud]="actualImporteSolicitud"
+          [actualTipoTramite]="actualTipoTramite"></app-informe-favorable-con-requerimiento>
           <app-informe-desfavorable></app-informe-desfavorable>
           <app-informe-desfavorable-con-requerimiento></app-informe-desfavorable-con-requerimiento>
           <app-pr-provisional-favorable></app-pr-provisional-favorable>
@@ -327,7 +330,7 @@
     <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
   </mat-expansion-panel>  --> 
   <app-resol-denegacion-con-requerimiento></app-resol-denegacion-con-requerimiento>     
-</mat-accordion>
+<!-- </mat-accordion> -->
       </section>
       <section>
         <h4>Documentos del expediente</h4>

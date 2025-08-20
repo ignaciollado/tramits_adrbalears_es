@@ -55,8 +55,9 @@ export class ActosComponent implements OnInit {
   readOnly: false
 };
   roles = [
+    { value: 'conseller', viewValue: 'Conseller' },
     { value: 'ceo', viewValue: 'CEO' },
-    { value: 'technician', viewValue: 'Técnico' }
+    { value: 'technician', viewValue: 'Técnica/o' },
   ];
 
   @ViewChild('editorRef') editorComponent!: NuMonacoEditorComponent;

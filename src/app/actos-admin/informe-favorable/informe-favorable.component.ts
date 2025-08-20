@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, inject, Input, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -235,7 +235,7 @@ export class InformeFavorableComponent {
     doc.setFont('helvetica', 'bold');
     doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
     doc.setFontSize(8);
-    doc.text("Document: resolució desistiment", xHeader, 45);
+    doc.text("Document: informe favorable", xHeader, 45);
     doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 48);
     doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 51);
 
@@ -260,14 +260,13 @@ export class InformeFavorableComponent {
     doc.text(doc.splitTextToSize(jsonObject.hechos_tit, maxTextWidth), marginLeft, 110);
     doc.setFont('helvetica', 'normal');
     doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth), marginLeft + 5, 125);
-
     if (hayMejoras > 0) {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 150);
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_5, maxTextWidth), marginLeft + 5, 162);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 155);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_5, maxTextWidth), marginLeft + 5, 167);
       doc.setFont('helvetica', 'bold');
-      doc.text(doc.splitTextToSize(jsonObject.conclusion_tit, maxTextWidth), marginLeft, 210);
+      doc.text(doc.splitTextToSize(jsonObject.conclusion_tit, maxTextWidth), marginLeft, 215);
       doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.conclusionTxt, maxTextWidth), marginLeft, 220);
+      doc.text(doc.splitTextToSize(jsonObject.conclusionTxt, maxTextWidth), marginLeft, 225);
     } else {
       doc.text(doc.splitTextToSize(jsonObject.hechos_4_5, maxTextWidth), marginLeft + 5, 150);
       doc.setFont('helvetica', 'bold');
