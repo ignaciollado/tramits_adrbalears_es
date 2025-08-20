@@ -115,7 +115,11 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   ngOnInit(): void {
     this.formRequerimiento = this.fb.group({
       motivoRequerimiento: [{ value: '', disabled: false }]
-    })
+    });
+
+    this.actoAdminService.getByNameAndTipoTramite('isba_1_requerimiento', 'ADR-ISBA').subscribe((docDataString: ActoAdministrativoDTO) => {
+      this.signedBy = docDataString.signedBy;
+    }).unsubscribe;
   }
 
   getActoAdminDetail() {
@@ -386,7 +390,6 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
       })
   }
 
-
   viewSignState(publicAccessId: string) {
     this.viafirmaService.getDocumentStatus(publicAccessId)
       .subscribe((resp: DocSignedDTO) => {
@@ -397,5 +400,4 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         this.sendedDateToSign = new Date(sendedDateToSign)
       })
   }
-
 }
