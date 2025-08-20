@@ -174,7 +174,6 @@ export class InformeFavorableConRequerimientoComponent {
               rawTexto = rawTexto.replace(/%YYY%/g, String("3. "))
               rawTexto = rawTexto.replace(/%ZZZ%/g, String("4. "))
               rawTexto = rawTexto.replace(/%AAA%/g, String("5. "))
-
             })
           );
         } else {
@@ -185,7 +184,7 @@ export class InformeFavorableConRequerimientoComponent {
       }),
       tap(() => {
         try {
-          console.log ("rawTexto", rawTexto)
+          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {
@@ -260,22 +259,30 @@ export class InformeFavorableConRequerimientoComponent {
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.hechos_tit, maxTextWidth), marginLeft, 110);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth), marginLeft + 5, 125);
+    doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth), marginLeft + 5, 120);
     if (hayMejoras > 0) {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 155);
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_5, maxTextWidth), marginLeft + 5, 167);
-      doc.setFont('helvetica', 'bold');
-      doc.text(doc.splitTextToSize(jsonObject.conclusion_tit, maxTextWidth), marginLeft, 215);
-      doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.conclusionTxt, maxTextWidth), marginLeft, 225);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 156);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_7, maxTextWidth), marginLeft + 5, 172);
     } else {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_5, maxTextWidth), marginLeft + 5, 150);
-      doc.setFont('helvetica', 'bold');
-      doc.text(doc.splitTextToSize(jsonObject.conclusion_tit, maxTextWidth), marginLeft, 200);
-      doc.setFont('helvetica', 'normal');
-      doc.text(doc.splitTextToSize(jsonObject.conclusionTxt, maxTextWidth), marginLeft, 210);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_7, maxTextWidth), marginLeft + 5, 160);
     }
-    doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 250);
+
+    // Salto de página
+  doc.addPage();
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
+  lines = footerText.split('\n');
+  lines.reverse().forEach((line, index) => {
+    const y = pageHeight - 10 - (index * lineHeight);
+    doc.text(line, marginLeft, y);
+  });
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.text(doc.splitTextToSize(jsonObject.conclusion_tit, maxTextWidth), marginLeft, 60);
+  doc.setFont('helvetica', 'normal');
+  doc.text(doc.splitTextToSize(jsonObject.conclusionTxt, maxTextWidth), marginLeft, 70);
+  doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 200);
 
     // además de generar el pdf del acto administrativo hay que enviarlo al backend
     // Convertir a Blob

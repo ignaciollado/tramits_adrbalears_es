@@ -186,6 +186,7 @@ export class ResolDesestimientoNoEnmendarComponent {
       }),
       tap(() => {
         try {
+          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {

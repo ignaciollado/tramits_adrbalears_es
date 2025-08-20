@@ -173,7 +173,6 @@ export class InformeFavorableComponent {
               rawTexto = rawTexto.replace(/%YYY%/g, String("3. "))
               rawTexto = rawTexto.replace(/%ZZZ%/g, String("4. "))
               rawTexto = rawTexto.replace(/%AAA%/g, String("5. "))
-
             })
           );
         } else {
@@ -184,7 +183,7 @@ export class InformeFavorableComponent {
       }),
       tap(() => {
         try {
-          console.log ("rawTexto", rawTexto)
+          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {
