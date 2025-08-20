@@ -22,6 +22,7 @@ import { CustomValidatorsService } from '../../../../Services/custom-validators.
 import { MatExpansionModule } from "@angular/material/expansion";
 import { RequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/requerimiento/requerimiento.component';
 import { ResolDesestimientoNoEnmendarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
+import { InformeFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/informe-favorable/informe-favorable.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -33,7 +34,8 @@ import { ResolDesestimientoNoEnmendarAdrIsbaComponent } from '../../../../actos-
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
     MatRadioModule,
-    MatExpansionModule, RequerimientoAdrIsbaComponent, ResolDesestimientoNoEnmendarAdrIsbaComponent
+    MatExpansionModule, RequerimientoAdrIsbaComponent, 
+    ResolDesestimientoNoEnmendarAdrIsbaComponent, InformeFavorableAdrIsbaComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'

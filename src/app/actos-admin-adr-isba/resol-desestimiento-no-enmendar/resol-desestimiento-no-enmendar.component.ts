@@ -222,21 +222,21 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
         const x = marginLeft + 110;
         const y = 51;
 
-        doc.text("Document: resolució desistiment", marginLeft + 110, 45);
-        doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft + 110, 48);
+        doc.text("Document: resolució desistiment", x, 45);
+        doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, x, 48);
         if (this.actualEmpresa.length > maxCharsPerLine) {
           const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
           const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
           doc.text(`Nom sol·licitant: ${firstLine}`, x, y);
           doc.text(secondLine, x, y + 3);
-          doc.text(`NIF: ${this.actualNif}`, marginLeft + 110, y + 6);
-          doc.text("Emissor (DIR3): A04003714", marginLeft + 110, y + 9);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, marginLeft + 110, y + 12);
+          doc.text(`NIF: ${this.actualNif}`, x, y + 6);
+          doc.text("Emissor (DIR3): A04003714", x, y + 9);
+          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, y + 12);
         } else {
           doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
-          doc.text(`NIF: ${this.actualNif}`, marginLeft + 110, 54);
-          doc.text("Emissor (DIR3): A04003714", marginLeft + 110, 57);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, marginLeft + 110, 60);
+          doc.text(`NIF: ${this.actualNif}`, x, 54);
+          doc.text("Emissor (DIR3): A04003714", x, 57);
+          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, 60);
         }
 
         doc.setFontSize(10);

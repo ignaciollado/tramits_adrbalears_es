@@ -259,7 +259,13 @@
                 </section>
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
-
+                    <app-informe-favorable-adr-isba
+                    [actualID]="actualID" [actualIdExp]="actualIdExp" 
+                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"
+                    [fecha_REC]="fecha_REC" [ref_REC]="ref_REC"
+                    [importe_ayuda]="importe_ayuda" [intereses_ayuda]="intereses_ayuda"
+                    [costes_aval]="costes_aval" [gastos_aval]="gastos_aval"></app-informe-favorable-adr-isba>
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
