@@ -359,7 +359,10 @@ export class RequerimientoComponent implements OnChanges {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    
+    if (!this.signedBy) {
+      alert("Falta indicar quien firma el acto administrativo")
+      return
+    }    
     const payload: CreateSignatureRequest = {
       adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado

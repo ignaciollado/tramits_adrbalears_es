@@ -144,6 +144,7 @@ export class InformeFavorableConRequerimientoComponent {
       let hayMejoras = 0
       let rawTexto = docDataString.texto
       this.signedBy = docDataString.signedBy
+      console.log("signedBy", this.signedBy)
       let jsonObject: any
       if (!rawTexto) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
@@ -171,14 +172,17 @@ export class InformeFavorableConRequerimientoComponent {
             tap((ultimaMejora: MejoraSolicitudDTO) => {
               rawTexto = rawTexto.replace(/%FECHARECM%/g, this.commonService.formatDate(String(ultimaMejora.fecha_rec_mejora)))
               rawTexto = rawTexto.replace(/%NUMRECM%/g, String(ultimaMejora.ref_rec_mejora))
-              rawTexto = rawTexto.replace(/%YYY%/g, String("3. "))
-              rawTexto = rawTexto.replace(/%ZZZ%/g, String("4. "))
-              rawTexto = rawTexto.replace(/%AAA%/g, String("5. "))
+              rawTexto = rawTexto.replace(/%XXX%/g, String("4. "))
+              rawTexto = rawTexto.replace(/%YYY%/g, String("5. "))
+              rawTexto = rawTexto.replace(/%ZZZ%/g, String("6. "))
+              rawTexto = rawTexto.replace(/%AAA%/g, String("7. "))
             })
           );
         } else {
-          rawTexto = rawTexto.replace(/%ZZZ%/g, String("3. "))
-          rawTexto = rawTexto.replace(/%AAA%/g, String("4. "))
+            rawTexto = rawTexto.replace(/%XXX%/g, String("3. "))
+            rawTexto = rawTexto.replace(/%YYY%/g, String("4. "))
+            rawTexto = rawTexto.replace(/%ZZZ%/g, String("5. "))
+            rawTexto = rawTexto.replace(/%AAA%/g, String("6. "))
           return of(null);
         }
       }),
@@ -420,7 +424,10 @@ export class InformeFavorableConRequerimientoComponent {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    
+    if (!this.signedBy) {
+      alert("Falta indicar quien firma el acto administrativo")
+      return
+    }
     const payload: CreateSignatureRequest = {
       adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
