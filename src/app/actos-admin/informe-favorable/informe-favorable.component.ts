@@ -411,36 +411,40 @@ export class InformeFavorableComponent {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    if (!this.signedBy) {
-      alert("Falta indicar quien firma el acto administrativo")
-      return
-    }
-    const payload: CreateSignatureRequest = {
+    this.actoAdminService.getByNameAndTipoTramite('3_informe_favorable_con_requerimiento', 'XECS')
+      .subscribe((docDataString: any) => {
+        this.signedBy = docDataString.signedBy
+        if (!this.signedBy) {
+          alert("Falta indicar quien firma el acto administrativo")
+          return
+        }
+        const payload: CreateSignatureRequest = {
       adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
-      /* telefono_cont: this.telefono_rep ?? '', */
+      //telefono_cont: this.telefono_rep ?? '',
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-    };
+        };
 
-   this.viafirmaService.createSignatureRequest(payload)
-  .pipe(finalize(() => { this.loading = false; }))
-  .subscribe({
-    next: (res) => {
-      this.response = res;
-      const id = res?.publicAccessId;
-      this.publicAccessId = id ?? '';
-      this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
-      this.getSignState(this.publicAccessId)
-    },
-    error: (err) => {
-      const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
-      this.error = msg;
-      this.commonService.showSnackBar(msg);
-    }
-  });
+        this.viafirmaService.createSignatureRequest(payload)
+          .pipe(finalize(() => { this.loading = false; }))
+          .subscribe({
+            next: (res) => {
+              this.response = res;
+              const id = res?.publicAccessId;
+              this.publicAccessId = id ?? '';
+              this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
+              this.getSignState(this.publicAccessId)
+            },
+            error: (err) => {
+              const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+              this.error = msg;
+              this.commonService.showSnackBar(msg);
+            }
+          });
+      })
   }
   
   getSignState(publicAccessId: string) {
