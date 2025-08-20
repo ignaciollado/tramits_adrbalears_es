@@ -263,10 +263,10 @@ private expedienteService = inject(ExpedienteService)
     doc.setFont('helvetica', 'normal');
     doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth), marginLeft + 5, 120);
     if (hayMejoras > 0) {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 155);
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4, maxTextWidth), marginLeft + 5, 174);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 157);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_6, maxTextWidth), marginLeft + 5, 170);
     } else {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4, maxTextWidth), marginLeft + 5, 155);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_6, maxTextWidth), marginLeft + 5, 155);
     }
 
     // Salto de página
