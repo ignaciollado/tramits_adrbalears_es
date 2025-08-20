@@ -4,7 +4,7 @@
       <mat-panel-title> {{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
     </mat-expansion-panel-header>
     <button mat-raised-button color="accent" (click)="generateActoAdmin('3_informe_favorable_con_requerimiento', 'XECS', 'informe_favorable_con_requerimiento')">Generar</button>
-    <button mat-raised-button color="accent" (click)="actoAdmin3 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('4_informe_favorable_con_requerimiento', 'XECS', 'informe_favorable_con_requerimiento')" [disabled]="!actoAdmin3">Ver documento</button>
+    <button mat-raised-button color="accent" (click)="actoAdmin3 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('3_informe_favorable_con_requerimiento', 'XECS', 'informe_favorable_con_requerimiento')" [disabled]="!actoAdmin3">Ver documento</button>
     <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin3">Send to sign</button>
     -{{signedBy}}-<section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
       <section *ngIf="signatureDocState === 'COMPLETED'">

@@ -134,7 +134,6 @@ export class InformeFavorableConRequerimientoComponent {
       alert ("Falta indicar la fecha SEU sol·licitud")
       return
     }
-    if(this.actualImporteSolicitud === 0)
     if (!this.actualRef_REC) {
       alert ("Falta indicar el importe solicitado de la ayuda")
       return
@@ -150,19 +149,19 @@ export class InformeFavorableConRequerimientoComponent {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
       }
-    // Voy a crear el Texto que luego servirá para generar el archivo PDF
-    // Reemplazo las variables que hay en el template por su valor correspondiente
-    rawTexto = docDataString.texto.replace(/%BOIBNUM%/g,"¡¡¡ME FALTA EL BOIB!!!")
-    rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
-    rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
-    rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
-    rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
-    rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.actualFechaSolicitud));
-    rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
-    rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
-    rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.actualFechaRec)); 
-    rawTexto = rawTexto.replace(/%NUMREC%/g, this.actualRef_REC.toUpperCase()); 
-    // Averiguo si hay mejoras en la solicitud
+      // Voy a crear el Texto que luego servirá para generar el archivo PDF
+      // Reemplazo las variables que hay en el template por su valor correspondiente
+      rawTexto = docDataString.texto.replace(/%BOIBNUM%/g,"¡¡¡ME FALTA EL BOIB!!!")
+      rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
+      rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
+      rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
+      rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
+      rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.actualFechaSolicitud));
+      rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
+      rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
+      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.actualFechaRec)); 
+      rawTexto = rawTexto.replace(/%NUMREC%/g, this.actualRef_REC.toUpperCase()); 
+      // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
         switchMap((nMejoras: any) => {
