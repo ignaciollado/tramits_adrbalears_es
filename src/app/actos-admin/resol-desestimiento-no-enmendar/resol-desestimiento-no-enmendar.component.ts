@@ -33,6 +33,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
   actoAdmin2: boolean = false
+  signedBy: string = ""
   sendedToSign: boolean = false
   signatureDocState: string = ""
   nifDocgenerado: string = ""
@@ -67,7 +68,6 @@ export class ResolDesestimientoNoEnmendarComponent {
   sendedUserToSign: string = ""
   sendedDateToSign!: Date
 
-  @Input() signedBy!: string
   @Input() actualID!: number
   @Input() actualIdExp!: number
   @Input() actualNif: string = ""
@@ -116,15 +116,15 @@ export class ResolDesestimientoNoEnmendarComponent {
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
       .subscribe({
-        next: (docActoAdmin2: DocumentoGeneradoDTO[]) => {
+        next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin2 = false;
-          if (docActoAdmin2.length === 1) {
+          if (docActoAdmin.length === 1) {
             this.actoAdmin2 = true;
-            this.nifDocgenerado = docActoAdmin2[0].cifnif_propietario
-            this.timeStampDocGenerado = docActoAdmin2[0].selloDeTiempo
-            this.nameDocgenerado = docActoAdmin2[0].name
-            this.lastInsertId = docActoAdmin2[0].id
-            this.publicAccessId = docActoAdmin2[0].publicAccessId
+            this.nifDocgenerado = docActoAdmin[0].cifnif_propietario
+            this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo
+            this.nameDocgenerado = docActoAdmin[0].name
+            this.lastInsertId = docActoAdmin[0].id
+            this.publicAccessId = docActoAdmin[0].publicAccessId
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId)
             }
@@ -146,8 +146,9 @@ export class ResolDesestimientoNoEnmendarComponent {
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
-      let rawTexto = docDataString.texto;
-      let jsonObject: any; 
+      let rawTexto = docDataString.texto
+      this.signedBy = docDataString.signedBy
+      let jsonObject: any
       if (!rawTexto) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
@@ -272,7 +273,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   doc.addPage();
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
   lines = footerText.split('\n');
   lines.reverse().forEach((line, index) => {
     const y = pageHeight - 10 - (index * lineHeight);
@@ -289,7 +290,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   doc.addPage();
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
   lines = footerText.split('\n');
   lines.reverse().forEach((line, index) => {
     const y = pageHeight - 10 - (index * lineHeight);
@@ -446,7 +447,7 @@ export class ResolDesestimientoNoEnmendarComponent {
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
     
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'tecnico'
+      adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
       /* telefono_cont: this.telefono_rep ?? '', */

@@ -35,6 +35,7 @@ export class RequerimientoComponent implements OnChanges {
   formRequerimiento!: FormGroup
   noRequestReasonText:boolean = true
   actoAdmin1: boolean = false
+  signedBy: string = ""
   sendedToSign: boolean = false
   nifDocgenerado: string = ""
   timeStampDocGenerado: string = ""
@@ -71,7 +72,6 @@ export class RequerimientoComponent implements OnChanges {
   ceoEmail: string = "nachollv@hotmail.com"
   codigoSIAConvo:string = "en bbdd de la convo y de la línea de ayudas"
 
-  @Input() signedBy!: string
   @Input() actualID!: number
   @Input() actualIdExp!: number
   @Input() actualNif!: string
@@ -127,15 +127,15 @@ export class RequerimientoComponent implements OnChanges {
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
       .subscribe({
-        next: (docActoAdmin1: DocumentoGeneradoDTO[]) => {
+        next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin1 = false
-          if (docActoAdmin1.length === 1) {
+          if (docActoAdmin.length === 1) {
             this.actoAdmin1 = true;
-            this.nifDocgenerado = docActoAdmin1[0].cifnif_propietario
-            this.timeStampDocGenerado = docActoAdmin1[0].selloDeTiempo
-            this.nameDocgenerado = docActoAdmin1[0].name
-            this.lastInsertId = docActoAdmin1[0].id
-            this.publicAccessId = docActoAdmin1[0].publicAccessId
+            this.nifDocgenerado = docActoAdmin[0].cifnif_propietario
+            this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo
+            this.nameDocgenerado = docActoAdmin[0].name
+            this.lastInsertId = docActoAdmin[0].id
+            this.publicAccessId = docActoAdmin[0].publicAccessId
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId)
             }
@@ -191,7 +191,8 @@ export class RequerimientoComponent implements OnChanges {
   // obtengo, desde bbdd, el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
-      let rawTextoActoAdmin1 = docDataString.texto;
+      let rawTextoActoAdmin1 = docDataString.texto
+      this.signedBy = docDataString.signedBy
       if (!rawTextoActoAdmin1) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
@@ -360,7 +361,7 @@ export class RequerimientoComponent implements OnChanges {
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
     
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'tecnico'
+      adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
       //telefono_cont: this.telefono_rep ?? '', 

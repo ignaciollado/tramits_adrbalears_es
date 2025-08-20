@@ -204,8 +204,8 @@
         </section>
         <section>
           <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
-          <app-requerimiento [signedBy]="'tecnico'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
-          <app-resol-desestimiento-no-enmendar [signedBy]="'ceo'" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          <app-requerimiento [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
+          <app-resol-desestimiento-no-enmendar [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" 
           [actualFechaSolicitud]="actualFechaSolicitud" [actualImporteSolicitud]="actualImporteSolicitud" [actualFechaNotifReq]="actualFechaNotifReq"></app-resol-desestimiento-no-enmendar>
           <h4>Mejoras</h4>
