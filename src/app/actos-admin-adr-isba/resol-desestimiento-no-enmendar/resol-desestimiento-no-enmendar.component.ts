@@ -3,11 +3,12 @@ import { Component, inject, Input, SimpleChange } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TranslateModule } from '@ngx-translate/core';
 import jsPDF from 'jspdf';
+import { finalize } from 'rxjs';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
@@ -16,12 +17,11 @@ import { CommonService } from '../../Services/common.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
-import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-resol-desestimiento-no-enmendar-adr-isba',
   standalone: true,
-  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatExpansionModule, MatFormFieldModule, MatButtonModule],
+  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatExpansionModule, MatButtonModule],
   templateUrl: './resol-desestimiento-no-enmendar.component.html',
   styleUrl: './resol-desestimiento-no-enmendar.component.scss'
 })
@@ -42,6 +42,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
+  codigoSIAConvo: string = "3153714";
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
@@ -62,7 +63,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   sendedUserToSign: string = "";
   sendedDateToSign!: Date;
   faltanCampos: boolean = false;
-  camposFaltantes: string[] = [];
+  camposVacios: string[] = [];
   formattedFecha_REC!: string;
   formattedFecha_notif!: string;
 
@@ -185,7 +186,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
     });
 
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrativoName, tipo_tramite)
-      .subscribe((docDataString: any) => {
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
         let rawTexto = docDataString.texto;
         if (!rawTexto) {
           this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
@@ -198,7 +199,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
 
         rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
-        rawTexto = rawTexto.replace(/%CONVO%/g, this.actualConvocatoria);
+        rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
         rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, this.formattedFecha_REC);
         rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_REQUERIMIENTO%/g, this.formattedFecha_notif);
         rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, `${this.importe_ayuda}€`);
@@ -231,12 +232,12 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
           doc.text(secondLine, x, y + 3);
           doc.text(`NIF: ${this.actualNif}`, marginLeft + 110, y + 6);
           doc.text("Emissor (DIR3): A04003714", marginLeft + 110, y + 9);
-          doc.text("Codi SIA: ", marginLeft + 110, y + 12);
+          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, marginLeft + 110, y + 12);
         } else {
           doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
           doc.text(`NIF: ${this.actualNif}`, marginLeft + 110, 54);
           doc.text("Emissor (DIR3): A04003714", marginLeft + 110, 57);
-          doc.text("Codi SIA: ", marginLeft + 110, 60);
+          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, marginLeft + 110, 60);
         }
 
         doc.setFontSize(10);
@@ -346,21 +347,21 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
    * Método que revisa si tiene todos los campos requeridos para la generación del acto administrativo
   */
   private tieneTodosLosCamposRequeridos(): void {
-    this.camposFaltantes = [];
+    this.camposVacios = [];
     this.faltanCampos = false;
 
     if (!this.fecha_REC?.trim() || this.fecha_REC?.trim() === "0000-00-00 00:00:00") {
-      this.camposFaltantes.push('FORM.FECHA_REC')
+      this.camposVacios.push('FORM.FECHA_REC')
     }
 
     if (!this.ref_REC?.trim()) {
-      this.camposFaltantes.push('FORM.REF_REC')
+      this.camposVacios.push('FORM.REF_REC')
     }
 
     if (!this.fecha_requerimiento_notif?.trim() || this.fecha_requerimiento_notif?.trim() === "0000-00-00") {
-      this.camposFaltantes.push('FORM.FECHA_REQUERIMIENTO_NOTIF')
+      this.camposVacios.push('FORM.FECHA_REQUERIMIENTO_NOTIF')
     }
-    this.faltanCampos = this.camposFaltantes.length > 0;
+    this.faltanCampos = this.camposVacios.length > 0;
   }
 
   insertDocumentoGenerado(docFieldToUpdate: string): void {
