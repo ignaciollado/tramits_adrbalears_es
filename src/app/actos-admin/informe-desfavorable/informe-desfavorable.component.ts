@@ -265,10 +265,10 @@ export class InformeDesfavorableComponent {
     doc.setFont('helvetica', 'normal');
     doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth), marginLeft + 5, 120);
     if (hayMejoras > 0) {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 156);
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_7, maxTextWidth), marginLeft + 5, 172);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 155);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4, maxTextWidth), marginLeft + 5, 174);
     } else {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_7, maxTextWidth), marginLeft + 5, 160);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4, maxTextWidth), marginLeft + 5, 155);
     }
 
     // Salto de página
