@@ -85,6 +85,7 @@ export class PrProvisionalDesfavorableComponent {
   @Input() actualEmpresa: string = ""
   @Input() actualImporteSolicitud!: number 
   @Input() form!: FormGroup;
+  @Input() motivoDenegacion!: string
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService,
@@ -97,6 +98,11 @@ export class PrProvisionalDesfavorableComponent {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
     }
+    if (this.formPRProvDesf && this.motivoDenegacion) {
+    this.formPRProvDesf
+      .get('motivoDenegacion')
+      ?.setValue(this.motivoDenegacion);
+    }    
   }
   
   tieneTodosLosValores(): boolean {
@@ -140,9 +146,11 @@ export class PrProvisionalDesfavorableComponent {
 
   saveReasonRequest(): void {
     const motivo = this.formPRProvDesf.get('motivoDenegacion')?.value
-    this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoDenegacion', motivo).subscribe()
-    this.noDenegationReasonText = false
-    this.actoAdmin9 = false
+    this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoDenegacion', motivo).subscribe(() => {
+      this.noDenegationReasonText = false
+      this.actoAdmin9 = false
+    })
+    
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
@@ -182,6 +190,7 @@ export class PrProvisionalDesfavorableComponent {
       rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
       rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
       rawTexto = rawTexto.replace(/%FECHA_FIRMA_INFORME%/g, this.commonService.formatDate(this.form.get('fecha_infor_fav_desf')?.value));
+      rawTexto = rawTexto.replace(/%TEXTOLIBRE%/g, this.motivoDenegacion);
 
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)

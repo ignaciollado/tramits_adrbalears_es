@@ -12,8 +12,6 @@
     <button mat-raised-button color="accent" (click)="actoAdmin9 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('9_propuesta_resolucion_provisional_desfavorable_sin_requerimiento', 'XECS', 'propuesta_resolucion_provisional_desfavorable_sin_requerimiento')" [disabled]="!actoAdmin9 && noDenegationReasonText">
       {{ actoAdmin9 ? 'Ver documento' : 'Generar' }}
     </button>
-    <!--  <button mat-raised-button color="accent" (click)="generateActoAdmin('9_propuesta_resolucion_provisional_desfavorable_sin_requerimiento', 'XECS', 'propuesta_resolucion_provisional_desfavorable_sin_requerimiento')">Generar</button>
-    <button mat-raised-button color="accent" (click)="actoAdmin9 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('9_propuesta_resolucion_provisional_desfavorable_sin_requerimiento', 'XECS', 'propuesta_resolucion_provisional_desfavorable_sin_requerimiento')" [disabled]="!actoAdmin9">Ver documento</button> -->
     <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin9">Send to sign</button>
     -{{signedBy}}-<section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
       <section *ngIf="signatureDocState === 'COMPLETED'">
