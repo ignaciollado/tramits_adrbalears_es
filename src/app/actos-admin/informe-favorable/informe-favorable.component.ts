@@ -16,6 +16,7 @@ import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { finalize, of, switchMap, tap } from 'rxjs';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-informe-favorable',
@@ -80,6 +81,7 @@ export class InformeFavorableComponent {
   @Input() actualImporteSolicitud!: number 
   @Input() actualFechaRec: string = ""
   @Input() actualRef_REC: string = ""
+  @Input() form!: FormGroup;
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
@@ -129,13 +131,13 @@ export class InformeFavorableComponent {
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
     // Verifico que existan todos los datos necesarios: %FECHAREC% %DATANOTREQ%,
-    if (this.actualFechaRec === '0000-00-00' || this.actualFechaRec === null) {
+    if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00') {
       alert ("Falta indicar la fecha SEU sol·licitud")
       return
     }
-    if(this.actualImporteSolicitud === 0)
-    if (!this.actualRef_REC) {
-      alert ("Falta indicar el importe solicitado de la ayuda")
+
+    if (!this.form.get('ref_REC')?.value) {
+      alert ("Falta indicar la Referència SEU de la sol·licitud")
       return
     }
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS

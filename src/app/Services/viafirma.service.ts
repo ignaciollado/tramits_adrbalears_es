@@ -1,15 +1,13 @@
 
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { DocSignedDTO } from '../Models/docsigned.dto';
 import { CreateSignatureRequest, SignatureResponse } from '../Models/signature.dto';
 
-const tramitsURL = 'https://tramits.idi.es/public/index.php'
-
-  @Injectable({
-    providedIn: 'root',
-  })
+@Injectable({
+  providedIn: 'root',
+})
 
 export class ViafirmaService { 
   private entorno: 'tramits' | 'pre-tramits';
@@ -52,9 +50,9 @@ export class ViafirmaService {
   }
 
   /**
-   * Crea una solicitud de firma en el backend.
-   * POST /api/signature-request
-   */
+  * Crea una solicitud de firma en el backend.
+  * POST /api/signature-request
+  */
   createSignatureRequest(payload: CreateSignatureRequest): Observable<SignatureResponse> {
     const url = `${this.apiUrl}/api/signature-request`;
     const headers = new HttpHeaders({
@@ -62,6 +60,16 @@ export class ViafirmaService {
     });
 
     return this.http.post<SignatureResponse>(url, payload, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
+  /**
+  * Peticiones creadas. Método para obtener el número de peticones creadas en un periodo dado 
+  */
+  countCreatedSignatureRequest(initDate: string, endDate: string): Observable<any> {
+    const url = `${this.apiUrl}/api/viafirma/stats-requests-new/${initDate}/${endDate}`
+    return this.http.get<SignatureResponse>(url).pipe(
       catchError((error: HttpErrorResponse) => this.handleError(error))
     );
   }

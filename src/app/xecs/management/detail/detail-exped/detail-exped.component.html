@@ -10,7 +10,7 @@
       <span ngClass="exped-tab detail-tab">{{ 'APP.DETAIL' | translate }}</span>
       </ng-template> 
       <mat-card ngClass="mat-card-detalle">
-    <section>
+      <section>
     <mat-form-field appearance="outline">
       <mat-label>{{'FORM.SOLICITOR' | translate}}</mat-label>
       <input matInput formControlName="empresa" readonly>
@@ -205,7 +205,7 @@
         <section>
           <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
           <app-requerimiento [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
-          <app-resol-desestimiento-no-enmendar [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          <app-resol-desestimiento-no-enmendar [form]="form" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" 
           [actualFechaSolicitud]="actualFechaSolicitud" [actualImporteSolicitud]="actualImporteSolicitud" [actualFechaNotifReq]="actualFechaNotifReq"></app-resol-desestimiento-no-enmendar>
           <h4>Mejoras</h4>
@@ -255,19 +255,21 @@
       </section>
       <section>
         <!-- <mat-accordion> -->
-          <app-informe-favorable [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualFechaRec]="actualFechaRec" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
-          [actualConvocatoria]="actualConvocatoria" [actualRef_REC]="actualRef_REC" [actualImporteSolicitud]="actualImporteSolicitud"
+          <app-informe-favorable [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite"></app-informe-favorable>
-          <app-informe-favorable-con-requerimiento [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualFechaRec]="actualFechaRec" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
-          [actualConvocatoria]="actualConvocatoria" [actualRef_REC]="actualRef_REC" [actualImporteSolicitud]="actualImporteSolicitud"
+          <app-informe-favorable-con-requerimiento [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite"></app-informe-favorable-con-requerimiento>
-          <app-informe-desfavorable [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualFechaRec]="actualFechaRec" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
-          [actualConvocatoria]="actualConvocatoria" [actualRef_REC]="actualRef_REC" [actualImporteSolicitud]="actualImporteSolicitud"
+          <app-informe-desfavorable [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite"></app-informe-desfavorable>
-          <app-informe-desfavorable-con-requerimiento [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualFechaRec]="actualFechaRec" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
-          [actualConvocatoria]="actualConvocatoria" [actualRef_REC]="actualRef_REC" [actualImporteSolicitud]="actualImporteSolicitud"
+          <app-informe-desfavorable-con-requerimiento [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite"></app-informe-desfavorable-con-requerimiento>
-          <app-pr-provisional-favorable></app-pr-provisional-favorable>
+          <app-pr-provisional-favorable [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
+          [actualTipoTramite]="actualTipoTramite"></app-pr-provisional-favorable>
           <app-pr-provisional-favorable-con-requerimiento></app-pr-provisional-favorable-con-requerimiento>
           <app-pr-provisional-desfavorable></app-pr-provisional-desfavorable>
     <!-- <mat-expansion-panel>

@@ -108,7 +108,7 @@ export class RequerimientoComponent implements OnChanges {
   }
   }
 
-  private tieneTodosLosValores(): boolean {
+  tieneTodosLosValores(): boolean {
     return (
       this.actualID != null &&
       this.actualIdExp != null &&

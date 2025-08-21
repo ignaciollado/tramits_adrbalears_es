@@ -1,6 +1,6 @@
 import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -77,6 +77,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   @Input() actualFechaSolicitud: string = ""
   @Input() actualImporteSolicitud: number = 0
   @Input() actualFechaNotifReq: string = ""
+  @Input() form!:FormGroup
 
   constructor( 
       private commonService: CommonService, private sanitizer: DomSanitizer,
@@ -102,7 +103,7 @@ export class ResolDesestimientoNoEnmendarComponent {
     }
   }
 
-  private tieneTodosLosValores(): boolean {
+  tieneTodosLosValores(): boolean {
     return (
       this.actualID != null &&
       this.actualIdExp != null &&
@@ -138,8 +139,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-    // Verifico que existan todos los datos necesarios: %DATANOTREQ%,
-    if (this.actualFechaNotifReq === '0000-00-00' || this.actualFechaNotifReq === null) {
+    if (this.form.get('fecha_requerimiento_notif')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento_notif')?.value === '0000-00-00') {
       alert ("Falta indicar la fecha Notificació requeriment")
       return
     }

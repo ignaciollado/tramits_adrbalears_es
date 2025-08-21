@@ -16,6 +16,7 @@ import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { finalize, of, switchMap, tap } from 'rxjs';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-informe-desfavorable-con-requerimiento',
@@ -80,12 +81,14 @@ private expedienteService = inject(ExpedienteService)
   @Input() actualImporteSolicitud!: number 
   @Input() actualFechaRec: string = ""
   @Input() actualRef_REC: string = ""
+  @Input() form!: FormGroup;
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
               private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
               private actoAdminService: ActoAdministrativoService ) { 
               this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
+              this.getCreatedRequests()
             }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -128,13 +131,16 @@ private expedienteService = inject(ExpedienteService)
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-    // Verifico que existan todos los datos necesarios: %FECHAREC% %DATANOTREQ%,
-    if (this.actualFechaRec === '0000-00-00' || this.actualFechaRec === null) {
+    if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00') {
       alert ("Falta indicar la fecha SEU sol·licitud")
       return
     }
-    if (!this.actualRef_REC) {
-      alert ("Falta indicar el importe solicitado de la ayuda")
+    if (!this.form.get('ref_REC')?.value) {
+      alert ("Falta indicar la Referència SEU de la sol·licitud")
+      return
+    }
+    if (this.form.get('fecha_requerimiento_notif')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento_notif')?.value === '0000-00-00') {
+      alert ("Falta indicar la Data notificació requeriment")
       return
     }
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
@@ -430,13 +436,13 @@ private expedienteService = inject(ExpedienteService)
           return
         }
         const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'technician'
-      ? this.userLoginEmail           // correo del usuario logeado
-      : this.ceoEmail,                // correo de coe,
-      //telefono_cont: this.telefono_rep ?? '',
-      nombreDocumento: filename,
-      nif: nif,
-      last_insert_id: this.lastInsertId
+          adreca_mail: this.signedBy === 'technician'
+          ? this.userLoginEmail           // correo del usuario logeado
+          : this.ceoEmail,                // correo de coe,
+          //telefono_cont: this.telefono_rep ?? '',
+          nombreDocumento: filename,
+          nif: nif,
+          last_insert_id: this.lastInsertId
         };
 
         this.viafirmaService.createSignatureRequest(payload)
@@ -467,5 +473,16 @@ private expedienteService = inject(ExpedienteService)
       const sendedDateToSign = resp.creationDate
       this.sendedDateToSign = new Date(sendedDateToSign)
     })
+  }
+
+  getCreatedRequests() {
+   
+      let initDate= "2025/01/01"
+      let endDate= "2025/08/20"
+
+    this.viafirmaService.countCreatedSignatureRequest(initDate, endDate)
+      .subscribe((totalRequest:any) => {
+        console.log("totalRequests", totalRequest)
+      })
   }
 }
