@@ -84,7 +84,7 @@ export class PrProvisionalFavorableConRequerimientoComponent {
     private viafirmaService: ViafirmaService,
     private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
     private actoAdminService: ActoAdministrativoService ) { 
-    this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
+      this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
   }
 
   ngOnChanges(changes: SimpleChanges) {

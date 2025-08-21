@@ -94,7 +94,7 @@ export class PrProvisionalFavorableComponent {
     }
   }
   
-  private tieneTodosLosValores(): boolean {
+  tieneTodosLosValores(): boolean {
     return (
       this.actualID != null &&
       this.actualIdExp != null &&
