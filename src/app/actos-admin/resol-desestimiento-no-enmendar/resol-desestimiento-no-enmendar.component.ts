@@ -1,6 +1,6 @@
 import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,6 +33,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
   actoAdmin2: boolean = false
+  signedBy: string = ""
   sendedToSign: boolean = false
   signatureDocState: string = ""
   nifDocgenerado: string = ""
@@ -67,7 +68,6 @@ export class ResolDesestimientoNoEnmendarComponent {
   sendedUserToSign: string = ""
   sendedDateToSign!: Date
 
-  @Input() signedBy!: string
   @Input() actualID!: number
   @Input() actualIdExp!: number
   @Input() actualNif: string = ""
@@ -77,6 +77,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   @Input() actualFechaSolicitud: string = ""
   @Input() actualImporteSolicitud: number = 0
   @Input() actualFechaNotifReq: string = ""
+  @Input() form!:FormGroup
 
   constructor( 
       private commonService: CommonService, private sanitizer: DomSanitizer,
@@ -102,7 +103,7 @@ export class ResolDesestimientoNoEnmendarComponent {
     }
   }
 
-  private tieneTodosLosValores(): boolean {
+  tieneTodosLosValores(): boolean {
     return (
       this.actualID != null &&
       this.actualIdExp != null &&
@@ -116,15 +117,15 @@ export class ResolDesestimientoNoEnmendarComponent {
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
       .subscribe({
-        next: (docActoAdmin2: DocumentoGeneradoDTO[]) => {
+        next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin2 = false;
-          if (docActoAdmin2.length === 1) {
+          if (docActoAdmin.length === 1) {
             this.actoAdmin2 = true;
-            this.nifDocgenerado = docActoAdmin2[0].cifnif_propietario
-            this.timeStampDocGenerado = docActoAdmin2[0].selloDeTiempo
-            this.nameDocgenerado = docActoAdmin2[0].name
-            this.lastInsertId = docActoAdmin2[0].id
-            this.publicAccessId = docActoAdmin2[0].publicAccessId
+            this.nifDocgenerado = docActoAdmin[0].cifnif_propietario
+            this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo
+            this.nameDocgenerado = docActoAdmin[0].name
+            this.lastInsertId = docActoAdmin[0].id
+            this.publicAccessId = docActoAdmin[0].publicAccessId
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId)
             }
@@ -138,16 +139,16 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-    // Verifico que existan todos los datos necesarios: %DATANOTREQ%,
-    if (this.actualFechaNotifReq === '0000-00-00' || this.actualFechaNotifReq === null) {
+    if (this.form.get('fecha_requerimiento_notif')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento_notif')?.value === '0000-00-00') {
       alert ("Falta indicar la fecha Notificació requeriment")
       return
     }
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
-      let rawTexto = docDataString.texto;
-      let jsonObject: any; 
+      let rawTexto = docDataString.texto
+      this.signedBy = docDataString.signedBy
+      let jsonObject: any
       if (!rawTexto) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
@@ -185,6 +186,7 @@ export class ResolDesestimientoNoEnmendarComponent {
       }),
       tap(() => {
         try {
+          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {
@@ -272,7 +274,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   doc.addPage();
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
   lines = footerText.split('\n');
   lines.reverse().forEach((line, index) => {
     const y = pageHeight - 10 - (index * lineHeight);
@@ -289,7 +291,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   doc.addPage();
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
-  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+  doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
   lines = footerText.split('\n');
   lines.reverse().forEach((line, index) => {
     const y = pageHeight - 10 - (index * lineHeight);
@@ -444,34 +446,41 @@ export class ResolDesestimientoNoEnmendarComponent {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    
-    const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'tecnico'
-      ? this.userLoginEmail           // correo del usuario logeado
-      : this.ceoEmail,                // correo de coe,
-      /* telefono_cont: this.telefono_rep ?? '', */
-      nombreDocumento: filename,
-      nif: nif,
-      last_insert_id: this.lastInsertId
-    };
+    this.actoAdminService.getByNameAndTipoTramite('3_informe_favorable_con_requerimiento', 'XECS')
+      .subscribe((docDataString: any) => {
+        this.signedBy = docDataString.signedBy
+        if (!this.signedBy) {
+          alert("Falta indicar quien firma el acto administrativo")
+          return
+        }
+        const payload: CreateSignatureRequest = {
+        adreca_mail: this.signedBy === 'technician'
+        ? this.userLoginEmail           // correo del usuario logeado
+        : this.ceoEmail,                // correo de coe,
+        //telefono_cont: this.telefono_rep ?? '',
+        nombreDocumento: filename,
+        nif: nif,
+        last_insert_id: this.lastInsertId
+        };
 
-   this.viafirmaService.createSignatureRequest(payload)
-  .pipe(finalize(() => { this.loading = false; }))
-  .subscribe({
-    next: (res) => {
-      this.response = res;
-      const id = res?.publicAccessId;
-      this.publicAccessId = id ?? '';
-      this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
-      this.getSignState(this.publicAccessId)
-    },
-    error: (err) => {
-      const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
-      this.error = msg;
-      this.commonService.showSnackBar(msg);
-    }
-  });
-  }  
+        this.viafirmaService.createSignatureRequest(payload)
+          .pipe(finalize(() => { this.loading = false; }))
+          .subscribe({
+            next: (res) => {
+              this.response = res;
+              const id = res?.publicAccessId;
+              this.publicAccessId = id ?? '';
+              this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
+              this.getSignState(this.publicAccessId)
+            },
+            error: (err) => {
+              const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+              this.error = msg;
+              this.commonService.showSnackBar(msg);
+            }
+          });
+      })
+  }
 
   getSignState(publicAccessId: string) {
     this.viafirmaService.getDocumentStatus(publicAccessId)

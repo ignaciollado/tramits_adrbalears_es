@@ -113,7 +113,7 @@ export class CommonService {
       horizontalPosition: 'center',
       panelClass: ['custom-snackbar'],
     });
-}
+  }
 
   generatePDFDocument(dataToRender: any): void {
     const doc = new jsPDF();
@@ -199,6 +199,23 @@ export class CommonService {
   }).format(Number(importe));
   }
 
+  cleanRawText(rawText: any): any {
+    if (typeof rawText === 'string') {
+      // Reemplazar saltos de línea, tabulaciones y otros caracteres de control
+      return rawText.replace(/[\r\n\t]+/g, ' ').trim(); // Reemplaza saltos de línea y tabulaciones por espacios
+    } else if (Array.isArray(rawText)) {
+      // Si es un array, aplicar la limpieza a cada elemento
+      return rawText.map(item => this.cleanRawText(item));
+    } else if (typeof rawText === 'object' && rawText !== null) {
+      // Si es un objeto, limpiar cada valor de sus propiedades
+      for (const key in rawText) {
+        if (rawText.hasOwnProperty(key)) {
+          rawText[key] = this.cleanRawText(rawText[key]);
+        }
+      }
+    }
+    return rawText;
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';

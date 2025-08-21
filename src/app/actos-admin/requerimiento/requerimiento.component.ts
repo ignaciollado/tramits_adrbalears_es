@@ -35,6 +35,7 @@ export class RequerimientoComponent implements OnChanges {
   formRequerimiento!: FormGroup
   noRequestReasonText:boolean = true
   actoAdmin1: boolean = false
+  signedBy: string = ""
   sendedToSign: boolean = false
   nifDocgenerado: string = ""
   timeStampDocGenerado: string = ""
@@ -71,7 +72,6 @@ export class RequerimientoComponent implements OnChanges {
   ceoEmail: string = "nachollv@hotmail.com"
   codigoSIAConvo:string = "en bbdd de la convo y de la línea de ayudas"
 
-  @Input() signedBy!: string
   @Input() actualID!: number
   @Input() actualIdExp!: number
   @Input() actualNif!: string
@@ -108,7 +108,7 @@ export class RequerimientoComponent implements OnChanges {
   }
   }
 
-  private tieneTodosLosValores(): boolean {
+  tieneTodosLosValores(): boolean {
     return (
       this.actualID != null &&
       this.actualIdExp != null &&
@@ -127,16 +127,15 @@ export class RequerimientoComponent implements OnChanges {
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
       .subscribe({
-        next: (docActoAdmin1: DocumentoGeneradoDTO[]) => {
+        next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin1 = false
-          if (docActoAdmin1.length === 1) {
+          if (docActoAdmin.length === 1) {
             this.actoAdmin1 = true;
-            console.log('Documento generado encontrado:', docActoAdmin1, this.actoAdmin1);
-            this.nifDocgenerado = docActoAdmin1[0].cifnif_propietario
-            this.timeStampDocGenerado = docActoAdmin1[0].selloDeTiempo
-            this.nameDocgenerado = docActoAdmin1[0].name
-            this.lastInsertId = docActoAdmin1[0].id
-            this.publicAccessId = docActoAdmin1[0].publicAccessId
+            this.nifDocgenerado = docActoAdmin[0].cifnif_propietario
+            this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo
+            this.nameDocgenerado = docActoAdmin[0].name
+            this.lastInsertId = docActoAdmin[0].id
+            this.publicAccessId = docActoAdmin[0].publicAccessId
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId)
             }
@@ -192,7 +191,8 @@ export class RequerimientoComponent implements OnChanges {
   // obtengo, desde bbdd, el template json del acto adiministrativo y para el tipo trámite: XECS, ADR-ISBA o ILS
   this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite)
     .subscribe((docDataString: any) => {
-      let rawTextoActoAdmin1 = docDataString.texto;
+      let rawTextoActoAdmin1 = docDataString.texto
+      this.signedBy = docDataString.signedBy
       if (!rawTextoActoAdmin1) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
@@ -359,33 +359,40 @@ export class RequerimientoComponent implements OnChanges {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    
-    const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'tecnico'
+    this.actoAdminService.getByNameAndTipoTramite('3_informe_favorable_con_requerimiento', 'XECS')
+      .subscribe((docDataString: any) => {
+        this.signedBy = docDataString.signedBy
+        if (!this.signedBy) {
+          alert("Falta indicar quien firma el acto administrativo")
+          return
+        }
+        const payload: CreateSignatureRequest = {
+      adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
-      //telefono_cont: this.telefono_rep ?? '', 
+      //telefono_cont: this.telefono_rep ?? '',
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-    };
+        };
 
-   this.viafirmaService.createSignatureRequest(payload)
-  .pipe(finalize(() => { this.loading = false; }))
-  .subscribe({
-    next: (res) => {
-      this.response = res;
-      const id = res?.publicAccessId;
-      this.publicAccessId = id ?? '';
-      this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
-      this.getSignState(this.publicAccessId)
-    },
-    error: (err) => {
-      const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
-      this.error = msg;
-      this.commonService.showSnackBar(msg);
-    }
-  });
+        this.viafirmaService.createSignatureRequest(payload)
+          .pipe(finalize(() => { this.loading = false; }))
+          .subscribe({
+            next: (res) => {
+              this.response = res;
+              const id = res?.publicAccessId;
+              this.publicAccessId = id ?? '';
+              this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
+              this.getSignState(this.publicAccessId)
+            },
+            error: (err) => {
+              const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+              this.error = msg;
+              this.commonService.showSnackBar(msg);
+            }
+          });
+      })
   }
 
   getSignState(publicAccessId: string) {

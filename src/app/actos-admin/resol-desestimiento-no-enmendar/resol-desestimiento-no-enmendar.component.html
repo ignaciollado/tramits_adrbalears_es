@@ -4,7 +4,7 @@
           <mat-panel-title> 2. {{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}} </mat-panel-title>
         </mat-expansion-panel-header>
         <button mat-raised-button color="accent" (click)="generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')">Generar</button>
-        <button mat-raised-button color="accent" (click)="actoAdmin2 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')" [disabled]="!actoAdmin2">Ver documento</button>{{publicAccessId}}
+        <button mat-raised-button color="accent" (click)="actoAdmin2 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('2_resolucion_desestimiento_por_no_enmendar', 'XECS', 'res_desestimiento_por_no_enmendar')" [disabled]="!actoAdmin2">Ver documento</button>
         <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin2">Send to sign</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClassActAdmin2]">
           <section *ngIf="signatureDocState === 'COMPLETED'">
