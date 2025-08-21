@@ -74,9 +74,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   @Input() actualConvocatoria!: number
   @Input() actualTipoTramite!: string
   @Input() actualEmpresa: string = ""
-  @Input() actualFechaSolicitud: string = ""
   @Input() actualImporteSolicitud: number = 0
-  @Input() actualFechaNotifReq: string = ""
   @Input() form!:FormGroup
 
   constructor( 
@@ -160,10 +158,10 @@ export class ResolDesestimientoNoEnmendarComponent {
     rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
     rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
     rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
-    rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.actualFechaSolicitud));
+    rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.form.get('fecha_solicitud')?.value));
     rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
     rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
-    rawTexto = rawTexto.replace(/%DATANOTREQ%/g, this.commonService.formatDate(this.actualFechaNotifReq));
+    rawTexto = rawTexto.replace(/%DATANOTREQ%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
     // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(

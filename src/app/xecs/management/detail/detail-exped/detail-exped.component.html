@@ -207,7 +207,7 @@
           <app-requerimiento [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento>
           <app-resol-desestimiento-no-enmendar [form]="form" [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" 
-          [actualFechaSolicitud]="actualFechaSolicitud" [actualImporteSolicitud]="actualImporteSolicitud" [actualFechaNotifReq]="actualFechaNotifReq"></app-resol-desestimiento-no-enmendar>
+          [actualImporteSolicitud]="actualImporteSolicitud"></app-resol-desestimiento-no-enmendar>
           <h4>Mejoras</h4>
           <app-mejoras-solicitud-detalle [id_sol]="actualID"></app-mejoras-solicitud-detalle>
         </section>
@@ -219,13 +219,13 @@
     </mat-tab>
 
     <mat-tab> 
-    <ng-template mat-tab-label>
-      <span ngClass="exped-tab validacion-tab">{{ 'APP.VALIDATION' | translate }}</span>
-    </ng-template>
-    <mat-card ngClass="mat-card-validacion">
-      <section>
-      <mat-form-field appearance="outline">
-      <mat-label>{{'FORM.fecha_infor_fav_desf' | translate}}</mat-label>
+      <ng-template mat-tab-label>
+        <span ngClass="exped-tab validacion-tab">{{ 'APP.VALIDATION' | translate }}</span>
+      </ng-template>
+      <mat-card ngClass="mat-card-validacion">
+        <section>
+        <mat-form-field appearance="outline">
+        <mat-label>{{'FORM.fecha_infor_fav_desf' | translate}}</mat-label>
       <input matInput formControlName="fecha_infor_fav_desf" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">

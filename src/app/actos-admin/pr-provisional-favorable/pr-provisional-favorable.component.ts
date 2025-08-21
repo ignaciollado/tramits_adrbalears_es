@@ -78,7 +78,6 @@ export class PrProvisionalFavorableComponent {
   @Input() actualConvocatoria!: number
   @Input() actualTipoTramite!: string
   @Input() actualEmpresa: string = ""
-  @Input() actualFechaSolicitud: string = ""
   @Input() actualImporteSolicitud!: number 
   @Input() form!: FormGroup;
 
@@ -137,12 +136,15 @@ export class PrProvisionalFavorableComponent {
       alert ("Falta indicar la Referència SEU de la sol·licitud")
       return
     }
+    if(this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00') {
+      alert ("Falta indicar la decha de Firma informe favorable / desfavorable")
+      return
+    }
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
       let rawTexto = docDataString.texto
       this.signedBy = docDataString.signedBy
-      console.log("signedBy", this.signedBy)
       let jsonObject: any
       if (!rawTexto) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
@@ -155,11 +157,13 @@ export class PrProvisionalFavorableComponent {
       rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
       rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
-      rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.actualFechaSolicitud));
+      rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.form.get('fecha_solicitud')?.value));
       rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
       rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
       rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value)); 
       rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase()); 
+      rawTexto = rawTexto.replace(/%FECHAINFORMETECNICO%/g, this.commonService.formatDate(this.form.get('fecha_infor_fav_desf')?.value)); 
+
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
@@ -170,17 +174,19 @@ export class PrProvisionalFavorableComponent {
             tap((ultimaMejora: MejoraSolicitudDTO) => {
               rawTexto = rawTexto.replace(/%FECHARECM%/g, this.commonService.formatDate(String(ultimaMejora.fecha_rec_mejora)))
               rawTexto = rawTexto.replace(/%NUMRECM%/g, String(ultimaMejora.ref_rec_mejora))
-              rawTexto = rawTexto.replace(/%XXX%/g, String("4. "))
-              rawTexto = rawTexto.replace(/%YYY%/g, String("5. "))
-              rawTexto = rawTexto.replace(/%ZZZ%/g, String("6. "))
-              rawTexto = rawTexto.replace(/%AAA%/g, String("7. "))
+              rawTexto = rawTexto.replace(/%XXX%/g, String("5. "))
+              rawTexto = rawTexto.replace(/%YYY%/g, String("6. "))
+              rawTexto = rawTexto.replace(/%ZZZ%/g, String("7. "))
+              rawTexto = rawTexto.replace(/%AAA%/g, String("8. "))
+              rawTexto = rawTexto.replace(/%BBB%/g, String("9. "))
             })
           );
         } else {
-            rawTexto = rawTexto.replace(/%XXX%/g, String("3. "))
-            rawTexto = rawTexto.replace(/%YYY%/g, String("4. "))
-            rawTexto = rawTexto.replace(/%ZZZ%/g, String("5. "))
-            rawTexto = rawTexto.replace(/%AAA%/g, String("6. "))
+            rawTexto = rawTexto.replace(/%XXX%/g, String("4. "))
+            rawTexto = rawTexto.replace(/%YYY%/g, String("5. "))
+            rawTexto = rawTexto.replace(/%ZZZ%/g, String("6. "))
+            rawTexto = rawTexto.replace(/%AAA%/g, String("7. "))
+            rawTexto = rawTexto.replace(/%BBB%/g, String("8. "))
           return of(null);
         }
       }),
@@ -238,7 +244,7 @@ export class PrProvisionalFavorableComponent {
     doc.setFont('helvetica', 'bold');
     doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
     doc.setFontSize(8);
-    doc.text("Document: informe favorable", xHeader, 45);
+    doc.text("Document: proposta de resolució provisional", xHeader, 45);
     doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 48);
     doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 51);
 
@@ -249,25 +255,22 @@ export class PrProvisionalFavorableComponent {
       doc.text(secondLine, xHeader, yHeader + 3);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
-      doc.text("Codi SIA: ", xHeader, yHeader + 12);
+      doc.text("Codi SIA: xxxxxxxxxx", xHeader, yHeader + 12);
     } else {
       doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
       doc.text(`NIF: ${this.actualNif}`, xHeader, 57);
       doc.text("Emissor (DIR3): A04003714", xHeader, 60);
-      doc.text("Codi SIA: ", xHeader, 63);
+      doc.text("Codi SIA: xxxxxxxxxx", xHeader, 63);
     }
 
     doc.setFontSize(10);
     doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 90);
     doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.hechos_tit, maxTextWidth), marginLeft, 110);
+    doc.text(doc.splitTextToSize(jsonObject.hechos_tit, maxTextWidth), marginLeft, 120);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.hechos_1_3, maxTextWidth), marginLeft + 5, 120);
+    doc.text(doc.splitTextToSize(jsonObject.hechos_1_3, maxTextWidth), marginLeft + 5, 140);
     if (hayMejoras > 0) {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_m, maxTextWidth), marginLeft + 5, 156);
-      doc.text(doc.splitTextToSize(jsonObject.hechos_5_9, maxTextWidth), marginLeft + 5, 172);
-    } else {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_5_9, maxTextWidth), marginLeft + 5, 160);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_m, maxTextWidth), marginLeft + 5, 200);
     }
 
     // Salto de página
@@ -281,10 +284,23 @@ export class PrProvisionalFavorableComponent {
       doc.text(line, marginLeft, y);
     });
     doc.setFontSize(10);
+    doc.text(doc.splitTextToSize(jsonObject.hechos_5_9, maxTextWidth), marginLeft + 5, 60);
+    
+    // Salto de página
+    doc.addPage();
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
+    lines = footerText.split('\n');
+    lines.reverse().forEach((line, index) => {
+      const y = pageHeight - 10 - (index * lineHeight);
+      doc.text(line, marginLeft, y);
+    });
+    doc.setFontSize(10);    
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.fundamentos_tit, maxTextWidth), marginLeft, 60);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.fundamentos_txt, maxTextWidth), marginLeft, 70);
+    doc.text(doc.splitTextToSize(jsonObject.fundamentos_txt, maxTextWidth), marginLeft + 5, 70);
 
     // Salto de página
     doc.addPage();
@@ -298,11 +314,13 @@ export class PrProvisionalFavorableComponent {
     });
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.propuesta_tit, maxTextWidth), marginLeft, 60);
+    doc.text(doc.splitTextToSize(jsonObject.propuesta_tit, maxTextWidth), marginLeft, 60); 
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth), marginLeft, 70);    
+    doc.text(doc.splitTextToSize(jsonObject.propuesta_cab, maxTextWidth), marginLeft, 70);
+    doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth), marginLeft + 5, 80);
+    doc.text(doc.splitTextToSize(jsonObject.propuesta_alegar, maxTextWidth), marginLeft, 200);
 
-    doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 200);
+    doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 240);
 
     // además de generar el pdf del acto administrativo hay que enviarlo al backend
     // Convertir a Blob
