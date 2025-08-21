@@ -213,7 +213,16 @@ export class InformeFavorableAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%IMPORTE_APERTURA%/g, `${this.gastos_aval}€`);
         /* Queda pendiente: BOIBNUM */
 
-        const jsonObject = JSON.parse(rawTexto);
+        let jsonObject;
+
+        // Limpieza de texto
+        try {
+          rawTexto = this.commonService.cleanRawText(rawTexto);
+        } catch (error) {
+          console.error('Error al parsear JSON: ', error);
+        } finally {
+          jsonObject = JSON.parse(rawTexto);
+        }
 
         const maxCharsPerLine = 21;
         const marginLeft = 25;

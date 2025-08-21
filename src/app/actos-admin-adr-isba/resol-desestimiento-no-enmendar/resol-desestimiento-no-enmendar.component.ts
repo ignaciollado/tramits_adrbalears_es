@@ -66,7 +66,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   formattedFecha_REC!: string;
   formattedFecha_notif!: string;
   signedBy!: string;
-  
+
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
   @Input() actualNif: string = "";
@@ -213,7 +213,16 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%IMPORTE_ESTUDIO%/g, `${this.gastos_aval}€`);
         /* Quedan pendiente: FECHAPUBBOIB, BOIBNUM, RESPRESIDENTE, DGERENTE */
 
-        const jsonObject = JSON.parse(rawTexto);
+        let jsonObject;
+
+        // Limpieza de texto
+        try {
+          rawTexto = this.commonService.cleanRawText(rawTexto);
+        } catch (error) {
+          console.error('Error al parsear JSON: ', error);
+        } finally {
+          jsonObject = JSON.parse(rawTexto);
+        }
 
         /* Cabecera */
         doc.setFont('helvetica', 'bold');

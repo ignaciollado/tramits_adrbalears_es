@@ -228,7 +228,16 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%REFERENCIA_ESMENA_REC%/g, this.ref_REC_enmienda);
         /* Queda pendiente: BOIBNUM */
 
-        const jsonObject = JSON.parse(rawTexto);
+        let jsonObject;
+
+        // Limpieza de texto
+        try {
+          rawTexto = this.commonService.cleanRawText(rawTexto);
+        } catch (error) {
+          console.error('Error al parsear JSON: ', error);
+        } finally {
+          jsonObject = JSON.parse(rawTexto);
+        }
 
         const maxCharsPerLine = 21;
         const marginLeft = 25;

@@ -196,14 +196,14 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         let rawTexto = docDataString.texto;
         this.signedBy = docDataString.signedBy;
 
-        // No tiene variables, por lo que no se hace replace
-        const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
         let jsonObject;
+        // Limpieza de texto
         try {
-          jsonObject = JSON.parse(cleanedTexto);
+          rawTexto = this.commonService.cleanRawText(rawTexto);
         } catch (error) {
-          console.error("Error al convertir el string a JSON:", error);
-          return;
+          console.error('Error al parsear JSON: ', error);
+        } finally {
+          jsonObject = JSON.parse(rawTexto);
         }
 
         doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 'PNG', 25, 20, 75, 15);
