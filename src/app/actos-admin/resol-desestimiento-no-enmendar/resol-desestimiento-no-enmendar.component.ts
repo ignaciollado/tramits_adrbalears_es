@@ -137,7 +137,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-    if (this.form.get('fecha_requerimiento_notif')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento_notif')?.value === '0000-00-00') {
+    if (this.form.get('fecha_requerimiento_notif')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento_notif')?.value === '0000-00-00' || this.form.get('fecha_requerimiento_notif')?.value === null) {
       alert ("Falta indicar la fecha Notificació requeriment")
       return
     }

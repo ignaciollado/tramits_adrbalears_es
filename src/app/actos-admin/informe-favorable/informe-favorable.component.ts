@@ -131,7 +131,7 @@ export class InformeFavorableComponent {
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
     // Verifico que existan todos los datos necesarios: %FECHAREC% %DATANOTREQ%,
-    if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00') {
+    if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
       alert ("Falta indicar la fecha SEU sol·licitud")
       return
     }
