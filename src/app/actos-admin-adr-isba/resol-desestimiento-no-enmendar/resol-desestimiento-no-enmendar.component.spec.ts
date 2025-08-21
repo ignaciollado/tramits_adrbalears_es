@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ResolDesestimientoNoEnmendarAdrIsbaComponent } from './resol-desestimiento-no-enmendar.component';
 
-describe('ResolDesestimientoNoEnmendarComponent', () => {
+describe('ResolDesestimientoNoEnmendarAdrIsbaComponent', () => {
   let component: ResolDesestimientoNoEnmendarAdrIsbaComponent;
   let fixture: ComponentFixture<ResolDesestimientoNoEnmendarAdrIsbaComponent>;
 
