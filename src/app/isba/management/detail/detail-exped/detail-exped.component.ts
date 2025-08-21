@@ -24,6 +24,7 @@ import { CommonService } from '../../../../Services/common.service';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
+import { MejorasSolicitudDetalleAdrIsbaComponent } from '../../../mejoras-solicitud-detalle/mejoras-solicitud-detalle.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -35,7 +36,8 @@ import { ViafirmaService } from '../../../../Services/viafirma.service';
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
     MatRadioModule,
-    MatExpansionModule, RequerimientoAdrIsbaComponent, 
+    MatExpansionModule, MejorasSolicitudDetalleAdrIsbaComponent,
+    RequerimientoAdrIsbaComponent, 
     ResolDesestimientoNoEnmendarAdrIsbaComponent, InformeFavorableAdrIsbaComponent,
     InformeFavorableConRequerimientoAdrIsbaComponent
   ],
