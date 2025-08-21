@@ -99,7 +99,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   ngOnInit(): void {
     this.actoAdminService.getByNameAndTipoTramite('isba_2_resolucion_desestimiento_por_no_enmendar', 'ADR-ISBA').subscribe((docDataString: ActoAdministrativoDTO) => {
       this.signedBy = docDataString.signedBy;
-    }).unsubscribe;
+    })
   }
 
   private tieneTodosLosValores(): boolean {

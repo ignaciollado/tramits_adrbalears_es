@@ -97,7 +97,7 @@ export class InformeFavorableAdrIsbaComponent {
   ngOnInit(): void {
     this.actoAdminService.getByNameAndTipoTramite('isba_3_informe_favorable_sin_requerimiento', 'ADR-ISBA').subscribe((docDataString: ActoAdministrativoDTO) => {
       this.signedBy = docDataString.signedBy;
-    }).unsubscribe;
+    })
   }
 
   ngOnChanges(changes: SimpleChange): void {

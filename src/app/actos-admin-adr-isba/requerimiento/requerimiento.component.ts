@@ -119,7 +119,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
 
     this.actoAdminService.getByNameAndTipoTramite('isba_1_requerimiento', 'ADR-ISBA').subscribe((docDataString: ActoAdministrativoDTO) => {
       this.signedBy = docDataString.signedBy;
-    }).unsubscribe;
+    })
   }
 
   getActoAdminDetail() {
