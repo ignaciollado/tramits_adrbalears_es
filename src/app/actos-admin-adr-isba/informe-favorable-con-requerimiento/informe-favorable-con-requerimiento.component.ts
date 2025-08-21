@@ -1,6 +1,6 @@
 import { CommonModule, formatDate } from '@angular/common';
 import { Component, inject, Input, SimpleChange } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -63,12 +63,7 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
   sendedDateToSign!: Date;
   faltanCampos: boolean = false;
   camposVacios: string[] = [];
-
   signedBy!: string;
-  // Fechas formateadas para no sustituir el dato original
-  formattedFecha_REC!: string;
-  formattedFecha_requerimiento_notif!: string;
-  formattedFecha_REC_enmienda!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -76,20 +71,7 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
   @Input() actualConvocatoria!: number;
   @Input() actualTipoTramite!: string;
   @Input() actualEmpresa: string = "";
-
-  /* Campos de formularios */
-  // Campos requeridos para la generación
-  @Input() fecha_REC!: string;
-  @Input() ref_REC!: string;
-  @Input() fecha_requerimiento_notif!: string;
-  @Input() fecha_REC_enmienda!: string;
-  @Input() ref_REC_enmienda!: string;
-
-  // Campos que aparecen en el acto administrativo
-  @Input() importe_ayuda!: number;
-  @Input() intereses_ayuda!: number;
-  @Input() costes_aval!: number;
-  @Input() gastos_aval!: number;
+  @Input() form!: FormGroup;
 
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
@@ -131,11 +113,7 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
       this.actualIdExp != null &&
       !!this.actualNif &&
       this.actualConvocatoria != null &&
-      !!this.actualTipoTramite &&
-      !!this.importe_ayuda &&
-      !!this.intereses_ayuda &&
-      !!this.costes_aval &&
-      !!this.gastos_aval
+      !!this.actualTipoTramite
     )
   }
 
@@ -212,20 +190,26 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
         }
 
         // Fechas formateadas
-        this.formattedFecha_REC = formatDate(this.fecha_REC, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
-        this.formattedFecha_requerimiento_notif = formatDate(this.fecha_requerimiento_notif, 'dd/MM/yyyy', 'es-ES');
-        this.formattedFecha_REC_enmienda = formatDate(this.fecha_REC_enmienda, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
+        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
+        const formattedFecha_requerimiento_notif = formatDate(this.form.get('fecha_requerimiento_notif')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_REC_enmienda = formatDate(this.form.get('fecha_REC_enmienda')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
+
+        /* Importes monetarios formateados */
+        const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
+        const formattedImporte_intereses = this.commonService.formatCurrency(this.form.get('intereses_ayuda_solicita_idi_isba')?.value);
+        const formattedImporte_aval = this.commonService.formatCurrency(this.form.get('coste_aval_solicita_idi_isba')?.value);
+        const formattedImporte_estudios = this.commonService.formatCurrency(this.form.get('gastos_aval_solicita_idi_isba')?.value);
 
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
         rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
-        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, this.formattedFecha_REC);
-        rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, `${this.importe_ayuda}€`);
-        rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, `${this.intereses_ayuda}€`);
-        rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, `${this.costes_aval}€`);
-        rawTexto = rawTexto.replace(/%IMPORTE_APERTURA%/g, `${this.gastos_aval}€`);
-        rawTexto = rawTexto.replace(/%FECHAREQUERIMIENTO%/g, this.formattedFecha_requerimiento_notif);
-        rawTexto = rawTexto.replace(/%FECHAENMIENDA%/g, this.formattedFecha_REC_enmienda);
-        rawTexto = rawTexto.replace(/%REFERENCIA_ESMENA_REC%/g, this.ref_REC_enmienda);
+        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, `${formattedImporte_ayuda}`);
+        rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, `${formattedImporte_intereses}`);
+        rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, `${formattedImporte_aval}`);
+        rawTexto = rawTexto.replace(/%IMPORTE_APERTURA%/g, `${formattedImporte_estudios}`);
+        rawTexto = rawTexto.replace(/%FECHAREQUERIMIENTO%/g, formattedFecha_requerimiento_notif);
+        rawTexto = rawTexto.replace(/%FECHAENMIENDA%/g, formattedFecha_REC_enmienda);
+        rawTexto = rawTexto.replace(/%REFERENCIA_ESMENA_REC%/g, this.form.get('ref_REC_enmienda')?.value);
         /* Queda pendiente: BOIBNUM */
 
         let jsonObject;
@@ -353,24 +337,29 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
   private tieneTodosLosCamposRequeridos(): void {
     this.camposVacios = [];
     this.faltanCampos = false;
+    const fecha_REC = this.form.get('fecha_REC')?.value;
+    const ref_REC = this.form.get('ref_REC')?.value;
+    const fecha_requerimiento_notif = this.form.get('fecha_requerimiento_notif')?.value;
+    const fecha_REC_enmienda = this.form.get('fecha_REC_enmienda')?.value;
+    const ref_REC_enmienda = this.form.get('ref_REC_enmienda')?.value;
 
-    if (!this.fecha_REC?.trim() || this.fecha_REC?.trim() === "0000-00-00 00:00:00") {
+    if (!fecha_REC?.trim() || fecha_REC?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC')
     }
 
-    if (!this.ref_REC?.trim()) {
+    if (!ref_REC?.trim()) {
       this.camposVacios.push('FORM.REF_REC')
     }
 
-    if (!this.fecha_requerimiento_notif?.trim() || this.fecha_requerimiento_notif?.trim() === "0000-00-00") {
+    if (!fecha_requerimiento_notif?.trim() || fecha_requerimiento_notif?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.FECHA_REQUERIMIENTO_NOTIF')
     }
 
-    if (!this.fecha_REC_enmienda?.trim() || this.fecha_REC_enmienda?.trim() === "0000-00-00 00:00:00") {
+    if (!fecha_REC_enmienda?.trim() || fecha_REC_enmienda?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC_ENMIENDA')
     }
 
-    if (!this.ref_REC_enmienda?.trim()) {
+    if (!ref_REC_enmienda?.trim()) {
       this.camposVacios.push('FORM.REF_REC_ENMIENDA')
     }
     this.faltanCampos = this.camposVacios.length > 0;

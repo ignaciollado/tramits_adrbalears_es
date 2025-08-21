@@ -211,14 +211,12 @@
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
                     <app-requerimiento-adr-isba [actualID]="actualID" [actualIdExp]="actualIdExp" [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" [motivoRequerimiento] = "motivoRequerimiento"></app-requerimiento-adr-isba>
-                    <app-resol-desestimiento-no-enmendar-adr-isba 
+                    <app-resol-desestimiento-no-enmendar-adr-isba
+                    [form]="form"
                     [actualID]="actualID" [actualIdExp]="actualIdExp" 
                     [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" 
-                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa" 
-                    [fecha_REC]="fecha_REC" [ref_REC]="ref_REC" 
-                    [fecha_requerimiento_notif]="fecha_requerimiento_notif"
-                    [importe_ayuda]="importe_ayuda" [intereses_ayuda]="intereses_ayuda"
-                    [costes_aval]="costes_aval" [gastos_aval]="gastos_aval"></app-resol-desestimiento-no-enmendar-adr-isba>
+                    [actualTipoTramite]="actualTipoTramite" 
+                    [actualEmpresa]="actualEmpresa"></app-resol-desestimiento-no-enmendar-adr-isba>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
@@ -260,21 +258,15 @@
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
                     <app-informe-favorable-adr-isba
-                    [actualID]="actualID" [actualIdExp]="actualIdExp" 
-                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
-                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"
-                    [fecha_REC]="fecha_REC" [ref_REC]="ref_REC"
-                    [importe_ayuda]="importe_ayuda" [intereses_ayuda]="intereses_ayuda"
-                    [costes_aval]="costes_aval" [gastos_aval]="gastos_aval"></app-informe-favorable-adr-isba>
+                    [form]="form" [actualID]="actualID" 
+                    [actualIdExp]="actualIdExp" [actualNif]="actualNif"
+                    [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-informe-favorable-adr-isba>
                     <app-informe-favorable-con-requerimiento-adr-isba
-                    [actualID]="actualID" [actualIdExp]="actualIdExp"
-                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
-                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"
-                    [fecha_REC]="fecha_REC" [ref_REC]="ref_REC"
-                    [fecha_requerimiento_notif]="fecha_requerimiento_notif" [fecha_REC_enmienda]="fecha_REC_enmienda"
-                    [ref_REC_enmienda]="ref_REC_enmienda" [importe_ayuda]="importe_ayuda"
-                    [intereses_ayuda]="intereses_ayuda" [costes_aval]="costes_aval"
-                    [gastos_aval]="gastos_aval"></app-informe-favorable-con-requerimiento-adr-isba>
+                    [form]="form" [actualID]="actualID" 
+                    [actualIdExp]="actualIdExp" [actualNif]="actualNif"
+                    [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-informe-favorable-con-requerimiento-adr-isba>
 
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>

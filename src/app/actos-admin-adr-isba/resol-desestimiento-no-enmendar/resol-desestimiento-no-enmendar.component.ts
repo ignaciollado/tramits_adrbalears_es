@@ -1,6 +1,6 @@
 import { CommonModule, formatDate } from '@angular/common';
 import { Component, inject, Input, SimpleChange } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -63,8 +63,6 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   sendedDateToSign!: Date;
   faltanCampos: boolean = false;
   camposVacios: string[] = [];
-  formattedFecha_REC!: string;
-  formattedFecha_notif!: string;
   signedBy!: string;
 
   @Input() actualID!: number;
@@ -73,15 +71,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   @Input() actualConvocatoria!: number;
   @Input() actualTipoTramite!: string;
   @Input() actualEmpresa: string = "";
-
-  /* Dinámicos gracias a los valuesChanges dentro del onInit del padre */
-  @Input() fecha_REC!: string;
-  @Input() ref_REC!: string;
-  @Input() fecha_requerimiento_notif!: string;
-  @Input() importe_ayuda!: number;
-  @Input() intereses_ayuda!: number;
-  @Input() costes_aval!: number;
-  @Input() gastos_aval!: number;
+  @Input() form!: FormGroup;
 
   constructor(private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService,
@@ -118,11 +108,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
       this.actualIdExp != null &&
       !!this.actualNif &&
       this.actualConvocatoria != null &&
-      !!this.actualTipoTramite &&
-      !!this.importe_ayuda &&
-      !!this.intereses_ayuda &&
-      !!this.costes_aval &&
-      !!this.gastos_aval
+      !!this.actualTipoTramite
     )
   }
 
@@ -199,18 +185,24 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
         }
 
         /* Formateo las fechas para el acto administrativo */
-        this.formattedFecha_REC = formatDate(this.fecha_REC, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
-        this.formattedFecha_notif = formatDate(this.fecha_requerimiento_notif, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_notif= formatDate(this.form.get('fecha_requerimiento_notif')?.value, 'dd/MM/yyyy', 'es-ES');
+
+        /* Formateo los importes monetarios */
+        const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
+        const formattedImporte_intereses = this.commonService.formatCurrency(this.form.get('intereses_ayuda_solicita_idi_isba')?.value);
+        const formattedImporte_aval = this.commonService.formatCurrency(this.form.get('coste_aval_solicita_idi_isba')?.value);
+        const formattedImporte_estudios = this.commonService.formatCurrency(this.form.get('gastos_aval_solicita_idi_isba')?.value);
 
         rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
         rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
-        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, this.formattedFecha_REC);
-        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_REQUERIMIENTO%/g, this.formattedFecha_notif);
-        rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, `${this.importe_ayuda}€`);
-        rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, `${this.intereses_ayuda}€`);
-        rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, `${this.costes_aval}€`);
-        rawTexto = rawTexto.replace(/%IMPORTE_ESTUDIO%/g, `${this.gastos_aval}€`);
+        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_REQUERIMIENTO%/g, formattedFecha_notif);
+        rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, `${formattedImporte_ayuda}`);
+        rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, `${formattedImporte_intereses}`);
+        rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, `${formattedImporte_aval}`);
+        rawTexto = rawTexto.replace(/%IMPORTE_ESTUDIO%/g, `${formattedImporte_estudios}`);
         /* Quedan pendiente: FECHAPUBBOIB, BOIBNUM, RESPRESIDENTE, DGERENTE */
 
         let jsonObject;
@@ -262,8 +254,8 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
         doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft + 5, 127)
         doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft + 5, 150)
         doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft + 5, 167)
-        doc.text(doc.splitTextToSize(jsonObject.p4, maxTextWidth), marginLeft + 5, 187)
-        doc.text(doc.splitTextToSize(jsonObject.p5, maxTextWidth), marginLeft + 5, 207)
+        doc.text(doc.splitTextToSize(jsonObject.p4, maxTextWidth), marginLeft + 5, 192)
+        doc.text(doc.splitTextToSize(jsonObject.p5, maxTextWidth), marginLeft + 5, 212)
 
         // Nueva página
         doc.addPage();
@@ -363,18 +355,22 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   private tieneTodosLosCamposRequeridos(): void {
     this.camposVacios = [];
     this.faltanCampos = false;
+    const fecha_REC = this.form.get('fecha_REC')?.value;
+    const ref_REC = this.form.get('ref_REC')?.value;
+    const fecha_requerimiento_notif = this.form.get('fecha_requerimiento_notif')?.value;
 
-    if (!this.fecha_REC?.trim() || this.fecha_REC?.trim() === "0000-00-00 00:00:00") {
+    if (!fecha_REC?.trim() || fecha_REC?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC')
     }
 
-    if (!this.ref_REC?.trim()) {
+    if (!ref_REC?.trim()) {
       this.camposVacios.push('FORM.REF_REC')
     }
 
-    if (!this.fecha_requerimiento_notif?.trim() || this.fecha_requerimiento_notif?.trim() === "0000-00-00") {
+    if (!fecha_requerimiento_notif?.trim() || fecha_requerimiento_notif?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.FECHA_REQUERIMIENTO_NOTIF')
     }
+
     this.faltanCampos = this.camposVacios.length > 0;
   }
 

@@ -1,6 +1,6 @@
 import { CommonModule, formatDate } from '@angular/common';
 import { Component, inject, Input, SimpleChange } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -64,7 +64,6 @@ export class InformeFavorableAdrIsbaComponent {
   sendedDateToSign!: Date;
   faltanCampos: boolean = false;
   camposVacios: string[] = [];
-  formattedFecha_REC!: string;
   signedBy!: string;
 
   @Input() actualID!: number;
@@ -73,17 +72,8 @@ export class InformeFavorableAdrIsbaComponent {
   @Input() actualConvocatoria!: number;
   @Input() actualTipoTramite!: string;
   @Input() actualEmpresa: string = "";
+  @Input() form!: FormGroup;
 
-  /* Campos de formularios */
-  // Campos obligatorios para generar Acto
-  @Input() fecha_REC!: string;
-  @Input() ref_REC!: string;
-
-  // Campos que aparecen en la template del Acto
-  @Input() importe_ayuda!: number; // Importe ayuda
-  @Input() intereses_ayuda!: number; // Intereses
-  @Input() costes_aval!: number; // Costes aval
-  @Input() gastos_aval!: number; // Costes apertura
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService,
@@ -122,11 +112,7 @@ export class InformeFavorableAdrIsbaComponent {
       this.actualIdExp != null &&
       !!this.actualNif &&
       this.actualConvocatoria != null &&
-      !!this.actualTipoTramite &&
-      !!this.importe_ayuda &&
-      !!this.intereses_ayuda &&
-      !!this.costes_aval &&
-      !!this.gastos_aval
+      !!this.actualTipoTramite
     )
   }
 
@@ -202,15 +188,19 @@ export class InformeFavorableAdrIsbaComponent {
           return;
         }
         /* Formateo la fecha de solicitud antes de reemplazar en el texto */
-        this.formattedFecha_REC = formatDate(this.fecha_REC, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
+        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
+        const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
+        const formattedImporte_intereses = this.commonService.formatCurrency(this.form.get('intereses_ayuda_solicita_idi_isba')?.value);
+        const formattedImporte_aval = this.commonService.formatCurrency(this.form.get('coste_aval_solicita_idi_isba')?.value);
+        const formattedImporte_estudios = this.commonService.formatCurrency(this.form.get('gastos_aval_solicita_idi_isba')?.value);
 
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
         rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
-        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, this.formattedFecha_REC);
-        rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, `${this.importe_ayuda}€`);
-        rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, `${this.intereses_ayuda}€`);
-        rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, `${this.costes_aval}€`);
-        rawTexto = rawTexto.replace(/%IMPORTE_APERTURA%/g, `${this.gastos_aval}€`);
+        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, `${formattedImporte_ayuda}`);
+        rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, `${formattedImporte_intereses}`);
+        rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, `${formattedImporte_aval}`);
+        rawTexto = rawTexto.replace(/%IMPORTE_APERTURA%/g, `${formattedImporte_estudios}`);
         /* Queda pendiente: BOIBNUM */
 
         let jsonObject;
@@ -331,12 +321,14 @@ export class InformeFavorableAdrIsbaComponent {
   private tieneTodosLosCamposRequeridos(): void {
     this.camposVacios = [];
     this.faltanCampos = false;
+    const fecha_REC = this.form.get('fecha_REC')?.value;
+    const ref_REC = this.form.get('ref_REC')?.value;
 
-    if (!this.fecha_REC?.trim() || this.fecha_REC?.trim() === "0000-00-00 00:00:00") {
+    if (!fecha_REC?.trim() || fecha_REC?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC')
     }
 
-    if (!this.ref_REC?.trim()) {
+    if (!ref_REC?.trim()) {
       this.camposVacios.push('FORM.REF_REC')
     }
 

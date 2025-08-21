@@ -68,16 +68,6 @@ export class IsbaDetailExpedComponent {
   sendedUserToSign: string = "";
   sendedDateToSign!: Date;
 
-  /* Campos necesarios para generacion de actos administrativos */
-  fecha_REC!: string;
-  ref_REC!: string;
-  fecha_requerimiento_notif!: string;
-  importe_ayuda!: number;
-  intereses_ayuda!: number;
-  costes_aval!: number;
-  gastos_aval!: number;
-  fecha_REC_enmienda!: string;
-  ref_REC_enmienda!: string;
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
   ngOnInit(): void {
@@ -160,39 +150,6 @@ export class IsbaDetailExpedComponent {
       motivoResolucionRevocacionPorNoJustificar: [{ value: '', disabled: false }, []]
     });
     this.getExpedDetail(this.idExpediente)
-
-    /* Campos requeridos para el acto número 2 */
-    this.form.get('fecha_REC')?.valueChanges.subscribe(value => {
-      this.fecha_REC = value;
-    });
-
-    this.form.get('ref_REC')?.valueChanges.subscribe(value => {
-      this.ref_REC = value;
-    });
-    
-    this.form.get('fecha_requerimiento_notif')?.valueChanges.subscribe(value => {
-      this.fecha_requerimiento_notif = value;
-    });
-
-    this.form.get('importe_ayuda_solicita_idi_isba')?.valueChanges.subscribe(value => {
-      this.importe_ayuda = value;
-    });
-    this.form.get('intereses_ayuda_solicita_idi_isba')?.valueChanges.subscribe(value => {
-      this.intereses_ayuda = value;
-    });
-    this.form.get('coste_aval_solicita_idi_isba')?.valueChanges.subscribe(value => {
-      this.costes_aval = value;
-    });
-    this.form.get('gastos_aval_solicita_idi_isba')?.valueChanges.subscribe(value => {
-      this.gastos_aval = value;
-    });
-    this.form.get('fecha_REC_enmienda')?.valueChanges.subscribe(value => {
-      this.fecha_REC_enmienda = value
-    })
-
-    this.form.get('ref_REC_enmienda')?.valueChanges.subscribe(value => {
-      this.ref_REC_enmienda = value
-    })
   }
 
   twoDecimalValidator(): ValidatorFn {
