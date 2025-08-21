@@ -1,28 +1,29 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { DocumentComponent } from '../../../../document/document.component';
-import { AddDocumentComponent } from '../../../../add-document/add-document.component';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatInputModule } from '@angular/material/input';
-import { TranslateModule } from '@ngx-translate/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
-import { ExpedienteService } from '../../../../Services/expediente.service';
-import { DocSignedDTO } from '../../../../Models/docsigned.dto';
-import { CommonService } from '../../../../Services/common.service';
-import { ViafirmaService } from '../../../../Services/viafirma.service';
-import { catchError, of } from 'rxjs';
-import { MatRadioModule } from '@angular/material/radio';
-import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from "@angular/material/expansion";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { catchError, of } from 'rxjs';
+import { InformeFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
+import { InformeFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/informe-favorable/informe-favorable.component';
 import { RequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/requerimiento/requerimiento.component';
 import { ResolDesestimientoNoEnmendarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
-import { InformeFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/informe-favorable/informe-favorable.component';
+import { AddDocumentComponent } from '../../../../add-document/add-document.component';
+import { DocumentComponent } from '../../../../document/document.component';
+import { DocSignedDTO } from '../../../../Models/docsigned.dto';
+import { CommonService } from '../../../../Services/common.service';
+import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
+import { ExpedienteService } from '../../../../Services/expediente.service';
+import { ViafirmaService } from '../../../../Services/viafirma.service';
 
 @Component({
   selector: 'app-detail-exped',
@@ -35,7 +36,8 @@ import { InformeFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-is
     MatCardModule, MatSnackBarModule,
     MatRadioModule,
     MatExpansionModule, RequerimientoAdrIsbaComponent, 
-    ResolDesestimientoNoEnmendarAdrIsbaComponent, InformeFavorableAdrIsbaComponent
+    ResolDesestimientoNoEnmendarAdrIsbaComponent, InformeFavorableAdrIsbaComponent,
+    InformeFavorableConRequerimientoAdrIsbaComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
@@ -65,6 +67,8 @@ export class IsbaDetailExpedComponent {
   externalSignUrl: string = "";
   sendedUserToSign: string = "";
   sendedDateToSign!: Date;
+
+  /* Campos necesarios para generacion de actos administrativos */
   fecha_REC!: string;
   ref_REC!: string;
   fecha_requerimiento_notif!: string;
@@ -72,6 +76,8 @@ export class IsbaDetailExpedComponent {
   intereses_ayuda!: number;
   costes_aval!: number;
   gastos_aval!: number;
+  fecha_REC_enmienda!: string;
+  ref_REC_enmienda!: string;
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
   ngOnInit(): void {
@@ -117,7 +123,7 @@ export class IsbaDetailExpedComponent {
       fecha_REC: [{ value: '', disabled: true }, []],
       ref_REC: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       fecha_REC_enmienda: [{ value: '', disabled: true }, []],
-      ref_REC_enmienda: [{ value: '', disabled: true }, []],
+      ref_REC_enmienda: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       fecha_requerimiento: [{ value: '', disabled: true }, []],
       fecha_requerimiento_notif: [{ value: '', disabled: true }, []],
       fecha_maxima_enmienda: [{ value: '', disabled: true }, []],
@@ -180,6 +186,13 @@ export class IsbaDetailExpedComponent {
     this.form.get('gastos_aval_solicita_idi_isba')?.valueChanges.subscribe(value => {
       this.gastos_aval = value;
     });
+    this.form.get('fecha_REC_enmienda')?.valueChanges.subscribe(value => {
+      this.fecha_REC_enmienda = value
+    })
+
+    this.form.get('ref_REC_enmienda')?.valueChanges.subscribe(value => {
+      this.ref_REC_enmienda = value
+    })
   }
 
   twoDecimalValidator(): ValidatorFn {

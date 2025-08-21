@@ -193,7 +193,7 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REF_REC_ENMIENDA' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ref_REC_enmienda">
+                        <input matInput type="text" formControlName="ref_REC_enmienda" maxlength="16">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REQUERIMIENTO' | translate}}</mat-label>
@@ -266,26 +266,17 @@
                     [fecha_REC]="fecha_REC" [ref_REC]="ref_REC"
                     [importe_ayuda]="importe_ayuda" [intereses_ayuda]="intereses_ayuda"
                     [costes_aval]="costes_aval" [gastos_aval]="gastos_aval"></app-informe-favorable-adr-isba>
+                    <app-informe-favorable-con-requerimiento-adr-isba
+                    [actualID]="actualID" [actualIdExp]="actualIdExp"
+                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"
+                    [fecha_REC]="fecha_REC" [ref_REC]="ref_REC"
+                    [fecha_requerimiento_notif]="fecha_requerimiento_notif" [fecha_REC_enmienda]="fecha_REC_enmienda"
+                    [ref_REC_enmienda]="ref_REC_enmienda" [importe_ayuda]="importe_ayuda"
+                    [intereses_ayuda]="intereses_ayuda" [costes_aval]="costes_aval"
+                    [gastos_aval]="gastos_aval"></app-informe-favorable-con-requerimiento-adr-isba>
+
                     <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLE' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <!-- Campos requeridos: 2
-                             fecha_REC, ref_REC 
-                            -->
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLECONREQUERIMIENTO' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <!-- Campos requeridos: 5
-                             fecha_REC, ref_REC, fecha_requerimiento_notif,
-                             fecha_REC_enmienda, ref_REC_enmienda 
-                            -->
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONPROVISIONAL' | translate}}</mat-panel-title>
