@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ResolDesestimientoNoEnmendarComponent } from './resol-desestimiento-no-enmendar.component';
+import { ResolDesestimientoNoEnmendarIlsComponent } from './resol-desestimiento-no-enmendar.component';
 
-describe('ResolDesestimientoNoEnmendarComponent', () => {
-  let component: ResolDesestimientoNoEnmendarComponent;
-  let fixture: ComponentFixture<ResolDesestimientoNoEnmendarComponent>;
+describe('ResolDesestimientoNoEnmendarIlsComponent', () => {
+  let component: ResolDesestimientoNoEnmendarIlsComponent;
+  let fixture: ComponentFixture<ResolDesestimientoNoEnmendarIlsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ResolDesestimientoNoEnmendarComponent]
+      imports: [ResolDesestimientoNoEnmendarIlsComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ResolDesestimientoNoEnmendarComponent);
+    fixture = TestBed.createComponent(ResolDesestimientoNoEnmendarIlsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
