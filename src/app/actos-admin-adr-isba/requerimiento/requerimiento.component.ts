@@ -5,19 +5,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { _, TranslateModule } from '@ngx-translate/core';
-import { ExpedienteService } from '../../Services/expediente.service';
-import { CommonService } from '../../Services/common.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
-import { ViafirmaService } from '../../Services/viafirma.service';
-import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
-import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
-import jsPDF from 'jspdf';
-import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
+import { TranslateModule } from '@ngx-translate/core';
+import { jsPDF } from 'jspdf';
 import { finalize } from 'rxjs';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
+import { DocSignedDTO } from '../../Models/docsigned.dto';
+import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
+import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { CommonService } from '../../Services/common.service';
+import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
+import { ExpedienteService } from '../../Services/expediente.service';
+import { ViafirmaService } from '../../Services/viafirma.service';
 
 @Component({
   selector: 'app-requerimiento-adr-isba',
@@ -48,7 +48,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   imageUrl: SafeUrl | undefined;
   showPdfViewer: boolean = false;
   showImageViewer: boolean = false;
-  codigoSIAConvo: string = "en bbdd de la convo y de la línea de ayudas";
+  codigoSIAConvo: string = "3153714";
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
     cifnif_propietario: '',
@@ -64,9 +64,9 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   response?: SignatureResponse;
   loading: boolean = false;
   error?: string;
-  ceoEmail: string = "nachollv@hotmail.com"
+  ceoEmail: string = "jldejesus@adrbalears.caib.es";
+  signedBy!: string;
 
-  @Input() signedBy!: string;
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
   @Input() actualNif!: string;
@@ -78,7 +78,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private documentosGeneradosService: DocumentosGeneradosService,
-    private actoAdminService: ActoAdministrativoService, private jwtHelper: JwtHelperService
+    private actoAdminService: ActoAdministrativoService
   ) { this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""; };
 
   get stateClass(): string {
@@ -115,7 +115,11 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   ngOnInit(): void {
     this.formRequerimiento = this.fb.group({
       motivoRequerimiento: [{ value: '', disabled: false }]
-    })
+    });
+
+    this.actoAdminService.getByNameAndTipoTramite('isba_1_requerimiento', 'ADR-ISBA').subscribe((docDataString: ActoAdministrativoDTO) => {
+      this.signedBy = docDataString.signedBy;
+    }).unsubscribe;
   }
 
   getActoAdminDetail() {
@@ -171,11 +175,16 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8)
 
+
     const marginLeft = 25;
     const maxTextWidth = 160;
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
+
+    const x = marginLeft + 110;
+    const y = 51;
+    const maxCharsPerLine = 21;
 
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -183,17 +192,18 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     })
 
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrativoName, tipoTramite)
-      .subscribe((docDataString: any) => {
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
         let rawTexto = docDataString.texto;
+        this.signedBy = docDataString.signedBy;
 
-        // No tiene variables, por lo que no se hace replace
-        const cleanedTexto = rawTexto.trim().replace(/^`|`;?$/g, '');
         let jsonObject;
+        // Limpieza de texto
         try {
-          jsonObject = JSON.parse(cleanedTexto);
+          rawTexto = this.commonService.cleanRawText(rawTexto);
         } catch (error) {
-          console.error("Error al convertir el string a JSON:", error);
-          return;
+          console.error('Error al parsear JSON: ', error);
+        } finally {
+          jsonObject = JSON.parse(rawTexto);
         }
 
         doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 'PNG', 25, 20, 75, 15);
@@ -201,10 +211,20 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         doc.setFontSize(8);
         doc.text("Document: requeriment", marginLeft + 110, 45);
         doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft + 110, 48);
-        doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft + 110, 51);
-        doc.text(`NIF: ${this.actualNif}`, marginLeft + 110, 54);
-        doc.text("Emissor (DIR3): A04003714", marginLeft + 110, 57);
-        doc.text(`Codi SIA: ${this.codigoSIAConvo}`, marginLeft + 110, 60)
+        if (this.actualEmpresa.length > maxCharsPerLine) {
+          const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
+          const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+          doc.text(`Nom sol·licitant: ${firstLine}`, x, y);
+          doc.text(secondLine, x, y + 3);
+          doc.text(`NIF: ${this.actualNif}`, x, y + 6);
+          doc.text("Emissor (DIR3): A04003714", x, y + 9);
+          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, y + 12);
+        } else {
+          doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
+          doc.text(`NIF: ${this.actualNif}`, x, 54);
+          doc.text("Emissor (DIR3): A04003714", x, 57);
+          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, 60);
+        }
 
         doc.setFontSize(10);
         doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
@@ -346,7 +366,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
 
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'tecnico' ? this.userLoginEmail : this.ceoEmail,
+      adreca_mail: this.signedBy === 'technician' ? this.userLoginEmail : this.ceoEmail,
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
@@ -370,7 +390,6 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
       })
   }
 
-
   viewSignState(publicAccessId: string) {
     this.viafirmaService.getDocumentStatus(publicAccessId)
       .subscribe((resp: DocSignedDTO) => {
@@ -381,5 +400,4 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         this.sendedDateToSign = new Date(sendedDateToSign)
       })
   }
-
 }
