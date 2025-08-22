@@ -236,7 +236,7 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
         doc.setFont('helvetica', 'bold');
         doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 25, 20, 75, 15);
         doc.setFontSize(8);
-        doc.text("Document: informe favorable amb requeriment", x, 45);
+        doc.text("Document: informe favorable", x, 45);
         doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, x, 48);
         if (this.actualEmpresa.length > maxCharsPerLine) {
           const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
