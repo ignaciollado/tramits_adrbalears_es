@@ -27,6 +27,7 @@ import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { MejorasSolicitudDetalleAdrIsbaComponent } from '../../../mejoras-solicitud-detalle/mejoras-solicitud-detalle.component';
 import { PrProvisionalFavorableAdrIsbaComponent } from "../../../../actos-admin-adr-isba/pr-provisional-favorable/pr-provisional-favorable.component";
 import { PrProvisionalFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
+import { PrDefinitivaFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/pr-definitiva-favorable/pr-definitiva-favorable.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -42,7 +43,8 @@ import { PrProvisionalFavorableConRequerimientoAdrIsbaComponent } from '../../..
     RequerimientoAdrIsbaComponent,
     ResolDesestimientoNoEnmendarAdrIsbaComponent, InformeFavorableAdrIsbaComponent,
     InformeFavorableConRequerimientoAdrIsbaComponent,
-    PrProvisionalFavorableAdrIsbaComponent, PrProvisionalFavorableConRequerimientoAdrIsbaComponent
+    PrProvisionalFavorableAdrIsbaComponent, PrProvisionalFavorableConRequerimientoAdrIsbaComponent,
+    PrDefinitivaFavorableAdrIsbaComponent
 ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
