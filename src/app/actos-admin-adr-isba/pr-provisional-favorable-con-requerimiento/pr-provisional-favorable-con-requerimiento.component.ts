@@ -3,32 +3,32 @@ import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import jsPDF from 'jspdf';
-import { finalize, of, switchMap, tap } from 'rxjs';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
-import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
-import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
-import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
-import { CommonService } from '../../Services/common.service';
-import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { ExpedienteService } from '../../Services/expediente.service';
-import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
+import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
+import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
+import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
+import { finalize, of, switchMap, tap } from 'rxjs';
+import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
+import { DocSignedDTO } from '../../Models/docsigned.dto';
+import jsPDF from 'jspdf';
 
 @Component({
-  selector: 'app-pr-provisional-favorable-adr-isba',
+  selector: 'app-pr-provisional-favorable-con-requerimiento-adr-isba',
   standalone: true,
-  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatExpansionModule, MatButtonModule],
-  templateUrl: './pr-provisional-favorable.component.html',
-  styleUrl: './pr-provisional-favorable.component.scss'
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, MatExpansionModule, MatButtonModule],
+  templateUrl: './pr-provisional-favorable-con-requerimiento.component.html',
+  styleUrl: './pr-provisional-favorable-con-requerimiento.component.scss'
 })
-export class PrProvisionalFavorableAdrIsbaComponent {
+export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
   private expedienteService = inject(ExpedienteService);
-  actoAdmin5: boolean = false;
+  actoAdmin6: boolean = false;
   sendedToSign: boolean = false;
   signatureDocState: string = "";
   nifDocGenerado: string = "";
@@ -88,7 +88,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
     this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
 
-  get stateClassActAdmin5(): string {
+  get stateClassActAdmin6(): string {
     const map: Record<string, string> = {
       NOT_STARTED: 'req-state--not-started',
       IN_PROCESS: 'req-state--in-process',
@@ -99,7 +99,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
   }
 
   ngOnInit(): void {
-    this.actoAdminService.getByNameAndTipoTramite('isba_5_propuesta_resolucion_prov_favorable', 'ADR-ISBA')
+    this.actoAdminService.getByNameAndTipoTramite('isba_6_propuesta_resolucion_prov_favorable_con_requerimiento', 'ADR-ISBA')
       .subscribe((docDataString: ActoAdministrativoDTO) => {
         this.signedBy = docDataString.signedBy;
       });
@@ -123,12 +123,12 @@ export class PrProvisionalFavorableAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_favorable_sin_requerimiento')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_favorable_con_requerimiento')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin5 = false;
+          this.actoAdmin6 = false;
           if (docActoAdmin.length === 1) {
-            this.actoAdmin5 = true;
+            this.actoAdmin6 = true;
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo;
             this.nameDocGenerado = docActoAdmin[0].name;
             this.lastInsertId = docActoAdmin[0].id;
@@ -140,7 +140,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin5 = false;
+          this.actoAdmin6 = false;
         }
       })
   }
@@ -192,10 +192,12 @@ export class PrProvisionalFavorableAdrIsbaComponent {
 
         /* Fechas formateadas */
         const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedFecha_notif_req = formatDate(this.form.get('fecha_requerimiento_notif')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_REC_enmienda = formatDate(this.form.get('fecha_REC_enmienda')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
         const formattedFecha_infor = formatDate(this.form.get('fecha_infor_fav_desf')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_aval_idi_isba = formatDate(this.form.get('fecha_aval_idi_isba')?.value, 'dd/MM/yyyy', 'es-ES');
 
-        /* Importes monetarios formateado */
+        /* Importes monetarios formateados */
         const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
         const formattedImporte_intereses = this.commonService.formatCurrency(this.form.get('intereses_ayuda_solicita_idi_isba')?.value);
         const formattedImporte_aval = this.commonService.formatCurrency(this.form.get('coste_aval_solicita_idi_isba')?.value);
@@ -214,6 +216,8 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%FECHAINFORME%/g, formattedFecha_infor);
         rawTexto = rawTexto.replace(/%FECHA_AVAL%/g, formattedFecha_aval_idi_isba);
         rawTexto = rawTexto.replace(/%ANYOS_DURACION_AVAL%/g, this.form.get('plazo_aval_idi_isba')?.value);
+        rawTexto = rawTexto.replace(/%FECHAENMIENDA%/g, formattedFecha_REC_enmienda);
+        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_REQUERIMIENTO%/g, formattedFecha_notif_req);
 
         // Mejoras
         if (this.tieneMejoras) {
@@ -241,11 +245,13 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         const x = marginLeft + 110;
         const y = 51;
 
+        console.log(jsonObject)
+
         // Primera página
         doc.setFont('helvetica', 'bold');
         doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 25, 20, 75, 15);
         doc.setFontSize(8);
-        doc.text("Document: proposta de resolució provisional", x, 45);
+        doc.text(doc.splitTextToSize("Document: proposta de resolució provisional", maxTextWidth), x, 45);
         doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, x, 48);
         if (this.actualEmpresa.length > maxCharsPerLine) {
           const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
@@ -266,9 +272,9 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80);
         doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 100);
         doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2_3_4_5, maxTextWidth), marginLeft + 5, 110);
+        doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2_3_4_5_6, maxTextWidth), marginLeft + 5, 110);
         if (this.tieneMejoras) {
-          doc.text(doc.splitTextToSize(jsonObject.antecedentes_m, maxTextWidth), marginLeft + 10, 222);
+          doc.text(doc.splitTextToSize(jsonObject.antecedentes_m, maxTextWidth), marginLeft + 10, 215);
         };
 
         // Segunda página
@@ -282,8 +288,8 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
 
         doc.setFontSize(10);
-        doc.text(doc.splitTextToSize(jsonObject.antecedentes_6_7_8_9_10, maxTextWidth), marginLeft + 5, 60);
-        
+        doc.text(doc.splitTextToSize(jsonObject.antecedentes_7_8_9_10_11_12, maxTextWidth), marginLeft + 5, 60);
+
         // Tercera página
         doc.addPage();
         doc.setFont('helvetica', 'normal');
@@ -298,8 +304,8 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         doc.setFont('helvetica', 'bold');
         doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
         doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft + 5, 70);
-        doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt_2, maxTextWidth), marginLeft + 5, 128);
+        doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt_1_2_3_4_5, maxTextWidth), marginLeft + 5, 70);
+        doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt_6_7_8_9, maxTextWidth), marginLeft + 5, 122);
 
         // Cuarta página
         doc.addPage();
@@ -315,8 +321,10 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         doc.setFont('helvetica', 'bold');
         doc.text(doc.splitTextToSize(jsonObject.propuestaresoluciondef_tit, maxTextWidth), marginLeft, 60);
         doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.propuestaresoluciondef_1_2_3_4_5_6, maxTextWidth), marginLeft + 5, 70);
-        doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+        doc.text(doc.splitTextToSize(jsonObject.propuestaresoluciondef_1_2_3, maxTextWidth), marginLeft + 5, 70);
+        doc.text(doc.splitTextToSize(jsonObject.propuestaresoluciondef_4_5, maxTextWidth), marginLeft + 5, 155);
+        doc.text(doc.splitTextToSize(jsonObject.alegaciones, maxTextWidth), marginLeft, 190);
+        doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 230);
 
         // Convertir a Blob
         const pdfBlob = doc.output('blob');
@@ -343,8 +351,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            // Delete documentos previamente generados para evitar duplicados
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_favorable_sin_requerimiento')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_favorable_con_requerimiento')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);
@@ -374,26 +381,34 @@ export class PrProvisionalFavorableAdrIsbaComponent {
     const fecha_REC = this.form.get('fecha_REC')?.value;
     const ref_REC = this.form.get('ref_REC')?.value;
     const fecha_infor_fav_desf = this.form.get('fecha_infor_fav_desf')?.value;
+    const fecha_REC_enmienda = this.form.get('fecha_REC_enmienda')?.value;
+    const ref_REC_enmienda = this.form.get('ref_REC_enmienda')?.value;
 
     if (!fecha_REC?.trim() || fecha_REC?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC')
+    }
+    if (!fecha_infor_fav_desf?.trim() || fecha_infor_fav_desf?.trim() === "0000-00-00") {
+      this.camposVacios.push('FORM.fecha_infor_fav_desf')
+    }
+    if (!fecha_REC_enmienda?.trim() || fecha_REC_enmienda?.trim() === "0000-00-00 00:00:00") {
+      this.camposVacios.push('FORM.FECHA_REC_ENMIENDA')
     }
 
     if (!ref_REC?.trim()) {
       this.camposVacios.push('FORM.REF_REC')
     }
 
-    if (!fecha_infor_fav_desf?.trim() || fecha_infor_fav_desf?.trim() === "0000-00-00") {
-      this.camposVacios.push('FORM.fecha_infor_fav_desf')
+    if (!ref_REC_enmienda?.trim()) {
+      this.camposVacios.push('FORM.REF_REC_ENMIENDA')
     }
 
     this.faltanCampos = this.camposVacios.length > 0;
   }
 
   /**
-   * Método que comprueba si tiene mejoras y, en caso de tener alguna, 
-   * asigna los datos necesarios a las propiedades.
-   */
+ * Método que comprueba si tiene mejoras y, en caso de tener alguna, 
+ * asigna los datos necesarios a las propiedades.
+ */
   private checkMejoras(): void {
     this.tieneMejoras = false;
     this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
@@ -401,12 +416,13 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         switchMap((nMejoras: any) => {
           if (nMejoras.total_mejoras > 0) {
             this.tieneMejoras = true;
-            return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID).pipe(
-              tap((ultimaMejora: MejoraSolicitudDTO) => {
-                this.ref_ultima_mejora = ultimaMejora.ref_rec_mejora;
-                this.fecha_ultima_mejora = ultimaMejora.fecha_rec_mejora;
-              })
-            )
+            return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID)
+              .pipe(
+                tap((ultimaMejora: MejoraSolicitudDTO) => {
+                  this.ref_ultima_mejora = ultimaMejora.ref_rec_mejora;
+                  this.fecha_ultima_mejora = ultimaMejora.fecha_rec_mejora;
+                })
+              )
           } else {
             return of(null);
           }
@@ -425,7 +441,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
               next: (response: any) => {
                 const mensaje =
                   response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                this.actoAdmin5 = true;
+                this.actoAdmin6 = true;
                 this.commonService.showSnackBar(mensaje);
               },
               error: (updateErr) => {
@@ -434,7 +450,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
                   '⚠️ Documento generado, pero error al actualizar el expediente.';
                 this.commonService.showSnackBar(updateErrorMsg);
               }
-            });
+            })
         } else {
           this.commonService.showSnackBar(
             '⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.'
@@ -462,16 +478,16 @@ export class PrProvisionalFavorableAdrIsbaComponent {
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
     const ext = extension.toLowerCase();
-    if (ext === 'jpg' || ext === 'jpeg') {
-      this.imageUrl = sanitizedUrl;
-      this.pdfUrl = null;
+    if (ext === "jpg" || ext === "jpeg") {
       this.showImageViewer = true;
       this.showPdfViewer = false;
+      this.pdfUrl = null;
+      this.imageUrl = sanitizedUrl;
     } else {
+      this.showImageViewer = false;
+      this.showPdfViewer = true;
       this.pdfUrl = sanitizedUrl;
       this.imageUrl = undefined;
-      this.showPdfViewer = true;
-      this.showImageViewer = false;
     }
   }
 
@@ -482,14 +498,14 @@ export class PrProvisionalFavorableAdrIsbaComponent {
 
   sendActoAdminToSign(nif: string, folder: string, filename: string, extension: string): void {
     // Limpiar estados previos
-    this.error = undefined;
     this.response = undefined;
+    this.error = undefined;
     this.loading = true;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
 
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'ceo' ? this.ceoEmail : this.userLoginEmail,
+      adreca_mail: this.signedBy === "ceo" ? this.ceoEmail : this.userLoginEmail,
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
@@ -511,7 +527,6 @@ export class PrProvisionalFavorableAdrIsbaComponent {
           this.commonService.showSnackBar(msg);
         }
       })
-
   }
 
   getSignState(publicAccessId: string): void {

@@ -274,18 +274,13 @@
                     [actualIdExp]="actualIdExp" [actualNif]="actualNif"
                     [actualConvocatoria]="actualConvocatoria"
                     [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-pr-provisional-favorable-adr-isba>
+                    <app-pr-provisional-favorable-con-requerimiento-adr-isba
+                    [form]="form" [actualID]="actualID"
+                    [actualIdExp]="actualIdExp" [actualNif]="actualNif"
+                    [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-pr-provisional-favorable-con-requerimiento-adr-isba>
 
                     <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONPROVISIONALCONREQUERIMIENTO' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <!-- Campos requeridos: 5
-                             fecha_REC, ref_REC, fecha_infor_fav_desf, 
-                             fecha_REC_enmienda, ref_REC_enmienda
-                            -->
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONDEFINITIVA' | translate}}</mat-panel-title>
