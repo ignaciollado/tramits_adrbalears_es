@@ -131,7 +131,7 @@ private expedienteService = inject(ExpedienteService)
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-    if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00') {
+    if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
       alert ("Falta indicar la fecha SEU sol·licitud")
       return
     }
@@ -477,12 +477,12 @@ private expedienteService = inject(ExpedienteService)
 
   getCreatedRequests() {
    
-      let initDate= "2025/01/01"
-      let endDate= "2025/08/20"
+    let initDate= "2025/01/01"
+    let endDate= "2025/08/21"
 
     this.viafirmaService.countCreatedSignatureRequest(initDate, endDate)
       .subscribe((totalRequest:any) => {
-        console.log("totalRequests", totalRequest)
+        console.log("total documentos firmados: ", totalRequest)
       })
   }
 }

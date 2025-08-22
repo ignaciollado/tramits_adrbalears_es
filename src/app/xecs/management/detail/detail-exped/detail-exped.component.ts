@@ -130,6 +130,7 @@ export class XecsDetailExpedComponent {
   telefono_rep: string | undefined
   email_rep: string | undefined
   motivoRequerimiento: string = ""
+  motivoDenegacion: string = ""
   reqGenerado: boolean = false
   lineaXecsConfig: PindustLineaAyudaDTO[] = []
 
@@ -291,6 +292,7 @@ getExpedDetail(id: number) {
         this.email_rep = expediente.email_rep
         this.telefono_rep = expediente.telefono_rep
         this.motivoRequerimiento = expediente.motivoRequerimiento
+        this.motivoDenegacion = expediente.motivoDenegacion
 
         this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');

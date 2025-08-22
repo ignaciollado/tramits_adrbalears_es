@@ -105,7 +105,7 @@ export class RequerimientoComponent implements OnChanges {
     this.formRequerimiento
       .get('motivoRequerimiento')
       ?.setValue(this.motivoRequerimiento);
-  }
+    }
   }
 
   tieneTodosLosValores(): boolean {

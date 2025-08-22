@@ -94,7 +94,7 @@ export class PrProvisionalFavorableComponent {
     }
   }
   
-  private tieneTodosLosValores(): boolean {
+  tieneTodosLosValores(): boolean {
     return (
       this.actualID != null &&
       this.actualIdExp != null &&
@@ -128,7 +128,7 @@ export class PrProvisionalFavorableComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-    if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00') {
+    if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
       alert ("Falta indicar la fecha SEU sol·licitud")
       return
     }
@@ -136,8 +136,8 @@ export class PrProvisionalFavorableComponent {
       alert ("Falta indicar la Referència SEU de la sol·licitud")
       return
     }
-    if(this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00') {
-      alert ("Falta indicar la decha de Firma informe favorable / desfavorable")
+    if(this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
+      alert ("Falta indicar la fecha de Firma informe favorable / desfavorable")
       return
     }
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
