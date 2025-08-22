@@ -25,6 +25,7 @@ import { CustomValidatorsService } from '../../../../Services/custom-validators.
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { MejorasSolicitudDetalleAdrIsbaComponent } from '../../../mejoras-solicitud-detalle/mejoras-solicitud-detalle.component';
+import { PrProvisionalFavorableAdrIsbaComponent } from "../../../../actos-admin-adr-isba/pr-provisional-favorable/pr-provisional-favorable.component";
 
 @Component({
   selector: 'app-detail-exped',
@@ -37,10 +38,11 @@ import { MejorasSolicitudDetalleAdrIsbaComponent } from '../../../mejoras-solici
     MatCardModule, MatSnackBarModule,
     MatRadioModule,
     MatExpansionModule, MejorasSolicitudDetalleAdrIsbaComponent,
-    RequerimientoAdrIsbaComponent, 
+    RequerimientoAdrIsbaComponent,
     ResolDesestimientoNoEnmendarAdrIsbaComponent, InformeFavorableAdrIsbaComponent,
-    InformeFavorableConRequerimientoAdrIsbaComponent
-  ],
+    InformeFavorableConRequerimientoAdrIsbaComponent,
+    PrProvisionalFavorableAdrIsbaComponent
+],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
 })
