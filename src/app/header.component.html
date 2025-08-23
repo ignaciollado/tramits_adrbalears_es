@@ -1,53 +1,84 @@
 <header>
-  <button ngClass="main-menu" matButton [matMenuTriggerFor]="gestorTramits"><mat-icon>menu</mat-icon></button>
-    <mat-menu #gestorTramits="matMenu" yPosition="above">
-      <h2>{{ 'HEADER.TITLE' | translate }}</h2>
-      <nav ngClass="navbar navbar-expand-lg navbar-light bg-light">
-      <section ngClass="container-fluid main-menu">
-        <a mat-menu-item ngClass="nav-link" [routerLink]="['home']">Home</a>
-        <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-grant-subsidies-application-form']">{{ 'HEADER.XECSAPPFORM' | translate }}</a>
-        <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-grant-subsidies-application-form']">{{ 'HEADER.ISBAAPPFORM' | translate }}</a>
-        <a mat-menu-item ngClass="nav-link" [routerLink]="['ils-grant-subsidies-application-form']">{{ 'HEADER.ILSAPPFORM' | translate }}</a>
-        <hr>
-        <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-management']">{{ 'HEADER.XECSMANAGEMENT' | translate }}</a>
-        <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-management']">{{ 'HEADER.ISBAMANAGEMENT' | translate }}</a>
-        <a mat-menu-item ngClass="nav-link" [routerLink]="['ils-management']">{{ 'HEADER.ILSMANAGEMENT' | translate }}</a>
-        <hr>
-        <a mat-menu-item ngClass="nav-link" [routerLink]="['actos-admin-list']">{{ 'HEADER.ACTOSADMINMANAGEMENT' | translate }}</a>
-        <hr>
+  <div class="header-container" style="display: flex; justify-content: space-between; align-items: center;">
+    <!-- Menú principal a la izquierda -->
+    <div class="main-menu-container">
+      <button ngClass="main-menu" matButton [matMenuTriggerFor]="gestorTramits">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #gestorTramits="matMenu" yPosition="above">
+        <h2>{{ 'HEADER.TITLE' | translate }}</h2>
+        <nav ngClass="navbar navbar-expand-lg navbar-light bg-light">
+          <section ngClass="container-fluid main-menu">
+            <!-- Enlaces de navegación -->
+            <a mat-menu-item ngClass="nav-link" [routerLink]="['home']">Home</a>
+            <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-grant-subsidies-application-form']">{{ 'HEADER.XECSAPPFORM' | translate }}</a>
+            <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-grant-subsidies-application-form']">{{ 'HEADER.ISBAAPPFORM' | translate }}</a>
+            <a mat-menu-item ngClass="nav-link" [routerLink]="['ils-grant-subsidies-application-form']">{{ 'HEADER.ILSAPPFORM' | translate }}</a>
+            <hr>
+            <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-management']">{{ 'HEADER.XECSMANAGEMENT' | translate }}</a>
+            <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-management']">{{ 'HEADER.ISBAMANAGEMENT' | translate }}</a>
+            <a mat-menu-item ngClass="nav-link" [routerLink]="['ils-management']">{{ 'HEADER.ILSMANAGEMENT' | translate }}</a>
+            <hr>
+            <a mat-menu-item ngClass="nav-link" [routerLink]="['actos-admin-list']">{{ 'HEADER.ACTOSADMINMANAGEMENT' | translate }}</a>
+            <hr>
+            <!-- Enlaces externos -->
+            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://inbox.viafirma.com/inbox/app/idi/'>{{'HEADER.SIGNATUREHOLDER' | translate}}</a>
+            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://rec.redsara.es/registro/action/are/acceso.do'>Registro Electrónico Común (REC)</a>
+            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://notifica.redsara.es/'>Notifica</a>
+            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://intranet.caib.es/notib/notificacio'>Notificaciones y comunicaciones electrónicas (NOTIB)</a>
+            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://intranet.caib.es/pinbal/index'>Plataforma de interoperatibidad (PINBAL)</a>
+            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://www.caib.es/seucaib/'>Sede electrónica CAIB</a>
+            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://inbox.viafirma.com/inbox/app/idi/verificacion/index.jsf'>Servicio de consulta de CSV ADR Balears</a>
+            <a mat-menu-item ngClass="nav-link" target="_blank" href='https://valide.redsara.es/valide/validarCertificado/ejecutar.html'>VALIDe (herramienta para verificar la validez de los documentos firmados</a>
+            <hr>
+            <a mat-menu-item ngClass="nav-link" (click)="logout()">{{ 'HEADER.LOGOUT' | translate }}</a>
+          </section>
+        </nav>
+      </mat-menu>
+    </div>
 
-          <a mat-menu-item ngClass="nav-link" target="_blank" href='https://inbox.viafirma.com/inbox/app/idi/'>{{'HEADER.SIGNATUREHOLDER' | translate}}</a>
-          <a mat-menu-item ngClass="nav-link" target="_blank" href='https://rec.redsara.es/registro/action/are/acceso.do'>Registro Electrónico Común (REC)</a>
-          <a mat-menu-item ngClass="nav-link" target="_blank" href='https://notifica.redsara.es/'>Notifica</a>
-          <a mat-menu-item ngClass="nav-link" target="_blank" href='https://intranet.caib.es/notib/notificacio'>Notificaciones y comunicaciones electrónicas (NOTIB)</a>
-          <a mat-menu-item ngClass="nav-link" target="_blank" href='https://intranet.caib.es/pinbal/index'>Plataforma de interoperatibidad (PINBAL)</a>
-          <a mat-menu-item ngClass="nav-link" target="_blank" href='https://www.caib.es/seucaib/'>Sede electrónica CAIB</a>
-          <a mat-menu-item ngClass="nav-link" target="_blank" href='https://inbox.viafirma.com/inbox/app/idi/verificacion/index.jsf'>Servicio de consulta de CSV ADR Balears</a>
-          <a mat-menu-item ngClass="nav-link" target="_blank" href='https://valide.redsara.es/valide/validarCertificado/ejecutar.html'>VALIDe (herramienta para verificar la validez de los documentos firmados</a>
+    <!-- Menú contextual a la derecha -->
+    <div class="right-menu-container">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
 
-        <hr>
-        <a mat-menu-item ngClass="nav-link" (click)="logout()">{{ 'HEADER.LOGOUT' | translate }}</a>
-      </section>
-  </nav> 
-</mat-menu>
-<form [formGroup]="languageForm" class="language-form-row">
-  <!-- Toggle -->
-  <div class="toggle-container">
-    <mat-slide-toggle color="primary" formControlName="entorno">
-      {{ languageForm.get('entorno')?.value ? 'Entorno Tràmits' : 'Entorno Pre-tràmits' }}
-    </mat-slide-toggle>
+  <!-- Formulario de idioma -->
+  <form [formGroup]="languageForm" class="language-form-row">
+    <div class="toggle-container">
+      <mat-slide-toggle color="primary" formControlName="entorno">
+        {{ languageForm.get('entorno')?.value ? 'Entorno Tràmits' : 'Entorno Pre-tràmits' }}
+      </mat-slide-toggle>
+    </div>
+    <div class="select-container">
+      <mat-form-field appearance="outline">
+        <mat-label>Idioma preferido</mat-label>
+        <mat-select formControlName="preferredLang" (selectionChange)="onLanguageChange()">
+          <mat-option value="es-ES">Castellano</mat-option>
+          <mat-option value="ca-ES">Català</mat-option>
+          <mat-option value="en-EN">English</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+
+
+      <!--   <button mat-menu-item>
+          <mat-icon>dialpad</mat-icon>
+          <span>Redial</span>
+        </button>
+        <button mat-menu-item disabled>
+          <mat-icon>voicemail</mat-icon>
+          <span>Check voice mail</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>Disable alerts</span>
+        </button> -->
+      </mat-menu>
+    </div>
   </div>
 
-  <!-- Select -->
-  <div class="select-container">
-    <mat-form-field appearance="outline">
-      <mat-label>Idioma preferido</mat-label>
-      <mat-select formControlName="preferredLang" (selectionChange)="onLanguageChange()">
-        <mat-option value="es-ES">Castellano</mat-option>
-        <mat-option value="ca-ES">Català</mat-option>
-        <mat-option value="en-EN">English</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-</form>
+
 </header>
