@@ -28,7 +28,6 @@ import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
   styleUrl: './pr-definitiva-favorable.component.scss'
 })
 export class PrDefinitivaFavorableComponent {
-  private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
   noDenegationReasonText:boolean = true
   actoAdmin11: boolean = false
@@ -179,7 +178,6 @@ export class PrDefinitivaFavorableComponent {
       rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
       rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
       rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
-      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
       rawTexto = rawTexto.replace(/%FECHAPROPUESTARESOLUCION_PROVISIONAL%/g, this.commonService.formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value));
       rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PROP_RESOL_PROVISIONAL%/g, this.commonService.formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value));
       rawTexto = rawTexto.replace(/%FECHAREQ%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
@@ -482,7 +480,7 @@ export class PrDefinitivaFavorableComponent {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    this.actoAdminService.getByNameAndTipoTramite('10_propuesta_resolucion_provisional_desfavorable_con_requerimiento', 'XECS')
+    this.actoAdminService.getByNameAndTipoTramite('11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 'XECS')
       .subscribe((docDataString: any) => {
         this.signedBy = docDataString.signedBy
         if (!this.signedBy) {
