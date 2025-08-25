@@ -279,13 +279,9 @@
           <app-pr-provisional-desfavorable-con-requerimiento [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite" [motivoDenegacion] = "motivoDenegacion"></app-pr-provisional-desfavorable-con-requerimiento>
-    <!-- <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONDEFINITIVAFAVORABLE' | translate}} </mat-panel-title>
-    </mat-expansion-panel-header>
-    <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-  </mat-expansion-panel> -->
-  <app-pr-definitiva-favorable></app-pr-definitiva-favorable>
+          <app-pr-definitiva-favorable [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
+          [actualTipoTramite]="actualTipoTramite" [motivoDenegacion] = "motivoDenegacion"></app-pr-definitiva-favorable>
 <!--     <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> {{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONDEFINITIVAFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
