@@ -302,14 +302,14 @@ private fb = inject(FormBuilder)
       const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
       doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
       doc.text(secondLine, xHeader, yHeader + 3);
-      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
-      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
-      doc.text("Codi SIA: xxxxxxxxxx", xHeader, yHeader + 12);
+      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 4);
+      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 7);
+      doc.text("Codi SIA: xxxxxxxxxx", xHeader, yHeader + 10);
     } else {
       doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
-      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 5);
-      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 8);
-      doc.text("Codi SIA: xxxxxxxxxx", xHeader, yHeader + 11);
+      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 3);
+      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 6);
+      doc.text("Codi SIA: xxxxxxxxxx", xHeader, yHeader + 9);
     }
 
     doc.setFontSize(10);
