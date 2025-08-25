@@ -27,7 +27,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class InformeDesfavorableConRequerimientoComponent {
 private expedienteService = inject(ExpedienteService)
-  actoAdmin5: boolean = false
+  actoAdminName:string = "doc_informe_desfavorable_con_requerimiento"
+  actoAdmin6: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
   userLoginEmail: string = ""
@@ -108,12 +109,12 @@ private expedienteService = inject(ExpedienteService)
   }
 
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_desfavorable_con_requerimiento')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin5 = false
+          this.actoAdmin6 = false
           if (docActoAdmin.length === 1) {
-            this.actoAdmin5 = true
+            this.actoAdmin6 = true
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo
             this.nameDocgenerado = docActoAdmin[0].name
             this.lastInsertId = docActoAdmin[0].id
@@ -125,7 +126,7 @@ private expedienteService = inject(ExpedienteService)
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin5 = false; 
+          this.actoAdmin6 = false; 
         }
       });
   }
@@ -323,7 +324,7 @@ private expedienteService = inject(ExpedienteService)
 
         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_con_requerimiento')
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar
@@ -364,7 +365,7 @@ private expedienteService = inject(ExpedienteService)
               const mensaje =
                 response?.message ||
                 '✅ Acto administrativo generado y expediente actualizado correctamente.';
-              this.actoAdmin5 = true;
+              this.actoAdmin6 = true;
               this.commonService.showSnackBar(mensaje);
             },
             error: (updateErr) => {

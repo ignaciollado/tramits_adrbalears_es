@@ -30,6 +30,7 @@ import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 export class PrDefinitivaDesfavorableConRequerimientoComponent {
 private expedienteService = inject(ExpedienteService)
   noDenegationReasonText:boolean = true
+  actoAdminName:string = "doc_prop_res_def_desfavorable_con_req"
   actoAdmin14: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -110,7 +111,7 @@ private expedienteService = inject(ExpedienteService)
   ngOnInit(): void { }
   
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_def_desfavorable_con_req')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin14 = false
@@ -183,7 +184,7 @@ private expedienteService = inject(ExpedienteService)
       rawTexto = rawTexto.replace(/%FECHAREQUERIMENT%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento')?.value));
       rawTexto = rawTexto.replace(/%FECHAESMENA%/g, this.commonService.formatDate(this.form.get('fecha_REC_enmienda')?.value));
       rawTexto = rawTexto.replace(/%TEXTOLIBRE%/g, this.motivoDenegacion)
-      
+
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
@@ -376,7 +377,7 @@ private expedienteService = inject(ExpedienteService)
 
         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_def_favorable_con_req')
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar

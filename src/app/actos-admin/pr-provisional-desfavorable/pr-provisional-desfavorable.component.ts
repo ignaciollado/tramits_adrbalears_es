@@ -32,6 +32,7 @@ export class PrProvisionalDesfavorableComponent {
   private expedienteService = inject(ExpedienteService)
   formPRProvDesf!: FormGroup
   noDenegationReasonText:boolean = true
+  actoAdminName: string = "doc_propuesta_resolucion_provisional_desfavorable_sin_requerimiento"
   actoAdmin9: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -121,7 +122,7 @@ export class PrProvisionalDesfavorableComponent {
   }
   
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_desfavorable_sin_requerimiento')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin9 = false
@@ -371,7 +372,7 @@ export class PrProvisionalDesfavorableComponent {
 
         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_desfavorable_sin_requerimiento')
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar

@@ -27,6 +27,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class InformeFavorableComponent {
   private expedienteService = inject(ExpedienteService)
+  actoAdminName = "doc_informe_favorable_sin_requerimiento"
   actoAdmin3: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -107,7 +108,7 @@ export class InformeFavorableComponent {
   }
 
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_sin_requerimiento')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin3 = false
@@ -308,7 +309,7 @@ export class InformeFavorableComponent {
 
         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_sin_requerimiento')
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar

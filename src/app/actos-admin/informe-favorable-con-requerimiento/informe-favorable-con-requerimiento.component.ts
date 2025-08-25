@@ -28,7 +28,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class InformeFavorableConRequerimientoComponent {
   private expedienteService = inject(ExpedienteService)
-  actoAdmin3: boolean = false
+  actoAdminName: string = "doc_informe_favorable_con_requerimiento"
+  actoAdmin4: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
   userLoginEmail: string = ""
@@ -106,12 +107,12 @@ export class InformeFavorableConRequerimientoComponent {
   }
 
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_con_requerimiento')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin3 = false
+          this.actoAdmin4 = false
           if (docActoAdmin.length === 1) {
-            this.actoAdmin3 = true
+            this.actoAdmin4 = true
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo
             this.nameDocgenerado = docActoAdmin[0].name
             this.lastInsertId = docActoAdmin[0].id
@@ -123,7 +124,7 @@ export class InformeFavorableConRequerimientoComponent {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin3 = false; 
+          this.actoAdmin4 = false; 
         }
       });
   }
@@ -317,7 +318,7 @@ export class InformeFavorableConRequerimientoComponent {
 
         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_con_requerimiento')
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar
@@ -358,7 +359,7 @@ export class InformeFavorableConRequerimientoComponent {
               const mensaje =
                 response?.message ||
                 '✅ Acto administrativo generado y expediente actualizado correctamente.';
-              this.actoAdmin3 = true;
+              this.actoAdmin4 = true;
               this.commonService.showSnackBar(mensaje);
             },
             error: (updateErr) => {

@@ -27,7 +27,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class InformeDesfavorableComponent {
   private expedienteService = inject(ExpedienteService)
-  actoAdmin6: boolean = false
+  actoAdminName: string = "doc_informe_desfavorable_sin_requerimiento"
+  actoAdmin5: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
   userLoginEmail: string = ""
@@ -107,12 +108,12 @@ export class InformeDesfavorableComponent {
   }
 
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_desfavorable_sin_requerimiento')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin6 = false
+          this.actoAdmin5 = false
           if (docActoAdmin.length === 1) {
-            this.actoAdmin6 = true
+            this.actoAdmin5 = true
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo
             this.nameDocgenerado = docActoAdmin[0].name
             this.lastInsertId = docActoAdmin[0].id
@@ -124,7 +125,7 @@ export class InformeDesfavorableComponent {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin6 = false; 
+          this.actoAdmin5 = false; 
         }
       });
   }
@@ -359,7 +360,7 @@ export class InformeDesfavorableComponent {
               const mensaje =
                 response?.message ||
                 '✅ Acto administrativo generado y expediente actualizado correctamente.';
-              this.actoAdmin6 = true;
+              this.actoAdmin5 = true;
               this.commonService.showSnackBar(mensaje);
             },
             error: (updateErr) => {

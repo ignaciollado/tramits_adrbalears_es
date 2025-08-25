@@ -30,6 +30,7 @@ import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 export class PrDefinitivaDesfavorableComponent {
 private expedienteService = inject(ExpedienteService)
   noDenegationReasonText:boolean = true
+  actoAdminName:string = "doc_prop_res_def_desfavorable_sin_req"
   actoAdmin13: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -110,7 +111,7 @@ private expedienteService = inject(ExpedienteService)
   ngOnInit(): void { }
   
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_def_desfavorable_sin_req')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin13 = false
@@ -376,7 +377,7 @@ private expedienteService = inject(ExpedienteService)
 
         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_def_favorable_con_req')
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar

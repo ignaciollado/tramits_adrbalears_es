@@ -32,6 +32,7 @@ private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
   formPRProvDesfConReq!: FormGroup
   noDenegationReasonText:boolean = true
+  actoAdminName:string = "doc_propuesta_resolucion_provisional_desfavorable_con_requerimiento"
   actoAdmin10: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -121,7 +122,7 @@ private fb = inject(FormBuilder)
   }
   
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_desfavorable_con_requerimiento')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin10 = false
@@ -388,7 +389,7 @@ private fb = inject(FormBuilder)
 
         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_desfavorable_con_requerimiento')
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, this.actoAdminName)
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar

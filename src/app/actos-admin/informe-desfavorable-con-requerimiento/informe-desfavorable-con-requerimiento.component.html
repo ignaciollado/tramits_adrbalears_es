@@ -1,11 +1,11 @@
 <mat-accordion [ngClass]="['detalle-formulario', 'req-state', stateClass]">
    <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title> 6. {{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
+      <mat-panel-title> 6. {{'ACTOSADMINISTRATIVOS.INFORMEDESFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
     </mat-expansion-panel-header>
     <button mat-raised-button color="accent" (click)="generateActoAdmin('5_informe_desfavorable_con_requerimiento', 'XECS', 'informe_desfavorable_con_requerimiento')">Generar</button>
-    <button mat-raised-button color="accent" (click)="actoAdmin5 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('5_informe_desfavorable_con_requerimiento', 'XECS', 'informe_desfavorable_con_requerimiento')" [disabled]="!actoAdmin5">Ver documento</button>
-    <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin5">Send to sign</button>
+    <button mat-raised-button color="accent" (click)="actoAdmin6 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('5_informe_desfavorable_con_requerimiento', 'XECS', 'informe_desfavorable_con_requerimiento')" [disabled]="!actoAdmin6">Ver documento</button>
+    <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin6">Send to sign</button>
     -{{signedBy}}-<section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
       <section *ngIf="signatureDocState === 'COMPLETED'">
         <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
@@ -15,7 +15,7 @@
         <span>Pendiente de firma.</span><br>
         <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
         <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
-        <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin5">Send to sign again</button>
+        <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin6">Send to sign again</button>
       </section>
       <section *ngIf="signatureDocState === 'IN_PROCESS'">
         <span>Firma en curso</span>
