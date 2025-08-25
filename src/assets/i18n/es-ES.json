@@ -415,6 +415,7 @@
     "PROPUESTARESOLUCIONDEFINITIVAFAVORABLECONREQUERIMIENTO": "Propuesta de resolución definitiva favorable con requerimiento",
     "PROPUESTARESOLUCIONDEFINITIVADESFAVORABLE": "Propuesta de resolución definitiva desfavorable",
     "PROPUESTARESOLUCIONDEFINITIVADESFAVORABLECONREQUERIMIENTO": "Propuesta de resolución definitiva desfavorable con requerimiento",
+    "PROPUESTARESOLUCIONDEFINITIVACONREQUERIMIENTO": "Propuesta de resolución definitiva con requerimiento",
     "RESOLUCIONCONCESIONFAVORABLE": "Resolución concesión favorable",
     "RESOLUCIONCONCESIONFAVORABLECONREQUERIMIENTO": "Resolución concesión favorable con requerimiento",
     "RESOLUCIONDENEGACION": "Resolución de denegación",
@@ -426,6 +427,8 @@
     "MODELOSEGUIMIENTO": "Enviar Modelo seguimiento",
     "RESOLUCIONRENOVACIONMARCA": "Resolución de renovación de marca",
     "RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO": "Resolución de renovación de marca con requerimiento",
+    "RESOLUCIONCONCESION": "Resolución de concesión",
+    "RESOLUCIONCONCESIONCONREQUERIMIENTO": "Resolución de concesión con requerimiento",
     "RESOLUCIONREVOCACION": "Resolución de revocación"
   },
   "COMMON": {
