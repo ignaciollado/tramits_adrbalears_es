@@ -1,7 +1,7 @@
 <mat-accordion [ngClass]="['detalle-formulario', 'req-state', stateClass]">
    <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title> {{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
+      <mat-panel-title> 6. {{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
     </mat-expansion-panel-header>
     <button mat-raised-button color="accent" (click)="generateActoAdmin('5_informe_desfavorable_con_requerimiento', 'XECS', 'informe_desfavorable_con_requerimiento')">Generar</button>
     <button mat-raised-button color="accent" (click)="actoAdmin5 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('5_informe_desfavorable_con_requerimiento', 'XECS', 'informe_desfavorable_con_requerimiento')" [disabled]="!actoAdmin5">Ver documento</button>

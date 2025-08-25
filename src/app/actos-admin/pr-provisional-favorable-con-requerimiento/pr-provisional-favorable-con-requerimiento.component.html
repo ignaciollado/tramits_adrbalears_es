@@ -1,7 +1,7 @@
 <mat-accordion [ngClass]="['detalle-formulario', 'req-state', stateClass]">
    <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title> {{'ACTOSADMINISTRATIVOS.PROPPUESTARESOLUCIONPROVISIONALFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
+      <mat-panel-title> 8. {{'ACTOSADMINISTRATIVOS.PROPPUESTARESOLUCIONPROVISIONALFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
     </mat-expansion-panel-header>
     <button mat-raised-button color="accent" (click)="generateActoAdmin('8_propuesta_resolucion_provisional_favorable_con_requerimiento', 'XECS', 'propuesta_resolucion_provisional_favorable_con_requerimiento')">Generar</button>
     <button mat-raised-button color="accent" (click)="actoAdmin8 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('8_propuesta_resolucion_provisional_favorable_con_requerimiento', 'XECS', 'propuesta_resolucion_provisional_favorable_con_requerimiento')" [disabled]="!actoAdmin8">Ver documento</button>
