@@ -6,7 +6,7 @@
     <button mat-raised-button color="accent" (click)="generateActoAdmin('11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 'XECS', 'propuesta_resolucion_definitiva_favorable_sin_requerimiento')">Generar</button>
     <button mat-raised-button color="accent" (click)="actoAdmin11 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 'XECS', 'propuesta_resolucion_definitiva_favorable_sin_requerimiento')" [disabled]="!actoAdmin11">Ver documento</button>
     <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin11">Send to sign</button>
-    -{{signedBy}}-<section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
+    <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
       <section *ngIf="signatureDocState === 'COMPLETED'">
         <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
       </section>
@@ -18,8 +18,11 @@
         <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin11">Send to sign again</button>
       </section>
       <section *ngIf="signatureDocState === 'IN_PROCESS'">
-        <span>Firma en curso</span>
+        <span>Firma en curso.</span>
       </section>
+      <section *ngIf="signatureDocState === 'ERROR'">
+        <span>Error al obtener el estado de firma del documento.</span>
+      </section>      
     </section>     
     <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
     <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closeViewActoAdmin()">Cerrar ✖</button>        

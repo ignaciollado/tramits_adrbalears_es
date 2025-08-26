@@ -30,7 +30,7 @@ import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 export class PrDefinitivaFavorableConRequerimientoComponent {
   private expedienteService = inject(ExpedienteService)
   noDenegationReasonText:boolean = true
-  actoAdminName:string = "doc_prop_res_def_favorable_con_req"
+  actoAdminName:string = "doc_propuesta_resolucion_definitiva_favorable_con_requerimiento"
   actoAdmin12: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -143,11 +143,11 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
       return
     }
     if (this.form.get('fecha_requerimiento')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento')?.value === '0000-00-00' || this.form.get('fecha_requerimiento')?.value === null) {
-      alert ("Falta indicar la fecha Data firma requeriment")
+      alert ("Falta indicar la Data firma requeriment")
       return
     }
     if (this.form.get('fecha_REC_enmienda')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC_enmienda')?.value === null) {
-      alert ("Falta indicar la fecha Data SEU esmena")
+      alert ("Falta indicar la Data SEU esmena")
       return
     }
 

@@ -30,7 +30,7 @@ import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 export class PrDefinitivaFavorableComponent {
   private expedienteService = inject(ExpedienteService)
   noDenegationReasonText:boolean = true
-  actoAdminName:string = "doc_prop_res_def_favorable_sin_req"
+  actoAdminName:string = "doc_propuesta_resolucion_definitiva_favorable_sin_requerimiento"
   actoAdmin11: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -135,7 +135,7 @@ export class PrDefinitivaFavorableComponent {
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Falta indicar la fecha SEU sol·licitud")
+      alert ("Falta indicar la Data SEU sol·licitud")
       return
     }
     if (!this.form.get('ref_REC')?.value) {
@@ -144,16 +144,16 @@ export class PrDefinitivaFavorableComponent {
     }
 
     if (this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
-      alert ("Falta indicar la fecha Firma informe favorable / desfavorable")
+      alert ("Falta indicar la Data Firma informe favorable / desfavorable")
       return
     }    
 
     if (this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === null) {
-      alert ("Falta indicar la fecha Data firma proposta resolució provisional")
+      alert ("Falta indicar la Data firma proposta resolució provisional")
       return      
     }
     if (this.form.get('fecha_not_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === null) {
-      alert ("Falta indicar la fecha Data notificació proposta resolució provisional")
+      alert ("Falta indicar la Data notificació proposta resolució provisional")
       return      
     }
 

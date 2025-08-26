@@ -6,7 +6,7 @@
     <button mat-raised-button color="accent" (click)="generateActoAdmin('12_propuesta_resolucion_definitiva_favorable_con_requerimiento', 'XECS', 'propuesta_resolucion_definitiva_favorable_con_requerimiento')">Generar</button>
     <button mat-raised-button color="accent" (click)="actoAdmin12 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('12_propuesta_resolucion_definitiva_favorable_con_requerimiento', 'XECS', 'propuesta_resolucion_definitiva_favorable_con_requerimiento')" [disabled]="!actoAdmin12">Ver documento</button>
     <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin12">Send to sign</button>
-    -{{signedBy}}-<section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
+    <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
       <section *ngIf="signatureDocState === 'COMPLETED'">
         <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
       </section>
