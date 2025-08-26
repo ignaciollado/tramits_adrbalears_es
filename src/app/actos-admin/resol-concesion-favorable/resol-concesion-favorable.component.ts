@@ -294,7 +294,7 @@ private expedienteService = inject(ExpedienteService)
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 130);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_9, maxTextWidth), marginLeft + 5, 140);
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_7, maxTextWidth), marginLeft + 5, 140);
 
     // Salto de página
     doc.addPage();
