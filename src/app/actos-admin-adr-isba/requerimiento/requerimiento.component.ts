@@ -74,7 +74,8 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   @Input() actualTipoTramite!: string;
   @Input() actualEmpresa!: string;
   @Input() motivoRequerimiento!: string;
-
+  @Input() form!: FormGroup;
+  
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private documentosGeneradosService: DocumentosGeneradosService,
