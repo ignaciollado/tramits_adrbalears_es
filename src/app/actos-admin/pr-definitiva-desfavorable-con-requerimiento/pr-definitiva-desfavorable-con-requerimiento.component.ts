@@ -30,7 +30,7 @@ import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 export class PrDefinitivaDesfavorableConRequerimientoComponent {
 private expedienteService = inject(ExpedienteService)
   noDenegationReasonText:boolean = true
-  actoAdminName:string = "doc_prop_res_def_desfavorable_con_req"
+  actoAdminName:string = "doc_propuesta_resolucion_definitiva_desfavorable_con_requerimiento"
   actoAdmin14: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""

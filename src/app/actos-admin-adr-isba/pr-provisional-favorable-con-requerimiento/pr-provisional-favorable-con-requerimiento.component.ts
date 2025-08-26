@@ -220,11 +220,11 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_REQUERIMIENTO%/g, formattedFecha_notif_req);
 
         // Mejoras
-        if (this.tieneMejoras) {
+/*         if (this.tieneMejoras) {
           const formattedFecha_ultima_mejora = formatDate(this.fecha_ultima_mejora, 'dd/MM/yyyy HH:mm', 'es-ES');
           rawTexto = rawTexto.replace(/%FECHARECM%/g, formattedFecha_ultima_mejora);
           rawTexto = rawTexto.replace(/%REFRECM%/g, this.ref_ultima_mejora);
-        }
+        } */
         /* Quedan pendiente: BOIBFECHA, BOIBNUM, DGERENTE */
 
         let jsonObject;
