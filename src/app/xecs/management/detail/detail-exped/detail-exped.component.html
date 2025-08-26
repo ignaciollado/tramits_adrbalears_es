@@ -300,14 +300,9 @@
           <app-resol-denegacion [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite" [motivoDenegacion] = "motivoDenegacion"></app-resol-denegacion>
-<!--     <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{'ACTOSADMINISTRATIVOS.RESOLUCIONDENEGACIONCONREQUERIMIENTO' | translate}} </mat-panel-title>
-    </mat-expansion-panel-header>
-    <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-  </mat-expansion-panel>  --> 
-  <app-resol-denegacion-con-requerimiento></app-resol-denegacion-con-requerimiento>     
-<!-- </mat-accordion> -->
+          <app-resol-denegacion-con-requerimiento [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
+          [actualTipoTramite]="actualTipoTramite" [motivoDenegacion] = "motivoDenegacion"></app-resol-denegacion-con-requerimiento>
       </section>
       <section>
         <h4>Documentos del expediente</h4>

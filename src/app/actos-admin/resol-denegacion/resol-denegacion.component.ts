@@ -328,21 +328,10 @@ private expedienteService = inject(ExpedienteService)
     doc.text(doc.splitTextToSize(jsonObject.propuesta_cab, maxTextWidth), marginLeft, 70);
     doc.setFont('helvetica', 'normal');
     doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth), marginLeft + 5, 80);
-    // Salto de página
-    /* doc.addPage();
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8);
-    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
-    lines = footerText.split('\n');
-    lines.reverse().forEach((line, index) => {
-      const y = pageHeight - 10 - (index * lineHeight);
-      doc.text(line, marginLeft, y);
-    });
-    doc.setFontSize(10);     */
     doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 100);
+    doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 110);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft + 5, 110);
+    doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft + 5, 120);
     doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 240);
 
     // además de generar el pdf del acto administrativo hay que enviarlo al backend
