@@ -131,13 +131,30 @@ export class InformeFavorableConRequerimientoComponent {
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Falta indicar la fecha SEU sol·licitud")
+      alert ("Data SEU sol·licitud")
       return
     }
+
     if (!this.form.get('ref_REC')?.value) {
-      alert ("Falta indicar la Referència SEU de la sol·licitud")
+      alert ("Referència SEU de la sol·licitud")
       return
     }
+
+    if (this.form.get('fecha_REC_enmienda')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC_enmienda')?.value === null) {
+      alert ("Data SEU esmena")
+      return
+    }
+
+    if (this.form.get('fecha_REC_enmienda')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC_enmienda')?.value === null) {
+      alert ("Data SEU esmena")
+      return
+    }
+
+    if (!this.form.get('ref_REC_enmienda')?.value) {
+      alert ("Referència SEU esmena")
+      return
+    }
+
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
@@ -159,8 +176,11 @@ export class InformeFavorableConRequerimientoComponent {
       rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.actualFechaSolicitud));
       rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
       rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
-      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value)); 
-      rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase()); 
+      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
+      rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
+      rawTexto = rawTexto.replace(/%FECHAREQUERIMIENTO%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
+      rawTexto = rawTexto.replace(/%FECHAENMIENDA%/g, this.commonService.formatDate(this.form.get('fecha_REC_enmienda')?.value));
+      rawTexto = rawTexto.replace(/%NUMRECENMIENDA%/g, this.form.get('ref_REC_enmienda')?.value.toUpperCase());
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(

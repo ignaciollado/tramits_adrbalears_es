@@ -1,7 +1,10 @@
 import { Component, inject, Input, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
@@ -16,17 +19,19 @@ import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { finalize, of, switchMap, tap } from 'rxjs';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-informe-desfavorable',
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatExpansionModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './informe-desfavorable.component.html',
   styleUrl: './informe-desfavorable.component.scss'
 })
 export class InformeDesfavorableComponent {
+  private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
+  formInformDesf!: FormGroup
+  noDenegationReasonText:boolean = true
   actoAdminName: string = "doc_informe_desfavorable_sin_requerimiento"
   actoAdmin5: boolean = false
   signedBy: string = ""
@@ -83,6 +88,7 @@ export class InformeDesfavorableComponent {
   @Input() actualFechaRec: string = ""
   @Input() actualRef_REC: string = ""
   @Input() form!: FormGroup;
+  @Input() motivoDenegacion!: string
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
@@ -95,6 +101,17 @@ export class InformeDesfavorableComponent {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
     }
+    if (this.formInformDesf && this.motivoDenegacion) {
+      this.formInformDesf
+      .get('motivoDenegacion')
+      ?.setValue(this.motivoDenegacion);
+    }    
+  }
+
+  ngOnInit(): void {
+    this.formInformDesf = this.fb.group({
+      motivoDenegacion:[{ value: '', disabled: false }],
+    })
   }
   
   tieneTodosLosValores(): boolean {
@@ -130,21 +147,32 @@ export class InformeDesfavorableComponent {
       });
   }
 
+  saveReasonRequest(): void {
+    const motivo = this.formInformDesf.get('motivoDenegacion')?.value
+    this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoDenegacion', motivo).subscribe(() => {
+      this.noDenegationReasonText = false
+      this.actoAdmin5 = false
+    })
+  }
+
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
       alert ("Falta indicar la fecha SEU sol·licitud")
       return
     }
+
     if (!this.form.get('ref_REC')?.value) {
       alert ("Falta indicar la Referència SEU de la sol·licitud")
       return
     }
+
+
+
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
       let rawTexto = docDataString.texto
       this.signedBy = docDataString.signedBy
-      console.log("signedBy", this.signedBy)
       let jsonObject: any
       if (!rawTexto) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
@@ -160,8 +188,10 @@ export class InformeDesfavorableComponent {
       rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.actualFechaSolicitud));
       rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
       rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
-      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.actualFechaRec)); 
-      rawTexto = rawTexto.replace(/%NUMREC%/g, this.actualRef_REC.toUpperCase()); 
+      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
+      rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
+      rawTexto = rawTexto.replace(/%TEXTOLIBRE%/g, this.motivoDenegacion);
+
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
@@ -239,7 +269,7 @@ export class InformeDesfavorableComponent {
     doc.setFont('helvetica', 'bold');
     doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
     doc.setFontSize(8);
-    doc.text("Document: informe favorable", xHeader, 45);
+    doc.text("Document: informe desfavorable", xHeader, 45);
     doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 48);
     doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 51);
 
@@ -265,8 +295,8 @@ export class InformeDesfavorableComponent {
     doc.setFont('helvetica', 'normal');
     doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth), marginLeft + 5, 120);
     if (hayMejoras > 0) {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 155);
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4, maxTextWidth), marginLeft + 5, 174);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 157);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4, maxTextWidth), marginLeft + 5, 170);
     } else {
       doc.text(doc.splitTextToSize(jsonObject.hechos_4, maxTextWidth), marginLeft + 5, 155);
     }
@@ -319,7 +349,7 @@ export class InformeDesfavorableComponent {
 
         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_con_requerimiento')
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_desfavorable_sin_requerimiento')
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar

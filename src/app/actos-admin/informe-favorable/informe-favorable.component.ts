@@ -13,7 +13,7 @@ import { CreateSignatureRequest, SignatureResponse } from '../../Models/signatur
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
-import { finalize, of, switchMap, tap } from 'rxjs';
+import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 import { FormGroup } from '@angular/forms';
@@ -53,7 +53,7 @@ export class InformeFavorableComponent {
   publicAccessId: string = ""
   externalSignUrl: string = ""
   sendedUserToSign: string = ""
-  sendedDateToSign!: Date
+  sendedDateToSign: Date | null = null
   pdfUrl: SafeResourceUrl | null = null
   imageUrl: SafeUrl | undefined
   showPdfViewer: boolean = false
@@ -68,6 +68,7 @@ export class InformeFavorableComponent {
       IN_PROCESS: 'req-state--in-process',
       COMPLETED: 'req-state--completed',
       REJECTED: 'req-state--rejected',
+      ERROR: 'req-state--error'
     };
     return map[this.signatureDocState ?? ''] ?? 'req-state--not-started';
   }
@@ -85,11 +86,11 @@ export class InformeFavorableComponent {
   @Input() form!: FormGroup;
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
-              private viafirmaService: ViafirmaService,
-              private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
-              private actoAdminService: ActoAdministrativoService ) { 
-              this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
-            }
+        private viafirmaService: ViafirmaService,
+        private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
+        private actoAdminService: ActoAdministrativoService ) { 
+          this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
+        }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
@@ -133,7 +134,7 @@ export class InformeFavorableComponent {
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
     // Verifico que existan todos los datos necesarios: %FECHAREC% %DATANOTREQ%,
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Falta indicar la fecha SEU sol·licitud")
+      alert ("Falta indicar la Data SEU sol·licitud")
       return
     }
 
@@ -161,8 +162,8 @@ export class InformeFavorableComponent {
     rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.actualFechaSolicitud));
     rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
     rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
-    rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.actualFechaRec)); 
-    rawTexto = rawTexto.replace(/%NUMREC%/g, this.actualRef_REC.toUpperCase()); 
+    rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
+    rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase()); 
     // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
@@ -270,7 +271,7 @@ export class InformeFavorableComponent {
       doc.setFont('helvetica', 'normal');
       doc.text(doc.splitTextToSize(jsonObject.conclusionTxt, maxTextWidth), marginLeft, 225);
     } else {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_5, maxTextWidth), marginLeft + 5, 150);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_5, maxTextWidth), marginLeft + 5, 155);
       doc.setFont('helvetica', 'bold');
       doc.text(doc.splitTextToSize(jsonObject.conclusion_tit, maxTextWidth), marginLeft, 200);
       doc.setFont('helvetica', 'normal');
@@ -450,14 +451,57 @@ export class InformeFavorableComponent {
       })
   }
   
-  getSignState(publicAccessId: string) {
-    this.viafirmaService.getDocumentStatus(publicAccessId)
-    .subscribe((resp:DocSignedDTO) => {
-      this.signatureDocState = resp.status
-      this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl
-      this.sendedUserToSign =  resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
-      const sendedDateToSign = resp.creationDate
-      this.sendedDateToSign = new Date(sendedDateToSign)
-    })
-  }
+
+getSignState(publicAccessId: string) {
+  this.viafirmaService.getDocumentStatus(publicAccessId)
+    .pipe(
+      catchError((error) => {
+        console.error('Error al obtener el estado del documento:', error);
+        // Aquí puedes manejar el error como desees, por ejemplo:
+        this.signatureDocState = 'ERROR';
+        this.externalSignUrl = '';
+        this.sendedUserToSign = '';
+        this.sendedDateToSign = null;
+        // mostrar un mensaje al usuario si tienes un servicio de notificaciones
+        // this.notificationService.showError('No se pudo obtener el estado del documento');
+        return of(null); // Devuelve un observable nulo para que la suscripción no falle
+      })
+    )
+    .subscribe( {
+            next: (resp) => {
+              if (resp) {
+                console.log("informe.favorable: ", resp, resp.errorMessage);
+                if (resp.status) {
+                  this.signatureDocState = resp.status;
+                  this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
+                  this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
+                  const sendedDateToSign = resp.creationDate;
+                  this.sendedDateToSign = new Date(sendedDateToSign);
+                } else {
+                  if (resp.errorCode === "WS_ERROR_CODE_1") {
+                    this.signatureDocState = "ERROR";
+                  }
+                }
+               
+              }
+            },
+            error: (err) => {
+              const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+              this.error = msg;
+              this.commonService.showSnackBar(msg);
+            }
+
+
+
+    /*   if (resp) {
+        console.log("informe.favorable: ", resp);
+        this.signatureDocState = resp.status;
+        this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
+        this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
+        const sendedDateToSign = resp.creationDate;
+        this.sendedDateToSign = new Date(sendedDateToSign);
+      } */
+    });
+}
+
 }

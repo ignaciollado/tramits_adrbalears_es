@@ -1,12 +1,20 @@
+<form [formGroup]="formInformDesf">
 <mat-accordion [ngClass]="['detalle-formulario', 'req-state', stateClass]">
    <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> 5. {{'ACTOSADMINISTRATIVOS.INFORMEDESFAVORABLE' | translate}} </mat-panel-title>
     </mat-expansion-panel-header>
-    <button mat-raised-button color="accent" (click)="generateActoAdmin('6_informe_desfavorable_sin_requerimiento', 'XECS', 'informe_desfavorable_sin_requerimiento')">Generar</button>
-    <button mat-raised-button color="accent" (click)="actoAdmin5 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('6_informe_desfavorable_sin_requerimiento', 'XECS', 'informe_desfavorable_sin_requerimiento')" [disabled]="!actoAdmin5">Ver documento</button>
+    <mat-form-field appearance="outline">
+      <mat-label>Motivo de la denegación</mat-label>
+      <textarea matInput formControlName="motivoDenegacion" required rows="5"></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()" [disabled]="!formInformDesf.valid">Guardar</button>
+    <button mat-raised-button color="accent" (click)="actoAdmin5 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('6_informe_desfavorable_sin_requerimiento', 'XECS', 'informe_desfavorable_sin_requerimiento')" [disabled]="!actoAdmin5 && noDenegationReasonText">
+      {{ actoAdmin5 ? 'Ver documento' : 'Generar' }}
+    </button>
+    
     <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin5">Send to sign</button>
-    -{{signedBy}}-<section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
+    <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
       <section *ngIf="signatureDocState === 'COMPLETED'">
         <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
       </section>
@@ -25,3 +33,4 @@
     <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closeViewActoAdmin()">Cerrar ✖</button>        
   </mat-expansion-panel>
 </mat-accordion>
+</form>

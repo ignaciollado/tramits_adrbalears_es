@@ -87,7 +87,7 @@ export class PrProvisionalDesfavorableComponent {
   @Input() form!: FormGroup;
   @Input() motivoDenegacion!: string
 
-  constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
+  constructor( private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService,
     private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
     private actoAdminService: ActoAdministrativoService ) { 

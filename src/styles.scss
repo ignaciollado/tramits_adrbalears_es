@@ -265,6 +265,11 @@ section {
     background: #f5f5f5;
   }
 
+  &.req-state--error {
+    border-color: #fd0606;
+    background: #f3c8c8;
+  }
+
   &.req-state--in-process {
     border-color: #1976d2;
     background: #e3f2fd;

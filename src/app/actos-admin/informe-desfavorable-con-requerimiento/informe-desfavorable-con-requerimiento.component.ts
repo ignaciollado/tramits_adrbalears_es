@@ -1,7 +1,10 @@
 import { Component, inject, Input, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
@@ -16,18 +19,20 @@ import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { finalize, of, switchMap, tap } from 'rxjs';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
-import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-informe-desfavorable-con-requerimiento',
   standalone: true,
-  imports: [CommonModule, TranslateModule, MatExpansionModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule],
   templateUrl: './informe-desfavorable-con-requerimiento.component.html',
   styleUrl: './informe-desfavorable-con-requerimiento.component.scss'
 })
 export class InformeDesfavorableConRequerimientoComponent {
-private expedienteService = inject(ExpedienteService)
-  actoAdminName:string = "doc_informe_desfavorable_con_requerimiento"
+  private fb = inject(FormBuilder)
+  private expedienteService = inject(ExpedienteService)
+  formInformDesfConReq!: FormGroup
+  noDenegationReasonText:boolean = true
+  actoAdminName: string = "doc_informe_desfavorable_con_requerimiento"
   actoAdmin6: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -83,22 +88,34 @@ private expedienteService = inject(ExpedienteService)
   @Input() actualFechaRec: string = ""
   @Input() actualRef_REC: string = ""
   @Input() form!: FormGroup;
-
-  constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
-              private viafirmaService: ViafirmaService,
-              private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
-              private actoAdminService: ActoAdministrativoService ) { 
-              this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
-              this.getCreatedRequests()
-            }
+  @Input() motivoDenegacion!: string
+  
+  constructor ( private commonService: CommonService, private sanitizer: DomSanitizer,
+    private viafirmaService: ViafirmaService,
+    private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
+    private actoAdminService: ActoAdministrativoService ) { 
+    this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
+    this.getCreatedRequests()
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
     }
+    if (this.formInformDesfConReq && this.motivoDenegacion) {
+      this.formInformDesfConReq
+      .get('motivoDenegacion')
+      ?.setValue(this.motivoDenegacion);
+    }    
+  }
+
+  ngOnInit(): void {
+    this.formInformDesfConReq = this.fb.group({
+      motivoDenegacion:[{ value: '', disabled: false }],
+    })
   }
   
-  private tieneTodosLosValores(): boolean {
+  tieneTodosLosValores(): boolean {
     return (
       this.actualID != null &&
       this.actualIdExp != null &&
@@ -131,6 +148,14 @@ private expedienteService = inject(ExpedienteService)
       });
   }
 
+  saveReasonRequest(): void {
+    const motivo = this.formInformDesfConReq.get('motivoDenegacion')?.value
+    this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoDenegacion', motivo).subscribe(() => {
+      this.noDenegationReasonText = false
+      this.actoAdmin6 = false
+    })
+  }
+
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
       alert ("Falta indicar la fecha SEU sol·licitud")
@@ -140,10 +165,19 @@ private expedienteService = inject(ExpedienteService)
       alert ("Falta indicar la Referència SEU de la sol·licitud")
       return
     }
-    if (this.form.get('fecha_requerimiento_notif')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento_notif')?.value === '0000-00-00') {
-      alert ("Falta indicar la Data notificació requeriment")
+    if (this.form.get('fecha_REC_enmienda')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
+      alert ("Data SEU esmena")
       return
     }
+    if (!this.form.get('ref_REC_enmienda')?.value) {
+      alert ("Referència SEU esmena")
+      return
+    }
+    if (this.form.get('fecha_requerimiento_notif')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento_notif')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
+      alert ("Data notificació requeriment")
+      return
+    }
+
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
@@ -165,8 +199,12 @@ private expedienteService = inject(ExpedienteService)
       rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.actualFechaSolicitud));
       rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
       rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
-      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.actualFechaRec)); 
-      rawTexto = rawTexto.replace(/%NUMREC%/g, this.actualRef_REC.toUpperCase()); 
+      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
+      rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
+      rawTexto = rawTexto.replace(/%FECHAREQUERIMIENTO%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
+      rawTexto = rawTexto.replace(/%FECHAENMIENDA%/g, this.commonService.formatDate(this.form.get('fecha_REC_enmienda')?.value));
+      rawTexto = rawTexto.replace(/%NUMRECENMIENDA%/g, this.form.get('ref_REC_enmienda')?.value);
+      rawTexto = rawTexto.replace(/%TEXTOLIBRE%/g, this.motivoDenegacion);
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
