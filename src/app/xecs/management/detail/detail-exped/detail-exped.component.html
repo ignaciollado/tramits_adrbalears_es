@@ -294,13 +294,9 @@
           <app-resol-concesion-favorable [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite" [motivoDenegacion] = "motivoDenegacion"></app-resol-concesion-favorable>
-<!--     <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title> {{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESIONFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
-    </mat-expansion-panel-header>
-    <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-  </mat-expansion-panel> -->
-  <app-resol-concesion-favorable-con-requerimiento></app-resol-concesion-favorable-con-requerimiento>
+          <app-resol-concesion-favorable-con-requerimiento [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+          [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
+          [actualTipoTramite]="actualTipoTramite" [motivoDenegacion] = "motivoDenegacion"></app-resol-concesion-favorable-con-requerimiento>
 <!--     <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title> {{'ACTOSADMINISTRATIVOS.RESOLUCIONDENEGACION' | translate}} </mat-panel-title>

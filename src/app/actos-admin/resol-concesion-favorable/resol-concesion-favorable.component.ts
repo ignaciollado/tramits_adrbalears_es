@@ -30,7 +30,7 @@ import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 export class ResolConcesionFavorableComponent {
 private expedienteService = inject(ExpedienteService)
   noDenegationReasonText:boolean = true
-  actoAdminName: string = "doc_res_conces_sin_req"
+  actoAdminName: string = "doc_res_concesion_favorable_sin_req"
   actoAdmin15: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -479,7 +479,7 @@ private expedienteService = inject(ExpedienteService)
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    this.actoAdminService.getByNameAndTipoTramite('15_resolucion_concesion_con_requerimiento', 'XECS')
+    this.actoAdminService.getByNameAndTipoTramite('16_resolucion_concesion_sin_requerimiento', 'XECS')
       .subscribe((docDataString: any) => {
         this.signedBy = docDataString.signedBy
         if (!this.signedBy) {
