@@ -144,6 +144,10 @@ export class PrProvisionalFavorableConRequerimientoComponent {
       alert ("Falta indicar la fecha de Notificació requeriment")
       return
     }
+    if(this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
+      alert ("Falta indicar la fecha de Notificació requeriment")
+      return
+    }    
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
@@ -168,6 +172,7 @@ export class PrProvisionalFavorableConRequerimientoComponent {
       rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
       rawTexto = rawTexto.replace(/%FECHAESMENA%/g, this.commonService.formatDate(this.form.get('fecha_REC_enmienda')?.value));
       rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_REQUERIMIENTO%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
+      rawTexto = rawTexto.replace(/%FECHAINFORMETECNICO%/g, this.commonService.formatDate(this.form.get('fecha_infor_fav_desf')?.value));
 
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)

@@ -39,6 +39,22 @@ export class ListadoActosComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.actoService.getAll().subscribe(data => {
+      data.map((item:any) => {
+        console.log (item.denominacion, item.signedBy)
+        switch (item.signedBy) {
+          case 'ceo':
+            item.signedBy = "D. GERENTE"
+            break
+          case 'technician':
+            item.signedBy = "TECNICO/CA"
+            break
+          case 'conseller':
+            item.signedBy = "CONSELLER"
+            break
+          default:
+            item.signedBy = "*"+item.signedBy+"*"
+        }
+      })
       this.dataSource.data = data;
     });
   }

@@ -183,7 +183,6 @@ export class InformeDesfavorableConRequerimientoComponent {
       let hayMejoras = 0
       let rawTexto = docDataString.texto
       this.signedBy = docDataString.signedBy
-      console.log("signedBy", this.signedBy)
       let jsonObject: any
       if (!rawTexto) {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');

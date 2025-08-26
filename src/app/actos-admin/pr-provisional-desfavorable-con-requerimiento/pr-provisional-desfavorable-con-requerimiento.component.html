@@ -13,7 +13,7 @@
       {{ actoAdmin10 ? 'Ver documento' : 'Generar' }}
     </button>
     <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin10">Send to sign</button>
-    -{{signedBy}}-<section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
+    <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
       <section *ngIf="signatureDocState === 'COMPLETED'">
         <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
       </section>

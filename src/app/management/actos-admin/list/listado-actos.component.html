@@ -38,11 +38,13 @@
   <th mat-header-cell *matHeaderCellDef mat-sort-header> Signed By </th>
   <td mat-cell *matCellDef="let element"
       [ngClass]="{
-        'signed-conseller': element.signedBy === 'conseller',
-        'signed-ceo': element.signedBy === 'ceo',
-        'signed-technician': element.signedBy === 'technician'
+        'signed-conseller': element.signedBy === 'CONSELLER',
+        'signed-ceo': element.signedBy === 'D. GERENTE',
+        'signed-technician': element.signedBy === 'TECNICO/CA'
       }">
+
     {{element.signedBy}}
+
   </td>
 </ng-container>
 
