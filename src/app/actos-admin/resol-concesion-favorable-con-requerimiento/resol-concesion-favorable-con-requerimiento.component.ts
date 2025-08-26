@@ -1,6 +1,6 @@
 import { Component, inject, Input, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -143,19 +143,26 @@ private expedienteService = inject(ExpedienteService)
       return
     }
 
-    if(this.form.get('fecha_infor_fav_desf.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) { 
+    if(this.form.get('fecha_requerimiento_notif.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento_notif')?.value === '0000-00-00' || this.form.get('fecha_requerimiento_notif')?.value === null) { 
+			alert ("Data notificació requeriment")
+			return
+		}
+		if(this.form.get('fecha_REC_enmienda.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC_enmienda')?.value === null) { 
+			alert ("Data SEU esmena")
+			return
+		}
+		if(this.form.get('fecha_infor_fav_desf.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) { 
 			alert ("Data firma informe favorable / desfavorable")
 			return
-		}
-		if(this.form.get('fecha_firma_propuesta_resolucion_def.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_def')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_def')?.value === null) { 
-			alert ("Data firma proposta resolució definitiva")
-			return
-		}
-		if(this.form.get('fecha_not_propuesta_resolucion_def.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_def')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_def')?.value === null) { 
-			alert ("Data notificació proposta resolució definitiva")
-			return
 		}			
- 
+		if(this.form.get('fecha_firma_propuesta_resolucion_prov.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === null) { 
+			alert ("Data firma proposta resolució provisional")
+			return
+		}
+		if(this.form.get('fecha_not_propuesta_resolucion_prov.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === null) { 
+			alert ("Data notificació proposta resolució provisional")
+			return
+		}	    
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
