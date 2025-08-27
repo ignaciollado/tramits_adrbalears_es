@@ -4,6 +4,10 @@
 </section>
 
 <form [formGroup]="form" ngClass="detalle-formulario">
+  <section>
+    <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
+    <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
+  </section>
   <mat-tab-group mat-stretch-tabs>
     <mat-tab>
       <ng-template mat-tab-label>
@@ -465,8 +469,4 @@
     </mat-card>
     </mat-tab>
   </mat-tab-group>
-  <section>
-    <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
-    <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
-  </section>
 </form>
