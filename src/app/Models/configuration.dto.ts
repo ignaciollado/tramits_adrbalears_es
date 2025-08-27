@@ -34,8 +34,8 @@ export interface ConfigurationModelDTO {
     emisorDIR3:                  string;
     codigoSIA:                   string;
     created_at:                  Date;
-    deleted_at:                  string;
-    updated_at:                  string;
+    deleted_at:                  Date;
+    updated_at:                  Date;
 }
 
 // Converts JSON strings to/from your types

@@ -31,6 +31,10 @@ export class PindustConfiguracionService {
     return this.http.get<ConfigurationModelDTO>(`${this.apiUrl}/api/pindustconfiguracion/${id}`);
   }
 
+  getActive(): Observable<ConfigurationModelDTO[]> {
+    return this.http.get<ConfigurationModelDTO[]>(`${this.apiUrl}/api/pindustconfiguracion/active`);
+  }
+
   create(data: ConfigurationModelDTO): Observable<ConfigurationModelDTO> {
     return this.http.post<ConfigurationModelDTO>(`${this.apiUrl}/api/pindustconfiguracion`, data);
   }

@@ -20,6 +20,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { finalize, of, switchMap, tap } from 'rxjs';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
+import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
@@ -51,11 +52,13 @@ export class ResolDesestimientoNoEnmendarComponent {
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
-  globalDetail!: ConfigurationModelDTO
+  globalDetail: ConfigurationModelDTO[] = []
   lineDetail: PindustLineaAyudaDTO[] = []
   num_BOIB: string = ""
   fecha_BOIB: string = ""
   codigoSIA: string = ""
+  fechaResPresidente: string = ""
+  dGerente: string = ""
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
                     id_sol: 0,
@@ -87,7 +90,7 @@ export class ResolDesestimientoNoEnmendarComponent {
 
   constructor( 
       private commonService: CommonService, private sanitizer: DomSanitizer,
-      private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService,
+      private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
       private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
       private actoAdminService: ActoAdministrativoService ) { 
         this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
@@ -107,6 +110,7 @@ export class ResolDesestimientoNoEnmendarComponent {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail()
       this.getLineDetail(this.actualConvocatoria)
+      this.getGlobalConfig()
     }
   }
 
@@ -119,7 +123,6 @@ export class ResolDesestimientoNoEnmendarComponent {
       !!this.actualTipoTramite
     );
   }
-
 
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
@@ -164,6 +167,7 @@ export class ResolDesestimientoNoEnmendarComponent {
     // Reemplazo las variables que hay en el template por su valor correspondiente
     rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
     rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
+    rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente))
     rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
     rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
     rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
@@ -172,6 +176,8 @@ export class ResolDesestimientoNoEnmendarComponent {
     rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
     rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
     rawTexto = rawTexto.replace(/%DATANOTREQ%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
+    rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
+
     // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
@@ -502,14 +508,20 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   getLineDetail(convocatoria: number) {
-      this.lineaAyuda.getAll().subscribe((lineaAyudaItems:PindustLineaAyudaDTO[]) => {
+      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
         this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
           return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
         });
-        console.log (this.lineDetail)
         this.num_BOIB = this.lineDetail[0]['num_BOIB']
         this.codigoSIA = this.lineDetail[0]['codigoSIA']
         this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
+        this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
+    })
+  }
+
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      this.dGerente = globalConfig[0].directorGerenteIDI
     })
   }
 }
