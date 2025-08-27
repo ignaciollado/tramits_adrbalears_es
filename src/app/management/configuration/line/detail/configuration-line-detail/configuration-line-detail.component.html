@@ -1,0 +1,123 @@
+ <section class="container">
+    <h2>{{ isNew ? 'Crear Línea Ayuda' : 'Editar Línea Ayuda' }}</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      
+      <!-- Código SIA -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Código SIA</mat-label>
+        <input matInput formControlName="codigoSIA" required>
+      </mat-form-field>
+
+      <!-- Convocatoria -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Convocatoria</mat-label>
+        <input matInput type="number" formControlName="convocatoria" required>
+      </mat-form-field>
+
+      <!-- num_BOIB -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Número BOIB</mat-label>
+        <input matInput formControlName="num_BOIB" required>
+      </mat-form-field>
+
+      <!-- fecha_BOIB -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Fecha BOIB</mat-label>
+        <input matInput type="date" formControlName="fecha_BOIB" required>
+      </mat-form-field>
+
+      <!-- num_BOIB_modific -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Número BOIB Modificación</mat-label>
+        <input matInput formControlName="num_BOIB_modific">
+      </mat-form-field>
+
+      <!-- fechaResPresidIDI -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Fecha Res. Presid. IDI</mat-label>
+        <input matInput type="date" formControlName="fechaResPresidIDI">
+      </mat-form-field>
+
+      <!-- lineaAyuda -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Línea Ayuda</mat-label>
+        <input matInput formControlName="lineaAyuda" required>
+      </mat-form-field>
+
+      <!-- programa -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Programa</mat-label>
+        <input matInput formControlName="programa" required>
+      </mat-form-field>
+
+      <!-- convocatoria_desde -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Convocatoria Desde</mat-label>
+        <input matInput type="date" formControlName="convocatoria_desde" required>
+      </mat-form-field>
+
+      <!-- convocatoria_hasta -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Convocatoria Hasta</mat-label>
+        <input matInput type="date" formControlName="convocatoria_hasta" required>
+      </mat-form-field>
+
+      <!-- dias_fecha_lim_justificar -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Días Fecha Límite Justificar</mat-label>
+        <input matInput type="number" formControlName="dias_fecha_lim_justificar" required>
+      </mat-form-field>
+
+      <!-- meses_fecha_lim_consultoria -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Meses Fecha Límite Consultoría</mat-label>
+        <input matInput formControlName="meses_fecha_lim_consultoria" required>
+      </mat-form-field>
+
+      <!-- updateInterval -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Update Interval</mat-label>
+        <input matInput type="number" formControlName="updateInterval" required>
+      </mat-form-field>
+
+      <!-- convocatoria_aviso_ca -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Convocatoria Aviso CA</mat-label>
+        <input matInput formControlName="convocatoria_aviso_ca" required>
+      </mat-form-field>
+
+      <!-- convocatoria_aviso_es -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Convocatoria Aviso ES</mat-label>
+        <input matInput formControlName="convocatoria_aviso_es" required>
+      </mat-form-field>
+
+      <!-- activeLineData -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Active Line Data</mat-label>
+        <input matInput formControlName="activeLineData" required>
+      </mat-form-field>
+
+      <!-- totalAmount -->
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Total Amount</mat-label>
+        <input matInput type="number" formControlName="totalAmount" required>
+      </mat-form-field>
+
+      <div class="buttons">
+        <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+          {{ isNew ? 'Crear' : 'Actualizar' }}
+        </button>
+
+        <button *ngIf="!isNew" mat-raised-button color="warn" type="button" (click)="onDelete()">
+          Eliminar
+        </button>
+
+        <button mat-button type="button" (click)="volver()">
+          Cancelar
+        </button>
+      </div>
+
+    </form>
+  </section>

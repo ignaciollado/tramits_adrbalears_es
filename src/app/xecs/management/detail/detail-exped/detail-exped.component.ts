@@ -458,8 +458,7 @@ calculateAidAmount() {
   this.lineaXecsService.getAll().subscribe(
     (lineaAyudaItems: PindustLineaAyudaDTO[]) => {
       this.lineaXecsConfig = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-        return item.convocatoria === this.actualConvocatoria &&
-               item.lineaAyuda === "XECS";
+        return item.convocatoria === this.actualConvocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
       });
     const rawImporte = this.form.get('importeAyuda')?.value
     const importe = Number(rawImporte) || 0
@@ -548,7 +547,7 @@ calculateAidAmount() {
                     this.form.patchValue({ importeAyuda: this.newAidAmount })
             }
             break;
-        }
+      }
     this.saveExpediente()
     } 
     }

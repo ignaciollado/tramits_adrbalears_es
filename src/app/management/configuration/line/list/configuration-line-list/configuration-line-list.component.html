@@ -1,0 +1,69 @@
+    <section class="container">
+
+      <h2>Listado Línea Ayuda</h2>
+
+      <mat-form-field appearance="outline" class="filter-input">
+        <mat-label>Filtrar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar por texto">
+        <button *ngIf="filterValue" matSuffix mat-icon-button aria-label="Limpiar filtro" (click)="clearFilter()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
+
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" *ngIf="!loading">
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+          <td mat-cell *matCellDef="let row">
+            <a [routerLink]="['/line-configuration-detail', row.id]">{{ row.id }}</a>
+          </td>
+        </ng-container>
+
+        <!-- activeLineData Column -->
+        <ng-container matColumnDef="activeLineData">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>activeLineData</th>
+          <td mat-cell *matCellDef="let row">{{ row.activeLineData }}</td>
+        </ng-container>
+
+        <!-- CodigoSIA Column -->
+        <ng-container matColumnDef="CodigoSIA">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>CodigoSIA</th>
+          <td mat-cell *matCellDef="let row">{{ row.CodigoSIA }}</td>
+        </ng-container>
+
+        <!-- lineaAyuda Column -->
+        <ng-container matColumnDef="lineaAyuda">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>lineaAyuda</th>
+          <td mat-cell *matCellDef="let row">{{ row.lineaAyuda }}</td>
+        </ng-container>
+
+        <!-- convocatoria Column -->
+        <ng-container matColumnDef="convocatoria">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>convocatoria</th>
+          <td mat-cell *matCellDef="let row">{{ row.convocatoria }}</td>
+        </ng-container>
+
+        <!-- convocatoria_desde Column -->
+        <ng-container matColumnDef="convocatoria_desde">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>convocatoria_desde</th>
+          <td mat-cell *matCellDef="let row">{{ row.convocatoria_desde }}</td>
+        </ng-container>
+
+        <!-- convocatoria_hasta Column -->
+        <ng-container matColumnDef="convocatoria_hasta">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>convocatoria_hasta</th>
+          <td mat-cell *matCellDef="let row">{{ row.convocatoria_hasta }}</td>
+        </ng-container>        
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [pageSizeOptions]="[10, 20]"
+        showFirstLastButtons>
+      </mat-paginator>
+    </section>

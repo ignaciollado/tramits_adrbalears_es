@@ -36,22 +36,22 @@ private entorno: 'tramits' | 'pre-tramits';
   }
 
   getById(id: number): Observable<PindustLineaAyudaDTO> {
-    return this.http.get<PindustLineaAyudaDTO>(`${this.apiUrl}/${id}`)
+    return this.http.get<PindustLineaAyudaDTO>(`${this.apiUrl}/api/pindustlineaayuda/${id}`)
       .pipe(catchError(this.handleError));
   }
 
   create(data: PindustLineaAyudaDTO): Observable<PindustLineaAyudaDTO> {
-    return this.http.post<PindustLineaAyudaDTO>(this.apiUrl, data)
+    return this.http.post<PindustLineaAyudaDTO>(`${this.apiUrl}/api/pindustlineaayuda`, data)
       .pipe(catchError(this.handleError));
   }
 
   update(id: number, data: PindustLineaAyudaDTO): Observable<PindustLineaAyudaDTO> {
-    return this.http.put<PindustLineaAyudaDTO>(`${this.apiUrl}/${id}`, data)
+    return this.http.put<PindustLineaAyudaDTO>(`${this.apiUrl}/api/pindustlineaayuda/${id}`, data)
       .pipe(catchError(this.handleError));
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`)
+    return this.http.delete(`${this.apiUrl}/api/pindustlineaayuda/${id}`)
       .pipe(catchError(this.handleError));
   }
 

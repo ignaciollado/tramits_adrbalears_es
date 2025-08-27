@@ -1,0 +1,27 @@
+<!-- Mostrar mientras se carga -->
+<section *ngIf="loading">Cargando configuración...</section>
+
+<!-- Mostrar error -->
+<section *ngIf="error" class="error">{{ error }}</section>
+
+<!-- Formulario solo si no está cargando ni con error -->
+<form *ngIf="!loading && !error" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <ng-container *ngFor="let field of campos">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>{{ field }}</mat-label>
+      <input matInput [formControlName]="field" [readonly]="field === 'id' && !isNew">
+    </mat-form-field>
+  </ng-container>
+
+  <section class="buttons">
+    <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+      {{ isNew ? 'Crear' : 'Actualizar' }}
+    </button>
+
+    <button *ngIf="!isNew" mat-raised-button color="warn" type="button" (click)="onDelete()">
+      Eliminar
+    </button>
+
+    <button mat-button type="button" (click)="volver()">Cancelar</button>
+  </section>
+</form>

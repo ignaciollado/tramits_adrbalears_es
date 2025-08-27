@@ -39,22 +39,6 @@ mat-card {
   gap: 1rem;
 }
 
-/* .detalle-formulario {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr); // Tres columnas fijas
-  gap: 1rem;
-
-  mat-form-field {
-    width: 100%;
-
-    input[readonly] {
-      background-color: #f3f6fa;
-      color: #555;
-      cursor:not-allowed;
-    }
-  }
-} */
-
 .autorizaciones, .documentos-en-ADR {
   border: 1px solid #0098cb;
   border-radius: 5px;

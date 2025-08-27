@@ -20,6 +20,9 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { finalize, of, switchMap, tap } from 'rxjs';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 
 @Component({
   selector: 'app-resol-desestimiento-no-enmendar',
@@ -48,6 +51,11 @@ export class ResolDesestimientoNoEnmendarComponent {
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
+  globalDetail!: ConfigurationModelDTO
+  lineDetail: PindustLineaAyudaDTO[] = []
+  num_BOIB: string = ""
+  fecha_BOIB: string = ""
+  codigoSIA: string = ""
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
                     id_sol: 0,
@@ -79,7 +87,7 @@ export class ResolDesestimientoNoEnmendarComponent {
 
   constructor( 
       private commonService: CommonService, private sanitizer: DomSanitizer,
-      private viafirmaService: ViafirmaService,
+      private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService,
       private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
       private actoAdminService: ActoAdministrativoService ) { 
         this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
@@ -97,7 +105,8 @@ export class ResolDesestimientoNoEnmendarComponent {
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
-      this.getActoAdminDetail();
+      this.getActoAdminDetail()
+      this.getLineDetail(this.actualConvocatoria)
     }
   }
 
@@ -153,7 +162,8 @@ export class ResolDesestimientoNoEnmendarComponent {
       }
     // Voy a crear el Texto que luego servirá para generar el archivo PDF
     // Reemplazo las variables que hay en el template por su valor correspondiente
-    rawTexto = docDataString.texto.replace(/%BOIBNUM%/g,"¡¡¡ME FALTA EL BOIB!!!")
+    rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
+    rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
     rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
     rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
     rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
@@ -246,12 +256,12 @@ export class ResolDesestimientoNoEnmendarComponent {
     doc.text(secondLine, xHeader, yHeader + 3);
     doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
     doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
-    doc.text("Codi SIA: ", xHeader, yHeader + 12);
+    doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
   } else {
     doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
     doc.text(`NIF: ${this.actualNif}`, xHeader, 57);
     doc.text("Emissor (DIR3): A04003714", xHeader, 60);
-    doc.text("Codi SIA: ", xHeader, 63);
+    doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, 63);
   }
 
   doc.setFontSize(10);
@@ -488,6 +498,18 @@ export class ResolDesestimientoNoEnmendarComponent {
       this.sendedUserToSign =  resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
       const sendedDateToSign = resp.creationDate
       this.sendedDateToSign = new Date(sendedDateToSign)
+    })
+  }
+
+  getLineDetail(convocatoria: number) {
+      this.lineaAyuda.getAll().subscribe((lineaAyudaItems:PindustLineaAyudaDTO[]) => {
+        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
+        });
+        console.log (this.lineDetail)
+        this.num_BOIB = this.lineDetail[0]['num_BOIB']
+        this.codigoSIA = this.lineDetail[0]['codigoSIA']
+        this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
     })
   }
 }

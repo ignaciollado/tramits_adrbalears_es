@@ -8,13 +8,17 @@ import { AuthGuard } from './auth/auth.guard';
 import { XecsManagementComponent } from './xecs/management/xecs-management/xecs-management.component';
 import { PasswordRecoveryComponent } from './login/password-recovery/password-recovery.component';
 import { PasswordResetComponent } from './login/password-reset/password-reset.component';
-import { ActosComponent } from './management/actos-admin/actos.component';
+import { ActosComponent } from './management/actos-admin/detail/actos.component';
 import { ListadoActosComponent } from './management/actos-admin/list/listado-actos.component';
 import { IsbaManagementComponent } from './isba/management/isba-management/isba-management.component';
 import { IlsManagementComponent } from './ils/management/ils-management/ils-management.component';
 import { XecsDetailExpedComponent } from './xecs/management/detail/detail-exped/detail-exped.component';
 import { IsbaDetailExpedComponent } from './isba/management/detail/detail-exped/detail-exped.component';
 import { IlsDetailExpedComponent } from './ils/management/detail/detail-exped/detail-exped.component';
+import { ConfigurationListComponent } from './management/configuration/global/list/configuration-list/configuration-list.component';
+import { ConfigurationDetailComponent } from './management/configuration/global/detail/configuration-detail/configuration-detail.component';
+import { LineaAyudaListComponent } from './management/configuration/line/list/configuration-line-list/configuration-line-list.component';
+import { ConfigurationLineDetailComponent } from './management/configuration/line/detail/configuration-line-detail/configuration-line-detail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -37,6 +41,12 @@ export const routes: Routes = [
 
   { path: 'actos-admin-list', canActivate: [AuthGuard], component: ListadoActosComponent},
   { path: 'acto-admin-detail/:id', canActivate: [AuthGuard], component: ActosComponent},
+
+  { path: 'global-configuration-list', canActivate: [AuthGuard], component: ConfigurationListComponent},
+  { path: 'global-configuration-detail/:id', canActivate: [AuthGuard], component: ConfigurationDetailComponent},
+
+  { path: 'line-configuration-list', canActivate: [AuthGuard], component: LineaAyudaListComponent},
+  { path: 'line-configuration-detail/:id', canActivate: [AuthGuard], component: ConfigurationLineDetailComponent},
 
   { path: 'contact', component: GrantApplicationFormComponent },
   { path: '**', component: HomeComponent }

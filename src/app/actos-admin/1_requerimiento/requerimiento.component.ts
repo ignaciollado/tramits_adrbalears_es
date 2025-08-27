@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
+import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { CommonService } from '../../Services/common.service';
@@ -20,6 +21,8 @@ import { jsPDF } from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { finalize } from 'rxjs';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 
 @Component({
   selector: 'app-requerimiento',
@@ -44,6 +47,10 @@ export class RequerimientoComponent implements OnChanges {
   imageUrl: SafeUrl | undefined
   showPdfViewer: boolean = false
   showImageViewer: boolean = false
+  globalDetail!: ConfigurationModelDTO
+  lineDetail: PindustLineaAyudaDTO[] = []
+  num_BOIB: string = ""
+  codigoSIA: string = ""
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
                     id_sol: 0,
@@ -70,7 +77,6 @@ export class RequerimientoComponent implements OnChanges {
   accessToken: string = ""
   userLoginEmail: string = ""
   ceoEmail: string = "nachollv@hotmail.com"
-  codigoSIAConvo:string = "en bbdd de la convo y de la línea de ayudas"
 
   @Input() actualID!: number
   @Input() actualIdExp!: number
@@ -82,7 +88,7 @@ export class RequerimientoComponent implements OnChanges {
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
-              private documentosGeneradosService: DocumentosGeneradosService,
+              private documentosGeneradosService: DocumentosGeneradosService, private lineaAyuda: PindustLineaAyudaService,
               private actoAdminService: ActoAdministrativoService, private jwtHelper: JwtHelperService ) { 
               this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
               }
@@ -100,6 +106,7 @@ export class RequerimientoComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
+      this.getLineDetail(this.actualConvocatoria)
     }
     if (this.formRequerimiento && this.motivoRequerimiento) {
     this.formRequerimiento
@@ -198,7 +205,8 @@ export class RequerimientoComponent implements OnChanges {
         return;
       }
       /* Reemplazo de las variables por su valor */
-      rawTextoActoAdmin1 = docDataString.texto.replace("%BOIBNUM%","¡¡¡ME FALTA EL BOIB!!!")
+      rawTextoActoAdmin1 = docDataString.texto.replace("%BOIBNUM%", this.num_BOIB)
+
       let jsonObject = JSON.parse(rawTextoActoAdmin1);
 
       doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
@@ -210,7 +218,7 @@ export class RequerimientoComponent implements OnChanges {
       doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);
       doc.text(`NIF: ${this.actualNif}`, marginLeft+110, 57); 
       doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
-      doc.text(`Codi SIA: ${this.codigoSIAConvo}`, marginLeft+110, 63); 
+      doc.text(`Codi SIA: ${this.codigoSIA}`, marginLeft+110, 63); 
 
       doc.setFontSize(10);
       doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
@@ -403,6 +411,16 @@ export class RequerimientoComponent implements OnChanges {
       this.sendedUserToSign =  resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
       const sendedDateToSign = resp.creationDate
       this.sendedDateToSign = new Date(sendedDateToSign)
+    })
+  }
+
+  getLineDetail(convocatoria: number) {
+      this.lineaAyuda.getAll().subscribe((lineaAyudaItems:PindustLineaAyudaDTO[]) => {
+        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
+        });
+        this.num_BOIB = this.lineDetail[0]['num_BOIB']
+        this.codigoSIA = this.lineDetail[0]['codigoSIA']
     })
   }
 }
