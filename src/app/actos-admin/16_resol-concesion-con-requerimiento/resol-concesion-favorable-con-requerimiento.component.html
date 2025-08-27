@@ -1,0 +1,27 @@
+<mat-accordion [ngClass]="['detalle-formulario', 'req-state', stateClass]">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> 16. {{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESIONCONREQUERIMIENTO' | translate}} </mat-panel-title>
+    </mat-expansion-panel-header>
+    <button mat-raised-button color="accent" (click)="generateActoAdmin('15_resolucion_concesion_con_requerimiento', 'XECS')">Generar</button>
+    <button mat-raised-button color="accent" (click)="actoAdmin16 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('15_resolucion_concesion_con_requerimiento', 'XECS')" [disabled]="!actoAdmin16">Ver documento</button>
+    <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin16">Send to sign</button>
+    <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
+      <section *ngIf="signatureDocState === 'COMPLETED'">
+        <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
+      </section>
+      <section *ngIf="signatureDocState === 'REJECTED'">Firma rechazada</section>
+      <section *ngIf="signatureDocState === 'NOT_STARTED'">
+        <span>Pendiente de firma.</span><br>
+        <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
+        <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
+        <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin16">Send to sign again</button>
+      </section>
+      <section *ngIf="signatureDocState === 'IN_PROCESS'">
+        <span>Firma en curso</span>
+      </section>
+    </section>     
+    <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
+    <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closeViewActoAdmin()">Cerrar ✖</button>        
+  </mat-expansion-panel>
+</mat-accordion>

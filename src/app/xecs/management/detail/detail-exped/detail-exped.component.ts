@@ -34,38 +34,38 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { SignatureResponse } from '../../../../Models/signature.dto';
 
 /* tab solicitud */
-import { RequerimientoComponent } from '../../../../actos-admin/requerimiento/requerimiento.component';
-import { ResolDesestimientoNoEnmendarComponent } from '../../../../actos-admin/resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
+import { RequerimientoComponent } from '../../../../actos-admin/1_requerimiento/requerimiento.component';
+import { ResolDesestimientoNoEnmendarComponent } from '../../../../actos-admin/2_resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
 import { MejorasSolicitudDetalleComponent } from '../../../mejoras-solicitud-detalle/mejoras-solicitud-detalle.component';
 /* tab validación */
-import { InformeFavorableComponent } from '../../../../actos-admin/informe-favorable/informe-favorable.component';
-import { InformeFavorableConRequerimientoComponent } from '../../../../actos-admin/informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
-import { InformeDesfavorableComponent } from '../../../../actos-admin/informe-desfavorable/informe-desfavorable.component';
-import { InformeDesfavorableConRequerimientoComponent } from '../../../../actos-admin/informe-desfavorable-con-requerimiento/informe-desfavorable-con-requerimiento.component';
-import { PrProvisionalFavorableComponent } from '../../../../actos-admin/pr-provisional-favorable/pr-provisional-favorable.component';
-import { PrProvisionalFavorableConRequerimientoComponent } from '../../../../actos-admin/pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
-import { PrProvisionalDesfavorableComponent } from '../../../../actos-admin/pr-provisional-desfavorable/pr-provisional-desfavorable.component';
-import { PrProvisionalDesfavorableConRequerimientoComponent } from '../../../../actos-admin/pr-provisional-desfavorable-con-requerimiento/pr-provisional-desfavorable-con-requerimiento.component';
-import { PrDefinitivaFavorableComponent } from '../../../../actos-admin/pr-definitiva-favorable/pr-definitiva-favorable.component';
-import { PrDefinitivaFavorableConRequerimientoComponent } from '../../../../actos-admin/pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.component';
-import { PrDefinitivaDesfavorableComponent } from '../../../../actos-admin/pr-definitiva-desfavorable/pr-definitiva-desfavorable.component';
-import { PrDefinitivaDesfavorableConRequerimientoComponent } from '../../../../actos-admin/pr-definitiva-desfavorable-con-requerimiento/pr-definitiva-desfavorable-con-requerimiento.component';
-import { ResolConcesionFavorableComponent } from '../../../../actos-admin/resol-concesion-favorable/resol-concesion-favorable.component';
-import { ResolConcesionFavorableConRequerimientoComponent } from '../../../../actos-admin/resol-concesion-favorable-con-requerimiento/resol-concesion-favorable-con-requerimiento.component';
-import { ResolDenegacionComponent } from '../../../../actos-admin/resol-denegacion/resol-denegacion.component';
-import { ResolDenegacionConRequerimientoComponent } from '../../../../actos-admin/resol-denegacion-con-requerimiento/resol-denegacion-con-requerimiento.component';
+import { InformeFavorableComponent } from '../../../../actos-admin/3_informe-favorable/informe-favorable.component';
+import { InformeFavorableConRequerimientoComponent } from '../../../../actos-admin/4_informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
+import { InformeDesfavorableComponent } from '../../../../actos-admin/5_informe-desfavorable/informe-desfavorable.component';
+import { InformeDesfavorableConRequerimientoComponent } from '../../../../actos-admin/6_informe-desfavorable-con-requerimiento/informe-desfavorable-con-requerimiento.component';
+import { PrProvisionalFavorableComponent } from '../../../../actos-admin/7_pr-provisional-favorable/pr-provisional-favorable.component';
+import { PrProvisionalFavorableConRequerimientoComponent } from '../../../../actos-admin/8_pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
+import { PrProvisionalDesfavorableComponent } from '../../../../actos-admin/9_pr-provisional-desfavorable/pr-provisional-desfavorable.component';
+import { PrProvisionalDesfavorableConRequerimientoComponent } from '../../../../actos-admin/10_pr-provisional-desfavorable-con-requerimiento/pr-provisional-desfavorable-con-requerimiento.component';
+import { PrDefinitivaFavorableComponent } from '../../../../actos-admin/11_pr-definitiva-favorable/pr-definitiva-favorable.component';
+import { PrDefinitivaFavorableConRequerimientoComponent } from '../../../../actos-admin/12_pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.component';
+import { PrDefinitivaDesfavorableComponent } from '../../../../actos-admin/13_pr-definitiva-desfavorable/pr-definitiva-desfavorable.component';
+import { PrDefinitivaDesfavorableConRequerimientoComponent } from '../../../../actos-admin/14_pr-definitiva-desfavorable-con-requerimiento/pr-definitiva-desfavorable-con-requerimiento.component';
+import { ResolConcesionFavorableComponent } from '../../../../actos-admin/15_resolucion-concesion/resol-concesion-favorable.component';
+import { ResolConcesionFavorableConRequerimientoComponent } from '../../../../actos-admin/16_resol-concesion-con-requerimiento/resol-concesion-favorable-con-requerimiento.component';
+import { ResolDenegacionComponent } from '../../../../actos-admin/17_resolucion-denegacion/resol-denegacion.component';
+import { ResolDenegacionConRequerimientoComponent } from '../../../../actos-admin/18_resolucion-denegacion-con-requerimiento/resol-denegacion-con-requerimiento.component';
 /* tab ejecución */
-import { ActaDeKickOffComponent } from '../../../../actos-admin/acta-de-kick-off/acta-de-kick-off.component';
-import { ActaDeCierreComponent } from '../../../../actos-admin/acta-de-cierre/acta-de-cierre.component';
+import { ActaDeKickOffComponent } from '../../../../actos-admin/19_acta-de-kick-off/acta-de-kick-off.component';
+import { ActaDeCierreComponent } from '../../../../actos-admin/20_acta-de-cierre/acta-de-cierre.component';
 /* tab justificación */
-import { InformeInicioReqJustificacionComponent } from '../../../../actos-admin/informe-inicio-req-justificacion/informe-inicio-req-justificacion.component';
-import { ReqEnmiendaJustificacionComponent } from '../../../../actos-admin/req-enmienda-justificacion/req-enmienda-justificacion.component';
-import { InformePostEnmiendaJustificacionComponent } from '../../../../actos-admin/informe-post-enmienda-justificacion/informe-post-enmienda-justificacion.component';
-import { ResolDePagoComponent } from '../../../../actos-admin/resol-de-pago/resol-de-pago.component';
+import { InformeInicioReqJustificacionComponent } from '../../../../actos-admin/21_informe-inicio-requerimiento-justificacion/informe-inicio-req-justificacion.component';
+import { ReqEnmiendaJustificacionComponent } from '../../../../actos-admin/22_requerimiento-enmienda-justificacion/req-enmienda-justificacion.component';
+import { InformePostEnmiendaJustificacionComponent } from '../../../../actos-admin/23_informe-post-enmienda-justificacion/informe-post-enmienda-justificacion.component';
+import { ResolDePagoComponent } from '../../../../actos-admin/24_resolucion-de-pago/resol-de-pago.component';
 /* tab desestimiento o renuncia */
-import { ResolDesestimientoPorRenunciaComponent } from '../../../../actos-admin/resol-desestimiento-por-renuncia/resol-desestimiento-por-renuncia.component';
-import { PrRevocacionPorNoJustificarComponent } from '../../../../actos-admin/pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
-import { ResolRevocacionPorNoJustificarComponent } from '../../../../actos-admin/resol-revocacion-por-no-justificar/resol-revocacion-por-no-justificar.component';
+import { ResolDesestimientoPorRenunciaComponent } from '../../../../actos-admin/25_resolucion-desestimiento-por-renuncia/resol-desestimiento-por-renuncia.component';
+import { PrRevocacionPorNoJustificarComponent } from '../../../../actos-admin/26_pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
+import { ResolRevocacionPorNoJustificarComponent } from '../../../../actos-admin/27_resolucion-revocacion-por-no-justificar/resol-revocacion-por-no-justificar.component';
 
 
 @Injectable()
