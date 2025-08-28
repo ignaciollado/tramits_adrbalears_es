@@ -1,6 +1,6 @@
     <section class="container">
 
-      <h2>Listado Línea Ayuda</h2>
+      <h2>Listado de convocatorias</h2>
 
       <mat-form-field appearance="outline" class="filter-input">
         <mat-label>Filtrar</mat-label>
@@ -9,7 +9,9 @@
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
-
+      <section>
+            <button mat-raised-button color="primary" [routerLink]="['/line-configuration-detail', 'new']">{{'APP.CREATECONVO' | translate}}</button>
+      </section>
       <mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
 
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" *ngIf="!loading">
@@ -29,9 +31,9 @@
         </ng-container>
 
         <!-- CodigoSIA Column -->
-        <ng-container matColumnDef="CodigoSIA">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>CodigoSIA</th>
-          <td mat-cell *matCellDef="let row">{{ row.CodigoSIA }}</td>
+        <ng-container matColumnDef="codigoSIA">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo SIA</th>
+          <td mat-cell *matCellDef="let row">{{ row.codigoSIA }}</td>
         </ng-container>
 
         <!-- lineaAyuda Column -->

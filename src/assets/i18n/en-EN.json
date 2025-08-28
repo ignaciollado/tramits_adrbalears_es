@@ -19,7 +19,8 @@
     "ADHESION": "Adhesion",
     "TRACKING": "Tracking",
     "RENOVATION": "Renovation",
-    "GENERAL": "General"
+    "GENERAL": "General",
+    "CREATECONVO": "Create a convo"
   },
   "HOME": {
     "WELCOME": "Welcome to iTràmits, the official platform of ADR Balears for the management of grants and subsidies",

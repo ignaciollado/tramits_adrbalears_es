@@ -12,7 +12,7 @@ import { PindustLineaAyudaService } from '../../../../../Services/linea-ayuda.se
 import { PindustLineaAyudaDTO } from '../../../../../Models/linea-ayuda-dto';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { TranslateModule } from '@ngx-translate/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -28,7 +28,7 @@ import { MatTableDataSource } from '@angular/material/table';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    FormsModule,
+    FormsModule, TranslateModule,
     MatProgressSpinnerModule
   ],
   templateUrl: './configuration-line-list.component.html',
@@ -36,7 +36,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 
 export class LineaAyudaListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'activeLineData', 'CodigoSIA', 'lineaAyuda', 'convocatoria', 'convocatoria_desde', 'convocatoria_hasta'];
+  displayedColumns: string[] = ['id', 'activeLineData', 'codigoSIA', 'lineaAyuda', 'convocatoria', 'convocatoria_desde', 'convocatoria_hasta'];
   dataSource = new MatTableDataSource<PindustLineaAyudaDTO>([]);
   loading = false;
   filterValue = '';

@@ -7,6 +7,8 @@ import { PindustConfiguracionService } from '../../../../../Services/pindust-con
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-configuration-detail',
@@ -17,7 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule, MatDatepickerModule, MatNativeDateModule
   ],
   templateUrl: './configuration-detail.component.html',
   styleUrls: ['./configuration-detail.component.scss'],
@@ -31,7 +33,7 @@ export class ConfigurationDetailComponent implements OnInit {
 
 
   campos = [
-    'id','emisorDIR3', 'respresidente',  'eMailPresidente', 'directorGeneralPolInd', 'eMailDGeneral',
+    'id','emisorDIR3', 'respresidente', 'eMailPresidente', 'directorGeneralPolInd', 'eMailDGeneral',
     'directorGerenteIDI', 'eMailDGerente',
     'convocatoria_aviso_ca', 'convocatoria_aviso_es', 'activeGeneralData'
   ];
@@ -49,7 +51,19 @@ export class ConfigurationDetailComponent implements OnInit {
 
   this.form = this.fb.group({});
   this.campos.forEach(campo => {
-    this.form.addControl(campo, this.fb.control('', Validators.required));
+    switch (campo) {
+      case 'id':
+        this.form.addControl(campo, this.fb.control({value: '', disabled: true}, Validators.required));
+        break
+      case 'emisorDIR3':
+        this.form.addControl(campo, this.fb.control({value: 'A04003714', disabled: true}, Validators.required));
+        break
+      case 'respresidente':
+        this.form.addControl(campo, this.fb.control({value: '', disabled: true}, Validators.required));
+        break
+      default:
+        this.form.addControl(campo, this.fb.control('', Validators.required));
+    }
   });
 
   if (!this.isNew) {
@@ -107,6 +121,6 @@ export class ConfigurationDetailComponent implements OnInit {
   }
 
   volver(): void {
-    this.router.navigate(['/configuracion']);
+    this.router.navigate(['/global-configuration-list']);
   }
 }

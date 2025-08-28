@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, viewChild, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { map, Observable, of, startWith, throwError } from 'rxjs';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -21,7 +20,6 @@ import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { CommonService } from '../../Services/common.service';
 import { DocumentService } from '../../Services/document.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NifValidatorService } from '../../Services/nif-validator-service';
 import { CnaeDTO } from '../../Models/cnae.dto';
 import { MatProgressBarModule } from '@angular/material/progress-bar';

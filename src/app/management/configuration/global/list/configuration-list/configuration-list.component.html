@@ -5,9 +5,9 @@
         <mat-label>Buscar</mat-label>
         <input matInput [(ngModel)]="filterText" (keyup)="aplicarFiltro()" placeholder="Buscar en todas las columnas">
       </mat-form-field>
+
       <mat-progress-spinner *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
         <!-- Columnas -->
        <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>

@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-
+import { TranslateModule } from '@ngx-translate/core';
 import { PindustConfiguracionService } from '../../../../../Services/pindust-configuracion.service';
 import { ConfigurationModelDTO } from '../../../../../Models/configuration.dto';
 import { MatTableDataSource } from '@angular/material/table';
@@ -26,7 +26,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule,
+    MatIconModule, TranslateModule,
     FormsModule, MatProgressSpinnerModule
   ],
   templateUrl: './configuration-list.component.html',

@@ -1,18 +1,18 @@
- <section class="container">
-    <h2>{{ isNew ? 'Crear Línea Ayuda' : 'Editar Línea Ayuda' }}</h2>
+ <mat-card class="container">
+    <h2>{{ isNew ? 'Crear una convocatoria' : 'Editar la convocatoria' }}</h2>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       
       <!-- Código SIA -->
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Código SIA</mat-label>
-        <input matInput formControlName="codigoSIA" required>
+        <input matInput formControlName="codigoSIA" required minlength="7" maxlength="7">
       </mat-form-field>
 
       <!-- Convocatoria -->
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Convocatoria</mat-label>
-        <input matInput type="number" formControlName="convocatoria" required>
+        <input matInput type="number" minlength="4" maxlength="4" formControlName="convocatoria" required>
       </mat-form-field>
 
       <!-- num_BOIB -->
@@ -41,14 +41,18 @@
 
       <!-- lineaAyuda -->
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Línea Ayuda</mat-label>
-        <input matInput formControlName="lineaAyuda" required>
+  <mat-label>Línea tràmit</mat-label>
+  <mat-select formControlName="lineaAyuda" required>
+    <mat-option *ngFor="let opcion of lineaAyudaOpciones" [value]="opcion">
+      {{ opcion }}
+    </mat-option>
+  </mat-select>
       </mat-form-field>
 
       <!-- programa -->
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Programa</mat-label>
-        <input matInput formControlName="programa" required>
+        <textarea matInput formControlName="programa" required rows="8"></textarea>
       </mat-form-field>
 
       <!-- convocatoria_desde -->
@@ -78,19 +82,19 @@
       <!-- updateInterval -->
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>Update Interval</mat-label>
-        <input matInput type="number" formControlName="updateInterval" required>
+        <input matInput formControlName="updateInterval" required>
       </mat-form-field>
 
       <!-- convocatoria_aviso_ca -->
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Convocatoria Aviso CA</mat-label>
-        <input matInput formControlName="convocatoria_aviso_ca" required>
+        <mat-label>Nota convocatòria pendent de publicació</mat-label>
+        <textarea matInput formControlName="convocatoria_aviso_ca" required rows="5"></textarea>
       </mat-form-field>
 
       <!-- convocatoria_aviso_es -->
       <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Convocatoria Aviso ES</mat-label>
-        <input matInput formControlName="convocatoria_aviso_es" required>
+        <mat-label>Nota convocatoria pendiente de publicación</mat-label>
+        <textarea matInput formControlName="convocatoria_aviso_es" required rows="5"></textarea>
       </mat-form-field>
 
       <!-- activeLineData -->
@@ -120,4 +124,4 @@
       </div>
 
     </form>
-  </section>
+  </mat-card>

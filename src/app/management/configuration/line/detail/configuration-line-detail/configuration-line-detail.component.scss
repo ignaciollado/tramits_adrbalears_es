@@ -1,12 +1,79 @@
-    .container {
-      margin: 20px;
-      max-width: 600px;
-    }
-    .full-width {
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+
+  h2 {
+    margin-bottom: 2rem;
+    font-weight: 500;
+    font-size: 1.8rem;
+    text-align: center;
+    color: #2e3c4f;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .full-width {
+    width: 100%;
+
+    mat-form-field {
       width: 100%;
     }
-    .buttons {
-      margin-top: 20px;
-      display: flex;
-      gap: 12px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    button {
+      min-width: 120px;
     }
+
+    button[color="primary"] {
+      background-color: #1976d2;
+      color: white;
+
+      &:hover {
+        background-color: #1565c0;
+      }
+    }
+
+    button[color="warn"] {
+      background-color: #e53935;
+      color: white;
+
+      &:hover {
+        background-color: #c62828;
+      }
+    }
+
+    button[mat-button] {
+      color: #555;
+    }
+  }
+
+  mat-form-field {
+    mat-label {
+      font-weight: 500;
+      color: #333;
+    }
+
+    input,
+    textarea {
+      font-size: 1rem;
+    }
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.5);
+  }
+}

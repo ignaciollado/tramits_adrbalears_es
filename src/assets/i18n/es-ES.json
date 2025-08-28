@@ -19,7 +19,8 @@
     "ADHESION": "Adhesión",
     "TRACKING": "Seguimiento",
     "RENOVATION": "Renovación",
-    "GENERAL": "General"
+    "GENERAL": "General",
+    "CREATECONVO": "Crear una convocatória"
   },
   "HOME": {
     "WELCOME": "Bienvenido a iTràmits, la plataforma oficial de ADR Balears para la gestión de ayudas y subvenciones",
