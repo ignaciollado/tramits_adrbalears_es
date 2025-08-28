@@ -284,7 +284,7 @@ private expedienteService = inject(ExpedienteService)
     doc.setFont('helvetica', 'bold');
     doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
     doc.setFontSize(8);
-    doc.text("Document: resolució de concessió", xHeader, 45);
+    doc.text("Document: resolució de denegació", xHeader, 45);
     doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 52);
     doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 55);
 
