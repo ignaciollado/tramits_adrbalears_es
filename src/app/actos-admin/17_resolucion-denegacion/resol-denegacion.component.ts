@@ -15,10 +15,13 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
-import { finalize, of, switchMap, tap } from 'rxjs';
+import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
+import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 
 @Component({
   selector: 'app-resol-denegacion',
@@ -56,7 +59,7 @@ private expedienteService = inject(ExpedienteService)
   publicAccessId: string = ""
   externalSignUrl: string = ""
   sendedUserToSign: string = ""
-  sendedDateToSign!: Date
+  sendedDateToSign: Date | null = null
   pdfUrl: SafeResourceUrl | null = null
   imageUrl: SafeUrl | undefined
   showPdfViewer: boolean = false
@@ -64,6 +67,13 @@ private expedienteService = inject(ExpedienteService)
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
+  globalDetail: ConfigurationModelDTO[] = []
+  lineDetail: PindustLineaAyudaDTO[] = []
+  num_BOIB: string = ""
+  fecha_BOIB: string = ""
+  codigoSIA: string = ""
+  fechaResPresidente: string = ""
+  dGerente: string = ""
 
   get stateClass(): string {
     const map: Record<string, string> = {
@@ -86,7 +96,7 @@ private expedienteService = inject(ExpedienteService)
   @Input() motivoDenegacion!: string
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
-    private viafirmaService: ViafirmaService,
+    private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
     private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
     private actoAdminService: ActoAdministrativoService ) { 
     this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
@@ -95,6 +105,8 @@ private expedienteService = inject(ExpedienteService)
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
+      this.getLineDetail(this.actualConvocatoria)
+      this.getGlobalConfig()
     }   
   }
   
@@ -168,7 +180,9 @@ private expedienteService = inject(ExpedienteService)
       }
       // Voy a crear el Texto que luego servirá para generar el archivo PDF
       // Reemplazo las variables que hay en el template por su valor correspondiente
-      rawTexto = docDataString.texto.replace(/%BOIBNUM%/g,"¡¡¡ME FALTA EL BOIB!!!")
+      rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
+      rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
+      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente))
       rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
       rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
@@ -185,7 +199,8 @@ private expedienteService = inject(ExpedienteService)
       rawTexto = rawTexto.replace(/%FECHA_PROP_RESOL_DEF%/g, this.commonService.formatDate(this.form.get('fecha_firma_propuesta_resolucion_def')?.value));
       rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PROP_RESOL_DEFINITIVA%/g, this.commonService.formatDate(this.form.get('fecha_not_propuesta_resolucion_def')?.value));
       rawTexto = rawTexto.replace(/%TEXTOLIBRE%/g, this.motivoDenegacion)
-      
+      rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente)
+
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
@@ -219,7 +234,6 @@ private expedienteService = inject(ExpedienteService)
       tap(() => {
         try {
           rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
-          console.log ("rawTexto", rawTexto)
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {
@@ -281,12 +295,12 @@ private expedienteService = inject(ExpedienteService)
       doc.text(secondLine, xHeader, yHeader + 3);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 4);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 7);
-      doc.text("Codi SIA: xxxxxxxxxx", xHeader, yHeader + 10);
+      doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 10);
     } else {
       doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 3);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 6);
-      doc.text("Codi SIA: xxxxxxxxxx", xHeader, yHeader + 9);
+      doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 9);
     }
 
     doc.setFontSize(10);
@@ -507,13 +521,61 @@ private expedienteService = inject(ExpedienteService)
   }
   
   getSignState(publicAccessId: string) {
-    this.viafirmaService.getDocumentStatus(publicAccessId)
-    .subscribe((resp:DocSignedDTO) => {
-      this.signatureDocState = resp.status
-      this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl
-      this.sendedUserToSign =  resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
-      const sendedDateToSign = resp.creationDate
-      this.sendedDateToSign = new Date(sendedDateToSign)
+  this.viafirmaService.getDocumentStatus(publicAccessId)
+    .pipe(
+      catchError((error) => {
+        console.error('Error al obtener el estado del documento:', error);
+        // Aquí puedes manejar el error como desees, por ejemplo:
+        this.signatureDocState = 'ERROR';
+        this.externalSignUrl = '';
+        this.sendedUserToSign = '';
+        this.sendedDateToSign = null;
+        // mostrar un mensaje al usuario si tienes un servicio de notificaciones
+        // this.notificationService.showError('No se pudo obtener el estado del documento');
+        return of(null); // Devuelve un observable nulo para que la suscripción no falle
+      })
+    )
+    .subscribe( {
+            next: (resp) => {
+              if (resp) {
+                if (resp.status) {
+                  this.signatureDocState = resp.status;
+                  this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
+                  this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
+                  const sendedDateToSign = resp.creationDate;
+                  this.sendedDateToSign = new Date(sendedDateToSign);
+                } else {
+                  if (resp.errorCode === "WS_ERROR_CODE_1") {
+                    this.signatureDocState = "ERROR";
+                  }
+                }
+               
+              }
+            },
+            error: (err) => {
+              const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+              this.error = msg;
+              this.commonService.showSnackBar(msg);
+            }
+    });
+  }
+
+  getLineDetail(convocatoria: number) {
+      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
+        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
+        });
+        console.log ("lineDetail", this.lineDetail)
+        this.num_BOIB = this.lineDetail[0]['num_BOIB']
+        this.codigoSIA = this.lineDetail[0]['codigoSIA']
+        this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
+        this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
     })
   }
+
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      this.dGerente = globalConfig[0].directorGerenteIDI
+    })
+  } 
 }

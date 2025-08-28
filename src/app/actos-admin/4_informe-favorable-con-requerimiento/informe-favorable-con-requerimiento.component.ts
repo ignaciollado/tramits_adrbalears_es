@@ -12,8 +12,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
-import { finalize, of, switchMap, tap } from 'rxjs';
+import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 import { FormGroup } from '@angular/forms';
@@ -58,7 +57,7 @@ export class InformeFavorableConRequerimientoComponent {
   publicAccessId: string = ""
   externalSignUrl: string = ""
   sendedUserToSign: string = ""
-  sendedDateToSign!: Date
+  sendedDateToSign: Date | null = null
   pdfUrl: SafeResourceUrl | null = null
   imageUrl: SafeUrl | undefined
   showPdfViewer: boolean = false
@@ -66,12 +65,13 @@ export class InformeFavorableConRequerimientoComponent {
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
-  globalDetail!: ConfigurationModelDTO
+  globalDetail: ConfigurationModelDTO[] = []
   lineDetail: PindustLineaAyudaDTO[] = []
   num_BOIB: string = ""
   fecha_BOIB: string = ""
   codigoSIA: string = ""
   fechaResPresidente: string = ""
+  dGerente: string = ""
 
   get stateClass(): string {
     const map: Record<string, string> = {
@@ -103,6 +103,8 @@ export class InformeFavorableConRequerimientoComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
+      this.getLineDetail(this.actualConvocatoria)
+      this.getGlobalConfig()
     }
   }
   
@@ -180,7 +182,7 @@ export class InformeFavorableConRequerimientoComponent {
       // Reemplazo las variables que hay en el template por su valor correspondiente
       rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
       rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
-      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.fechaResPresidente)
+      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente))
       rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
       rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
@@ -193,6 +195,8 @@ export class InformeFavorableConRequerimientoComponent {
       rawTexto = rawTexto.replace(/%FECHAREQUERIMIENTO%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
       rawTexto = rawTexto.replace(/%FECHAENMIENDA%/g, this.commonService.formatDate(this.form.get('fecha_REC_enmienda')?.value));
       rawTexto = rawTexto.replace(/%NUMRECENMIENDA%/g, this.form.get('ref_REC_enmienda')?.value.toUpperCase());
+      rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
+
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
       .pipe(
@@ -492,22 +496,51 @@ export class InformeFavorableConRequerimientoComponent {
   }
   
   getSignState(publicAccessId: string) {
-    this.viafirmaService.getDocumentStatus(publicAccessId)
-    .subscribe((resp:DocSignedDTO) => {
-      this.signatureDocState = resp.status
-      this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl
-      this.sendedUserToSign =  resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
-      const sendedDateToSign = resp.creationDate
-      this.sendedDateToSign = new Date(sendedDateToSign)
-    })
+  this.viafirmaService.getDocumentStatus(publicAccessId)
+    .pipe(
+      catchError((error) => {
+        console.error('Error al obtener el estado del documento:', error);
+        // Aquí puedes manejar el error como desees, por ejemplo:
+        this.signatureDocState = 'ERROR';
+        this.externalSignUrl = '';
+        this.sendedUserToSign = '';
+        this.sendedDateToSign = null;
+        // mostrar un mensaje al usuario si tienes un servicio de notificaciones
+        // this.notificationService.showError('No se pudo obtener el estado del documento');
+        return of(null); // Devuelve un observable nulo para que la suscripción no falle
+      })
+    )
+    .subscribe( {
+            next: (resp) => {
+              if (resp) {
+                if (resp.status) {
+                  this.signatureDocState = resp.status;
+                  this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
+                  this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
+                  const sendedDateToSign = resp.creationDate;
+                  this.sendedDateToSign = new Date(sendedDateToSign);
+                } else {
+                  if (resp.errorCode === "WS_ERROR_CODE_1") {
+                    this.signatureDocState = "ERROR";
+                  }
+                }
+               
+              }
+            },
+            error: (err) => {
+              const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+              this.error = msg;
+              this.commonService.showSnackBar(msg);
+            }
+    });
   }
 
   getLineDetail(convocatoria: number) {
-      this.lineaAyuda.getAll().subscribe((lineaAyudaItems:PindustLineaAyudaDTO[]) => {
+      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
         this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
           return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
         });
-        console.log (this.lineDetail)
+        console.log ("lineDetail", this.lineDetail)
         this.num_BOIB = this.lineDetail[0]['num_BOIB']
         this.codigoSIA = this.lineDetail[0]['codigoSIA']
         this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
@@ -516,7 +549,8 @@ export class InformeFavorableConRequerimientoComponent {
   }
 
   getGlobalConfig() {
-    
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      this.dGerente = globalConfig[0].directorGerenteIDI
+    })
   }
-  
 }

@@ -12,7 +12,6 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
@@ -107,6 +106,7 @@ export class InformeFavorableComponent {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria)
+      this.getGlobalConfig()
     }
   }
   
@@ -281,7 +281,7 @@ export class InformeFavorableComponent {
     doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth), marginLeft + 5, 125);
     if (hayMejoras > 0) {
       doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 155);
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_5, maxTextWidth), marginLeft + 5, 167);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_5, maxTextWidth), marginLeft + 5, 175);
       doc.setFont('helvetica', 'bold');
       doc.text(doc.splitTextToSize(jsonObject.conclusion_tit, maxTextWidth), marginLeft, 215);
       doc.setFont('helvetica', 'normal');
@@ -485,7 +485,6 @@ export class InformeFavorableComponent {
     .subscribe( {
             next: (resp) => {
               if (resp) {
-                console.log("informe.favorable: ", resp, resp.errorMessage);
                 if (resp.status) {
                   this.signatureDocState = resp.status;
                   this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
@@ -505,17 +504,6 @@ export class InformeFavorableComponent {
               this.error = msg;
               this.commonService.showSnackBar(msg);
             }
-
-
-
-    /*   if (resp) {
-        console.log("informe.favorable: ", resp);
-        this.signatureDocState = resp.status;
-        this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
-        this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
-        const sendedDateToSign = resp.creationDate;
-        this.sendedDateToSign = new Date(sendedDateToSign);
-      } */
     });
   }
 
