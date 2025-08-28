@@ -280,30 +280,30 @@ export class InformeDesfavorableConRequerimientoComponent {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     
-    const maxCharsPerLine = 21;
+    const maxCharsPerLine = 20;
     const marginLeft = 25;
     const maxTextWidth = 160;
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     let lines = footerText.split('\n');
     const xHeader = marginLeft + 110
-    const yHeader = 54;
+    const yHeader = 58;
     
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
       doc.text(line, marginLeft, y);
     });
 
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('helvetica', 'normal');
     doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
     doc.setFontSize(8);
     doc.text("Document: informe favorable", xHeader, 45);
-    doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 48);
-    doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 51);
+    doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 52);
+    doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 55);
 
     if (this.actualEmpresa.length > maxCharsPerLine) {
       const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-      const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+      const secondLine = this.actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
       doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
       doc.text(secondLine, xHeader, yHeader + 3);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
@@ -311,22 +311,22 @@ export class InformeDesfavorableConRequerimientoComponent {
       doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
     } else {
       doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
-      doc.text(`NIF: ${this.actualNif}`, xHeader, 57);
-      doc.text("Emissor (DIR3): A04003714", xHeader, 60);
-      doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, 63);
+      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 3);
+      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 6);
+      doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 9);
     }
 
     doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');    
     doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 90);
-    doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.hechos_tit, maxTextWidth), marginLeft, 110);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth), marginLeft + 5, 120);
+    doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth - 5), marginLeft + 5, 120);
     if (hayMejoras > 0) {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth), marginLeft + 5, 157);
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_6, maxTextWidth), marginLeft + 5, 170);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth - 5), marginLeft + 5, 157);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_6, maxTextWidth - 5), marginLeft + 5, 170);
     } else {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_6, maxTextWidth), marginLeft + 5, 155);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_6, maxTextWidth - 5), marginLeft + 5, 155);
     }
 
     // Salto de página

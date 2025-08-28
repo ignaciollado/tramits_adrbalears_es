@@ -277,7 +277,7 @@ private expedienteService = inject(ExpedienteService)
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     
-    const maxCharsPerLine = 21;
+    const maxCharsPerLine = 20;
     const marginLeft = 25;
     const maxTextWidth = 160;
     const lineHeight = 4;
@@ -291,7 +291,7 @@ private expedienteService = inject(ExpedienteService)
       doc.text(line, marginLeft, y);
     });
 
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('helvetica', 'normal');
     doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
     doc.setFontSize(8);
     doc.text("Document: resolució de denegació", xHeader, 45);
@@ -300,12 +300,12 @@ private expedienteService = inject(ExpedienteService)
 
     if (this.actualEmpresa.length > maxCharsPerLine) {
       const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-      const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+      const secondLine = this.actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
       doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
       doc.text(secondLine, xHeader, yHeader + 3);
-      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 4);
-      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 7);
-      doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 10);
+      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
+      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
+      doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
     } else {
       doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 3);
@@ -314,11 +314,11 @@ private expedienteService = inject(ExpedienteService)
     }
 
     doc.setFontSize(10);
-    doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 90);
     doc.setFont('helvetica', 'bold');
+    doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 90);
     doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 130);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_8, maxTextWidth), marginLeft + 5, 140);
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_8, maxTextWidth - 5), marginLeft + 5, 140);
 
     // Salto de página
     doc.addPage();
@@ -334,7 +334,7 @@ private expedienteService = inject(ExpedienteService)
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.fundamentos_tit, maxTextWidth), marginLeft, 60);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.fundamentos_txt, maxTextWidth), marginLeft + 5, 70);
+    doc.text(doc.splitTextToSize(jsonObject.fundamentos_txt, maxTextWidth - 5), marginLeft + 5, 70);
 
     // Salto de página
     doc.addPage();
@@ -347,15 +347,16 @@ private expedienteService = inject(ExpedienteService)
       doc.text(line, marginLeft, y);
     });
     doc.setFontSize(10);
+
     doc.text(doc.splitTextToSize(jsonObject.propuesta_tit, maxTextWidth), marginLeft, 60); 
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.propuesta_cab, maxTextWidth), marginLeft, 70);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth), marginLeft + 5, 80);
+    doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth - 5), marginLeft + 5, 80);
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 110);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft + 5, 120);
+    doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth - 5), marginLeft + 5, 120);
     doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 240);
 
     // además de generar el pdf del acto administrativo hay que enviarlo al backend

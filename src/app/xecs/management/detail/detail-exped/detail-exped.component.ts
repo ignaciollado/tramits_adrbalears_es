@@ -16,7 +16,7 @@ import { of } from 'rxjs';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { PindustLineaAyudaService } from '../../../../Services/linea-ayuda.service';
@@ -105,6 +105,7 @@ export class XecsDetailExpedComponent {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
   noRequestReasonText:boolean = true
+  selectedIndex: number | undefined;
 
   form!: FormGroup
   idExpediente!: number
@@ -251,7 +252,8 @@ ngOnInit(): void {
     fecha_firma_resolucion_desestimiento: [{ value: '', disabled: true }],
     fecha_notificacion_desestimiento: [{ value: '', disabled: true }],   
   });
-
+  const tabIndex = sessionStorage.getItem('currentContactTab');
+  this.selectedIndex = tabIndex !== null ? Number(tabIndex) : undefined;
   this.getExpedDetail(this.idExpediente)
 
   // Observo los cambios en 'fecha_de_pago'
@@ -552,5 +554,9 @@ calculateAidAmount() {
     } 
     }
   );
+}
+
+onTabChange(event: MatTabChangeEvent) {
+  sessionStorage.setItem('currentContactTab', event.index.toString());
 }
 }

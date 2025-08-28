@@ -8,7 +8,9 @@
     <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
     <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid">Guardar</button>
   </section>
-  <mat-tab-group mat-stretch-tabs>
+  <mat-tab-group  animationDuration="500ms" mat-stretch-tabs mat-align-tabs="center" dynamicHeight
+    [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+
     <mat-tab>
       <ng-template mat-tab-label>
       <span ngClass="exped-tab detail-tab">{{ 'APP.DETAIL' | translate }}</span>
@@ -468,5 +470,6 @@
       </section>         
     </mat-card>
     </mat-tab>
+  
   </mat-tab-group>
 </form>

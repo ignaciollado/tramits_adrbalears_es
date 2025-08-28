@@ -291,7 +291,7 @@ private fb = inject(FormBuilder)
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     
-    const maxCharsPerLine = 21;
+    const maxCharsPerLine = 20;
     const marginLeft = 25;
     const maxTextWidth = 160;
     const lineHeight = 4;
@@ -305,21 +305,21 @@ private fb = inject(FormBuilder)
       doc.text(line, marginLeft, y);
     });
 
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('helvetica', 'normal');
     doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
     doc.setFontSize(8);
-    doc.text("Document: proposta de resolució\nprovisional de denegació", xHeader, 45);
+    doc.text("Document: proposta de resolució provisional", xHeader, 45);
     doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, xHeader, 52);
     doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, xHeader, 55);
 
     if (this.actualEmpresa.length > maxCharsPerLine) {
       const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-      const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+      const secondLine = this.actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
       doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
       doc.text(secondLine, xHeader, yHeader + 3);
-      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 4);
-      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 7);
-      doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 10);
+      doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
+      doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
+      doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
     } else {
       doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 3);
@@ -328,13 +328,13 @@ private fb = inject(FormBuilder)
     }
 
     doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');    
     doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 90);
-    doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 130);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_3, maxTextWidth), marginLeft + 5, 140);
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_3, maxTextWidth - 5), marginLeft + 5, 140);
     if (hayMejoras > 0) {
-      doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_m, maxTextWidth), marginLeft + 5, 218);
+      doc.text(doc.splitTextToSize(jsonObject.antecedentes_4_m, maxTextWidth - 5), marginLeft + 5, 218);
     }
 
     // Salto de página
@@ -348,11 +348,11 @@ private fb = inject(FormBuilder)
       doc.text(line, marginLeft, y);
     });
     doc.setFontSize(10);
-    doc.text(doc.splitTextToSize(jsonObject.antecedentes_5_7, maxTextWidth), marginLeft + 5, 60);
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_5_7, maxTextWidth - 5), marginLeft + 5, 60);
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.fundamentos_tit, maxTextWidth), marginLeft, 110);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.fundamentos_txt, maxTextWidth), marginLeft + 5, 115);
+    doc.text(doc.splitTextToSize(jsonObject.fundamentos_txt, maxTextWidth - 5), marginLeft + 5, 115);
 
     // Salto de página
     doc.addPage();
@@ -369,8 +369,7 @@ private fb = inject(FormBuilder)
     doc.text(doc.splitTextToSize(jsonObject.propuesta_tit, maxTextWidth), marginLeft, 60); 
     doc.setFont('helvetica', 'normal');
     doc.text(doc.splitTextToSize(jsonObject.propuesta_cab, maxTextWidth), marginLeft, 70);
-    doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth), marginLeft + 5, 80);
- 
+    doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth - 5), marginLeft + 5, 80);
     doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 240);
 
     // además de generar el pdf del acto administrativo hay que enviarlo al backend
