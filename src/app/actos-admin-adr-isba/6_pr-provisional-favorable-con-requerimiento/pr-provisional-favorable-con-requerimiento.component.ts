@@ -66,9 +66,9 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
   faltanCampos: boolean = false;
   camposVacios: string[] = [];
   signedBy!: string;
-  tieneMejoras: boolean = false;
-  fecha_ultima_mejora!: Date;
-  ref_ultima_mejora!: string;
+  // tieneMejoras: boolean = false;
+  // fecha_ultima_mejora!: Date;
+  // ref_ultima_mejora!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -270,9 +270,9 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
         doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 100);
         doc.setFont('helvetica', 'normal');
         doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2_3_4_5_6, maxTextWidth), marginLeft + 5, 110);
-        if (this.tieneMejoras) {
-          doc.text(doc.splitTextToSize(jsonObject.antecedentes_m, maxTextWidth), marginLeft + 10, 215);
-        };
+        // if (this.tieneMejoras) {
+        //   doc.text(doc.splitTextToSize(jsonObject.antecedentes_m, maxTextWidth), marginLeft + 10, 215);
+        // };
 
         // Segunda página
         doc.addPage();
@@ -407,24 +407,24 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
  * asigna los datos necesarios a las propiedades.
  */
   private checkMejoras(): void {
-    this.tieneMejoras = false;
-    this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
-      .pipe(
-        switchMap((nMejoras: any) => {
-          if (nMejoras.total_mejoras > 0) {
-            this.tieneMejoras = true;
-            return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID)
-              .pipe(
-                tap((ultimaMejora: MejoraSolicitudDTO) => {
-                  this.ref_ultima_mejora = ultimaMejora.ref_rec_mejora;
-                  this.fecha_ultima_mejora = ultimaMejora.fecha_rec_mejora;
-                })
-              )
-          } else {
-            return of(null);
-          }
-        })
-      ).subscribe();
+    // this.tieneMejoras = false;
+    // this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
+    //   .pipe(
+    //     switchMap((nMejoras: any) => {
+    //       if (nMejoras.total_mejoras > 0) {
+    //         this.tieneMejoras = true;
+    //         return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID)
+    //           .pipe(
+    //             tap((ultimaMejora: MejoraSolicitudDTO) => {
+    //               this.ref_ultima_mejora = ultimaMejora.ref_rec_mejora;
+    //               this.fecha_ultima_mejora = ultimaMejora.fecha_rec_mejora;
+    //             })
+    //           )
+    //       } else {
+    //         return of(null);
+    //       }
+    //     })
+    //   ).subscribe();
   }
 
   insertDocumentoGenerado(docFieldToUpdate: string): void {

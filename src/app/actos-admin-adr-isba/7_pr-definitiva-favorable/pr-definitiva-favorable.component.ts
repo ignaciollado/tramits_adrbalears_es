@@ -66,9 +66,9 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
   faltanCampos: boolean = false;
   camposVacios: string[] = [];
   signedBy!: string;
-  tieneMejoras: boolean = false;
-  fecha_ultima_mejora!: Date;
-  ref_ultima_mejora!: string;
+  // tieneMejoras: boolean = false;
+  // fecha_ultima_mejora!: Date;
+  // ref_ultima_mejora!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -219,11 +219,11 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PR_PROV%/g, formattedFecha_not_propuesta_resolucion_prov);
 
         /* Mejoras */
-        if (this.tieneMejoras) {
-          const formattedFecha_ultima_mejora = formatDate(this.fecha_ultima_mejora, 'dd/MM/yyyy HH:mm', 'es-ES');
-          rawTexto = rawTexto.replace(/%FECHARECM%/g, formattedFecha_ultima_mejora);
-          rawTexto = rawTexto.replace(/%REFRECM%/g, this.ref_ultima_mejora);
-        }
+        // if (this.tieneMejoras) {
+        //   const formattedFecha_ultima_mejora = formatDate(this.fecha_ultima_mejora, 'dd/MM/yyyy HH:mm', 'es-ES');
+        //   rawTexto = rawTexto.replace(/%FECHARECM%/g, formattedFecha_ultima_mejora);
+        //   rawTexto = rawTexto.replace(/%REFRECM%/g, this.ref_ultima_mejora);
+        // }
         /* Quedan pendiente: BOIBFECHA, BOIBNUM, DGERENTE */
 
         let jsonObject;
@@ -269,9 +269,9 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
         doc.text(doc.splitTextToSize(jsonObject.antecedentes_tit, maxTextWidth), marginLeft, 100);
         doc.setFont('helvetica', 'normal');
         doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2_3_4_5, maxTextWidth), marginLeft + 5, 110);
-        if (this.tieneMejoras) {
-          doc.text(doc.splitTextToSize(jsonObject.antecedentes_m, maxTextWidth), marginLeft + 10, 222);
-        };
+        // if (this.tieneMejoras) {
+        //   doc.text(doc.splitTextToSize(jsonObject.antecedentes_m, maxTextWidth), marginLeft + 10, 222);
+        // };
 
         // Segunda página
         doc.addPage();
@@ -409,24 +409,24 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
  * asigna los datos necesarios a las propiedades.
  */
   private checkMejoras(): void {
-    this.tieneMejoras = false;
-    this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
-      .pipe(
-        switchMap((nMejoras: any) => {
-          if (nMejoras.total_mejoras > 0) {
-            this.tieneMejoras = true;
-            return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID)
-              .pipe(
-                tap((ultimaMejora: MejoraSolicitudDTO) => {
-                  this.ref_ultima_mejora = ultimaMejora.ref_rec_mejora;
-                  this.fecha_ultima_mejora = ultimaMejora.fecha_rec_mejora;
-                })
-              )
-          } else {
-            return of(null);
-          }
-        })
-      ).subscribe();
+    // this.tieneMejoras = false;
+    // this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
+    //   .pipe(
+    //     switchMap((nMejoras: any) => {
+    //       if (nMejoras.total_mejoras > 0) {
+    //         this.tieneMejoras = true;
+    //         return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID)
+    //           .pipe(
+    //             tap((ultimaMejora: MejoraSolicitudDTO) => {
+    //               this.ref_ultima_mejora = ultimaMejora.ref_rec_mejora;
+    //               this.fecha_ultima_mejora = ultimaMejora.fecha_rec_mejora;
+    //             })
+    //           )
+    //       } else {
+    //         return of(null);
+    //       }
+    //     })
+    //   ).subscribe();
   }
 
   insertDocumentoGenerado(docFieldToUpdate: string): void {

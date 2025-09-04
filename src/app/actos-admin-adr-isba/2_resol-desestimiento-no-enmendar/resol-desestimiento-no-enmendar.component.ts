@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
 import { finalize } from 'rxjs';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
@@ -16,17 +16,21 @@ import { CommonService } from '../../Services/common.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
+import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 
 @Component({
-  selector: 'app-informe-favorable-adr-isba',
+  selector: 'app-resol-desestimiento-no-enmendar-adr-isba',
   standalone: true,
   imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatExpansionModule, MatButtonModule],
-  templateUrl: './informe-favorable.component.html',
-  styleUrl: './informe-favorable.component.scss'
+  templateUrl: './resol-desestimiento-no-enmendar.component.html',
+  styleUrl: './resol-desestimiento-no-enmendar.component.scss'
 })
-export class InformeFavorableAdrIsbaComponent {
+export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   private expedienteService = inject(ExpedienteService);
-  actoAdmin3: boolean = false;
+  actoAdmin2: boolean = false;
   sendedToSign: boolean = false;
   signatureDocState: string = "";
   nifDocGenerado: string = "";
@@ -41,8 +45,13 @@ export class InformeFavorableAdrIsbaComponent {
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
-  codigoSIAConvo: string = "3153714";
-
+  globalDetail: ConfigurationModelDTO[] = [];
+  lineDetail: PindustLineaAyudaDTO[] = [];
+  num_BOIB: string = "";
+  fecha_BOIB: string = "";
+  codigoSIA: string = "";
+  fechaResPresidente: string = "";
+  dGerente: string = "";
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
@@ -74,36 +83,37 @@ export class InformeFavorableAdrIsbaComponent {
   @Input() actualEmpresa: string = "";
   @Input() form!: FormGroup;
 
-  constructor(
-    private commonService: CommonService, private sanitizer: DomSanitizer,
+  constructor(private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService,
     private documentosGeneradosService: DocumentosGeneradosService,
-    private actoAdminService: ActoAdministrativoService
-  ) {
-    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
+    private actoAdminService: ActoAdministrativoService,
+    private lineaAyuda: PindustLineaAyudaService,
+    private configGlobal: PindustConfiguracionService) {
+    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || "";
   }
 
-  get stateClassActAdmin3(): string {
+  get stateClassActAdmin2(): string {
     const map: Record<string, string> = {
       NOT_STARTED: 'req-state--not-started',
       IN_PROCESS: 'req-state--in-process',
       COMPLETED: 'req-state--completed',
       REJECTED: 'req-state--rejected',
     };
-
     return map[this.signatureDocState ?? ''] ?? 'req-state--not-started';
-  }
-
-  ngOnInit(): void {
-    this.actoAdminService.getByNameAndTipoTramite('isba_3_informe_favorable_sin_requerimiento', 'ADR-ISBA').subscribe((docDataString: ActoAdministrativoDTO) => {
-      this.signedBy = docDataString.signedBy;
-    })
   }
 
   ngOnChanges(changes: SimpleChange): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
+      this.getLineDetail(this.actualConvocatoria);
+      this.getGlobalConfig();
     }
+  }
+
+  ngOnInit(): void {
+    this.actoAdminService.getByNameAndTipoTramite('isba_2_resolucion_desestimiento_por_no_enmendar', 'ADR-ISBA').subscribe((docDataString: ActoAdministrativoDTO) => {
+      this.signedBy = docDataString.signedBy;
+    })
   }
 
   private tieneTodosLosValores(): boolean {
@@ -117,17 +127,17 @@ export class InformeFavorableAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_sin_requerimiento')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
       .subscribe({
-        next: (docActoAdmin3: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin3 = false;
-          if (docActoAdmin3.length === 1) {
-            this.actoAdmin3 = true;
-            this.nifDocGenerado = docActoAdmin3[0].cifnif_propietario;
-            this.timeStampDocGenerado = docActoAdmin3[0].selloDeTiempo;
-            this.nameDocGenerado = docActoAdmin3[0].name;
-            this.lastInsertId = docActoAdmin3[0].id;
-            this.publicAccessId = docActoAdmin3[0].publicAccessId;
+        next: (docActoAdmin2: DocumentoGeneradoDTO[]) => {
+          this.actoAdmin2 = false;
+          if (docActoAdmin2.length === 1) {
+            this.actoAdmin2 = true;
+            this.nifDocGenerado = docActoAdmin2[0].cifnif_propietario;
+            this.timeStampDocGenerado = docActoAdmin2[0].selloDeTiempo;
+            this.nameDocGenerado = docActoAdmin2[0].name;
+            this.lastInsertId = docActoAdmin2[0].id;
+            this.publicAccessId = docActoAdmin2[0].publicAccessId;
 
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId);
@@ -136,7 +146,7 @@ export class InformeFavorableAdrIsbaComponent {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin3 = false;
+          this.actoAdmin2 = false;
         }
       })
   }
@@ -157,7 +167,7 @@ export class InformeFavorableAdrIsbaComponent {
     });
 
     doc.setProperties({
-      title: `${this.actualIdExp}_${this.actualConvocatoria}_${docFieldToUpdate}`,
+      title: `${this.actualIdExp + '_' + this.actualConvocatoria + '_' + docFieldToUpdate}`,
       subject: 'Tràmits administratius',
       author: 'ADR Balears',
       keywords: 'ayudas, subvenciones, xecs, ils, adr-isba',
@@ -173,35 +183,49 @@ export class InformeFavorableAdrIsbaComponent {
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
 
+
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
-      doc.text(line, marginLeft, y)
+      doc.text(line, marginLeft, y);
     });
 
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrativoName, tipo_tramite)
       .subscribe((docDataString: ActoAdministrativoDTO) => {
         let rawTexto = docDataString.texto;
-        this.signedBy = docDataString.signedBy;
-
+        this.signedBy = docDataString.signedBy
         if (!rawTexto) {
           this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
-          return;
+          return
         }
-        /* Formateo la fecha de solicitud antes de reemplazar en el texto */
-        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+
+        /* Formateo las fechas para el acto administrativo */
+        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_notif = formatDate(this.form.get('fecha_requerimiento_notif')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
+
+        // Formateo y reemplazo de esta forma debido a que puede dar '' y no permite formatear
+        if (this.fechaResPresidente !== '') {
+          rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, formatDate(this.fechaResPresidente, 'dd/MM/yyyy', 'es-ES'));
+        }
+
+        /* Formateo los importes monetarios */
         const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
         const formattedImporte_intereses = this.commonService.formatCurrency(this.form.get('intereses_ayuda_solicita_idi_isba')?.value);
         const formattedImporte_aval = this.commonService.formatCurrency(this.form.get('coste_aval_solicita_idi_isba')?.value);
         const formattedImporte_estudios = this.commonService.formatCurrency(this.form.get('gastos_aval_solicita_idi_isba')?.value);
 
-        rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
         rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
+        rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
+        rawTexto = rawTexto.replace(/%CONVO%/g, String(this.actualConvocatoria));
         rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_REQUERIMIENTO%/g, formattedFecha_notif);
         rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, `${formattedImporte_ayuda}`);
         rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, `${formattedImporte_intereses}`);
         rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, `${formattedImporte_aval}`);
-        rawTexto = rawTexto.replace(/%IMPORTE_APERTURA%/g, `${formattedImporte_estudios}`);
-        /* Queda pendiente: BOIBNUM */
+        rawTexto = rawTexto.replace(/%IMPORTE_ESTUDIO%/g, `${formattedImporte_estudios}`);
+        rawTexto = rawTexto.replace(/%BOIBFECHA%/g, formattedFecha_BOIB);
+        rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
+        rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
 
         let jsonObject;
 
@@ -214,21 +238,20 @@ export class InformeFavorableAdrIsbaComponent {
           jsonObject = JSON.parse(rawTexto);
         }
 
-        const maxCharsPerLine = 21;
-        const marginLeft = 25;
-        const maxTextWidth = 160;
-        const x = marginLeft + 110;
-        const y = 51;
-        const hechos: string[] = jsonObject.hechos_1_2_3_4_5.split('\n\n');
-        let hechos_y = 110;
-        const paragraphSpacing = 4;
-
-
-
+        /* Cabecera */
         doc.setFont('helvetica', 'bold');
         doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", "PNG", 25, 20, 75, 15);
         doc.setFontSize(8);
-        doc.text("Document: informe favorable", x, 45);
+
+        const maxCharsPerLine = 21;
+        const marginLeft = 25;
+        const maxTextWidth = 160;
+        const lineHeight = 4;
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const x = marginLeft + 110;
+        const y = 51;
+
+        doc.text("Document: resolució desistiment", x, 45);
         doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, x, 48);
         if (this.actualEmpresa.length > maxCharsPerLine) {
           const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
@@ -237,32 +260,66 @@ export class InformeFavorableAdrIsbaComponent {
           doc.text(secondLine, x, y + 3);
           doc.text(`NIF: ${this.actualNif}`, x, y + 6);
           doc.text("Emissor (DIR3): A04003714", x, y + 9);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, y + 12);
+          doc.text(`Codi SIA: ${this.codigoSIA}`, x, y + 12);
         } else {
           doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
           doc.text(`NIF: ${this.actualNif}`, x, 54);
           doc.text("Emissor (DIR3): A04003714", x, 57);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, 60);
+          doc.text(`Codi SIA: ${this.codigoSIA}`, x, 60);
         }
 
         doc.setFontSize(10);
-        doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80);
-        doc.text(doc.splitTextToSize(jsonObject.hechos_tit, maxTextWidth), marginLeft, 100);
-        doc.setFont('helvetica', 'normal');
+        doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 90);
+        doc.text(doc.splitTextToSize(jsonObject.antecedentes, maxTextWidth), marginLeft, 120);
 
-        // Itero debido a que hay una cadena que no es un hecho, sino información sobre el acto administrativo
-        hechos.forEach((hecho, index) => {
-          const lines = doc.splitTextToSize(hecho, maxTextWidth);
-          const x = index === hechos.length - 1 ? marginLeft : marginLeft + 5;
-          doc.text(lines, x, hechos_y);
-          hechos_y += lines.length * lineHeight + paragraphSpacing;
+        doc.setFont('helvetica', 'normal');
+        doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft + 5, 127)
+        doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft + 5, 150)
+        doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft + 5, 167)
+        doc.text(doc.splitTextToSize(jsonObject.p4, maxTextWidth), marginLeft + 5, 192)
+        doc.text(doc.splitTextToSize(jsonObject.p5, maxTextWidth), marginLeft + 5, 212)
+
+        // Nueva página
+        doc.addPage();
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        lines.forEach((line, index) => {
+          const y = pageHeight - 10 - (index * lineHeight);
+          doc.text(line, marginLeft, y);
         });
+        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
+        doc.setFont('helvetica', 'normal');
+        doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft + 5, 70)
+        doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt_5_6_7_8_9, maxTextWidth), marginLeft + 5, 112);
+        doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 190);
+        doc.setFont('helvetica', 'bold');
+        doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 200);
+        doc.setFont('helvetica', 'normal');
+        doc.text(doc.splitTextToSize(jsonObject.resolucion_1, maxTextWidth), marginLeft + 5, 208);
+        doc.text(doc.splitTextToSize(jsonObject.resolucion_2, maxTextWidth), marginLeft + 5, 228);
+
+        // Nueva página
+        doc.addPage();
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        lines.forEach((line, index) => {
+          const y = pageHeight - 10 - (index * lineHeight);
+          doc.text(line, marginLeft, y);
+        });
+        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
 
         doc.setFont('helvetica', 'bold');
-        doc.text(doc.splitTextToSize(jsonObject.conclusion_tit, maxTextWidth), marginLeft, 204)
+        doc.setFontSize(10);
+        doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 60);
         doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.conclusioTxt, maxTextWidth), marginLeft, 214)
-        doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 250);
+        doc.text(doc.splitTextToSize(jsonObject.recursos_1, maxTextWidth), marginLeft, 70);
+        doc.text(doc.splitTextToSize(jsonObject.recursos_2, maxTextWidth), marginLeft, 100);
+        doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 210);
+
 
         // Convertir a Blob
         const pdfBlob = doc.output('blob');
@@ -289,9 +346,8 @@ export class InformeFavorableAdrIsbaComponent {
             this.docGeneradoInsert.selloDeTiempo = timeStamp;
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
-
-            // Delete documentos previamente generados para evitar duplicados
-            this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_sin_requerimiento')
+            /* Delete documentos previamente generados para evitar duplicados */
+            this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);
@@ -309,20 +365,21 @@ export class InformeFavorableAdrIsbaComponent {
                     this.commonService.showSnackBar(deleteErrMsg);
                   }
                 }
-              });
+              })
           }
-        });
-      });
+        })
+      })
   }
 
   /**
-   * Método que comprueba los campos requeridos antes de realizar la generación del acto administrativo
+   * Método que revisa si tiene todos los campos requeridos para la generación del acto administrativo
   */
   private tieneTodosLosCamposRequeridos(): void {
     this.camposVacios = [];
     this.faltanCampos = false;
     const fecha_REC = this.form.get('fecha_REC')?.value;
     const ref_REC = this.form.get('ref_REC')?.value;
+    const fecha_requerimiento_notif = this.form.get('fecha_requerimiento_notif')?.value;
 
     if (!fecha_REC?.trim() || fecha_REC?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC')
@@ -330,6 +387,10 @@ export class InformeFavorableAdrIsbaComponent {
 
     if (!ref_REC?.trim()) {
       this.camposVacios.push('FORM.REF_REC')
+    }
+
+    if (!fecha_requerimiento_notif?.trim() || fecha_requerimiento_notif?.trim() === "0000-00-00") {
+      this.camposVacios.push('FORM.FECHA_REQUERIMIENTO_NOTIF')
     }
 
     this.faltanCampos = this.camposVacios.length > 0;
@@ -347,7 +408,7 @@ export class InformeFavorableAdrIsbaComponent {
                 const mensaje =
                   response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
 
-                this.actoAdmin3 = true;
+                this.actoAdmin2 = true;
                 this.commonService.showSnackBar(mensaje);
               },
               error: (updateErr) => {
@@ -377,9 +438,11 @@ export class InformeFavorableAdrIsbaComponent {
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
     let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    if (entorno === "tramits") {
+      url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    } else {
+      url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    }
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
@@ -411,7 +474,7 @@ export class InformeFavorableAdrIsbaComponent {
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
 
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'technician' ? this.userLoginEmail : this.ceoEmail,
+      adreca_mail: this.signedBy === 'ceo' ? this.ceoEmail : this.userLoginEmail,
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
@@ -425,7 +488,7 @@ export class InformeFavorableAdrIsbaComponent {
           const id = res?.publicAccessId;
           this.publicAccessId = id ?? '';
           this.commonService.showSnackBar(id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
-          this.getSignState(this.publicAccessId);
+          this.getSignState(this.publicAccessId)
         },
         error: (err) => {
           const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
@@ -435,7 +498,7 @@ export class InformeFavorableAdrIsbaComponent {
       });
   }
 
-  getSignState(publicAccessId: string): void {
+  getSignState(publicAccessId: string) {
     this.viafirmaService.getDocumentStatus(publicAccessId)
       .subscribe((resp: DocSignedDTO) => {
         this.signatureDocState = resp.status;
@@ -445,4 +508,23 @@ export class InformeFavorableAdrIsbaComponent {
         this.sendedDateToSign = new Date(sendedDateToSign);
       })
   }
+
+  getLineDetail(convocatoria: number) {
+    this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
+      this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+        return item.convocatoria === convocatoria && item.lineaAyuda === "ADR-ISBA" && item.activeLineData === "SI";
+      });
+      this.num_BOIB = this.lineDetail[0]['num_BOIB'];
+      this.codigoSIA = this.lineDetail[0]['codigoSIA'];
+      this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB'];
+      this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? '';
+    })
+  }
+
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      this.dGerente = globalConfig[0].directorGerenteIDI;
+    })
+  }
+
 }

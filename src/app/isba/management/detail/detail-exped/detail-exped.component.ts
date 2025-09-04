@@ -13,10 +13,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of } from 'rxjs';
-import { InformeFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
-import { InformeFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/informe-favorable/informe-favorable.component';
-import { RequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/requerimiento/requerimiento.component';
-import { ResolDesestimientoNoEnmendarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
+import { InformeFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/4_informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
+import { InformeFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/3_informe-favorable/informe-favorable.component';
+import { RequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/1_requerimiento/requerimiento.component';
+import { ResolDesestimientoNoEnmendarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/2_resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
 import { AddDocumentComponent } from '../../../../add-document/add-document.component';
 import { DocumentComponent } from '../../../../document/document.component';
 import { DocSignedDTO } from '../../../../Models/docsigned.dto';
@@ -25,9 +25,9 @@ import { CustomValidatorsService } from '../../../../Services/custom-validators.
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { MejorasSolicitudDetalleAdrIsbaComponent } from '../../../mejoras-solicitud-detalle/mejoras-solicitud-detalle.component';
-import { PrProvisionalFavorableAdrIsbaComponent } from "../../../../actos-admin-adr-isba/pr-provisional-favorable/pr-provisional-favorable.component";
-import { PrProvisionalFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
-import { PrDefinitivaFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/pr-definitiva-favorable/pr-definitiva-favorable.component';
+import { PrProvisionalFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/5_pr-provisional-favorable/pr-provisional-favorable.component';
+import { PrProvisionalFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/6_pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
+import { PrDefinitivaFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/7_pr-definitiva-favorable/pr-definitiva-favorable.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -45,7 +45,7 @@ import { PrDefinitivaFavorableAdrIsbaComponent } from '../../../../actos-admin-a
     InformeFavorableConRequerimientoAdrIsbaComponent,
     PrProvisionalFavorableAdrIsbaComponent, PrProvisionalFavorableConRequerimientoAdrIsbaComponent,
     PrDefinitivaFavorableAdrIsbaComponent
-],
+  ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
 })
