@@ -284,6 +284,13 @@
                     [actualIdExp]="actualIdExp" [actualNif]="actualNif"
                     [actualConvocatoria]="actualConvocatoria"
                     [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-pr-definitiva-favorable-adr-isba>
+                    <app-pr-definitiva-favorable-con-requerimiento-adr-isba
+                    [form]="form" [actualID]="actualID"
+                    [actualIdExp]="actualIdExp" [actualNif]="actualNif"
+                    [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-pr-definitiva-favorable-con-requerimiento-adr-isba>
+                    <app-resolucion-concesion-adr-isba></app-resolucion-concesion-adr-isba>
+                    <app-resolucion-concesion-con-requerimiento-adr-isba></app-resolucion-concesion-con-requerimiento-adr-isba>
 
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>
@@ -386,6 +393,7 @@
                 </section>
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <app-resolucion-de-pago-y-justificacion-adr-isba></app-resolucion-de-pago-y-justificacion-adr-isba>
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
@@ -449,6 +457,9 @@
                 </section>
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <app-resolucion-desestimiento-por-renuncia-adr-isba></app-resolucion-desestimiento-por-renuncia-adr-isba>
+                    <app-pr-revocacion-por-no-justificar-adr-isba></app-pr-revocacion-por-no-justificar-adr-isba>
+                    <app-resolucion-revocacion-por-no-justificar-adr-isba></app-resolucion-revocacion-por-no-justificar-adr-isba>
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>

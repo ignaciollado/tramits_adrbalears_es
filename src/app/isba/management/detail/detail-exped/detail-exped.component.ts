@@ -28,6 +28,13 @@ import { MejorasSolicitudDetalleAdrIsbaComponent } from '../../../mejoras-solici
 import { PrProvisionalFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/5_pr-provisional-favorable/pr-provisional-favorable.component';
 import { PrProvisionalFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/6_pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
 import { PrDefinitivaFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/7_pr-definitiva-favorable/pr-definitiva-favorable.component';
+import { PrDefinitivaFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/8_pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.component';
+import { ResolucionConcesionAdrIsbaComponent } from '../../../../actos-admin-adr-isba/9_resolucion-concesion/resolucion-concesion.component';
+import { ResolucionConcesionConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/10_resolucion-concesion-con-requerimiento/resolucion-concesion-con-requerimiento.component';
+import { ResolucionDePagoYJustificacionAdrIsbaComponent } from '../../../../actos-admin-adr-isba/11_resolucion-de-pago-y-justificacion/resolucion-de-pago-y-justificacion.component';
+import { ResolucionDesestimientoPorRenunciaAdrIsbaComponent } from '../../../../actos-admin-adr-isba/12_resolucion-desestimiento-por-renuncia/resolucion-desestimiento-por-renuncia.component';
+import { PrRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/13_pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
+import { ResolucionRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/14_resolucion-revocacion-por-no-justificar/resolucion-revocacion-por-no-justificar.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -44,7 +51,11 @@ import { PrDefinitivaFavorableAdrIsbaComponent } from '../../../../actos-admin-a
     ResolDesestimientoNoEnmendarAdrIsbaComponent, InformeFavorableAdrIsbaComponent,
     InformeFavorableConRequerimientoAdrIsbaComponent,
     PrProvisionalFavorableAdrIsbaComponent, PrProvisionalFavorableConRequerimientoAdrIsbaComponent,
-    PrDefinitivaFavorableAdrIsbaComponent
+    PrDefinitivaFavorableAdrIsbaComponent, PrDefinitivaFavorableConRequerimientoAdrIsbaComponent,
+    ResolucionConcesionAdrIsbaComponent, ResolucionConcesionConRequerimientoAdrIsbaComponent,
+    ResolucionDePagoYJustificacionAdrIsbaComponent, ResolucionDesestimientoPorRenunciaAdrIsbaComponent,
+    PrRevocacionPorNoJustificarAdrIsbaComponent, ResolucionRevocacionPorNoJustificarAdrIsbaComponent
+
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
