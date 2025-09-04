@@ -18,6 +18,8 @@ import { ExpedienteService } from '../../Services/expediente.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 
 @Component({
   selector: 'app-informe-favorable-adr-isba',
@@ -46,6 +48,7 @@ export class InformeFavorableAdrIsbaComponent {
   codigoSIA: string = "";
   lineDetail: PindustLineaAyudaDTO[] = [];
   num_BOIB: string = "";
+  nomPresidenteIdi: string = "";
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
@@ -82,7 +85,8 @@ export class InformeFavorableAdrIsbaComponent {
     private viafirmaService: ViafirmaService,
     private documentosGeneradosService: DocumentosGeneradosService,
     private actoAdminService: ActoAdministrativoService,
-    private lineaAyuda: PindustLineaAyudaService
+    private lineaAyuda: PindustLineaAyudaService,
+    private configGlobal: PindustConfiguracionService
   ) {
     this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
@@ -108,6 +112,7 @@ export class InformeFavorableAdrIsbaComponent {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
+      this.getGlobalConfig();
     }
   }
 
@@ -207,6 +212,7 @@ export class InformeFavorableAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, `${formattedImporte_aval}`);
         rawTexto = rawTexto.replace(/%IMPORTE_APERTURA%/g, `${formattedImporte_estudios}`);
         rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
+        rawTexto = rawTexto.replace(/%NOMBREPRESIDENTEIDI%/g, this.nomPresidenteIdi);
 
         let jsonObject;
 
@@ -460,4 +466,11 @@ export class InformeFavorableAdrIsbaComponent {
       this.codigoSIA = this.lineDetail[0]['codigoSIA'];
     })
   }
+
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      this.nomPresidenteIdi = globalConfig[0]['respresidente'];
+    })
+  }
+
 }

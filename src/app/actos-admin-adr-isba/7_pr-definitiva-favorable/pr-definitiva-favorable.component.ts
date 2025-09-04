@@ -54,6 +54,7 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
   codigoSIA: string = "";
   fechaResPresidente: string = "";
   dGerente: string = "";
+  nomPresidenteIdi: string = "";
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
@@ -236,6 +237,7 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%BOIBFECHA%/g, formattedFecha_BOIB);
         rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
         rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
+        rawTexto = rawTexto.replace(/%NOMBREPRESIDENTEIDI%/g, this.nomPresidenteIdi);
 
         /* Mejoras */
         // if (this.tieneMejoras) {
@@ -570,6 +572,7 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
   getGlobalConfig() {
     this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
       this.dGerente = globalConfig[0].directorGerenteIDI;
+      this.nomPresidenteIdi = globalConfig[0].respresidente;
     })
   }
 }
