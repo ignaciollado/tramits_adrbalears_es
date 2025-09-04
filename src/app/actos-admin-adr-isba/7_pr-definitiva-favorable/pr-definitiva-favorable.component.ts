@@ -18,6 +18,10 @@ import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { switchMap, tap, of, finalize } from 'rxjs';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 import jsPDF from 'jspdf';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
+import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 
 @Component({
   selector: 'app-pr-definitiva-favorable-adr-isba',
@@ -43,7 +47,13 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
-  codigoSIAConvo: string = "3153714";
+  globalDetail: ConfigurationModelDTO[] = [];
+  lineDetail: PindustLineaAyudaDTO[] = [];
+  num_BOIB: string = "";
+  fecha_BOIB: string = "";
+  codigoSIA: string = "";
+  fechaResPresidente: string = "";
+  dGerente: string = "";
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
@@ -82,7 +92,9 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
     private viafirmaService: ViafirmaService,
     private documentoGeneradosService: DocumentosGeneradosService,
     private actoAdminService: ActoAdministrativoService,
-    private mejorasSolicitudService: MejorasSolicitudService
+    private mejorasSolicitudService: MejorasSolicitudService,
+    private lineaAyuda: PindustLineaAyudaService,
+    private configGlobal: PindustConfiguracionService
   ) {
     this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
@@ -108,6 +120,8 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
     if (this.tieneTodosLosValores()) {
       this.checkMejoras();
       this.getActoAdminDetail();
+      this.getLineDetail(this.actualConvocatoria);
+      this.getGlobalConfig();
     }
   }
 
@@ -195,6 +209,8 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
         const formattedFecha_aval_idi_isba = formatDate(this.form.get('fecha_aval_idi_isba')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_firma_propuesta_resolucion_prov = formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_not_propuesta_resolucion_prov = formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
+
 
         /* Importes monetarios formateados */
         const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
@@ -217,6 +233,9 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%FECHA_AVAL%/g, formattedFecha_aval_idi_isba);
         rawTexto = rawTexto.replace(/%AÑOS_DURACION_AVAL%/g, this.form.get('plazo_aval_idi_isba')?.value);
         rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PR_PROV%/g, formattedFecha_not_propuesta_resolucion_prov);
+        rawTexto = rawTexto.replace(/%BOIBFECHA%/g, formattedFecha_BOIB);
+        rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
+        rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
 
         /* Mejoras */
         // if (this.tieneMejoras) {
@@ -224,7 +243,6 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
         //   rawTexto = rawTexto.replace(/%FECHARECM%/g, formattedFecha_ultima_mejora);
         //   rawTexto = rawTexto.replace(/%REFRECM%/g, this.ref_ultima_mejora);
         // }
-        /* Quedan pendiente: BOIBFECHA, BOIBNUM, DGERENTE */
 
         let jsonObject;
 
@@ -256,12 +274,12 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
           doc.text(secondLine, x, y + 3);
           doc.text(`NIF: ${this.actualNif}`, x, y + 6);
           doc.text("Emissor (DIR3): A04003714", x, y + 9);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, y + 12);
+          doc.text(`Codi SIA: ${this.codigoSIA}`, x, y + 12);
         } else {
           doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
           doc.text(`NIF: ${this.actualNif}`, x, 54);
           doc.text("Emissor (DIR3): A04003714", x, 57);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, 60);
+          doc.text(`Codi SIA: ${this.codigoSIA}`, x, 60);
         }
 
         doc.setFontSize(10);
@@ -281,7 +299,7 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
           const y = pageHeight - 10 - (index * lineHeight);
           doc.text(line, marginLeft, y);
         })
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
         doc.setFontSize(10);
         doc.text(doc.splitTextToSize(jsonObject.antecedentes_6, maxTextWidth), marginLeft + 5, 60);
@@ -294,7 +312,7 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
           const y = pageHeight - 10 - (index * lineHeight);
           doc.text(line, marginLeft, y);
         })
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
         doc.setFontSize(10);
         doc.setFont('helvetica', 'bold');
@@ -310,7 +328,7 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
           const y = pageHeight - 10 - (index * lineHeight);
           doc.text(line, marginLeft, y);
         })
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
         doc.setFontSize(10);
         doc.setFont('helvetica', 'bold');
@@ -537,5 +555,21 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
         const sendedDateToSign = resp.creationDate;
         this.sendedDateToSign = new Date(sendedDateToSign);
       })
+  }
+  getLineDetail(convocatoria: number) {
+    this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
+      this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+        return item.convocatoria === convocatoria && item.lineaAyuda === "ADR-ISBA" && item.activeLineData === "SI";
+      });
+      this.num_BOIB = this.lineDetail[0]['num_BOIB'];
+      this.codigoSIA = this.lineDetail[0]['codigoSIA'];
+      this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB'];
+    })
+  }
+
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      this.dGerente = globalConfig[0].directorGerenteIDI;
+    })
   }
 }

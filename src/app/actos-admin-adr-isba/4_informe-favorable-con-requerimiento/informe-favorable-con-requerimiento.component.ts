@@ -16,6 +16,8 @@ import { DocumentosGeneradosService } from '../../Services/documentos-generados.
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import jsPDF from 'jspdf';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 
 @Component({
   selector: 'app-informe-favorable-con-requerimiento-adr-isba',
@@ -41,7 +43,9 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
   loading: boolean = false;
   response?: SignatureResponse;
   error?: string;
-  codigoSIAConvo: string = "3153714";
+  codigoSIA: string = "";
+  lineDetail: PindustLineaAyudaDTO[] = [];
+  num_BOIB: string = "";
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
@@ -77,7 +81,8 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
     private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService,
     private documentosGeneradosService: DocumentosGeneradosService,
-    private actoAdminService: ActoAdministrativoService
+    private actoAdminService: ActoAdministrativoService,
+    private lineaAyuda: PindustLineaAyudaService
   ) {
     this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
@@ -103,6 +108,7 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
   ngOnChanges(changes: SimpleChange): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
+      this.getLineDetail(this.actualConvocatoria);
     }
   }
 
@@ -210,7 +216,7 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%FECHAREQUERIMIENTO%/g, formattedFecha_requerimiento_notif);
         rawTexto = rawTexto.replace(/%FECHAENMIENDA%/g, formattedFecha_REC_enmienda);
         rawTexto = rawTexto.replace(/%REFERENCIA_ESMENA_REC%/g, this.form.get('ref_REC_enmienda')?.value);
-        /* Queda pendiente: BOIBNUM */
+        rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
 
         let jsonObject;
 
@@ -245,12 +251,12 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
           doc.text(secondLine, x, y + 3);
           doc.text(`NIF: ${this.actualNif}`, x, y + 6);
           doc.text("Emissor (DIR3): A04003714", x, y + 9);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, y + 12);
+          doc.text(`Codi SIA: ${this.codigoSIA}`, x, y + 12);
         } else {
           doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
           doc.text(`NIF: ${this.actualNif}`, x, 54);
           doc.text("Emissor (DIR3): A04003714", x, 57);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, 60);
+          doc.text(`Codi SIA: ${this.codigoSIA}`, x, 60);
         }
 
         doc.setFontSize(10);
@@ -274,7 +280,7 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
           const y = pageHeight - 10 - (index * lineHeight);
           doc.text(line, marginLeft, y);
         })
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
@@ -475,5 +481,15 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
         this.sendedDateToSign = new Date(sendedDateToSign);
       })
   }
+
+    getLineDetail(convocatoria: number) {
+      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
+        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+          return item.convocatoria === convocatoria && item.lineaAyuda === "ADR-ISBA" && item.activeLineData === "SI";
+        });
+        this.num_BOIB = this.lineDetail[0]['num_BOIB'];
+        this.codigoSIA = this.lineDetail[0]['codigoSIA'];
+      })
+    }
 
 }

@@ -287,7 +287,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
           const y = pageHeight - 10 - (index * lineHeight);
           doc.text(line, marginLeft, y);
         });
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
         doc.setFontSize(10);
         doc.setFont('helvetica', 'bold');
@@ -310,7 +310,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
           const y = pageHeight - 10 - (index * lineHeight);
           doc.text(line, marginLeft, y);
         });
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 18, 20);
+        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
