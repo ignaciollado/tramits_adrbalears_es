@@ -289,32 +289,14 @@
                     [actualIdExp]="actualIdExp" [actualNif]="actualNif"
                     [actualConvocatoria]="actualConvocatoria"
                     [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-pr-definitiva-favorable-con-requerimiento-adr-isba>
-                    <app-resolucion-concesion-adr-isba></app-resolucion-concesion-adr-isba>
+                    <app-resolucion-concesion-adr-isba
+                    [form]="form" [actualID]="actualID"
+                    [actualIdExp]="actualIdExp" [actualNif]="actualNif"
+                    [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resolucion-concesion-adr-isba>
                     <app-resolucion-concesion-con-requerimiento-adr-isba></app-resolucion-concesion-con-requerimiento-adr-isba>
 
                     <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONDEFINITIVACONREQUERIMIENTO' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <!-- Campos requeridos: 6
-                             fecha_REC, ref_REC, fecha_infor_fav_desf,
-                            fecha_maxima_enmienda, fecha_firma_propuesta_resolucion_prov,
-                            fecha_not_propuesta_resolucion_prov
-                            -->
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESION' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <!-- Campos requeridos: 7
-                             fecha_REC, ref_REC, fecha_infor_fav_desf, 
-                             fecha_firma_propuesta_resolucion_prov, fecha_not_propuesta_resolucion_prov, 
-                             fecha_firma_propuesta_resolucion_def, fecha_not_propuesta_resolucion_def,
-                             -->
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESIONCONREQUERIMIENTO' | translate}}</mat-panel-title>
