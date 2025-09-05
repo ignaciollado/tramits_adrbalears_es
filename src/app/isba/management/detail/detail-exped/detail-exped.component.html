@@ -323,11 +323,11 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REC_JUSTIFICACION' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_REC_justificacion">
+                        <input matInput type="datetime-local" step="1" formControlName="fecha_REC_justificacion">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REF_REC_JUSTIFICACION' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ref_REC_justificacion">
+                        <input matInput type="text" formControlName="ref_REC_justificacion" maxlength="16">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_FIRMA_RES_PAGO_JUST' | translate}}</mat-label>
@@ -355,16 +355,20 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REC_REQUERIMIENTO_JUSTIFICACION' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_REC_requerimiento_justificacion">
+                        <input matInput type="datetime-local" step="1" formControlName="fecha_REC_requerimiento_justificacion">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REF_REC_REQUERIMIENTO_JUSTIFICACION' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ref_REC_requerimiento_justificacion">
+                        <input matInput type="text" formControlName="ref_REC_requerimiento_justificacion" maxlength="16">
                     </mat-form-field>
                 </section>
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
-                    <app-resolucion-de-pago-y-justificacion-adr-isba></app-resolucion-de-pago-y-justificacion-adr-isba>
+                    <app-resolucion-de-pago-y-justificacion-adr-isba
+                    [form]="form" [actualID]="actualID"
+                    [actualIdExp]="actualIdExp" [actualNif]="actualNif"
+                    [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resolucion-de-pago-y-justificacion-adr-isba>
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>

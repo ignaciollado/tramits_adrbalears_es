@@ -147,7 +147,7 @@ export class IsbaDetailExpedComponent {
       fecha_notificacion_resolucion: [{ value: '', disabled: true }, []],
       fecha_limite_justificacion: [{ value: '', disabled: true }, []],
       fecha_REC_justificacion: [{ value: '', disabled: true }, []],
-      ref_REC_justificacion: [{ value: '', disabled: true }, []],
+      ref_REC_justificacion: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       fecha_firma_res_pago_just: [{ value: '', disabled: true }, []],
       fecha_not_res_pago: [{ value: '', disabled: true }, []],
       fecha_inf_inicio_req_justif: [{ value: '', disabled: true }, []],
@@ -155,7 +155,7 @@ export class IsbaDetailExpedComponent {
       fecha_firma_requerimiento_justificacion: [{ value: '', disabled: true }, []],
       fecha_not_req_just: [{ value: '', disabled: true }, []],
       fecha_REC_requerimiento_justificacion: [{ value: '', disabled: true }, []],
-      ref_REC_requerimiento_justificacion: [{ value: '', disabled: true }, []],
+      ref_REC_requerimiento_justificacion: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       /* Desestimiento o renuncia */
       fecha_REC_desestimiento: [{ value: '', disabled: true }, []],
       ref_REC_desestimiento: [{ value: '', disabled: true }, []],
