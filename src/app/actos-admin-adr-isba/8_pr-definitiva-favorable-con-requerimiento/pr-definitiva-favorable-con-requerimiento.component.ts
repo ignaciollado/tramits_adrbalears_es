@@ -398,20 +398,20 @@ export class PrDefinitivaFavorableConRequerimientoAdrIsbaComponent {
     const fecha_maxima_enmienda = this.form.get('fecha_maxima_enmienda')?.value;
     const fecha_firma_propuesta_resolucion_prov = this.form.get('fecha_firma_propuesta_resolucion_prov')?.value;
     const fecha_not_propuesta_resolucion_prov = this.form.get('fecha_not_propuesta_resolucion_prov')?.value;
-
+    
     if (!fecha_REC?.trim() || fecha_REC?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC')
     }
-    if (!fecha_infor_fav_desf?.trim() || fecha_infor_fav_desf?.trim() === "0000-00-00 00:00:00") {
+    if (!fecha_infor_fav_desf?.trim() || fecha_infor_fav_desf?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.FECHA_INFOR_FAV_DESF')
     }
-    if (!fecha_maxima_enmienda?.trim() || fecha_maxima_enmienda?.trim() === "0000-00-00 00:00:00") {
+    if (!fecha_maxima_enmienda?.trim() || fecha_maxima_enmienda?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.FECHA_MAXIMA_ENMIENDA_ISBA')
     }
-    if (!fecha_firma_propuesta_resolucion_prov?.trim() || fecha_firma_propuesta_resolucion_prov?.trim() === "0000-00-00 00:00:00") {
+    if (!fecha_firma_propuesta_resolucion_prov?.trim() || fecha_firma_propuesta_resolucion_prov?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.FECHA_FIRMA_PROPUESTA_RESOLUCION_PROV')
     }
-    if (!fecha_not_propuesta_resolucion_prov?.trim() || fecha_not_propuesta_resolucion_prov?.trim() === "0000-00-00 00:00:00") {
+    if (!fecha_not_propuesta_resolucion_prov?.trim() || fecha_not_propuesta_resolucion_prov?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.FECHA_NOT_PROPUESTA_RESOLUCION_PROV')
     }
 
