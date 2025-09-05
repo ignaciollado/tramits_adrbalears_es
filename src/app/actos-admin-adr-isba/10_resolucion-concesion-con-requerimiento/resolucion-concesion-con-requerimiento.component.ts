@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import jsPDF from 'jspdf';
 import { finalize } from 'rxjs';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
@@ -19,18 +20,17 @@ import { ExpedienteService } from '../../Services/expediente.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
-import jsPDF from 'jspdf';
 
 @Component({
-  selector: 'app-resolucion-concesion-adr-isba',
+  selector: 'app-resolucion-concesion-con-requerimiento-adr-isba',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, TranslateModule, MatExpansionModule, MatButtonModule],
-  templateUrl: './resolucion-concesion.component.html',
-  styleUrl: './resolucion-concesion.component.scss'
+  templateUrl: './resolucion-concesion-con-requerimiento.component.html',
+  styleUrl: './resolucion-concesion-con-requerimiento.component.scss'
 })
-export class ResolucionConcesionAdrIsbaComponent {
+export class ResolucionConcesionConRequerimientoAdrIsbaComponent {
   private expedienteService = inject(ExpedienteService);
-  actoAdmin9: boolean = false;
+  actoAdmin10: boolean = false;
   sendedToSign: boolean = false;
   signatureDocState: string = "";
   nifDocGenerado: string = "";
@@ -94,7 +94,7 @@ export class ResolucionConcesionAdrIsbaComponent {
     this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
 
-  get stateClassActAdmin9(): string {
+  get stateClassActAdmin10(): string {
     const map: Record<string, string> = {
       NOT_STARTED: 'req-state--not-started',
       IN_PROCESS: 'req-state--in-process',
@@ -105,7 +105,7 @@ export class ResolucionConcesionAdrIsbaComponent {
   }
 
   ngOnInit(): void {
-    this.actoAdminService.getByNameAndTipoTramite('isba_9_resolucion_concesion', 'ADR-ISBA')
+    this.actoAdminService.getByNameAndTipoTramite('isba_10_resolucion_concesion_con_requerimiento', 'ADR-ISBA')
       .subscribe((docDataString: ActoAdministrativoDTO) => {
         this.signedBy = docDataString.signedBy;
       });
@@ -130,12 +130,12 @@ export class ResolucionConcesionAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_concesion_sin_requerimiento')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_concesion_con_requerimiento')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin9 = false;
+          this.actoAdmin10 = false;
           if (docActoAdmin.length === 1) {
-            this.actoAdmin9 = true;
+            this.actoAdmin10 = true;
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo;
             this.nameDocGenerado = docActoAdmin[0].name;
             this.lastInsertId = docActoAdmin[0].id;
@@ -147,7 +147,7 @@ export class ResolucionConcesionAdrIsbaComponent {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin9 = false;
+          this.actoAdmin10 = false;
         }
       })
   }
@@ -199,13 +199,15 @@ export class ResolucionConcesionAdrIsbaComponent {
 
         /* Fechas formateadas */
         const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
-        const formattedFecha_infor = formatDate(this.form.get('fecha_infor_fav_desf')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_aval_idi_isba = formatDate(this.form.get('fecha_aval_idi_isba')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_firma_propuesta_resolucion_prov = formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_not_propuesta_resolucion_prov = formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_firma_propuesta_resolucion_def = formatDate(this.form.get('fecha_firma_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES')
-        const formattedFecha_not_propuesta_resolucion_def = formatDate(this.form.get('fecha_not_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES')
+        const formattedFecha_not_req = formatDate(this.form.get('fecha_requerimiento_notif')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_REC_enmienda = formatDate(this.form.get('fecha_REC_enmienda')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedFecha_informe = formatDate(this.form.get('fecha_infor_fav_desf')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_pr_res_prov = formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_aval = formatDate(this.form.get('fecha_aval_idi_isba')?.value, 'dd/MM/yyyy', 'es-ES')
         const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_not_pr_res_prov = formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_pr_res_def = formatDate(this.form.get('fecha_firma_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_not_pr_res_def = formatDate(this.form.get('fecha_not_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES');
 
         /* Importes monetarios formateados */
         const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
@@ -214,23 +216,27 @@ export class ResolucionConcesionAdrIsbaComponent {
         const formattedImporte_estudios = this.commonService.formatCurrency(this.form.get('gastos_aval_solicita_idi_isba')?.value);
         const formattedImporte_prestamo = this.commonService.formatCurrency(this.form.get('importe_prestamo')?.value);
 
+
+
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
         rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
-        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%FECHASOL%/g, formattedFecha_REC);
         rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, formattedImporte_ayuda);
         rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, formattedImporte_intereses);
         rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, formattedImporte_aval);
         rawTexto = rawTexto.replace(/%IMPORTE_ESTUDIO%/g, formattedImporte_estudios);
         rawTexto = rawTexto.replace(/%NOMBRE_BANCO%/g, this.form.get('nom_entidad')?.value);
         rawTexto = rawTexto.replace(/%IMPORTE_PRESTAMO%/g, formattedImporte_prestamo);
-        rawTexto = rawTexto.replace(/%FECHAINFORME%/g, formattedFecha_infor);
-        rawTexto = rawTexto.replace(/%FECHA_AVAL%/g, formattedFecha_aval_idi_isba);
+        rawTexto = rawTexto.replace(/%FECHAREQUERIMENT%/g, formattedFecha_not_req);
+        rawTexto = rawTexto.replace(/%FECHAESMENA%/g, formattedFecha_REC_enmienda);
+        rawTexto = rawTexto.replace(/%FECHAINFORME%/g, formattedFecha_informe);
+        rawTexto = rawTexto.replace(/%FECHA_PROPUESTA_RESOLUCION_PROVISIONAL%/g, formattedFecha_pr_res_prov);
+        rawTexto = rawTexto.replace(/%FECHA_AVAL%/g, formattedFecha_aval);
         rawTexto = rawTexto.replace(/%ANYOS_DURACION_AVAL%/g, this.form.get('plazo_aval_idi_isba')?.value);
-        rawTexto = rawTexto.replace(/%FECHA_PROPUESTA_RESOLUCION_PROVISIONAL%/g, formattedFecha_firma_propuesta_resolucion_prov);
-        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PR_PROV%/g, formattedFecha_not_propuesta_resolucion_prov);
-        rawTexto = rawTexto.replace(/%FECHA_PROPUESTA_RESOLUCION_DEFINITIVA%/g, formattedFecha_firma_propuesta_resolucion_def);
-        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_P_RESOL_DEFINITIVA%/g, formattedFecha_not_propuesta_resolucion_def);
-        rawTexto = rawTexto.replace(/%BOIBFECHA%/g, formattedFecha_BOIB);
+        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PR_PROV%/g, formattedFecha_not_pr_res_prov);
+        rawTexto = rawTexto.replace(/%FECHA_PROPUESTA_RESOLUCION_DEFINITIVA%/g, formattedFecha_pr_res_def);
+        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_P_RESOL_DEFINITIVA%/g, formattedFecha_not_pr_res_def);
+        rawTexto = rawTexto.replace(/%BOIBFECHA%/g, formattedFecha_BOIB)
         rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
         rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
         rawTexto = rawTexto.replace(/%NOMBREPRESIDENTEIDI%/g, this.nomPresidenteIdi);
@@ -245,6 +251,7 @@ export class ResolucionConcesionAdrIsbaComponent {
         } finally {
           jsonObject = JSON.parse(rawTexto)
         }
+
 
         const maxCharsPerLine = 21;
         const marginLeft = 25;
@@ -277,7 +284,7 @@ export class ResolucionConcesionAdrIsbaComponent {
         doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80);
         doc.text(doc.splitTextToSize(jsonObject.fets_tit, maxTextWidth), marginLeft, 100);
         doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.fets_1_2_3_4_5, maxTextWidth), marginLeft + 5, 110);
+        doc.text(doc.splitTextToSize(jsonObject.fets_1_2_3_4_5_6_7, maxTextWidth), marginLeft + 5, 110);
 
         // Segunda página
         doc.addPage();
@@ -290,8 +297,7 @@ export class ResolucionConcesionAdrIsbaComponent {
         doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
         doc.setFontSize(10);
-        doc.text(doc.splitTextToSize(jsonObject.antecedentes_6, maxTextWidth), marginLeft + 5, 60);
-        doc.text(doc.splitTextToSize(jsonObject.antecedentes_14_15, maxTextWidth), marginLeft + 5, 243);
+        doc.text(doc.splitTextToSize(jsonObject.fets_8_9_10_11_12_13_14_15_16_17, maxTextWidth), marginLeft + 5, 60);
 
         // Tercera página
         doc.addPage();
@@ -366,7 +372,7 @@ export class ResolucionConcesionAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_concesion_sin_requerimiento')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_concesion_con_requerimiento')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);
@@ -388,6 +394,7 @@ export class ResolucionConcesionAdrIsbaComponent {
           }
         });
       });
+
   }
 
   private tieneTodosLosCamposRequeridos(): void {
@@ -401,9 +408,15 @@ export class ResolucionConcesionAdrIsbaComponent {
     const fecha_not_propuesta_resolucion_prov = this.form.get('fecha_not_propuesta_resolucion_prov')?.value;
     const fecha_firma_propuesta_resolucion_def = this.form.get('fecha_firma_propuesta_resolucion_def')?.value;
     const fecha_not_propuesta_resolucion_def = this.form.get('fecha_not_propuesta_resolucion_def')?.value;
+    const fecha_REC_enmienda = this.form.get('fecha_REC_enmienda')?.value;
+    const ref_REC_enmienda = this.form.get('ref_REC_enmienda')?.value;
 
     if (!fecha_REC?.trim() || fecha_REC?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC')
+    }
+
+    if (!fecha_REC_enmienda?.trim() || fecha_REC_enmienda?.trim() === "0000-00-00 00:00:00") {
+      this.camposVacios.push('FORM.FECHA_REC_ENMIENDA')
     }
 
     if (!fecha_infor_fav_desf?.trim() || fecha_infor_fav_desf?.trim() === "0000-00-00") {
@@ -430,6 +443,10 @@ export class ResolucionConcesionAdrIsbaComponent {
       this.camposVacios.push('FORM.REF_REC')
     }
 
+    if (!ref_REC_enmienda?.trim()) {
+      this.camposVacios.push('FORM.REF_REC_ENMIENDA')
+    }
+
     this.faltanCampos = this.camposVacios.length > 0;
   }
 
@@ -444,7 +461,7 @@ export class ResolucionConcesionAdrIsbaComponent {
               next: (response: any) => {
                 const mensaje =
                   response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                this.actoAdmin9 = true;
+                this.actoAdmin10 = true;
                 this.commonService.showSnackBar(mensaje);
               },
               error: (updateErr) => {
