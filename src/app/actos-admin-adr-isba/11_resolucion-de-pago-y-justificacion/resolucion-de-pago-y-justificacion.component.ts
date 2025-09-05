@@ -36,7 +36,7 @@ export class ResolucionDePagoYJustificacionAdrIsbaComponent {
   nifDocGenerado: string = "";
   timeStampDocGenerado: string = "";
   userLoginEmail: string = "";
-  ceoEmail: string = "jose.luis.de.jesus.ramon@gmail.com"; // Temporal
+  ceoEmail: string = "jldejesus@adrbalears.caib.es"; // Temporal
   pdfUrl: SafeResourceUrl | null = null;
   imageUrl: SafeUrl | undefined;
   showPdfViewer: boolean = false;
