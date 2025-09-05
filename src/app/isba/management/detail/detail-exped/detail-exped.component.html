@@ -369,20 +369,6 @@
                     [actualIdExp]="actualIdExp" [actualNif]="actualNif"
                     [actualConvocatoria]="actualConvocatoria"
                     [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resolucion-de-pago-y-justificacion-adr-isba>
-                    <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONPAGOYJUSTIFICACION' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <!-- Campos requeridos: 8
-                             fecha_not_propuesta_resolucion_prov, fecha_firma_propuesta_resolucion_prov,
-                             fecha_firma_propuesta_resolucion_def, fecha_not_propuesta_resolucion_def,
-                             fecha_firma_res, fecha_notificacion_resolucion, fecha_REC_justificacion, 
-                             ref_REC_justificacion   
-                            -->
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
-                    </mat-accordion>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
