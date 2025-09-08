@@ -385,11 +385,11 @@
                 <section>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_REC_DESESTIMIENTO' | translate}}</mat-label>
-                        <input matInput type="date" formControlName="fecha_REC_desestimiento">
+                        <input matInput type="datetime-local" step="1" formControlName="fecha_REC_desestimiento">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.REF_REC_DESESTIMIENTO' | translate}}</mat-label>
-                        <input matInput type="text" formControlName="ref_REC_desestimiento">
+                        <input matInput type="text" formControlName="ref_REC_desestimiento" maxlength="16">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.FECHA_FIRMA_RESOLUCION_DESESTIMIENTO' | translate}}</mat-label>
@@ -418,19 +418,14 @@
                 </section>
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
-                    <app-resolucion-desestimiento-por-renuncia-adr-isba></app-resolucion-desestimiento-por-renuncia-adr-isba>
+                    <app-resolucion-desestimiento-por-renuncia-adr-isba
+                    [form]="form" [actualID]="actualID"
+                    [actualIdExp]="actualIdExp" [actualNif]="actualNif"
+                    [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resolucion-desestimiento-por-renuncia-adr-isba>
                     <app-pr-revocacion-por-no-justificar-adr-isba></app-pr-revocacion-por-no-justificar-adr-isba>
                     <app-resolucion-revocacion-por-no-justificar-adr-isba></app-resolucion-revocacion-por-no-justificar-adr-isba>
                     <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTORENUNCIA' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <!-- Campos requeridos: 2
-                             fecha_REC_desestimiento, ref_REC_desestimiento
-                            -->
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONREVOCACIONNOJUSTIFICAR' | translate}}</mat-panel-title>

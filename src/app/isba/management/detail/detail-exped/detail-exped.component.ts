@@ -32,9 +32,9 @@ import { PrDefinitivaFavorableConRequerimientoAdrIsbaComponent } from '../../../
 import { ResolucionConcesionAdrIsbaComponent } from '../../../../actos-admin-adr-isba/9_resolucion-concesion/resolucion-concesion.component';
 import { ResolucionConcesionConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/10_resolucion-concesion-con-requerimiento/resolucion-concesion-con-requerimiento.component';
 import { ResolucionDePagoYJustificacionAdrIsbaComponent } from '../../../../actos-admin-adr-isba/11_resolucion-de-pago-y-justificacion/resolucion-de-pago-y-justificacion.component';
-import { ResolucionDesestimientoPorRenunciaAdrIsbaComponent } from '../../../../actos-admin-adr-isba/12_resolucion-desestimiento-por-renuncia/resolucion-desestimiento-por-renuncia.component';
-import { PrRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/13_pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
-import { ResolucionRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/14_resolucion-revocacion-por-no-justificar/resolucion-revocacion-por-no-justificar.component';
+import { ResolucionDesestimientoPorRenunciaAdrIsbaComponent } from '../../../../actos-admin-adr-isba/15_resolucion-desestimiento-por-renuncia/resolucion-desestimiento-por-renuncia.component';
+import { PrRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/16_pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
+import { ResolucionRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/17_resolucion-revocacion-por-no-justificar/resolucion-revocacion-por-no-justificar.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -158,7 +158,7 @@ export class IsbaDetailExpedComponent {
       ref_REC_requerimiento_justificacion: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       /* Desestimiento o renuncia */
       fecha_REC_desestimiento: [{ value: '', disabled: true }, []],
-      ref_REC_desestimiento: [{ value: '', disabled: true }, []],
+      ref_REC_desestimiento: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       fecha_firma_resolucion_desestimiento: [{ value: '', disabled: true }, []],
       fecha_notificacion_desestimiento: [{ value: '', disabled: true }, []],
       fecha_propuesta_rev: [{ value: '', disabled: true }, []],
