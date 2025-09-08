@@ -81,6 +81,7 @@ export class IsbaDetailExpedComponent {
   publicAccessId: string = "";
   businessType: string = "";
   motivoRequerimiento: string = "";
+  motivoRevocacion: string = "";
   isEditing: boolean = false;
   externalSignUrl: string = "";
   sendedUserToSign: string = "";
@@ -202,6 +203,7 @@ export class IsbaDetailExpedComponent {
           this.actualTipoTramite = expediente.tipo_tramite;
           this.publicAccessId = expediente.PublicAccessId;
           this.motivoRequerimiento = expediente.motivoRequerimiento;
+          this.motivoRevocacion = expediente.motivoResolucionRevocacionPorNoJustificar;
 
           this.checkViafirmaSign(this.publicAccessId)
           this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
@@ -311,17 +313,5 @@ export class IsbaDetailExpedComponent {
         },
         error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
       })
-  }
-
-  // Hay 2 documentos que requieren un motivo, por lo que paso un parámetro para no duplicar funcionalidad
-  saveReasonRequest(formName: string): void {
-    this.saveExpediente();
-    const targetFormValue = this.form.get(formName)?.value
-    if (targetFormValue === "motivoRequerimiento") {
-      targetFormValue ? this.noRequestReasonText = false : this.noRequestReasonText = true;
-    } else {
-      targetFormValue ? this.noRevocationReasonText = false : this.noRevocationReasonText = true;
-    }
-    this.isEditing = !this.isEditing;
   }
 }

@@ -424,7 +424,12 @@
                     [actualConvocatoria]="actualConvocatoria"
                     [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resolucion-desestimiento-por-renuncia-adr-isba>
                     <app-pr-revocacion-por-no-justificar-adr-isba></app-pr-revocacion-por-no-justificar-adr-isba>
-                    <app-resolucion-revocacion-por-no-justificar-adr-isba></app-resolucion-revocacion-por-no-justificar-adr-isba>
+                    <app-resolucion-revocacion-por-no-justificar-adr-isba
+                    [motivoRevocacion]="motivoRevocacion"
+                    [form]="form" [actualID]="actualID"
+                    [actualIdExp]="actualIdExp" [actualNif]="actualNif"
+                    [actualConvocatoria]="actualConvocatoria"
+                    [actualTipoTramite]="actualTipoTramite" [actualEmpresa]="actualEmpresa"></app-resolucion-revocacion-por-no-justificar-adr-isba>
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
@@ -434,20 +439,6 @@
                              fecha_notificacion_resolucion
                             -->
                             <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONREVOCACIONNOJUSTIFICAR' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Motivo de la revocación</mat-label>
-                                <textarea matInput formControlName="motivoResolucionRevocacionPorNoJustificar"></textarea>
-                            </mat-form-field>
-                            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest('motivoResolucionRevocacionPorNoJustificar')">Guardar</button>
-                            <!-- <button mat-raised-button color="accent" (click)="generatePDFDoc('isba_17_resolucion_revocacion_no_justificar', 'ADR-ISBA')" [disabled]="noRevocationReasonText">Generar</button> -->
-                            <button mat-raised-button color="accent" [disabled]="noRevocationReasonText">Generar</button>
-                            <!-- <button mat-raised-button color="warn" (click)="sendPDFDocToSign()" disabled>Send to sign</button> -->
-                            <button mat-raised-button color="warn" disabled>Send to sign</button>
                         </mat-expansion-panel>
                     </mat-accordion>
                 </section>
