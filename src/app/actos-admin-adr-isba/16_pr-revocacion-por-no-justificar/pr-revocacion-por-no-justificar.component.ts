@@ -1,42 +1,36 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, Input, SimpleChanges } from '@angular/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import jsPDF from 'jspdf';
-import { finalize } from 'rxjs';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { ConfigurationModelDTO } from '../../Models/configuration.dto';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
-import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { ExpedienteService } from '../../Services/expediente.service';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { CommonService } from '../../Services/common.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
-import { ExpedienteService } from '../../Services/expediente.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
+import { finalize } from 'rxjs';
+import { DocSignedDTO } from '../../Models/docsigned.dto';
+import jsPDF from 'jspdf';
 
 @Component({
-  selector: 'app-resolucion-revocacion-por-no-justificar-adr-isba',
+  selector: 'app-pr-revocacion-por-no-justificar-adr-isba',
   standalone: true,
-  imports: [CommonModule, TranslateModule, ReactiveFormsModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-  templateUrl: './resolucion-revocacion-por-no-justificar.component.html',
-  styleUrl: './resolucion-revocacion-por-no-justificar.component.scss'
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, MatExpansionModule, MatButtonModule],
+  templateUrl: './pr-revocacion-por-no-justificar.component.html',
+  styleUrl: './pr-revocacion-por-no-justificar.component.scss'
 })
-export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnChanges {
-  private fb = inject(FormBuilder)
-  private expedienteService = inject(ExpedienteService)
-  formRevocacion!: FormGroup;
-  noRevocationReasonText: boolean = true;
-
-  actoAdmin17: boolean = false;
+export class PrRevocacionPorNoJustificarAdrIsbaComponent {
+  private expedienteService = inject(ExpedienteService);
+  actoAdmin16: boolean = false;
   sendedToSign: boolean = false;
   signatureDocState: string = "";
   nifDocGenerado: string = "";
@@ -77,9 +71,9 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
   externalSignUrl: string = "";
   sendedUserToSign: string = "";
   sendedDateToSign!: Date;
-  signedBy!: string;
   faltanCampos: boolean = false;
   camposVacios: string[] = [];
+  signedBy!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -87,8 +81,8 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
   @Input() actualConvocatoria!: number;
   @Input() actualTipoTramite!: string;
   @Input() actualEmpresa: string = "";
-  @Input() motivoRevocacion!: string;
   @Input() form!: FormGroup;
+
 
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
@@ -97,25 +91,22 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
     private actoAdminService: ActoAdministrativoService,
     private lineaAyuda: PindustLineaAyudaService,
     private configGlobal: PindustConfiguracionService
-  ) { this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""; };
+  ) {
+    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
+  }
 
-  get stateClassActoAdmin17(): string {
+  get stateClassActAdmin16(): string {
     const map: Record<string, string> = {
       NOT_STARTED: 'req-state--not-started',
       IN_PROCESS: 'req-state--in-process',
       COMPLETED: 'req-state--completed',
       REJECTED: 'req-state--rejected',
-    }
-
+    };
     return map[this.signatureDocState ?? ''] ?? 'req-state--not-started';
   }
 
   ngOnInit(): void {
-    this.formRevocacion = this.fb.group({
-      motivoResolucionRevocacionPorNoJustificar: [{ value: '', disabled: false }]
-    });
-
-    this.actoAdminService.getByNameAndTipoTramite('isba_17_resolucion_revocacion_no_justificar', 'ADR-ISBA')
+    this.actoAdminService.getByNameAndTipoTramite('isba_16_propuesta_resolucion_revocacion_no_justificar', 'ADR-ISBA')
       .subscribe((docDataString: ActoAdministrativoDTO) => {
         this.signedBy = docDataString.signedBy;
       });
@@ -127,20 +118,25 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
       this.getLineDetail(this.actualConvocatoria);
       this.getGlobalConfig();
     }
+  }
 
-    if (this.formRevocacion && this.motivoRevocacion) {
-      this.formRevocacion.get('motivoResolucionRevocacionPorNoJustificar')
-        ?.setValue(this.motivoRevocacion)
-    }
+  private tieneTodosLosValores(): boolean {
+    return (
+      this.actualID != null &&
+      this.actualIdExp != null &&
+      !!this.actualNif &&
+      this.actualConvocatoria != null &&
+      !!this.actualTipoTramite
+    );
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_revocacion_no_justificar')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_pr_revocacion_no_justificar')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin17 = false;
+          this.actoAdmin16 = false;
           if (docActoAdmin.length === 1) {
-            this.actoAdmin17 = true;
+            this.actoAdmin16 = true;
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo;
             this.nameDocGenerado = docActoAdmin[0].name;
             this.lastInsertId = docActoAdmin[0].id;
@@ -152,26 +148,9 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin17 = false;
+          this.actoAdmin16 = false;
         }
       })
-  }
-
-  saveReasonRevocation(): void {
-    const motivo = this.formRevocacion.get('motivoResolucionRevocacionPorNoJustificar')?.value;
-    this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoResolucionRevocacionPorNoJustificar', motivo).subscribe();
-    this.noRevocationReasonText = false;
-    this.actoAdmin17 = false;
-  }
-
-  private tieneTodosLosValores(): boolean {
-    return (
-      this.actualID != null &&
-      this.actualIdExp != null &&
-      !!this.actualNif &&
-      this.actualConvocatoria != null &&
-      !!this.actualTipoTramite
-    );
   }
 
   generateActoAdmin(actoAdministrativoName: string, tipoTramite: string, docFieldToUpdate: string): void {
@@ -221,11 +200,10 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
         }
 
         /* Fechas formateadas */
-        const formattedFecha_resol_conces = formatDate(this.form.get('fecha_firma_res')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_resol_conc = formatDate(this.form.get('fecha_firma_res')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_BOIB = formatDate(this.fecha_BOIB, ' dd/MM/yyyy', 'es-ES');
         const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
-        const formattedFecha_not_resol_conces = formatDate(this.form.get('fecha_notificacion_resolucion')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_not_pr_revocacion = formatDate(this.form.get('fecha_not_pr_revocacion')?.value, 'dd/MM/yyyy', 'es-ES');
+        const formattedFecha_not_resol_conc = formatDate(this.form.get('fecha_notificacion_resolucion')?.value, 'dd/MM/yyyy', 'es-ES');
 
         /* Importes monetarios formateados */
         const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
@@ -233,10 +211,10 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
         const formattedImporte_aval = this.commonService.formatCurrency(this.form.get('coste_aval_solicita_idi_isba')?.value);
         const formattedImporte_estudios = this.commonService.formatCurrency(this.form.get('gastos_aval_solicita_idi_isba')?.value);
 
-        rawTexto = rawTexto.replace(/%FECHA_RESOL_CONCE%/g, formattedFecha_resol_conces);
+        rawTexto = rawTexto.replace(/%FECHA_RESOL_CONCE%/g, formattedFecha_resol_conc);
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
         rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
-        rawTexto = rawTexto.replace(/%BOIBFECHA%/g, formattedFecha_BOIB);
+        rawTexto = rawTexto.replace(/%FECHAPUBBOIB%/g, formattedFecha_BOIB);
         rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
         rawTexto = rawTexto.replace(/%NOMBREPRESIDENTEIDI%/g, this.nomPresidenteIdi);
         rawTexto = rawTexto.replace(/%FECHASOL%/g, formattedFecha_REC);
@@ -244,9 +222,7 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
         rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, formattedImporte_intereses);
         rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, formattedImporte_aval);
         rawTexto = rawTexto.replace(/%IMPORTE_ESTUDIO%/g, formattedImporte_estudios);
-        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_RESOL_CONCE%/g, formattedFecha_not_resol_conces);
-        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PR_REVOCACION%/g, formattedFecha_not_pr_revocacion);
-        rawTexto = rawTexto.replace(/%TEXTO_LIBRE%/g, this.formRevocacion.get('motivoResolucionRevocacionPorNoJustificar')?.value.toLowerCase());
+        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_RESOL_CONCE%/g, formattedFecha_not_resol_conc);
         rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
 
         let jsonObject;
@@ -270,7 +246,7 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
         doc.setFont('helvetica', 'bold');
         doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 25, 20, 75, 15);
         doc.setFontSize(8);
-        doc.text(doc.splitTextToSize("Document: resolució revocació per no justificar", maxTextWidth), x, 45);
+        doc.text(doc.splitTextToSize("Document: proposta revocació per no justificar", maxTextWidth), x, 45);
         doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, x, 48);
         if (this.actualEmpresa.length > maxCharsPerLine) {
           const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
@@ -304,25 +280,16 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
         doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
         doc.setFontSize(10);
-        doc.text(doc.splitTextToSize(jsonObject.antecedentes_6_10, maxTextWidth), marginLeft + 5, 60);
+        doc.text(doc.splitTextToSize(jsonObject.antecedentes_6_8, maxTextWidth), marginLeft + 5, 60);
+        doc.setFont('helvetica', 'bold');
+        doc.text(doc.splitTextToSize(jsonObject.fundamentos_tit, maxTextWidth), marginLeft, 115);
+        doc.setFont('helvetica', 'normal');
+        doc.text(doc.splitTextToSize(jsonObject.fundamentos_txt, maxTextWidth), marginLeft + 5, 125);
+        doc.setFont('helvetica', 'bold');
+        doc.text(doc.splitTextToSize(jsonObject.fundamentos_txt_2, maxTextWidth), marginLeft, 240);
+
 
         // Tercera página
-        doc.addPage();
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        lines.forEach((line, index) => {
-          const y = pageHeight - 10 - (index * lineHeight);
-          doc.text(line, marginLeft, y);
-        })
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
-
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.text(doc.splitTextToSize(jsonObject.fundamentos_tit, maxTextWidth), marginLeft, 60);
-        doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.fundamentos_txt, maxTextWidth), marginLeft + 5, 70);
-
-        // Cuarta página
         doc.addPage();
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8);
@@ -335,12 +302,7 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
         doc.setFont('helvetica', 'bold');
         doc.text(doc.splitTextToSize(jsonObject.propuesta_tit, maxTextWidth), marginLeft, 60);
         doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth), marginLeft + 5, 75);
-
-        doc.setFont('helvetica', 'bold');
-        doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 98);
-        doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.recursos_txt, maxTextWidth), marginLeft + 5, 108);
+        doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth), marginLeft + 5, 70);
         doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
 
         // Convertir a Blob
@@ -368,7 +330,7 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_revocacion_no_justificar')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_pr_revocacion_no_justificar')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);
@@ -399,7 +361,6 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
     const fecha_REC = this.form.get('fecha_REC')?.value;
     const fecha_firma_res = this.form.get('fecha_firma_res')?.value;
     const fecha_notificacion_resolucion = this.form.get('fecha_notificacion_resolucion')?.value;
-    const fecha_not_pr_revocacion = this.form.get('fecha_not_pr_revocacion')?.value;
 
     if (!fecha_REC?.trim() || fecha_REC?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC');
@@ -411,12 +372,7 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
       this.camposVacios.push('FORM.FECHA_NOTIFICACION_RESOLUCION');
     }
 
-    if (!fecha_not_pr_revocacion?.trim() || fecha_not_pr_revocacion?.trim() === "0000-00-00") {
-      this.camposVacios.push('FORM.FECHA_NOT_PR_REVOCACION');
-    }
-
     this.faltanCampos = this.camposVacios.length > 0;
-
   }
 
   insertDocumentoGenerado(docFieldToUpdate: string): void {
@@ -430,7 +386,7 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
               next: (response: any) => {
                 const mensaje =
                   response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                this.actoAdmin17 = true;
+                this.actoAdmin16 = true;
                 this.commonService.showSnackBar(mensaje);
               },
               error: (updateErr) => {

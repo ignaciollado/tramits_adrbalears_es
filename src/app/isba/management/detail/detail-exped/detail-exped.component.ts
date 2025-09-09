@@ -46,7 +46,7 @@ import { ResolucionRevocacionPorNoJustificarAdrIsbaComponent } from '../../../..
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
     MatRadioModule,
-    MatExpansionModule, MejorasSolicitudDetalleAdrIsbaComponent,
+    MatExpansionModule,
     RequerimientoAdrIsbaComponent,
     ResolDesestimientoNoEnmendarAdrIsbaComponent, InformeFavorableAdrIsbaComponent,
     InformeFavorableConRequerimientoAdrIsbaComponent,
