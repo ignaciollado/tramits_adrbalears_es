@@ -1,6 +1,6 @@
 <section ngClass="logo-area">
     <a href="https://www.isbasgr.es/es/" target="_blank"><img src="/assets/images/logo-isba-sgr-317.png" alt="Logo de ISBA" width="30%"></a>
-    <a href="https://www.adrbalears.es/es/" target="_blank" ngClass="adrLogo"><img src="/assets/ADRBalears-conselleria.jpg" alt="Logo de ADR Balears" width="60%"></a>
+    <a href="https://www.adrbalears.es/es/" target="_blank" ngClass="adrLogo"><img src="/assets/images/logo-adrbalears-ceae-byn.png" alt="Logo de ADR Balears" width="60%"></a>
 </section>
 <section ngClass="info-header">
     <section>
@@ -82,7 +82,7 @@
                 </mat-expansion-panel-header>
                 <section ngClass="form applicant-type">
                     <section>
-                        <mat-radio-group formControlName="tipo_solicitante" (ngModelChange)="onBusinessTypeChange()">
+                        <mat-radio-group formControlName="tipo_solicitante">
                             <mat-radio-button value="autonomo">{{'FORM.SELFEMPLOYEDBUSINESS' | translate}}</mat-radio-button>
                             <mat-radio-button value="pequenya">{{'FORM.SMALLBUSINESSNAME' | translate}}</mat-radio-button>
                             <mat-radio-button value="mediana">{{'FORM.MEDIUMBUSINESSNAME' | translate}}</mat-radio-button>

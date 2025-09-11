@@ -154,7 +154,8 @@
                     <h4 [innerHTML]="'FORM.REQUIREDDOCUMENTATIONDETAILS' | translate"></h4>
                     <app-add-document></app-add-document>
                     <app-document [idSol]="idExpediente" [requiredDocs]="'SI'"></app-document>
-                    <section *ngIf="signedDocData">
+                    <app-declaracion-responsable-adr-isba></app-declaracion-responsable-adr-isba>
+                    <!-- <section *ngIf="signedDocData">
                         <div *ngIf="signedDocData.status === 'COMPLETED'">
                             <button mat-raised-button color="accent"
                                 (click)="showSignedDocument(publicAccessId)">{{'FORM.SIGNEDDOCUMENT' |
@@ -169,7 +170,7 @@
                         <div *ngIf="signedDocData.status === 'IN_PROCESS'">
                             <button mat-raised-button color="warn">{{'FORM.SIGNPROGRESSDOCUMENT' | translate}}</button>
                         </div>
-                    </section>
+                    </section> -->
                 </section>
             </mat-card>
         </mat-tab>

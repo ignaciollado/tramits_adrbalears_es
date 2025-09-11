@@ -1,6 +1,7 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { Component, inject, signal, viewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -14,16 +15,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateModule } from '@ngx-translate/core';
+import jsPDF from 'jspdf';
 import { catchError, concatMap, from, map, Observable, of, startWith, tap, throwError } from 'rxjs';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { CnaeDTO } from '../../Models/cnae.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
+import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { DocumentService } from '../../Services/document.service';
-import { ExpedienteService } from '../../Services/expediente.service';
 import { ExpedienteDocumentoService } from '../../Services/expediente.documento.service';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { ExpedienteService } from '../../Services/expediente.service';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -57,11 +60,13 @@ export class IsbaGrantApplicationFormComponent {
 
   idExp: string = ""
 
+  declaracion_responsable_blob: any;
+
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService,
     private documentosExpedienteService: ExpedienteDocumentoService,
     private documentService: DocumentService, private customValidator: CustomValidatorsService,
-    private fb: FormBuilder, private snackBar: MatSnackBar) {
+    private fb: FormBuilder, private snackBar: MatSnackBar, private actoAdminService: ActoAdministrativoService) {
     this.isbaForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
       fecha_completado: this.fb.control(this.commonService.getCurrentDateTime()),
@@ -172,6 +177,11 @@ export class IsbaGrantApplicationFormComponent {
       this.atib_no_consent = value;
     })
 
+    // BusinessType
+    this.isbaForm.get('tipo_solicitante')?.valueChanges.subscribe(value => {
+      this.onBusinessTypeChange();
+    })
+
 
     this.loadZipcodes()
     this.loadActividadesCNAE()
@@ -233,6 +243,9 @@ export class IsbaGrantApplicationFormComponent {
       { files: this.file_certificadoATIBToUpload, type: 'file_certificadoATIB' },
       { files: this.file_certificadoLey382003ToUpload, type: 'file_certificadoLey382003' }
     ];
+
+    // Pendiente envío de mail a firmar y subida como si fuera un acta
+    // this.generateDeclaracionResponsable(DataTransfer, filesToUpload, opcFilesToUpload);
 
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
@@ -495,6 +508,7 @@ export class IsbaGrantApplicationFormComponent {
         control?.disable()
         control?.reset('')
       })
+      this.file_escrituraConstitucionToUpload = [];
     } else {
       this.businessType = "otros"
       applicantNifValidators.push(this.customValidator.cifValidator());
@@ -506,6 +520,7 @@ export class IsbaGrantApplicationFormComponent {
       [repName, repNif, repPhone].forEach(control => {
         control?.enable()
       })
+      this.file_altaAutonomosToUpload = [];
     }
 
     applicantNif?.reset('')
@@ -592,6 +607,9 @@ export class IsbaGrantApplicationFormComponent {
   checkAmount(): void {
     const importeSubvencionSolicitada = this.isbaForm.get('importe_ayuda_solicita_idi_isba')?.value;
     this.isSubsidyGreater = +importeSubvencionSolicitada > 30000 ? true : false
+    if (!this.isSubsidyGreater) {
+      this.file_certificadoLey382003ToUpload = [];
+    }
   }
 
   selectedValue(): void {
@@ -651,4 +669,390 @@ export class IsbaGrantApplicationFormComponent {
       panelClass: ['custom-snackbar']
     })
   }
+
+  generateDeclaracionResponsable(data: any, reqFiles: any, opcFiles: any): void {
+    const timeStamp = this.commonService.generateCustomTimestamp();
+    const doc = new jsPDF({
+      orientation: 'p',
+      unit: 'mm',
+      format: 'a4',
+      putOnlyUsedFonts: true,
+      floatPrecision: 16
+    });
+
+    doc.setProperties({
+      // title: `Sol·liciud d'ajuts a microempreses, petites i mitjanes per cobrir despeses financeres`,
+      subject: 'Tràmits administratius',
+      author: 'ADR Balears',
+      keywords: 'INDUSTRIA 4.0, DIAGNÓSTIC, DIGITAL, EXPORTA, PIMES, ADR Balears, ISBA, GOIB"; "INDUSTRIA 4.0, DIAGNÓSTIC, DIGITAL, EXPORTA, PIMES, ADR Balears, ISBA, GOIB',
+      creator: 'Angular App'
+    });
+
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const maxTextWidth = 170;
+
+    const footerText = 'Agència de desenvolupament regional - Plaça Son Castelló 1 - Tel 971176161 - 07009 - Palma - Illes Balears';
+    const marginLeft = 15;
+
+    // Aplicar distintos estilos en una misma frase
+    function printLabelWithBoldValue(doc: jsPDF, fullText: string, x: number, y: number, fontsize: number) {
+      doc.setFontSize(fontsize)
+
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const marginRight = 15
+      const maxWidth = pageWidth - x - marginRight;
+
+      const wrappedLines = doc.splitTextToSize(fullText, maxWidth);
+
+      const [label, value] = fullText.split(':');
+      const labelText = `${label}:`;
+
+      // Etiqueta
+      doc.setFont('helvetica', 'normal');
+      const labelWidth = doc.getTextWidth(labelText);
+
+      const extraSpacing = 1;
+
+      wrappedLines.forEach((line: any, i: any) => {
+        const lineY = y + i * (fontsize * 0.35 + 1);
+        if (i === 0 && line.startsWith(labelText)) {
+          // Label
+          doc.setFont('helvetica', 'normal');
+          doc.text(labelText, x, lineY);
+
+          // Value (misma linea que label)
+          const valuePart = line.slice(labelText.length);
+          doc.setFont('helvetica', 'bold');
+          doc.text(valuePart, x + labelWidth + extraSpacing, lineY);
+        } else {
+          // Value (resto)
+          doc.setFont('helvetica', 'bold');
+          doc.text(line, x, lineY);
+        }
+      });
+    }
+
+    // Printado de bordes
+    function printBorder(
+      doc: jsPDF,
+      input: string | string[],
+      x: number,
+      y: number,
+      fontSize: number,
+      pageWidth: number,
+      marginRight: number = 15,
+      padding: number = 0.75) {
+      const lineHeight = fontSize * 0.35 + 1;
+      const maxTextWidth = pageWidth - x - marginRight;
+
+      // Convertir en listas
+      const texts = Array.isArray(input) ? input : [input];
+
+      // Calcular líneas
+      let totalLines = 0;
+      texts.forEach(text => {
+        const lines = doc.splitTextToSize(text, maxTextWidth);
+        totalLines += lines.length;
+      });
+
+      // Altura bloque
+      const blockHeight = (totalLines - 1) * lineHeight + fontSize;
+      const rectY = y - fontSize * 0.5;
+
+      // Dibujar borde
+      doc.setDrawColor(0);
+      doc.setLineWidth(0.25);
+      doc.rect(
+        x - padding,
+        rectY - padding,
+        maxTextWidth + padding * 2,
+        blockHeight + padding * 2
+      )
+    }
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7)
+
+    // Footer
+    const footerTextWidth = doc.getTextWidth(footerText);
+    const footerX = footerTextWidth < pageWidth ? (pageWidth - footerTextWidth) / 2 : 7;
+
+    this.actoAdminService.getByNameAndTipoTramite('isba_20_declaracion_responsable_solicitud_ayuda', 'ADR-ISBA')
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
+        let rawTexto = docDataString.texto_es; // Temporal, falta cambiar el acta en cat.
+
+        if (!rawTexto) {
+          this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
+          return;
+        }
+
+        // Replace de datos
+        /* Fechas formateadas */
+        const formattedFecha_aval = formatDate(data?.fecha_aval_idi_isba, 'dd/MM/yyyy', 'es-ES');
+
+        /* Importes monetarios formateados */
+        const formattedImporte_operacion = this.commonService.formatCurrency(data.importe_prestamo);
+        const formattedCuantia_aval = this.commonService.formatCurrency(data.cuantia_aval_idi_isba);
+        const formattedImporte_presupuesto = this.commonService.formatCurrency(data.importe_presupuesto_idi_isba);
+        const formattedImporte_ayuda = this.commonService.formatCurrency(data.importe_ayuda_solicita_idi_isba);
+        const formattedImporte_intereses = this.commonService.formatCurrency(data.intereses_ayuda_solicita_idi_isba);
+        const formattedImporte_aval = this.commonService.formatCurrency(data.coste_aval_solicita_idi_isba);
+        const formattedImporte_estudio = this.commonService.formatCurrency(data.gastos_aval_solicita_idi_isba);
+
+        rawTexto = rawTexto.replace(/%NOMBRE_RAZON_SOCIAL%/g, data.empresa);
+        rawTexto = rawTexto.replace(/%NIF%/g, data.nif);
+        rawTexto = rawTexto.replace(/%DOMICILIO%/g, data.domicilio);
+        rawTexto = rawTexto.replace(/%ZIPCODE%/g, data.cpostal);
+        rawTexto = rawTexto.replace(/%LOCALIDAD%/g, data.localidad);
+        rawTexto = rawTexto.replace(/%NOMBRE_REPRESENTANTE_LEGAL%/g, data.nombre_rep);
+        rawTexto = rawTexto.replace(/%DNI_REPRESENTANTE_LEGAL%/g, data.nombre_rep);
+        rawTexto = rawTexto.replace(/%TELEFONO_CONTACTO_SOLICITANTE%/g, data.telefono);
+
+        rawTexto = rawTexto.replace(/%DIRECCION_ELECTRONICA_NOTIFICACIONES%/g, data.email_rep);
+        rawTexto = rawTexto.replace(/%TELEFONO_MOVIL_NOTIFICACIONES%/g, data.telefono_rep);
+
+        rawTexto = rawTexto.replace(/%ENTIDAD_FINANCIERA%/g, data.nom_entidad);
+        rawTexto = rawTexto.replace(/%IMPORTE_OPERACION%/g, formattedImporte_operacion);
+        rawTexto = rawTexto.replace(/%PLAZO_FINANCIERO%/g, data.plazo_prestamo);
+        rawTexto = rawTexto.replace(/%FECHA_AVAL%/g, formattedFecha_aval);
+        rawTexto = rawTexto.replace(/%PLAZO_ISBA%/g, data.plazo_aval_idi_isba);
+        rawTexto = rawTexto.replace(/%CUANTIA_AVAL%/g, formattedCuantia_aval);
+
+        rawTexto = rawTexto.replace(/%FINALIDAD_INVERSION%/g, data.finalidad_inversion_idi_isba);
+
+        rawTexto = rawTexto.replace(/%EMPRESA_ADHERIDA_ILS%/g, data.empresa_eco_idi_isba);
+        rawTexto = rawTexto.replace(/%IMPORTE_PRESUPUESTO%/g, formattedImporte_presupuesto);
+        rawTexto = rawTexto.replace(/%IMPORTE_AYUDA%/g, formattedImporte_ayuda);
+        rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, formattedImporte_intereses);
+        rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, formattedImporte_aval);
+        rawTexto = rawTexto.replace(/%IMPORTE_ESTUDIO%/g, formattedImporte_estudio);
+        rawTexto = rawTexto.replace(/%AYUDAS_RECIBIDAS%/g, data.ayudasSubvenSICuales_dec_resp)
+
+        let jsonObject;
+
+        // Limpieza de texto
+        try {
+          rawTexto = this.commonService.cleanRawText(rawTexto);
+        } catch (error) {
+          console.error('Error al parsear JSON: ', error);
+        } finally {
+          jsonObject = JSON.parse(rawTexto)
+        }
+
+        // Primera página
+        doc.text(footerText, footerX, pageHeight - 7);
+        doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", 'PNG', marginLeft, 20, 75, 15);
+
+        // Información
+        printLabelWithBoldValue(doc, jsonObject.destino, marginLeft, 60, 8)
+        printLabelWithBoldValue(doc, jsonObject.emisor, marginLeft, 64, 8)
+        printLabelWithBoldValue(doc, jsonObject.tramite, marginLeft, 68, 8)
+
+        printBorder(doc, [
+          jsonObject.destino, jsonObject.emisor, jsonObject.tramite
+        ], marginLeft, 60, 8, pageWidth);
+
+        // Encabezado centrado
+        const identificacion_solicitante_tit = jsonObject.identificacion_solicitante_tit;
+        const identificacionTextWidth = doc.getTextWidth(identificacion_solicitante_tit);
+
+        // Identificación del solicitante
+        doc.setFont('helvetica', 'normal');
+        doc.text(identificacion_solicitante_tit, (pageWidth - identificacionTextWidth) / 2, 95)
+
+        printBorder(doc, identificacion_solicitante_tit, marginLeft, 94, 8, pageWidth)
+        printLabelWithBoldValue(doc, jsonObject.nombre, marginLeft, 104, 8)
+        printLabelWithBoldValue(doc, jsonObject.nif, marginLeft, 108, 8)
+        printLabelWithBoldValue(doc, jsonObject.domicilio, marginLeft, 112, 8)
+        printLabelWithBoldValue(doc, jsonObject.localidad, marginLeft, 116, 8)
+        printLabelWithBoldValue(doc, jsonObject.nombre_representante_legal, marginLeft, 120, 8)
+        printLabelWithBoldValue(doc, jsonObject.dni_representante_legal, marginLeft, 124, 8)
+        printLabelWithBoldValue(doc, jsonObject.telefono_contacto_solicitante, marginLeft, 128, 8)
+
+        // Encabezado centrado
+        const notificacion_tit = jsonObject.notificacion_tit;
+        const notificacionTextWidth = doc.getTextWidth(notificacion_tit);
+
+        // Notificación
+        doc.setFont('helvetica', 'normal')
+        doc.text(notificacion_tit, (pageWidth - notificacionTextWidth) / 2, 143);
+
+        printBorder(doc, notificacion_tit, marginLeft, 142, 8, pageWidth);
+        doc.text(jsonObject.notificacion_info, marginLeft, 152);
+
+        printLabelWithBoldValue(doc, jsonObject.direccion_electrónica_a_efectos_de_notificaciones, marginLeft, 158, 8);
+        printLabelWithBoldValue(doc, jsonObject.telefono_movil_a_efectos_de_notificaciones, marginLeft, 162, 8);
+
+        // Datos de la operación Financiera
+        doc.setFont('helvetica', 'normal');
+
+        // Encabezado centrado
+        const dat_op_financiera_tit = jsonObject.datos_operacion_financiera_tit;
+        const dat_op_financiera_tit_long = jsonObject.datos_operacion_financiera_tit.split('\n')[0] // Cojo la primera frase (más larga) para centrar
+        const datosFinancierosTextWidth = doc.getTextWidth(dat_op_financiera_tit_long)
+
+        doc.text(dat_op_financiera_tit, (pageWidth - datosFinancierosTextWidth) / 2, 173);
+        printBorder(doc, dat_op_financiera_tit, marginLeft, 172, 8, pageWidth);
+
+        doc.setFont('helvetica', 'bold')
+        doc.text(jsonObject.prestamo, marginLeft, 188);
+        printLabelWithBoldValue(doc, jsonObject.entidad_financiera, marginLeft, 192, 8);
+        printLabelWithBoldValue(doc, jsonObject.importe_operacion, marginLeft, 196, 8);
+        printLabelWithBoldValue(doc, jsonObject.plazo_prestamo, marginLeft, 200, 8);
+
+        doc.setFont('helvetica', 'bold')
+        doc.text(jsonObject.aval_isba, marginLeft, 208);
+        printLabelWithBoldValue(doc, jsonObject.fecha_formalizacion_aval, marginLeft, 212, 8);
+        printLabelWithBoldValue(doc, jsonObject.plazo_aval, marginLeft, 216, 8);
+        printLabelWithBoldValue(doc, jsonObject.cuantia_aval, marginLeft, 220, 8);
+
+        // Proyecto de inversión
+        const proyecto_inversion_tit = jsonObject.proyecto_inversion;
+        const proyectoInversionTextWidth = doc.getTextWidth(proyecto_inversion_tit);
+
+        // Encabezado centrado
+        doc.setFont('helvetica', 'normal');
+        doc.text(proyecto_inversion_tit, (pageWidth - proyectoInversionTextWidth) / 2, 233);
+        printBorder(doc, proyecto_inversion_tit, marginLeft, 232, 8, pageWidth);
+
+        printLabelWithBoldValue(doc, jsonObject.finalidad_inversion, marginLeft, 246, 8);
+
+
+        // Segunda página
+        doc.addPage();
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7)
+        doc.text(footerText, footerX, pageHeight - 7);
+
+        doc.addImage("../../../assets/images/logoVertical.png", 'PNG', marginLeft, 20, 17, 22);
+
+        // Presupuesto del proyecto de inversión
+        const pres_proyecto_tit = jsonObject.presupuesto_proyecto;
+        const presProyectoTextWidth = doc.getTextWidth(pres_proyecto_tit);
+
+        // Encabezado centrado
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8)
+
+        doc.text(pres_proyecto_tit, (pageWidth - presProyectoTextWidth) / 2, 57);
+        printBorder(doc, pres_proyecto_tit, marginLeft, 56, 8, pageWidth);
+
+        printLabelWithBoldValue(doc, jsonObject.empresa_adherida_ils, marginLeft, 70, 8);
+        printLabelWithBoldValue(doc, jsonObject.importe_presupuesto, marginLeft, 74, 8);
+        doc.setFont('helvetica', 'normal');
+        doc.text(jsonObject.detalles_txt, marginLeft, 78);
+        printLabelWithBoldValue(doc, jsonObject.detalle_importe_intereses, marginLeft + 5, 82, 8);
+        printLabelWithBoldValue(doc, jsonObject.detalle_importe_coste, marginLeft + 5, 86, 8);
+        printLabelWithBoldValue(doc, jsonObject.detalle_importe_estudios, marginLeft + 5, 90, 8);
+        printLabelWithBoldValue(doc, jsonObject.importe_ayuda, marginLeft, 98, 8);
+
+        // DECLARO
+        const declaro_tit = jsonObject.declaro_tit;
+        const declaroTextWidth = doc.getTextWidth(declaro_tit);
+
+        doc.setFont('helvetica', 'normal');
+
+        doc.text(declaro_tit, (pageWidth - declaroTextWidth) / 2, 111);
+        printBorder(doc, declaro_tit, marginLeft, 110, 8, pageWidth);
+
+        doc.text(doc.splitTextToSize(jsonObject.declaro_idi_isba_que_cumple_0_5, maxTextWidth), marginLeft + 5, 124);
+
+        console.log(data.ayudasSubvenSICuales_dec_resp)
+
+        // PENDIENTE!
+        if (!data.declaro_idi_isba_que_cumple_4) {
+          printLabelWithBoldValue(doc, jsonObject.declaro_idi_isba_ayudas_recibidas, marginLeft + 10, 166, 8);
+          doc.setFont('helvetica', 'normal');
+
+          doc.text(doc.splitTextToSize(jsonObject.declaro_idi_isba_que_cumple_6_15, maxTextWidth), marginLeft + 5, 173);
+        } else {
+          doc.text(doc.splitTextToSize(jsonObject.declaro_idi_isba_que_cumple_6_15, maxTextWidth), marginLeft + 5, 166);
+        }
+
+        // Tercera página
+        doc.addPage();
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(7)
+        doc.text(footerText, footerX, pageHeight - 7);
+
+        doc.addImage("../../../assets/images/logoVertical.png", 'PNG', marginLeft, 20, 17, 22);
+
+        // Documentación adjunta
+        const documentacion_adjunta_tit = jsonObject.documentacion_adjunta_tit;
+        const documentacionTextWidth = doc.getTextWidth(documentacion_adjunta_tit);
+
+        doc.setFontSize(8)
+        doc.text(documentacion_adjunta_tit, (pageWidth - documentacionTextWidth) / 2, 57)
+        printBorder(doc, documentacion_adjunta_tit, marginLeft, 56, 8, pageWidth);
+
+        // Archivos adjuntados. Coge el type
+        const filesList = [...reqFiles, ...opcFiles].filter(file => file.files.length !== 0)
+          .map(file => file.type);
+
+        let documentacionAdjuntaY = 70;
+
+        for (let i = 0; i < filesList.length; i++) {
+          const actualFile = filesList[i];
+          const text = `${i + 1}. ${jsonObject[actualFile]}`;
+          const lines = doc.splitTextToSize(text, maxTextWidth);
+
+          doc.text(lines, marginLeft + 5, documentacionAdjuntaY);
+          documentacionAdjuntaY += lines.length * (8 * 0.5); // 8 sale del propio fontSize. 0.5 sería el espaciado entre textos
+        }
+
+        // Cuarta página
+        doc.addPage();
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'normal');
+        doc.text(footerText, footerX, pageHeight - 7);
+
+        doc.addImage("../../../assets/images/logoVertical.png", 'PNG', marginLeft, 20, 17, 22);
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8);
+        doc.text(jsonObject.prot_datos_personales_tit, marginLeft, 56);
+        doc.setFont('helvetica', 'normal');
+        doc.text(doc.splitTextToSize(jsonObject.responsable_tratamiento, maxTextWidth), marginLeft + 5, 62);
+        doc.text(jsonObject.contacto_dele_proteccion, marginLeft + 5, 70);
+        doc.text(jsonObject.web, marginLeft + 5, 75);
+
+        doc.setFont('helvetica', 'bold');
+        doc.text(jsonObject.gestion_ayuda_consultoria_tit, marginLeft, 86);
+        doc.setFont('helvetica', 'normal')
+        doc.text(jsonObject.base_legitima, marginLeft + 5, 92);
+        doc.text(jsonObject.categoria_interesados, marginLeft + 5, 97);
+        doc.text(jsonObject.tipologia_datos, marginLeft + 5, 102);
+        doc.text(doc.splitTextToSize(jsonObject.finalidad, maxTextWidth), marginLeft + 5, 107);
+        doc.text(doc.splitTextToSize(jsonObject.categoria_destinatarios, maxTextWidth), marginLeft + 5, 115);
+        doc.text(jsonObject.transferencias_internacionales, marginLeft + 5, 123);
+        doc.text(doc.splitTextToSize(jsonObject.medidas_tec_org, maxTextWidth), marginLeft + 5, 128);
+        doc.text(doc.splitTextToSize(jsonObject.plazos_supresion, maxTextWidth), marginLeft + 5, 136);
+        doc.text(doc.splitTextToSize(jsonObject.info_contacto, maxTextWidth), marginLeft, 144);
+
+        doc.setFont('helvetica','bold');
+        doc.text(jsonObject.ejercicio_derecho_tit, marginLeft, 160)
+
+        doc.setFont('helvetica','normal');
+        doc.text(doc.splitTextToSize(jsonObject.ejercicio_derecho_txt, maxTextWidth), marginLeft + 5, 166);
+
+        doc.text(jsonObject.firma, marginLeft, 220);
+
+        this.declaracion_responsable_blob = doc.output('blob');
+
+        // Ver documento (temporal) --> Comento para que no afecte en el entorno de pruebas
+        // const url = URL.createObjectURL(this.declaracion_responsable_blob);
+        // window.open(url, '_blank')
+
+        // Subida
+        const rutaSubida = `${data.nif}_${timeStamp}`
+        // Nombre de archivo
+        const fileName = `${data.nif}_dec_res_solicitud_idi_isba`;
+
+      })
+
+
+  }
+
+
 }

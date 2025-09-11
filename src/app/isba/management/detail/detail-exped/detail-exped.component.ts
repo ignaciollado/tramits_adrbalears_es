@@ -35,6 +35,7 @@ import { ResolucionDePagoYJustificacionAdrIsbaComponent } from '../../../../acto
 import { ResolucionDesestimientoPorRenunciaAdrIsbaComponent } from '../../../../actos-admin-adr-isba/15_resolucion-desestimiento-por-renuncia/resolucion-desestimiento-por-renuncia.component';
 import { PrRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/16_pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
 import { ResolucionRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/17_resolucion-revocacion-por-no-justificar/resolucion-revocacion-por-no-justificar.component';
+import { DeclaracionResponsableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/20_declaracion-responsable/declaracion-responsable.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -54,7 +55,8 @@ import { ResolucionRevocacionPorNoJustificarAdrIsbaComponent } from '../../../..
     PrDefinitivaFavorableAdrIsbaComponent, PrDefinitivaFavorableConRequerimientoAdrIsbaComponent,
     ResolucionConcesionAdrIsbaComponent, ResolucionConcesionConRequerimientoAdrIsbaComponent,
     ResolucionDePagoYJustificacionAdrIsbaComponent, ResolucionDesestimientoPorRenunciaAdrIsbaComponent,
-    PrRevocacionPorNoJustificarAdrIsbaComponent, ResolucionRevocacionPorNoJustificarAdrIsbaComponent
+    PrRevocacionPorNoJustificarAdrIsbaComponent, ResolucionRevocacionPorNoJustificarAdrIsbaComponent,
+    DeclaracionResponsableAdrIsbaComponent
 
   ],
   templateUrl: './detail-exped.component.html',
