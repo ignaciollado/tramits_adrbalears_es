@@ -102,8 +102,9 @@ export class DocumentComponent implements OnInit {
           estado: doc.state || 'Pendent'
         }));
 
-        this.documents = documentosConId;
-
+        // Filtro para que no aparezca dec_res. Falta implementar
+        this.documents = documentosConId.filter((documento: any) => !documento.name.includes('dec_res_solicitud'));
+        // this.documents = documentosConId
         if (this.documents.length > 0) {
           /* this.commonService.showSnackBar("Documentos cargados correctamente."); */
         } else {
