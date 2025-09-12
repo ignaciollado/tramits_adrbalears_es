@@ -19,14 +19,18 @@ import jsPDF from 'jspdf';
 import { catchError, concatMap, from, map, Observable, of, startWith, tap, throwError } from 'rxjs';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { CnaeDTO } from '../../Models/cnae.dto';
+import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { CreateSignatureRequest } from '../../Models/signature.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { DocumentService } from '../../Services/document.service';
+import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { ExpedienteDocumentoService } from '../../Services/expediente.documento.service';
 import { ExpedienteService } from '../../Services/expediente.service';
+import { ViafirmaService } from '../../Services/viafirma.service';
 
 @Component({
   selector: 'app-grant-application-form',
@@ -60,13 +64,32 @@ export class IsbaGrantApplicationFormComponent {
 
   idExp: string = ""
 
-  declaracion_responsable_blob: any;
+  declaracionResponsableGenerada: File[] = [];
+
+  declaracion_enviada: boolean = false;
+  docGenerado: DocumentoGeneradoDTO = {
+    id_sol: 0,
+    cifnif_propietario: '',
+    convocatoria: '',
+    name: '',
+    type: '',
+    created_at: '',
+    tipo_tramite: '',
+    corresponde_documento: '',
+    selloDeTiempo: '',
+    publicAccessId: ''
+  };
+
+  lastInsertId!: number;
+
+  nameDocGenerado!: string;
 
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService,
     private documentosExpedienteService: ExpedienteDocumentoService,
     private documentService: DocumentService, private customValidator: CustomValidatorsService,
-    private fb: FormBuilder, private snackBar: MatSnackBar, private actoAdminService: ActoAdministrativoService) {
+    private fb: FormBuilder, private snackBar: MatSnackBar, private actoAdminService: ActoAdministrativoService,
+    private viafirmaService: ViafirmaService, private documentoGeneradoService: DocumentosGeneradosService) {
     this.isbaForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
       fecha_completado: this.fb.control(this.commonService.getCurrentDateTime()),
@@ -244,14 +267,13 @@ export class IsbaGrantApplicationFormComponent {
       { files: this.file_certificadoLey382003ToUpload, type: 'file_certificadoLey382003' }
     ];
 
-    // Pendiente envío de mail a firmar y subida como si fuera un acta
-    // this.generateDeclaracionResponsable(DataTransfer, filesToUpload, opcFilesToUpload);
-
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
         rawValues.id_sol = respuesta.id_sol;
         this.showSnackBar('✔️ Expediente creado con éxito ' + respuesta.message + ' ' + respuesta.id_sol);
 
+        this.generateDeclaracionResponsable(rawValues, filesToUpload, opcFilesToUpload);
+        
         const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
           if (!files || files.length === 0) return [];
 
@@ -285,14 +307,13 @@ export class IsbaGrantApplicationFormComponent {
           return;
         }
 
-        from(todosLosArchivos)
-          .pipe(
-            concatMap(({ file, type }) =>
-              this.documentosExpedienteService.createDocumentoExpediente([file], rawValues, type).pipe(
-                concatMap(() => this.uploadTheFile(timeStamp, [file]))
-              )
+        from(todosLosArchivos).pipe(
+          concatMap(({ file, type }) =>
+            this.documentosExpedienteService.createDocumentoExpediente([file], rawValues, type).pipe(
+              concatMap(() => this.uploadTheFile(timeStamp, [file]))
             )
           )
+        )
           .subscribe({
             next: (event) => {
               let mensaje = `📤 ${event.message || 'Subida exitosa'}\n`;
@@ -670,8 +691,9 @@ export class IsbaGrantApplicationFormComponent {
     })
   }
 
+
+  // He decidido, para facilitar la subida, hacer que devuelva un File[]
   generateDeclaracionResponsable(data: any, reqFiles: any, opcFiles: any): void {
-    const timeStamp = this.commonService.generateCustomTimestamp();
     const doc = new jsPDF({
       orientation: 'p',
       unit: 'mm',
@@ -681,7 +703,7 @@ export class IsbaGrantApplicationFormComponent {
     });
 
     doc.setProperties({
-      // title: `Sol·liciud d'ajuts a microempreses, petites i mitjanes per cobrir despeses financeres`,
+      title: `${data.nif}_${data.selloDeTiempo}_declaracion_responsable_idi_isba`,
       subject: 'Tràmits administratius',
       author: 'ADR Balears',
       keywords: 'INDUSTRIA 4.0, DIAGNÓSTIC, DIGITAL, EXPORTA, PIMES, ADR Balears, ISBA, GOIB"; "INDUSTRIA 4.0, DIAGNÓSTIC, DIGITAL, EXPORTA, PIMES, ADR Balears, ISBA, GOIB',
@@ -958,8 +980,6 @@ export class IsbaGrantApplicationFormComponent {
 
         doc.text(doc.splitTextToSize(jsonObject.declaro_idi_isba_que_cumple_0_5, maxTextWidth), marginLeft + 5, 124);
 
-        console.log(data.ayudasSubvenSICuales_dec_resp)
-
         // PENDIENTE!
         if (!data.declaro_idi_isba_que_cumple_4) {
           printLabelWithBoldValue(doc, jsonObject.declaro_idi_isba_ayudas_recibidas, marginLeft + 10, 166, 8);
@@ -1030,29 +1050,87 @@ export class IsbaGrantApplicationFormComponent {
         doc.text(doc.splitTextToSize(jsonObject.plazos_supresion, maxTextWidth), marginLeft + 5, 136);
         doc.text(doc.splitTextToSize(jsonObject.info_contacto, maxTextWidth), marginLeft, 144);
 
-        doc.setFont('helvetica','bold');
+        doc.setFont('helvetica', 'bold');
         doc.text(jsonObject.ejercicio_derecho_tit, marginLeft, 160)
 
-        doc.setFont('helvetica','normal');
+        doc.setFont('helvetica', 'normal');
         doc.text(doc.splitTextToSize(jsonObject.ejercicio_derecho_txt, maxTextWidth), marginLeft + 5, 166);
 
         doc.text(jsonObject.firma, marginLeft, 220);
 
-        this.declaracion_responsable_blob = doc.output('blob');
+        const pdfBlob = doc.output('blob');
 
-        // Ver documento (temporal) --> Comento para que no afecte en el entorno de pruebas
-        // const url = URL.createObjectURL(this.declaracion_responsable_blob);
-        // window.open(url, '_blank')
+        const formData = new FormData();
+        const fileName = `${data.nif}_declaracion_responsable_idi_isba.pdf`;
+        formData.append('file', pdfBlob, fileName);
+        formData.append('id_sol', String(data.id_sol));
+        formData.append('convocatoria', String(data.convocatoria));
+        formData.append('nifcif_propietario', String(data.nif));
+        formData.append('timeStamp', String(data.selloDeTiempo));
 
-        // Subida
-        const rutaSubida = `${data.nif}_${timeStamp}`
-        // Nombre de archivo
-        const fileName = `${data.nif}_dec_res_solicitud_idi_isba`;
+        this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
+          next: (response) => {
+            this.docGenerado.id_sol = data.id_sol;
+            this.docGenerado.cifnif_propietario = data.nif;
+            this.docGenerado.convocatoria = String(data.convocatoria);
+            this.docGenerado.name = 'doc_declaracion_responsable_idi_isba.pdf';
+            this.docGenerado.type = 'application/pdf';
+            this.docGenerado.created_at = response.path;
+            this.docGenerado.tipo_tramite = data.tipo_tramite;
+            this.docGenerado.corresponde_documento = 'doc_declaracion_responsable_idi_isba';
+            this.docGenerado.selloDeTiempo = data.selloDeTiempo;
+
+            this.nameDocGenerado = 'doc_declaracion_responsable_idi_isba.pdf';
+
+            this.insertDeclaracionResponsable(data);
+          }
+        })
 
       })
-
-
   }
 
+  insertDeclaracionResponsable(data: any): void {
+    this.documentoGeneradoService.create(this.docGenerado).subscribe({
+      next: (resp: any) => {
+        this.lastInsertId = resp?.id;
+        if (this.lastInsertId) {
+          this.expedienteService
+          .updateDocFieldExpediente(data.id_sol, 'doc_declaracion_responsable_idi_isba', String(this.lastInsertId))
+            .subscribe({
+              next: (response: any) => {
+                const mensaje = response?.message || '✅ Declaración generada y subida';
+                this.commonService.showSnackBar(mensaje);
+                this.sendUserToSign(data, this.nameDocGenerado, this.lastInsertId)
+              }
+            })
+        }
+      }
+    })
+  }
+
+  sendUserToSign(data: any, filename: string, doc_id: any) {
+    filename = filename.replace(/^doc_/, "");
+    filename = `${data.nif}_${filename}`;
+
+    const payload: CreateSignatureRequest = {
+      adreca_mail: data.email_rep,
+      nombreDocumento: filename,
+      nif: data.nif,
+      last_insert_id: doc_id
+    };
+
+    this.viafirmaService.createSignatureRequest(payload)
+      .subscribe({
+        next: (res: any) => {
+          const id = res?.publicAccessId;
+          this.declaracion_enviada = true;
+          this.commonService.showSnackBar(id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
+        },
+        error: (err) => {
+          const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+          this.commonService.showSnackBar(msg);
+        }
+      })
+  }
 
 }
