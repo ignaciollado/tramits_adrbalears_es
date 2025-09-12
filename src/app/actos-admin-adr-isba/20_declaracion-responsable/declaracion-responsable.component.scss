@@ -1,0 +1,25 @@
+.declaracion-responsable {
+    border: solid black 0.5px;
+    border-radius: 10px;
+}
+
+.estado-firma {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.status {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 8px;
+    border-radius: 6px;
+    font-weight: 500;
+    width: fit-content;
+}
+
+.acciones-declaracion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}

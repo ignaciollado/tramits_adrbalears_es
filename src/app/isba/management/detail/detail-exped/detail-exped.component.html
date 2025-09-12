@@ -154,7 +154,9 @@
                     <h4 [innerHTML]="'FORM.REQUIREDDOCUMENTATIONDETAILS' | translate"></h4>
                     <app-add-document></app-add-document>
                     <app-document [idSol]="idExpediente" [requiredDocs]="'SI'"></app-document>
-                    <app-declaracion-responsable-adr-isba></app-declaracion-responsable-adr-isba>
+                    <app-declaracion-responsable-adr-isba 
+                    [actualID]="actualID" [actualNif]="actualNif" 
+                    [actualConvocatoria]="actualConvocatoria"></app-declaracion-responsable-adr-isba>
                     <!-- <section *ngIf="signedDocData">
                         <div *ngIf="signedDocData.status === 'COMPLETED'">
                             <button mat-raised-button color="accent"
