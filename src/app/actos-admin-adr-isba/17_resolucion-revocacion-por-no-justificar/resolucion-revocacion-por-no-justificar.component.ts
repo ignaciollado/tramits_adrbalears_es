@@ -159,9 +159,11 @@ export class ResolucionRevocacionPorNoJustificarAdrIsbaComponent implements OnCh
 
   saveReasonRevocation(): void {
     const motivo = this.formRevocacion.get('motivoResolucionRevocacionPorNoJustificar')?.value;
-    this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoResolucionRevocacionPorNoJustificar', motivo).subscribe();
-    this.noRevocationReasonText = false;
-    this.actoAdmin17 = false;
+    if (this.formRevocacion.valid) {
+      this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoResolucionRevocacionPorNoJustificar', motivo).subscribe();
+      this.noRevocationReasonText = false;
+      this.actoAdmin17 = false;
+    }
   }
 
   private tieneTodosLosValores(): boolean {
