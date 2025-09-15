@@ -67,6 +67,7 @@
     "CONTACTPHONE": "Teléfono de contacto",
     "NOTIFICATIONCHANEL": "Canal de notificaciones",
     "CONSULTANTDATA": "Datos del consultor",
+    "CONSULTANTDATADESCRIPTION": "Introduzca algunos datos del consultor.",
     "NOTIFICATIONMOBILE": "Teléfono móvil de notificaciones",
     "NOTIFICATIONMAIL": "Correo electrónico de notificaciones",
     "CONSULTANTCOMPANY": "Razón social de la empresa consultora",

@@ -67,6 +67,7 @@
     "CONTACTPHONE": "Contact telephone number",
     "NOTIFICATIONCHANEL": "Notification channel",
     "CONSULTANTDATA": "Consultant data",
+    "CONSULTANTDATADESCRIPTION": "Enter some information about the consultant.",
     "NOTIFICATIONMOBILE": "Notification mobile phone",
     "NOTIFICATIONMAIL": "Notifications email address",
     "CONSULTANTCOMPANY": "Company name of the consultancy firm",
