@@ -119,8 +119,8 @@
                         <input matInput type="date" formControlName="fecha_aval_idi_isba">
                     </mat-form-field>
                     <mat-form-field appearance="outline">
-                        <mat-label>{{'ISBA.REQUEST' | translate}}</mat-label>
-                        <input matInput type="decimal" formControlName="importe_ayuda_solicita_idi_isba" min="1">
+                        <mat-label>{{'ISBA.BUDGETAMOUNT' | translate}}</mat-label>
+                        <input matInput type="decimal" formControlName="importe_presupuesto_idi_isba" min="1">
                     </mat-form-field>
                     <section ngClass="budget-details">
                         <h4>{{'ISBA.BUDGETAMOUNTDETAILS' | translate}}</h4>
@@ -137,6 +137,10 @@
                             <input matInput type="decimal" formControlName="gastos_aval_solicita_idi_isba" min="1">
                         </mat-form-field>
                     </section>
+                    <mat-form-field appearance="outline">
+                        <mat-label>{{'ISBA.REQUEST' | translate}}</mat-label>
+                        <input matInput type="decimal" formControlName="importe_ayuda_solicita_idi_isba" min="1">
+                    </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'ISBA.DECLARATION5NO' | translate}}</mat-label>
                         <input matInput type="text" formControlName="ayudasSubvenSICuales_dec_resp">
