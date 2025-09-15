@@ -58,9 +58,9 @@
     <td mat-cell *matCellDef="let item"> {{ item.empresa }} </td>
   </ng-container>
 
-  <ng-container matColumnDef="importeAyuda">
+  <ng-container matColumnDef="importe_ayuda_solicita_idi_isba">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
-    <td mat-cell *matCellDef="let item"> {{ item.importeAyuda | currency:'EUR':'symbol':'1.2-2':'es' }} </td>
+    <td mat-cell *matCellDef="let item"> {{ item.importe_ayuda_solicita_idi_isba | currency:'EUR':'symbol':'1.2-2':'es' }} </td>
   </ng-container>
 
   <ng-container matColumnDef="ordenDePago">

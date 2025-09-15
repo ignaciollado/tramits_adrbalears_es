@@ -51,7 +51,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
 
 
   form!: FormGroup;
-  displayedColumns: string[] = ['fechaComletado', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda',
+  displayedColumns: string[] = ['fechaComletado', 'tipo_tramite', 'idExp', 'empresa', 'importe_ayuda_solicita_idi_isba',
     'ordenDePago', 'empresa_consultor', 'nom_consultor', 'fecha_not_propuesta_resolucion_def',
     'situacion'];
   loading = false;
