@@ -802,7 +802,7 @@ export class IsbaGrantApplicationFormComponent {
 
     this.actoAdminService.getByNameAndTipoTramite('isba_20_declaracion_responsable_solicitud_ayuda', 'ADR-ISBA')
       .subscribe((docDataString: ActoAdministrativoDTO) => {
-        let rawTexto = docDataString.texto_es; // Temporal, falta cambiar el acta en cat.
+        let rawTexto = docDataString.texto;
 
         if (!rawTexto) {
           this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
