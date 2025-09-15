@@ -149,9 +149,11 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
 
   saveReasonRequest(): void {
     const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value;
-    this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe();
-    this.noRequestReasonText = false;
-    this.reqGenerado = false;
+    if (this.formRequerimiento.valid) {
+      this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe();
+      this.noRequestReasonText = false;
+      this.reqGenerado = false;
+    }
   }
 
   generateActoAdmin(actoAdministrativoName: string, tipoTramite: string, docFieldToUpdate: string): void {
