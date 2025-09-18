@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, viewChild, signal, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, viewChild, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { map, Observable, of, startWith, throwError } from 'rxjs';
@@ -30,6 +30,9 @@ import { AuthorizationTextDTO } from '../../Models/authorization-texts-dto';
 import { ResponsabilityDeclarationDTO } from '../../Models/responsability-declaration-dto';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ExpedienteDocumentoService } from '../../Services/expediente.documento.service';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -44,7 +47,7 @@ import { ExpedienteDocumentoService } from '../../Services/expediente.documento.
   styleUrl: './grant-application-form.component.scss',
 })
 
-export class GrantApplicationFormComponent {
+export class GrantApplicationFormComponent implements OnInit{
   readonly dialog = inject(MatDialog)
   htmlContentRequiredDocs: string = ''
   step = signal(0)
@@ -62,12 +65,16 @@ export class GrantApplicationFormComponent {
   authorizations: AuthorizationTextDTO[] = []
   filesToUploadOptional: string[] = []  // new
   lastID: number = 0
+  lineDetail: PindustLineaAyudaDTO[] = []
+  num_BOIB: string = ""
+  codigoSIA: string = ""
+  convoData!: string;
 
-  constructor ( private fb: FormBuilder, 
+constructor ( private fb: FormBuilder, 
     private commonService: CommonService, 
     private expedienteService: ExpedienteService,
-    private documentosExpedienteService: ExpedienteDocumentoService,
-    private documentService: DocumentService,
+    private documentosExpedienteService: ExpedienteDocumentoService, private translate: TranslateService,
+    private documentService: DocumentService, private lineaAyuda: PindustLineaAyudaService,
     private nifValidator: NifValidatorService
    ) {
 
@@ -77,11 +84,11 @@ export class GrantApplicationFormComponent {
     selloDeTiempo: this.fb.control(''),
     opc_programa: this.fb.array([], Validators.required),
     nif: this.fb.control({value:'', disabled: true}, [Validators.required]),
-    empresa: this.fb.control('', ),
-    domicilio: this.fb.control({value: '', disabled: false}, ),
+    empresa: this.fb.control('', [Validators.required]),
+    domicilio: this.fb.control({value: '', disabled: false}, [Validators.required]),
     cpostal: this.fb.control ('', [ Validators.pattern('^07[0-9]{3}$')]),
-    localidad: this.fb.control({value: '', disabled: true}, ),
-    iae: this.fb.control({value: '', disabled: false}, ),
+    localidad: this.fb.control({value: '', disabled: true}, [Validators.required]),
+    iae: this.fb.control({value: '', disabled: false}, [Validators.required]),
     telefono: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
     acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
     tipo_tramite: this.fb.control<string | null>(null, Validators.required),
@@ -118,7 +125,7 @@ export class GrantApplicationFormComponent {
     domicilio_sucursal: this.fb.control<string | null>('', ),
     codigo_BIC_SWIFT: this.fb.control<string | null>('', [ Validators.minLength(11), Validators.maxLength(11), Validators.pattern(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/)]),
     opcion_banco: this.fb.control<string | null>('', ),
-    cc_datos_bancarios: this.fb.control<string | null>({value: '', disabled: true}, [ Validators.minLength(25), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
+    cc_datos_bancarios: this.fb.control<string | null>({value: '', disabled: true}, [ Validators.minLength(24), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
 
     declaracion_responsable_i: this.fb.control<boolean | null>({ value: true, disabled: true }),
     declaracion_responsable_ii: this.fb.control<boolean | null>({ value: false, disabled: false }),
@@ -165,14 +172,14 @@ ngOnInit(): void {
     // Patrón para IBAN español (por ejemplo: empieza por ES y 22 dígitos)
     ccControl?.setValidators([
       Validators.required,
-      Validators.minLength(25),
-      Validators.maxLength(25),
-      Validators.pattern(/^ES\d{23}$/)
+      Validators.minLength(24),
+      Validators.maxLength(24),
+      Validators.pattern(/^ES\d{22}$/)
     ]);
  
     ccControl?.valueChanges.subscribe((inputValue: string) => {
       if (inputValue && !inputValue.startsWith('ES')) {
-        ccControl?.setValue('ES' + inputValue, { emitEvent: false });
+        ccControl?.setValue(inputValue.toUpperCase(), { emitEvent: false });
       }
     });
   } else if (valor === '2') {
@@ -242,6 +249,7 @@ this.getAllCnaes()
 this.getAllXecsPrograms()
 this.getResponsabilityDeclarations()
 this.getDocumentationAndAuthorizations()
+this.getLineDetail(2026)
 }
 
 setStep(index: number) {
@@ -380,7 +388,10 @@ onSubmit(): void {
             }
             this.commonService.showSnackBar(mensaje);
           },
-          complete: () => this.commonService.showSnackBar('✅ Todas las subidas finalizadas'),
+          complete: () => {
+            this.commonService.showSnackBar('✅ Todas las subidas finalizadas')
+            console.log ("Falta generar la dec resp en PDF y enviar a la firma del solicitante con estos datos: ", datos)
+          },
           error: (err) => this.commonService.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
         });
       },
@@ -525,18 +536,24 @@ openDialog(enterAnimationDuration: string, exitAnimationDuration: string, questi
   this.dialog.open(PopUpDialogComponent, dialogConfig);
 }
 
-onCheckboxChange(event: MatCheckboxChange) {
-  const programsArray = this.xecsForm.get('opc_programa') as FormArray;
-
-  if (event.checked) {
-    programsArray.push(new FormControl(event.source.value));
+onCheckboxChange(event: any, controlName: string) {
+  const isChecked = event.checked;
+  const control = this.xecsForm.get(controlName);
+  if (!control) return;
+  // Ajusto los validadores según el estado del checkbox
+  if (isChecked) {
+    // Si está marcado, quitamos el required
+    control.clearValidators();
   } else {
-    const index = programsArray.controls.findIndex(ctrl => ctrl.value === event.source.value);
-    if (index >= 0) {
-      programsArray.removeAt(index);
-    }
+    // Si está desmarcado, agregamos required
+    control.setValidators([Validators.required]);
   }
+  // Actualiza el estado de validación
+  control.updateValueAndValidity();
+  console.log('Control:', controlName, 'Checked:', isChecked, 'Validators:', control.validator);
 }
+
+
 
 onRadioChange(event: any): void {
   const programsArray = this.xecsForm.get('opc_programa') as FormArray;
@@ -650,6 +667,21 @@ uploadTheFile(timestamp: string, files: File[] ): Observable<any> {
       return throwError(() => err);
     })
   );
+}
+
+private getLineDetail(convocatoria: number) {
+      this.lineaAyuda.getAll().subscribe((lineaAyudaItems:PindustLineaAyudaDTO[]) => {
+        lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+          if (item.convocatoria == convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI") {
+            this.num_BOIB = item['num_BOIB']
+            this.translate.get('HEADER.CONVODATA').subscribe(text => {
+            this.convoData = text.replace('%CODIGOSIA%', item['codigoSIA']).replace('%CONVO%', item['convocatoria'])
+            });         
+          }
+        });
+
+        
+    })
 }
   
 }
