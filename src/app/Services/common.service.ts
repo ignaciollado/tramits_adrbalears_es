@@ -7,7 +7,7 @@ import { XecsProgramsDTO } from '../Models/xecs-programs-dto';
 import { AuthorizationTextDTO } from '../Models/authorization-texts-dto';
 import jsPDF from 'jspdf';
 import { ResponsabilityDeclarationDTO } from '../Models/responsability-declaration-dto';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',

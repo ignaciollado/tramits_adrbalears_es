@@ -2,8 +2,8 @@
   <section ngClass="header-container-logo">
     <img src='../../../assets/logo gov+adr.svg' alt='ADR Balears'>
   </section>
-  <section ngClass="header-container-data" [innerHTML]="'HEADER.CONVODATA' | translate"></section>
   <section ngClass="header-container-details" [innerHTML]="'HEADER.CONVODETAILS' | translate"></section>
+  <section ngClass="header-container-data" [innerHTML]="convoData"></section>
 </section>
 
 <form [formGroup]="xecsForm" (ngSubmit)="onSubmit()" ngClass="form">
@@ -41,16 +41,6 @@
         <mat-icon>map</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-<!--       <section ngClass="checkbox-group">
-        <mat-checkbox
-          formControlName = "tipo_tramite"
-          *ngFor="let prog of xecsPrograms"
-          [value]="prog.value"
-          (change)="onCheckboxChange($event)"
-          [checked]="xecsForm.get('opc_programa')?.value.includes(prog)">
-         <code ngClass="adr-option-text">{{ prog.label }}</code>
-        </mat-checkbox>
-      </section> -->
     <section ngClass="radio-group">
       <mat-radio-group formControlName="tipo_tramite">
         <mat-radio-button
@@ -240,44 +230,26 @@
   </mat-radio-group>
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKCC' | translate }}</mat-label>
-    <input matInput formControlName="cc_datos_bancarios" minlength="25" maxlength="25" />
+    <input matInput formControlName="cc_datos_bancarios" minlength="24" maxlength="25" />
   </mat-form-field>
   </mat-expansion-panel>  
 
-  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted"> <!-- Documentación a adjuntar -->
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.ATTACHEDDOCUMENTATION' | translate }}</mat-panel-title>
-      <mat-panel-description>
-        {{'FILES.LOADFILESFORSENDING' | translate}}
-        <mat-icon>attachment</mat-icon>
+      <mat-panel-description>{{'FILES.LOADFILESFORSENDING' | translate}}<mat-icon>attachment</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>  
     <section ngClass="memoria-tecnica docs-in-adr">
-        <mat-checkbox 
-          ngClass="documento-en-adr"
-          formControlName = "memoriaTecnicaEnIDI"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox ngClass="documento-en-adr" formControlName = "memoriaTecnicaEnIDI" (change)="onCheckboxChange($event, 'file_memoriaTecnica')">
           {{ 'FILES.FILEINADR' | translate }}
         </mat-checkbox>
         <mat-form-field appearance="fill">
           <mat-label>{{ 'FILES.FILESMEMTEC' | translate }}</mat-label>
-          <input [disabled]="xecsForm.get('memoriaTecnicaEnIDI')?.value === true"
-            type="text"
-            matInput
-            [value]="memoriaTecnicaFileNames"
-            placeholder="{{ 'FILES.FILESMEMTEC' | translate }}"
-            readonly
-            (click)="file_memoriaTecnica.click()"/>
-        </mat-form-field>    
-      <input
-        #file_memoriaTecnica
-        formControlName = "file_memoriaTecnica"
-        type="file"
-        (change)="onFileMemoriaTecnicaChange($event)"
-        multiple
-        accept=".pdf"
-        hidden />
+          <input [disabled]="xecsForm.get('memoriaTecnicaEnIDI')?.value === true" type="text" matInput [value]="memoriaTecnicaFileNames"
+          ngClass="file-upload" placeholder="{{ 'FILES.FILESMEMTEC' | translate }}" readonly (click)="file_memoriaTecnica.click()"/>
+        </mat-form-field>
+      <input #file_memoriaTecnica formControlName = "file_memoriaTecnica" type="file" (change)="onFileMemoriaTecnicaChange($event)" multiple accept=".pdf" hidden />
       <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
         <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
@@ -285,23 +257,10 @@
 
     <section ngClass="certificado-iae">
       <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'FILES.FILESCERTIAE' | translate }}</mat-label>
-          <input
-            type="text"
-            matInput         
-            [value]="certificadoIAEFileNames"
-            placeholder="{{ 'FILES.FILESCERTIAE' | translate }}"
-            readonly
-            (click)="file_certificadoIAE.click()"/>
+        <mat-label>{{ 'FILES.FILESCERTIAE' | translate }}</mat-label>
+        <input type="text" matInput [value]="certificadoIAEFileNames" placeholder="{{ 'FILES.FILESCERTIAE' | translate }}" readonly (click)="file_certificadoIAE.click()"/>
       </mat-form-field>
-      <input
-        #file_certificadoIAE
-        formControlName = "file_certificadoIAE"           
-        type="file"
-        (change)="onFileCertificadoIAEChange($event)"
-        multiple
-        accept=".pdf"
-        hidden />
+      <input #file_certificadoIAE formControlName = "file_certificadoIAE" type="file" (change)="onFileCertificadoIAEChange($event)" multiple accept=".pdf" hidden />
       <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.FILES' | translate }}</button> -->
       <ul *ngIf="file_certificadoIAEToUpload.length > 0">
         <li *ngFor="let file of file_certificadoIAEToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
@@ -309,30 +268,15 @@
     </section>
 
     <section ngClass="copia-nif docs-in-adr">
-        <mat-checkbox ngClass="documento-en-adr"
-          formControlName = "copiaNIFSociedadEnIDI"
-          (change)="onCheckboxChange($event)">
-          {{ 'FILES.FILEINADR' | translate }}
-        </mat-checkbox>
+      <mat-checkbox ngClass="documento-en-adr" formControlName = "copiaNIFSociedadEnIDI" (change)="onCheckboxChange($event, 'file_nifEmpresa')">
+        {{ 'FILES.FILEINADR' | translate }}
+      </mat-checkbox>
       <mat-form-field appearance="fill">
-          <mat-label>{{ 'FILES.FILESNIF' | translate }}</mat-label>
-          <input
-            type="text"
-            [disabled]="xecsForm.get('copiaNIFSociedadEnIDI')?.value === true"
-            matInput
-            [value]="nifEmpresaFileNames"
-            placeholder="{{ 'FILES.FILESNIF' | translate }}"
-            readonly
-            (click)="file_nifEmpresa.click()"/>
+        <mat-label>{{ 'FILES.FILESNIF' | translate }}</mat-label>
+        <input type="text" [disabled]="xecsForm.get('copiaNIFSociedadEnIDI')?.value === true" matInput [value]="nifEmpresaFileNames" 
+        placeholder="{{ 'FILES.FILESNIF' | translate }}" readonly (click)="file_nifEmpresa.click()"/>
       </mat-form-field>
-      <input
-        #file_nifEmpresa
-        formControlName = "file_nifEmpresa"        
-        type="file"
-        (change)="onFileNifEmpresaChange($event)"
-        multiple
-        accept=".pdf"
-        hidden />
+      <input #file_nifEmpresa formControlName = "file_nifEmpresa" type="file" (change)="onFileNifEmpresaChange($event)" multiple accept=".pdf" hidden />
       <ul *ngIf="file_nifEmpresaToUpload.length > 0">
         <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
@@ -340,34 +284,18 @@
     </section>
     
     <section ngClass="escritura-publica docs-in-adr">
-      <mat-checkbox ngClass="documento-en-adr"
-          formControlName = "pJuridicaDocAcreditativaEnIDI"
-          (change)="onCheckboxChange($event)">
+      <mat-checkbox ngClass="documento-en-adr" formControlName = "pJuridicaDocAcreditativaEnIDI" (change)="onCheckboxChange($event, 'file_escritura_empresa')">
           {{ 'FILES.FILEINADR' | translate }}
       </mat-checkbox>
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FILES.FILESESCRITPUB' | translate }}</mat-label>
-          <input
-            type="text"
-            [disabled]="xecsForm.get('pJuridicaDocAcreditativaEnIDI')?.value === true"
-            matInput
-            [value]="escrituraPublicaFileNames"
-            placeholder="{{ 'FILES.FILESESCRITPUB' | translate }}"
-            readonly
-            (click)="file_escrituraPublica.click()"/>
+          <input type="text" [disabled]="xecsForm.get('pJuridicaDocAcreditativaEnIDI')?.value === true" matInput [value]="escrituraPublicaFileNames"
+            placeholder="{{ 'FILES.FILESESCRITPUB' | translate }}" readonly (click)="file_escrituraPublica.click()"/>
       </mat-form-field>
-      <input
-        #file_escrituraPublica
-        formControlName = "file_escritura_empresa"        
-        type="file"
-        (change)="onFileEscrituraEmpresaChange($event)"
-        multiple
-        accept=".pdf"
-        hidden />
+      <input #file_escrituraPublica formControlName = "file_escritura_empresa" type="file" (change)="onFileEscrituraEmpresaChange($event)" multiple accept=".pdf" hidden />
       <ul *ngIf="file_escritura_empresaToUpload.length > 0">
         <li *ngFor="let file of file_escritura_empresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
-      <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
     </section>
 
     <section ngClass="doc-acred-representante">
@@ -381,18 +309,11 @@
             readonly
             (click)="file_docAcredRepresentante.click()"/>
       </mat-form-field>
-      <input
-        #file_docAcredRepresentante
-        formControlName = "file_document_acred_como_repres"        
-        type="file"
-        (change)="onFileDocAcredRepresChange($event)"
-        multiple
-        accept=".pdf"
-        hidden />
+      <input #file_docAcredRepresentante formControlName = "file_document_acred_como_repres" type="file" (change)="onFileDocAcredRepresChange($event)"
+        multiple accept=".pdf" hidden />
       <ul *ngIf="file_document_acred_como_represToUpload.length > 0">
         <li *ngFor="let file of file_document_acred_como_represToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
-      <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
     </section>
 
     <section ngClass="certificado-aeat">
@@ -417,11 +338,10 @@
       <ul *ngIf="file_certificadoAEATToUpload.length > 0">
         <li *ngFor="let file of file_certificadoAEATToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
       </ul>
-      <!-- <mat-progress-bar mode="determinate" value="{{uploadProgress}}"></mat-progress-bar> -->
     </section>
   </mat-expansion-panel>  
 
-  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted"> <!-- Autorizaciones -->
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.AUTHORISATIONS' | translate }}</mat-panel-title>
       <mat-panel-description>
@@ -430,27 +350,21 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
       <section *ngIf="authorizations.length >= 3">
-        <mat-checkbox
-          formControlName = "consentimientocopiaNIF"
-          (change)="onCheckboxChange($event)">
+        <mat-checkbox formControlName = "consentimientocopiaNIF" (change)="onCheckboxChange($event, 'file_copiaNIF')">
           {{ authorizations[0]['label'] }}
         </mat-checkbox>
         <section *ngIf="xecsForm.get('consentimientocopiaNIF')?.value === false" ngClass="file-upload">
           <label for="file_copiaNIF">{{"FILES.NOTAUTHORIZED" | translate}}</label>
           <input type="file" accept=".pdf" formControlName="file_copiaNIF" (change)="onFileCopiaNifChange($event)">
         </section>
-        <mat-checkbox
-          formControlName = "consentimiento_certificadoATIB"
-          (change)="onCheckboxChange($event)">
+        <mat-checkbox formControlName = "consentimiento_certificadoATIB" (change)="onCheckboxChange($event, 'file_certificadoATIB')">
           {{ authorizations[1]['label'] }}
         </mat-checkbox>
         <section *ngIf="xecsForm.get('consentimiento_certificadoATIB')?.value === false" ngClass="file-upload">
           <label for="file_certificadoATIB">{{"FILES.NOTAUTHORIZED" | translate}}</label>
           <input type="file" accept=".pdf" formControlName="file_certificadoATIB" (change)="onFilecertificadoATIBChange($event)">
         </section>        
-        <mat-checkbox
-          formControlName = "consentimiento_certificadoSegSoc"
-          (change)="onCheckboxChange($event)">
+        <mat-checkbox formControlName = "consentimiento_certificadoSegSoc" (change)="onCheckboxChange($event, 'file_certificadoSegSoc')">
           {{ authorizations[2]['label'] }}
         </mat-checkbox>
         <section *ngIf="xecsForm.get('consentimiento_certificadoSegSoc')?.value === false" ngClass="file-upload">
@@ -460,7 +374,7 @@
       </section>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted"> <!-- Declaración responsable -->
      <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.RESPONSIBLEDECLARATION' | translate }}</mat-panel-title>
       <mat-panel-description>
@@ -469,16 +383,10 @@
       </mat-panel-description>
     </mat-expansion-panel-header>   
       <section *ngIf="responsibilityDeclarations && responsibilityDeclarations.length > 0">
-        <mat-checkbox
-          formControlName = "declaracion_responsable_i"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_i">
           {{ responsibilityDeclarations[0].label[0] }}
         </mat-checkbox>
-        <mat-checkbox
-          formControlName = "declaracion_responsable_ii"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_ii" (change)="onCheckboxChange($event, 'declaracion_responsable_ii')">
           {{ responsibilityDeclarations[0].label[1] }}
         </mat-checkbox>
         <mat-form-field *ngIf="xecsForm.get('declaracion_responsable_ii')?.value === true" appearance="fill">
@@ -489,67 +397,42 @@
           El importe debe tener exactamente dos decimales y el punto (`.`) como separador decimal (ej: 1234.56)
         </mat-error>
 
-        <mat-checkbox
-          formControlName = "declaracion_responsable_iv"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_iv">
           {{ responsibilityDeclarations[0].label[2] }}
         </mat-checkbox>
-        <mat-checkbox
-          formControlName = "declaracion_responsable_v"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_v">
           {{ responsibilityDeclarations[0].label[3] }}
         </mat-checkbox>
-        <mat-checkbox
-          formControlName = "declaracion_responsable_vi"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_vi">
           {{ responsibilityDeclarations[0].label[4] }}
         </mat-checkbox>
-        <mat-checkbox
-          formControlName = "declaracion_responsable_vii"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_vii">
           {{ responsibilityDeclarations[0].label[5] }}
         </mat-checkbox>
-        <mat-checkbox
-          formControlName = "declaracion_responsable_viii"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_viii">
           {{ responsibilityDeclarations[0].label[6] }}
         </mat-checkbox>
-        <mat-checkbox
-          formControlName = "declaracion_responsable_ix"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_ix">
           {{ responsibilityDeclarations[0].label[7] }}
         </mat-checkbox>
-        <mat-checkbox
-          formControlName = "declaracion_responsable_x"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_x">
           {{ responsibilityDeclarations[0].label[8] }}
         </mat-checkbox>
-        <mat-checkbox
-          formControlName = "declaracion_responsable_xi"
-          (change)="onCheckboxChange($event)"
-          >
+        <mat-checkbox formControlName = "declaracion_responsable_xi">
           {{ responsibilityDeclarations[0].label[9] }}
         </mat-checkbox>        
       </section>
   </mat-expansion-panel>
 </mat-accordion>
-<!-- <button mat-raised-button color="accent" type="submit" [disabled]="xecsForm.invalid">{{ 'FORM.SEND' | translate }}</button> -->
-<button mat-raised-button color="accent" type="submit">{{ 'FORM.SEND' | translate }}</button>
+<button mat-raised-button color="accent" type="submit" [disabled]="xecsForm.invalid">{{ 'FORM.SEND' | translate }}</button>
 </form>
 
 <section ngClass="info-container">
-<!-- <section ngClass="xecsForm-value">
+<section ngClass="xecsForm-value">
   {{ xecsForm.value | json}}
-</section> -->
+</section>
 
-<!-- <section class="xecsForm-status">
+<section class="xecsForm-status">
   <h3>Estado general del formulario:</h3>
   <p><strong>{{ xecsForm.status }}</strong></p>
   <h4>Errores por campo:</h4>
@@ -563,5 +446,5 @@
       <span ngClass="sin-errores" *ngIf="!control.value.errors">Sin errores</span>
     </div>
   </div>
-</section> -->
+</section>
 </section>
