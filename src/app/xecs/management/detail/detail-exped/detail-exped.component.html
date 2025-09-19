@@ -110,7 +110,29 @@
     </mat-form-field>    
     <mat-form-field appearance="outline">
       <mat-label>Situación</mat-label>
-      <input matInput formControlName="situacion" readonly>
+      <mat-select formControlName="situacion" readonly>
+        <ng-container *ngFor="let group of situations">
+          <!-- Sin subgrupos -->
+           <mat-optgroup *ngIf="!group.subgroup" [label]="group.name | translate" style="font-weight: bolder;">
+            <mat-option *ngFor="let option of group.options" [value]="option.value">
+              {{option.label | translate}}
+            </mat-option>
+           </mat-optgroup>
+            <!-- Con subgrupos -->
+           <ng-container *ngIf="group.subgroup">
+            <mat-optgroup [label]="group.name | translate" style="font-weight: bolder;">
+              <ng-container *ngFor="let subgroup of group.subgroup" style="text-decoration: underline;">
+                <mat-optgroup [label]="subgroup.name | translate">
+                  <mat-option *ngFor="let option of subgroup.options" [value]="option.value">
+                    {{option.label | translate}}
+                  </mat-option>
+                </mat-optgroup>
+              </ng-container>
+            </mat-optgroup>
+           </ng-container>
+        </ng-container>
+      </mat-select>
+      <!-- <input matInput formControlName="situacion" readonly> -->
     </mat-form-field>
     <section ngClass="documentos-en-ADR"><h4>La administración ya dispone de:</h4>
       <mat-checkbox [checked]="form.get('memoriaTecnicaEnIDI')?.value === 'SI'" disabled>Memoria técnica</mat-checkbox>

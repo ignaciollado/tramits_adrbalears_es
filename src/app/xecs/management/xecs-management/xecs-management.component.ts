@@ -51,7 +51,8 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   private commonService = inject(CommonService)
   uniqueConvocatorias: number[] = [];
   uniqueTiposTramite: string[] = [];
-  uniqueSituaciones: string[] = [];
+  // uniqueSituaciones: string[] = [];
+  uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = []
 
   form!: FormGroup;
@@ -66,6 +67,10 @@ ngOnInit(): void {
     tipoTramite: [[]],
     situacion: [[]]
   });
+
+  this.commonService.getSituations().subscribe((situations: any[]) => {
+    this.uniqueSituaciones = situations;
+  })
 
   // Verifica si hay filtros guardados y si los valores son válidos
   const savedConv = sessionStorage.getItem('filtroConvocatoria');
@@ -125,9 +130,10 @@ loadAllExpedientes(): void {
         ...new Set<string>(this.expedientesFiltrados.map((e: any) => e.tipo_tramite))
       ];
 
-      this.uniqueSituaciones = [
-        ...new Set(this.expedientesFiltrados.map((e: any) => e.situacion).filter(Boolean))
-      ];
+      // this.uniqueSituaciones = [
+      //   ...new Set(this.expedientesFiltrados.map((e: any) => e.situacion).filter(Boolean))
+      // ];
+
       this.commonService.showSnackBar('XECS: expedientes cargados correctamente ✅')
     },
 

@@ -162,6 +162,8 @@ export class XecsDetailExpedComponent {
   response?: SignatureResponse;
   error?: string;
 
+  situations: any[] = [];
+
   constructor(  private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
               ) {
@@ -254,6 +256,12 @@ ngOnInit(): void {
   });
   const tabIndex = sessionStorage.getItem('currentContactTab');
   this.selectedIndex = tabIndex !== null ? Number(tabIndex) : undefined;
+
+  this.commonService.getSituations().subscribe((situations: any[]) => {
+    this.situations = situations;
+    console.log(this.situations);
+  })
+
   this.getExpedDetail(this.idExpediente)
 
   // Observo los cambios en 'fecha_de_pago'
