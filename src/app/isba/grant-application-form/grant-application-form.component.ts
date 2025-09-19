@@ -241,9 +241,8 @@ export class IsbaGrantApplicationFormComponent {
   onSubmit(): void {
     const timeStamp = this.commonService.generateCustomTimestamp();
     const convocatoria = new Date().getFullYear();
-
-
     const rawValues = this.isbaForm.getRawValue();
+    
     rawValues.idExp = this.idExp;
     rawValues.selloDeTiempo = timeStamp;
     rawValues.convocatoria = convocatoria;
