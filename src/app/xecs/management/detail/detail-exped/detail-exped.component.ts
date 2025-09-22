@@ -259,7 +259,6 @@ ngOnInit(): void {
 
   this.commonService.getSituations().subscribe((situations: any[]) => {
     this.situations = situations;
-    console.log(this.situations);
   })
 
   this.getExpedDetail(this.idExpediente)

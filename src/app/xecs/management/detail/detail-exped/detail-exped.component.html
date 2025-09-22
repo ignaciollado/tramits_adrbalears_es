@@ -282,6 +282,7 @@
       </mat-form-field>
       </section>
       <section>
+        <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
         <!-- <mat-accordion> -->
           <app-informe-favorable [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
@@ -379,9 +380,10 @@
       </mat-form-field>      
       </section>
       <section>
-      <h4>Actos administrativos</h4>
+        <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+        <app-acta-de-kick-off [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+        [actualConvocatoria]="actualConvocatoria"[actualTipoTramite]="actualTipoTramite"></app-acta-de-kick-off>
       <ol start="19">
-        <li>Acta de Kick off</li>
         <li>Acta de tancament</li>
       </ol>
       </section>
