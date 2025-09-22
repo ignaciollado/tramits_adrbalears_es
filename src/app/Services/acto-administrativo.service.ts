@@ -77,6 +77,6 @@ export class ActoAdministrativoService {
   }
 
   sendDecRespSolPDFToBackEnd(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}api/pindust/pdf/upload-dec-resp-sol`, formData);
+    return this.http.post(`${this.apiUrl}/api/pindust/pdf/upload-dec-resp-sol`, formData);
   }
 }
