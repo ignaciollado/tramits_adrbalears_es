@@ -1067,7 +1067,7 @@ export class IsbaGrantApplicationFormComponent {
         formData.append('nifcif_propietario', String(data.nif));
         formData.append('timeStamp', String(data.selloDeTiempo));
 
-        this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
+        this.actoAdminService.sendDecRespSolPDFToBackEnd(formData).subscribe({
           next: (response) => {
             this.docGenerado.id_sol = data.id_sol;
             this.docGenerado.cifnif_propietario = data.nif;
@@ -1115,10 +1115,11 @@ export class IsbaGrantApplicationFormComponent {
       adreca_mail: data.email_rep,
       nombreDocumento: filename,
       nif: data.nif,
-      last_insert_id: doc_id
+      last_insert_id: doc_id,
+      selloDeTiempo: String(data.selloDeTiempo)
     };
 
-    this.viafirmaService.createSignatureRequest(payload)
+    this.viafirmaService.createDecRespSignatureRequest(payload)
       .subscribe({
         next: (res: any) => {
           const id = res?.publicAccessId;
