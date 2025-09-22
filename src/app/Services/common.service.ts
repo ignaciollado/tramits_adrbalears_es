@@ -191,6 +191,7 @@ export class CommonService {
   }
 
   formatCurrency(importe: number | string): string {
+    if (!importe) { return '0.00'}
   return new Intl.NumberFormat('es-ES', {
     style: 'currency',
     currency: 'EUR',

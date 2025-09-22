@@ -64,6 +64,17 @@ export class ViafirmaService {
     );
   }
 
+    createSignatureRequestDecResp(payload: CreateSignatureRequest): Observable<SignatureResponse> {
+    const url = `${this.apiUrl}/api/dec-resp-sol-signature-request`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<SignatureResponse>(url, payload, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
+
   /**
   * Peticiones creadas. Método para obtener el número de peticones creadas en un periodo dado 
   */

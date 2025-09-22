@@ -58,6 +58,7 @@ export class ActosComponent implements OnInit {
     { value: 'conseller', viewValue: 'Conseller' },
     { value: 'ceo', viewValue: 'CEO' },
     { value: 'technician', viewValue: 'Técnica/o' },
+    { value: 'applicant', viewValue: 'Solicitante'}
   ];
 
   @ViewChild('editorRef') editorComponent!: NuMonacoEditorComponent;
