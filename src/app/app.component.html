@@ -4,12 +4,15 @@
   <main class="main-content">
     <router-outlet></router-outlet>
 
-    <ng-container *ngIf="authService.isAuthenticated(); else loginLink">
-      <a (click)="logout()">Logout</a>
-    </ng-container>
-    <ng-template #loginLink>
-      <a [routerLink]="['login']">Login</a>
-    </ng-template>
+<div class="auth-links">
+  <ng-container *ngIf="authService.isAuthenticated(); else loginLink">
+    <a (click)="logout()">Logout</a>
+  </ng-container>
+  <ng-template #loginLink>
+    <a [routerLink]="['login']">Login</a>
+  </ng-template>
+</div>
+
   </main>
 
   <app-footer></app-footer>
