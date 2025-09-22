@@ -440,7 +440,8 @@
     "RESOLUCIONCONCESIONCONREQUERIMIENTO": "Concession resolution with requirement",
     "RESOLUCIONRENOVACIONMARCA": "Trademark renewal resolution",
     "RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO": "Trademark renewal resolution with requirement",
-    "RESOLUCIONREVOCACION": "Revocation resolution"
+    "RESOLUCIONREVOCACION": "Revocation resolution",
+    "ACTAKICKOFF": "Kick-off act"
   },
   "COMMON": {
     "RGPD-INFO": {
@@ -493,7 +494,6 @@
       "emitirDesEnmienda": "Issue abandonment for amendment",
       "emitidoDesEnmienda": "Abandonment due to amendment issued",
       "Desestimiento": "Abandonment",
-
       "emitirIFPRProvPago": "Issue provisional IF + PR",
       "emitidoIFPRProvPago": "Provisional IF + PR issued",
       "firmadoIFPRProvPago": "PR Prov. signed PENDING notification",
@@ -505,7 +505,6 @@
       "emitidaResConcesion": "Concession resolution signed PENDING notification",
       "notificadaResConcesion": "Concession resolution NOTIFIED",
       "inicioConsultoria": "Start expedient",
-
       "emitirIDPDenProv": "Issue ID + PR provisional denial",
       "emitidoIDPDenProv": "ID + PR provisional denial issued",
       "emitirPDenDef": "Issue final PR denial",
@@ -513,14 +512,12 @@
       "emitirResDen": "Issue denial resolution",
       "emitidoResDen": "Denial resolution issued",
       "Denegado": "Denied",
-
       "pendienteJustificar": "Pending justification",
       "pendienteRECJustificar": "Pending SEU justification",
       "Justificado": "Justified",
       "emitirResPagoyJust": "Issue payment resolution and justification",
       "emitidoResPagoyJust": "Payment resolution and justification issued",
       "Finalizado": "Completed",
-      
       "emitirReqJust": "Issue request for justification",
       "emitidoReqJust": "Request for justification issued",
       "emitirPropRevocacion": "Issue proposal for revocation",

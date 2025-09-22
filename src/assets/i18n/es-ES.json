@@ -440,7 +440,8 @@
     "RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO": "Resolución de renovación de marca con requerimiento",
     "RESOLUCIONCONCESION": "Resolución de concesión",
     "RESOLUCIONCONCESIONCONREQUERIMIENTO": "Resolución de concesión con requerimiento",
-    "RESOLUCIONREVOCACION": "Resolución de revocación"
+    "RESOLUCIONREVOCACION": "Resolución de revocación",
+    "ACTAKICKOFF": "Acta de Kick off"
   },
   "COMMON": {
     "RGPD-INFO": {
