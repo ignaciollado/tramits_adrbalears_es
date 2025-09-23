@@ -99,7 +99,7 @@ export class ActaDeCierreComponent {
   }
 
   ngOnInit(): void {
-    this.actoAdminService.getByNameAndTipoTramite('20_acta_kick_off', 'XECS')
+    this.actoAdminService.getByNameAndTipoTramite('20_acta_de_tacament', 'XECS')
       .subscribe((docDataString: ActoAdministrativoDTO) => {
         this.signedBy = docDataString.signedBy;
       })
