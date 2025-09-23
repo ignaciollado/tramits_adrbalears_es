@@ -52,7 +52,7 @@ export class DialogKickOffComponent {
     const formValues = this.kickOffForm.getRawValue();
     this.expedienteService.updateExpediente(this.data.idExpediente, formValues).subscribe({
       next: () => {
-        this.commonService.showSnackBar('Actualizado expediente con datos de Kick Off');
+        this.commonService.showSnackBar('Actualizado expediente con datos de Acta de Kick Off');
         this.dialogRef.close({
           guardado: true,
           datosFormulario: formValues

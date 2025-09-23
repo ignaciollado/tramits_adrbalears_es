@@ -1,11 +1,15 @@
 import { CommonModule, formatDate } from '@angular/common';
 import { Component, inject, Input, SimpleChange } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
+import jsPDF from 'jspdf';
+import { finalize } from 'rxjs';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
@@ -16,11 +20,7 @@ import { DocumentosGeneradosService } from '../../Services/documentos-generados.
 import { ExpedienteService } from '../../Services/expediente.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { DialogKickOffComponent } from '../dialogs/kick-off/kick-off.component';
-import jsPDF from 'jspdf';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-acta-de-kick-off',
@@ -31,8 +31,6 @@ import { finalize } from 'rxjs';
 })
 export class ActaDeKickOffComponent {
   private expedienteService = inject(ExpedienteService);
-  private fb = inject(FormBuilder);
-  formKickOff!: FormGroup;
   actoAdmin19: boolean = false;
   signedBy: string = "";
   timeStampDocGenerado: string = "";
@@ -71,8 +69,6 @@ export class ActaDeKickOffComponent {
   codigoSIA: string = "";
   faltanCampos!: boolean;
   camposVacios: string[] = [];
-
-  puedeGenerarActa: boolean = false;
 
   get stateClass(): string {
     const map: Record<string, string> = {
@@ -113,10 +109,6 @@ export class ActaDeKickOffComponent {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
     }
-
-    if (this.formKickOff && this.form) {
-      this.formKickOff.patchValue({ ... this.form });
-    }
   }
 
   getActoAdminDetail(): void {
@@ -154,11 +146,11 @@ export class ActaDeKickOffComponent {
     this.faltanCampos = this.camposVacios.length > 0;
 
     if (!this.faltanCampos) {
-      this.openKickOffForm();
+      this.openActaKickOffForm();
     }
   }
 
-  openKickOffForm(): void {
+  openActaKickOffForm(): void {
     const dialogRef = this.dialog.open(DialogKickOffComponent, {
       width: '80vw',
       height: '60vh',
@@ -277,12 +269,12 @@ export class ActaDeKickOffComponent {
         doc.setFontSize(10);
         doc.text(doc.splitTextToSize(jsonObject.identificacion, maxTextWidth), marginLeft, 80);
         doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.datos_reunion, maxTextWidth), marginLeft, 88);
+        doc.text(doc.splitTextToSize(jsonObject.datos_reunion, maxTextWidth), marginLeft, 84);
         const asistentes = jsonObject.Asistentes.split('\n')[1].split(',');
-        doc.text(jsonObject.Asistentes.split('\n')[0], marginLeft, 109)
+        doc.text(jsonObject.Asistentes.split('\n')[0], marginLeft, 104)
 
-        let afterAsistentesY = 113;
-        const lineHeight = 3;
+        let afterAsistentesY = 108;
+        const lineHeight = 4;
         asistentes.forEach((asistente: any) => {
           doc.text(asistente, marginLeft + 5, afterAsistentesY);
           afterAsistentesY += lineHeight
