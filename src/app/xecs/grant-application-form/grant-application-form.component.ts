@@ -810,7 +810,7 @@ generateDeclaracionResponsable (datos: any): void {
 
         this.actoAdminService.sendDecRespSolPDFToBackEnd(formData).subscribe({ // OK, sube el archivo dec resp al servidor backend
           next: (response) => {
-            console.log("formData en sendDecRespSolPDFToBackEnd:", formData)
+            console.log("datos en sendDecRespSolPDFToBackEnd:", datos)
             this.docGenerado.id_sol = datos.id_sol;
             this.docGenerado.cifnif_propietario = datos.nif;
             this.docGenerado.convocatoria = String(datos.convocatoria);
@@ -821,7 +821,7 @@ generateDeclaracionResponsable (datos: any): void {
             this.docGenerado.corresponde_documento = 'doc_dec_res_solicitud';
             this.docGenerado.selloDeTiempo = datos.selloDeTiempo;
             this.nameDocGenerado = 'doc_dec_res_solicitud.pdf';
-            this.sendUserToSign(formData, response.fileName, response.idExpediente) 
+            this.sendUserToSign(datos, response.fileName, response.idExpediente) 
           }
         })
     })
