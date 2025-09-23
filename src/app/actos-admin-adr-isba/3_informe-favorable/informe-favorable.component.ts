@@ -198,7 +198,7 @@ export class InformeFavorableAdrIsbaComponent {
           return;
         }
         /* Formateo la fecha de solicitud antes de reemplazar en el texto */
-        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedfecha_solicitud = formatDate(this.form.get('fecha_solicitud')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
         const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
         const formattedImporte_intereses = this.commonService.formatCurrency(this.form.get('intereses_ayuda_solicita_idi_isba')?.value);
         const formattedImporte_aval = this.commonService.formatCurrency(this.form.get('coste_aval_solicita_idi_isba')?.value);
@@ -206,7 +206,7 @@ export class InformeFavorableAdrIsbaComponent {
 
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
         rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
-        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedfecha_solicitud);
         rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, `${formattedImporte_ayuda}`);
         rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, `${formattedImporte_intereses}`);
         rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, `${formattedImporte_aval}`);
