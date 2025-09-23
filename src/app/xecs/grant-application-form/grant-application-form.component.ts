@@ -810,7 +810,6 @@ generateDeclaracionResponsable (datos: any): void {
 
         this.actoAdminService.sendDecRespSolPDFToBackEnd(formData).subscribe({ // OK, sube el archivo dec resp al servidor backend
           next: (response) => {
-            console.log("datos en sendDecRespSolPDFToBackEnd:", datos)
             this.docGenerado.id_sol = datos.id_sol;
             this.docGenerado.cifnif_propietario = datos.nif;
             this.docGenerado.convocatoria = String(datos.convocatoria);
@@ -826,7 +825,6 @@ generateDeclaracionResponsable (datos: any): void {
         })
     })
 }
-
 sendUserToSign(data: any, filename: string, doc_id: any) {
 
     const payload: CreateSignatureRequest = {
@@ -836,7 +834,6 @@ sendUserToSign(data: any, filename: string, doc_id: any) {
       last_insert_id: doc_id,
       timeStamp: data.selloDeTiempo
     };
-    console.log ("payload: ", payload)
 
     this.viafirmaService.createSignatureRequestDecResp(payload)
       .subscribe({
@@ -851,7 +848,6 @@ sendUserToSign(data: any, filename: string, doc_id: any) {
         }
       })
 }
-
 /* required files to upload */
 get memoriaTecnicaFileNames(): string {
   return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
