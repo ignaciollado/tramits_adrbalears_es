@@ -363,7 +363,7 @@
       <input matInput formControlName="fecha_limite_justificacion" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
-      <mat-label>{{"FROM.fecha_max_desp_ampliacion" | translate}}</mat-label>
+      <mat-label>{{"FORM.fecha_max_desp_ampliacion" | translate}}</mat-label>
       <input matInput formControlName="fecha_max_desp_ampliacion" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
@@ -383,9 +383,8 @@
         <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
         <app-acta-de-kick-off [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
         [actualConvocatoria]="actualConvocatoria"[actualTipoTramite]="actualTipoTramite"></app-acta-de-kick-off>
-      <ol start="19">
-        <li>Acta de tancament</li>
-      </ol>
+        <app-acta-de-cierre [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+        [actualConvocatoria]="actualConvocatoria"[actualTipoTramite]="actualTipoTramite"></app-acta-de-cierre>
       </section>
       <section>
         <h4>Documentos del expediente</h4>

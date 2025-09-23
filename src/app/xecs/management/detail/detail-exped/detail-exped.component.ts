@@ -284,6 +284,8 @@ getExpedDetail(id: number) {
     )
     .subscribe(expediente => {
       if (expediente) {
+        expediente.fecha_reunion_cierre = expediente.fecha_reunion_cierre.split(" ")[0];
+        expediente.fecha_limite_consultoria = expediente.fecha_limite_consultoria.split(" ")[0];
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
         this.actualID = expediente.id

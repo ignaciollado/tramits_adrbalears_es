@@ -1,0 +1,9 @@
+:host ::ng-deep mat-dialog-content form.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+:host ::ng-deep mat-form-field {
+  width: 100%;
+}

@@ -441,7 +441,8 @@
     "RESOLUCIONRENOVACIONMARCA": "Resolució de renovació de marca",
     "RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO": "Resolució de renovació de marca amb requeriment",
     "RESOLUCIONREVOCACION": "Resolució de revocació",
-    "ACTAKICKOFF": "Acta de Kick off"
+    "ACTAKICKOFF": "Acta de Kick off",
+    "ACTACIERRE": "Acta de tancament"
   },
   "COMMON": {
     "RGPD-INFO": {

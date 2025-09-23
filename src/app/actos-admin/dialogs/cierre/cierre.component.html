@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Datos para generar el acta de cierre</h2>
+<mat-dialog-content style="padding-top: 10px;">
+    <form [formGroup]="cierreForm" class="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Document Acta núm.:</mat-label>
+            <input matInput type="text" formControlName="actaNumCierre">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Data reunió tancament:</mat-label>
+            <input matInput type="date" formControlName="fecha_reunion_cierre">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Data límit per justificar l'ajut rebut:</mat-label>
+            <input matInput type="date" formControlName="fecha_limite_justificacion">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Hora inici:</mat-label>
+            <input matInput type="time" formControlName="horaInicioActaCierre">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Hora acabament</mat-label>
+            <input matInput type="time" formControlName="horaFinActaCierre">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Lloc:</mat-label>
+            <input matInput type="text" formControlName="lugarActaCierre">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Assistents:</mat-label>
+            <textarea matInput rows="5" formControlName="asistentesActaCierre"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Observacions:</mat-label>
+            <textarea matInput rows="5" formControlName="observacionesActaCierre"></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+    <button mat-raised-button color="primary" [disabled]="!cierreForm.valid" (click)="save()">Guardar</button>
+    <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
+</mat-dialog-actions>
+ 

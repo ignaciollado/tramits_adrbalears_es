@@ -441,7 +441,8 @@
     "RESOLUCIONCONCESION": "Resolución de concesión",
     "RESOLUCIONCONCESIONCONREQUERIMIENTO": "Resolución de concesión con requerimiento",
     "RESOLUCIONREVOCACION": "Resolución de revocación",
-    "ACTAKICKOFF": "Acta de Kick off"
+    "ACTAKICKOFF": "Acta de Kick off",
+    "ACTACIERRE": "Acta de cierre"
   },
   "COMMON": {
     "RGPD-INFO": {
