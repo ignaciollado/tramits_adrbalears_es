@@ -16,7 +16,7 @@ import { CommonService } from '../Services/common.service';
 import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
+/* import { PdfViewerModule } from 'ng2-pdf-viewer'; */
 
 export interface Documento {
   id_sol: number;
@@ -34,7 +34,7 @@ export interface Documento {
     MatSnackBarModule, HttpClientModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatButtonModule, PdfViewerModule,
+    MatButtonModule, /* PdfViewerModule, */
     FormsModule,
     MatTableModule,
     MatProgressBarModule,
