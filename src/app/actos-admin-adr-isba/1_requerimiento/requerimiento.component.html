@@ -8,7 +8,7 @@
                 <mat-label>Motivo del requerimiento</mat-label>
                 <textarea matInput formControlName="motivoRequerimiento" required rows="5"></textarea>
             </mat-form-field>
-            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
+            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()" [disabled]="!formRequerimiento.valid">Guardar</button>
             <button mat-raised-button color="accent" (click)="reqGenerado ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('isba_1_requerimiento', 'ADR-ISBA', 'requeriment')" [disabled]="!reqGenerado && noRequestReasonText">
                 {{reqGenerado ? 'Ver documento' : 'Generar'}}
             </button>

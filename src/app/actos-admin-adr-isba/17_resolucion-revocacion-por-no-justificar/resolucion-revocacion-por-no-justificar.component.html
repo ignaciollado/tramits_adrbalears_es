@@ -8,7 +8,7 @@
                 <mat-label>Motivo de la revocación</mat-label>
                 <textarea matInput formControlName="motivoResolucionRevocacionPorNoJustificar" required rows="5"></textarea>
             </mat-form-field>
-            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRevocation()">Guardar</button>
+            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRevocation()" [disabled]="!formRevocacion.valid">Guardar</button>
             <button mat-raised-button color="accent" (click)="actoAdmin17 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_17_resolucion_revocacion_no_justificar', 'ADR-ISBA', 'resolucion_revocacion_no_justificar')" [disabled]="!actoAdmin17 && noRevocationReasonText">{{actoAdmin17 ? 'Ver documento' : 'Generar'}}</button>
             <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')" [disabled]="!actoAdmin17">Send to sign</button>
             <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClassActoAdmin17]">
