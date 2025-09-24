@@ -481,9 +481,11 @@
       </mat-form-field>
       </section>
       <section>
-        <h4>Actos administrativos</h4>
-        <ol start="25">
-          <li>Resolució desistiment per renúncia</li>
+        <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+        <app-resol-desestimiento-por-renuncia [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+        [actualConvocatoria]="actualConvocatoria"[actualTipoTramite]="actualTipoTramite" [motivoDesestimientoRenuncia]="motivoDesestimientoRenuncia"></app-resol-desestimiento-por-renuncia>
+
+        <ol start="26">
           <li>Proposta resolució revocació per no justificar (Pendent crear plantilla json)</li>
           <li>Resolució revocació per no justificar</li>
         </ol>

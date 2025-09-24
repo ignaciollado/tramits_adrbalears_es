@@ -164,6 +164,8 @@ export class XecsDetailExpedComponent {
 
   situations: any[] = [];
 
+  motivoDesestimientoRenuncia: string = "";
+
   constructor(  private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
               ) {
@@ -253,6 +255,7 @@ ngOnInit(): void {
     ref_REC_desestimiento: [{ value: '', disabled: true }],
     fecha_firma_resolucion_desestimiento: [{ value: '', disabled: true }],
     fecha_notificacion_desestimiento: [{ value: '', disabled: true }],   
+    motivoDesestimientoRenuncia: [{ value: '', disabled: false}, []]
   });
   const tabIndex = sessionStorage.getItem('currentContactTab');
   this.selectedIndex = tabIndex !== null ? Number(tabIndex) : undefined;
@@ -304,6 +307,7 @@ getExpedDetail(id: number) {
         this.telefono_rep = expediente.telefono_rep
         this.motivoRequerimiento = expediente.motivoRequerimiento
         this.motivoDenegacion = expediente.motivoDenegacion
+        this.motivoDesestimientoRenuncia = expediente.motivoDesestimientoRenuncia
 
         this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
