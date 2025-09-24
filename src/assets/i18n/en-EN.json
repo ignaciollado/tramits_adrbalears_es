@@ -442,7 +442,8 @@
     "RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO": "Trademark renewal resolution with requirement",
     "RESOLUCIONREVOCACION": "Revocation resolution",
     "ACTAKICKOFF": "Kick-off statement",
-    "ACTACIERRE": "Closing statement"
+    "ACTACIERRE": "Closing statement",
+    "RESOLUCIONPAGOSINREQUERIMIENTO": "Payment resolution without requirement"
   },
   "COMMON": {
     "RGPD-INFO": {

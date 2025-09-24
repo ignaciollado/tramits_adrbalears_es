@@ -441,12 +441,13 @@
       </mat-form-field>      
     </section>
     <section>
-      <h4>Actos administrativos</h4>
+      <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+      <app-resol-de-pago [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
+      [actualConvocatoria]="actualConvocatoria"[actualTipoTramite]="actualTipoTramite"></app-resol-de-pago>
       <ol start="21">
         <li>Informe inici requeriment justificació (Pendent crear plantilla json)</li>
         <li>Requeriment d'esmena justificació (Pendent crear plantilla json)</li>
         <li>Informe post esmena justificació (Pendent crear plantilla json)</li>
-        <li>Resolució de pagament sense requeriment</li>
       </ol>
     </section>
     <section>
