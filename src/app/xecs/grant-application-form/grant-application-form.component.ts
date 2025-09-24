@@ -104,36 +104,36 @@ constructor ( private fb: FormBuilder, private documentoGeneradoService: Documen
     idExp: this.fb.control(0),
     selloDeTiempo: this.fb.control(''),
     opc_programa: this.fb.array([]),
-    nif: this.fb.control({value:'', disabled: true}, [Validators.required]),
-    empresa: this.fb.control('', [Validators.required]),
-    domicilio: this.fb.control({value: '', disabled: false}, [Validators.required]),
-    cpostal: this.fb.control ('', [ Validators.pattern('^07[0-9]{3}$')]),
-    localidad: this.fb.control({value: '', disabled: true}, [Validators.required]),
+    nif: this.fb.control({value:'43036826P', disabled: true}, [Validators.required]),
+    empresa: this.fb.control('Ignacio Lladó Vidal', [Validators.required]),
+    domicilio: this.fb.control({value: 'Plaça Son Castelló 1', disabled: false}, [Validators.required]),
+    cpostal: this.fb.control ('07002', [ Validators.pattern('^07[0-9]{3}$')]),
+    localidad: this.fb.control({value: 'Palma', disabled: true}, [Validators.required]),
     iae: this.fb.control({value: '', disabled: false}, [Validators.required]),
-    telefono: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
-    acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
-    tipo_tramite: this.fb.control<string | null>(null, Validators.required),
-    tipo_solicitante: this.fb.control<string | null>(null, Validators.required),
+    telefono: this.fb.control('999999999', [Validators.pattern('^[0-9]{9}$')]),
+    acceptRGPD: this.fb.control<boolean | null>(true, Validators.required),
+    tipo_tramite: this.fb.control<string | null>('Programa_III_ac', Validators.required),
+    tipo_solicitante: this.fb.control<string | null>('autonomo', Validators.required),
     nom_representante:  this.fb.control<string | null>({value: '', disabled: true}),
     nif_representante: this.fb.control<string | null>({value: '', disabled: true}, [Validators.pattern('^[0-9]+[A-Za-z]$')]),
-    telefono_rep: this.fb.control<string | null>('', [Validators.pattern('^[0-9]{9}$')]),
-    email_rep: this.fb.control<string | null>('', [Validators.email]),
-    empresa_consultor: this.fb.control<string | null>(''),
-    nom_consultor: this.fb.control<string | null>(''),
-    tel_consultor: this.fb.control<string | null>('', Validators.pattern('^[0-9]{9}$')),
-    mail_consultor: this.fb.control<string | null>('', Validators.email),
+    telefono_rep: this.fb.control<string | null>('677234076', [Validators.pattern('^[0-9]{9}$')]),
+    email_rep: this.fb.control<string | null>('u97171@caib.es', [Validators.email]),
+    empresa_consultor: this.fb.control<string | null>('Empresa sl'),
+    nom_consultor: this.fb.control<string | null>('Consultor Consultor Consultor'),
+    tel_consultor: this.fb.control<string | null>('999999999', Validators.pattern('^[0-9]{9}$')),
+    mail_consultor: this.fb.control<string | null>('ddddddddd@mmmmmmmm.es', Validators.email),
     fecha_completado: this.fb.control(this.commonService.getCurrentDateTime()),
 
-    memoriaTecnicaEnIDI: this.fb.control<boolean | null>(false, Validators.required),
+    memoriaTecnicaEnIDI: this.fb.control<boolean | null>(true, Validators.required),
     file_memoriaTecnica: this.fb.control<File | null>(null, Validators.required),
     file_certificadoIAE: this.fb.control<File | null>(null, Validators.required),
     file_nifEmpresa: this.fb.control<File | null>(null, Validators.required),
-    pJuridicaDocAcreditativaEnIDI: this.fb.control<boolean | null>(false, Validators.required),
+    pJuridicaDocAcreditativaEnIDI: this.fb.control<boolean | null>(true, Validators.required),
     file_escritura_empresa: this.fb.control<File | null>(null, Validators.required),
 
     file_document_acred_como_repres: this.fb.control<File | null>(null, Validators.required),
     file_certificadoAEAT: this.fb.control<File | null>(null, Validators.required),
-    copiaNIFSociedadEnIDI: this.fb.control<boolean | null>(false, Validators.required),
+    copiaNIFSociedadEnIDI: this.fb.control<boolean | null>(true, Validators.required),
     /* AUTORIZACIONES */
     consentimientocopiaNIF: this.fb.control<boolean | null>(true, Validators.required),  /* SI NO file_copiaNIF de la tabla pindust_expediente */
     file_copiaNIF: this.fb.control<File | null>(null),
@@ -142,11 +142,11 @@ constructor ( private fb: FormBuilder, private documentoGeneradoService: Documen
     consentimiento_certificadoSegSoc: this.fb.control<boolean | null>(true, Validators.required), /* SI NO file_certificadoSegSoc de la tabla pindust_expediente*/
     file_certificadoSegSoc: this.fb.control<File | null>(null),
 
-    nom_entidad: this.fb.control<string | null>('', ),
-    domicilio_sucursal: this.fb.control<string | null>('', ),
-    codigo_BIC_SWIFT: this.fb.control<string | null>('', [ Validators.minLength(11), Validators.maxLength(11), Validators.pattern(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/)]),
-    opcion_banco: this.fb.control<string | null>('', ),
-    cc_datos_bancarios: this.fb.control<string | null>({value: '', disabled: true}, [ Validators.minLength(24), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
+    nom_entidad: this.fb.control<string | null>('CaixaBank Now', ),
+    domicilio_sucursal: this.fb.control<string | null>('Gran Vía Asima sn', ),
+    codigo_BIC_SWIFT: this.fb.control<string | null>('BBBBBBBBBBB', [ Validators.minLength(11), Validators.maxLength(11), Validators.pattern(/^[A-Z]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$/)]),
+    opcion_banco: this.fb.control<string | null>('1', ),
+    cc_datos_bancarios: this.fb.control<string | null>({value: 'ES0123456789012345678901', disabled: true}, [ Validators.minLength(24), Validators.maxLength(25), Validators.pattern(/^\S*$/)]),
 
     declaracion_responsable_i: this.fb.control<boolean | null>({ value: true, disabled: true }),
     declaracion_responsable_ii: this.fb.control<boolean | null>({ value: false, disabled: false }),
@@ -463,9 +463,10 @@ generateDeclaracionResponsable (datos: any): void {
       creator: 'Angular App'
     });
 
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const maxTextWidth = 170;
+    const pageHeight = doc.internal.pageSize.getHeight()
+    const pageWidth = doc.internal.pageSize.getWidth()
+    const maxTextWidth = 170
+    const maxTextWidthHeader = 65
 
     const footerText = 'Agència de desenvolupament regional - Plaça Son Castelló 1 - Tel 971176161 - 07009 - Palma - Illes Balears';
     const marginLeft = 15;
@@ -509,7 +510,7 @@ generateDeclaracionResponsable (datos: any): void {
     }
 
     // Printado de bordes
-    function printBorder(
+    function printBorder (
       doc: jsPDF,
       input: string | string[],
       x: number,
@@ -538,12 +539,7 @@ generateDeclaracionResponsable (datos: any): void {
       // Dibujar borde
       doc.setDrawColor(0);
       doc.setLineWidth(0.25);
-      doc.rect(
-        x - padding,
-        rectY - padding,
-        maxTextWidth + padding * 2,
-        blockHeight + padding * 2
-      )
+      doc.rect( x - padding, rectY - padding, maxTextWidth + padding * 2, blockHeight + padding * 2 )
     }
 
     doc.setFont('helvetica', 'normal');
@@ -555,8 +551,12 @@ generateDeclaracionResponsable (datos: any): void {
 
     this.actoAdminService.getByNameAndTipoTramite('dec_responsable_solicitud_ayuda', 'XECS')
       .subscribe((docDataString: ActoAdministrativoDTO) => {
-        let rawTexto = docDataString.texto_es;
-
+        let rawTexto
+        if (localStorage.getItem("preferredLang") === 'es-ES') {
+          rawTexto = docDataString.texto_es;
+        } else {
+          rawTexto = docDataString.texto;
+        }
         if (!rawTexto) {
           this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
           return;
@@ -621,20 +621,22 @@ generateDeclaracionResponsable (datos: any): void {
         doc.text(footerText, footerX, pageHeight - 7);
         doc.addImage("../../../assets/images/logo-adrbalears-ceae-byn.png", 'PNG', marginLeft, 20, 75, 15);
 
+        let padding = 0.75
+        let fontSize = 8
+        let totalLines = 4
+        const lineHeight = fontSize * 0.35 + 1
+        const blockHeight = (totalLines - 1) * lineHeight + fontSize
+
         // Información
-        printLabelWithBoldValue(doc, jsonObject.destino, marginLeft, 60, 8)
-        printLabelWithBoldValue(doc, jsonObject.emisor, marginLeft, 64, 8)
-        printLabelWithBoldValue(doc, jsonObject.tramite, marginLeft, 68, 8)
+        printLabelWithBoldValue(doc, jsonObject.destino, marginLeft+100, 26, fontSize)
+        printLabelWithBoldValue(doc, jsonObject.emisor, marginLeft+100, 36, fontSize)
+        printLabelWithBoldValue(doc, jsonObject.tramite, marginLeft, 60, fontSize)
 
-        printBorder(doc, [
-          jsonObject.destino, jsonObject.emisor, jsonObject.tramite
-        ], marginLeft, 60, 8, pageWidth);
+        doc.rect( (marginLeft+100) - padding, 20 - padding, 82, blockHeight + padding * 2 )
 
-        // Encabezado centrado
+        // 1. IDENTIFICACIÓN DEL SOLICITANTE
         const identificacion_solicitante_tit = jsonObject.identificacion_solicitante_tit;
         const identificacionTextWidth = doc.getTextWidth(identificacion_solicitante_tit);
-
-        // Identificación del solicitante
         doc.setFont('helvetica', 'normal');
         doc.text(identificacion_solicitante_tit, (pageWidth - identificacionTextWidth) / 2, 95)
 
@@ -694,7 +696,6 @@ generateDeclaracionResponsable (datos: any): void {
         //printBorder(doc, proyecto_inversion_tit, marginLeft, 232, 8, pageWidth);
 
         //printLabelWithBoldValue(doc, jsonObject.finalidad_inversion, marginLeft, 246, 8);
-
 
         // Segunda página
         doc.addPage();
@@ -982,19 +983,7 @@ onCheckboxChange(event: any, controlName: string) {
   console.log('Control:', controlName, 'Checked:', isChecked, 'Validators:', control.validator);
 }
 
-/* onRadioChange(event: any): void {
-  const programsArray = this.xecsForm.get('opc_programa') as FormArray;
-  const valorSeleccionado = event.value;
-  console.log('Valor seleccionado:', valorSeleccionado);
 
-  // Aquí puedes hacer lo que necesites con el valor,
-  // por ejemplo actualizar otro campo o activar lógica condicional.
-  // Ejemplo:
-  if (valorSeleccionado === 'ADR') {
-    // activar algo especial para el programa ADR
-    
-  }
-} */
 
 selectedZipValue(event: MatAutocompleteSelectedEvent): void {
   const selected = event.option.value;

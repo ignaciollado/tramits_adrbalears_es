@@ -33,7 +33,7 @@
     <section [innerHTML]="'FORM.REQUIREDDOCUMENTATION' | translate"></section>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted"> <!-- Tipo de trámite -->
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.PROGRAM' | translate }}</mat-panel-title>
       <mat-panel-description>
@@ -61,7 +61,7 @@
       </mat-error>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted"> <!-- Tipo de solicitante -->
       <mat-expansion-panel-header>
         <mat-panel-title>{{ 'FORM.SOLICITORTYPE' | translate }}</mat-panel-title>
         <mat-panel-description>
@@ -88,7 +88,7 @@
       </section>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted"><!-- Datos del solicitante -->
       <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.SOLICITOR' | translate }}</mat-panel-title>
       <mat-panel-description>
@@ -99,13 +99,7 @@
 
       <mat-form-field appearance="fill"> 
         <mat-label>{{placeholderNif}}</mat-label>
-        <input 
-          matInput
-          formControlName="nif"
-          minlength="9"
-          maxlength="9"
-          [placeholder]="placeholderNif"
-        />
+        <input matInput formControlName="nif" minlength="9" maxlength="9" [placeholder]="placeholderNif" />
         <mat-error *ngIf="xecsForm.get('nif')?.hasError('invalidNifOrCif')">
           El valor introducido no es válido.
         </mat-error>
@@ -160,7 +154,7 @@
       </mat-form-field>       
   </mat-expansion-panel>
   
-  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted"> <!-- Canal de notificaciones -->
       <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.NOTIFICATIONCHANEL' | translate }}</mat-panel-title>
       <mat-panel-description>
@@ -177,7 +171,7 @@
       </mat-form-field>
   </mat-expansion-panel>
 
-  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted"> <!-- Datos del consultor -->
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.CONSULTANTDATA' | translate }}</mat-panel-title>
       <mat-panel-description>
@@ -202,7 +196,7 @@
       </mat-form-field>      
   </mat-expansion-panel>
 
-  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
+  <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted"> <!-- Datos bancarios -->
     <mat-expansion-panel-header>
       <mat-panel-title>{{ 'FORM.BANKDATA' | translate }}</mat-panel-title>
       <mat-panel-description>
