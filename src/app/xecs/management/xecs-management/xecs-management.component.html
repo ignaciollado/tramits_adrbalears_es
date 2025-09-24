@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="loadExpedientes()" class="filtros-form">
   <mat-form-field appearance="outline">
-    <mat-label>{{'FORM.CONOVOCATORIA' | translate}}</mat-label>
+    <mat-label>{{'FORM.CONVOCATORIA' | translate}}</mat-label>
     <mat-select formControlName="convocatoria">
       <mat-option *ngFor="let conv of uniqueConvocatorias" [value]="conv">{{ conv }}</mat-option>
     </mat-select>

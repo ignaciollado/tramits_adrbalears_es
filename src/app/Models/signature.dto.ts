@@ -4,7 +4,7 @@ export interface CreateSignatureRequest {
   nombreDocumento: string; // ej. "contrato.pdf"
   nif: string;             // ej. "12345678A"
   last_insert_id?: number;
-  selloDeTiempo?: string;
+  timeStamp?: string
 }
 
 export interface SignatureResponse {

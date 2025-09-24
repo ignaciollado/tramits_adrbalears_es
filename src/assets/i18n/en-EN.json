@@ -79,6 +79,13 @@
     "CONSULTANTNAME": "Consultant name",
     "CONSULTANTPHONE": "Consultant phone",
     "CONSULTANTMAIL": "Consultant email address",
+    "CONVOCATORIA": "Announcement",
+    "TIPOTRAMITE": "Grant processing line",
+    "SITUACION": "State",
+    "BUSCARPOR": "Free searching text",
+    "BUSCAR": "Search",
+    "LIMPIARFILTROS": "Clear filters",
+
     "ATTACHEDDOCUMENTATION": "Documentation to be attached",
     "AUTHORISATIONSSINO": "Your authorization is requested to consult the following documents. You may accept or reject this request.",
     "BANKDATA": "Bank details",

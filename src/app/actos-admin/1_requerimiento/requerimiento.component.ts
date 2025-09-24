@@ -163,8 +163,8 @@ export class RequerimientoComponent implements OnChanges {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string): void {
-  const timeStamp = this.commonService.generateCustomTimestamp()
-  const doc = new jsPDF({
+    const timeStamp = this.commonService.generateCustomTimestamp()
+    const doc = new jsPDF({
     orientation: 'p',
     unit: 'mm',
     format: 'a4',
@@ -204,7 +204,7 @@ export class RequerimientoComponent implements OnChanges {
         this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
         return;
       }
-      /* Reemplazo de las variables por su valor */
+      // Reemplazo de las variables por su valor
       rawTextoActoAdmin1 = docDataString.texto.replace("%BOIBNUM%", this.num_BOIB)
 
       let jsonObject = JSON.parse(rawTextoActoAdmin1);

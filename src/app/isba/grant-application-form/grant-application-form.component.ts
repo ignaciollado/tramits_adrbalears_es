@@ -717,7 +717,7 @@ export class IsbaGrantApplicationFormComponent {
     const marginLeft = 15;
 
     // Aplicar distintos estilos en una misma frase
-    function printLabelWithBoldValue(doc: jsPDF, fullText: string, x: number, y: number, fontsize: number) {
+    function printLabelWithBoldValue (doc: jsPDF, fullText: string, x: number, y: number, fontsize: number) {
       doc.setFontSize(fontsize)
 
       const pageWidth = doc.internal.pageSize.getWidth();
@@ -755,7 +755,7 @@ export class IsbaGrantApplicationFormComponent {
     }
 
     // Printado de bordes
-    function printBorder(
+    function printBorder (
       doc: jsPDF,
       input: string | string[],
       x: number,

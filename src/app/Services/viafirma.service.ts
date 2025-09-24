@@ -9,7 +9,7 @@ import { CreateSignatureRequest, SignatureResponse } from '../Models/signature.d
   providedIn: 'root',
 })
 
-export class ViafirmaService { 
+export class ViafirmaService {
   private entorno: 'tramits' | 'pre-tramits';
   private readonly urls = {
     'tramits': 'https://tramits.idi.es/public/index.php',
@@ -21,13 +21,13 @@ export class ViafirmaService {
     this.entorno = entornoGuardado || 'pre-tramits';
   }
 
-/*   setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
-    this.entorno = entorno;
-    sessionStorage.setItem('entorno', entorno);
-    console.log ("entorno actual: ", this.entorno)
-  }
- */
-  
+  /*   setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
+      this.entorno = entorno;
+      sessionStorage.setItem('entorno', entorno);
+      console.log ("entorno actual: ", this.entorno)
+    }
+   */
+
   private get apiUrl(): string {
     return this.urls[this.entorno];
   }
@@ -37,7 +37,7 @@ export class ViafirmaService {
   */
   getDocumentStatus(publicAccessId: string): Observable<DocSignedDTO> {
     return this.http.get<DocSignedDTO>(`${this.apiUrl}/api/viafirma/request/${publicAccessId}`)
-    .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -46,7 +46,7 @@ export class ViafirmaService {
 
   viewDocument(publicAccessId: string): Observable<DocSignedDTO> {
     return this.http.get<DocSignedDTO>(`${this.apiUrl}/api/viafirma/viewDoc/${publicAccessId}`)
-    .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -64,20 +64,17 @@ export class ViafirmaService {
     );
   }
 
-    /**
-   * Crea una solicitud de firma para Declaracion responsable
-   * POST /api/dec-resp-sol-signature-request
-   */
-    createDecRespSignatureRequest(payload: CreateSignatureRequest): Observable<SignatureResponse> {
-      const url = `${this.apiUrl}/api/dec-resp-sol-signature-request`;
-      const headers = new HttpHeaders({
-        'Content-Type': 'application/json'
-      });
-  
-      return this.http.post<SignatureResponse>(url, payload, {headers}).pipe(
-        catchError((error: HttpErrorResponse) => this.handleError(error))
-      )
-    }
+
+  createSignatureRequestDecResp(payload: CreateSignatureRequest): Observable<SignatureResponse> {
+    const url = `${this.apiUrl}/api/dec-resp-sol-signature-request`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<SignatureResponse>(url, payload, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => this.handleError(error))
+    );
+  }
 
   /**
   * Peticiones creadas. Método para obtener el número de peticones creadas en un periodo dado 
