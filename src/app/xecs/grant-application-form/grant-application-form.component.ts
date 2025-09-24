@@ -77,6 +77,8 @@ export class GrantApplicationFormComponent implements OnInit{
   convoData!: string
   declaracion_enviada: boolean = false;
   nameDocGenerado!: string;
+  convocatoria?: number 
+  
   docGenerado: DocumentoGeneradoDTO = {
     id_sol: 0,
     cifnif_propietario: '',
@@ -630,11 +632,21 @@ generateDeclaracionResponsable (datos: any): void {
         // Información
         printLabelWithBoldValue(doc, jsonObject.destino, marginLeft+100, 26, fontSize)
         printLabelWithBoldValue(doc, jsonObject.emisor, marginLeft+100, 36, fontSize)
-        printLabelWithBoldValue(doc, jsonObject.tramite, marginLeft, 60, fontSize)
-
         doc.rect( (marginLeft+100) - padding, 20 - padding, 82, blockHeight + padding * 2 )
 
-        // 1. IDENTIFICACIÓN DEL SOLICITANTE
+        printLabelWithBoldValue(doc, jsonObject.tramite, marginLeft, 60, fontSize)
+        printLabelWithBoldValue(doc, (this.convocatoria ?? '').toString(), marginLeft, 70, fontSize)
+
+        // 1. SELECCIONE EL PROGRAMA DE AYUDA QUE SOLICITA
+        printLabelWithBoldValue(doc, jsonObject.seleccione_el_programa, marginLeft, 70, fontSize)
+        doc.rect( (marginLeft) - padding, 20 - padding, maxTextWidth, blockHeight + padding * 2 )
+
+        // TIPO DE SOLICITANTE
+        printLabelWithBoldValue(doc, jsonObject.tipo_de_solicitante, marginLeft, 80, fontSize)
+        doc.rect( (marginLeft) - padding, 20 - padding, maxTextWidth, blockHeight + padding * 2 )
+
+
+        // IDENTIFICACIÓN DEL SOLICITANTE
         const identificacion_solicitante_tit = jsonObject.identificacion_solicitante_tit;
         const identificacionTextWidth = doc.getTextWidth(identificacion_solicitante_tit);
         doc.setFont('helvetica', 'normal');
@@ -983,8 +995,6 @@ onCheckboxChange(event: any, controlName: string) {
   console.log('Control:', controlName, 'Checked:', isChecked, 'Validators:', control.validator);
 }
 
-
-
 selectedZipValue(event: MatAutocompleteSelectedEvent): void {
   const selected = event.option.value;
   if (selected && selected.zipCode) {
@@ -1090,6 +1100,7 @@ private getLineDetail(convocatoria: number) {
           if (item.convocatoria == convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI") {
             this.num_BOIB = item['num_BOIB']
             this.translate.get('HEADER.CONVODATA').subscribe(text => {
+            this.convocatoria = item['convocatoria']
             this.convoData = text.replace('%CODIGOSIA%', item['codigoSIA']).replace('%CONVO%', item['convocatoria'])
             });         
           }
