@@ -645,7 +645,6 @@ generateDeclaracionResponsable (datos: any): void {
         printLabelWithBoldValue(doc, jsonObject.tipo_de_solicitante, marginLeft, 80, fontSize)
         doc.rect( (marginLeft) - padding, 20 - padding, maxTextWidth, blockHeight + padding * 2 )
 
-
         // IDENTIFICACIÓN DEL SOLICITANTE
         const identificacion_solicitante_tit = jsonObject.identificacion_solicitante_tit;
         const identificacionTextWidth = doc.getTextWidth(identificacion_solicitante_tit);
