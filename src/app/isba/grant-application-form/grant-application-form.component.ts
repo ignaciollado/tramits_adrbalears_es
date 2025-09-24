@@ -1116,10 +1116,10 @@ export class IsbaGrantApplicationFormComponent {
       nombreDocumento: filename,
       nif: data.nif,
       last_insert_id: doc_id,
-      selloDeTiempo: String(data.selloDeTiempo)
+      timeStamp: String(data.selloDeTiempo)
     };
 
-    this.viafirmaService.createDecRespSignatureRequest(payload)
+    this.viafirmaService.createSignatureRequestDecResp(payload)
       .subscribe({
         next: (res: any) => {
           const id = res?.publicAccessId;
