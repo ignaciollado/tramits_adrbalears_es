@@ -289,7 +289,6 @@ get placeholderNif(): string {
   return "Seleccione el 'Tipo de solicitante' y, luego, introduzca el NIF";
 }
 
-
 twoDecimalValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -468,7 +467,6 @@ generateDeclaracionResponsable (datos: any): void {
     const pageHeight = doc.internal.pageSize.getHeight()
     const pageWidth = doc.internal.pageSize.getWidth()
     const maxTextWidth = 170
-    const maxTextWidthHeader = 65
 
     const footerText = 'Agència de desenvolupament regional - Plaça Son Castelló 1 - Tel 971176161 - 07009 - Palma - Illes Balears';
     const marginLeft = 15;
@@ -629,28 +627,28 @@ generateDeclaracionResponsable (datos: any): void {
         const lineHeight = fontSize * 0.35 + 1
         const blockHeight = (totalLines - 1) * lineHeight + fontSize
 
-        // Información
+        // Información rectángulo superior derecho página 1
         printLabelWithBoldValue(doc, jsonObject.destino, marginLeft+100, 26, fontSize)
         printLabelWithBoldValue(doc, jsonObject.emisor, marginLeft+100, 36, fontSize)
         doc.rect( (marginLeft+100) - padding, 20 - padding, 82, blockHeight + padding * 2 )
 
+        // Texto convocatoria y año convocatoria
         printLabelWithBoldValue(doc, jsonObject.tramite, marginLeft, 60, fontSize)
-        printLabelWithBoldValue(doc, (this.convocatoria ?? '').toString(), marginLeft, 70, fontSize)
+        printLabelWithBoldValue(doc, "Convocatoria "+(this.convocatoria ?? '').toString(), marginLeft, 70, fontSize)
 
         // 1. SELECCIONE EL PROGRAMA DE AYUDA QUE SOLICITA
-        printLabelWithBoldValue(doc, jsonObject.seleccione_el_programa, marginLeft, 70, fontSize)
-        doc.rect( (marginLeft) - padding, 20 - padding, maxTextWidth, blockHeight + padding * 2 )
+        doc.text(jsonObject.seleccione_el_programa, (pageWidth - maxTextWidth) / 2, 80)
+        doc.rect( (marginLeft) - padding, 80 - padding, maxTextWidth, blockHeight + padding * 2 )
 
         // TIPO DE SOLICITANTE
-        printLabelWithBoldValue(doc, jsonObject.tipo_de_solicitante, marginLeft, 80, fontSize)
-        doc.rect( (marginLeft) - padding, 20 - padding, maxTextWidth, blockHeight + padding * 2 )
+        printLabelWithBoldValue(doc, jsonObject.tipo_de_solicitante, marginLeft, 90, fontSize)
+        doc.rect( (marginLeft) - padding, 90 - padding, maxTextWidth, blockHeight + padding * 2 )
 
         // IDENTIFICACIÓN DEL SOLICITANTE
         const identificacion_solicitante_tit = jsonObject.identificacion_solicitante_tit;
         const identificacionTextWidth = doc.getTextWidth(identificacion_solicitante_tit);
         doc.setFont('helvetica', 'normal');
         doc.text(identificacion_solicitante_tit, (pageWidth - identificacionTextWidth) / 2, 95)
-
         printBorder(doc, identificacion_solicitante_tit, marginLeft, 94, 8, pageWidth)
         printLabelWithBoldValue(doc, jsonObject.nombre, marginLeft, 104, 8)
         printLabelWithBoldValue(doc, jsonObject.nif, marginLeft, 108, 8)
