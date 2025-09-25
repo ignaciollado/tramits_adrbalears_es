@@ -671,7 +671,7 @@ generateDeclaracionResponsable (datos: any): void {
         doc.setFont('helvetica', 'normal')
         doc.text(notificacion_tit, (pageWidth - notificacionTextWidth) / 2, 163);
         printBorder(doc, notificacion_tit, marginLeft, 162, 8, pageWidth);
-        doc.text(jsonObject.notificacion_info, marginLeft, 172);
+        printLabelWithBoldValue(doc, jsonObject.notificacion_info, marginLeft, 172, 8);
         printLabelWithBoldValue(doc, jsonObject.direccion_electrónica_a_efectos_de_notificaciones, marginLeft, 176, 8);
         printLabelWithBoldValue(doc, jsonObject.telefono_movil_a_efectos_de_notificaciones, marginLeft, 180, 8);
 
@@ -683,22 +683,9 @@ generateDeclaracionResponsable (datos: any): void {
         printBorder(doc, datos_consultor, marginLeft, 189, 8, pageWidth);
         //doc.text(datos_consultor, marginLeft, 199);
         printLabelWithBoldValue(doc, jsonObject.nombre_consultor, marginLeft, 199, 8);
-        printLabelWithBoldValue(doc, jsonObject.tel_consultor, marginLeft, 202, 8);
+        printLabelWithBoldValue(doc, jsonObject.tel_consultor, marginLeft, 203, 8);
         printLabelWithBoldValue(doc, jsonObject.email_consultor, marginLeft, 206, 8);
 
-        // Encabezado centrado
-        //const dat_op_financiera_tit = jsonObject.datos_operacion_financiera_tit;
-        //const dat_op_financiera_tit_long = jsonObject.datos_operacion_financiera_tit.split('\n')[0] // Cojo la primera frase (más larga) para centrar
-        //const datosFinancierosTextWidth = doc.getTextWidth(dat_op_financiera_tit_long)
-
-    /*     doc.text(dat_op_financiera_tit, (pageWidth - datosFinancierosTextWidth) / 2, 173);
-        printBorder(doc, dat_op_financiera_tit, marginLeft, 172, 8, pageWidth);
- */
-        doc.setFont('helvetica', 'bold')
-        //doc.text(jsonObject.prestamo, marginLeft, 188);
-        printLabelWithBoldValue(doc, jsonObject.entidad_financiera, marginLeft, 192, 8);
-        //printLabelWithBoldValue(doc, jsonObject.importe_operacion, marginLeft, 196, 8);
-        //printLabelWithBoldValue(doc, jsonObject.plazo_prestamo, marginLeft, 200, 8);
 
         doc.setFont('helvetica', 'bold')
         //doc.text(jsonObject.aval_isba, marginLeft, 208);
