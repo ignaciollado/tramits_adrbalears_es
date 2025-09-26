@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -11,14 +12,14 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of } from 'rxjs';
+import { RequerimientoIlsComponent } from '../../../../actos-admin-ils/1_requerimiento/requerimiento.component';
+import { ResolDesestimientoNoEnmendarIlsComponent } from '../../../../actos-admin-ils/2_resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
 import { DocumentComponent } from '../../../../document/document.component';
 import { DocSignedDTO } from '../../../../Models/docsigned.dto';
 import { CommonService } from '../../../../Services/common.service';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { RequerimientoIlsComponent } from '../../../../actos-admin-ils/1_requerimiento/requerimiento.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -29,7 +30,8 @@ import { RequerimientoIlsComponent } from '../../../../actos-admin-ils/1_requeri
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
-    MatExpansionModule, RequerimientoIlsComponent
+    MatExpansionModule, RequerimientoIlsComponent,
+    ResolDesestimientoNoEnmendarIlsComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
@@ -87,7 +89,7 @@ export class IlsDetailExpedComponent {
 
       /* Solicitud */
       fecha_REC: [{ value: '', disabled: true }, []],
-      ref_REC: [{ value: '', disabled: true }, []],
+      ref_REC: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       fecha_REC_enmienda: [{ value: '', disabled: true }, []],
       ref_REC_enmienda: [{ value: '', disabled: true }, []],
       fecha_requerimiento: [{ value: '', disabled: true }, []],
