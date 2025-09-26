@@ -130,7 +130,7 @@ export class PrDefinitivaFavorableConRequerimientoAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_definitiva_favorable_con_requerimiento')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_definitiva_con_requerimiento_adr_isba')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin8 = false;
@@ -363,7 +363,7 @@ export class PrDefinitivaFavorableConRequerimientoAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_definitiva_favorable_con_requerimiento')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_definitiva_con_requerimiento_adr_isba')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);

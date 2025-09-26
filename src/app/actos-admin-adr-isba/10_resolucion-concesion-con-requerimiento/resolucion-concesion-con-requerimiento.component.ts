@@ -130,7 +130,7 @@ export class ResolucionConcesionConRequerimientoAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_concesion_con_requerimiento')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_concesion_con_requerimiento_adr_isba')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin10 = false;
@@ -372,7 +372,7 @@ export class ResolucionConcesionConRequerimientoAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_concesion_con_requerimiento')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_concesion_con_requerimiento_adr_isba')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);

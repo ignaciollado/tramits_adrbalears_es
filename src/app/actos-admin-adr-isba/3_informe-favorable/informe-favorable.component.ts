@@ -127,7 +127,7 @@ export class InformeFavorableAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_sin_requerimiento')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_sin_requerimiento_adr_isba')
       .subscribe({
         next: (docActoAdmin3: DocumentoGeneradoDTO[]) => {
           this.actoAdmin3 = false;
@@ -302,7 +302,7 @@ export class InformeFavorableAdrIsbaComponent {
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
             // Delete documentos previamente generados para evitar duplicados
-            this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_sin_requerimiento')
+            this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_informe_favorable_sin_requerimiento_adr_isba')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);

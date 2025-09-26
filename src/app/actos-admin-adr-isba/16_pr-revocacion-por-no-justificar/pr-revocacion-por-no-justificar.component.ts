@@ -131,7 +131,7 @@ export class PrRevocacionPorNoJustificarAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_pr_revocacion_no_justificar')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_revocacion_por_no_justificar')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin16 = false;
@@ -330,7 +330,7 @@ export class PrRevocacionPorNoJustificarAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_pr_revocacion_no_justificar')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_revocacion_por_no_justificar')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);

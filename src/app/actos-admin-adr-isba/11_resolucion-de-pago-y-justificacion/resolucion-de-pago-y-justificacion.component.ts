@@ -130,7 +130,7 @@ export class ResolucionDePagoYJustificacionAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_pago_justificacion')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_pago_y_justificacion_adr_isba')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin11 = false;
@@ -371,7 +371,7 @@ export class ResolucionDePagoYJustificacionAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_pago_justificacion')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_pago_y_justificacion_adr_isba')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);

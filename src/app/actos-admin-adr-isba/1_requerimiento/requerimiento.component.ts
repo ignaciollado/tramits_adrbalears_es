@@ -124,7 +124,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   }
 
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment_adr_isba')
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
           if (docGenerado.length === 1) {
@@ -265,7 +265,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
 
             this.nameDocgenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment')
+            this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment_adr_isba')
               .subscribe({
                 next: () => {
                   console.log('Eliminado correctamente, o no había nada que eliminar');

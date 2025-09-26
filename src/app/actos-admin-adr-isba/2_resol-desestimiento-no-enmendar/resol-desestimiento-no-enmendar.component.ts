@@ -127,7 +127,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar_adr_isba')
       .subscribe({
         next: (docActoAdmin2: DocumentoGeneradoDTO[]) => {
           this.actoAdmin2 = false;
@@ -347,7 +347,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
             /* Delete documentos previamente generados para evitar duplicados */
-            this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
+            this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar_adr_isba')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);

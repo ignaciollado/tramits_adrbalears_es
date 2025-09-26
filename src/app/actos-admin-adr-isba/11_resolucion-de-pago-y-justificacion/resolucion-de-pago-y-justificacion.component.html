@@ -3,8 +3,8 @@
         <mat-expansion-panel-header>
             <mat-panel-title>11. {{'ACTOSADMINISTRATIVOS.RESOLUCIONPAGOYJUSTIFICACION' | translate}}</mat-panel-title>
         </mat-expansion-panel-header>
-        <button mat-raised-button color="primary" (click)="generateActoAdmin('isba_11_resolucion_pago_y_justificacion', 'ADR-ISBA', 'resolucion_pago_justificacion')">Generar</button>
-        <button mat-raised-button color="accent" (click)="actoAdmin11 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_11_resolucion_pago_y_justificacion', 'ADR-ISBA', 'resolucion_pago_justificacion')" [disabled]="!actoAdmin11">Ver documento</button>
+        <button mat-raised-button color="primary" (click)="generateActoAdmin('isba_11_resolucion_pago_y_justificacion', 'ADR-ISBA', 'res_pago_y_justificacion_adr_isba')">Generar</button>
+        <button mat-raised-button color="accent" (click)="actoAdmin11 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_11_resolucion_pago_y_justificacion', 'ADR-ISBA', 'res_pago_y_justificacion_adr_isba')" [disabled]="!actoAdmin11">Ver documento</button>
         <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')" [disabled]="!actoAdmin11">Send to sign</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClassActAdmin11]">
             <section *ngIf="signatureDocState === 'COMPLETED'">

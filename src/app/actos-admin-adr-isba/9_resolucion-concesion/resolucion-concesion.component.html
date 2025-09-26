@@ -3,8 +3,8 @@
         <mat-expansion-panel-header>
             <mat-panel-title>9. {{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESION' | translate}}</mat-panel-title>
         </mat-expansion-panel-header>
-        <button mat-raised-button color="primary" (click)="generateActoAdmin('isba_9_resolucion_concesion', 'ADR-ISBA', 'resolucion_concesion_sin_requerimiento')">Generar</button>
-        <button mat-raised-button color="accent" (click)="actoAdmin9 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_9_resolucion_concesion', 'ADR-ISBA', 'resolucion_concesion_sin_requerimiento')" [disabled]="!actoAdmin9">Ver documento</button>
+        <button mat-raised-button color="primary" (click)="generateActoAdmin('isba_9_resolucion_concesion', 'ADR-ISBA', 'res_concesion_adr_isba')">Generar</button>
+        <button mat-raised-button color="accent" (click)="actoAdmin9 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_9_resolucion_concesion', 'ADR-ISBA', 'res_concesion_adr_isba')" [disabled]="!actoAdmin9">Ver documento</button>
         <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')" [disabled]="!actoAdmin9">Send to sign</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClassActAdmin9]">
             <section *ngIf="signatureDocState === 'COMPLETED'">
