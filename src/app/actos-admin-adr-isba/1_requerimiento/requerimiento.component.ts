@@ -242,7 +242,6 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, 140);
         doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 155);
         doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
-        doc.text(doc.splitTextToSize('Palma, en fecha de la firma electrónica', maxTextWidth), marginLeft, 225);
 
         const pdfBlob = doc.output('blob');
 
