@@ -220,7 +220,7 @@ export class RequerimientoIlsComponent {
       jsonObject = JSON.parse(rawTexto)
     }
 
-    doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 'PNG', 25, 20, 75, 15);
+    doc.addImage('../../../assets/images/logo-adrbalears-ils.png', 'PNG', 25, 20, 70, 10);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8);
     doc.text("Document: requeriment", marginLeft + 110, 45);
