@@ -18,6 +18,8 @@ import { CommonService } from '../../Services/common.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 
 @Component({
   selector: 'app-requerimiento-adr-isba',
@@ -48,7 +50,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   imageUrl: SafeUrl | undefined;
   showPdfViewer: boolean = false;
   showImageViewer: boolean = false;
-  codigoSIAConvo: string = "3153714";
+  codigoSIA: string = "";
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
     cifnif_propietario: '',
@@ -67,6 +69,8 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   ceoEmail: string = "jldejesus@adrbalears.caib.es";
   signedBy!: string;
 
+  lineDetail: PindustLineaAyudaDTO[] = [];
+
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
   @Input() actualNif!: string;
@@ -79,7 +83,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private documentosGeneradosService: DocumentosGeneradosService,
-    private actoAdminService: ActoAdministrativoService
+    private actoAdminService: ActoAdministrativoService, private lineaAyuda: PindustLineaAyudaService
   ) { this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""; };
 
   get stateClass(): string {
@@ -96,6 +100,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
+      this.getLineDetail(this.actualConvocatoria);
     }
 
     if (this.formRequerimiento && this.motivoRequerimiento) {
@@ -221,12 +226,12 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
           doc.text(secondLine, x, y + 3);
           doc.text(`NIF: ${this.actualNif}`, x, y + 6);
           doc.text("Emissor (DIR3): A04003714", x, y + 9);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, y + 12);
+          doc.text(`Codi SIA: ${this.codigoSIA}`, x, y + 12);
         } else {
           doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
           doc.text(`NIF: ${this.actualNif}`, x, 54);
           doc.text("Emissor (DIR3): A04003714", x, 57);
-          doc.text(`Codi SIA: ${this.codigoSIAConvo}`, x, 60);
+          doc.text(`Codi SIA: ${this.codigoSIA}`, x, 60);
         }
 
         doc.setFontSize(10);
@@ -268,7 +273,6 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
             this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment_adr_isba')
               .subscribe({
                 next: () => {
-                  console.log('Eliminado correctamente, o no había nada que eliminar');
                   this.crearDocumentoGenerado(docFieldToUpdate);
                 },
                 error: (deleteErr) => {
@@ -402,5 +406,16 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         const sendedDateToSign = resp.creationDate;
         this.sendedDateToSign = new Date(sendedDateToSign)
       })
+  }
+
+  getLineDetail(convocatoria: number) {
+    this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
+      this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+        return item.convocatoria === convocatoria && item.lineaAyuda === "ADR-ISBA" && item.activeLineData === "SI";
+      });
+      if (this.lineDetail.length > 0) {
+        this.codigoSIA = this.lineDetail[0]['codigoSIA'];
+      }
+    })
   }
 }
