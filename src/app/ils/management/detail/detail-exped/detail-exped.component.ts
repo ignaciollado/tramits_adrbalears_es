@@ -18,6 +18,7 @@ import { CustomValidatorsService } from '../../../../Services/custom-validators.
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { RequerimientoIlsComponent } from '../../../../actos-admin-ils/1_requerimiento/requerimiento.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -28,7 +29,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
-    MatExpansionModule
+    MatExpansionModule, RequerimientoIlsComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
@@ -38,7 +39,6 @@ export class IlsDetailExpedComponent {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService)
   private customValidatorService = inject(CustomValidatorsService)
-  noRequestReasonText: boolean = true;
 
   form!: FormGroup
   idExpediente!: number
@@ -53,6 +53,11 @@ export class IlsDetailExpedComponent {
   publicAccessId: string = "";
   businessType: string = "";
   isEditing: boolean = false;
+  externalSignUrl: string = "";
+  sendedUserToSign: string = "";
+  sendedDateToSign!: Date;
+
+  motivoRequerimiento: string = "";
 
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
@@ -67,7 +72,7 @@ export class IlsDetailExpedComponent {
       fecha_solicitud: [{ value: '', disabled: true }, []],
       tipo_tramite: [{ value: '', disabled: true }, []],
       telefono_rep: [{ value: '', disabled: true }, [Validators.maxLength(9), Validators.minLength(9), Validators.pattern('^\\d{1,9}$')]],
-      email_rep: [{ value: '', disabled: true }, [Validators.email, ]],
+      email_rep: [{ value: '', disabled: true }, [Validators.email]],
       domicilio: [{ value: '', disabled: true }, []],
       localidad: [{ value: '', disabled: true }, []],
       cpostal: [{ value: '', disabled: true }, [Validators.maxLength(5), Validators.minLength(5), Validators.pattern('^\\d+$')]],
@@ -88,7 +93,7 @@ export class IlsDetailExpedComponent {
       fecha_requerimiento: [{ value: '', disabled: true }, []],
       fecha_requerimiento_notif: [{ value: '', disabled: true }, []],
       fecha_maxima_enmienda: [{ value: '', disabled: true }, []],
-      motivoRequerimientoIls: [{ value: '', disabled: false }, []],
+      motivoRequerimiento: [{ value: '', disabled: false }, []],
 
       /* Adhesión */
       fecha_infor_fav: [{ value: '', disabled: true }, []],
@@ -130,9 +135,6 @@ export class IlsDetailExpedComponent {
       )
       .subscribe(expediente => {
         if (expediente) {
-          if (expediente.motivoRequerimientoIls) {
-            this.noRequestReasonText = false;
-          }
           this.form.patchValue(expediente)
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;
@@ -143,6 +145,7 @@ export class IlsDetailExpedComponent {
           this.actualConvocatoria = expediente.convocatoria;
           this.actualTipoTramite = expediente.tipo_tramite;
           this.publicAccessId = expediente.PublicAccessId;
+          this.motivoRequerimiento = expediente.motivoRequerimiento;
           this.checkViafirmaSign(this.publicAccessId);
           this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
         } else {
@@ -152,11 +155,24 @@ export class IlsDetailExpedComponent {
   }
 
   checkViafirmaSign(publicKey: string) {
+    if (!publicKey) return;
+
     this.viafirmaService.getDocumentStatus(publicKey).subscribe(
       (resp: DocSignedDTO) => {
+        if (resp?.errorCode === "WS_ERROR_CODE_1" && resp?.errorMessage === "Unable to find request") {
+          this.commonService.showSnackBar('❌ Error: No se ha encontrado la solicitud de firma.');
+          return;
+        }
+
         this.commonService.showSnackBar('✅ Documento firmado recibido correctamente:' + resp);
         this.signedDocData = resp;
-        console.log(this.signedDocData.status)
+        console.log("signedDocData", this.signedDocData, this.signedDocData.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode)
+        this.sendedUserToSign = this.signedDocData.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
+        const sendedDateToSign = this.signedDocData.creationDate;
+        this.sendedDateToSign = new Date(sendedDateToSign);
+
+        this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
+
       },
       (error: any) => {
         this.commonService.showSnackBar('❌ Error al obtener documento firmado');
@@ -166,7 +182,8 @@ export class IlsDetailExpedComponent {
           this.commonService.showSnackBar('🌐 Error de red o CORS (status 0):' + error.message);
         } else {
           // Error HTTP con código real
-          this.commonService.showSnackBar(`📡 Error HTTP ${error.status}:` + error.error || error.message);
+          const mensaje = error.error?.error || error.message;
+          this.commonService.showSnackBar(`📡 Error HTTP ${error.status}: ${mensaje}`);
           this.commonService.showSnackBar(`Ha ocurrido un error al consultar el estado de la firma.\nCódigo: ${error.status}\nMensaje: ${error.message}`);
         }
       }
@@ -176,7 +193,7 @@ export class IlsDetailExpedComponent {
   showSignedDocument(publicKey: string) {
     this.viafirmaService.viewDocument(publicKey).subscribe(
       (resp: DocSignedDTO) => {
-        console.log("resp", resp)
+        console.log("resp", resp);
         if (!resp || !resp.base64 || !resp.filename) {
           this.commonService.showSnackBar('⚠️ Respuesta inválida del servidor.');
           return;
@@ -186,18 +203,19 @@ export class IlsDetailExpedComponent {
           // Decodificar base64 a binario
           const byteCharacters = atob(resp.base64);
           const byteNumbers = Array.from(byteCharacters, char => char.charCodeAt(0));
-          const byteArray = new Uint8Array(byteNumbers);
+          const byteArray = new Uint8Array(byteNumbers)
 
           // Crear Blob y URL
           const blob = new Blob([byteArray], { type: 'application/pdf' });
           const fileURL = URL.createObjectURL(blob)
 
-          window.open(fileURL, '_blank')
+          window.open(fileURL, '_blank');
           this.commonService.showSnackBar('✅ Documento firmado recibido correctamente: ' + resp.filename);
 
         } catch (e) {
           this.commonService.showSnackBar('❌ Error al procesar el documento PDF.');
           console.error('Error al decodificar base64:', e);
+
         }
       },
       (error: any) => {
@@ -216,7 +234,7 @@ export class IlsDetailExpedComponent {
   enableEdit(): void {
     this.isEditing = !this.isEditing;
     Object.keys(this.form.controls).forEach(controlName => {
-      if ((controlName !== 'nif') && (controlName !== 'tipo_tramite') && (controlName !== "fecha_solicitud") && (controlName !== "motivoRequerimientoIls")) {
+      if ((controlName !== 'nif') && (controlName !== 'tipo_tramite') && (controlName !== "fecha_solicitud") && (controlName !== "motivoRequerimiento")) {
         if (this.isEditing) {
           this.form.get(controlName)?.enable();
         } else {
@@ -236,11 +254,5 @@ export class IlsDetailExpedComponent {
         },
         error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
       })
-  }
-
-  saveReasonRequest(): void {
-    this.saveExpediente();
-    this.form.get('motivoRequerimientoIls')?.value ? this.noRequestReasonText = false : this.noRequestReasonText = true;
-    this.isEditing = !this.isEditing;
   }
 }

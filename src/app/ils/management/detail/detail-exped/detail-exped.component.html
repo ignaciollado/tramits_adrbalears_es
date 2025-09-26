@@ -86,22 +86,6 @@
                     <app-document [idSol]="idExpediente" [requiredDocs]="'SI'"></app-document>
                     <h4 [innerHTML]="'FORM.OPTIONALDOCUMENTATIONDETAILS' | translate"></h4>
                     <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"></app-document>
-                    <section *ngIf="signedDocData">
-                        <div *ngIf="signedDocData.status ==='COMPLETED'">
-                            <button mat-raised-button color="accent"
-                                (click)="showSignedDocument(publicAccessId)">{{'FORM.SIGNEDDOCUMENT' |
-                                translate}}</button>
-                        </div>
-                        <div *ngIf="signedDocData.status === 'REJECTED'">
-                            <button mat-raised-button color="warn">{{'FORM.SIGNREJECTEDDOCUMENT' | translate}}</button>
-                        </div>
-                        <div *ngIf="signedDocData.status === 'NOT_STARTED'">
-                            <button mat-raised-button color="warn">{{'FORM.SIGNPENDINGDOCUMENT' | translate}}</button>
-                        </div>
-                        <div *ngIf="signedDocData.status === 'IN_PROCESS'">
-                            <button mat-raised-button color="warn">{{'FORM.SIGNPROGRESSDOCUMENT' | translate}}</button>
-                        </div>
-                    </section>
                 </section>
             </mat-card>
         </mat-tab>
@@ -142,21 +126,12 @@
                 </section>
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <app-requerimiento-ils 
+                    [form]="form"
+                    [actualID]="actualID" [actualIdExp]="actualIdExp"
+                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
+                    [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite" [motivoRequerimiento]="motivoRequerimiento"></app-requerimiento-ils>
                     <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.REQUERIMIENTO' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <mat-form-field appearance="outline">
-                                <mat-label>Motivo del requerimiento</mat-label>
-                                <textarea matInput formControlName="motivoRequerimientoIls"></textarea>
-                            </mat-form-field>
-                            <button mat-raised-button color="primary" type="submit" (click)="saveReasonRequest()">Guardar</button>
-                            <!-- <button mat-raised-button color="accent" (click)="generatePDFDoc('', 'ILS')" [disabled]="noRequestReasonText">Generar</button> -->
-                            <button mat-raised-button color="accent" [disabled]="noRequestReasonText">Generar</button>
-                            <!-- <button mat-raised-button color="warn" (click)="sendPDFDocToSign()" disabled>Send to sign</button> -->
-                            <button mat-raised-button color="warn" disabled>Send to sign</button>
-                        </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTOPORNOENMENDAR' | translate}}</mat-panel-title>
