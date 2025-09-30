@@ -20,6 +20,7 @@ import { CommonService } from '../../../../Services/common.service';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
+import { InformeFavorableConRequerimientoIlsComponent } from '../../../../actos-admin-ils/3_informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -31,7 +32,8 @@ import { ViafirmaService } from '../../../../Services/viafirma.service';
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
     MatExpansionModule, RequerimientoIlsComponent,
-    ResolDesestimientoNoEnmendarIlsComponent
+    ResolDesestimientoNoEnmendarIlsComponent,
+    InformeFavorableConRequerimientoIlsComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
@@ -91,7 +93,7 @@ export class IlsDetailExpedComponent {
       fecha_REC: [{ value: '', disabled: true }, []],
       ref_REC: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       fecha_REC_enmienda: [{ value: '', disabled: true }, []],
-      ref_REC_enmienda: [{ value: '', disabled: true }, []],
+      ref_REC_enmienda: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       fecha_requerimiento: [{ value: '', disabled: true }, []],
       fecha_requerimiento_notif: [{ value: '', disabled: true }, []],
       fecha_maxima_enmienda: [{ value: '', disabled: true }, []],
