@@ -432,7 +432,7 @@ export class InformeFavorableIlsComponent {
   getLineDetail(convocatoria: number) {
     this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
       this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-        return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
+        return item.convocatoria === convocatoria && item.lineaAyuda === "ILS" && item.activeLineData === "SI";
       });
       if (this.lineDetail.length > 0) {
         this.codigoSIA = this.lineDetail[0]['codigoSIA']
