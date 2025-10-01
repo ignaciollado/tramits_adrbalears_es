@@ -20,6 +20,8 @@ import { ViafirmaService } from "../../Services/viafirma.service";
 import { CommonService } from "../../Services/common.service";
 import jsPDF from "jspdf";
 import { finalize } from "rxjs";
+import { ConfigurationModelDTO } from "../../Models/configuration.dto";
+import { PindustConfiguracionService } from "../../Services/pindust-configuracion.service";
 
 
 @Component({
@@ -72,6 +74,7 @@ export class RequerimientoIlsComponent {
   signedBy!: string;
 
   docDataString!: ActoAdministrativoDTO;
+  emailConseller!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -88,6 +91,7 @@ export class RequerimientoIlsComponent {
     private documentosGeneradoService: DocumentosGeneradosService,
     private actoAdminService: ActoAdministrativoService,
     private lineaAyuda: PindustLineaAyudaService,
+    private configGlobal: PindustConfiguracionService,
   ) {
     this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
@@ -118,6 +122,7 @@ export class RequerimientoIlsComponent {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
+      this.getGlobalConfig();
     }
 
     if (this.formRequerimiento && this.motivoRequerimiento) {
@@ -384,7 +389,7 @@ export class RequerimientoIlsComponent {
         break;
       case 'conseller':
         // ToDo
-        email = "";
+        email = this.emailConseller;
         break;
     }
 
@@ -431,6 +436,15 @@ export class RequerimientoIlsComponent {
       })
       if (this.lineDetail.length > 0) {
         this.codigoSIA = this.lineDetail[0]['codigoSIA'];
+      }
+    })
+  }
+
+  getGlobalConfig(): void {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      if (globalConfig.length > 0) {
+        // this.emailConseller = globalConfig[0].eMailPresidente || 'jose.luis@idi.es'
+        this.emailConseller = 'jose.luis@idi.es'
       }
     })
   }

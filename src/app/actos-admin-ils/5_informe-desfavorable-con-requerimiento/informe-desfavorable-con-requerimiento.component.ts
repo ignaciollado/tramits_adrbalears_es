@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import jsPDF from 'jspdf';
 import { finalize } from 'rxjs';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
@@ -17,6 +18,7 @@ import { CommonService } from '../../Services/common.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
+import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 
 @Component({
@@ -66,6 +68,7 @@ export class InformeDesfavorableConRequerimientoIlsComponent {
   signedBy!: string;
 
   docDataString!: ActoAdministrativoDTO;
+  emailConseller!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -81,6 +84,7 @@ export class InformeDesfavorableConRequerimientoIlsComponent {
     private documentosGeneradosService: DocumentosGeneradosService,
     private actoAdminService: ActoAdministrativoService,
     private lineaAyuda: PindustLineaAyudaService,
+    private configGlobal: PindustConfiguracionService
   ) {
     this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
@@ -107,6 +111,7 @@ export class InformeDesfavorableConRequerimientoIlsComponent {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
+      this.getGlobalConfig();
     }
   }
 
@@ -420,7 +425,7 @@ export class InformeDesfavorableConRequerimientoIlsComponent {
         break;
       case 'conseller':
         // ToDo
-        email = "";
+        email = this.emailConseller;
         break;
     }
 
@@ -457,6 +462,16 @@ export class InformeDesfavorableConRequerimientoIlsComponent {
       });
       if (this.lineDetail.length > 0) {
         this.codigoSIA = this.lineDetail[0]['codigoSIA']
+      }
+    })
+  }
+
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      if (globalConfig.length > 0) {
+        // this.emailConseller = globalConfig[0].eMailPresidente || 'jose.luis@idi.es'
+
+        this.emailConseller = 'jose.luis@idi.es'
       }
     })
   }

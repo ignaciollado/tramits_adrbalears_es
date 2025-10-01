@@ -70,6 +70,7 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
   signedBy!: string;
 
   docDataString!: ActoAdministrativoDTO;
+  emailConseller!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -432,7 +433,7 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
         break;
       case 'conseller':
         // ToDo
-        email = "";
+        email = this.emailConseller;
         break;
     }
 
@@ -477,6 +478,9 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
     this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
       if (globalConfig.length > 0) {
         this.nomPresidenteIdi = globalConfig[0].respresidente;
+        // this.emailConseller = globalConfig[0].eMailPresidente || 'jose.luis@idi.es'
+
+        this.emailConseller = 'jose.luis@idi.es'
       }
     })
   }
