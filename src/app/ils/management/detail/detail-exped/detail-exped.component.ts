@@ -21,6 +21,7 @@ import { CustomValidatorsService } from '../../../../Services/custom-validators.
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { InformeFavorableConRequerimientoIlsComponent } from '../../../../actos-admin-ils/3_informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
+import { InformeFavorableIlsComponent } from '../../../../actos-admin-ils/4_informe-favorable/informe-favorable.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -33,7 +34,8 @@ import { InformeFavorableConRequerimientoIlsComponent } from '../../../../actos-
     MatCardModule, MatSnackBarModule,
     MatExpansionModule, RequerimientoIlsComponent,
     ResolDesestimientoNoEnmendarIlsComponent,
-    InformeFavorableConRequerimientoIlsComponent
+    InformeFavorableConRequerimientoIlsComponent,
+    InformeFavorableIlsComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'

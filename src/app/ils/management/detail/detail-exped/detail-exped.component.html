@@ -173,13 +173,12 @@
                     [actualID]="actualID" [actualIdExp]="actualIdExp"
                     [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
                     [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-informe-favorable-con-requerimiento-ils>
+                    <app-informe-favorable-ils
+                    [form]="form"
+                    [actualID]="actualID" [actualIdExp]="actualIdExp"
+                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
+                    [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-informe-favorable-ils>
                     <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEFAVORABLE' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.INFORMEDESFAVORABLECONREQUERIMIENTO' | translate}}</mat-panel-title>
