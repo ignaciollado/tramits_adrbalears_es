@@ -236,7 +236,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
 
         // Mejoras
         // if (this.tieneMejoras) {
-        //   const formattedFecha_ultima_mejora = formatDate(this.fecha_ultima_mejora, 'dd/MM/yyyy HH:mm', 'es-ES');
+        //   const formattedFecha_ultima_mejora = formatDate(this.fecha_ultima_mejora, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
         //   rawTexto = rawTexto.replace(/%FECHARECM%/g, formattedFecha_ultima_mejora);
         //   rawTexto = rawTexto.replace(/%REFRECM%/g, this.ref_ultima_mejora);
         // }

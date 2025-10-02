@@ -206,7 +206,7 @@ export class ResolucionDePagoYJustificacionAdrIsbaComponent {
         const formattedFecha_not_propuesta_resolucion_def = formatDate(this.form.get('fecha_not_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_firma_resol_concesion = formatDate(this.form.get('fecha_firma_res')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_aval_idi_isba = formatDate(this.form.get('fecha_aval_idi_isba')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_REC_justificacion = formatDate(this.form.get('fecha_REC_justificacion')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedFecha_REC_justificacion = formatDate(this.form.get('fecha_REC_justificacion')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
 
 
 

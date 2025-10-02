@@ -200,7 +200,7 @@ export class ResolucionDesestimientoPorRenunciaAdrIsbaComponent {
         /* Fechas formateadas */
         const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
         const formattedfecha_solicitud = formatDate(this.form.get('fecha_solicitud')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
-        const formattedFecha_REC_desestimiento = formatDate(this.form.get('fecha_REC_desestimiento')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedFecha_REC_desestimiento = formatDate(this.form.get('fecha_REC_desestimiento')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
 
         /* Importes monetarios formateados */
         const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);

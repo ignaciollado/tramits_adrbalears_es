@@ -207,7 +207,7 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
         /* Fechas formateadas */
         const formattedfecha_solicitud = formatDate(this.form.get('fecha_solicitud')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
         const formattedFecha_notif_req = formatDate(this.form.get('fecha_requerimiento_notif')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_REC_enmienda = formatDate(this.form.get('fecha_REC_enmienda')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedFecha_REC_enmienda = formatDate(this.form.get('fecha_REC_enmienda')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
         const formattedFecha_infor = formatDate(this.form.get('fecha_infor_fav_desf')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_aval_idi_isba = formatDate(this.form.get('fecha_aval_idi_isba')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
@@ -240,7 +240,7 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
 
         // Mejoras
         /*         if (this.tieneMejoras) {
-                  const formattedFecha_ultima_mejora = formatDate(this.fecha_ultima_mejora, 'dd/MM/yyyy HH:mm', 'es-ES');
+                  const formattedFecha_ultima_mejora = formatDate(this.fecha_ultima_mejora, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
                   rawTexto = rawTexto.replace(/%FECHARECM%/g, formattedFecha_ultima_mejora);
                   rawTexto = rawTexto.replace(/%REFRECM%/g, this.ref_ultima_mejora);
                 } */
