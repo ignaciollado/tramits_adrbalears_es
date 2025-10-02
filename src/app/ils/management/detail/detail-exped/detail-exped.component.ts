@@ -23,6 +23,7 @@ import { ViafirmaService } from '../../../../Services/viafirma.service';
 import { InformeFavorableConRequerimientoIlsComponent } from '../../../../actos-admin-ils/3_informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
 import { InformeFavorableIlsComponent } from '../../../../actos-admin-ils/4_informe-favorable/informe-favorable.component';
 import { InformeDesfavorableConRequerimientoIlsComponent } from '../../../../actos-admin-ils/5_informe-desfavorable-con-requerimiento/informe-desfavorable-con-requerimiento.component';
+import { ResolDenegacionConRequerimientoIlsComponent } from '../../../../actos-admin-ils/6_resol-denegacion-con-requerimiento/resol-denegacion-con-requerimiento.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -37,7 +38,8 @@ import { InformeDesfavorableConRequerimientoIlsComponent } from '../../../../act
     ResolDesestimientoNoEnmendarIlsComponent,
     InformeFavorableConRequerimientoIlsComponent,
     InformeFavorableIlsComponent,
-    InformeDesfavorableConRequerimientoIlsComponent
+    InformeDesfavorableConRequerimientoIlsComponent,
+    ResolDenegacionConRequerimientoIlsComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'

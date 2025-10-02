@@ -183,13 +183,12 @@
                     [actualID]="actualID" [actualIdExp]="actualIdExp"
                     [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
                     [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-informe-desfavorable-con-requerimiento-ils>
+                    <app-resol-denegacion-con-requerimiento-ils
+                    [form]="form"
+                    [actualID]="actualID" [actualIdExp]="actualIdExp"
+                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
+                    [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-resol-denegacion-con-requerimiento-ils>
                     <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONDENEGACIONCONREQUERIMIENTO' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESIONADHESION' | translate}}</mat-panel-title>
