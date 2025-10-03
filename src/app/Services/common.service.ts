@@ -89,6 +89,11 @@ export class CommonService {
     return this.http.delete<void>(`${this.urlAPITramits}/pindustactividades/${id}`).pipe(catchError(this.handleError))
   }
 
+  /* GET JSON situación */
+  getSituations(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.urlAPIMock}expedientSituations.json`).pipe(catchError(this.handleError));
+  }
+
   /* Generate timeStamp */
  
   generateCustomTimestamp(): string {

@@ -131,7 +131,7 @@ export class PrRevocacionPorNoJustificarAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_pr_revocacion_no_justificar')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_revocacion_por_no_justificar')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin16 = false;
@@ -202,7 +202,7 @@ export class PrRevocacionPorNoJustificarAdrIsbaComponent {
         /* Fechas formateadas */
         const formattedFecha_resol_conc = formatDate(this.form.get('fecha_firma_res')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_BOIB = formatDate(this.fecha_BOIB, ' dd/MM/yyyy', 'es-ES');
-        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedfecha_solicitud = formatDate(this.form.get('fecha_solicitud')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
         const formattedFecha_not_resol_conc = formatDate(this.form.get('fecha_notificacion_resolucion')?.value, 'dd/MM/yyyy', 'es-ES');
 
         /* Importes monetarios formateados */
@@ -217,7 +217,7 @@ export class PrRevocacionPorNoJustificarAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%FECHAPUBBOIB%/g, formattedFecha_BOIB);
         rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
         rawTexto = rawTexto.replace(/%NOMBREPRESIDENTEIDI%/g, this.nomPresidenteIdi);
-        rawTexto = rawTexto.replace(/%FECHASOL%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%FECHASOL%/g, formattedfecha_solicitud);
         rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, formattedImporte_ayuda);
         rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, formattedImporte_intereses);
         rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, formattedImporte_aval);
@@ -330,7 +330,7 @@ export class PrRevocacionPorNoJustificarAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_pr_revocacion_no_justificar')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_revocacion_por_no_justificar')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);

@@ -3,8 +3,8 @@
         <mat-expansion-panel-header>
             <mat-panel-title>16. {{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONREVOCACIONNOJUSTIFICAR' | translate}}</mat-panel-title>
         </mat-expansion-panel-header>
-        <button mat-raised-button color="primary" (click)="generateActoAdmin('isba_16_propuesta_resolucion_revocacion_no_justificar', 'ADR-ISBA', 'pr_revocacion_no_justificar')">Generar</button>
-        <button mat-raised-button color="accent" (click)="actoAdmin16 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_16_propuesta_resolucion_revocacion_no_justificar', 'ADR-ISBA', 'pr_revocacion_no_justificar')" [disabled]="!actoAdmin16">Ver documento</button>
+        <button mat-raised-button color="primary" (click)="generateActoAdmin('isba_16_propuesta_resolucion_revocacion_no_justificar', 'ADR-ISBA', 'prop_res_revocacion_por_no_justificar')">Generar</button>
+        <button mat-raised-button color="accent" (click)="actoAdmin16 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_16_propuesta_resolucion_revocacion_no_justificar', 'ADR-ISBA', 'prop_res_revocacion_por_no_justificar')" [disabled]="!actoAdmin16">Ver documento</button>
         <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')" [disabled]="!actoAdmin16">Send to sign</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClassActAdmin16]">
             <section *ngIf="signatureDocState === 'COMPLETED'">

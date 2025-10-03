@@ -20,7 +20,12 @@
     "TRACKING": "Seguiment",
     "RENOVATION": "Renovació",
     "GENERAL": "General",
-    "CREATECONVO": "Crear una convocatòria"
+    "CREATECONVO": "Crear una convocatòria",
+    "FAVORABLEEXPEDIENTS": "Expedients favorables",
+    "NOFAVORABLEEXPEDIENTS": "Expedients NO favorables",
+    "PAYMENTJUSTIFICATIONPHASE": "Fase justificació pagament",
+    "CORRECTJUSTIFICATION": "Justificació correcta",
+    "JUSTIFICATIONREQUIREMENT": "En cas de requeriment"
   },
   "HOME": {
     "WELCOME": "Benvingut a iTràmits, la plataforma oficial de ADR Balears per a la gestió d'ajudes i subvencions",
@@ -41,7 +46,7 @@
     "ILSMANAGEMENT": "Gestió ILS",
     "ACTOSADMINMANAGEMENT": "Actes administratius",
     "GLOBALCONFIGURATION": "Configuració global",
-    "LINECONFIGURATION": "Configuració de la convocatòria",    
+    "LINECONFIGURATION": "Configuració de la convocatòria",
     "CONVODATA": "Destinació: AGÈNCIA DE DESENVOLUPAMENT REGIONAL DE LES ILLES BALEARS<br>Emissor (DIR3): A04003714<br>Codi SIA: %CODIGOSIA%<br>Convocatòria: %CONVO%",
     "CONVODETAILS": "Convocatòria per a la concessió d'ajuts de xecs de consultoria per impulsar la indústria de Balears en matèria de digitalització, internacionalització, sostenibilitat i gestió avançada."
   },
@@ -67,6 +72,7 @@
     "CONTACTPHONE": "Telèfon de contacte",
     "NOTIFICATIONCHANEL": "Canal de nofitificació",
     "CONSULTANTDATA": "Dades del consultor",
+    "CONSULTANTDATADESCRIPTION": "Introdueixi algunes dades del consultor.",
     "NOTIFICATIONMOBILE": "Telèfon mòbil de notificacions",
     "NOTIFICATIONMAIL": "Adreça electrònica de notificacions",
     "CONSULTANTCOMPANY": "Raó social de l'empresa consultora",
@@ -440,7 +446,10 @@
     "RESOLUCIONCONCESIONCONREQUERIMIENTO": "Resolució de concessió amb requeriment",
     "RESOLUCIONRENOVACIONMARCA": "Resolució de renovació de marca",
     "RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO": "Resolució de renovació de marca amb requeriment",
-    "RESOLUCIONREVOCACION": "Resolució de revocació"
+    "RESOLUCIONREVOCACION": "Resolució de revocació",
+    "ACTAKICKOFF": "Acta de Kick off",
+    "ACTACIERRE": "Acta de tancament",
+    "RESOLUCIONPAGOSINREQUERIMIENTO": "Resolució de pagament sense requeriment"
   },
   "COMMON": {
     "RGPD-INFO": {
@@ -479,6 +488,51 @@
         "ACRONYM": "NIF",
         "FULL-PHRASE": "Número d'Identificació Fiscal"
       }
+    }
+  },
+  "SITUATIONS": {
+    "XECS": {
+      "nohapasadoREC": "No ha passat per la SEU electrònica",
+      "pendiente": "Pendent de validar",
+      "comprobarAnt": "Comprovar Antonia",
+      "comprobarAntReg": "Comprovar Antonia amb requeriment pendent",
+      "emitirReq": "Emetre requeriment",
+      "firmadoReq": "Requeriment signat pendent de notificar",
+      "notificadoReq": "Requeriment notificat",
+      "emitirDesEnmienda": "Emetre desistiment per esmena",
+      "emitidoDesEnmienda": "Desistiment per esmena emès",
+      "Desestimiento": "Desistiment",
+      "emitirIFPRProvPago": "Emetre IF + PR Provisional",
+      "emitidoIFPRProvPago": "IF + PR Provisional emesa",
+      "firmadoIFPRProvPago": "PR Prov. signada PENDENT de notificar",
+      "notificadoIFPRProvPago": "PR Provisional NOTIFICADA",
+      "emitirPRDefinitiva": "PR definitiva enviada a firma",
+      "emitidaPRDefinitiva": "PR definitiva signada PENDENT de notificar",
+      "emitidaPRDefinitivaNotificada": "PR definitiva NOTIFICADA",
+      "emitirResConcesion": "Resolució de concessió enviada a firma",
+      "emitidaResConcesion": "Resolució de concessió signada PENDENT de notificar",
+      "notificadaResConcesion": "Resolució de concessió NOTIFICADA",
+      "inicioConsultoria": "Inici expedient",
+      "emitirIDPDenProv": "Emetre ID + PR denegació provisional",
+      "emitidoIDPDenProv": "ID + PR denegació provisional emesa",
+      "emitirPDenDef": "Emetre PR denegació definitiva",
+      "emitidoPDenDef": "PR denegació definitiva emesa",
+      "emitirResDen": "Emetre resolució de denegació",
+      "emitidoResDen": "Resolució de denegació emesa",
+      "Denegado": "Denegat",
+      "pendienteJustificar": "Pendent de justificar",
+      "pendienteRECJustificar": "Pendent SEU justificant",
+      "Justificado": "Justificat",
+      "emitirResPagoyJust": "Emetre resolució de pagament i justificació",
+      "emitidoResPagoyJust": "Resolució de pagament i justificació emesa",
+      "Finalizado": "Finalitzat",
+      "emitirReqJust": "Emetre requeriment de justificació",
+      "emitidoReqJust": "Requeriment de justificació emesa",
+      "emitirPropRevocacion": "Emetre proposta de revocació",
+      "emitidoPropRevocacion": "Proposta de revocació emesa",
+      "emitirResRevocacion": "Emetre resolució de revocació",
+      "emitidoResRevocacion": "Resolució de revocació emesa",
+      "revocado": "Revocat"
     }
   }
 }

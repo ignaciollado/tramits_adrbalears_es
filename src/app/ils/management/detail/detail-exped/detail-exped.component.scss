@@ -1,6 +1,5 @@
 :host {
   display: block;
-  padding: 2rem;
   background-color: #f9f9fb;
   font-family: "Segoe UI", Roboto, sans-serif;
   color: #333;
@@ -8,10 +7,10 @@
 .title-container {
   display: flex;
   justify-content: center;
-  margin-bottom: .25rem;
+  margin-bottom: 0.25rem;
   background-color: #fff3cd;
-  border-radius: .25rem;
-  padding: .25rem;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
 }
 h3 {
   margin: auto;
@@ -38,17 +37,17 @@ mat-card {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 1rem;
+
+  .detalle-formulario {
+    display: grid;
+    grid-template-columns: repeat (1, 1fr);
+    gap: 1rem;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
 }
-
-// .detalle-formulario {
-//   display: grid;
-//   grid-template-columns: repeat (1, 1fr);
-//   gap: 1rem;
-
-//   mat-form-field {
-//     width: 100%;
-//   }
-// }
 
 .exped-tab {
   color: #fff;

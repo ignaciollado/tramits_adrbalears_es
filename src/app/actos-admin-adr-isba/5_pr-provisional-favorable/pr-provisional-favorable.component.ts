@@ -137,7 +137,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_favorable_sin_requerimiento')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_provisional_adr_isba')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin5 = false;
@@ -205,7 +205,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         }
 
         /* Fechas formateadas */
-        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedfecha_solicitud = formatDate(this.form.get('fecha_solicitud')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
         const formattedFecha_infor = formatDate(this.form.get('fecha_infor_fav_desf')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_aval_idi_isba = formatDate(this.form.get('fecha_aval_idi_isba')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
@@ -218,7 +218,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
         const formattedImporte_prestamo = this.commonService.formatCurrency(this.form.get('importe_prestamo')?.value);
 
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
-        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedfecha_solicitud);
         rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
         rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, formattedImporte_ayuda);
         rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, formattedImporte_intereses);
@@ -364,7 +364,7 @@ export class PrProvisionalFavorableAdrIsbaComponent {
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
             // Delete documentos previamente generados para evitar duplicados
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_propuesta_resolucion_provisional_favorable_sin_requerimiento')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_prop_res_provisional_adr_isba')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);

@@ -130,7 +130,7 @@ export class ResolucionDesestimientoPorRenunciaAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_desestimiento_renuncia')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_renuncia')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin15 = false;
@@ -199,7 +199,7 @@ export class ResolucionDesestimientoPorRenunciaAdrIsbaComponent {
 
         /* Fechas formateadas */
         const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedfecha_solicitud = formatDate(this.form.get('fecha_solicitud')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
         const formattedFecha_REC_desestimiento = formatDate(this.form.get('fecha_REC_desestimiento')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
 
         /* Importes monetarios formateados */
@@ -213,7 +213,7 @@ export class ResolucionDesestimientoPorRenunciaAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
         rawTexto = rawTexto.replace(/%FECHAPUBBOIB%/g, formattedFecha_BOIB);
         rawTexto = rawTexto.replace(/%NOMBREPRESIDENTEIDI%/g, this.nomPresidenteIdi);
-        rawTexto = rawTexto.replace(/%FECHASOL%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%FECHASOL%/g, formattedfecha_solicitud);
         rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, formattedImporte_ayuda);
         rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, formattedImporte_intereses);
         rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, formattedImporte_aval);
@@ -329,7 +329,7 @@ export class ResolucionDesestimientoPorRenunciaAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_desestimiento_renuncia')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_renuncia')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);

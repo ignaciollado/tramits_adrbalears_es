@@ -553,9 +553,9 @@ generateDeclaracionResponsable (datos: any): void {
       .subscribe((docDataString: ActoAdministrativoDTO) => {
         let rawTexto
         if (localStorage.getItem("preferredLang") === 'es-ES') {
-          rawTexto = docDataString.texto_es;
+          rawTexto = docDataString.texto_es
         } else {
-          rawTexto = docDataString.texto;
+          rawTexto = docDataString.texto
         }
         if (!rawTexto) {
           this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
@@ -634,60 +634,56 @@ generateDeclaracionResponsable (datos: any): void {
 
         // Texto convocatoria y año convocatoria
         printLabelWithBoldValue(doc, jsonObject.tramite, marginLeft, 60, fontSize)
-        printLabelWithBoldValue(doc, "Convocatoria "+(this.convocatoria ?? '').toString(), marginLeft, 70, fontSize)
+        printLabelWithBoldValue(doc, jsonObject.convocatoria_sol_idigital+(this.convocatoria ?? '').toString(), marginLeft, 70, fontSize)
 
         // 1. SELECCIONE EL PROGRAMA DE AYUDA QUE SOLICITA
-        doc.text(jsonObject.seleccione_el_programa, (pageWidth - maxTextWidth) / 2, 80)
-        doc.rect( (marginLeft) - padding, 80 - padding, maxTextWidth, blockHeight + padding * 2 )
+        const seleccione_el_programaTextWidth = doc.getTextWidth(jsonObject.seleccione_el_programa);
+        doc.text(jsonObject.seleccione_el_programa, (pageWidth - seleccione_el_programaTextWidth) / 2, 80)
+        printBorder(doc, jsonObject.seleccione_el_programa, marginLeft, 79, 8, pageWidth)
+        doc.text(doc.splitTextToSize(datos.tipo_tramite, maxTextWidth), marginLeft, 90);
 
-        // TIPO DE SOLICITANTE
-        printLabelWithBoldValue(doc, jsonObject.tipo_de_solicitante, marginLeft, 90, fontSize)
-        doc.rect( (marginLeft) - padding, 90 - padding, maxTextWidth, blockHeight + padding * 2 )
+        // 2. TIPO DE SOLICITANTE
+        const tipo_de_solicitanteTextWidth = doc.getTextWidth(jsonObject.tipo_de_solicitante);
+        doc.text(jsonObject.tipo_de_solicitante, (pageWidth - tipo_de_solicitanteTextWidth) / 2, 100)
+        printBorder(doc, jsonObject.tipo_de_solicitante, marginLeft, 99, 8, pageWidth)
+        doc.text(doc.splitTextToSize(datos.tipo_de_solicitante, maxTextWidth), marginLeft, 110);
 
-        // IDENTIFICACIÓN DEL SOLICITANTE
+        // 3. IDENTIFICACIÓN DEL SOLICITANTE
         const identificacion_solicitante_tit = jsonObject.identificacion_solicitante_tit;
         const identificacionTextWidth = doc.getTextWidth(identificacion_solicitante_tit);
         doc.setFont('helvetica', 'normal');
-        doc.text(identificacion_solicitante_tit, (pageWidth - identificacionTextWidth) / 2, 95)
-        printBorder(doc, identificacion_solicitante_tit, marginLeft, 94, 8, pageWidth)
-        printLabelWithBoldValue(doc, jsonObject.nombre, marginLeft, 104, 8)
-        printLabelWithBoldValue(doc, jsonObject.nif, marginLeft, 108, 8)
-        printLabelWithBoldValue(doc, jsonObject.domicilio, marginLeft, 112, 8)
-        printLabelWithBoldValue(doc, jsonObject.localidad, marginLeft, 116, 8)
-        printLabelWithBoldValue(doc, jsonObject.nombre_representante_legal, marginLeft, 120, 8)
-        printLabelWithBoldValue(doc, jsonObject.dni_representante_legal, marginLeft, 124, 8)
-        printLabelWithBoldValue(doc, jsonObject.telefono_contacto_solicitante, marginLeft, 128, 8)
+        doc.text(identificacion_solicitante_tit, (pageWidth - identificacionTextWidth) / 2, 120)
+        printBorder(doc, identificacion_solicitante_tit, marginLeft, 119, 8, pageWidth)
 
-        // Encabezado centrado
+        printLabelWithBoldValue(doc, jsonObject.nombre, marginLeft, 129, 8)
+        printLabelWithBoldValue(doc, jsonObject.nif, marginLeft, 133, 8)
+        printLabelWithBoldValue(doc, jsonObject.domicilio, marginLeft, 137, 8)
+        printLabelWithBoldValue(doc, jsonObject.localidad, marginLeft, 141, 8)
+        printLabelWithBoldValue(doc, jsonObject.nombre_representante_legal, marginLeft, 145, 8)
+        printLabelWithBoldValue(doc, jsonObject.dni_representante_legal, marginLeft, 149, 8)
+        printLabelWithBoldValue(doc, jsonObject.telefono_contacto_solicitante, marginLeft, 153, 8)
+
+        // 4. NOTIFICACIÓN
         const notificacion_tit = jsonObject.notificacion_tit;
         const notificacionTextWidth = doc.getTextWidth(notificacion_tit);
-
-        // Notificación
         doc.setFont('helvetica', 'normal')
-        doc.text(notificacion_tit, (pageWidth - notificacionTextWidth) / 2, 143);
+        doc.text(notificacion_tit, (pageWidth - notificacionTextWidth) / 2, 163);
+        printBorder(doc, notificacion_tit, marginLeft, 162, 8, pageWidth);
+        printLabelWithBoldValue(doc, jsonObject.notificacion_info, marginLeft, 172, 8);
+        printLabelWithBoldValue(doc, jsonObject.direccion_electrónica_a_efectos_de_notificaciones, marginLeft, 176, 8);
+        printLabelWithBoldValue(doc, jsonObject.telefono_movil_a_efectos_de_notificaciones, marginLeft, 180, 8);
 
-        printBorder(doc, notificacion_tit, marginLeft, 142, 8, pageWidth);
-        doc.text(jsonObject.notificacion_info, marginLeft, 152);
+        // 5. DATOS DEL CONSULTOR
+        const datos_consultor = jsonObject.datos_consultor;
+        const datos_consultorTextWidth = doc.getTextWidth(datos_consultor);
+        doc.setFont('helvetica', 'normal')
+        doc.text(datos_consultor, (pageWidth - datos_consultorTextWidth) / 2, 190);
+        printBorder(doc, datos_consultor, marginLeft, 189, 8, pageWidth);
+        //doc.text(datos_consultor, marginLeft, 199);
+        printLabelWithBoldValue(doc, jsonObject.nombre_consultor, marginLeft, 199, 8);
+        printLabelWithBoldValue(doc, jsonObject.tel_consultor, marginLeft, 203, 8);
+        printLabelWithBoldValue(doc, jsonObject.email_consultor, marginLeft, 206, 8);
 
-        printLabelWithBoldValue(doc, jsonObject.direccion_electrónica_a_efectos_de_notificaciones, marginLeft, 158, 8);
-        printLabelWithBoldValue(doc, jsonObject.telefono_movil_a_efectos_de_notificaciones, marginLeft, 162, 8);
-
-        // Datos de la operación Financiera
-        doc.setFont('helvetica', 'normal');
-
-        // Encabezado centrado
-        //const dat_op_financiera_tit = jsonObject.datos_operacion_financiera_tit;
-        //const dat_op_financiera_tit_long = jsonObject.datos_operacion_financiera_tit.split('\n')[0] // Cojo la primera frase (más larga) para centrar
-        //const datosFinancierosTextWidth = doc.getTextWidth(dat_op_financiera_tit_long)
-
-    /*     doc.text(dat_op_financiera_tit, (pageWidth - datosFinancierosTextWidth) / 2, 173);
-        printBorder(doc, dat_op_financiera_tit, marginLeft, 172, 8, pageWidth);
- */
-        doc.setFont('helvetica', 'bold')
-        //doc.text(jsonObject.prestamo, marginLeft, 188);
-        printLabelWithBoldValue(doc, jsonObject.entidad_financiera, marginLeft, 192, 8);
-        //printLabelWithBoldValue(doc, jsonObject.importe_operacion, marginLeft, 196, 8);
-        //printLabelWithBoldValue(doc, jsonObject.plazo_prestamo, marginLeft, 200, 8);
 
         doc.setFont('helvetica', 'bold')
         //doc.text(jsonObject.aval_isba, marginLeft, 208);

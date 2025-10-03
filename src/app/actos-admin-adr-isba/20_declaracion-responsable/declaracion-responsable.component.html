@@ -33,7 +33,7 @@
         </section>
     </mat-card-content>
     <mat-card-actions ngClass="acciones-declaracion">
-        <button mat-raised-button color="primary" (click)="viewDocumento(actualNif, 'informes', nameDocGenerado, 'pdf')">Ver declaración sin firmar</button>
+        <button mat-raised-button color="primary" (click)="viewDocumento(actualNif, timeStampDocGenerado, nameDocGenerado, 'pdf')">Ver declaración sin firmar</button>
         <button mat-raised-button color="accent" (click)="viewDocumentoFirmado()" [disabled]="signatureDocState !== 'COMPLETED'">Ver declaración firmada</button>
     </mat-card-actions>
 </mat-card>

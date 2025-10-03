@@ -20,7 +20,12 @@
     "TRACKING": "Tracking",
     "RENOVATION": "Renovation",
     "GENERAL": "General",
-    "CREATECONVO": "Create a convo"
+    "CREATECONVO": "Create a convo",
+    "FAVORABLEEXPEDIENTS": "Favorable expedient",
+    "NOFAVORABLEEXPEDIENTS": "NO favorable expedient",
+    "PAYMENTJUSTIFICATIONPHASE": "Payment justification phase",
+    "CORRECTJUSTIFICATION": "Correct justification",
+    "JUSTIFICATIONREQUIREMENT": "In case of request"
   },
   "HOME": {
     "WELCOME": "Welcome to iTràmits, the official platform of ADR Balears for the management of grants and subsidies",
@@ -67,6 +72,7 @@
     "CONTACTPHONE": "Contact telephone number",
     "NOTIFICATIONCHANEL": "Notification channel",
     "CONSULTANTDATA": "Consultant data",
+    "CONSULTANTDATADESCRIPTION": "Enter some information about the consultant.",
     "NOTIFICATIONMOBILE": "Notification mobile phone",
     "NOTIFICATIONMAIL": "Notifications email address",
     "CONSULTANTCOMPANY": "Company name of the consultancy firm",
@@ -441,7 +447,10 @@
     "RESOLUCIONCONCESIONCONREQUERIMIENTO": "Concession resolution with requirement",
     "RESOLUCIONRENOVACIONMARCA": "Trademark renewal resolution",
     "RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO": "Trademark renewal resolution with requirement",
-    "RESOLUCIONREVOCACION": "Revocation resolution"
+    "RESOLUCIONREVOCACION": "Revocation resolution",
+    "ACTAKICKOFF": "Kick-off statement",
+    "ACTACIERRE": "Closing statement",
+    "RESOLUCIONPAGOSINREQUERIMIENTO": "Payment resolution without requirement"
   },
   "COMMON": {
     "RGPD-INFO": {
@@ -480,6 +489,51 @@
         "ACRONYM": "TIN",
         "FULL-PHRASE": "Tax Identification Number"
       }
+    }
+  },
+  "SITUATIONS": {
+    "XECS": {
+      "nohapasadoREC": "It has not gone through the official electronic portal",
+      "pendiente": "Pending validation",
+      "comprobarAnt": "Check Antonia",
+      "comprobarAntReg": "Check Antonia with request",
+      "emitirReq": "Issue a requirement",
+      "firmadoReq": "Signed requirement pending notification",
+      "notificadoReq": "Notified requirement",
+      "emitirDesEnmienda": "Issue abandonment for amendment",
+      "emitidoDesEnmienda": "Abandonment due to amendment issued",
+      "Desestimiento": "Abandonment",
+      "emitirIFPRProvPago": "Issue provisional IF + PR",
+      "emitidoIFPRProvPago": "Provisional IF + PR issued",
+      "firmadoIFPRProvPago": "PR Prov. signed PENDING notification",
+      "notificadoIFPRProvPago": "Provisional PR NOTIFIED",
+      "emitirPRDefinitiva": "Final PR sent for signing",
+      "emitidaPRDefinitiva": "Final PR signed PENDING notification",
+      "emitidaPRDefinitivaNotificada": "Final PR NOTIFIED",
+      "emitirResConcesion": "Concession resolution sent for signature",
+      "emitidaResConcesion": "Concession resolution signed PENDING notification",
+      "notificadaResConcesion": "Concession resolution NOTIFIED",
+      "inicioConsultoria": "Start expedient",
+      "emitirIDPDenProv": "Issue ID + PR provisional denial",
+      "emitidoIDPDenProv": "ID + PR provisional denial issued",
+      "emitirPDenDef": "Issue final PR denial",
+      "emitidoPDenDef": "Final PR denial issued",
+      "emitirResDen": "Issue denial resolution",
+      "emitidoResDen": "Denial resolution issued",
+      "Denegado": "Denied",
+      "pendienteJustificar": "Pending justification",
+      "pendienteRECJustificar": "Pending SEU justification",
+      "Justificado": "Justified",
+      "emitirResPagoyJust": "Issue payment resolution and justification",
+      "emitidoResPagoyJust": "Payment resolution and justification issued",
+      "Finalizado": "Completed",
+      "emitirReqJust": "Issue request for justification",
+      "emitidoReqJust": "Request for justification issued",
+      "emitirPropRevocacion": "Issue proposal for revocation",
+      "emitidoPropRevocacion": "Revocation proposal issued",
+      "emitirResRevocacion": "Issue revocation resolution",
+      "emitidoResRevocacion": "Revocation resolution issued",
+      "revocado": "Revoked"
     }
   }
 }

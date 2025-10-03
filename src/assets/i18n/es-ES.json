@@ -20,7 +20,12 @@
     "TRACKING": "Seguimiento",
     "RENOVATION": "Renovación",
     "GENERAL": "General",
-    "CREATECONVO": "Crear una convocatória"
+    "CREATECONVO": "Crear una convocatória",
+    "FAVORABLEEXPEDIENTS": "Expedientes favorables",
+    "NOFAVORABLEEXPEDIENTS": "Expedientes NO favorables",
+    "PAYMENTJUSTIFICATIONPHASE": "Fase justificación pago",
+    "CORRECTJUSTIFICATION": "Justificación correcta",
+    "JUSTIFICATIONREQUIREMENT": "En caso de requerimiento"
   },
   "HOME": {
     "WELCOME": "Bienvenido a iTràmits, la plataforma oficial de ADR Balears para la gestión de ayudas y subvenciones",
@@ -67,6 +72,7 @@
     "CONTACTPHONE": "Teléfono de contacto",
     "NOTIFICATIONCHANEL": "Canal de notificaciones",
     "CONSULTANTDATA": "Datos del consultor",
+    "CONSULTANTDATADESCRIPTION": "Introduzca algunos datos del consultor.",
     "NOTIFICATIONMOBILE": "Teléfono móvil de notificaciones",
     "NOTIFICATIONMAIL": "Correo electrónico de notificaciones",
     "CONSULTANTCOMPANY": "Razón social de la empresa consultora",
@@ -143,7 +149,7 @@
     "fecha_not_propuesta_resolucion_def": "Notificación propuesta resolución definitiva",
     "fecha_firma_res": "Firma resolución",
     "fecha_notificacion_resolucion": "Notificación resolución",
-    "fecha_kick_off": "Fecha de inicio oficial ",
+    "fecha_kick_off": "Kick-off",
     "fecha_limite_consultoria": "Fecha límite para realizar la consultoría",
     "fecha_reunion_cierre": "Reunión de cierre",
     "fecha_limite_justificacion": "Fecha límite para justificar la ayuda recibida",
@@ -441,7 +447,10 @@
     "RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO": "Resolución de renovación de marca con requerimiento",
     "RESOLUCIONCONCESION": "Resolución de concesión",
     "RESOLUCIONCONCESIONCONREQUERIMIENTO": "Resolución de concesión con requerimiento",
-    "RESOLUCIONREVOCACION": "Resolución de revocación"
+    "RESOLUCIONREVOCACION": "Resolución de revocación",
+    "ACTAKICKOFF": "Acta de Kick off",
+    "ACTACIERRE": "Acta de cierre",
+    "RESOLUCIONPAGOSINREQUERIMIENTO": "Resolución de pago sin requerimiento"
   },
   "COMMON": {
     "RGPD-INFO": {
@@ -480,6 +489,51 @@
         "ACRONYM": "NIF",
         "FULL-PHRASE": "Número de Identificación Fiscal"
       }
+    }
+  },
+  "SITUATIONS": {
+    "XECS": {
+      "nohapasadoREC": "No ha pasado por la SEDE electrónica",
+      "pendiente": "Pendiente de validar",
+      "comprobarAnt": "Comprobar Antonia",
+      "comprobarAntReg": "Comprobar Antonia con requerimiento",
+      "emitirReq": "Emitir requerimiento",
+      "firmadoReq": "Requerimiento firmado pendiente de notificar",
+      "notificadoReq": "Requerimiento notificado",
+      "emitirDesEnmienda": "Emitir dejación por enmienda",
+      "emitidoDesEnmienda": "Dejación por enmienda emitido",
+      "Desestimiento": "Dejación",
+      "emitirIFPRProvPago": "Emitir IF + PR provisional",
+      "emitidoIFPRProvPago": "IF + PR provisional emitida",
+      "firmadoIFPRProvPago": "PR Prov. firmada PENDIENTE de notificar",
+      "notificadoIFPRProvPago": "PR Provisional NOTIFICADA",
+      "emitirPRDefinitiva": "PR definitiva enviada a firma",
+      "emitidaPRDefinitiva": "PR definitiva firmada PENDIENTE de notificar",
+      "emitidaPRDefinitivaNotificada": "PR definitiva NOTIFICADA",
+      "emitirResConcesion": "Resolución de concesión enviada a firma",
+      "emitidaResConcesion": "Resolución de concesión firmada PENDIENTE de notificar",
+      "notificadaResConcesion": "Resolución de concesión NOTIFICADA",
+      "inicioConsultoria": "Inicio expediente",
+      "emitirIDPDenProv": "Emitir ID + PR denegación provisional",
+      "emitidoIDPDenProv": "ID + PR denegación provisional emitida",
+      "emitirPDenDef": "Emitir PR denegación definitiva",
+      "emitidoPDenDef": "PR denegación definitiva emitida",
+      "emitirResDen": "Emitir resolución de denegación",
+      "emitidoResDen": "Resolución de denegación emitida",
+      "Denegado": "Denegado",
+      "pendienteJustificar": "Pendiente de justificar",
+      "pendienteRECJustificar": "Pendiente justificante SEU",
+      "Justificado": "Justificado",
+      "emitirResPagoyJust": "Emitir resolución de pago y justificación",
+      "emitidoResPagoyJust": "Resolución de pago y justificación emitida",
+      "Finalizado": "Finalizado",
+      "emitirReqJust": "Emitir requerimiento de justificación",
+      "emitidoReqJust": "Requerimiento de justificación emitida",
+      "emitirPropRevocacion": "Emitir propuesta de revocación",
+      "emitidoPropRevocacion": "Propuesta de revocación emitida",
+      "emitirResRevocacion": "Emitir resolución de revocación",
+      "emitidoResRevocacion": "Resolución de revocación emitida",
+      "revocado": "Revocado"
     }
   }
 }

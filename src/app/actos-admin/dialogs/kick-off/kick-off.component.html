@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>Datos para generar el acta de kick off</h2>
+<mat-dialog-content style="padding-top: 10px;">
+    
+    <form [formGroup]="kickOffForm" class="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Document Acta núm.:</mat-label>
+            <input matInput type="text" formControlName="actaNumKickOff">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Data de kick-off</mat-label>
+            <input matInput type="date" formControlName="fecha_kick_off">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Data límit per realitzar la consultoria: [dd/mm/aaaa]</mat-label>
+            <input matInput type="date" formControlName="fecha_HastaRealizacionPlan">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Hora inici:</mat-label>
+            <input matInput type="time" formControlName="horaInicioSesionKickOff">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Hora acabament:</mat-label>
+            <input matInput type="time" formControlName="horaFinSesionKickOff">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Lloc:</mat-label>
+            <input matInput type="text" formControlName="lugarSesionKickOff">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Serà el/la tutor/a d'aquest expedient:</mat-label>
+            <input matInput type="text" formControlName="tutorKickOff">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Mesos per a realitzar el pla de transformació digital.</mat-label>
+            <input matInput type="number" formControlName="plazosRealizacionPlan" min="1">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Assistents:</mat-label>
+            <textarea matInput formControlName="asistentesKickOff" rows="5"></textarea>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Observacions:</mat-label>
+            <textarea matInput formControlName="observacionesKickOff" rows="5"></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+    <button mat-raised-button color="primary" [disabled]="!kickOffForm.valid" (click)="save()">Guardar</button>
+    <button mat-raised-button color="warn" (click)="close()">Cancelar</button>
+</mat-dialog-actions>

@@ -162,6 +162,10 @@ export class XecsDetailExpedComponent {
   response?: SignatureResponse;
   error?: string;
 
+  situations: any[] = [];
+
+  motivoDesestimientoRenuncia: string = "";
+
   constructor(  private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
               ) {
@@ -251,9 +255,15 @@ ngOnInit(): void {
     ref_REC_desestimiento: [{ value: '', disabled: true }],
     fecha_firma_resolucion_desestimiento: [{ value: '', disabled: true }],
     fecha_notificacion_desestimiento: [{ value: '', disabled: true }],   
+    motivoDesestimientoRenuncia: [{ value: '', disabled: false}, []]
   });
   const tabIndex = sessionStorage.getItem('currentContactTab');
   this.selectedIndex = tabIndex !== null ? Number(tabIndex) : undefined;
+
+  this.commonService.getSituations().subscribe((situations: any[]) => {
+    this.situations = situations;
+  })
+
   this.getExpedDetail(this.idExpediente)
 
   // Observo los cambios en 'fecha_de_pago'
@@ -277,6 +287,8 @@ getExpedDetail(id: number) {
     )
     .subscribe(expediente => {
       if (expediente) {
+        expediente.fecha_reunion_cierre = expediente.fecha_reunion_cierre.split(" ")[0];
+        expediente.fecha_limite_consultoria = expediente.fecha_limite_consultoria.split(" ")[0];
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
         this.actualID = expediente.id
@@ -295,6 +307,7 @@ getExpedDetail(id: number) {
         this.telefono_rep = expediente.telefono_rep
         this.motivoRequerimiento = expediente.motivoRequerimiento
         this.motivoDenegacion = expediente.motivoDenegacion
+        this.motivoDesestimientoRenuncia = expediente.motivoDesestimientoRenuncia
 
         this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');

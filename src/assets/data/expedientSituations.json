@@ -1,0 +1,201 @@
+[
+    {
+        "name": "APP.REQUEST",
+        "options": [
+            {
+                "label": "SITUATIONS.XECS.nohapasadoREC",
+                "value": "nohapasadoREC"
+            },
+            {
+                "label": "SITUATIONS.XECS.pendiente",
+                "value": "pendiente"
+            },
+            {
+                "label": "SITUATIONS.XECS.comprobarAnt",
+                "value": "comprobarAnt"
+            },
+            {
+                "label": "SITUATIONS.XECS.comprobarAntReg",
+                "value": "comprobarAntReg"
+            },
+            {
+                "label": "SITUATIONS.XECS.emitirReq",
+                "value": "emitirReq"
+            },
+            {
+                "label": "SITUATIONS.XECS.firmadoReq",
+                "value": "firmadoReq"
+            },
+            {
+                "label": "SITUATIONS.XECS.notificadoReq",
+                "value": "notificadoReq"
+            },
+            {
+                "label": "SITUATIONS.XECS.emitirDesEnmienda",
+                "value": "emitirDesEnmienda"
+            },
+            {
+                "label": "SITUATIONS.XECS.emitidoDesEnmienda",
+                "value": "emitidoDesEnmienda"
+            },
+            {
+                "label": "SITUATIONS.XECS.Desestimiento",
+                "value": "Desestimiento"
+            }
+        ]
+    },
+    {
+        "name": "APP.VALIDATION",
+        "subgroup": [
+            {
+                "name": "APP.FAVORABLEEXPEDIENTS",
+                "options": [
+                    {
+                        "label": "SITUATIONS.XECS.emitirIFPRProvPago",
+                        "value": "emitirIFPRProvPago"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidoIFPRProvPago",
+                        "value": "emitidoIFPRProvPago"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.firmadoIFPRProvPago",
+                        "value": "firmadoIFPRProvPago"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.notificadoIFPRProvPago",
+                        "value": "notificadoIFPRProvPago"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitirPRDefinitiva",
+                        "value": "emitirPRDefinitiva"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidaPRDefinitiva",
+                        "value": "emitidaPRDefinitiva"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidaPRDefinitivaNotificada",
+                        "value": "emitidaPRDefinitivaNotificada"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitirResConcesion",
+                        "value": "emitirResConcesion"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidaResConcesion",
+                        "value": "emitidaResConcesion"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.notificadaResConcesion",
+                        "value": "notificadaResConcesion"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.inicioConsultoria",
+                        "value": "inicioConsultoria"
+                    }
+                ]
+            },
+            {
+                "name": "APP.NOFAVORABLEEXPEDIENTS",
+                "options": [
+                    {
+                        "label": "SITUATIONS.XECS.emitirIDPDenProv",
+                        "value": "emitirIDPDenProv"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidoIDPDenProv",
+                        "value": "emitidoIDPDenProv"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitirPDenDef",
+                        "value": "emitirPDenDef"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidoPDenDef",
+                        "value": "emitidoPDenDef"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitirResDen",
+                        "value": "emitirResDen"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidoResDen",
+                        "value": "emitidoResDen"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.Denegado",
+                        "value": "Denegado"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "APP.PAYMENTJUSTIFICATIONPHASE",
+        "subgroup": [
+            {
+                "name": "APP.CORRECTJUSTIFICATION",
+                "options": [
+                    {
+                        "label": "SITUATIONS.XECS.pendienteJustificar",
+                        "value": "pendienteJustificar"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.pendienteRECJustificar",
+                        "value": "pendienteRECJustificar"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.Justificado",
+                        "value": "Justificado"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitirResPagoyJust",
+                        "value": "emitirResPagoyJust"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidoResPagoyJust",
+                        "value": "emitidoResPagoyJust"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.Finalizado",
+                        "value": "Finalizado"
+                    }
+                ]
+            },
+            {
+                "name": "APP.JUSTIFICATIONREQUIREMENT",
+                "options": [
+                    {
+                        "label": "SITUATIONS.XECS.emitirReqJust",
+                        "value": "emitirReqJust"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidoReqJust",
+                        "value": "emitidoReqJust"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitirPropRevocacion",
+                        "value": "emitirPropRevocacion"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidoPropRevocacion",
+                        "value": "emitidoPropRevocacion"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitirResRevocacion",
+                        "value": "emitirResRevocacion"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.emitidoResRevocacion",
+                        "value": "emitidoResRevocacion"
+                    },
+                    {
+                        "label": "SITUATIONS.XECS.revocado",
+                        "value": "revocado"
+                    }
+                ]
+            }
+        ]
+    }
+]

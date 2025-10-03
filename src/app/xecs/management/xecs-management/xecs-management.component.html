@@ -13,12 +13,39 @@
     </mat-select>
   </mat-form-field>
 
+  <!-- Nuevo situaciones-->
   <mat-form-field appearance="outline">
+    <mat-label>{{'FORM.SITUACION' | translate}}</mat-label>
+    <mat-select formControlName="situacion" multiple>
+      <ng-container *ngFor="let group of uniqueSituaciones">
+        <!-- Sin subgrupos -->
+         <mat-optgroup *ngIf="!group.subgroup" [label]="group.name | translate" style="font-weight: bolder;">
+          <mat-option *ngFor="let option of group.options" [value]="option.value">
+            {{option.label | translate}}
+          </mat-option>
+         </mat-optgroup>
+          <!-- Con subgrupos -->
+         <ng-container *ngIf="group.subgroup">
+          <mat-optgroup [label]="group.name | translate" style="font-weight: bolder;">
+            <ng-container *ngFor="let subgroup of group.subgroup" style="text-decoration: underline;">
+              <mat-optgroup [label]="subgroup.name | translate">
+                <mat-option *ngFor="let option of subgroup.options" [value]="option.value">
+                  {{option.label | translate}}
+                </mat-option>
+              </mat-optgroup>
+            </ng-container>
+          </mat-optgroup>
+         </ng-container>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- <mat-form-field appearance="outline">
   <mat-label>{{'FORM.SITUACION' | translate}}</mat-label>
   <mat-select formControlName="situacion" multiple>
-    <mat-option *ngFor="let estado of uniqueSituaciones" [value]="estado">{{ estado }}</mat-option>
+    <mat-option *ngFor="let estado of uniqueSituaciones" [value]="estado">{{ ('SITUATIONS.XECS.' + estado) | translate }}</mat-option>
   </mat-select>
-</mat-form-field>
+</mat-form-field> -->
 
 
   <mat-form-field appearance="outline" class="busqueda-form">
@@ -84,7 +111,7 @@
 
   <ng-container matColumnDef="situacion">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Situación </th>
-    <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">{{ item.situacion }}</td>
+    <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">{{ ('SITUATIONS.XECS.' + item.situacion) | translate }}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

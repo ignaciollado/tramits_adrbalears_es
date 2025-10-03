@@ -3,8 +3,8 @@
         <mat-expansion-panel-header>
             <mat-panel-title>15. {{'ACTOSADMINISTRATIVOS.RESOLUCIONDESESTIMIENTORENUNCIA' | translate}}</mat-panel-title>
         </mat-expansion-panel-header>
-        <button mat-raised-button color="primary" (click)="generateActoAdmin('isba_15_resolucion_desestimiento_renuncia', 'ADR-ISBA', 'resolucion_desestimiento_renuncia')">Generar</button>
-        <button mat-raised-button color="accent" (click)="actoAdmin15 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_15_resolucion_desestimiento_renuncia', 'ADR-ISBA', 'resolucion_desestimiento_renuncia')" [disabled]="!actoAdmin15">Ver documento</button>
+        <button mat-raised-button color="primary" (click)="generateActoAdmin('isba_15_resolucion_desestimiento_renuncia', 'ADR-ISBA', 'res_desestimiento_por_renuncia')">Generar</button>
+        <button mat-raised-button color="accent" (click)="actoAdmin15 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_15_resolucion_desestimiento_renuncia', 'ADR-ISBA', 'res_desestimiento_por_renuncia')" [disabled]="!actoAdmin15">Ver documento</button>
         <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')" [disabled]="!actoAdmin15">Send to sign</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClassActAdmin15]">
             <section *ngIf="signatureDocState === 'COMPLETED'">

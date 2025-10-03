@@ -130,7 +130,7 @@ export class ResolucionDePagoYJustificacionAdrIsbaComponent {
   }
 
   getActoAdminDetail(): void {
-    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_pago_justificacion')
+    this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_pago_y_justificacion_adr_isba')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin11 = false;
@@ -199,7 +199,7 @@ export class ResolucionDePagoYJustificacionAdrIsbaComponent {
 
         /* Fechas formateadas */
         const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_REC = formatDate(this.form.get('fecha_REC')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
+        const formattedfecha_solicitud = formatDate(this.form.get('fecha_solicitud')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
         const formattedFecha_firma_propuesta_resolucion_prov = formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_not_propuesta_resolucion_prov = formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
         const formattedFecha_firma_propuesta_resolucion_def = formatDate(this.form.get('fecha_firma_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES');
@@ -226,7 +226,7 @@ export class ResolucionDePagoYJustificacionAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
 
         rawTexto = rawTexto.replace(/%FECHAPUBBOIB%/g, formattedFecha_BOIB);
-        rawTexto = rawTexto.replace(/%FECHASOL%/g, formattedFecha_REC);
+        rawTexto = rawTexto.replace(/%FECHASOL%/g, formattedfecha_solicitud);
         rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, formattedImporte_ayuda);
         rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, formattedImporte_intereses);
         rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, formattedImporte_aval);
@@ -371,7 +371,7 @@ export class ResolucionDePagoYJustificacionAdrIsbaComponent {
 
             this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_resolucion_pago_justificacion')
+            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_pago_y_justificacion_adr_isba')
               .subscribe({
                 next: () => {
                   this.insertDocumentoGenerado(docFieldToUpdate);
