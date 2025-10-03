@@ -289,7 +289,6 @@ get placeholderNif(): string {
   return "Seleccione el 'Tipo de solicitante' y, luego, introduzca el NIF";
 }
 
-
 twoDecimalValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -468,7 +467,6 @@ generateDeclaracionResponsable (datos: any): void {
     const pageHeight = doc.internal.pageSize.getHeight()
     const pageWidth = doc.internal.pageSize.getWidth()
     const maxTextWidth = 170
-    const maxTextWidthHeader = 65
 
     const footerText = 'Agència de desenvolupament regional - Plaça Son Castelló 1 - Tel 971176161 - 07009 - Palma - Illes Balears';
     const marginLeft = 15;
