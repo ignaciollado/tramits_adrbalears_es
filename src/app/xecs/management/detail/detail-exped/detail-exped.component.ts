@@ -66,6 +66,7 @@ import { ResolDePagoComponent } from '../../../../actos-admin/24_resolucion-de-p
 import { ResolDesestimientoPorRenunciaComponent } from '../../../../actos-admin/25_resolucion-desestimiento-por-renuncia/resol-desestimiento-por-renuncia.component';
 import { PrRevocacionPorNoJustificarComponent } from '../../../../actos-admin/26_pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
 import { ResolRevocacionPorNoJustificarComponent } from '../../../../actos-admin/27_resolucion-revocacion-por-no-justificar/resol-revocacion-por-no-justificar.component';
+import { DeclaracionResponsableComponent } from '../../../../actos-admin/28_declaracion-responsable/declaracion-responsable.component';
 
 
 @Injectable()
@@ -96,7 +97,8 @@ export class CustomDateAdapter extends NativeDateAdapter {
     MatInputModule, TranslateModule, MatSelectModule, MatExpansionModule,
     MatCardModule, MatSnackBarModule, MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule, MatListModule
+    MatIconModule, MatListModule,
+    DeclaracionResponsableComponent
   ]
 })
 
