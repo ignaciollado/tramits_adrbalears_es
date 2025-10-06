@@ -195,6 +195,7 @@ export class ActaDeCierreComponent {
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
+    const pageWidth = doc.internal.pageSize.getWidth();
 
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -217,9 +218,9 @@ export class ActaDeCierreComponent {
 
         /* Lista asistentes */
         const asistentesList = extraData.asistentesActaCierre
-        .split('\n')
-        .map((a: any) => a.trim())
-        .filter((a: any) => a.length > 0);
+          .split('\n')
+          .map((a: any) => a.trim())
+          .filter((a: any) => a.length > 0);
 
         rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
@@ -291,8 +292,14 @@ export class ActaDeCierreComponent {
         doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft, afterAsistentesY + 15);
         doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, afterAsistentesY + 25);
         doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, afterAsistentesY + 35);
-        
+
         doc.text(jsonObject.firma, marginLeft, 220);
+
+        const totalPages = doc.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+          doc.setPage(i);
+          doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+        }
 
         const pdfBlob = doc.output('blob');
         const formData = new FormData();

@@ -287,6 +287,7 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
     let lines = footerText.split('\n');
     const xHeader = marginLeft + 110
     const yHeader = 58;
+    const pageWidth = doc.internal.pageSize.getWidth();
     
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -372,6 +373,12 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
     doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth - 5), marginLeft + 5, 80);
  
     doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 240);
+
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+    }
 
     // además de generar el pdf del acto administrativo hay que enviarlo al backend
     // Convertir a Blob

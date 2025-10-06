@@ -285,6 +285,7 @@ private expedienteService = inject(ExpedienteService)
     let lines = footerText.split('\n');
     const xHeader = marginLeft + 110
     const yHeader = 58;
+    const pageWidth = doc.internal.pageSize.getWidth();
     
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -358,6 +359,12 @@ private expedienteService = inject(ExpedienteService)
     doc.setFont('helvetica', 'normal');
     doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth - 5), marginLeft + 5, 120);
     doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 240);
+
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+    }
 
     // además de generar el pdf del acto administrativo hay que enviarlo al backend
     // Convertir a Blob

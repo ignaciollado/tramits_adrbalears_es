@@ -1,4 +1,4 @@
-import { Component, inject, Input, SimpleChanges} from '@angular/core';
+import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -31,8 +31,8 @@ import { PindustConfiguracionService } from '../../Services/pindust-configuracio
   styleUrl: './resol-concesion-favorable.component.scss'
 })
 export class ResolConcesionFavorableComponent {
-private expedienteService = inject(ExpedienteService)
-  noDenegationReasonText:boolean = true
+  private expedienteService = inject(ExpedienteService)
+  noDenegationReasonText: boolean = true
   actoAdminName: string = "res_conces_sin_req"
   actoAdmin15: boolean = false
   signedBy: string = ""
@@ -43,16 +43,16 @@ private expedienteService = inject(ExpedienteService)
   nameDocgenerado: string = ""
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
-                    id_sol: 0,
-                    cifnif_propietario: '',
-                    convocatoria: '',
-                    name: '',
-                    type: '',
-                    created_at: '',
-                    tipo_tramite: '',
-                    corresponde_documento: '',
-                    selloDeTiempo: '',
-                    publicAccessId: ''
+    id_sol: 0,
+    cifnif_propietario: '',
+    convocatoria: '',
+    name: '',
+    type: '',
+    created_at: '',
+    tipo_tramite: '',
+    corresponde_documento: '',
+    selloDeTiempo: '',
+    publicAccessId: ''
   }
 
   lastInsertId: number | undefined
@@ -91,14 +91,14 @@ private expedienteService = inject(ExpedienteService)
   @Input() actualConvocatoria!: number
   @Input() actualTipoTramite!: string
   @Input() actualEmpresa: string = ""
-  @Input() actualImporteSolicitud!: number 
+  @Input() actualImporteSolicitud!: number
   @Input() form!: FormGroup;
   @Input() motivoDenegacion!: string
 
-  constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
+  constructor(private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
     private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
-    private actoAdminService: ActoAdministrativoService ) { 
+    private actoAdminService: ActoAdministrativoService) {
     this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
   }
 
@@ -107,9 +107,9 @@ private expedienteService = inject(ExpedienteService)
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria)
       this.getGlobalConfig()
-    }   
+    }
   }
-  
+
   tieneTodosLosValores(): boolean {
     return (
       this.actualID != null &&
@@ -121,9 +121,9 @@ private expedienteService = inject(ExpedienteService)
   }
 
   ngOnInit(): void { }
-  
+
   getActoAdminDetail() {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_" + this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin15 = false
@@ -140,34 +140,34 @@ private expedienteService = inject(ExpedienteService)
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin15 = false; 
+          this.actoAdmin15 = false;
         }
       });
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Falta indicar la fecha SEU sol·licitud")
+      alert("Falta indicar la fecha SEU sol·licitud")
       return
     }
     if (!this.form.get('ref_REC')?.value) {
-      alert ("Falta indicar la Referència SEU de la sol·licitud")
+      alert("Falta indicar la Referència SEU de la sol·licitud")
       return
     }
 
-    if(this.form.get('fecha_infor_fav_desf.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) { 
-			alert ("Data firma informe favorable / desfavorable")
-			return
-		}
-		if(this.form.get('fecha_firma_propuesta_resolucion_def.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_def')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_def')?.value === null) { 
-			alert ("Data firma proposta resolució definitiva")
-			return
-		}
-		if(this.form.get('fecha_not_propuesta_resolucion_def.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_def')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_def')?.value === null) { 
-			alert ("Data notificació proposta resolució definitiva")
-			return
-		}			
- 
+    if (this.form.get('fecha_infor_fav_desf.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
+      alert("Data firma informe favorable / desfavorable")
+      return
+    }
+    if (this.form.get('fecha_firma_propuesta_resolucion_def.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_def')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_def')?.value === null) {
+      alert("Data firma proposta resolució definitiva")
+      return
+    }
+    if (this.form.get('fecha_not_propuesta_resolucion_def.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_def')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_def')?.value === null) {
+      alert("Data notificació proposta resolució definitiva")
+      return
+    }
+
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
@@ -203,47 +203,47 @@ private expedienteService = inject(ExpedienteService)
 
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
-      .pipe(
-        switchMap((nMejoras: any) => {
-        if (nMejoras.total_mejoras > 0) {
-          hayMejoras = nMejoras.total_mejoras;
-          return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID).pipe(
-            tap((ultimaMejora: MejoraSolicitudDTO) => {
-              rawTexto = rawTexto.replace(/%FECHARECM%/g, this.commonService.formatDate(String(ultimaMejora.fecha_rec_mejora)))
-              rawTexto = rawTexto.replace(/%NUMRECM%/g, String(ultimaMejora.ref_rec_mejora))
-              rawTexto = rawTexto.replace(/%XXX%/g, String("5. "))
-              rawTexto = rawTexto.replace(/%YYY%/g, String("6. "))
-              rawTexto = rawTexto.replace(/%ZZZ%/g, String("7. "))
-              rawTexto = rawTexto.replace(/%AAA%/g, String("8. "))
-              rawTexto = rawTexto.replace(/%BBB%/g, String("9. "))
-              rawTexto = rawTexto.replace(/%CCC%/g, String("10. "))
-              rawTexto = rawTexto.replace(/%DDD%/g, String("11. "))
-            })
-          );
-        } else {
-            rawTexto = rawTexto.replace(/%XXX%/g, String("4. "))
-            rawTexto = rawTexto.replace(/%YYY%/g, String("5. "))
-            rawTexto = rawTexto.replace(/%ZZZ%/g, String("6. "))
-            rawTexto = rawTexto.replace(/%AAA%/g, String("7. "))
-            rawTexto = rawTexto.replace(/%BBB%/g, String("8. "))
-            rawTexto = rawTexto.replace(/%CCC%/g, String("9. "))
-            rawTexto = rawTexto.replace(/%DDD%/g, String("10. "))
-          return of(null);
-        }
-      }),
-      tap(() => {
-        try {
-          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
-          console.log ("rawTexto", rawTexto)
-          jsonObject = JSON.parse(rawTexto);
-          this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
-        } catch (error) {
-          console.error('Error al parsear JSON:', error);
-        }
-      })
-    )
-    .subscribe();
-  })
+        .pipe(
+          switchMap((nMejoras: any) => {
+            if (nMejoras.total_mejoras > 0) {
+              hayMejoras = nMejoras.total_mejoras;
+              return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID).pipe(
+                tap((ultimaMejora: MejoraSolicitudDTO) => {
+                  rawTexto = rawTexto.replace(/%FECHARECM%/g, this.commonService.formatDate(String(ultimaMejora.fecha_rec_mejora)))
+                  rawTexto = rawTexto.replace(/%NUMRECM%/g, String(ultimaMejora.ref_rec_mejora))
+                  rawTexto = rawTexto.replace(/%XXX%/g, String("5. "))
+                  rawTexto = rawTexto.replace(/%YYY%/g, String("6. "))
+                  rawTexto = rawTexto.replace(/%ZZZ%/g, String("7. "))
+                  rawTexto = rawTexto.replace(/%AAA%/g, String("8. "))
+                  rawTexto = rawTexto.replace(/%BBB%/g, String("9. "))
+                  rawTexto = rawTexto.replace(/%CCC%/g, String("10. "))
+                  rawTexto = rawTexto.replace(/%DDD%/g, String("11. "))
+                })
+              );
+            } else {
+              rawTexto = rawTexto.replace(/%XXX%/g, String("4. "))
+              rawTexto = rawTexto.replace(/%YYY%/g, String("5. "))
+              rawTexto = rawTexto.replace(/%ZZZ%/g, String("6. "))
+              rawTexto = rawTexto.replace(/%AAA%/g, String("7. "))
+              rawTexto = rawTexto.replace(/%BBB%/g, String("8. "))
+              rawTexto = rawTexto.replace(/%CCC%/g, String("9. "))
+              rawTexto = rawTexto.replace(/%DDD%/g, String("10. "))
+              return of(null);
+            }
+          }),
+          tap(() => {
+            try {
+              rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
+              console.log("rawTexto", rawTexto)
+              jsonObject = JSON.parse(rawTexto);
+              this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
+            } catch (error) {
+              console.error('Error al parsear JSON:', error);
+            }
+          })
+        )
+        .subscribe();
+    })
   }
 
   generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
@@ -267,7 +267,7 @@ private expedienteService = inject(ExpedienteService)
     const footerText = 'Plaça de Son Castelló, 1\n07009 Polígon de Son Castelló - Palma\nTel. 971 17 61 61\nwww.adrbalears.es';
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
-    
+
     const maxCharsPerLine = 20;
     const marginLeft = 25;
     const maxTextWidth = 160;
@@ -276,7 +276,8 @@ private expedienteService = inject(ExpedienteService)
     let lines = footerText.split('\n');
     const xHeader = marginLeft + 110
     const yHeader = 58;
-    
+    const pageWidth = doc.internal.pageSize.getWidth();
+
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
       doc.text(line, marginLeft, y);
@@ -321,7 +322,7 @@ private expedienteService = inject(ExpedienteService)
       const y = pageHeight - 10 - (index * lineHeight);
       doc.text(line, marginLeft, y);
     });
-    doc.setFontSize(10);    
+    doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.fundamentos_tit, maxTextWidth), marginLeft, 60);
     doc.setFont('helvetica', 'normal');
@@ -338,7 +339,7 @@ private expedienteService = inject(ExpedienteService)
       doc.text(line, marginLeft, y);
     });
     doc.setFontSize(10);
-    doc.text(doc.splitTextToSize(jsonObject.propuesta_tit, maxTextWidth), marginLeft, 60); 
+    doc.text(doc.splitTextToSize(jsonObject.propuesta_tit, maxTextWidth), marginLeft, 60);
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.propuesta_cab, maxTextWidth), marginLeft, 70);
     doc.setFont('helvetica', 'normal');
@@ -353,10 +354,16 @@ private expedienteService = inject(ExpedienteService)
       const y = pageHeight - 10 - (index * lineHeight);
       doc.text(line, marginLeft, y);
     });
-    doc.setFontSize(10);    
+    doc.setFontSize(10);
     doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 60);
     doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth - 5), marginLeft + 5, 70);
     doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 240);
+
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+    }
 
     // además de generar el pdf del acto administrativo hay que enviarlo al backend
     // Convertir a Blob
@@ -364,7 +371,7 @@ private expedienteService = inject(ExpedienteService)
 
     // Crear FormData
     const formData = new FormData();
-    const fileName = `${this.actualIdExp + '_' + this.actualConvocatoria+'_'+docFieldToUpdate}.pdf`;
+    const fileName = `${this.actualIdExp + '_' + this.actualConvocatoria + '_' + docFieldToUpdate}.pdf`;
     formData.append('file', pdfBlob, fileName);
     formData.append('id_sol', String(this.actualID));
     formData.append('convocatoria', String(this.actualConvocatoria));
@@ -387,9 +394,9 @@ private expedienteService = inject(ExpedienteService)
         this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`
         this.docGeneradoInsert.selloDeTiempo = timeStamp
 
-        this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
+        this.nameDocgenerado = `doc_${docFieldToUpdate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, "doc_" + this.actoAdminName)
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar
@@ -403,69 +410,69 @@ private expedienteService = inject(ExpedienteService)
                 this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
                 this.InsertDocumentoGenerado(docFieldToUpdate);
               } else {
-              // Otros errores sí se notifican y no continúan
+                // Otros errores sí se notifican y no continúan
                 const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
                 this.commonService.showSnackBar(deleteErrMsg);
               }
             }
           });
-        },
-        error: (err) => {
+      },
+      error: (err) => {
         const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
         this.commonService.showSnackBar(errorMsg);
-        }
-    });   
+      }
+    });
   }
 
   // Método auxiliar para no repetir el bloque de creación
   InsertDocumentoGenerado(docFieldToUpdate: string): void {
-  this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
-    next: (resp: any) => {
-      this.lastInsertId = resp?.id;
-      if (this.lastInsertId) {
-        this.expedienteService
-          .updateDocFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
-          .subscribe({
-            next: (response: any) => {
-              const mensaje =
-                response?.message ||
-                '✅ Acto administrativo generado y expediente actualizado correctamente.';
-              this.actoAdmin15 = true;
-              this.commonService.showSnackBar(mensaje);
-            },
-            error: (updateErr) => {
-              const updateErrorMsg =
-                updateErr?.error?.message ||
-                '⚠️ Documento generado, pero error al actualizar el expediente.';
-              this.commonService.showSnackBar(updateErrorMsg);
-            }
-          });
-      } else {
-        this.commonService.showSnackBar(
-          '⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.'
-        );
+    this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
+      next: (resp: any) => {
+        this.lastInsertId = resp?.id;
+        if (this.lastInsertId) {
+          this.expedienteService
+            .updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId))
+            .subscribe({
+              next: (response: any) => {
+                const mensaje =
+                  response?.message ||
+                  '✅ Acto administrativo generado y expediente actualizado correctamente.';
+                this.actoAdmin15 = true;
+                this.commonService.showSnackBar(mensaje);
+              },
+              error: (updateErr) => {
+                const updateErrorMsg =
+                  updateErr?.error?.message ||
+                  '⚠️ Documento generado, pero error al actualizar el expediente.';
+                this.commonService.showSnackBar(updateErrorMsg);
+              }
+            });
+        } else {
+          this.commonService.showSnackBar(
+            '⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.'
+          );
+        }
+      },
+      error: (insertErr) => {
+        const insertErrorMsg =
+          insertErr?.error?.message ||
+          '❌ Error al guardar el documento generado.';
+        this.commonService.showSnackBar(insertErrorMsg);
       }
-    },
-    error: (insertErr) => {
-      const insertErrorMsg =
-        insertErr?.error?.message ||
-        '❌ Error al guardar el documento generado.';
-      this.commonService.showSnackBar(insertErrorMsg);
-    }
-  });
+    });
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
     const entorno = sessionStorage.getItem("entorno")
     filename = filename.replace(/^doc_/, "")
-    filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
+    filename = `${this.actualIdExp + '_' + this.actualConvocatoria + '_' + filename}`
     let url = ""
     if (entorno === 'tramits') {
-        url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+      url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
     } else {
-        url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+      url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
     }
-  
+
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
     const ext = extension.toLowerCase();
@@ -493,7 +500,7 @@ private expedienteService = inject(ExpedienteService)
     this.response = undefined;
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
-    filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
+    filename = `${this.actualIdExp + '_' + this.actualConvocatoria + '_' + filename}`
     this.actoAdminService.getByNameAndTipoTramite('16_resolucion_concesion_sin_requerimiento', 'XECS')
       .subscribe((docDataString: any) => {
         this.signedBy = docDataString.signedBy
@@ -502,13 +509,13 @@ private expedienteService = inject(ExpedienteService)
           return
         }
         const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'technician'
-      ? this.userLoginEmail           // correo del usuario logeado
-      : this.ceoEmail,                // correo de coe,
-      //telefono_cont: this.telefono_rep ?? '',
-      nombreDocumento: filename,
-      nif: nif,
-      last_insert_id: this.lastInsertId
+          adreca_mail: this.signedBy === 'technician'
+            ? this.userLoginEmail           // correo del usuario logeado
+            : this.ceoEmail,                // correo de coe,
+          //telefono_cont: this.telefono_rep ?? '',
+          nombreDocumento: filename,
+          nif: nif,
+          last_insert_id: this.lastInsertId
         };
 
         this.viafirmaService.createSignatureRequest(payload)
@@ -518,7 +525,7 @@ private expedienteService = inject(ExpedienteService)
               this.response = res;
               const id = res?.publicAccessId;
               this.publicAccessId = id ?? '';
-              this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
+              this.commonService.showSnackBar(id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');
               this.getSignState(this.publicAccessId)
             },
             error: (err) => {
@@ -529,57 +536,57 @@ private expedienteService = inject(ExpedienteService)
           });
       })
   }
-  
+
   getSignState(publicAccessId: string) {
-  this.viafirmaService.getDocumentStatus(publicAccessId)
-    .pipe(
-      catchError((error) => {
-        console.error('Error al obtener el estado del documento:', error);
-        // Aquí puedes manejar el error como desees, por ejemplo:
-        this.signatureDocState = 'ERROR';
-        this.externalSignUrl = '';
-        this.sendedUserToSign = '';
-        this.sendedDateToSign = null;
-        // mostrar un mensaje al usuario si tienes un servicio de notificaciones
-        // this.notificationService.showError('No se pudo obtener el estado del documento');
-        return of(null); // Devuelve un observable nulo para que la suscripción no falle
-      })
-    )
-    .subscribe( {
-            next: (resp) => {
-              if (resp) {
-                if (resp.status) {
-                  this.signatureDocState = resp.status;
-                  this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
-                  this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
-                  const sendedDateToSign = resp.creationDate;
-                  this.sendedDateToSign = new Date(sendedDateToSign);
-                } else {
-                  if (resp.errorCode === "WS_ERROR_CODE_1") {
-                    this.signatureDocState = "ERROR";
-                  }
-                }
-               
+    this.viafirmaService.getDocumentStatus(publicAccessId)
+      .pipe(
+        catchError((error) => {
+          console.error('Error al obtener el estado del documento:', error);
+          // Aquí puedes manejar el error como desees, por ejemplo:
+          this.signatureDocState = 'ERROR';
+          this.externalSignUrl = '';
+          this.sendedUserToSign = '';
+          this.sendedDateToSign = null;
+          // mostrar un mensaje al usuario si tienes un servicio de notificaciones
+          // this.notificationService.showError('No se pudo obtener el estado del documento');
+          return of(null); // Devuelve un observable nulo para que la suscripción no falle
+        })
+      )
+      .subscribe({
+        next: (resp) => {
+          if (resp) {
+            if (resp.status) {
+              this.signatureDocState = resp.status;
+              this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
+              this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
+              const sendedDateToSign = resp.creationDate;
+              this.sendedDateToSign = new Date(sendedDateToSign);
+            } else {
+              if (resp.errorCode === "WS_ERROR_CODE_1") {
+                this.signatureDocState = "ERROR";
               }
-            },
-            error: (err) => {
-              const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
-              this.error = msg;
-              this.commonService.showSnackBar(msg);
             }
-    });
+
+          }
+        },
+        error: (err) => {
+          const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+          this.error = msg;
+          this.commonService.showSnackBar(msg);
+        }
+      });
   }
 
   getLineDetail(convocatoria: number) {
-      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
-        });
-        console.log ("lineDetail", this.lineDetail)
-        this.num_BOIB = this.lineDetail[0]['num_BOIB']
-        this.codigoSIA = this.lineDetail[0]['codigoSIA']
-        this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
-        this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
+    this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
+      this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+        return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
+      });
+      console.log("lineDetail", this.lineDetail)
+      this.num_BOIB = this.lineDetail[0]['num_BOIB']
+      this.codigoSIA = this.lineDetail[0]['codigoSIA']
+      this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
+      this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
     })
   }
 
@@ -587,5 +594,5 @@ private expedienteService = inject(ExpedienteService)
     this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
       this.dGerente = globalConfig[0].directorGerenteIDI
     })
-  } 
+  }
 }

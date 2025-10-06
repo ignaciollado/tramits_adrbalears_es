@@ -214,6 +214,7 @@ export class ResolDesestimientoPorRenunciaComponent {
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
+    const pageWidth = doc.internal.pageSize.getWidth();
 
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -327,6 +328,13 @@ export class ResolDesestimientoPorRenunciaComponent {
        doc.setFont('helvetica', 'normal');
        doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft + 5, 115);
        doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+
+       // Numeración páginas
+       const totalPages = doc.getNumberOfPages();
+       for (let i = 1; i <= totalPages; i++) {
+         doc.setPage(i);
+         doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+       }
 
 
     const pdfBlob = doc.output('blob');

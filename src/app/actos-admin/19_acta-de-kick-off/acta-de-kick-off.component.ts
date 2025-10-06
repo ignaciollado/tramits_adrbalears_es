@@ -189,6 +189,7 @@ export class ActaDeKickOffComponent {
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
+    const pageWidth = doc.internal.pageSize.getWidth();
 
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -289,6 +290,12 @@ export class ActaDeKickOffComponent {
         doc.text(doc.splitTextToSize(jsonObject.p4, maxTextWidth), marginLeft, afterAsistentesY + 53);
 
         doc.text(jsonObject.firma, marginLeft, 220);
+
+        const totalPages = doc.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+          doc.setPage(i);
+          doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+        }
 
         const pdfBlob = doc.output('blob');
 

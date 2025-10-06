@@ -189,6 +189,7 @@ export class RequerimientoComponent implements OnChanges {
   const lineHeight = 4;
   const pageHeight = doc.internal.pageSize.getHeight();
   const lines = footerText.split('\n');
+  const pageWidth = doc.internal.pageSize.getWidth();
 
   lines.reverse().forEach((line, index) => {
     const y = pageHeight - 10 - (index * lineHeight);
@@ -229,6 +230,13 @@ export class RequerimientoComponent implements OnChanges {
       doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 150);
       doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
       doc.text(doc.splitTextToSize(`Palma, en fecha de la firma electrónica`, maxTextWidth), marginLeft, 225);
+
+
+      const totalPages = doc.getNumberOfPages();
+      for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+      }
 
       // además de generar el pdf del acto administrativo hay que enviarlo al backend
       // Convertir a Blob
