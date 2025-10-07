@@ -7,21 +7,21 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { TranslateModule } from "@ngx-translate/core";
+import jsPDF from "jspdf";
+import { finalize } from "rxjs";
 import { ActoAdministrativoDTO } from "../../Models/acto-administrativo-dto";
+import { ConfigurationModelDTO } from "../../Models/configuration.dto";
 import { DocSignedDTO } from "../../Models/docsigned.dto";
 import { DocumentoGeneradoDTO } from "../../Models/documentos-generados-dto";
 import { PindustLineaAyudaDTO } from "../../Models/linea-ayuda-dto";
 import { CreateSignatureRequest, SignatureResponse } from "../../Models/signature.dto";
 import { ActoAdministrativoService } from "../../Services/acto-administrativo.service";
+import { CommonService } from "../../Services/common.service";
 import { DocumentosGeneradosService } from "../../Services/documentos-generados.service";
 import { ExpedienteService } from "../../Services/expediente.service";
 import { PindustLineaAyudaService } from "../../Services/linea-ayuda.service";
-import { ViafirmaService } from "../../Services/viafirma.service";
-import { CommonService } from "../../Services/common.service";
-import jsPDF from "jspdf";
-import { finalize } from "rxjs";
-import { ConfigurationModelDTO } from "../../Models/configuration.dto";
 import { PindustConfiguracionService } from "../../Services/pindust-configuracion.service";
+import { ViafirmaService } from "../../Services/viafirma.service";
 
 
 @Component({
@@ -201,6 +201,7 @@ export class RequerimientoIlsComponent {
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
+    const pageWidth = doc.internal.pageSize.getWidth();
 
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -253,6 +254,13 @@ export class RequerimientoIlsComponent {
     doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, 135);
     doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 160);
     doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+    }
+
 
 
     const pdfBlob = doc.output('blob');
