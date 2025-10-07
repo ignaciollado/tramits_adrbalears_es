@@ -320,7 +320,8 @@
     "TECHNICALMEMORY": "Descriptive document of the company and its activity. [.pdf]",
     "CIFPART1": "The ",
     "CIFPART2": " of the company. [.pdf]",
-    "LOGO": "Logo of the company that will appear in our section of adhered companies. [.webp, .jpeg, .svg]."
+    "LOGO": "Logo of the company that will appear in our section of adhered companies. [.webp, .jpeg, .svg].",
+    "CHOOSEOPTION": "Choose an option:"
   },
   "ISBA": {
     "TITLE": "Aid for financial expenses through the ISBA guarantee",

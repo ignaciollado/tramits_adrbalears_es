@@ -535,8 +535,6 @@ export class IsbaGrantApplicationFormComponent {
     fileControlAutonomo?.clearValidators();
     fileControlJuridico?.clearValidators();
 
-    console.log(tipo_solicitante);
-
     if (tipo_solicitante === "autonomo") {
       this.businessType = "autonomo"
       applicantNifValidators.push(this.customValidator.dniNieValidator());

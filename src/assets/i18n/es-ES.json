@@ -320,7 +320,8 @@
     "TECHNICALMEMORY": "Documento descriptivo de la empresa y de su actividad. [.pdf]",
     "CIFPART1": "El ",
     "CIFPART2": " de la empresa. [.pdf]",
-    "LOGO": "Logotipo de la empresa que aparecerá en nuestro apartado de empresas adheridas. [.webp, .jpeg, .svg]"
+    "LOGO": "Logotipo de la empresa que aparecerá en nuestro apartado de empresas adheridas. [.webp, .jpeg, .svg]",
+    "CHOOSEOPTION": "Escoge una opción:"
   },
   "ISBA": {
     "TITLE": "Ayudas a los gastos financieros a través del aval de ISBA",
