@@ -193,6 +193,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     const x = marginLeft + 110;
     const y = 51;
     const maxCharsPerLine = 21;
+    const pageWidth = doc.internal.pageSize.getWidth();
 
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -242,6 +243,13 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, 140);
         doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 155);
         doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+
+        const totalPages = doc.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+          doc.setPage(i);
+          doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+        }
+
 
         const pdfBlob = doc.output('blob');
 

@@ -230,6 +230,7 @@ export class InformeFavorableAdrIsbaComponent {
         const maxTextWidth = 160;
         const x = marginLeft + 110;
         const y = 51;
+        const pageWidth = doc.internal.pageSize.getWidth();
         const hechos: string[] = jsonObject.hechos_1_2_3_4_5.split('\n\n');
         let hechos_y = 110;
         const paragraphSpacing = 4;
@@ -274,6 +275,12 @@ export class InformeFavorableAdrIsbaComponent {
         doc.setFont('helvetica', 'normal');
         doc.text(doc.splitTextToSize(jsonObject.conclusioTxt, maxTextWidth), marginLeft, 214)
         doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 250);
+
+        const totalPages = doc.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+          doc.setPage(i);
+          doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+        }
 
         // Convertir a Blob
         const pdfBlob = doc.output('blob');

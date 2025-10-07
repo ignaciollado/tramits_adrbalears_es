@@ -3,25 +3,24 @@ import { Component, inject, Input, SimpleChanges } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TranslateModule } from '@ngx-translate/core';
-import { ExpedienteService } from '../../Services/expediente.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
-import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
-import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { CommonService } from '../../Services/common.service';
-import { ViafirmaService } from '../../Services/viafirma.service';
-import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
-import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
-import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { finalize } from 'rxjs';
-import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
+import { TranslateModule } from '@ngx-translate/core';
 import jsPDF from 'jspdf';
-import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { finalize } from 'rxjs';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { DocSignedDTO } from '../../Models/docsigned.dto';
+import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
+import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { CommonService } from '../../Services/common.service';
+import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
+import { ExpedienteService } from '../../Services/expediente.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
+import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
+import { ViafirmaService } from '../../Services/viafirma.service';
 
 @Component({
   selector: 'app-pr-provisional-favorable-con-requerimiento-adr-isba',
@@ -188,6 +187,7 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
+    const pageWidth = doc.internal.pageSize.getWidth();
 
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -237,13 +237,6 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
         rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
         rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
         rawTexto = rawTexto.replace(/%NOMBREPRESIDENTEIDI%/g, this.nomPresidenteIdi);
-
-        // Mejoras
-        /*         if (this.tieneMejoras) {
-                  const formattedFecha_ultima_mejora = formatDate(this.fecha_ultima_mejora, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
-                  rawTexto = rawTexto.replace(/%FECHARECM%/g, formattedFecha_ultima_mejora);
-                  rawTexto = rawTexto.replace(/%REFRECM%/g, this.ref_ultima_mejora);
-                } */
 
         let jsonObject;
 
@@ -340,6 +333,12 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
         doc.text(doc.splitTextToSize(jsonObject.propuestaresoluciondef_4_5, maxTextWidth), marginLeft + 5, 155);
         doc.text(doc.splitTextToSize(jsonObject.alegaciones, maxTextWidth), marginLeft, 190);
         doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 230);
+
+        const totalPages = doc.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+          doc.setPage(i);
+          doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+        }
 
         // Convertir a Blob
         const pdfBlob = doc.output('blob');

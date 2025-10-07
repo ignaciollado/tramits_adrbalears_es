@@ -181,6 +181,7 @@ export class PrDefinitivaFavorableConRequerimientoAdrIsbaComponent {
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
+    const pageWidth = doc.internal.pageSize.getWidth();
 
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -337,6 +338,12 @@ export class PrDefinitivaFavorableConRequerimientoAdrIsbaComponent {
         doc.text(doc.splitTextToSize(jsonObject.propuestaresoluciondefTxt, maxTextWidth), marginLeft, 70);
         doc.text(doc.splitTextToSize(jsonObject.propuestaresoluciondef_1_2_3_4_5_6, maxTextWidth), marginLeft + 5, 80);
         doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+
+        const totalPages = doc.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+          doc.setPage(i);
+          doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+        }
 
 
         // Convertir a Blob

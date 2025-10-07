@@ -5,23 +5,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import jsPDF from 'jspdf';
+import { finalize } from 'rxjs';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
-import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { CommonService } from '../../Services/common.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
-import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
-import { ViafirmaService } from '../../Services/viafirma.service';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
-import { switchMap, tap, of, finalize } from 'rxjs';
-import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
-import jsPDF from 'jspdf';
-import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
-import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { ExpedienteService } from '../../Services/expediente.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
+import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
+import { ViafirmaService } from '../../Services/viafirma.service';
 
 @Component({
   selector: 'app-pr-definitiva-favorable-adr-isba',
@@ -188,6 +187,7 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     const lines = footerText.split('\n');
+    const pageWidth = doc.internal.pageSize.getWidth();
 
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
@@ -339,6 +339,12 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
         doc.text(doc.splitTextToSize(jsonObject.propuestaresoluciondefTxt, maxTextWidth), marginLeft, 70);
         doc.text(doc.splitTextToSize(jsonObject.propuestaresoluciondef_1_2_3_4_5, maxTextWidth), marginLeft + 5, 80);
         doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+
+        const totalPages = doc.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+          doc.setPage(i);
+          doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+        }
 
         // Convertir a Blob
         const pdfBlob = doc.output('blob');
