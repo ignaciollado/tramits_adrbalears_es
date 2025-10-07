@@ -341,276 +341,131 @@
                         <li [innerHTML]="'FORM.DOCUMENTATIONINFOSHIFT' | translate"></li>
                     </ol>
                 </section>
-                <section>
-                    <section ngClass="form documentation">
-                        <section ngClass="file-input">
-                            <p>{{'ISBA.DOC1' | translate}}</p>
-                        </section>
-                        <section ngClass="file-input">
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ISBA.DOC2' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="file_memoriaTecnica"
-                                readonly
-                                [value]="memoriaTecnicaFileNames"
-                                (click)="file_memoriaTecnica.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('file_memoriaTecnica')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_memoriaTecnica type="file" (change)="onFileMemoriaTecnicaChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
-                                <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
-                            </ul>
-                        </section>
+                <section ngClass="file-input">
+                    <p>{{'ISBA.DOC1' | translate}}</p>
+                </section>
+                
+                <section ngClass="file-upload">
+                    <label for="file_memoriaTecnica">{{'ISBA.DOC2' | translate}}</label>
+                    <input #file_memoriaTecnica formControlName="file_memoriaTecnica" type="file" (change)="onFileMemoriaTecnicaChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_memoriaTecnica')?.errors && isbaForm.get('file_memoriaTecnica')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
+                        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <section ngClass="file-input">
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ISBA.DOC3' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="file_document_veracidad_datos_bancarios"
-                                readonly
-                                [value]="document_veracidad_datos_bancariosFileNames"
-                                (click)="file_document_veracidad_datos_bancarios.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('file_document_veracidad_datos_bancarios')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_document_veracidad_datos_bancarios type="file" (change)="onfile_document_veracidad_datos_bancariosChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_document_veracidad_datos_bancariosToUpload.length > 0">
-                                <li *ngFor="let file of file_document_veracidad_datos_bancariosToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
+                <section ngClass="file-upload">
+                    <label for="file_document_veracidad_datos_bancarios">{{'ISBA.DOC3' | translate}}</label>
+                    <input #file_document_veracidad_datos_bancarios formControlName="file_document_veracidad_datos_bancarios" type="file" (change)="onfile_document_veracidad_datos_bancariosChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_document_veracidad_datos_bancarios')?.errors && isbaForm.get('file_document_veracidad_datos_bancarios')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_document_veracidad_datos_bancariosToUpload.length > 0">
+                        <li *ngFor="let file of file_document_veracidad_datos_bancariosToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <section ngClass="file-input">
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ISBA.DOC4' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="file_certificadoIAE"
-                                readonly
-                                [value]="file_certificadoIAEFileNames"
-                                (click)="file_certificadoIAE.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('file_certificadoIAE')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_certificadoIAE type="file" (change)="onfile_certificadoIAEChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_certificadoIAEToUpload.length > 0">
-                                <li *ngFor="let file of file_certificadoIAEToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
+                <section ngClass="file-upload">
+                    <label for="file_certificadoIAE">{{'ISBA.DOC4' | translate}}</label>
+                    <input #file_certificadoIAE formControlName="file_certificadoIAE" type="file" (change)="onfile_certificadoIAEChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_certificadoIAE')?.errors && isbaForm.get('file_certificadoIAE')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_certificadoIAEToUpload.length > 0">
+                        <li *ngFor="let file of file_certificadoIAEToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <!-- Persona física -->
-                        <section ngClass="file-input" *ngIf="businessType === 'autonomo'">
-                            <p [innerHTML]="'ISBA.DOC5TITLE' | translate"></p>
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ISBA.DOC5DOC' | translate}}</mat-label>
-                                <input
-                                matInput
-                                type="text"
-                                formControlName="file_altaAutonomos"
-                                readonly
-                                [value]="file_altaAutonomosFilesNames"
-                                (click)="file_altaAutonomos.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('file_altaAutonomos')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_altaAutonomos type="file" (change)="onfile_altaAutonomosChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_altaAutonomosToUpload.length > 0">
-                                <li *ngFor="let file of file_altaAutonomosToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
+                <!-- Persona física-->
+                <section ngClass="file-upload" *ngIf="businessType === 'autonomo'">
+                    <p [innerHTML]="'ISBA.DOC5TITLE' | translate"></p>
+                    <label for="file_altaAutonomos">{{'ISBA.DOC5DOC' | translate}}</label>
+                    <input #file_altaAutonomos formControlName="file_altaAutonomos" type="file" (change)="onfile_altaAutonomosChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_altaAutonomos')?.errors && isbaForm.get('file_altaAutonomos')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_altaAutonomosToUpload.length > 0">
+                        <li *ngFor="let file of file_altaAutonomosToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <!-- Persona jurídica -->
-                        <section ngClass="file-input" *ngIf="businessType !== 'autonomo'">
-                            <dl>
-                                <dt [innerHTML]="'ISBA.DOC6TITLE' | translate"></dt>
-                                <dd>{{'ISBA.DOC6DOC1' | translate}}</dd>
-                                <dd>{{'ISBA.DOC6DOC2' | translate}}</dd>
-                            </dl>
-                            <mat-form-field floatLabel="always">
-                                <mat-label [innerHTML]="'ISBA.DOC6LABEL' | translate"></mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="file_escrituraConstitucion"
-                                readonly
-                                [value]="file_escrituraConstitucionFileNames"
-                                (click)="file_escrituraConstitucion.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('file_escrituraConstitucion')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_escrituraConstitucion type="file" (change)="onfile_escrituraConstitucionChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_escrituraConstitucionToUpload.length > 0">
-                                <li *ngFor="let file of file_escrituraConstitucionToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
+                <!-- Persona Jurídica -->
+                <section ngClass="file-upload" *ngIf="businessType !== 'autonomo'">
+                    <dl>
+                        <dt [innerHTML]="'ISBA.DOC6TITLE' | translate"></dt>
+                        <dd>{{'ISBA.DOC6DOC1' | translate}}</dd>
+                        <dd>{{'ISBA.DOC6DOC2' | translate}}</dd>
+                    </dl>
+                    <label for="file_escrituraConstitucion">{{'ISBA.DOC6LABEL' | translate}}</label>
+                    <input #file_escrituraConstitucion formControlName="file_escrituraConstitucion" type="file" (change)="onfile_escrituraConstitucionChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_escrituraConstitucion')?.errors && isbaForm.get('file_escrituraConstitucion')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_escrituraConstitucionToUpload.length > 0">
+                        <li *ngFor="let file of file_escrituraConstitucionToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <section ngClass="file-input">
-                            <p>{{'ISBA.DOC7INFO' | translate}}</p>
-                            <mat-checkbox formControlName="dni_no_consent" style="padding-bottom: 10px;">
-                                <label>{{'FILES.NOTAUTHORIZED' | translate}}</label>
-                            </mat-checkbox>
-                            <section ngClass="afterFormChange" *ngIf="dni_no_consent">
-                                <mat-form-field floatLabel="always">
-                                    <mat-label>{{'ISBA.DOC7LABEL' | translate}}</mat-label>
-                                    <input 
-                                    matInput
-                                    type="text"
-                                    formControlName="file_nifRepresentante"
-                                    readonly
-                                    [value]="file_nifRepresentanteFileNames"
-                                    (click)="file_nifRepresentante.click()"
-                                    placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                    />
-                                    <mat-error *ngIf="isbaForm.get('file_nifRepresentante')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                                </mat-form-field>
-                            </section>
-                            <input #file_nifRepresentante type="file" (change)="onfile_nifRepresentanteChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_nifRepresentanteToUpload.length > 0">
-                                <li *ngFor="let file of file_nifRepresentanteToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
+                <section ngClass="file-upload">
+                    <p>{{'ISBA.DOC7INFO' | translate}}</p>
+                    <mat-checkbox ngClass="documento-en-adr" formControlName="dni_no_consent">{{'FILES.NOTAUTHORIZED' | translate}}</mat-checkbox>
+                    <label for="file_nifRepresentante">{{'ISBA.DOC7LABEL' | translate}}</label>
+                    <input #file_nifRepresentante formControlName="file_nifRepresentante" type="file" (change)="onfile_nifRepresentanteChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_nifRepresentante')?.errors && isbaForm.get('file_nifRepresentante')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_nifRepresentanteToUpload.length > 0">
+                        <li *ngFor="let file of file_nifRepresentanteToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <section ngClass="file-input">
-                            <p>{{'ISBA.DOC8INFO' | translate}}</p>
-                            <mat-checkbox formControlName="atib_no_consent" style="padding-bottom: 10px;">
-                                <label>{{'FILES.NOTAUTHORIZED' | translate}}</label>
-                            </mat-checkbox>
-                            <section ngClass="afterFormChange" *ngIf="atib_no_consent">
-                                <mat-form-field floatLabel="always">
-                                    <mat-label>{{'ISBA.DOC8LABEL' | translate}}</mat-label>
-                                    <input 
-                                    matInput
-                                    type="text"
-                                    formControlName="file_certificadoATIB"
-                                    readonly
-                                    [value]="file_certificadoATIBFileNames"
-                                    (click)="file_certificadoATIB.click()"
-                                    placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                    />
-                                    <mat-error *ngIf="isbaForm.get('file_certificadoATIB')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                                </mat-form-field>
-                            </section>
-                            <input #file_certificadoATIB type="file" (change)="onfile_certificadoATIBChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_certificadoATIBToUpload.length > 0">
-                                <li *ngFor="let file of file_certificadoATIBToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
+                <section ngClass="file-upload">
+                    <p>{{'ISBA.DOC8INFO' | translate}}</p>
+                    <mat-checkbox ngClass="documento-en-adr" formControlName="atib_no_consent">{{'FILES.NOTAUTHORIZED' | translate}}</mat-checkbox>
+                    <label for="file_certificadoATIB">{{'ISBA.DOC8LABEL' | translate}}</label>
+                    <input #file_certificadoATIB formControlName="file_certificadoATIB" type="file" (change)="onfile_certificadoATIBChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_certificadoATIB')?.errors && isbaForm.get('file_certificadoATIB')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_certificadoATIBToUpload.length > 0">
+                        <li *ngFor="let file of file_certificadoATIBToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <section ngClass="file-input">
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ISBA.DOC9' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="file_certificadoAEAT"
-                                readonly
-                                [value]="file_certificadoAEATFileNames"
-                                (click)="file_certificadoAEAT.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('file_certificadoAEAT')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_certificadoAEAT type="file" (change)="onfile_certificadoAEATChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_certificadoAEATToUpload.length > 0">
-                                <li *ngFor="let file of file_certificadoAEATToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
+                <section ngClass="file-upload">
+                    <label for="file_certificadoAEAT">{{'ISBA.DOC9' | translate}}</label>
+                    <input #file_certificadoAEAT formControlName="file_certificadoAEAT" type="file" (change)="onfile_certificadoAEATChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_certificadoAEAT')?.errors && isbaForm.get('file_certificadoAEAT')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_certificadoAEATToUpload.length > 0">
+                        <li *ngFor="let file of file_certificadoAEATToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <section ngClass="file-input" *ngIf="isSubsidyGreater">***
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ISBA.DOC10' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="file_certificadoLey382003"
-                                readonly
-                                [value]="file_certificadoLey382003FileNames"
-                                (click)="file_certificadoLey382003.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('file_certificadoLey382003')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_certificadoLey382003 type="file" (change)="onfile_certificadoLey382003Change($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_certificadoLey382003ToUpload.length > 0">
-                                <li *ngFor="let file of file_certificadoLey382003ToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        ****</section>
+                <section ngClass="file-upload" *ngIf="isSubsidyGreater">
+                    <label for="file_certificadoLey382003">{{'ISBA.DOC10' | translate}}</label>
+                    <input #file_certificadoLey382003 formControlName="file_certificadoLey382003" type="file" (change)="onfile_certificadoLey382003Change($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_certificadoLey382003')?.errors && isbaForm.get('file_certificadoLey382003')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_certificadoLey382003ToUpload.length > 0">
+                        <li *ngFor="let file of file_certificadoLey382003ToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <section ngClass="file-input">
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ISBA.DOC11' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="file_certificadoSGR"
-                                readonly
-                                [value]="file_certificadoSGRFileNames"
-                                (click)="file_certificadoSGR.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('file_certificadoSGR')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_certificadoSGR type="file" (change)="onfile_certificadoSGRChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_certificadoSGRToUpload.length > 0">
-                                <li *ngFor="let file of file_certificadoSGRToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
+                <section ngClass="file-upload">
+                    <label for="file_certificadoSGR">{{'ISBA.DOC11' | translate}}</label>
+                    <input #file_certificadoSGR formControlName="file_certificadoSGR" type="file" (change)="onfile_certificadoSGRChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_certificadoSGR')?.errors && isbaForm.get('file_certificadoSGR')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_certificadoSGRToUpload.length > 0">
+                        <li *ngFor="let file of file_certificadoSGRToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <section ngClass="file-input">
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ISBA.DOC12' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                formControlName="file_contratoOperFinanc"
-                                readonly
-                                [value]="file_contratoOperFinancFileNames"
-                                (click)="file_contratoOperFinanc.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                />
-                                <mat-error *ngIf="isbaForm.get('file_contratoOperFinanc')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_contratoOperFinanc type="file" (change)="onfile_contratoOperFinancChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_contratoOperFinancToUpload.length > 0">
-                                <li *ngFor="let file of file_contratoOperFinancToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
+                <section ngClass="file-upload">
+                    <label for="file_contratoOperFinanc">{{'ISBA.DOC12' | translate}}</label>
+                    <input #file_contratoOperFinanc formControlName="file_contratoOperFinanc" type="file" (change)="onfile_contratoOperFinancChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_contratoOperFinanc')?.errors && isbaForm.get('file_contratoOperFinanc')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_contratoOperFinancToUpload.length > 0">
+                        <li *ngFor="let file of file_contratoOperFinancToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
 
-                        <section ngClass="file-input">
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ISBA.DOC13' | translate}}</mat-label>
-                                <input 
-                                matInput
-                                type="text"
-                                readonly
-                                [value]="file_avalOperFinancFileNames"
-                                (click)="file_avalOperFinanc.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                formControlName="file_avalOperFinanc"
-                                />
-
-                                <mat-error *ngIf="isbaForm.get('file_avalOperFinanc')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input #file_avalOperFinanc type="file" (change)="onfile_avalOperFinancChange($event)" hidden accept=".pdf, .jpeg, .png" multiple>
-                            <ul *ngIf="file_avalOperFinancToUpload.length > 0">
-                                <li *ngFor="let file of file_avalOperFinancToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
-
-                        <section ngClass="file-input">
-                            <p>{{'ISBA.DOC14' | translate}}</p>
-                        </section>
-                    </section>
+                <section ngClass="file-upload">
+                    <label for="file_avalOperFinanc">{{'ISBA.DOC13' | translate}}</label>
+                    <input #file_avalOperFinanc formControlName="file_avalOperFinanc" type="file" (change)="onfile_avalOperFinancChange($event)" multiple accept=".pdf">
+                    <mat-error *ngIf="isbaForm.get('file_avalOperFinanc')?.errors && isbaForm.get('file_avalOperFinanc')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_avalOperFinancToUpload.length > 0">
+                        <li *ngFor="let file of file_avalOperFinancToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
+                <section ngClass="file-input">
+                    <p>{{'ISBA.DOC14' | translate}}</p>
                 </section>
             </mat-expansion-panel>
         </mat-accordion>
