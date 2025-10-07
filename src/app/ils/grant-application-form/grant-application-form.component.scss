@@ -73,8 +73,9 @@ ul {
 }
 
 dl {
-  dt, dd {
-    margin-top: 0.5rem
+  dt,
+  dd {
+    margin-top: 0.5rem;
   }
 }
 
@@ -121,7 +122,65 @@ section.form {
 
 .afterFormChange {
   display: grid;
-  background-color: #FFEFD5;
+  background-color: #ffefd5;
   padding: 1.1rem;
   margin: 1.1rem;
+}
+
+.file-upload {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #00405e;
+  width: 90%;
+  &:hover {
+    cursor: pointer;
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  input[type="file"] {
+    display: block;
+    padding: 0.5rem;
+    font-size: 0.95rem;
+    color: #333;
+
+    &::file-selector-button {
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #303f9f;
+      }
+    }
+  }
+}
+
+.documento-en-adr {
+  background-color: #e7ecb7;
+  padding-right: 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 10px;
+
+  .mat-checkbox-frame {
+    border-color: #4caf50;
+  }
+
+  .mat-checkbox-background {
+    background-color: #4caf50;
+  }
+
+  .mat-checkbox-checkmark-path {
+    stroke: white;
+  }
 }

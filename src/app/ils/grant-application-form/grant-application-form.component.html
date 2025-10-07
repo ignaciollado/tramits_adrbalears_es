@@ -196,56 +196,27 @@
                 </mat-panel-title>
                 <mat-panel-description>{{'ILS.AUTHORIZATIONDESCRIPTION' | translate}} <mat-icon>gavel</mat-icon></mat-panel-description>
             </mat-expansion-panel-header>
-            <section ngClass="form authorization-checkboxes">
-                <section>
-                    <mat-checkbox formControlName="checkboxID">
-                        <label>{{'ILS.AUTHORIZATIONNIFPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONNIFPART2' | translate}}<abbr title="{{'COMMON.ACRONYMS.NIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.NIF.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONNIFPART3' | translate}}</label>
-                    </mat-checkbox>
-                    <section *ngIf="!checkboxID" ngClass="afterFormChange">
-                        <section ngClass="file-input">
-                            <mat-form-field floatLabel="always" style="margin-top: 10px;">
-                                <mat-label>{{'ILS.NOAUTHORIZATED' | translate}}</mat-label>
-                                <input
-                                matInput
-                                type="text"
-                                readonly
-                                formControlName="file_enviardocumentoIdentificacion"
-                                [value]="file_enviardocumentoIdentificacionFileNames"
-                                (click)="file_enviardocumentoIdentificacion.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}" />
-                                <mat-error *ngIf="ilsForm.get('file_enviardocumentoIdentificacion')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input hidden type="file" #file_enviardocumentoIdentificacion (change)="onfile_enviardocumentoIdentificacionChange($event)" accept=".pdf" multiple/>
-                            <ul *ngIf="file_enviardocumentoIdentificacionToUpload.length > 0">
-                                <li *ngFor="let file of file_enviardocumentoIdentificacionToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
-                    </section>
+            <section>
+                <mat-checkbox formControlName="checkboxID" (change)="onCheckboxChange($event, 'file_enviardocumentoIdentificacion')">
+                    {{'ILS.AUTHORIZATIONNIFPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONNIFPART2' | translate}}<abbr title="{{'COMMON.ACRONYMS.NIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.NIF.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONNIFPART3' | translate}}
+                </mat-checkbox>
+                <section *ngIf="ilsForm.get('checkboxID')?.value === false" ngClass="file-upload">
+                    <label for="file_enviardocumentoIdentificacion">{{"FILES.NOTAUTHORIZED" | translate}}</label>
+                    <input type="file" accept=".pdf" formControlName="file_enviardocumentoIdentificacion" (change)="onfile_enviardocumentoIdentificacionChange($event)">
+                    <ul *ngIf="file_enviardocumentoIdentificacionToUpload.length > 0">
+                        <li *ngFor="let file of file_enviardocumentoIdentificacionToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
                 </section>
-                <section>
-                    <mat-checkbox formControlName="checkboxATIB">
-                        <label>{{'ILS.AUTHORIZATIONATIBPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.ATIB.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ATIB.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONATIBPART2' | translate}}</label>
-                    </mat-checkbox>
-                    <section *ngIf="!checkboxATIB" ngClass="afterFormChange">
-                        <section ngClass="file-input">
-                            <mat-form-field floatLabel="always">
-                                <mat-label>{{'ILS.NOAUTHORIZATED' | translate}}</mat-label>
-                                <input
-                                matInput
-                                type="text"
-                                readonly
-                                formControlName="file_certificadoATIB"
-                                [value]="file_certificadoATIBFileNames"
-                                (click)="file_certificadoATIB.click()"
-                                placeholder="{{'FILES.UPLOADFILES' | translate}}" />
-                                <mat-error *ngIf="ilsForm.get('file_certificadoATIB')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                            </mat-form-field>
-                            <input hidden type="file" #file_certificadoATIB (change)="onfile_certificadoATIBChange($event)" accept=".pdf" multiple />
-                            <ul *ngIf="file_certificadoATIBToUpload.length > 0">
-                                <li *ngFor="let file of file_certificadoATIBToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                            </ul>
-                        </section>
-                    </section>
+
+                <mat-checkbox formControlName="checkboxATIB" (change)="onCheckboxChange($event, 'file_certificadoATIB')">
+                    <label>{{'ILS.AUTHORIZATIONATIBPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.ATIB.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ATIB.ACRONYM' | translate}}</abbr>{{'ILS.AUTHORIZATIONATIBPART2' | translate}}</label>
+                </mat-checkbox>
+                <section *ngIf="ilsForm.get('checkboxATIB')?.value === false" ngClass="file-upload">
+                    <label for="file_certificadoATIB">{{"FILES.NOTAUTHORIZED" | translate}}</label>
+                    <input type="file" accept=".pdf" formControlName="file_certificadoATIB" (change)="onfile_certificadoATIBChange($event)">
+                    <ul *ngIf="file_certificadoATIBToUpload.length > 0">
+                        <li *ngFor="let file of file_certificadoATIBToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
                 </section>
             </section>
         </mat-expansion-panel>
@@ -283,207 +254,102 @@
             </section>
             <section ngClass="form documentation">
                 <h4>{{'ILS.REQUIREDDOCUMENTATIONINFO' | translate}}</h4>
+                <section ngClass="file-upload">
+                    <label for="file_escritura_empresa">{{'ILS.CONSTITUTION' | translate}}</label>
+                    <input #file_escritura_empresa formControlName="file_escritura_empresa" type="file" (change)="onfile_escritura_empresaChange($event)" accept=".pdf" multiple>
+                    <mat-error *ngIf="ilsForm.get('file_escritura_empresa')?.errors && ilsForm.get('file_escritura_empresa')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_escritura_empresaToUpload.length > 0">
+                        <li *ngFor="let file of file_escritura_empresaToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
+                
+                <section ngClass="file-upload">
+                    <label for="file_certificadoIAE">{{'ILS.BATPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.BAT.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.BAT.ACRONYM' | translate}}</abbr>{{'ILS.BATPART2' | translate}}</label>
+                    <input #file_certificadoIAE formControlName="file_certificadoIAE" type="file" (change)="onfile_certificadoIAEChange($event)" accept=".pdf" multiple>
+                    <mat-error *ngIf="ilsForm.get('file_certificadoIAE')?.errors && ilsForm.get('file_certificadoIAE')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_certificadoIAEToUpload.length > 0">
+                        <li *ngFor="let file of file_certificadoIAEToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
+            
+                <!-- Radio -->
                 <section>
-                    <section ngClass="file-input">
-                        <mat-form-field floatLabel="always">
-                            <mat-label>{{'ILS.CONSTITUTION' | translate}}</mat-label>
-                            <input 
-                            matInput 
-                            type="text" 
-                            formControlName="file_escritura_empresa"
-                            readonly
-                            [value]="file_escritura_empresaFileNames"
-                            (click)="file_escritura_empresa.click()"
-                            placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                            />
-                            <mat-error *ngIf="ilsForm.get('file_escritura_empresa')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                        </mat-form-field>
-                        <input #file_escritura_empresa type="file" (change)="onfile_escritura_empresaChange($event)" hidden accept=".pdf" multiple />
-                        <ul *ngIf="file_escritura_empresaToUpload.length > 0">
-                            <li *ngFor="let file of file_escritura_empresaToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                        </ul>
-                    </section>
-                    <section ngClass="file-input">
-                        <mat-form-field floatLabel="always">
-                            <mat-label>{{'ILS.BATPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.BAT.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.BAT.ACRONYM' | translate}}</abbr>{{'ILS.BATPART2' | translate}}</mat-label>
-                            <input 
-                            matInput 
-                            type="text" 
-                            formControlName="file_certificadoIAE" 
-                            readonly 
-                            [value]="file_certificadoIAEFileNames"
-                            (click)="file_certificadoIAE.click()"
-                            placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                            />
-                            <mat-error *ngIf="ilsForm.get('file_certificadoIAE')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                        </mat-form-field>
-                        <input #file_certificadoIAE type="file" (change)="onfile_certificadoIAEChange($event)" hidden accept=".pdf" multiple>
-                        <ul *ngIf="file_certificadoIAEToUpload.length > 0">
-                            <li *ngFor="let file of file_certificadoIAEToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                        </ul>
-                    </section>
-                    <section>
-                        <mat-radio-group ngClass="file-input" formControlName="radioGroupFile">
-                            <mat-radio-button value="option1">{{'ILS.INPUTRADIO1' | translate}}</mat-radio-button>
-                            <mat-radio-button value="option2">{{'ILS.INPUTRADIO2' | translate}}</mat-radio-button>
-                            <section *ngIf="radioOptionDocs === 'option1'" ngClass="afterFormChange">
-                                <section ngClass="file-input">
-                                    <mat-form-field floatLabel="always">
-                                        <mat-label>{{'ILS.SUMMARY' | translate}}</mat-label>
-                                        <input
-                                        matInput
-                                        type="text"
-                                        formControlName="file_informeResumenIls"
-                                        readonly
-                                        [value]="file_informeResumenIlsFileNames"
-                                        (click)="file_informeResumenIls.click()"
-                                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                        />
-                                        <mat-error *ngIf="ilsForm.get('file_informeResumenIls')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                                    </mat-form-field>
-                                    <input #file_informeResumenIls type="file" (change)="onfile_informeResumenIlsChange($event)" accept=".pdf" hidden multiple >
-                                    <ul *ngIf="file_informeResumenIlsToUpload.length > 0">
-                                        <li *ngFor="let file of file_informeResumenIlsToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                                    </ul>
-                                </section>
-                                <section ngClass="file-input">
-                                    <mat-form-field floatLabel="always">
-                                        <mat-label>{{'ILS.INVENTORY' | translate}}</mat-label>
-                                        <input
-                                        matInput
-                                        type="text"
-                                        formControlName="file_informeInventarioIls"
-                                        readonly
-                                        [value]="file_informeInventarioIlsFileNames"
-                                        (click)="file_informeInventarioIls.click()"
-                                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                        />
-                                        <mat-error *ngIf="ilsForm.get('file_informeInventarioIls')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                                    </mat-form-field>
-                                    <input #file_informeInventarioIls type="file" (change)="onfile_informeInventarioIlsChange($event)" accept=".pdf" hidden multiple />
-                                    <ul *ngIf="file_informeInventarioIlsToUpload.length > 0">
-                                        <li *ngFor="let file of file_informeInventarioIlsToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                                    </ul>
-                                </section>
-                            </section>
-                            <section *ngIf="radioOptionDocs==='option2'" ngClass="afterFormChange">
-                                <section ngClass="file-input">
-                                    <mat-form-field floatLabel="always">
-                                        <mat-label>{{'ILS.ISOVERIFICATION' | translate}}</mat-label>
-                                        <input
-                                        matInput
-                                        type="text"
-                                        formControlName="file_certificado_verificacion_ISO"
-                                        readonly
-                                        [value]="file_certificado_verificacion_ISOFileNames"
-                                        (click)="file_certificado_verificacion_ISO.click()"
-                                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                                        />
-                                        <mat-error *ngIf="ilsForm.get('file_certificado_verificacion_ISO')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                                    </mat-form-field>
-                                    <input #file_certificado_verificacion_ISO type="file" (change)="onfile_certificado_verificacion_ISOChange($event)" accept=".pdf" hidden multiple />
-                                    <ul *ngIf="file_certificado_verificacion_ISOToUpload.length > 0">
-                                        <li *ngFor="let file of file_certificado_verificacion_ISOToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                                    </ul>
-                                    </section>
-                            </section>
-                        </mat-radio-group>
-                    </section>
-                    <section ngClass="file-input">
-                        <mat-form-field floatLabel="always">
-                            <mat-label>{{'ILS.GREENHOUSEREDUCTION' | translate}}</mat-label>
-                            <input 
-                            matInput
-                            type="text"
-                            formControlName="file_modeloEjemploIls"
-                            readonly
-                            [value]="file_modeloEjemploIlsFileNames"
-                            (click)="file_modeloEjemploIls.click()"
-                            placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                            />
-                            <mat-error *ngIf="ilsForm.get('file_modeloEjemploIls')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                        </mat-form-field>
-                        <input #file_modeloEjemploIls type="file" (change)="onfile_modeloEjemploIlsChange($event)" accept=".pdf" hidden multiple>
-                        <ul *ngIf="file_modeloEjemploIlsToUpload.length > 0">
-                            <li *ngFor="let file of file_modeloEjemploIlsToUpload">{{file.name}} {{file.size/1000}} KB</li>
-                        </ul>
-                    </section>
-                    <section ngClass="file-input">
-                        <mat-form-field floatLabel="always">
-                            <mat-label>{{'ILS.TRAININGITINERARY' | translate}}</mat-label>
-                            <input 
-                            matInput
-                            type="text"
-                            formControlName="file_certificado_itinerario_formativo"
-                            readonly
-                            [value]="file_certificado_itinerario_formativoFileNames"
-                            (click)="file_certificado_itinerario_formativo.click()"
-                            placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                            />
-                            <mat-error *ngIf="ilsForm.get('file_certificado_itinerario_formativo')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                        </mat-form-field>
-                        <input #file_certificado_itinerario_formativo type="file" (change)="onfile_certificado_itinerario_formativoChange($event)" accept=".pdf" hidden multiple>
-                        <ul *ngIf="file_certificado_itinerario_formativoToUpload.length > 0">
-                            <li *ngFor="let file of file_certificado_itinerario_formativoToUpload">{{file.name}} {{file.size/1000}} KB</li>
+                    <p>{{'ILS.CHOOSEOPTION' | translate}}</p>
+                    <mat-radio-group formControlName="radioGroupFile">
+                        <mat-radio-button value="option1">{{'ILS.INPUTRADIO1' | translate}}</mat-radio-button>
+                        <section ngClass="file-upload">
+                            <label for="file_informeResumenIls">{{'ILS.SUMMARY' | translate}}</label>
+                            <input #file_informeResumenIls formControlName="file_informeResumenIls" type="file" (change)="onfile_informeResumenIlsChange($event)" accept=".pdf" multiple>
+                            <mat-error *ngIf="ilsForm.get('file_informeResumenIls')?.errors && ilsForm.get('file_informeResumenIls')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                            <ul *ngIf="file_informeResumenIlsToUpload.length > 0">
+                                <li *ngFor="let file of file_informeResumenIlsToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                            </ul>
+                        </section>
+                        <section ngClass="file-upload">
+                            <label for="file_informeInventarioIls">{{'ILS.INVENTORY' | translate}}</label>
+                            <input #file_informeInventarioIls formControlName="file_informeInventarioIls" type="file" (change)="onfile_informeInventarioIlsChange($event)" accept=".pdf" multiple>
+                            <mat-error *ngIf="ilsForm.get('file_informeInventarioIls')?.errors && ilsForm.get('file_informeInventarioIls')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                            <ul *ngIf="file_informeInventarioIlsToUpload.length > 0">
+                                <li *ngFor="let file of file_informeInventarioIlsToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                            </ul>
+                        </section>
+                        <mat-radio-button value="option2">{{'ILS.INPUTRADIO2' | translate}}</mat-radio-button>
+                    </mat-radio-group>
+                    <section ngClass="file-upload">
+                        <label for="file_certificado_verificacion_ISO">{{'ILS.ISOVERIFICATION' | translate}}</label>
+                        <input #file_certificado_verificacion_ISO formControlName="file_certificado_verificacion_ISO" type="file" (change)="onfile_certificado_verificacion_ISOChange($event)" accept=".pdf" multiple>
+                        <mat-error *ngIf="ilsForm.get('file_certificado_verificacion_ISO')?.errors && ilsForm.get('file_certificado_verificacion_ISO')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                        <ul *ngIf="file_certificado_verificacion_ISOToUpload.length > 0">
+                            <li *ngFor="let file of file_certificado_verificacion_ISOToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
                         </ul>
                     </section>
                 </section>
+
+                <section ngClass="file-upload">
+                    <label for="file_modeloEjemploIls">{{'ILS.GREENHOUSEREDUCTION' | translate}}</label>
+                    <input #file_modeloEjemploIls formControlName="file_modeloEjemploIls" type="file" (change)="onfile_modeloEjemploIlsChange($event)" accept=".pdf" multiple>
+                    <mat-error *ngIf="ilsForm.get('file_modeloEjemploIls')?.errors && ilsForm.get('file_modeloEjemploIls')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_modeloEjemploIlsToUpload.length > 0">
+                        <li *ngFor="let file of file_modeloEjemploIlsToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
+
+                <section ngClass="file-upload">
+                    <label for="file_certificado_itinerario_formativo">{{'ILS.TRAININGITINERARY' | translate}}</label>
+                    <input #file_certificado_itinerario_formativo formControlName="file_certificado_itinerario_formativo" type="file" (change)="onfile_certificado_itinerario_formativoChange($event)" accept=".pdf" multiple>
+                    <mat-error *ngIf="ilsForm.get('file_certificado_itinerario_formativo')?.errors && ilsForm.get('file_certificado_itinerario_formativo')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
+                    <ul *ngIf="file_certificado_itinerario_formativoToUpload.length > 0">
+                        <li *ngFor="let file of file_certificado_itinerario_formativoToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
                 <h4>{{'ILS.OPTIONALDOCUMENTATIONINFO' | translate}}</h4>
-                <section ngClass="file-input">
-                    <mat-form-field floatLabel="always">
-                        <mat-label>{{'ILS.TECHNICALMEMORY' | translate}}</mat-label>
-                        <input 
-                        matInput
-                        type="text"
-                        formControlName="file_memoriaTecnica"
-                        readonly
-                        [value]="file_memoriaTecnicaFileNames"
-                        (click)="file_memoriaTecnica.click()"
-                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                        />
-                        <mat-error *ngIf="ilsForm.get('file_memoriaTecnica')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                    </mat-form-field>
-                    <input #file_memoriaTecnica type="file" (change)="onfile_memoriaTecnicaChange($event)" accept=".pdf" hidden multiple>
+
+                <section ngClass="file-upload">
+                    <label for="file_memoriaTecnica">{{'ILS.TECHNICALMEMORY' | translate}}</label>
+                    <input #file_memoriaTecnica formControlName="file_memoriaTecnica" type="file" (change)="onfile_memoriaTecnicaChange($event)" accept=".pdf" multiple>
+                    <mat-error *ngIf="ilsForm.get('file_memoriaTecnica')?.errors && ilsForm.get('file_memoriaTecnica')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
-                        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{file.name}} {{file.size/1000}} KB</li>
+                        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
                     </ul>
                 </section>
-                <section ngClass="file-input">
-                    <mat-form-field floatLabel="always">
-                        <mat-label>{{'ILS.CIFPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.CIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.CIF.ACRONYM' | translate}}</abbr>{{'ILS.CIFPART2' | translate}}</mat-label>
-                        <input 
-                        matInput
-                        type="text"
-                        formControlName="file_nifEmpresa"
-                        readonly
-                        [value]="file_nifEmpresaFileNames"
-                        (click)="file_nifEmpresa.click()"
-                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                        />
-                        <mat-error *ngIf="ilsForm.get('file_nifEmpresa')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                    </mat-form-field>
-                    <input #file_nifEmpresa type="file" (change)="onfile_nifEmpresaChange($event)" accept=".pdf" hidden multiple>
+
+                <section ngClass="file-upload">
+                    <label for="file_nifEmpresa">{{'ILS.CIFPART1' | translate}}<abbr title="{{'COMMON.ACRONYMS.CIF.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.CIF.ACRONYM' | translate}}</abbr>{{'ILS.CIFPART2' | translate}}</label>
+                    <input #file_nifEmpresa formControlName="file_nifEmpresa" type="file" (change)="onfile_nifEmpresaChange($event)" accept=".pdf" multiple>
+                    <mat-error *ngIf="ilsForm.get('file_nifEmpresa')?.errors && ilsForm.get('file_nifEmpresa')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_nifEmpresaToUpload.length > 0">
-                        <li *ngFor="let file of file_nifEmpresaToUpload">{{file.name}} {{file.size/1000}} KB</li>
+                        <li *ngFor="let file of file_nifEmpresaToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
                     </ul>
                 </section>
-                <section ngClass="file-input">
-                    <mat-form-field floatLabel="always">
-                        <mat-label>{{'ILS.LOGO' | translate}}</mat-label>
-                        <input 
-                        matInput
-                        type="text"
-                        formControlName="file_logotipoEmpresaIls"
-                        readonly
-                        [value]="file_logotipoEmpresaIlsFileNames"
-                        (click)="file_logotipoEmpresaIls.click()"
-                        placeholder="{{'FILES.UPLOADFILES' | translate}}"
-                        />
-                        <mat-error *ngIf="ilsForm.get('file_logotipoEmpresaIls')?.errors">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
-                    </mat-form-field>
-                    <input #file_logotipoEmpresaIls type="file" (change)="onfile_logotipoEmpresaIlsChange($event)" accept=".webp, .jpeg, .svg" hidden multiple>
+
+                <section ngClass="file-upload">
+                    <label for="file_logotipoEmpresaIls">{{'ILS.LOGO' | translate}}</label>
+                    <input #file_logotipoEmpresaIls formControlName="file_logotipoEmpresaIls" type="file" (change)="onfile_logotipoEmpresaIlsChange($event)" accept=".webp, .jpeg, .svg" multiple>
+                    <mat-error *ngIf="ilsForm.get('file_logotipoEmpresaIls')?.errors && ilsForm.get('file_logotipoEmpresaIls')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_logotipoEmpresaIlsToUpload.length > 0">
-                        <li *ngFor="let file of file_logotipoEmpresaIlsToUpload">{{file.name}} {{file.size/1000}} KB</li>
+                        <li *ngFor="let file of file_logotipoEmpresaIlsToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
                     </ul>
                 </section>
             </section>

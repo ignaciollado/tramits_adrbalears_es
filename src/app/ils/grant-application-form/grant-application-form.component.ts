@@ -89,9 +89,9 @@ export class IlsGrantApplicationFormComponent {
       email_rep: this.fb.control<string>('', [Validators.required, Validators.email]),
 
       checkboxID: this.fb.control<boolean>(true, []),
-      file_enviardocumentoIdentificacion: this.fb.control<File | null>(null, []),
+      file_enviardocumentoIdentificacion: this.fb.control<File | null>({value: null, disabled: true}, [Validators.required]),
       checkboxATIB: this.fb.control<boolean>(true, []),
-      file_certificadoATIB: this.fb.control<File | null>(null, []),
+      file_certificadoATIB: this.fb.control<File | null>({value: null, disabled: true}, [Validators.required]),
 
       cumpleRequisitos_dec_resp: this.fb.control<string>({ value: 'SI', disabled: true }, []),
       epigrafeIAE_dec_resp: this.fb.control<string>({ value: 'SI', disabled: true }, []),
@@ -99,14 +99,14 @@ export class IlsGrantApplicationFormComponent {
       cumpleNormativaSegInd_dec_resp: this.fb.control<string>({ value: 'SI', disabled: true }, []),
 
       // Documentación
-      file_escritura_empresa: this.fb.control<File | null>(null, []),
-      file_certificadoIAE: this.fb.control<File | null>(null, []),
+      file_escritura_empresa: this.fb.control<File | null>(null, [Validators.required]),
+      file_certificadoIAE: this.fb.control<File | null>(null, [Validators.required]),
       radioGroupFile: this.fb.control(null, []),
-      file_informeResumenIls: this.fb.control<File | null>(null, []), // Primera opción radio
-      file_informeInventarioIls: this.fb.control<File | null>(null, []), // Primera opción radio
-      file_certificado_verificacion_ISO: this.fb.control<File | null>(null, []), // Segunda opción radio
-      file_modeloEjemploIls: this.fb.control<File | null>(null, []),
-      file_certificado_itinerario_formativo: this.fb.control<File | null>(null, []),
+      file_informeResumenIls: this.fb.control<File | null>({value: null, disabled: true}, []), // Primera opción radio
+      file_informeInventarioIls: this.fb.control<File | null>({value: null, disabled: true}, []), // Primera opción radio
+      file_certificado_verificacion_ISO: this.fb.control<File | null>({value: null, disabled: true}, []), // Segunda opción radio
+      file_modeloEjemploIls: this.fb.control<File | null>(null, [Validators.required]),
+      file_certificado_itinerario_formativo: this.fb.control<File | null>(null, [Validators.required]),
 
       file_memoriaTecnica: this.fb.control<File | null>(null, []),
       file_nifEmpresa: this.fb.control<File | null>(null, []),
@@ -130,29 +130,8 @@ export class IlsGrantApplicationFormComponent {
       })
     );
 
-    this.ilsForm.get('checkboxID')?.valueChanges.subscribe((value: boolean) => {
-      this.checkboxID = value
-
-      if (!value) {
-        this.file_enviardocumentoIdentificacionToUpload = [];
-      }
-    });
-
-    this.ilsForm.get('checkboxATIB')?.valueChanges.subscribe((value: boolean) => {
-      this.checkboxATIB = value
-      if (!value) {
-        this.file_certificadoATIBToUpload = [];
-      }
-    })
-
     this.ilsForm.get('radioGroupFile')?.valueChanges.subscribe((value: string) => {
-      this.radioOptionDocs = value
-      if (value === "option1") {
-        this.file_certificado_verificacion_ISOToUpload = [];
-      } else {
-        this.file_informeResumenIlsToUpload = [];
-        this.file_informeInventarioIlsToUpload = [];
-      }
+      this.onRadioChange(value)
     })
 
     this.loadZipcodes()
@@ -172,6 +151,60 @@ export class IlsGrantApplicationFormComponent {
   file_memoriaTecnicaToUpload: File[] = []                      // OPT
   file_nifEmpresaToUpload: File[] = []                          // OPT
   file_logotipoEmpresaIlsToUpload: File[] = []                  // OPT
+
+  onRadioChange(value: string): void {
+    const file_informeResumenIlsControl = this.ilsForm.get('file_informeResumenIls');
+    const file_informeInventarioIlsControl = this.ilsForm.get('file_informeInventarioIls');
+    const file_certificado_verificacion_ISOControl = this.ilsForm.get('file_certificado_verificacion_ISO');
+
+    [file_informeResumenIlsControl, file_informeInventarioIlsControl, file_certificado_verificacion_ISOControl].forEach(control => {
+      control?.clearValidators()
+    })
+
+    if (value === "option1") {
+      [file_informeResumenIlsControl, file_informeInventarioIlsControl].forEach(control => {
+        control?.setValidators([Validators.required]);
+        control?.enable();
+      })
+
+      file_certificado_verificacion_ISOControl?.disable();
+      this.file_certificado_verificacion_ISOToUpload = [];
+    } else {
+      [file_informeResumenIlsControl, file_informeInventarioIlsControl].forEach(control => {
+        control?.disable();
+      })
+
+      file_certificado_verificacion_ISOControl?.setValidators([Validators.required]);
+      file_certificado_verificacion_ISOControl?.enable();
+      this.file_informeResumenIlsToUpload = [];
+      this.file_informeInventarioIlsToUpload = [];
+    }
+
+    [file_informeResumenIlsControl, file_informeInventarioIlsControl, file_certificado_verificacion_ISOControl].forEach(control => {
+      control?.updateValueAndValidity();
+    })
+  }
+
+  onCheckboxChange(event: any, controlName: string) {
+    const isChecked = event.checked;
+    const control = this.ilsForm.get(controlName);
+
+    if (!control) return;
+
+    if (isChecked) {
+      control.clearValidators();
+      if (controlName === 'file_enviardocumentoIdentificacion' || controlName === 'file_certificadoATIB') {
+        control.disable();
+      }
+    } else {
+      control.setValidators([Validators.required]);
+      if (controlName === 'file_enviardocumentoIdentificacion' || controlName === 'file_certificadoATIB') {
+        control.enable();
+      }
+    }
+
+    control.updateValueAndValidity()
+  }
 
   onSubmit(): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
