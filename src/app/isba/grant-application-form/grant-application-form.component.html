@@ -400,7 +400,7 @@
 
                 <section ngClass="file-upload">
                     <p>{{'ISBA.DOC7INFO' | translate}}</p>
-                    <mat-checkbox ngClass="documento-en-adr" formControlName="dni_no_consent">{{'FILES.NOTAUTHORIZED' | translate}}</mat-checkbox>
+                    <mat-checkbox ngClass="documento-en-adr" formControlName="dni_no_consent" (change)="onCheckboxFileChange($event, 'file_nifRepresentante')">{{'FILES.NOTAUTHORIZED' | translate}}</mat-checkbox>
                     <label for="file_nifRepresentante">{{'ISBA.DOC7LABEL' | translate}}</label>
                     <input #file_nifRepresentante formControlName="file_nifRepresentante" type="file" (change)="onfile_nifRepresentanteChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_nifRepresentante')?.errors && isbaForm.get('file_nifRepresentante')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
@@ -411,7 +411,7 @@
 
                 <section ngClass="file-upload">
                     <p>{{'ISBA.DOC8INFO' | translate}}</p>
-                    <mat-checkbox ngClass="documento-en-adr" formControlName="atib_no_consent">{{'FILES.NOTAUTHORIZED' | translate}}</mat-checkbox>
+                    <mat-checkbox ngClass="documento-en-adr" formControlName="atib_no_consent" (change)="onCheckboxFileChange($event, 'file_certificadoATIB')">{{'FILES.NOTAUTHORIZED' | translate}}</mat-checkbox>
                     <label for="file_certificadoATIB">{{'ISBA.DOC8LABEL' | translate}}</label>
                     <input #file_certificadoATIB formControlName="file_certificadoATIB" type="file" (change)="onfile_certificadoATIBChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_certificadoATIB')?.errors && isbaForm.get('file_certificadoATIB')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
