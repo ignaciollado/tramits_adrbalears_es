@@ -24,6 +24,7 @@ import { InformeFavorableConRequerimientoIlsComponent } from '../../../../actos-
 import { InformeFavorableIlsComponent } from '../../../../actos-admin-ils/4_informe-favorable/informe-favorable.component';
 import { InformeDesfavorableConRequerimientoIlsComponent } from '../../../../actos-admin-ils/5_informe-desfavorable-con-requerimiento/informe-desfavorable-con-requerimiento.component';
 import { ResolDenegacionConRequerimientoIlsComponent } from '../../../../actos-admin-ils/6_resol-denegacion-con-requerimiento/resol-denegacion-con-requerimiento.component';
+import { ResolConcesionAdhesionIlsComponent } from '../../../../actos-admin-ils/7_resol-concesion-adhesion/resol-concesion-adhesion.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -39,7 +40,8 @@ import { ResolDenegacionConRequerimientoIlsComponent } from '../../../../actos-a
     InformeFavorableConRequerimientoIlsComponent,
     InformeFavorableIlsComponent,
     InformeDesfavorableConRequerimientoIlsComponent,
-    ResolDenegacionConRequerimientoIlsComponent
+    ResolDenegacionConRequerimientoIlsComponent,
+    ResolConcesionAdhesionIlsComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
@@ -113,7 +115,8 @@ export class IlsDetailExpedComponent {
 
       /* Seguimiento */
       fecha_adhesion_ils: [{ value: '', disabled: true }, []],
-      fecha_seguimiento_adhesion_ils: [{ value: '', disabled: true }, []],
+      fecha_seguimiento_adhesion_ils: [{ value: '', disabled: true }, []], 
+      /* Entre fecha_adhesion_ils hasta fecha_seguimiento_adhesion_ils, hay 1 año de diferencia */
       fecha_limite_presentacion: [{ value: '', disabled: true }, []],
       fecha_rec_informe_seguimiento: [{ value: '', disabled: true }, []],
       ref_REC_informe_seguimiento: [{ value: '', disabled: true }, []],
