@@ -277,6 +277,15 @@ ngOnInit(): void {
       ordenDePagoControl?.setValue('NO');
     }
   });
+
+  this.form.get('fecha_reunion_cierre')?.valueChanges.subscribe(value => {
+    if (!value || isNaN(new Date(value).getTime())) {
+      this.form.get('fecha_limite_justificacion')?.setValue('');
+    };
+    const fecha_limite_justificacion = new Date(value);
+    fecha_limite_justificacion.setDate(fecha_limite_justificacion.getDate() + 20);
+    this.form.get('fecha_limite_justificacion')?.setValue(fecha_limite_justificacion.toISOString().split('T')[0]);
+  })
 }
 
 getExpedDetail(id: number) {

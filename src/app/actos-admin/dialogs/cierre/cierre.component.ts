@@ -45,10 +45,20 @@ export class DialogCierreComponent {
         this.cierreForm.patchValue(expediente);
       })
     }
+
+    this.cierreForm.get('fecha_reunion_cierre')?.valueChanges.subscribe(value => {
+      if (!value || isNaN(new Date(value).getTime())) {
+        this.cierreForm.get('fecha_limite_justificacion')?.setValue('');
+      }
+      const fecha_limite_justificacion = new Date(value);
+      fecha_limite_justificacion.setDate(fecha_limite_justificacion.getDate() + 20);
+      this.cierreForm.get('fecha_limite_justificacion')?.setValue(fecha_limite_justificacion.toISOString().split('T')[0]);
+    })
   }
 
   save(): void {
     const formValues = this.cierreForm.getRawValue();
+
     this.expedienteService.updateExpediente(this.data.idExpediente, formValues).subscribe({
       next: () => {
         this.commonService.showSnackBar('Actualizado expediente con datos de Acta de Cierre');
