@@ -451,7 +451,36 @@
     "ACTAKICKOFF": "Acta de Kick off",
     "ACTACIERRE": "Acta de cierre",
     "RESOLUCIONPAGOSINREQUERIMIENTO": "Resolución de pago sin requerimiento",
-    "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulario de justificación"
+    "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulario de justificación",
+    "GENERAL": {
+      "SAVEREASON": "Guardar motivo",
+      "GENERATEACTO": "Generar documento",
+      "VIEWACTO": "Ver documento",
+      "SENDTOTECHNICIAN": "Enviar a firmar al técnico",
+      "SENDTOCEO": "Enviar a firmar al CEO",
+      "SENDTOAPPLICANT": "Enviar a firmar al solicitante",
+      "SENDTOCONSELLER": "Enviar a firmar al Conseller",
+      "CLOSE": "Cerrar",
+      "MISSINGFIELDS": "Faltan los campos:",
+      "RESPONSIBLEDECLARATIONSTATUS": "Estado de la firma de la declaración responsable y de la solicitud",
+      "SENDTOSIGNAGAIN": "Enviar a firmar otra vez"
+    },
+    "SIGNATURESTATUS": {
+      "PENDING": "Pendiente de firma",
+      "PROGRESS": "En progreso de firma",
+      "SIGNED": "Documento firmado",
+      "REJECTED": "Firma rechazada",
+      "VIEWUNSIGNEDDOC": "Ver documento sin firmar",
+      "VIEWSIGNEDDOC": "Ver documento firmado",
+      "PENDINGEMAIL": "Este documento se envió a firmar a la dirección:",
+      "PENDINGDATE": "en la fecha:"
+    },
+    "REASONS": {
+      "REQUERIMENT": "Motivo del requerimiento",
+      "ABANDONMENT": "Motivo de la dejación",
+      "DENIAL": "Motivo de la denegación",
+      "REVOCATION": "Motivo de la revocación"
+    }
   },
   "COMMON": {
     "RGPD-INFO": {

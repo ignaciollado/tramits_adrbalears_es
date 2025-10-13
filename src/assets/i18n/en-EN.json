@@ -451,7 +451,36 @@
     "ACTAKICKOFF": "Kick-off statement",
     "ACTACIERRE": "Closing statement",
     "RESOLUCIONPAGOSINREQUERIMIENTO": "Payment resolution without requirement",
-    "ENVIARFORMULARIOJUSTIFICACION": "Send the justification form"
+    "ENVIARFORMULARIOJUSTIFICACION": "Send the justification form",
+    "GENERAL": {
+      "SAVEREASON": "Save reason",
+      "GENERATEACTO": "Generate document",
+      "VIEWACTO": "View document",
+      "SENDTOTECHNICIAN": "Send to technician for signature",
+      "SENDTOCEO": "Send to CEO for signature",
+      "SENDTOAPPLICANT": "Send to applicant for signature",
+      "SENDTOCONSELLER": "Send to Conseller for signature",
+      "CLOSE": "Close",
+      "MISSINGFIELDS": "The following fields are missing:",
+      "RESPONSIBLEDECLARATIONSTATUS": "Signing status of the responsible declaration and the application",
+      "SENDTOSIGNAGAIN": "Send to sign again"
+    },
+    "SIGNATURESTATUS": {
+      "PENDING": "Pending signature",
+      "PROGRESS": "Signing in progress",
+      "SIGNED": "Document signed",
+      "REJECTED": "Signature rejected",
+      "VIEWUNSIGNEDDOC": "View unsigned document",
+      "VIEWSIGNEDDOC": "View signed document",
+      "PENDINGEMAIL": "This document was sent for signature to the address:",
+      "PENDINGDATE": "on the date:"
+    },
+    "REASONS": {
+      "REQUERIMENT": "Requirement reason",
+      "ABANDONMENT": "Abandonment reason",
+      "DENIAL": "Denial reason",
+      "REVOCATION": "Revocation reason"
+    }
   },
   "COMMON": {
     "RGPD-INFO": {

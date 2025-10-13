@@ -451,7 +451,36 @@
     "ACTAKICKOFF": "Acta de Kick off",
     "ACTACIERRE": "Acta de tancament",
     "RESOLUCIONPAGOSINREQUERIMIENTO": "Resolució de pagament sense requeriment",
-    "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulari de justificació"
+    "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulari de justificació",
+    "GENERAL": {
+      "SAVEREASON": "Guardar motiu",
+      "GENERATEACTO": "Generar document",
+      "VIEWACTO": "Veure document",
+      "SENDTOTECHNICIAN": "Enviar a signar al tèncic",
+      "SENDTOCEO": "Enviar a signar al CEO",
+      "SENDTOAPPLICANT": "Enviar a signar al sol·licitant",
+      "SENDTOCONSELLER": "Enviar a signar al Conseller",
+      "CLOSE": "Tancar",
+      "MISSINGFIELDS": "Falten els camps:",
+      "RESPONSIBLEDECLARATIONSTATUS": "Estat de la signatura de la declaració responsable i de la sol·licitud",
+      "SENDTOSIGNAGAIN": "Enviar a signar de nou"
+    },
+    "SIGNATURESTATUS": {
+      "PENDING": "Pendent de signatura",
+      "PROGRESS": "En progrés de signatura",
+      "SIGNED": "Document signat",
+      "REJECTED": "Signatura rebutjada",
+      "VIEWUNSIGNEDDOC": "Veure document sense signar",
+      "VIEWSIGNEDDOC": "Veure document signat",
+      "PENDINGEMAIL": "Aquest document es va enviar a signar a l'adreça:",
+      "PENDINGDATE": "en la data:"
+    },
+    "REASONS": {
+      "REQUERIMENT": "Motiu del requeriment",
+      "ABANDONMENT": "Motiu del desistiment",
+      "DENIAL": "Motiu de la denegació",
+      "REVOCATION": "Motiu de la revocació"
+    }
   },
   "COMMON": {
     "RGPD-INFO": {
