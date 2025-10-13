@@ -193,14 +193,11 @@
                     [actualID]="actualID" [actualIdExp]="actualIdExp"
                     [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
                     [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-resol-concesion-adhesion-ils>
-                    <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONCONCESIONADHESIONCONREQUERIMIENTO' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
-                    </mat-accordion>
+                    <app-resol-concesion-adhesion-con-requerimiento-ils
+                    [form]="form"
+                    [actualID]="actualID" [actualIdExp]="actualIdExp"
+                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
+                    [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-resol-concesion-adhesion-con-requerimiento-ils>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
