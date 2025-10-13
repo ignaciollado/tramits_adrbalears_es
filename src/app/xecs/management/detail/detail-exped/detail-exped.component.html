@@ -180,23 +180,6 @@
       <app-declaracion-responsable
       [actualID]="actualID" [actualNif]="actualNif"
       [actualConvocatoria]="actualConvocatoria"></app-declaracion-responsable>
-      <!-- <section *ngIf="signedDocData">
-          <div *ngIf="signedDocData.status === 'COMPLETED'" ngClass="doc-status completed">
-            <a ngClass="custom-link" href='{{externalSignUrl}}' target="_blank">Ver la declaración responsable firmada</a>
-          </div>
-          <div *ngIf="signedDocData.status === 'REJECTED'" ngClass="doc-status">
-            <button mat-raised-button color="warn">Firma rechazada</button>
-          </div>
-          <div *ngIf="signedDocData.status === 'NOT_STARTED'" ngClass="doc-status not_started">
-            <span>Pendiente de firma.</span><br>
-            <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
-            <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
-          </div>
-          <div *ngIf="signedDocData.status === 'IN_PROCESS'" ngClass="doc-status">
-            <button mat-raised-button color="warn">Firma en curso</button>
-          </div>
-          <ng-template #statusText>{{ signedDocData.status }}</ng-template>
-      </section> -->
     </section>
 
     </mat-card>  
