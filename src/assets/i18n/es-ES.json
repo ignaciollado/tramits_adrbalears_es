@@ -451,6 +451,9 @@
     "ACTAKICKOFF": "Acta de Kick off",
     "ACTACIERRE": "Acta de cierre",
     "RESOLUCIONPAGOSINREQUERIMIENTO": "Resolución de pago sin requerimiento",
+    "RENOVACIONINFORMEFAVORABLE": "Renovación informe favorable sin requerimiento",
+    "RENOVACIONINFORMEFAVORABLECONREQUERIMIENTO": "Renovación informe favorable con requerimiento",
+    "RENOVACIONINFORMEDESFAVORABLECONREQUERIMIENTO": "Renovación informe desfavorable con requerimiento",
     "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulario de justificación",
     "GENERAL": {
       "SAVEREASON": "Guardar motivo",

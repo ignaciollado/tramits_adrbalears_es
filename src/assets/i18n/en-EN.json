@@ -451,6 +451,9 @@
     "ACTAKICKOFF": "Kick-off statement",
     "ACTACIERRE": "Closing statement",
     "RESOLUCIONPAGOSINREQUERIMIENTO": "Payment resolution without requirement",
+    "RENOVACIONINFORMEFAVORABLE": "Renewal favorable report without requirement",
+    "RENOVACIONINFORMEFAVORABLECONREQUERIMIENTO": "Renewal favorable report with requirement",
+    "RENOVACIONINFORMEDESFAVORABLECONREQUERIMIENTO": "Renewal unfavorable report with requirement",
     "ENVIARFORMULARIOJUSTIFICACION": "Send the justification form",
     "GENERAL": {
       "SAVEREASON": "Save reason",
