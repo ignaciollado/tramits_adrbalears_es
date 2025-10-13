@@ -85,7 +85,6 @@
     "BUSCARPOR": "Texto libre",
     "BUSCAR": "Buscar",
     "LIMPIARFILTROS": "Limpiar filtros",
-
     "ATTACHEDDOCUMENTATION": "Documentación a adjuntar",
     "AUTHORISATIONSSINO": "Se solicita su autorización para consultar los siguientes documentos. Usted puede aceptar o rechazar esta consulta",
     "BANKDATA": "Datos bancarios",
@@ -451,7 +450,8 @@
     "RESOLUCIONREVOCACION": "Resolución de revocación",
     "ACTAKICKOFF": "Acta de Kick off",
     "ACTACIERRE": "Acta de cierre",
-    "RESOLUCIONPAGOSINREQUERIMIENTO": "Resolución de pago sin requerimiento"
+    "RESOLUCIONPAGOSINREQUERIMIENTO": "Resolución de pago sin requerimiento",
+    "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulario de justificación"
   },
   "COMMON": {
     "RGPD-INFO": {

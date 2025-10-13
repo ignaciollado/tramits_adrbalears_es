@@ -450,7 +450,8 @@
     "RESOLUCIONREVOCACION": "Resolució de revocació",
     "ACTAKICKOFF": "Acta de Kick off",
     "ACTACIERRE": "Acta de tancament",
-    "RESOLUCIONPAGOSINREQUERIMIENTO": "Resolució de pagament sense requeriment"
+    "RESOLUCIONPAGOSINREQUERIMIENTO": "Resolució de pagament sense requeriment",
+    "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulari de justificació"
   },
   "COMMON": {
     "RGPD-INFO": {

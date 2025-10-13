@@ -479,5 +479,16 @@ export class ActaDeCierreComponent {
     })
   }
 
+  sendJustificationFormEmail(): void {
+    console.log(this.actualID, this.actualNif, this.form.get('tipo_tramite')?.value, this.actualConvocatoria)
+    console.log('Pending...')
+    
+    this.expedienteService.updateDocFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar').subscribe({
+      next: (resp: any) => {
+        this.commonService.showSnackBar('✅ Situación actualizada correctamente.');
+      }
+    })
+
+  }
 
 }

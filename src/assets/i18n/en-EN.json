@@ -85,7 +85,6 @@
     "BUSCARPOR": "Free searching text",
     "BUSCAR": "Search",
     "LIMPIARFILTROS": "Clear filters",
-
     "ATTACHEDDOCUMENTATION": "Documentation to be attached",
     "AUTHORISATIONSSINO": "Your authorization is requested to consult the following documents. You may accept or reject this request.",
     "BANKDATA": "Bank details",
@@ -451,7 +450,8 @@
     "RESOLUCIONREVOCACION": "Revocation resolution",
     "ACTAKICKOFF": "Kick-off statement",
     "ACTACIERRE": "Closing statement",
-    "RESOLUCIONPAGOSINREQUERIMIENTO": "Payment resolution without requirement"
+    "RESOLUCIONPAGOSINREQUERIMIENTO": "Payment resolution without requirement",
+    "ENVIARFORMULARIOJUSTIFICACION": "Send the justification form"
   },
   "COMMON": {
     "RGPD-INFO": {
