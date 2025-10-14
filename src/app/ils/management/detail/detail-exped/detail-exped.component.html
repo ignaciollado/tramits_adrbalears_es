@@ -323,14 +323,13 @@
                     [actualID]="actualID" [actualIdExp]="actualIdExp"
                     [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
                     [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-res-renovacion-marca-ils>
+                    <app-res-renovacion-marca-con-requerimiento-ils
+                    [form]="form"
+                    [actualID]="actualID" [actualIdExp]="actualIdExp"
+                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
+                    [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-res-renovacion-marca-con-requerimiento-ils>
 
                     <mat-accordion ngClass="example-headers-align" multi>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONRENOVACIONMARCACONREQUERIMIENTO' | translate}}</mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <button mat-raised-button color="accent" (click)="enableEdit()">Generar</button>
-                        </mat-expansion-panel>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
                                 <mat-panel-title>{{'ACTOSADMINISTRATIVOS.RESOLUCIONREVOCACION' | translate}}</mat-panel-title>
