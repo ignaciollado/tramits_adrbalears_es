@@ -112,6 +112,7 @@ export class RenovInformeFavorableIlsComponent {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
+      this.getGlobalConfig();
     }
   }
 
