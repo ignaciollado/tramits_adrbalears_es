@@ -176,13 +176,13 @@ export class RenovInformeFavorableConRequerimientoIlsComponent {
 
     /* Fechas formateadas */
     const formattedFecha_resolucion = formatDate(this.form.get('fecha_resolucion')?.value, 'dd/MM/yyyy', 'es-ES');
-    const formattedFecha_requerimiento_notif = formatDate(this.form.get('fecha_requerimiento_notif')?.value, 'dd/MM/yyyy', 'es-ES');
+    const formattedFecha_notif_req_renov = formatDate(this.form.get('fecha_notif_req_renov')?.value, 'dd/MM/yyyy', 'es-ES');
     const formattedFecha_REC_justificacion_renov = formatDate(this.form.get('fecha_REC_justificacion_renov')?.value, 'dd/MM/yyyy', 'es-ES');
 
     rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
     rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
     rawTexto = rawTexto.replace(/%FECHARESOLUCION%/g, formattedFecha_resolucion);
-    rawTexto = rawTexto.replace(/%FECHANOTREQ%/g, formattedFecha_requerimiento_notif);
+    rawTexto = rawTexto.replace(/%FECHANOTREQ%/g, formattedFecha_notif_req_renov);
     rawTexto = rawTexto.replace(/%FECHARECJUSTRENOVACIO%/g, formattedFecha_REC_justificacion_renov);
     rawTexto = rawTexto.replace(/%REFREQJUST%/g, this.form.get('ref_REC_justificacion_renov')?.value);
 
@@ -291,14 +291,14 @@ export class RenovInformeFavorableConRequerimientoIlsComponent {
     this.camposVacios = [];
     this.faltanCampos = false;
 
-    const fecha_requerimiento_notif = this.form.get('fecha_requerimiento_notif')?.value;
+    const fecha_notif_req_renov = this.form.get('fecha_notif_req_renov')?.value;
     const fecha_resolucion = this.form.get('fecha_resolucion')?.value;
     const fecha_REC_justificacion_renov = this.form.get('fecha_REC_justificacion_renov')?.value;
     const ref_REC_justificacion_renov = this.form.get('ref_REC_justificacion_renov')?.value;
 
 
-    if (!fecha_requerimiento_notif?.trim() || fecha_requerimiento_notif?.trim() === "0000-00-00") {
-      this.camposVacios.push('FORM.FECHA_REQUERIMIENTO_NOTIF')
+    if (!fecha_notif_req_renov?.trim() || fecha_notif_req_renov?.trim() === "0000-00-00") {
+      this.camposVacios.push('FORM.REQUIREMENT-RENOVATION-NOTIFICATION-DATE')
     }
 
     if (!fecha_resolucion?.trim() || fecha_resolucion?.trim() === "0000-00-00") {
