@@ -303,6 +303,11 @@
                 </section>
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
+                    <app-renov-informe-favorable-ils
+                    [form]="form"
+                    [actualID]="actualID" [actualIdExp]="actualIdExp"
+                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
+                    [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-renov-informe-favorable-ils>
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>

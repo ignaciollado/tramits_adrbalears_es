@@ -26,6 +26,7 @@ import { InformeDesfavorableConRequerimientoIlsComponent } from '../../../../act
 import { ResolDenegacionConRequerimientoIlsComponent } from '../../../../actos-admin-ils/6_resol-denegacion-con-requerimiento/resol-denegacion-con-requerimiento.component';
 import { ResolConcesionAdhesionIlsComponent } from '../../../../actos-admin-ils/7_resol-concesion-adhesion/resol-concesion-adhesion.component';
 import { ResolConcesionAdhesionConRequerimientoIlsComponent } from '../../../../actos-admin-ils/8_resol-concesion-adhesion-con-requerimiento/resol-concesion-adhesion-con-requerimiento.component';
+import { RenovInformeFavorableIlsComponent } from '../../../../actos-admin-ils/10_renov-informe-favorable/renov-informe-favorable.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -43,7 +44,8 @@ import { ResolConcesionAdhesionConRequerimientoIlsComponent } from '../../../../
     InformeDesfavorableConRequerimientoIlsComponent,
     ResolDenegacionConRequerimientoIlsComponent,
     ResolConcesionAdhesionIlsComponent,
-    ResolConcesionAdhesionConRequerimientoIlsComponent
+    ResolConcesionAdhesionConRequerimientoIlsComponent,
+    RenovInformeFavorableIlsComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
