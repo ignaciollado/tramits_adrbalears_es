@@ -31,6 +31,7 @@ import { RenovInformeFavorableConRequerimientoIlsComponent } from '../../../../a
 import { RenovInformeDesfavorableConRequerimientoIlsComponent } from '../../../../actos-admin-ils/12_renov-informe-desfavorable-con-requerimiento/renov-informe-desfavorable-con-requerimiento.component';
 import { ResRenovacionMarcaIlsComponent } from '../../../../actos-admin-ils/13_res-renovacion-marca/res-renovacion-marca.component';
 import { ResRenovacionMarcaConRequerimientoIlsComponent } from '../../../../actos-admin-ils/14_res-renovacion-marca-con-requerimiento/res-renovacion-marca-con-requerimiento.component';
+import { ResolucionRevocacionIlsComponent } from '../../../../actos-admin-ils/15_resolucion-revocacion/resolucion-revocacion.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -53,7 +54,8 @@ import { ResRenovacionMarcaConRequerimientoIlsComponent } from '../../../../acto
     RenovInformeFavorableConRequerimientoIlsComponent,
     RenovInformeDesfavorableConRequerimientoIlsComponent,
     ResRenovacionMarcaIlsComponent,
-    ResRenovacionMarcaConRequerimientoIlsComponent
+    ResRenovacionMarcaConRequerimientoIlsComponent,
+    ResolucionRevocacionIlsComponent
   ],
   templateUrl: './detail-exped.component.html',
   styleUrl: './detail-exped.component.scss'
