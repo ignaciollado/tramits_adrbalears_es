@@ -521,7 +521,7 @@
     }
   },
   "SITUATIONS": {
-    "XECS": {
+    "XECS&ISBA": {
       "nohapasadoREC": "It has not gone through the official electronic portal",
       "pendiente": "Pending validation",
       "comprobarAnt": "Check Antonia",

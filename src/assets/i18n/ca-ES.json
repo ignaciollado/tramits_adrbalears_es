@@ -521,7 +521,7 @@
     }
   },
   "SITUATIONS": {
-    "XECS": {
+    "XECS&ISBA": {
       "nohapasadoREC": "No ha passat per la SEU electrònica",
       "pendiente": "Pendent de validar",
       "comprobarAnt": "Comprovar Antonia",

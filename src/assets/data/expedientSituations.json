@@ -3,43 +3,43 @@
         "name": "APP.REQUEST",
         "options": [
             {
-                "label": "SITUATIONS.XECS.nohapasadoREC",
+                "label": "SITUATIONS.XECS&ISBA.nohapasadoREC",
                 "value": "nohapasadoREC"
             },
             {
-                "label": "SITUATIONS.XECS.pendiente",
+                "label": "SITUATIONS.XECS&ISBA.pendiente",
                 "value": "pendiente"
             },
             {
-                "label": "SITUATIONS.XECS.comprobarAnt",
+                "label": "SITUATIONS.XECS&ISBA.comprobarAnt",
                 "value": "comprobarAnt"
             },
             {
-                "label": "SITUATIONS.XECS.comprobarAntReg",
+                "label": "SITUATIONS.XECS&ISBA.comprobarAntReg",
                 "value": "comprobarAntReg"
             },
             {
-                "label": "SITUATIONS.XECS.emitirReq",
+                "label": "SITUATIONS.XECS&ISBA.emitirReq",
                 "value": "emitirReq"
             },
             {
-                "label": "SITUATIONS.XECS.firmadoReq",
+                "label": "SITUATIONS.XECS&ISBA.firmadoReq",
                 "value": "firmadoReq"
             },
             {
-                "label": "SITUATIONS.XECS.notificadoReq",
+                "label": "SITUATIONS.XECS&ISBA.notificadoReq",
                 "value": "notificadoReq"
             },
             {
-                "label": "SITUATIONS.XECS.emitirDesEnmienda",
+                "label": "SITUATIONS.XECS&ISBA.emitirDesEnmienda",
                 "value": "emitirDesEnmienda"
             },
             {
-                "label": "SITUATIONS.XECS.emitidoDesEnmienda",
+                "label": "SITUATIONS.XECS&ISBA.emitidoDesEnmienda",
                 "value": "emitidoDesEnmienda"
             },
             {
-                "label": "SITUATIONS.XECS.Desestimiento",
+                "label": "SITUATIONS.XECS&ISBA.Desestimiento",
                 "value": "Desestimiento"
             }
         ]
@@ -51,47 +51,47 @@
                 "name": "APP.FAVORABLEEXPEDIENTS",
                 "options": [
                     {
-                        "label": "SITUATIONS.XECS.emitirIFPRProvPago",
+                        "label": "SITUATIONS.XECS&ISBA.emitirIFPRProvPago",
                         "value": "emitirIFPRProvPago"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidoIFPRProvPago",
+                        "label": "SITUATIONS.XECS&ISBA.emitidoIFPRProvPago",
                         "value": "emitidoIFPRProvPago"
                     },
                     {
-                        "label": "SITUATIONS.XECS.firmadoIFPRProvPago",
+                        "label": "SITUATIONS.XECS&ISBA.firmadoIFPRProvPago",
                         "value": "firmadoIFPRProvPago"
                     },
                     {
-                        "label": "SITUATIONS.XECS.notificadoIFPRProvPago",
+                        "label": "SITUATIONS.XECS&ISBA.notificadoIFPRProvPago",
                         "value": "notificadoIFPRProvPago"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitirPRDefinitiva",
+                        "label": "SITUATIONS.XECS&ISBA.emitirPRDefinitiva",
                         "value": "emitirPRDefinitiva"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidaPRDefinitiva",
+                        "label": "SITUATIONS.XECS&ISBA.emitidaPRDefinitiva",
                         "value": "emitidaPRDefinitiva"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidaPRDefinitivaNotificada",
+                        "label": "SITUATIONS.XECS&ISBA.emitidaPRDefinitivaNotificada",
                         "value": "emitidaPRDefinitivaNotificada"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitirResConcesion",
+                        "label": "SITUATIONS.XECS&ISBA.emitirResConcesion",
                         "value": "emitirResConcesion"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidaResConcesion",
+                        "label": "SITUATIONS.XECS&ISBA.emitidaResConcesion",
                         "value": "emitidaResConcesion"
                     },
                     {
-                        "label": "SITUATIONS.XECS.notificadaResConcesion",
+                        "label": "SITUATIONS.XECS&ISBA.notificadaResConcesion",
                         "value": "notificadaResConcesion"
                     },
                     {
-                        "label": "SITUATIONS.XECS.inicioConsultoria",
+                        "label": "SITUATIONS.XECS&ISBA.inicioConsultoria",
                         "value": "inicioConsultoria"
                     }
                 ]
@@ -100,31 +100,31 @@
                 "name": "APP.NOFAVORABLEEXPEDIENTS",
                 "options": [
                     {
-                        "label": "SITUATIONS.XECS.emitirIDPDenProv",
+                        "label": "SITUATIONS.XECS&ISBA.emitirIDPDenProv",
                         "value": "emitirIDPDenProv"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidoIDPDenProv",
+                        "label": "SITUATIONS.XECS&ISBA.emitidoIDPDenProv",
                         "value": "emitidoIDPDenProv"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitirPDenDef",
+                        "label": "SITUATIONS.XECS&ISBA.emitirPDenDef",
                         "value": "emitirPDenDef"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidoPDenDef",
+                        "label": "SITUATIONS.XECS&ISBA.emitidoPDenDef",
                         "value": "emitidoPDenDef"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitirResDen",
+                        "label": "SITUATIONS.XECS&ISBA.emitirResDen",
                         "value": "emitirResDen"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidoResDen",
+                        "label": "SITUATIONS.XECS&ISBA.emitidoResDen",
                         "value": "emitidoResDen"
                     },
                     {
-                        "label": "SITUATIONS.XECS.Denegado",
+                        "label": "SITUATIONS.XECS&ISBA.Denegado",
                         "value": "Denegado"
                     }
                 ]
@@ -138,27 +138,27 @@
                 "name": "APP.CORRECTJUSTIFICATION",
                 "options": [
                     {
-                        "label": "SITUATIONS.XECS.pendienteJustificar",
+                        "label": "SITUATIONS.XECS&ISBA.pendienteJustificar",
                         "value": "pendienteJustificar"
                     },
                     {
-                        "label": "SITUATIONS.XECS.pendienteRECJustificar",
+                        "label": "SITUATIONS.XECS&ISBA.pendienteRECJustificar",
                         "value": "pendienteRECJustificar"
                     },
                     {
-                        "label": "SITUATIONS.XECS.Justificado",
+                        "label": "SITUATIONS.XECS&ISBA.Justificado",
                         "value": "Justificado"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitirResPagoyJust",
+                        "label": "SITUATIONS.XECS&ISBA.emitirResPagoyJust",
                         "value": "emitirResPagoyJust"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidoResPagoyJust",
+                        "label": "SITUATIONS.XECS&ISBA.emitidoResPagoyJust",
                         "value": "emitidoResPagoyJust"
                     },
                     {
-                        "label": "SITUATIONS.XECS.Finalizado",
+                        "label": "SITUATIONS.XECS&ISBA.Finalizado",
                         "value": "Finalizado"
                     }
                 ]
@@ -167,31 +167,31 @@
                 "name": "APP.JUSTIFICATIONREQUIREMENT",
                 "options": [
                     {
-                        "label": "SITUATIONS.XECS.emitirReqJust",
+                        "label": "SITUATIONS.XECS&ISBA.emitirReqJust",
                         "value": "emitirReqJust"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidoReqJust",
+                        "label": "SITUATIONS.XECS&ISBA.emitidoReqJust",
                         "value": "emitidoReqJust"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitirPropRevocacion",
+                        "label": "SITUATIONS.XECS&ISBA.emitirPropRevocacion",
                         "value": "emitirPropRevocacion"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidoPropRevocacion",
+                        "label": "SITUATIONS.XECS&ISBA.emitidoPropRevocacion",
                         "value": "emitidoPropRevocacion"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitirResRevocacion",
+                        "label": "SITUATIONS.XECS&ISBA.emitirResRevocacion",
                         "value": "emitirResRevocacion"
                     },
                     {
-                        "label": "SITUATIONS.XECS.emitidoResRevocacion",
+                        "label": "SITUATIONS.XECS&ISBA.emitidoResRevocacion",
                         "value": "emitidoResRevocacion"
                     },
                     {
-                        "label": "SITUATIONS.XECS.revocado",
+                        "label": "SITUATIONS.XECS&ISBA.revocado",
                         "value": "revocado"
                     }
                 ]

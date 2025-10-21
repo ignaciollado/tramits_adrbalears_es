@@ -521,7 +521,7 @@
     }
   },
   "SITUATIONS": {
-    "XECS": {
+    "XECS&ISBA": {
       "nohapasadoREC": "No ha pasado por la SEDE electrónica",
       "pendiente": "Pendiente de validar",
       "comprobarAnt": "Comprobar Antonia",
