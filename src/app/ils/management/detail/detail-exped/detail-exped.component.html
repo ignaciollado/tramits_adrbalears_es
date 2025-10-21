@@ -86,6 +86,9 @@
                     <app-document [idSol]="idExpediente" [requiredDocs]="'SI'"></app-document>
                     <h4 [innerHTML]="'FORM.OPTIONALDOCUMENTATIONDETAILS' | translate"></h4>
                     <app-document [idSol]="idExpediente" [requiredDocs]="'NO'"></app-document>
+                    <app-declaracion-responsable-ils
+                    [actualID]="actualID" [actualNif]="actualNif"
+                    [actualConvocatoria]="actualConvocatoria"></app-declaracion-responsable-ils>
                 </section>
             </mat-card>
         </mat-tab>
