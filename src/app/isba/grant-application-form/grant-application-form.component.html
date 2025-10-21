@@ -18,10 +18,16 @@
 </section>
 <section>
     <form [formGroup]="isbaForm" ngClass="form" (ngSubmit)="onSubmit()">
-        <div ngClass="example-action-buttons">
-            <button matButton type="button" ngClass="btn-green btn" (click)="accordion().openAll()">{{'APP.EXPANDALL' | translate}}</button>
-            <button matButton type="button" ngClass="btn-green btn" (click)="accordion().closeAll()">{{'APP.COLAPSEALL' | translate}}</button>
-        </div>
+        <section ngClass="button-area">
+            <section>
+                <button type="button" matButton ngClass="btn-adr btn" (click)="accordion().openAll()">{{ 'XECS.EXPANDALL' | translate }}</button>
+                <button type="button" matButton ngClass="btn-adr btn" (click)="accordion().closeAll()">{{ 'XECS.COLAPSEALL' | translate }}</button>
+            </section>
+            <section>
+                <button type="button" matButton class="btn-adr btn" (click)="changeLanguage('es-ES')" [ngClass]="{selected: actualLang === 'es-ES'}">Castellano</button>
+                <button type="button" matButton class="btn-adr btn" (click)="changeLanguage('ca-ES')" [ngClass]="{selected: actualLang === 'ca-ES'}">Català</button>
+            </section>
+        </section>
         <mat-accordion ngClass="example-headers-align" multi>
             <!-- RGPD -->
             <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">

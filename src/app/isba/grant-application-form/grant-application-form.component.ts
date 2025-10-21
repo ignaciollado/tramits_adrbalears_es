@@ -14,7 +14,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import jsPDF from 'jspdf';
 import { catchError, concatMap, from, map, Observable, of, startWith, tap, throwError } from 'rxjs';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
@@ -83,12 +83,14 @@ export class IsbaGrantApplicationFormComponent {
 
   nameDocGenerado!: string;
 
+  actualLang: string = sessionStorage.getItem('preferredLang')!;
+
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService,
     private documentosExpedienteService: ExpedienteDocumentoService,
     private documentService: DocumentService, private customValidator: CustomValidatorsService,
     private fb: FormBuilder, private snackBar: MatSnackBar, private actoAdminService: ActoAdministrativoService,
-    private viafirmaService: ViafirmaService, private documentoGeneradoService: DocumentosGeneradosService) {
+    private viafirmaService: ViafirmaService, private documentoGeneradoService: DocumentosGeneradosService, private translate: TranslateService) {
     this.isbaForm = this.fb.group({
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
       fecha_completado: this.fb.control(this.commonService.getCurrentDateTime()),
@@ -208,6 +210,12 @@ export class IsbaGrantApplicationFormComponent {
       const regex = /^\d+([.,]\d{2})$/;
       return value && !regex.test(value) ? { invalidDecimal: true } : null;
     };
+  }
+
+  changeLanguage(value: string) {
+    this.actualLang = value;
+    sessionStorage.setItem('preferredLang', this.actualLang);
+    this.translate.use(this.actualLang)
   }
 
   /* DOCUMENTACIÓN */

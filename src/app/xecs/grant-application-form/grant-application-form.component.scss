@@ -196,6 +196,22 @@ mat-form-field {
   }
 }
 
+.button-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
+  }
+}
+
+.btn.selected {
+  background-color: #0098ce;
+  color:#fff;
+}
+
 
 @media screen and (max-width: 992px) {
 :host {

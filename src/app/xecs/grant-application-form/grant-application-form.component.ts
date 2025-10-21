@@ -98,6 +98,8 @@ export class GrantApplicationFormComponent implements OnInit {
   consentimiento_certificadoSegSoc!: boolean;
   consentimiento_certificadoATIB!: boolean;
 
+  actualLang: string = sessionStorage.getItem('preferredLang')!;
+
   constructor(private fb: FormBuilder, private documentoGeneradoService: DocumentosGeneradosService,
     private commonService: CommonService, private actoAdminService: ActoAdministrativoService,
     private expedienteService: ExpedienteService, private viafirmaService: ViafirmaService,
@@ -278,6 +280,12 @@ export class GrantApplicationFormComponent implements OnInit {
     this.getResponsabilityDeclarations()
     this.getDocumentationAndAuthorizations()
     this.getLineDetail(2026)
+  }
+
+  changeLanguage(value: string) {
+    this.actualLang = value;
+    sessionStorage.setItem('preferredLang', this.actualLang);
+    this.translate.use(this.actualLang)
   }
 
   setStep(index: number) {

@@ -13,40 +13,12 @@ form {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.btn-green {
-  background-color: #007c5a;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #005f44;
-  }
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-}
-
-.btn {
-  margin-bottom: 0.5rem;
-  background-color: transparent;
-  color: #007c5a;
-  &:hover {
-    color: #fff;
-  }
-}
-
 mat-icon {
   margin-left: 5px;
+  color: #007c5a;
   &:hover {
     cursor: pointer;
-    background-color: #0098cb;
+    background-color: transparent;
   }
 }
 
@@ -212,4 +184,49 @@ section.info-header {
   .mat-checkbox-checkmark-path {
     stroke: white;
   }
+}
+
+.btn-adr {
+  background-color: #007c5a;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #005f44;
+  }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+}
+
+.btn {
+  margin-bottom: 0.5rem;
+  background-color: transparent;
+  color: #007c5a;
+  &:hover {
+    color: #fff;
+  }
+}
+
+.button-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
+  }
+}
+
+.btn.selected {
+  background-color: #007c5a;
+  color: #fff;
 }
