@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, viewChild, signal, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, viewChild, signal, inject, Output, EventEmitter } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { map, Observable, of, startWith, throwError } from 'rxjs';
@@ -54,6 +54,7 @@ import { DocumentosGeneradosService } from '../../Services/documentos-generados.
 })
 
 export class GrantApplicationFormComponent implements OnInit {
+  @Output() noHeader = new EventEmitter<boolean>();
   readonly dialog = inject(MatDialog)
   htmlContentRequiredDocs: string = ''
   step = signal(0)
@@ -169,6 +170,7 @@ export class GrantApplicationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.noHeader.emit(true);
 
     this.xecsForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
       this.rgpdAccepted = value;

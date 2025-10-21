@@ -1,6 +1,6 @@
 import { CommonModule, formatDate } from '@angular/common';
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal, viewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -43,6 +43,7 @@ import { ViafirmaService } from '../../Services/viafirma.service';
   styleUrl: './grant-application-form.component.scss'
 })
 export class IsbaGrantApplicationFormComponent {
+  @Output() noHeader = new EventEmitter<boolean>();
   readonly dialog = inject(MatDialog)
   step = signal(0)
   uploadProgress: number = 0
@@ -145,7 +146,7 @@ export class IsbaGrantApplicationFormComponent {
       file_altaAutonomos: this.fb.control<File | null>(null, []), // Persona física
       file_escrituraConstitucion: this.fb.control<File | null>(null, []), // Persona jurídica
       dni_no_consent: this.fb.control<boolean>(false, []),
-      file_nifRepresentante: this.fb.control<File | null>({value: null, disabled: true}, [Validators.required]), // DNI/NIE con consentimiento
+      file_nifRepresentante: this.fb.control<File | null>({ value: null, disabled: true }, [Validators.required]), // DNI/NIE con consentimiento
       atib_no_consent: this.fb.control<boolean>(false, []),
       file_certificadoATIB: this.fb.control<File | null>({ value: null, disabled: true }, []), // Certificado ATIB y SS con consentimiento
       file_certificadoAEAT: this.fb.control<File | null>(null, [Validators.required]),
@@ -159,6 +160,8 @@ export class IsbaGrantApplicationFormComponent {
   }
 
   ngOnInit(): void {
+    this.noHeader.emit(true); // Emito que no debe tener cabecera
+
     // Desbloqueo por RGPD
     this.isbaForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
       this.rgpdAccepted = value
@@ -543,7 +546,7 @@ export class IsbaGrantApplicationFormComponent {
         control?.disable()
         control?.reset('')
       })
-      
+
       fileControlAutonomo?.setValidators([Validators.required]);
       this.file_escrituraConstitucionToUpload = [];
     } else {

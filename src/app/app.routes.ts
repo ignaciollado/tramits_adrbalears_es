@@ -29,7 +29,7 @@ export const routes: Routes = [
   
   { path: 'xecs-grant-subsidies-application-form', component: GrantApplicationFormComponent},
   { path: 'isba-grant-subsidies-application-form', component: IsbaGrantApplicationFormComponent},
-  { path: 'ils-grant-subsidies-application-form', component: IlsGrantApplicationFormComponent},
+  { path: 'ils-grant-subsidies-application-form/:lang', component: IlsGrantApplicationFormComponent},
 
   { path: 'xecs-management', canActivate: [AuthGuard], component:XecsManagementComponent },
   { path: 'isba-management', canActivate: [AuthGuard], component:IsbaManagementComponent },

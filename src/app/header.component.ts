@@ -25,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
 })
 
 export class HeaderComponent implements OnInit {
+  actualLang!: string;
 
   languageForm = this.fb.group({
     preferredLang: ['es-ES'],
@@ -50,6 +51,7 @@ export class HeaderComponent implements OnInit {
 
   // Leer idioma desde sessionStorage
   const storedLang = sessionStorage.getItem('preferredLang') || 'es-ES';
+  this.actualLang = sessionStorage.getItem('preferredLang') || 'es-ES';
   this.languageForm.patchValue({ preferredLang: storedLang });
   this.translate.use(storedLang);
 
@@ -64,6 +66,7 @@ export class HeaderComponent implements OnInit {
 
   onLanguageChange(): void {
   const selectedLang = this.languageForm.get('preferredLang')?.value ?? 'es-ES';
+  this.actualLang = this.languageForm.get('preferredLang')?.value ?? 'es-ES';
   sessionStorage.setItem('preferredLang', selectedLang); // <--- Guarda la selección
   this.languageService.setLanguage(selectedLang);
   this.translate.use(selectedLang);

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
+import { Component, EventEmitter, inject, Output, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,24 +14,24 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslateModule } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import jsPDF from 'jspdf';
 import { catchError, concatMap, from, map, Observable, of, startWith, tap, throwError } from 'rxjs';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { CnaeDTO } from '../../Models/cnae.dto';
+import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { CreateSignatureRequest } from '../../Models/signature.dto';
 import { ZipCodesIBDTO } from '../../Models/zip-codes-ib.dto';
 import { PopUpDialogComponent } from '../../popup-dialog/popup-dialog.component';
+import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { CommonService } from '../../Services/common.service';
 import { CustomValidatorsService } from '../../Services/custom-validators.service';
 import { DocumentService } from '../../Services/document.service';
-import { ExpedienteService } from '../../Services/expediente.service';
-import { ExpedienteDocumentoService } from '../../Services/expediente.documento.service';
-import { HttpEvent, HttpEventType } from '@angular/common/http';
-import jsPDF from 'jspdf';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
-import { ViafirmaService } from '../../Services/viafirma.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
-import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { CreateSignatureRequest } from '../../Models/signature.dto';
+import { ExpedienteDocumentoService } from '../../Services/expediente.documento.service';
+import { ExpedienteService } from '../../Services/expediente.service';
+import { ViafirmaService } from '../../Services/viafirma.service';
 
 
 @Component({
@@ -45,6 +46,8 @@ import { CreateSignatureRequest } from '../../Models/signature.dto';
 })
 
 export class IlsGrantApplicationFormComponent {
+  @Output() noHeader = new EventEmitter<boolean>();
+  private route = inject(ActivatedRoute)
   readonly dialog = inject(MatDialog)
   step = signal(0)
   uploadProgress: number = 0;
@@ -88,6 +91,7 @@ export class IlsGrantApplicationFormComponent {
 
   nameDocGenerado!: string;
 
+  actualLang!: string;
 
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService,
@@ -95,7 +99,8 @@ export class IlsGrantApplicationFormComponent {
     private documentosExpedienteService: ExpedienteDocumentoService,
     private customValidator: CustomValidatorsService, private fb: FormBuilder,
     private snackBar: MatSnackBar, private actoAdminService: ActoAdministrativoService,
-    private viafirmaService: ViafirmaService, private documentoGeneradoService: DocumentosGeneradosService) {
+    private viafirmaService: ViafirmaService, private documentoGeneradoService: DocumentosGeneradosService,
+    private translate: TranslateService) {
     this.ilsForm = this.fb.group({
 
       acceptRGPD: this.fb.control<boolean | null>(false, [Validators.required]),
@@ -145,6 +150,11 @@ export class IlsGrantApplicationFormComponent {
   }
 
   ngOnInit(): void {
+    this.noHeader.emit(true);
+    // Traducción por URL
+    this.actualLang = this.route.snapshot.paramMap.get('lang')!;
+    this.translate.use(this.actualLang)
+
     // Desbloqueo por RGPD
     this.ilsForm.get('acceptRGPD')?.valueChanges.subscribe((value: boolean) => {
       this.rgpdAccepted = value
@@ -263,7 +273,7 @@ export class IlsGrantApplicationFormComponent {
       { files: this.file_logotipoEmpresaIlsToUpload, type: 'file_logotipoEmpresaIls' }
     ]
 
-    
+
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
         rawValues.id_sol = respuesta.id_sol
@@ -630,8 +640,7 @@ export class IlsGrantApplicationFormComponent {
       .subscribe((docDataString: ActoAdministrativoDTO) => {
 
         // Declaración en cas o cat.
-        const lang = sessionStorage.getItem('preferredLang');
-        let rawTexto = lang === 'es-ES' ? docDataString.texto_es : docDataString.texto
+        let rawTexto = this.actualLang === 'es-ES' ? docDataString.texto_es : docDataString.texto
 
         if (!rawTexto) {
           this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
@@ -639,20 +648,20 @@ export class IlsGrantApplicationFormComponent {
         }
 
         let label_tipo_solicitante: string;
-        switch(data.tipo_solicitante) {
+        switch (data.tipo_solicitante) {
           case "autonomo":
-            label_tipo_solicitante = lang === 'es-ES' ? 'Autónomo' : 'Autònom';
+            label_tipo_solicitante = this.actualLang === 'es-ES' ? 'Autónomo' : 'Autònom';
             break;
           case "pequenya":
-            label_tipo_solicitante = lang === 'es-ES' ? 'Pequeña Empresa' : 'Petita Empresa';
+            label_tipo_solicitante = this.actualLang === 'es-ES' ? 'Pequeña Empresa' : 'Petita Empresa';
             break;
           case "mediana":
-            label_tipo_solicitante = lang === 'es-ES' ? 'Mediana Empresa' : 'Mitjana Empresa';
+            label_tipo_solicitante = this.actualLang === 'es-ES' ? 'Mediana Empresa' : 'Mitjana Empresa';
             break;
 
           default:
-            label_tipo_solicitante = lang === 'es-ES' ? 'Tipo desconocido' : 'Tipus desconegut';
-            break;     
+            label_tipo_solicitante = this.actualLang === 'es-ES' ? 'Tipo desconocido' : 'Tipus desconegut';
+            break;
         }
 
         /* Formateo y reemplazo de datos */
@@ -828,7 +837,7 @@ export class IlsGrantApplicationFormComponent {
         doc.setFont('helvetica', 'bold')
         doc.text(doc.splitTextToSize(jsonObject.declaracion_responsable_ils, maxTextWidth), marginLeft + 5, 110);
         doc.text(doc.splitTextToSize(jsonObject.declaracion_responsable_v_ils, maxTextWidth), marginLeft + 5, 114);
-        if (lang === "es-ES") {
+        if (this.actualLang === "es-ES") {
           doc.text(doc.splitTextToSize(jsonObject.declaracion_responsable_vii_ils, maxTextWidth), marginLeft + 5, 121);
           doc.text(doc.splitTextToSize(jsonObject.datos_consignados, maxTextWidth), marginLeft + 5, 125);
         } else {
