@@ -8,15 +8,27 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of } from 'rxjs';
-import { InformeFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/4_informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
-import { InformeFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/3_informe-favorable/informe-favorable.component';
+import { ResolucionConcesionConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/10_resolucion-concesion-con-requerimiento/resolucion-concesion-con-requerimiento.component';
+import { ResolucionDePagoYJustificacionAdrIsbaComponent } from '../../../../actos-admin-adr-isba/11_resolucion-de-pago-y-justificacion/resolucion-de-pago-y-justificacion.component';
+import { ResolucionDesestimientoPorRenunciaAdrIsbaComponent } from '../../../../actos-admin-adr-isba/15_resolucion-desestimiento-por-renuncia/resolucion-desestimiento-por-renuncia.component';
+import { PrRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/16_pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
+import { ResolucionRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/17_resolucion-revocacion-por-no-justificar/resolucion-revocacion-por-no-justificar.component';
 import { RequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/1_requerimiento/requerimiento.component';
+import { DeclaracionResponsableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/20_declaracion-responsable/declaracion-responsable.component';
 import { ResolDesestimientoNoEnmendarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/2_resol-desestimiento-no-enmendar/resol-desestimiento-no-enmendar.component';
+import { InformeFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/3_informe-favorable/informe-favorable.component';
+import { InformeFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/4_informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
+import { PrProvisionalFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/5_pr-provisional-favorable/pr-provisional-favorable.component';
+import { PrProvisionalFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/6_pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
+import { PrDefinitivaFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/7_pr-definitiva-favorable/pr-definitiva-favorable.component';
+import { PrDefinitivaFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/8_pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.component';
+import { ResolucionConcesionAdrIsbaComponent } from '../../../../actos-admin-adr-isba/9_resolucion-concesion/resolucion-concesion.component';
 import { AddDocumentComponent } from '../../../../add-document/add-document.component';
 import { DocumentComponent } from '../../../../document/document.component';
 import { DocSignedDTO } from '../../../../Models/docsigned.dto';
@@ -24,18 +36,6 @@ import { CommonService } from '../../../../Services/common.service';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
-import { MejorasSolicitudDetalleAdrIsbaComponent } from '../../../mejoras-solicitud-detalle/mejoras-solicitud-detalle.component';
-import { PrProvisionalFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/5_pr-provisional-favorable/pr-provisional-favorable.component';
-import { PrProvisionalFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/6_pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.component';
-import { PrDefinitivaFavorableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/7_pr-definitiva-favorable/pr-definitiva-favorable.component';
-import { PrDefinitivaFavorableConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/8_pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.component';
-import { ResolucionConcesionAdrIsbaComponent } from '../../../../actos-admin-adr-isba/9_resolucion-concesion/resolucion-concesion.component';
-import { ResolucionConcesionConRequerimientoAdrIsbaComponent } from '../../../../actos-admin-adr-isba/10_resolucion-concesion-con-requerimiento/resolucion-concesion-con-requerimiento.component';
-import { ResolucionDePagoYJustificacionAdrIsbaComponent } from '../../../../actos-admin-adr-isba/11_resolucion-de-pago-y-justificacion/resolucion-de-pago-y-justificacion.component';
-import { ResolucionDesestimientoPorRenunciaAdrIsbaComponent } from '../../../../actos-admin-adr-isba/15_resolucion-desestimiento-por-renuncia/resolucion-desestimiento-por-renuncia.component';
-import { PrRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/16_pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
-import { ResolucionRevocacionPorNoJustificarAdrIsbaComponent } from '../../../../actos-admin-adr-isba/17_resolucion-revocacion-por-no-justificar/resolucion-revocacion-por-no-justificar.component';
-import { DeclaracionResponsableAdrIsbaComponent } from '../../../../actos-admin-adr-isba/20_declaracion-responsable/declaracion-responsable.component';
 
 @Component({
   selector: 'app-detail-exped',
@@ -48,6 +48,7 @@ import { DeclaracionResponsableAdrIsbaComponent } from '../../../../actos-admin-
     MatCardModule, MatSnackBarModule,
     MatRadioModule,
     MatExpansionModule,
+    MatSelectModule,
     RequerimientoAdrIsbaComponent,
     ResolDesestimientoNoEnmendarAdrIsbaComponent, InformeFavorableAdrIsbaComponent,
     InformeFavorableConRequerimientoAdrIsbaComponent,
@@ -88,6 +89,8 @@ export class IsbaDetailExpedComponent {
   externalSignUrl: string = "";
   sendedUserToSign: string = "";
   sendedDateToSign!: Date;
+
+  situations: any[] = [];
 
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
@@ -171,6 +174,11 @@ export class IsbaDetailExpedComponent {
       fecha_not_r_revocacion: [{ value: '', disabled: true }, []],
       motivoResolucionRevocacionPorNoJustificar: [{ value: '', disabled: false }, []]
     });
+
+    this.commonService.getSituations().subscribe((situations: any[]) => {
+      this.situations = situations;
+    })
+
     this.getExpedDetail(this.idExpediente)
   }
 

@@ -3,43 +3,43 @@
         "name": "APP.REQUEST",
         "options": [
             {
-                "label": "SITUATIONS.XECS&ISBA.nohapasadoREC",
+                "label": "SITUATIONS.GENERAL.nohapasadoREC",
                 "value": "nohapasadoREC"
             },
             {
-                "label": "SITUATIONS.XECS&ISBA.pendiente",
+                "label": "SITUATIONS.GENERAL.pendiente",
                 "value": "pendiente"
             },
             {
-                "label": "SITUATIONS.XECS&ISBA.comprobarAnt",
+                "label": "SITUATIONS.GENERAL.comprobarAnt",
                 "value": "comprobarAnt"
             },
             {
-                "label": "SITUATIONS.XECS&ISBA.comprobarAntReg",
+                "label": "SITUATIONS.GENERAL.comprobarAntReg",
                 "value": "comprobarAntReg"
             },
             {
-                "label": "SITUATIONS.XECS&ISBA.emitirReq",
+                "label": "SITUATIONS.GENERAL.emitirReq",
                 "value": "emitirReq"
             },
             {
-                "label": "SITUATIONS.XECS&ISBA.firmadoReq",
+                "label": "SITUATIONS.GENERAL.firmadoReq",
                 "value": "firmadoReq"
             },
             {
-                "label": "SITUATIONS.XECS&ISBA.notificadoReq",
+                "label": "SITUATIONS.GENERAL.notificadoReq",
                 "value": "notificadoReq"
             },
             {
-                "label": "SITUATIONS.XECS&ISBA.emitirDesEnmienda",
+                "label": "SITUATIONS.GENERAL.emitirDesEnmienda",
                 "value": "emitirDesEnmienda"
             },
             {
-                "label": "SITUATIONS.XECS&ISBA.emitidoDesEnmienda",
+                "label": "SITUATIONS.GENERAL.emitidoDesEnmienda",
                 "value": "emitidoDesEnmienda"
             },
             {
-                "label": "SITUATIONS.XECS&ISBA.Desestimiento",
+                "label": "SITUATIONS.GENERAL.Desestimiento",
                 "value": "Desestimiento"
             }
         ]
@@ -51,47 +51,47 @@
                 "name": "APP.FAVORABLEEXPEDIENTS",
                 "options": [
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirIFPRProvPago",
+                        "label": "SITUATIONS.GENERAL.emitirIFPRProvPago",
                         "value": "emitirIFPRProvPago"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidoIFPRProvPago",
+                        "label": "SITUATIONS.GENERAL.emitidoIFPRProvPago",
                         "value": "emitidoIFPRProvPago"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.firmadoIFPRProvPago",
+                        "label": "SITUATIONS.GENERAL.firmadoIFPRProvPago",
                         "value": "firmadoIFPRProvPago"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.notificadoIFPRProvPago",
+                        "label": "SITUATIONS.GENERAL.notificadoIFPRProvPago",
                         "value": "notificadoIFPRProvPago"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirPRDefinitiva",
+                        "label": "SITUATIONS.GENERAL.emitirPRDefinitiva",
                         "value": "emitirPRDefinitiva"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidaPRDefinitiva",
+                        "label": "SITUATIONS.GENERAL.emitidaPRDefinitiva",
                         "value": "emitidaPRDefinitiva"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidaPRDefinitivaNotificada",
+                        "label": "SITUATIONS.GENERAL.emitidaPRDefinitivaNotificada",
                         "value": "emitidaPRDefinitivaNotificada"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirResConcesion",
+                        "label": "SITUATIONS.GENERAL.emitirResConcesion",
                         "value": "emitirResConcesion"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidaResConcesion",
+                        "label": "SITUATIONS.GENERAL.emitidaResConcesion",
                         "value": "emitidaResConcesion"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.notificadaResConcesion",
+                        "label": "SITUATIONS.GENERAL.notificadaResConcesion",
                         "value": "notificadaResConcesion"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.inicioConsultoria",
+                        "label": "SITUATIONS.GENERAL.inicioConsultoria",
                         "value": "inicioConsultoria"
                     }
                 ]
@@ -100,31 +100,31 @@
                 "name": "APP.NOFAVORABLEEXPEDIENTS",
                 "options": [
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirIDPDenProv",
+                        "label": "SITUATIONS.GENERAL.emitirIDPDenProv",
                         "value": "emitirIDPDenProv"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidoIDPDenProv",
+                        "label": "SITUATIONS.GENERAL.emitidoIDPDenProv",
                         "value": "emitidoIDPDenProv"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirPDenDef",
+                        "label": "SITUATIONS.GENERAL.emitirPDenDef",
                         "value": "emitirPDenDef"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidoPDenDef",
+                        "label": "SITUATIONS.GENERAL.emitidoPDenDef",
                         "value": "emitidoPDenDef"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirResDen",
+                        "label": "SITUATIONS.GENERAL.emitirResDen",
                         "value": "emitirResDen"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidoResDen",
+                        "label": "SITUATIONS.GENERAL.emitidoResDen",
                         "value": "emitidoResDen"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.Denegado",
+                        "label": "SITUATIONS.GENERAL.Denegado",
                         "value": "Denegado"
                     }
                 ]
@@ -138,27 +138,27 @@
                 "name": "APP.CORRECTJUSTIFICATION",
                 "options": [
                     {
-                        "label": "SITUATIONS.XECS&ISBA.pendienteJustificar",
+                        "label": "SITUATIONS.GENERAL.pendienteJustificar",
                         "value": "pendienteJustificar"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.pendienteRECJustificar",
+                        "label": "SITUATIONS.GENERAL.pendienteRECJustificar",
                         "value": "pendienteRECJustificar"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.Justificado",
+                        "label": "SITUATIONS.GENERAL.Justificado",
                         "value": "Justificado"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirResPagoyJust",
+                        "label": "SITUATIONS.GENERAL.emitirResPagoyJust",
                         "value": "emitirResPagoyJust"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidoResPagoyJust",
+                        "label": "SITUATIONS.GENERAL.emitidoResPagoyJust",
                         "value": "emitidoResPagoyJust"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.Finalizado",
+                        "label": "SITUATIONS.GENERAL.Finalizado",
                         "value": "Finalizado"
                     }
                 ]
@@ -167,31 +167,31 @@
                 "name": "APP.JUSTIFICATIONREQUIREMENT",
                 "options": [
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirReqJust",
+                        "label": "SITUATIONS.GENERAL.emitirReqJust",
                         "value": "emitirReqJust"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidoReqJust",
+                        "label": "SITUATIONS.GENERAL.emitidoReqJust",
                         "value": "emitidoReqJust"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirPropRevocacion",
+                        "label": "SITUATIONS.GENERAL.emitirPropRevocacion",
                         "value": "emitirPropRevocacion"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidoPropRevocacion",
+                        "label": "SITUATIONS.GENERAL.emitidoPropRevocacion",
                         "value": "emitidoPropRevocacion"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitirResRevocacion",
+                        "label": "SITUATIONS.GENERAL.emitirResRevocacion",
                         "value": "emitirResRevocacion"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.emitidoResRevocacion",
+                        "label": "SITUATIONS.GENERAL.emitidoResRevocacion",
                         "value": "emitidoResRevocacion"
                     },
                     {
-                        "label": "SITUATIONS.XECS&ISBA.revocado",
+                        "label": "SITUATIONS.GENERAL.revocado",
                         "value": "revocado"
                     }
                 ]

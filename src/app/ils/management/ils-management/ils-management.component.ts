@@ -14,10 +14,11 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { CommonService } from '../../../Services/common.service';
 import { ExpedienteService } from '../../../Services/expediente.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
-  selector: 'app-xecs-management',
+  selector: 'app-ils-management',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,7 +31,8 @@ import { ExpedienteService } from '../../../Services/expediente.service';
     MatInputModule,
     HttpClientModule,
     MatSnackBarModule, RouterModule,
-    MatSelectModule, MatButtonModule
+    MatSelectModule, MatButtonModule,
+    TranslateModule
   ],
   templateUrl: './ils-management.component.html',
   styleUrls: ['./ils-management.component.scss']
@@ -46,7 +48,8 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
   private expedienteService = inject(ExpedienteService)
   private commonService = inject(CommonService)
   uniqueConvocatorias: number[] = []
-  uniqueSituaciones: string[] = []
+  // uniqueSituaciones: string[] = [];
+  uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = [];
 
   form!: FormGroup;
@@ -60,6 +63,11 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
       convocatoria: [null],
       situacion: [[]]
     });
+
+    this.commonService.getIlsSituations().subscribe((situations: any[]) => {
+      this.uniqueSituaciones = situations;
+      console.log(this.uniqueSituaciones)
+    })
 
     // Verifica si hay filtros guardados y si los valores son válidos
     const savedConv = sessionStorage.getItem('filtroConvocatoria');
@@ -107,10 +115,7 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
         this.uniqueConvocatorias = [
           ...new Set<number>(this.expedientesFiltrados.map((e: any) => Number(e.convocatoria)))
         ];
-
-        this.uniqueSituaciones = [
-          ...new Set(this.expedientesFiltrados.map((e: any) => e.situacion).filter(Boolean))
-        ];
+        
         this.commonService.showSnackBar('ILS: expedientes cargados correctamente ✅')
       },
 

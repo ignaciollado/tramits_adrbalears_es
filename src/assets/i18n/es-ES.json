@@ -521,7 +521,7 @@
     }
   },
   "SITUATIONS": {
-    "XECS&ISBA": {
+    "GENERAL": {
       "nohapasadoREC": "No ha pasado por la SEDE electrónica",
       "pendiente": "Pendiente de validar",
       "comprobarAnt": "Comprobar Antonia",
@@ -563,6 +563,20 @@
       "emitirResRevocacion": "Emitir resolución de revocación",
       "emitidoResRevocacion": "Resolución de revocación emitida",
       "revocado": "Revocado"
+    },
+    "ILS": {
+      "reqFirmado": "Requerimiento firmado",
+      "reqNotificado": "Requerimiento notificado + 30 días para subsanar",
+      "ifResolucionEmitida": "IF + resolución emitida",
+      "ifResolucionEnviada": "IF + resolución enviada",
+      "ifResolucionNotificada": "IF + resolución notificada",
+      "empresaAdherida": "Empresa adherida",
+      "idResolucionDenegacionEmitida": "ID + resolución denegación emitida",
+      "idResolucionDenegacionEnviada": "ID + resolución denegación enviada",
+      "idResolucionDenegacionNotificada": "ID + resolución denegación notificada",
+      "empresaDenegada": "Empresa denegada",
+      "justificantGOIB": "Recibido justificante de distribución GOIB",
+      "adhesionRenovada": "Adhesión renovada"
     }
   }
 }

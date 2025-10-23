@@ -42,7 +42,7 @@ export class CommonService {
   }
 
   /* CRUD Zipcodes */
-  
+
   // GET all
   getZipCodes(): Observable<ZipCodesIBDTO[]> {
     return this.http.get<ZipCodesIBDTO[]>(`${this.urlAPI}/zipcodes`).pipe(catchError(this.handleError))
@@ -68,7 +68,7 @@ export class CommonService {
     return this.http.delete<void>(`${this.urlAPI}/zipcodes/delete/${id}`).pipe(catchError(this.handleError))
   }
 
-   /* CRUD Cnaes */
+  /* CRUD Cnaes */
   getCNAEs(): Observable<CnaeDTO[]> {
     return this.http.get<CnaeDTO[]>(`${this.urlAPITramits}/pindustactividades`).pipe(catchError(this.handleError))
   }
@@ -94,8 +94,13 @@ export class CommonService {
     return this.http.get<any[]>(`${this.urlAPIMock}expedientSituations.json`).pipe(catchError(this.handleError));
   }
 
+  /* GET JSON situación ILS */
+  getIlsSituations(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.urlAPIMock}ilsSituations.json`).pipe(catchError(this.handleError));
+  }
+
   /* Generate timeStamp */
- 
+
   generateCustomTimestamp(): string {
     const date = new Date();
     const pad = (n: number) => n.toString().padStart(2, '0');
@@ -122,87 +127,87 @@ export class CommonService {
 
   generatePDFDocument(dataToRender: any): void {
     const doc = new jsPDF();
-    
+
     // Texto del pie de página
     const footerText = 'Plaça de Son Castelló, 1\n07009 Polígon de Son Castelló - Palma\nTel. 971 17 61 61\nwww.adrbalears.es';
-  
+
     // Establecer estilo si lo deseas
     doc.setFont('Arial', 'normal');
     doc.setFontSize(8);
-  
+
     // Posición del pie de página
     const marginLeft = 25;
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
-  
+
     // Dividir el texto en líneas
     const lines = footerText.split('\n');
-  
+
     // Dibujar cada línea desde abajo hacia arriba
     lines.reverse().forEach((line, index) => {
       const y = pageHeight - 10 - (index * lineHeight);
       doc.text(line, marginLeft, y);
     });
-  
+
     // Añadir el texto centrado en la parte inferior
     //const textWidth = doc.getTextWidth(footerText);
     //const pageWidth = doc.internal.pageSize.getWidth();
     //const x = (pageWidth - textWidth) / 2;
     // const y = pageHeight - margin;
     //doc.text(footerText, x, y);
-  
+
     const rawDate = dataToRender.eventDate; // puede ser string o Date
     const eventDate = new Date(rawDate);
-  
+
     const TITULO_EVENTO = dataToRender.title
     const FECHA_EVENTO = `${eventDate.getDate().toString().padStart(2, '0')}/${(eventDate.getMonth() + 1).toString().padStart(2, '0')}/${eventDate.getFullYear()}`;
     const HORAS_EVENTO = dataToRender.timeDuration + " hrs"
-   
+
     const date = new Date();
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = date.toLocaleDateString('ca-ES', options);
-  
+
     doc.addImage("../../../../assets/images/ADRBalearscompleto-conselleria.jpg", "JPEG", 25, 20, 75, 15);
     doc.setFontSize(12);
     doc.text("Convocatoria para la concesión de ayudas de cheques de consultoría para impulsar a la industria de Baleares en materia de digitalización, internacionalización, sostenibilidad y gestión avanzada.,", 25, 65)
-  
+
     doc.setFont('Arial', 'bold');
     doc.text("CERTIFIC:", 25, 100)
     doc.setFont('Arial', 'normal');
-  
-    doc.text(`Convocatoria 2025 ${dataToRender.firstName+' '+dataToRender.lastName} , amb DNI ${dataToRender.dni}, ha assistit a la càpsula\nformativa “${TITULO_EVENTO}”, organitzat per l'Agència de\nDesevolupament Regional de les Illes Balears (ADR). Dia ${FECHA_EVENTO},\namb una durada de ${HORAS_EVENTO}`, 25, 140)
-  
+
+    doc.text(`Convocatoria 2025 ${dataToRender.firstName + ' ' + dataToRender.lastName} , amb DNI ${dataToRender.dni}, ha assistit a la càpsula\nformativa “${TITULO_EVENTO}”, organitzat per l'Agència de\nDesevolupament Regional de les Illes Balears (ADR). Dia ${FECHA_EVENTO},\namb una durada de ${HORAS_EVENTO}`, 25, 140)
+
     doc.text("I perquè consti als efectes oportuns firm aquest certificat.", 25, 180)
-  
+
     doc.text(`Palma, ${formattedDate}`, 25, 220);
-  
-    doc.save(`certificado_${dataToRender.firstName+'_'+dataToRender.lastName}.pdf`);
+
+    doc.save(`certificado_${dataToRender.firstName + '_' + dataToRender.lastName}.pdf`);
   }
 
   formatDate(fecha: string | Date): string {
-  // Convertir string a Date si es necesario
-  const dateObj = (typeof fecha === 'string') ? new Date(fecha) : fecha;
+    // Convertir string a Date si es necesario
+    const dateObj = (typeof fecha === 'string') ? new Date(fecha) : fecha;
 
-  const pad = (n: number) => n < 10 ? '0' + n : n;
+    const pad = (n: number) => n < 10 ? '0' + n : n;
 
-  const dia = pad(dateObj.getDate());
-  const mes = pad(dateObj.getMonth() + 1);
-  const anio = dateObj.getFullYear();
+    const dia = pad(dateObj.getDate());
+    const mes = pad(dateObj.getMonth() + 1);
+    const anio = dateObj.getFullYear();
 
-  const horas = pad(dateObj.getHours());
-  const minutos = pad(dateObj.getMinutes());
+    const horas = pad(dateObj.getHours());
+    const minutos = pad(dateObj.getMinutes());
 
-  return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
+    return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
   }
 
   formatCurrency(importe: number | string): string {
-    if (!importe) { return '0.00'}
-  return new Intl.NumberFormat('es-ES', {
-    style: 'currency',
-    currency: 'EUR',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  }).format(Number(importe));
+    if (!importe) { return '0.00' }
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(Number(importe));
   }
 
   cleanRawText(rawText: any): any {

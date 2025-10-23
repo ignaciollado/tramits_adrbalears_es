@@ -521,7 +521,7 @@
     }
   },
   "SITUATIONS": {
-    "XECS&ISBA": {
+    "GENERAL": {
       "nohapasadoREC": "No ha passat per la SEU electrònica",
       "pendiente": "Pendent de validar",
       "comprobarAnt": "Comprovar Antonia",
@@ -563,6 +563,20 @@
       "emitirResRevocacion": "Emetre resolució de revocació",
       "emitidoResRevocacion": "Resolució de revocació emesa",
       "revocado": "Revocat"
+    },
+    "ILS": {
+      "reqFirmado": "Requeriment signat",
+      "reqNotificado": "Requeriment notificat + 30 dies per subsanar",
+      "ifResolucionEmitida": "IF + resolució emesa",
+      "ifResolucionEnviada": "IF + resolució enviada",
+      "ifResolucionNotificada": "IF + resolució notificada",
+      "empresaAdherida": "Empresa adherida",
+      "idResolucionDenegacionEmitida": "ID + resolució denegació emesa",
+      "idResolucionDenegacionEnviada": "ID + resolució denegació enviada",
+      "idResolucionDenegacionNotificada": "ID + resolució denegació notificada",
+      "empresaDenegada": "Empresa denegada",
+      "justificantGOIB": "Rebut justificant de distribució GOIB",
+      "adhesionRenovada": "Adhesió renovada"
     }
   }
 }

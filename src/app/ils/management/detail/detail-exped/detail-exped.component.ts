@@ -33,6 +33,7 @@ import { ResRenovacionMarcaIlsComponent } from '../../../../actos-admin-ils/13_r
 import { ResRenovacionMarcaConRequerimientoIlsComponent } from '../../../../actos-admin-ils/14_res-renovacion-marca-con-requerimiento/res-renovacion-marca-con-requerimiento.component';
 import { ResolucionRevocacionIlsComponent } from '../../../../actos-admin-ils/15_resolucion-revocacion/resolucion-revocacion.component';
 import { DeclaracionResponsableIlsComponent } from '../../../../actos-admin-ils/20_declaracion-responsable/declaracion-responsable.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-detail-exped',
@@ -43,7 +44,7 @@ import { DeclaracionResponsableIlsComponent } from '../../../../actos-admin-ils/
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule,
     MatCardModule, MatSnackBarModule,
-    MatExpansionModule, RequerimientoIlsComponent,
+    MatExpansionModule, MatSelectModule, RequerimientoIlsComponent,
     ResolDesestimientoNoEnmendarIlsComponent,
     InformeFavorableConRequerimientoIlsComponent,
     InformeFavorableIlsComponent,
@@ -86,6 +87,8 @@ export class IlsDetailExpedComponent {
   sendedDateToSign!: Date;
 
   motivoRequerimiento: string = "";
+
+  situations: any[] = [];
 
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
@@ -131,7 +134,7 @@ export class IlsDetailExpedComponent {
 
       /* Seguimiento */
       fecha_adhesion_ils: [{ value: '', disabled: true }, []],
-      fecha_seguimiento_adhesion_ils: [{ value: '', disabled: true }, []], 
+      fecha_seguimiento_adhesion_ils: [{ value: '', disabled: true }, []],
       /* Entre fecha_adhesion_ils hasta fecha_seguimiento_adhesion_ils, hay 1 año de diferencia */
       fecha_limite_presentacion: [{ value: '', disabled: true }, []],
       fecha_rec_informe_seguimiento: [{ value: '', disabled: true }, []],
@@ -151,6 +154,10 @@ export class IlsDetailExpedComponent {
       fecha_res_revocacion_marca: [{ value: '', disabled: true }, []]
 
     });
+
+    this.commonService.getIlsSituations().subscribe((situations: any[]) => {
+      this.situations = situations
+    })
     this.getExpedDetail(this.idExpediente)
   }
 

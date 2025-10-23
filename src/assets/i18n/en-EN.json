@@ -521,7 +521,7 @@
     }
   },
   "SITUATIONS": {
-    "XECS&ISBA": {
+    "GENERAL": {
       "nohapasadoREC": "It has not gone through the official electronic portal",
       "pendiente": "Pending validation",
       "comprobarAnt": "Check Antonia",
@@ -563,6 +563,20 @@
       "emitirResRevocacion": "Issue revocation resolution",
       "emitidoResRevocacion": "Revocation resolution issued",
       "revocado": "Revoked"
+    },
+    "ILS": {
+      "reqFirmado": "Signed request",
+      "reqNotificado": "Notified request + 30 days to rectify",
+      "ifResolucionEmitida": "IF + resolution issued",
+      "ifResolucionEnviada": "IF + resolution sent",
+      "ifResolucionNotificada": "IF + resolution notified",
+      "empresaAdherida": "Company affiliated",
+      "idResolucionDenegacionEmitida": "ID + rejection resolution issued",
+      "idResolucionDenegacionEnviada": "ID + rejection resolution sent",
+      "idResolucionDenegacionNotificada": "ID + rejection resolution notified",
+      "empresaDenegada": "Company rejected",
+      "justificantGOIB": "GOIB distribution justification received",
+      "adhesionRenovada": "Renewed affiliation "
     }
   }
 }

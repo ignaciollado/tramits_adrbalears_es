@@ -14,6 +14,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { CommonService } from '../../../Services/common.service';
 import { ExpedienteService } from '../../../Services/expediente.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-xecs-management',
@@ -29,7 +30,8 @@ import { ExpedienteService } from '../../../Services/expediente.service';
     MatInputModule,
     HttpClientModule,
     MatSnackBarModule, RouterModule,
-    MatSelectModule, MatButtonModule
+    MatSelectModule, MatButtonModule,
+    TranslateModule
   ],
   templateUrl: './isba-management.component.html',
   styleUrls: ['./isba-management.component.scss']
@@ -46,7 +48,8 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   private commonService = inject(CommonService)
   uniqueConvocatorias: number[] = [];
   uniqueTiposTramite: string[] = [];
-  uniqueSituaciones: string[] = [];
+  // uniqueSituaciones: string[] = [];
+  uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = [];
 
 
@@ -62,6 +65,10 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
       // tipoTramite: [[]],
       situacion: [[]]
     });
+
+    this.commonService.getSituations().subscribe((situations: any[]) => {
+      this.uniqueSituaciones = situations
+    })
 
     // Verifica si hay filtros guardados y si los valores son válidos
     const savedConv = sessionStorage.getItem('filtroConvocatoria');
@@ -117,10 +124,6 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
 
         this.uniqueConvocatorias = [
           ...new Set<number>(this.expedientesFiltrados.map((e: any) => Number(e.convocatoria)))
-        ];
-
-        this.uniqueSituaciones = [
-          ...new Set(this.expedientesFiltrados.map((e: any) => e.situacion).filter(Boolean))
         ];
 
         this.commonService.showSnackBar('ADR-ISBA: expedientes cargados correctamente ✅')

@@ -1,0 +1,82 @@
+[
+    {
+        "name": "APP.REQUEST",
+        "options": [
+            {
+                "label": "SITUATIONS.GENERAL.nohapasadoREC",
+                "value": "nohapasadoREC"
+            },
+            {
+                "label": "SITUATIONS.GENERAL.pendiente",
+                "value": "pendiente"
+            },
+            {
+                "label": "SITUATIONS.ILS.reqFirmado",
+                "value": "reqFirmado"
+            },
+            {
+                "label": "SITUATIONS.ILS.reqNotificado",
+                "value": "reqNotificado"
+            }
+        ]
+    },
+    {
+        "name": "APP.ADHESION",
+        "options": [
+            {
+                "label": "SITUATIONS.ILS.ifResolucionEmitida",
+                "value": "ifResolucionEmitida"
+            },
+            {
+                "label": "SITUATIONS.ILS.ifResolucionEnviada",
+                "value": "ifResolucionEnviada"
+            },
+            {
+                "label": "SITUATIONS.ILS.ifResolucionNotificada",
+                "value": "ifResolucionNotificada"
+            },
+            {
+                "label": "SITUATIONS.ILS.empresaAdherida",
+                "value": "empresaAdherida"
+            }
+        ]
+    },
+    {
+        "name": "APP.TRACKING",
+        "options": [
+            {
+                "label": "SITUATIONS.ILS.idResolucionDenegacionEmitida",
+                "value": "idResolucionDenegacionEmitida"
+            },
+            {
+                "label": "SITUATIONS.ILS.idResolucionDenegacionEnviada",
+                "value": "idResolucionDenegacionEnviada"
+            },
+            {
+                "label": "SITUATIONS.ILS.idResolucionDenegacionNotificada",
+                "value": "idResolucionDenegacionNotificada"
+            },
+            {
+                "label": "SITUATIONS.ILS.empresaDenegada",
+                "value": "empresaDenegada"
+            }
+        ]
+    },
+    {
+        "name": "APP.RENOVATION",
+        "options": [
+            {
+                "label": "SITUATIONS.GENERAL.pendienteJustificar",
+                "value": "pendienteJustificar"
+            },
+            {
+                "label": "SITUATIONS.ILS.justificantGOIB",
+                "value": "justificantGOIB"
+            },
+            {
+                "label": "SITUATIONS.ILS.adhesionRenovada",
+                "value": "adhesionRenovada"
+            }
+        ]
+    }
+]

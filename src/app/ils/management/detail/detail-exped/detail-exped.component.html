@@ -70,7 +70,13 @@
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.SITUATION' | translate}}</mat-label>
-                        <input matInput formControlName="situacion">
+                        <mat-select formControlName="situacion">
+                            <mat-optgroup *ngFor="let group of situations" [label]="group.name | translate" style="font-weight: bolder;">
+                                <mat-option *ngFor="let option of group.options" [value]="option.value">
+                                  {{option.label | translate}}
+                                </mat-option>
+                              </mat-optgroup>
+                        </mat-select>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>{{'FORM.WEBSITEDETAILS' | translate}}</mat-label>
