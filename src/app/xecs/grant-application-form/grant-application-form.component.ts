@@ -66,6 +66,7 @@ export class GrantApplicationFormComponent implements OnInit {
   introText: string = "getting intro text..."
   filteredcpostals: Observable<ZipCodesIBDTO[]> | undefined
   cpostals: ZipCodesIBDTO[] = []
+  options: ZipCodesIBDTO[] = [];
   cnaes: CnaeDTO[] = []
   xecsPrograms: XecsProgramsDTO[] = []
   responsibilityDeclarations: ResponsabilityDeclarationDTO[] = []
@@ -116,10 +117,10 @@ export class GrantApplicationFormComponent implements OnInit {
       nif: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       empresa: this.fb.control('', [Validators.required]),
       domicilio: this.fb.control({ value: '', disabled: false }, [Validators.required]),
-      cpostal: this.fb.control('', [Validators.pattern('^07[0-9]{3}$')]),
+      cpostal: this.fb.control('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
       localidad: this.fb.control({ value: '', disabled: true }, [Validators.required]),
       iae: this.fb.control({ value: '', disabled: false }, [Validators.required]),
-      telefono: this.fb.control('', [Validators.pattern('^[0-9]{9}$')]),
+      telefono: this.fb.control('', [Validators.pattern('^[0-9]{9}$'), Validators.required]),
       acceptRGPD: this.fb.control<boolean | null>(false, Validators.required),
       tipo_tramite: this.fb.control<string | null>('', Validators.required),
       tipo_solicitante: this.fb.control<string | null>('', Validators.required),
@@ -178,13 +179,13 @@ export class GrantApplicationFormComponent implements OnInit {
       this.rgpdAccepted = value;
     });
 
-    this.filteredcpostals = this.xecsForm.get('cpostal')!.valueChanges.pipe(
+    this.filteredcpostals = this.xecsForm.get('cpostal')?.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const input = typeof value === 'string' ? value : value?.cpostal || '';
-        return input ? this._filter(input) : this.cpostals.slice();
+        const name = typeof value === 'string' ? value : value;
+        return name ? this._filter(name as string) : this.options.slice()
       })
-    );
+    )
 
     const nifControl = this.xecsForm.get('nif')
     const nom_representanteControl = this.xecsForm.get('nom_representante')
@@ -329,7 +330,7 @@ export class GrantApplicationFormComponent implements OnInit {
     this.expedienteService.getLastExpedienteIdXECS(convocatoria).subscribe((lastID: any) => {
       datos.idExp = (+lastID.last_id) + 1
       datos.convocatoria = convocatoria
-      // datos.localidad = datos.cpostal
+      datos.cpostal = this.xecsForm.get('cpostal')?.value['zipCode'];
       datos.selloDeTiempo = timeStamp
       datos.tipo_tramite = datos.tipo_tramite.replace(/_/g, ' ')
       datos.file_copiaNIF = datos.consentimientocopiaNIF
@@ -562,12 +563,8 @@ export class GrantApplicationFormComponent implements OnInit {
 
     this.actoAdminService.getByNameAndTipoTramite('dec_responsable_solicitud_ayuda', 'XECS')
       .subscribe((docDataString: ActoAdministrativoDTO) => {
-        let rawTexto
-        if (localStorage.getItem("preferredLang") === 'es-ES') {
-          rawTexto = docDataString.texto_es
-        } else {
-          rawTexto = docDataString.texto
-        }
+        let rawTexto = this.actualLang === 'es-ES' ? docDataString.texto_es : docDataString.texto
+
         if (!rawTexto) {
           this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
           return;
@@ -594,7 +591,7 @@ export class GrantApplicationFormComponent implements OnInit {
             label_tipo_tramite = "Programa IV, «IGestió»";
             break;
           default:
-            label_tipo_tramite = "Programa desconocido";
+            label_tipo_tramite = this.actualLang === 'es-ES' ? "Programa desconocido" : "Programa desconegut";
             break;
         }
 
@@ -602,25 +599,35 @@ export class GrantApplicationFormComponent implements OnInit {
         let label_tipo_solicitante: string;
         switch (datos.tipo_solicitante) {
           case "autonomo":
-            label_tipo_solicitante = "Autónomo";
+            label_tipo_solicitante = this.actualLang === 'es-ES' ? "Autónomo" : 'Autònom';
             break;
           case "pequenya":
-            label_tipo_solicitante = "Pequeña Empresa";
+            label_tipo_solicitante = this.actualLang === 'es-ES' ? "Pequeña Empresa" : 'Petita Empresa';
             break;
           case "mediana":
-            label_tipo_solicitante = "Mediana Empresa";
+            label_tipo_solicitante = this.actualLang === 'es-ES' ? "Mediana Empresa" : 'Mitjana Empresa';
             break;
           default:
-            label_tipo_solicitante = "Tipo desconocido";
+            label_tipo_solicitante = this.actualLang === 'es-ES' ? "Tipo desconocido" : 'Tipus desconegut';
             break;
         }
 
         // Label para opcion_banco
-        const label_opcion_banco = datos.opcion_banco == '1' ? "IBAN de la cuenta para España" : "Número de la cuenta de otros países";
+        let label_opcion_banco: string;
+        switch (datos.opcion_banco) {
+          case '1':
+            label_opcion_banco = this.actualLang === 'es-ES' ? 'IBAN de la cuenta para España' : 'IBAN del compte per a Espanya';
+            break;
+          case '2':
+            label_opcion_banco = this.actualLang === 'es-ES' ? 'Número de la cuenta de otros países' : "Número del compte d'altres països";
+            break
+          default:
+            label_opcion_banco = this.actualLang === 'es-ES' ? 'Opción desconocida' : 'Opció desconeguda'
+        }
 
         /* Importes monetarios formateados */
         let formattedImporte_minimis!: any;
-        if (datos.importe_minimis !== "") {
+        if (this.xecsForm.get('declaracion_responsable_ii')?.value === true) {
           formattedImporte_minimis = this.commonService.formatCurrency(datos.importe_minimis);
         }
 
@@ -900,10 +907,13 @@ export class GrantApplicationFormComponent implements OnInit {
 
         alturaDecRes += 14;
 
-        const decResTextBlocks = [
-          jsonObject.declaracion_responsable_i,
-          datos.importe_minimis !== "" ? jsonObject.declaracion_responsable_ii : null,
-          datos.importe_minimis !== "" ? jsonObject.importe_minimis : null,
+        let decResTextBlocks = [jsonObject.declaracion_responsable_i]
+
+        if (this.xecsForm.get('declaracion_responsable_ii')?.value === true) {
+          decResTextBlocks.push(jsonObject.declaracion_responsable_ii, jsonObject.importe_minimis)
+        }
+
+        decResTextBlocks.push(
           jsonObject.declaracion_responsable_iii,
           jsonObject.declaracion_responsable_iv,
           jsonObject.declaracion_responsable_v,
@@ -913,8 +923,8 @@ export class GrantApplicationFormComponent implements OnInit {
           jsonObject.declaracion_responsable_ix,
           jsonObject.declaracion_responsable_x,
           jsonObject.declaracion_responsable_xi,
-          jsonObject.declaracion_responsable_xii,
-        ]
+          jsonObject.declaracion_responsable_xii
+        )
 
         decResTextBlocks.forEach((bloque) => {
           if (bloque) {
@@ -1173,35 +1183,33 @@ export class GrantApplicationFormComponent implements OnInit {
         control.enable(); // ✅ Reactiva el input si estaba desactivado
       }
     }
+
+    // Si la declaración de importes_minimis es true, limpia
+    if (controlName === 'declaracion_responsable_ii' && !isChecked) {
+      this.xecsForm.get('importe_minimis')?.reset(null);
+    }
     // Actualiza el estado de validación
     control.updateValueAndValidity();
     console.log('Control:', controlName, 'Checked:', isChecked, 'Validators:', control.validator);
   }
 
-  selectedZipValue(event: MatAutocompleteSelectedEvent): void {
-    const selected = event.option.value;
-    console.log(selected);
-    if (selected && selected.zipCode) {
-      this.xecsForm.get('cpostal')?.setValue(selected.zipCode, { emitEvent: false });
-      this.xecsForm.get('localidad')?.setValue(selected.town);
-    }
+  selectedZipValue(): void {
+    this.xecsForm.get('localidad')?.setValue(this.xecsForm.get('cpostal')?.value['town'])
   }
 
-  displayFn(zip: any): string {
-    return typeof zip === 'object' && zip ? zip.zipCode : zip;
+  displayFn(zip: ZipCodesIBDTO): string {
+    return zip && zip.zipCode ? zip.zipCode : '';
   }
 
-  private _filter(filterValue: string): ZipCodesIBDTO[] {
-
-    return this.cpostals.filter((cpostal: any) =>
-      cpostal.id.includes(filterValue)
-    );
+  private _filter(name: string): ZipCodesIBDTO[] {
+    return this.options.filter((option) => option.zipCode.includes(name))
   }
 
   private getAllcpostals() {
     this.commonService.getZipCodes().subscribe((zpCodes: ZipCodesIBDTO[]) => {
-      const zpCodesFiltered: ZipCodesIBDTO[] = zpCodes.filter((zpCode: ZipCodesIBDTO) => zpCode.deleted_at?.toString() === "0000-00-00 00:00:00")
-      this.cpostals = zpCodesFiltered;
+      const filteredZipcodes: ZipCodesIBDTO[] = zpCodes.filter((zipcode: ZipCodesIBDTO) => zipcode.deleted_at?.toString() === "0000-00-00 00:00:00");
+      this.cpostals = filteredZipcodes;
+      this.options = filteredZipcodes;
     }, (error) => { this.commonService.showSnackBar(error) });
   }
 

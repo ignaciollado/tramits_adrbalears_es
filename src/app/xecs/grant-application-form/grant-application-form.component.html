@@ -121,7 +121,7 @@
         <input matInput formControlName="domicilio" />
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <!-- <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.ZIPCODE' | translate }}</mat-label>
         <input matInput formControlName="cpostal" maxlength="5" minlength="5" [matAutocomplete]="auto"/>
           <mat-autocomplete #auto="matAutocomplete" 
@@ -129,7 +129,15 @@
           (optionSelected)="selectedZipValue($event)">
             <mat-option *ngFor="let option of filteredcpostals | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option>
           </mat-autocomplete>        
-      </mat-form-field>      
+      </mat-form-field>    -->
+      
+      <mat-form-field appearance="fill">
+        <mat-label>{{'FORM.ZIPCODE' | translate}}</mat-label>
+        <input matInput (ngModelChange)="selectedZipValue()" type="text" formControlName="cpostal" maxlength="5" minlength="5" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredcpostals | async" [value]="option">{{option.zipCode}} {{option.town}}</mat-option> 
+        </mat-autocomplete>
+    </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>{{ 'FORM.TOWN' | translate }}</mat-label>

@@ -838,7 +838,7 @@ export class IsbaGrantApplicationFormComponent {
 
     this.actoAdminService.getByNameAndTipoTramite('isba_20_declaracion_responsable_solicitud_ayuda', 'ADR-ISBA')
       .subscribe((docDataString: ActoAdministrativoDTO) => {
-        let rawTexto = docDataString.texto;
+        let rawTexto = this.actualLang === 'es-ES' ? docDataString.texto_es : docDataString.texto;
 
         if (!rawTexto) {
           this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
@@ -864,7 +864,7 @@ export class IsbaGrantApplicationFormComponent {
         rawTexto = rawTexto.replace(/%ZIPCODE%/g, data.cpostal);
         rawTexto = rawTexto.replace(/%LOCALIDAD%/g, data.localidad);
         rawTexto = rawTexto.replace(/%NOMBRE_REPRESENTANTE_LEGAL%/g, data.nombre_rep);
-        rawTexto = rawTexto.replace(/%DNI_REPRESENTANTE_LEGAL%/g, data.nombre_rep);
+        rawTexto = rawTexto.replace(/%DNI_REPRESENTANTE_LEGAL%/g, data.nif_rep);
         rawTexto = rawTexto.replace(/%TELEFONO_CONTACTO_SOLICITANTE%/g, data.telefono);
 
         rawTexto = rawTexto.replace(/%DIRECCION_ELECTRONICA_NOTIFICACIONES%/g, data.email_rep);
@@ -1016,17 +1016,17 @@ export class IsbaGrantApplicationFormComponent {
         doc.text(declaro_tit, (pageWidth - declaroTextWidth) / 2, 111);
         printBorder(doc, declaro_tit, marginLeft, 110, 8, pageWidth);
 
-        doc.text(doc.splitTextToSize(jsonObject.declaro_idi_isba_que_cumple_0_5, maxTextWidth), marginLeft + 5, 124);
 
-        // PENDIENTE!
+        let declaracionesCombinadas = jsonObject.declaro_idi_isba_que_cumple_0_5
+
         if (!data.declaro_idi_isba_que_cumple_4) {
-          printLabelWithBoldValue(doc, jsonObject.declaro_idi_isba_ayudas_recibidas, marginLeft + 10, 166, 8);
-          doc.setFont('helvetica', 'normal');
-
-          doc.text(doc.splitTextToSize(jsonObject.declaro_idi_isba_que_cumple_6_15, maxTextWidth), marginLeft + 5, 173);
+          declaracionesCombinadas += ('\n\t' + jsonObject.declaro_idi_isba_ayudas_recibidas + '\n' + jsonObject.declaro_idi_isba_que_cumple_6_15);
         } else {
-          doc.text(doc.splitTextToSize(jsonObject.declaro_idi_isba_que_cumple_6_15, maxTextWidth), marginLeft + 5, 166);
+          declaracionesCombinadas += ('\n' + jsonObject.declaro_idi_isba_que_cumple_6_15)
         }
+
+
+        doc.text(doc.splitTextToSize(declaracionesCombinadas, maxTextWidth), marginLeft + 5, 124)
 
         // Tercera página
         doc.addPage();
@@ -1110,7 +1110,7 @@ export class IsbaGrantApplicationFormComponent {
         }
 
         const pdfBlob = doc.output('blob');
-
+        
         const formData = new FormData();
         const fileName = `${data.nif}_declaracion_responsable_idi_isba.pdf`;
         formData.append('file', pdfBlob, fileName);
