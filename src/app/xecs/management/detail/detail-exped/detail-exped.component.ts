@@ -280,7 +280,7 @@ ngOnInit(): void {
 
   this.form.get('fecha_reunion_cierre')?.valueChanges.subscribe(value => {
     if (!value || isNaN(new Date(value).getTime())) {
-      this.form.get('fecha_limite_justificacion')?.setValue('');
+      return;
     };
     const fecha_limite_justificacion = new Date(value);
     fecha_limite_justificacion.setDate(fecha_limite_justificacion.getDate() + 20);

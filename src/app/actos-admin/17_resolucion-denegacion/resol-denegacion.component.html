@@ -3,25 +3,25 @@
     <mat-expansion-panel-header>
       <mat-panel-title> 17. {{'ACTOSADMINISTRATIVOS.RESOLUCIONDENEGACION' | translate}} </mat-panel-title>
     </mat-expansion-panel-header>
-    <button mat-raised-button color="accent" (click)="generateActoAdmin('18_resolucion_denegacion_sin_requerimiento', 'XECS')">Generar</button>
-    <button mat-raised-button color="accent" (click)="actoAdmin17 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('18_resolucion_denegacion_sin_requerimiento', 'XECS')" [disabled]="!actoAdmin17">Ver documento</button>
-    <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin17">Send to sign</button>
+    <button mat-raised-button color="accent" (click)="generateActoAdmin('18_resolucion_denegacion_sin_requerimiento', 'XECS')">{{'ACTOSADMINISTRATIVOS.GENERAL.GENERATEACTO' | translate}}</button>
+    <button mat-raised-button color="accent" (click)="actoAdmin17 ? viewActoAdmin(actualNif, 'informes', nameDocgenerado, 'pdf') : generateActoAdmin('18_resolucion_denegacion_sin_requerimiento', 'XECS')" [disabled]="!actoAdmin17">{{'ACTOSADMINISTRATIVOS.GENERAL.VIEWACTO' | translate}}</button>
+    <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin17">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOCEO' | translate}}</button>
     <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
       <section *ngIf="signatureDocState === 'COMPLETED'">
-        <a  href='{{externalSignUrl}}' target="_blank">Ver el documento firmado</a>
+        <a  href='{{externalSignUrl}}' target="_blank">{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.VIEWSIGNEDDOC' | translate}}</a>
       </section>
-      <section *ngIf="signatureDocState === 'REJECTED'">Firma rechazada</section>
+      <section *ngIf="signatureDocState === 'REJECTED'">{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.REJECTED' | translate}}</section>
       <section *ngIf="signatureDocState === 'NOT_STARTED'">
-        <span>Pendiente de firma.</span><br>
-        <span>Este documento se envió a firmar a la dirección: <strong>{{sendedUserToSign}}</strong></span><br>
-        <span>en la fecha: <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
-        <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin17">Send to sign again</button>
+        <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDING' | translate}}</span><br>
+        <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDINGEMAIL' | translate}} <strong>{{sendedUserToSign}}</strong></span><br>
+        <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDINGDATE' | translate}} <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
+        <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocgenerado, 'pdf')" [disabled]="!actoAdmin17">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOSIGNAGAIN' | translate}}</button>
       </section>
       <section *ngIf="signatureDocState === 'IN_PROCESS'">
-        <span>Firma en curso</span>
+        <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PROGRESS' | translate}}</span>
       </section>
     </section>     
     <iframe *ngIf="pdfUrl" [src]="pdfUrl" width="100%" height="600px" ngClass="pdf-container"></iframe>
-    <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closeViewActoAdmin()">Cerrar ✖</button>        
+    <button mat-button color="warn" ngClass="close-button"  *ngIf="showPdfViewer" (click)="closeViewActoAdmin()">{{'ACTOSADMINISTRATIVOS.GENERAL.CLOSE' | translate}} ✖</button>        
   </mat-expansion-panel>
 </mat-accordion>

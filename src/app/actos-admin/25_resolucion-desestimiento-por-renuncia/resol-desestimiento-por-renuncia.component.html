@@ -25,7 +25,7 @@
                   <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')" [disabled]="!actoAdmin25">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOSIGNAGAIN' | translate}}</button>
                 </section>
                 <section *ngIf="signatureDocState === 'IN_PROCESS'">
-                  <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PROCESS' | translate}}</span>
+                  <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PROGRESS' | translate}}</span>
                 </section>
             </section>
             <section *ngIf="faltanCampos" style="margin-top: 10px;">
