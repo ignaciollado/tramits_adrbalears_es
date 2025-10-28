@@ -1,24 +1,21 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpedienteDocumentoService {
-  urlAPITramits: string;
+  private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {
-    this.urlAPITramits = "https://pre-tramits.idi.es/public/index.php"
-    this.urlAPITramits = 'https://tramits.idi.es/public/index.php'
-   
-  }
+  constructor(private http: HttpClient) { }
 
   /* CRUD Documentos Expediente */
 
   // GET documentos de un expediente por id_sol
   getDocumentosExpediente(id: number): Observable<any> {
-    return this.http.get<any[]>(`${this.urlAPITramits}pindustdocument/expediente/${id}`).pipe(catchError(this.handleError))
+    return this.http.get<any[]>(`${this.apiUrl}pindustdocument/expediente/${id}`).pipe(catchError(this.handleError))
   }
 
   // CREATE // BBDD
@@ -37,13 +34,13 @@ export class ExpedienteDocumentoService {
     };
 
 
-    return this.http.post<any>(`${this.urlAPITramits}/pindustdocument/create`, payload)
+    return this.http.post<any>(`${this.apiUrl}/pindustdocument/create`, payload)
       .pipe(catchError(this.handleError));
   }
 
   // Cambia el estedo del documento 'name' y de la solicitud 'id_sol'
   changeDocumentoExpedienteState(payload: { id_sol: number; name: string }): Observable<any> {
-    const url = `${this.urlAPITramits}/pindustdocument/change-state`;
+    const url = `${this.apiUrl}/pindustdocument/change-state`;
     return this.http.post<any>(url, payload);
   }
 

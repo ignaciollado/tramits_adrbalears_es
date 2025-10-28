@@ -47,8 +47,7 @@ export class HeaderComponent implements OnInit {
   const entornoGuardado = sessionStorage.getItem('entorno');
   const isTramits = entornoGuardado === 'tramits';
   this.languageForm.patchValue({ entorno: isTramits });
-  this.expedienteService.setEntorno(isTramits ? 'tramits' : 'pre-tramits');
-
+  /*   this.expedienteService.setEntorno(isTramits ? 'tramits' : 'pre-tramits'); */
   // Leer idioma desde sessionStorage
   const storedLang = sessionStorage.getItem('preferredLang') || 'es-ES';
   this.actualLang = sessionStorage.getItem('preferredLang') || 'es-ES';
@@ -59,7 +58,7 @@ export class HeaderComponent implements OnInit {
   this.languageForm.get('entorno')?.valueChanges.subscribe((value: boolean | null) => {
     const entorno = value ? 'tramits' : 'pre-tramits';
     sessionStorage.setItem('entorno', entorno);
-    this.expedienteService.setEntorno(entorno);
+  /*     this.expedienteService.setEntorno(entorno); */
     window.location.reload();
   });
   }

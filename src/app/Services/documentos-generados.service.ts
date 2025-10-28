@@ -2,25 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { DocumentoGeneradoDTO } from '../Models/documentos-generados-dto';
-
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentosGeneradosService {
-  private entorno: 'tramits' | 'pre-tramits';
-  private readonly urls = {
-    'tramits': 'https://tramits.idi.es/public/index.php',
-    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
-  };
-
-    private get apiUrl(): string {
-    return this.urls[this.entorno];
-  }
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {
-    const entornoGuardado = sessionStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
-    this.entorno = entornoGuardado || 'pre-tramits';
+
   }
 
   // Obtener todos los documentos

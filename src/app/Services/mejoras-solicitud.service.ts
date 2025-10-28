@@ -2,32 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MejoraSolicitudDTO } from '../Models/mejoras-solicitud-dto';
-
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MejorasSolicitudService {
-  private entorno: 'tramits' | 'pre-tramits';
-  private readonly urls = {
-    'tramits': 'https://tramits.idi.es/public/index.php',
-    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
-  };
+  private apiUrl = environment.apiUrl
 
-  constructor(private http: HttpClient) {
-    const entornoGuardado = sessionStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
-    this.entorno = entornoGuardado || 'pre-tramits';
-  }
-
-  setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
-    this.entorno = entorno;
-    sessionStorage.setItem('entorno', entorno);
-    console.log ("entorno actual expedientes: ", this.entorno)
-  }
-
-  private get apiUrl(): string {
-    return this.urls[this.entorno];
-  }
+  constructor(private http: HttpClient) { }
 
   private httpOptions = {
     headers: new HttpHeaders({

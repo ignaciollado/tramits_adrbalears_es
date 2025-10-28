@@ -8,25 +8,22 @@ import { AuthorizationTextDTO } from '../Models/authorization-texts-dto';
 import jsPDF from 'jspdf';
 import { ResponsabilityDeclarationDTO } from '../Models/responsability-declaration-dto';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommonService {
-/*   private readonly urlAPITramits = {
-    'tramits': 'https://tramits.idi.es/public/index.php',
-    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
-  }; */
 
-  private urlAPI: string
+  private ibrelleuAPI: string
+  private apiUrl = environment.apiUrl
   private urlAPIMock: string
-  private urlAPITramits: string
+
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.urlAPIMock = '../../assets/data/';
-    this.urlAPI = "https://data.ibrelleu.es/public/index.php"
-    this.urlAPITramits = 'https://tramits.idi.es/public/index.php'
-   
+    this.ibrelleuAPI = "https://data.ibrelleu.es/public/index.php"
+
   }
 
   // Documentos y autorizaciones XECS
@@ -48,48 +45,48 @@ export class CommonService {
 
   // GET all
   getZipCodes(): Observable<ZipCodesIBDTO[]> {
-    return this.http.get<ZipCodesIBDTO[]>(`${this.urlAPI}/zipcodes`).pipe(catchError(this.handleError))
+    return this.http.get<ZipCodesIBDTO[]>(`${this.ibrelleuAPI}/zipcodes`).pipe(catchError(this.handleError))
   }
 
   // GET by ID
   getOneZipCode(id: number): Observable<ZipCodesIBDTO> {
-    return this.http.get<ZipCodesIBDTO>(`${this.urlAPI}/zipcodes/${id}`).pipe(catchError(this.handleError))
+    return this.http.get<ZipCodesIBDTO>(`${this.ibrelleuAPI}/zipcodes/${id}`).pipe(catchError(this.handleError))
   }
 
   // POST
   createZipCode(zipCode: ZipCodesIBDTO): Observable<ZipCodesIBDTO> {
-    return this.http.post<ZipCodesIBDTO>(`${this.urlAPI}/zipcodes/create`, zipCode).pipe(catchError(this.handleError))
+    return this.http.post<ZipCodesIBDTO>(`${this.ibrelleuAPI}/zipcodes/create`, zipCode).pipe(catchError(this.handleError))
   }
 
   // PUT
   updateZipCode(id: number, zipCode: ZipCodesIBDTO): Observable<ZipCodesIBDTO> {
-    return this.http.put<ZipCodesIBDTO>(`${this.urlAPI}/zipcodes/update/${id}`, zipCode).pipe(catchError(this.handleError))
+    return this.http.put<ZipCodesIBDTO>(`${this.ibrelleuAPI}/zipcodes/update/${id}`, zipCode).pipe(catchError(this.handleError))
   }
 
   // DELETE
   deleteZipCode(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.urlAPI}/zipcodes/delete/${id}`).pipe(catchError(this.handleError))
+    return this.http.delete<void>(`${this.ibrelleuAPI}/zipcodes/delete/${id}`).pipe(catchError(this.handleError))
   }
 
   /* CRUD Cnaes */
   getCNAEs(): Observable<CnaeDTO[]> {
-    return this.http.get<CnaeDTO[]>(`${this.urlAPITramits}/pindustactividades`).pipe(catchError(this.handleError))
+    return this.http.get<CnaeDTO[]>(`${this.apiUrl}/pindustactividades`).pipe(catchError(this.handleError))
   }
 
   getOneCNAE(id: number): Observable<CnaeDTO> {
-    return this.http.get<CnaeDTO>(`${this.urlAPITramits}/pindustactividades/${id}`).pipe(catchError(this.handleError))
+    return this.http.get<CnaeDTO>(`${this.apiUrl}/pindustactividades/${id}`).pipe(catchError(this.handleError))
   }
 
   createCNAE(zipCode: CnaeDTO): Observable<CnaeDTO> {
-    return this.http.post<CnaeDTO>(`${this.urlAPITramits}/pindustactividades`, zipCode).pipe(catchError(this.handleError))
+    return this.http.post<CnaeDTO>(`${this.apiUrl}/pindustactividades`, zipCode).pipe(catchError(this.handleError))
   }
 
   updateCNAE(id: number, zipCode: CnaeDTO): Observable<CnaeDTO> {
-    return this.http.put<CnaeDTO>(`${this.urlAPITramits}/pindustactividades/${id}`, zipCode).pipe(catchError(this.handleError))
+    return this.http.put<CnaeDTO>(`${this.apiUrl}/pindustactividades/${id}`, zipCode).pipe(catchError(this.handleError))
   }
 
   deleteCNAE(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.urlAPITramits}/pindustactividades/${id}`).pipe(catchError(this.handleError))
+    return this.http.delete<void>(`${this.apiUrl}/pindustactividades/${id}`).pipe(catchError(this.handleError))
   }
 
   /* GET JSON situación */

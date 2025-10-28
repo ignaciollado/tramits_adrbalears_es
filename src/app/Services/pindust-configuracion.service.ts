@@ -2,26 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigurationModelDTO } from '../Models/configuration.dto';
-
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PindustConfiguracionService {
-  private entorno: 'tramits' | 'pre-tramits';
-  private readonly urls = {
-    'tramits': 'https://tramits.idi.es/public/index.php',
-    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
-  };
-   
-  constructor(private http: HttpClient) {
-    const entornoGuardado = sessionStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
-    this.entorno = entornoGuardado || 'pre-tramits';
-  }
+  private apiUrl = environment.apiUrl
 
-  private get apiUrl(): string {
-    return this.urls[this.entorno];
-  }
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<ConfigurationModelDTO[]> {
     return this.http.get<ConfigurationModelDTO[]>(`${this.apiUrl}/api/pindustconfiguracion`);

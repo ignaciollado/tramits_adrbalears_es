@@ -2,25 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
-  private entorno: 'tramits' | 'pre-tramits';
-  private readonly urls = {
-    'tramits': 'https://tramits.idi.es/public/index.php',
-    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
-  };
-   
-  constructor(private http: HttpClient) {
-    const entornoGuardado = sessionStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
-    this.entorno = entornoGuardado || 'pre-tramits';
-  }
+  private apiUrl = environment.apiUrl;
 
-  private get apiUrl(): string {
-    return this.urls[this.entorno];
-  }
+  constructor(private http: HttpClient) { }
 
   /* En la BBDD */
   getDocuments(nif: string, timestamp: string): Observable<any[]> {

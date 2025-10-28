@@ -1,36 +1,20 @@
 
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { DocSignedDTO } from '../Models/docsigned.dto';
 import { CreateSignatureRequest, SignatureResponse } from '../Models/signature.dto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class ViafirmaService {
-  private entorno: 'tramits' | 'pre-tramits';
-  private readonly urls = {
-    'tramits': 'https://tramits.idi.es/public/index.php',
-    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
-  };
+  
+  private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {
-    const entornoGuardado = sessionStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
-    this.entorno = entornoGuardado || 'pre-tramits';
-  }
-
-  /*   setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
-      this.entorno = entorno;
-      sessionStorage.setItem('entorno', entorno);
-      console.log ("entorno actual: ", this.entorno)
-    }
-   */
-
-  private get apiUrl(): string {
-    return this.urls[this.entorno];
-  }
+  constructor(private http: HttpClient) { }
 
   /** 
    * Obtiene el estado de firma de un documento enviado a VIAFIRMA

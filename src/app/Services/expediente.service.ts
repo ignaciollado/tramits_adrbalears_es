@@ -1,30 +1,17 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpedienteService {
-  private entorno: 'tramits' | 'pre-tramits';
-  private readonly urls = {
-    'tramits': 'https://tramits.idi.es/public/index.php',
-    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
-  };
+
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {
-    const entornoGuardado = sessionStorage.getItem('entorno') as 'tramits' | 'pre-tramits';
-    this.entorno = entornoGuardado || 'pre-tramits';
-  }
 
-  setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
-    this.entorno = entorno;
-    sessionStorage.setItem('entorno', entorno);
-  }
-
-  private get apiUrl(): string {
-    console.log (this.urls[this.entorno])
-    return this.urls[this.entorno];
   }
 
   /* CRUD Expedientes */
@@ -63,7 +50,6 @@ export class ExpedienteService {
   }
 
   createExpediente(expediente: any): Observable<any> {
-    // const testAPIURL = "https://pre-tramits.idi.es/public/index.php"
     return this.http.post<any>(`${this.apiUrl}/pindustexpediente/create`, expediente).pipe(catchError(this.handleError));
   }
 

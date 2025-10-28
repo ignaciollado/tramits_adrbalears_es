@@ -11,9 +11,9 @@
           <section ngClass="container-fluid main-menu">
             <!-- Enlaces de navegación -->
             <a mat-menu-item ngClass="nav-link" [routerLink]="['home']">Home</a>
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-grant-subsidies-application-form']">{{ 'HEADER.XECSAPPFORM' | translate }}</a>
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-grant-subsidies-application-form']">{{ 'HEADER.ISBAAPPFORM' | translate }}</a>
-            <a mat-menu-item ngClass="nav-link" [routerLink]="['ils-grant-subsidies-application-form', actualLang]">{{ 'HEADER.ILSAPPFORM' | translate }}</a>
+            <a target="_blank" mat-menu-item ngClass="nav-link" [routerLink]="['xecs-grant-subsidies-application-form']">{{ 'HEADER.XECSAPPFORM' | translate }}</a>
+            <a target="_blank" mat-menu-item ngClass="nav-link" [routerLink]="['isba-grant-subsidies-application-form']">{{ 'HEADER.ISBAAPPFORM' | translate }}</a>
+            <a target="_blank" mat-menu-item ngClass="nav-link" [routerLink]="['ils-grant-subsidies-application-form', actualLang]">{{ 'HEADER.ILSAPPFORM' | translate }}</a>
             <hr>
             <a mat-menu-item ngClass="nav-link" [routerLink]="['xecs-management']">{{ 'HEADER.XECSMANAGEMENT' | translate }}</a>
             <a mat-menu-item ngClass="nav-link" [routerLink]="['isba-management']">{{ 'HEADER.ISBAMANAGEMENT' | translate }}</a>
