@@ -20,10 +20,10 @@ export class ExpedienteService {
   setEntorno(entorno: 'pre-tramits' | 'tramits'): void {
     this.entorno = entorno;
     sessionStorage.setItem('entorno', entorno);
-    console.log ("entorno actual expedientes: ", this.entorno)
   }
 
   private get apiUrl(): string {
+    console.log (this.urls[this.entorno])
     return this.urls[this.entorno];
   }
 

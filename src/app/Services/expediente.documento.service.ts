@@ -10,6 +10,8 @@ export class ExpedienteDocumentoService {
 
   constructor(private http: HttpClient) {
     this.urlAPITramits = "https://pre-tramits.idi.es/public/index.php"
+    this.urlAPITramits = 'https://tramits.idi.es/public/index.php'
+   
   }
 
   /* CRUD Documentos Expediente */
@@ -34,8 +36,6 @@ export class ExpedienteDocumentoService {
       docRequerido: "SI",
     };
 
-/*     console.log (payload)
-    return throwError(() => new Error('Not implemented')); */
 
     return this.http.post<any>(`${this.urlAPITramits}/pindustdocument/create`, payload)
       .pipe(catchError(this.handleError));
@@ -47,18 +47,6 @@ export class ExpedienteDocumentoService {
     return this.http.post<any>(url, payload);
   }
 
-
-  // UPDATE
-/*   updateExpediente(id: number, expediente: any): Observable<any> {
-    return this.http.put<any>(`${this.urlAPITramits}/pindustexpediente/update/${id}`, expediente).pipe(catchError(this.handleError))
-  } */
-
-  // DELETE
-/*   deleteExpediente(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.urlAPITramits}/pindustexpediente/delete/${id}`)
-    .pipe(catchError(this.handleError))
-  }
- */
 
 
 private handleError(error: HttpErrorResponse) {

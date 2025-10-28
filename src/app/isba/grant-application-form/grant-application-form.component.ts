@@ -198,7 +198,6 @@ export class IsbaGrantApplicationFormComponent {
       this.onBusinessTypeChange();
     })
 
-
     this.loadZipcodes()
     this.loadActividadesCNAE()
     this.generateIdExp()
@@ -289,7 +288,7 @@ export class IsbaGrantApplicationFormComponent {
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
         rawValues.id_sol = respuesta.id_sol;
-        this.showSnackBar('✔️ Expediente creado con éxito ' + respuesta.message + ' ' + respuesta.id_sol);
+        this.commonService.showSnackBar('✔️ Expediente creado con éxito ' + respuesta.message + ' ' + respuesta.id_sol);
 
         this.generateDeclaracionResponsable(rawValues, filesToUpload, opcFilesToUpload);
 
@@ -299,11 +298,11 @@ export class IsbaGrantApplicationFormComponent {
           return Array.from(files).flatMap((file: File) => {
             if (!file) return [];
             if (file.size === 0) {
-              this.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`);
+              this.commonService.showSnackBar(`⚠️ El archivo "${file.name}" está vacío y no se subirá.`);
               return [];
             }
             if (file.size > 10 * 1024 * 1024) {
-              this.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`);
+              this.commonService.showSnackBar(`⚠️ El archivo "${file.name}" supera el tamaño máximo permitido de 10 MB.`);
               return [];
             }
             return [{ file, type }];
@@ -322,7 +321,7 @@ export class IsbaGrantApplicationFormComponent {
         const todosLosArchivos = [...archivosValidos, ...archivosOpcionalesValidos];
 
         if (todosLosArchivos.length === 0) {
-          this.showSnackBar('⚠️ No hay archivos válidos para subir.');
+          this.commonService.showSnackBar('⚠️ No hay archivos válidos para subir.');
           return;
         }
 
@@ -343,15 +342,15 @@ export class IsbaGrantApplicationFormComponent {
               } else {
                 mensaje += `⚠️ No se encontró información de archivo en el evento.`;
               }
-              this.showSnackBar(mensaje);
+              this.commonService.showSnackBar(mensaje);
             },
-            complete: () => this.showSnackBar('✅ Todas las subidas finalizadas'),
-            error: (err) => this.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
+            complete: () => this.commonService.showSnackBar('✅ Todas las subidas finalizadas'),
+            error: (err) => this.commonService.showSnackBar(`❌ Error durante la secuencia de subida: ${err}`)
           });
       },
       error: (err) => {
         let msg = '❌ Error al crear el expediente.\n';
-        this.showSnackBar("err: " + err);
+        this.commonService.showSnackBar("err: " + err);
         try {
           const errorMsgObj = JSON.parse(err.messages?.error ?? '{}');
           msg += `💬 ${errorMsgObj.message || 'Se produjo un error inesperado.'}\n`;
@@ -374,7 +373,7 @@ export class IsbaGrantApplicationFormComponent {
         } catch (parseError) {
           msg += `⚠️ No se pudo interpretar el error: ${err}`;
         }
-        this.showSnackBar(msg);
+        this.commonService.showSnackBar(msg);
       }
     });
   }
@@ -383,6 +382,7 @@ export class IsbaGrantApplicationFormComponent {
   get memoriaTecnicaFileNames(): string {
     return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
   }
+
   onFileMemoriaTecnicaChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
@@ -393,6 +393,7 @@ export class IsbaGrantApplicationFormComponent {
   get document_veracidad_datos_bancariosFileNames(): string {
     return this.file_document_veracidad_datos_bancariosToUpload.map(f => f.name).join(', ')
   }
+
   onfile_document_veracidad_datos_bancariosChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
@@ -403,6 +404,7 @@ export class IsbaGrantApplicationFormComponent {
   get file_certificadoIAEFileNames(): string {
     return this.file_certificadoIAEToUpload.map(f => f.name).join(', ')
   }
+
   onfile_certificadoIAEChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
@@ -413,6 +415,7 @@ export class IsbaGrantApplicationFormComponent {
   get file_nifRepresentanteFileNames(): string {
     return this.file_nifRepresentanteToUpload.map(f => f.name).join(', ')
   }
+
   onfile_nifRepresentanteChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
@@ -628,7 +631,7 @@ export class IsbaGrantApplicationFormComponent {
       this.zipCodeList = filteredZipcodes
       this.options = filteredZipcodes
     }, error => {
-      this.showSnackBar(error)
+      this.commonService.showSnackBar(error)
     })
   }
 
@@ -636,14 +639,15 @@ export class IsbaGrantApplicationFormComponent {
     this.commonService.getCNAEs().subscribe((actividadesCNAE: CnaeDTO[]) => {
       this.actividadesCNAE = actividadesCNAE
     }, error => {
-      this.showSnackBar(error)
+      this.commonService.showSnackBar(error)
     })
   }
 
   private generateIdExp(): void {
+    sessionStorage.setItem('entorno', 'tramits');
     this.expedienteService.getLastExpedienteIdByProgram('ADR-ISBA').subscribe((id: any) => {
       this.idExp = (+id.last_id + 1).toString()
-    }, error => { this.showSnackBar(error) })
+    }, error => { this.commonService.showSnackBar(error) })
   }
 
 
@@ -694,7 +698,7 @@ export class IsbaGrantApplicationFormComponent {
       tap((event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.Sent:
-            this.showSnackBar('Archivos enviados al servidor...');
+            this.commonService.showSnackBar('Archivos enviados al servidor...');
             break;
           case HttpEventType.UploadProgress:
             if (event.total) {
@@ -702,27 +706,17 @@ export class IsbaGrantApplicationFormComponent {
             }
             break;
           case HttpEventType.Response:
-            this.showSnackBar('Archivos subidos con éxito: ' + event.body);
+            this.commonService.showSnackBar('Archivos subidos con éxito: ' + event.body);
             this.uploadProgress = 100;
             break;
         }
       }),
       catchError(err => {
-        this.showSnackBar('Error al subir los archivos: ' + err);
+        this.commonService.showSnackBar('Error al subir los archivos: ' + err);
         return throwError(() => err);
       })
     );
   }
-
-  private showSnackBar(error: string): void {
-    this.snackBar.open(error, 'Close', {
-      duration: 10000,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'center',
-      panelClass: ['custom-snackbar']
-    })
-  }
-
 
   // He decidido, para facilitar la subida, hacer que devuelva un File[]
   generateDeclaracionResponsable(data: any, reqFiles: any, opcFiles: any): void {

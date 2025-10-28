@@ -13,17 +13,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class CommonService {
+/*   private readonly urlAPITramits = {
+    'tramits': 'https://tramits.idi.es/public/index.php',
+    'pre-tramits': 'https://pre-tramits.idi.es/public/index.php'
+  }; */
 
   private urlAPI: string
-  private urlAPITramits: string
   private urlAPIMock: string
-
+  private urlAPITramits: string
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {
     this.urlAPIMock = '../../assets/data/';
-
     this.urlAPI = "https://data.ibrelleu.es/public/index.php"
-    this.urlAPITramits = "https://pre-tramits.idi.es/public/index.php"
+    this.urlAPITramits = 'https://tramits.idi.es/public/index.php'
+   
   }
 
   // Documentos y autorizaciones XECS
