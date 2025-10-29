@@ -49,12 +49,13 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
   private commonService = inject(CommonService)
-  uniqueConvocatorias: number[] = [];
+  uniqueConvocatorias: number[] = [2025, 2024, 2023, 2022, 2021];
   uniqueTiposTramite: string[] = [];
   // uniqueSituaciones: string[] = [];
   uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = []
   filtrosAplicados:boolean = false;
+  currentYear!: string 
   
   form!: FormGroup;
   displayedColumns: string[] = ['fecha_completado', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda', 
@@ -64,13 +65,13 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
 
 ngOnInit(): void {
   
-  const currentYear = new Date().getFullYear();
+  this.currentYear = new Date().getFullYear().toString();
   this.form = this.fb.group({
-    convocatoria: [currentYear],
+    convocatoria: [new Date().getFullYear()],
     tipoTramite: [[]],
     situacion: [[]]
   });
-this.limpiarFiltros()
+  this.limpiarFiltros()
   this.commonService.getSituations().subscribe((situations: any[]) => {
     this.uniqueSituaciones = situations;
   })
@@ -80,11 +81,10 @@ this.limpiarFiltros()
   let savedTipo = sessionStorage.getItem('filtroTipoTramite');
   let savedSit = sessionStorage.getItem('filtroSituacion');
 
-  console.log ("filtros: ", savedConv, savedTipo, savedSit)
   if (savedConv || savedTipo || savedSit) {
     this.filtrosAplicados = true; // ✅ Hay filtros guardados
     this.form.patchValue({
-      convocatoria: savedConv ? +savedConv : currentYear,
+      convocatoria: savedConv ? +savedConv : this.currentYear,
       tipoTramite: savedTipo ? JSON.parse(savedTipo) : [],
       situacion: savedSit ? JSON.parse(savedSit) : []
     });
@@ -111,7 +111,7 @@ ngAfterViewInit(): void {
 loadAllExpedientes(): void {
   this.loading = true;
 
-  this.expedienteService.getAllLineExpedientes('XECS').subscribe({
+  this.expedienteService.getAllLineExpedientes('XECS', this.currentYear).subscribe({
     next: (res) => {
       // Excluir expedientes con tipo_tramite 'ILS' o 'ADR-ISBA', 'company', 'FELIB'
 /*       const expedientesFiltrados = res.filter(
@@ -126,10 +126,6 @@ loadAllExpedientes(): void {
         this.paginator.pageIndex = +paginaGuardada;
       }
       this.dataSource.paginator = this.paginator;
-
-      this.uniqueConvocatorias = [
-        ...new Set<number>(this.expedientesFiltrados.map((e: any) => Number(e.convocatoria)))
-      ];
 
       this.uniqueTiposTramite = [
         ...new Set<string>(this.expedientesFiltrados.map((e: any) => e.tipo_tramite))
@@ -169,10 +165,14 @@ loadExpedientes(): void {
   sessionStorage.setItem('filtroTipoTramite', tipoTramite || '');
   sessionStorage.setItem('filtroSituacion', situacion || '');
 
+  console.log (this.expedientesFiltrados)
+
   // Filtrar sobre los expedientes ya cargados
   let filtrados = this.expedientesFiltrados.filter(
     (e: any) => Number(e.convocatoria) === Number(convocatoria)
   );
+
+  console.log (convocatoria, filtrados)
 
   if (tipoTramite?.length) {
     filtrados = filtrados.filter((e: any) =>
