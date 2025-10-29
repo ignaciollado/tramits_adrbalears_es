@@ -250,91 +250,53 @@
 
     <section ngClass="memoria-tecnica docs-in-adr file-upload">
       <mat-checkbox ngClass="documento-en-adr" formControlName = "memoriaTecnicaEnIDI" (change)="onCheckboxChange($event, 'file_memoriaTecnica')">{{ 'FILES.FILEINADR' | translate }}</mat-checkbox>
-<!--       <mat-form-field appearance="fill">
-       <mat-label>{{ 'FILES.FILESMEMTEC' | translate }}</mat-label>
-        <input [disabled]="xecsForm.get('memoriaTecnicaEnIDI')?.value === true" type="text" matInput [value]="memoriaTecnicaFileNames"
-        placeholder="{{ 'FILES.FILESMEMTEC' | translate }}" readonly (click)="file_memoriaTecnica.click()" hidden/>
-      </mat-form-field> -->
+
       <label for="file_memoriaTecnica">{{ 'FILES.FILESMEMTEC' | translate }}</label>
       <input #file_memoriaTecnica formControlName = "file_memoriaTecnica" type="file" (change)="onFileMemoriaTecnicaChange($event)" multiple accept=".pdf"  />
       <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
-        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
       </ul>
     </section>
 
     <section ngClass="certificado-iae" ngClass="file-upload">
-      <!-- <mat-form-field appearance="fill" class="full-width">
-        <mat-label>{{ 'FILES.FILESCERTIAE' | translate }}</mat-label>
-        <input ngClass="file-upload" type="text" matInput [value]="certificadoIAEFileNames" placeholder="{{ 'FILES.FILESCERTIAE' | translate }}" readonly (click)="file_certificadoIAE.click()" hidden/>
-      </mat-form-field> -->
       <label for="file_certificadoIAE">{{ 'FILES.FILESCERTIAE' | translate }}</label>
       <input #file_certificadoIAE formControlName = "file_certificadoIAE" type="file" (change)="onFileCertificadoIAEChange($event)" multiple accept=".pdf"/>
-      <!-- <button mat-raised-button color="primary" (click)="fileInput.click()">{{ 'FORM.FILES' | translate }}</button> -->
       <ul *ngIf="file_certificadoIAEToUpload.length > 0">
-        <li *ngFor="let file of file_certificadoIAEToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+        <li *ngFor="let file of file_certificadoIAEToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
       </ul>
     </section>
 
     <section ngClass="copia-nif docs-in-adr file-upload">
       <mat-checkbox ngClass="documento-en-adr" formControlName = "copiaNIFSociedadEnIDI" (change)="onCheckboxChange($event, 'file_nifEmpresa')">{{ 'FILES.FILEINADR' | translate }}</mat-checkbox>
-<!--       <mat-form-field appearance="fill">
-        <mat-label>{{ 'FILES.FILESNIF' | translate }}</mat-label>
-        <input type="text" [disabled]="xecsForm.get('copiaNIFSociedadEnIDI')?.value === true" matInput [value]="nifEmpresaFileNames" 
-        placeholder="{{ 'FILES.FILESNIF' | translate }}" readonly (click)="file_nifEmpresa.click()"/>
-      </mat-form-field> -->
       <label for="file_nifEmpresa">{{ 'FILES.FILESNIF' | translate }}</label>
       <input #file_nifEmpresa formControlName = "file_nifEmpresa" type="file" (change)="onFileNifEmpresaChange($event)" multiple accept=".pdf" hidden />
       <ul *ngIf="file_nifEmpresaToUpload.length > 0">
-        <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+        <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
       </ul>
     </section>
     
     <section ngClass="escritura-publica docs-in-adr file-upload">
       <mat-checkbox ngClass="documento-en-adr" formControlName = "pJuridicaDocAcreditativaEnIDI" (change)="onCheckboxChange($event, 'file_escritura_empresa')">{{ 'FILES.FILEINADR' | translate }}</mat-checkbox>
-<!--       <mat-form-field appearance="fill">
-        <mat-label>{{ 'FILES.FILESESCRITPUB' | translate }}</mat-label>
-          <input type="text" [disabled]="xecsForm.get('pJuridicaDocAcreditativaEnIDI')?.value === true" matInput [value]="escrituraPublicaFileNames"
-            placeholder="{{ 'FILES.FILESESCRITPUB' | translate }}" readonly (click)="file_escrituraPublica.click()"/>
-      </mat-form-field> -->
+      <label for="file_escrituraPublica">{{'FILES.FILESESCRITPUB' | translate}}</label>
       <input #file_escrituraPublica formControlName = "file_escritura_empresa" type="file" (change)="onFileEscrituraEmpresaChange($event)" multiple accept=".pdf" hidden />
       <ul *ngIf="file_escritura_empresaToUpload.length > 0">
-        <li *ngFor="let file of file_escritura_empresaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+        <li *ngFor="let file of file_escritura_empresaToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
       </ul>
     </section>
 
     <section ngClass="doc-acred-representante file-upload">
-<!--       <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'FILES.FILEDOCACREDREPRESENTANTE' | translate }}</mat-label>
-          <input
-            type="text"
-            matInput
-            [value]="docAcredRepresFileNames"
-            placeholder="{{ 'FILES.FILEDOCACREDREPRESENTANTE' | translate }}"
-            readonly
-            (click)="file_docAcredRepresentante.click()"/>
-      </mat-form-field> -->
       <label for="file_document_acred_como_repres">{{ 'FILES.FILEDOCACREDREPRESENTANTE' | translate }}</label>
       <input #file_docAcredRepresentante formControlName = "file_document_acred_como_repres" type="file" (change)="onFileDocAcredRepresChange($event)" multiple accept=".pdf" hidden />
       <ul *ngIf="file_document_acred_como_represToUpload.length > 0">
-        <li *ngFor="let file of file_document_acred_como_represToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+        <li *ngFor="let file of file_document_acred_como_represToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
       </ul>
     </section>
 
     <section ngClass="certificado-aeat file-upload">
-<!--       <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'FILES.FILECERTIFICADOAEAT' | translate }}</mat-label>
-          <input
-            type="text"
-            matInput
-            [value]="certficadoAEATFileNames"
-            placeholder="{{ 'FILES.FILECERTIFICADOAEAT' | translate }}"
-            readonly
-            (click)="file_certificadoAEAT.click()"/>
-      </mat-form-field> -->
       <label for="file_certificadoAEAT">{{ 'FILES.FILECERTIFICADOAEAT' | translate }}</label>
       <input #file_certificadoAEAT formControlName = "file_certificadoAEAT" type="file" (change)="onFilecertificadoAEATChange($event)" multiple accept=".pdf" />
       <ul *ngIf="file_certificadoAEATToUpload.length > 0">
-        <li *ngFor="let file of file_certificadoAEATToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+        <li *ngFor="let file of file_certificadoAEATToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
       </ul>
     </section>
   </mat-expansion-panel>  
