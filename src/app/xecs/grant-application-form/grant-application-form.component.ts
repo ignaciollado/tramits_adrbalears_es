@@ -1058,6 +1058,7 @@ export class GrantApplicationFormComponent implements OnInit {
   get memoriaTecnicaFileNames(): string {
     return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
   }
+  
   onFileMemoriaTecnicaChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {

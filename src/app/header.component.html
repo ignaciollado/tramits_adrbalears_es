@@ -33,7 +33,15 @@
             <a mat-menu-item ngClass="nav-link" target="_blank" href='https://inbox.viafirma.com/inbox/app/idi/verificacion/index.jsf'>Servicio de consulta de CSV ADR Balears</a>
             <a mat-menu-item ngClass="nav-link" target="_blank" href='https://valide.redsara.es/valide/validarCertificado/ejecutar.html'>VALIDe (herramienta para verificar la validez de los documentos firmados</a>
             <hr>
-            <a mat-menu-item ngClass="nav-link" (click)="logout()">{{ 'HEADER.LOGOUT' | translate }}</a>
+            <!-- <a mat-menu-item ngClass="nav-link" (click)="logout()">{{ 'HEADER.LOGOUT' | translate }}</a> -->
+            <div class="auth-links">
+              <ng-container *ngIf="authService.isAuthenticated(); else loginLink">
+                <a (click)="logout()">Logout</a>
+              </ng-container>
+              <ng-template #loginLink>
+                <a [routerLink]="['login']">Login</a>
+              </ng-template>
+            </div>  
           </section>
         </nav>
       </mat-menu>

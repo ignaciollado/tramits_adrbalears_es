@@ -35,14 +35,14 @@
   </mat-form-field>
 
   <div class="form-actions">
-    <button mat-raised-button color="accent" type="submit">FORM.BUSCAR</button>
-    <button mat-stroked-button color="warn" type="button" (click)="limpiarFiltros()">FORM.LIMPIARFILTRO</button>
+    <button mat-raised-button color="accent" type="submit">{{'FORM.BUSCAR' | translate}}</button>
+    <button mat-stroked-button color="warn" type="button" (click)="limpiarFiltros()">{{'FORM.LIMPIARFILTROS' | translate}}</button>
   </div>
   
 </form>
 
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-<mat-paginator [pageSize]="15" [pageSizeOptions]="[15, 30, 50, 100]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[75, 100, 150]" showFirstLastButtons></mat-paginator>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" >
   <ng-container matColumnDef="fecha_solicitud">
