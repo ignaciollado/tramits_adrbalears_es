@@ -42,12 +42,17 @@
 
   <mat-form-field appearance="outline" class="busqueda-form">
   <mat-label>{{'FORM.BUSCARPOR' | translate}}</mat-label>
-  <input matInput (keyup)="aplicarFiltro($event)" placeholder="Filtrar por solicitante, localidad, etc.">
+  <input matInput (keyup)="aplicarFiltro($event)" placeholder="Filtrar por solicitante, importe, etc.">
 </mat-form-field>
 
 <div class="form-actions">
-  <button mat-raised-button color="accent" type="submit">{{'FORM.BUSCAR' | translate}}</button>
-  <button mat-stroked-button color="warn" type="button" (click)="limpiarFiltros()">{{'FORM.LIMPIARFILTROS' | translate}}</button>
+  <button mat-raised-button color="accent" type="submit">{{'FORM.BUSCAR' | translate}}</button> 
+   <button
+    mat-raised-button
+    [color]="filtrosAplicados ? 'primary' : ''"
+    type="button"
+    (click)="limpiarFiltros()"
+  >{{'FORM.LIMPIARFILTROS' | translate}}</button>
 </div>
 
 </form>
