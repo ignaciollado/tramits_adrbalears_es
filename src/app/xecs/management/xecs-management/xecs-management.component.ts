@@ -63,34 +63,31 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   loading = false;
 
 ngOnInit(): void {
+  
   const currentYear = new Date().getFullYear();
-
   this.form = this.fb.group({
     convocatoria: [currentYear],
     tipoTramite: [[]],
     situacion: [[]]
   });
-
+this.limpiarFiltros()
   this.commonService.getSituations().subscribe((situations: any[]) => {
     this.uniqueSituaciones = situations;
   })
 
   // Verifica si hay filtros guardados y si los valores son válidos
-  const savedConv = sessionStorage.getItem('filtroConvocatoria');
-  const savedTipo = sessionStorage.getItem('filtroTipoTramite');
-  const savedSit = sessionStorage.getItem('filtroSituacion');
+  let savedConv = sessionStorage.getItem('filtroConvocatoria');
+  let savedTipo = sessionStorage.getItem('filtroTipoTramite');
+  let savedSit = sessionStorage.getItem('filtroSituacion');
 
   console.log ("filtros: ", savedConv, savedTipo, savedSit)
-
   if (savedConv || savedTipo || savedSit) {
     this.filtrosAplicados = true; // ✅ Hay filtros guardados
-
     this.form.patchValue({
       convocatoria: savedConv ? +savedConv : currentYear,
       tipoTramite: savedTipo ? JSON.parse(savedTipo) : [],
       situacion: savedSit ? JSON.parse(savedSit) : []
     });
-
     this.loadExpedientes();
   } else {
     this.loadAllExpedientes();
@@ -169,7 +166,7 @@ loadExpedientes(): void {
 
   // Guardar filtros en sessionStorage
   sessionStorage.setItem('filtroConvocatoria', convocatoria.toString());
-  sessionStorage.setItem('filtroTipoTramite', JSON.stringify(tipoTramite));
+  sessionStorage.setItem('filtroTipoTramite', tipoTramite || '');
   sessionStorage.setItem('filtroSituacion', situacion || '');
 
   // Filtrar sobre los expedientes ya cargados
@@ -235,13 +232,12 @@ aplicarFiltro(event: Event): void {
 }
 
 limpiarFiltros(): void {
-  this.form.get('tipoTramite')?.reset();
-  this.form.get('situacion')?.reset();
-  sessionStorage.removeItem('filtroConvocatoria');
-  sessionStorage.removeItem('filtroTipoTramite');
-  this.paginator.pageIndex = 0;
-  sessionStorage.setItem('paginaExpedientes', '0');
-  this.loadAllExpedientes();
+  this.form.get('tipoTramite')?.reset()
+  this.form.get('situacion')?.reset()
+  sessionStorage.removeItem('filtroConvocatoria')
+  sessionStorage.removeItem('filtroTipoTramite')
+  sessionStorage.removeItem('filtroSituacion')
+  this.loadAllExpedientes()
 }
 
 situacionClass(value: string): string {
@@ -290,5 +286,4 @@ switch (key) {
       return 'st-desconocido'; // ❓ Estado no reconocido
   }
 }
-
 }
