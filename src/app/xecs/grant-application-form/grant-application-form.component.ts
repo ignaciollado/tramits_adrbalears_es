@@ -103,6 +103,8 @@ export class GrantApplicationFormComponent implements OnInit {
 
   ibanLength!: number;
 
+  fixedResponsibilityDeclarations: ResponsabilityDeclarationDTO[] = [];
+
   constructor(private fb: FormBuilder, private documentoGeneradoService: DocumentosGeneradosService,
     private commonService: CommonService, private actoAdminService: ActoAdministrativoService,
     private expedienteService: ExpedienteService, private viafirmaService: ViafirmaService,
@@ -293,6 +295,9 @@ export class GrantApplicationFormComponent implements OnInit {
     this.actualLang = value;
     sessionStorage.setItem('preferredLang', this.actualLang);
     this.translate.use(this.actualLang)
+
+    // Cambio de forma dinámica sin volver a cargar las declaraciones responsables
+    this.changeLangResponsabilityDeclarations()
   }
 
   setStep(index: number) {
@@ -1238,13 +1243,17 @@ export class GrantApplicationFormComponent implements OnInit {
 
   private getResponsabilityDeclarations() {
     this.commonService.getResponsabilityDeclarations().subscribe((responsibilityDeclarations: ResponsabilityDeclarationDTO[]) => {
-      responsibilityDeclarations.map((item: ResponsabilityDeclarationDTO) => {
-        if (localStorage.getItem('preferredLang') === 'ca-ES') {
-          item.label = item.label_ca
-        }
-      })
-      this.responsibilityDeclarations = responsibilityDeclarations
+      this.fixedResponsibilityDeclarations = responsibilityDeclarations
+      this.changeLangResponsabilityDeclarations() // Una vez cargado, aplico la traducción correspondiente
     })
+  }
+
+  // Traducción dinámica declaraciones responsables
+  private changeLangResponsabilityDeclarations() {
+    this.responsibilityDeclarations = this.fixedResponsibilityDeclarations.map((item: ResponsabilityDeclarationDTO) => ({
+      ...item,
+      label: this.actualLang === 'ca-ES' ? item.label : item.label_ca
+    }));
   }
 
   private getDocumentationAndAuthorizations() {
