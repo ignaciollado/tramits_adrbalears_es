@@ -64,7 +64,10 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
 
 ngOnInit(): void {
   const currentYear = new Date().getFullYear();
-
+/*   sessionStorage.setItem('filtroConvocatoria', currentYear.toString());
+  sessionStorage.setItem('filtroTipoTramite', 'null');
+  sessionStorage.setItem('filtroSituacion', 'null');
+ */
   this.form = this.fb.group({
     convocatoria: [currentYear],
     tipoTramite: [[]],
@@ -80,7 +83,7 @@ ngOnInit(): void {
   const savedTipo = sessionStorage.getItem('filtroTipoTramite');
   const savedSit = sessionStorage.getItem('filtroSituacion');
 
-  console.log (savedConv, savedTipo, savedSit)
+  console.log ("filtros: ", savedConv, savedTipo, savedSit)
 
   if (savedConv || savedTipo || savedSit) {
     this.filtrosAplicados = true; // ✅ Hay filtros guardados
