@@ -237,7 +237,7 @@
   </mat-radio-group>
   <mat-form-field appearance="fill">
     <mat-label>{{ 'FORM.BANKCC' | translate }}</mat-label>
-    <input matInput formControlName="cc_datos_bancarios" minlength="24" maxlength="25" />
+    <input matInput formControlName="cc_datos_bancarios" [minlength]="ibanLength" [maxlength]="ibanLength" />
   </mat-form-field>
   </mat-expansion-panel>  
 

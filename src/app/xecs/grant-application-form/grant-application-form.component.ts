@@ -101,6 +101,8 @@ export class GrantApplicationFormComponent implements OnInit {
 
   actualLang: string = sessionStorage.getItem('preferredLang')!;
 
+  ibanLength!: number;
+
   constructor(private fb: FormBuilder, private documentoGeneradoService: DocumentosGeneradosService,
     private commonService: CommonService, private actoAdminService: ActoAdministrativoService,
     private expedienteService: ExpedienteService, private viafirmaService: ViafirmaService,
@@ -208,6 +210,8 @@ export class GrantApplicationFormComponent implements OnInit {
           Validators.pattern(/^ES\d{22}$/)
         ]);
 
+        this.ibanLength = 24
+
         ccControl?.valueChanges.subscribe((inputValue: string) => {
           if (inputValue && !inputValue.startsWith('ES')) {
             ccControl?.setValue(inputValue.toUpperCase(), { emitEvent: false });
@@ -221,6 +225,8 @@ export class GrantApplicationFormComponent implements OnInit {
           Validators.maxLength(25),
           Validators.pattern(/^\S+$/)
         ]);
+
+        this.ibanLength = 25
       }
       ccControl?.updateValueAndValidity();
     });
