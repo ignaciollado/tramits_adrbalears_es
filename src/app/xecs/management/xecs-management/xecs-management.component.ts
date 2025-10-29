@@ -49,12 +49,13 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
   private commonService = inject(CommonService)
-  uniqueConvocatorias: number[] = [];
+  uniqueConvocatorias: number[] = [2025, 2024, 2023, 2022, 2021];
   uniqueTiposTramite: string[] = [];
   // uniqueSituaciones: string[] = [];
   uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = []
   filtrosAplicados:boolean = false;
+  currentYear!: string 
   
   form!: FormGroup;
   displayedColumns: string[] = ['fecha_completado', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda', 
@@ -63,34 +64,30 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   loading = false;
 
 ngOnInit(): void {
-  const currentYear = new Date().getFullYear();
-
+  
+  this.currentYear = new Date().getFullYear().toString();
   this.form = this.fb.group({
-    convocatoria: [currentYear],
+    convocatoria: [new Date().getFullYear()],
     tipoTramite: [[]],
     situacion: [[]]
   });
-
+  this.limpiarFiltros()
   this.commonService.getSituations().subscribe((situations: any[]) => {
     this.uniqueSituaciones = situations;
   })
 
   // Verifica si hay filtros guardados y si los valores son válidos
-  const savedConv = sessionStorage.getItem('filtroConvocatoria');
-  const savedTipo = sessionStorage.getItem('filtroTipoTramite');
-  const savedSit = sessionStorage.getItem('filtroSituacion');
-
-  console.log ("filtros: ", savedConv, savedTipo, savedSit)
+  let savedConv = sessionStorage.getItem('filtroConvocatoria');
+  let savedTipo = sessionStorage.getItem('filtroTipoTramite');
+  let savedSit = sessionStorage.getItem('filtroSituacion');
 
   if (savedConv || savedTipo || savedSit) {
     this.filtrosAplicados = true; // ✅ Hay filtros guardados
-
     this.form.patchValue({
-      convocatoria: savedConv ? +savedConv : currentYear,
+      convocatoria: savedConv ? +savedConv : this.currentYear,
       tipoTramite: savedTipo ? JSON.parse(savedTipo) : [],
       situacion: savedSit ? JSON.parse(savedSit) : []
     });
-
     this.loadExpedientes();
   } else {
     this.loadAllExpedientes();
@@ -114,7 +111,7 @@ ngAfterViewInit(): void {
 loadAllExpedientes(): void {
   this.loading = true;
 
-  this.expedienteService.getAllLineExpedientes('XECS').subscribe({
+  this.expedienteService.getAllLineExpedientes('XECS', this.currentYear).subscribe({
     next: (res) => {
       // Excluir expedientes con tipo_tramite 'ILS' o 'ADR-ISBA', 'company', 'FELIB'
 /*       const expedientesFiltrados = res.filter(
@@ -129,10 +126,6 @@ loadAllExpedientes(): void {
         this.paginator.pageIndex = +paginaGuardada;
       }
       this.dataSource.paginator = this.paginator;
-
-      this.uniqueConvocatorias = [
-        ...new Set<number>(this.expedientesFiltrados.map((e: any) => Number(e.convocatoria)))
-      ];
 
       this.uniqueTiposTramite = [
         ...new Set<string>(this.expedientesFiltrados.map((e: any) => e.tipo_tramite))
@@ -169,13 +162,17 @@ loadExpedientes(): void {
 
   // Guardar filtros en sessionStorage
   sessionStorage.setItem('filtroConvocatoria', convocatoria.toString());
-  sessionStorage.setItem('filtroTipoTramite', JSON.stringify(tipoTramite));
+  sessionStorage.setItem('filtroTipoTramite', tipoTramite || '');
   sessionStorage.setItem('filtroSituacion', situacion || '');
+
+  console.log (this.expedientesFiltrados)
 
   // Filtrar sobre los expedientes ya cargados
   let filtrados = this.expedientesFiltrados.filter(
     (e: any) => Number(e.convocatoria) === Number(convocatoria)
   );
+
+  console.log (convocatoria, filtrados)
 
   if (tipoTramite?.length) {
     filtrados = filtrados.filter((e: any) =>
@@ -235,13 +232,12 @@ aplicarFiltro(event: Event): void {
 }
 
 limpiarFiltros(): void {
-  this.form.get('tipoTramite')?.reset();
-  this.form.get('situacion')?.reset();
-  sessionStorage.removeItem('filtroConvocatoria');
-  sessionStorage.removeItem('filtroTipoTramite');
-  this.paginator.pageIndex = 0;
-  sessionStorage.setItem('paginaExpedientes', '0');
-  this.loadAllExpedientes();
+  this.form.get('tipoTramite')?.reset()
+  this.form.get('situacion')?.reset()
+  sessionStorage.removeItem('filtroConvocatoria')
+  sessionStorage.removeItem('filtroTipoTramite')
+  sessionStorage.removeItem('filtroSituacion')
+  this.loadAllExpedientes()
 }
 
 situacionClass(value: string): string {
@@ -290,5 +286,4 @@ switch (key) {
       return 'st-desconocido'; // ❓ Estado no reconocido
   }
 }
-
 }
