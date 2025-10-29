@@ -54,7 +54,8 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   // uniqueSituaciones: string[] = [];
   uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = []
-
+  filtrosAplicados:boolean = false;
+  
   form!: FormGroup;
   displayedColumns: string[] = ['fecha_completado', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda', 
     'ordenDePago', 'empresa_consultor', 'nom_consultor', 'fecha_not_propuesta_resolucion_def',
@@ -62,8 +63,10 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   loading = false;
 
 ngOnInit(): void {
+  const currentYear = new Date().getFullYear();
+
   this.form = this.fb.group({
-    convocatoria: [null],
+    convocatoria: [currentYear],
     tipoTramite: [[]],
     situacion: [[]]
   });
@@ -77,12 +80,17 @@ ngOnInit(): void {
   const savedTipo = sessionStorage.getItem('filtroTipoTramite');
   const savedSit = sessionStorage.getItem('filtroSituacion');
 
-  if (savedConv) {
+  console.log ("filtros: ", savedConv, savedTipo, savedSit)
+
+  if (savedConv || savedTipo || savedSit) {
+    this.filtrosAplicados = true; // ✅ Hay filtros guardados
+
     this.form.patchValue({
-      convocatoria: +savedConv,
+      convocatoria: savedConv ? +savedConv : currentYear,
       tipoTramite: savedTipo ? JSON.parse(savedTipo) : [],
       situacion: savedSit ? JSON.parse(savedSit) : []
     });
+
     this.loadExpedientes();
   } else {
     this.loadAllExpedientes();
@@ -181,11 +189,22 @@ loadExpedientes(): void {
     );
   }
 
-  this.paginator.pageIndex = 0;
-  sessionStorage.setItem('paginaExpedientes', '0');
+    // Marcar que hay filtros aplicados si alguno está activo
+  this.filtrosAplicados = (convocatoria !== new Date().getFullYear()) 
+    || (tipoTramite?.length > 0) 
+    || (situacion?.length > 0);
+
+
+  // Esperar a que paginator exista antes de usarlo
+  if (this.paginator) {
+    this.paginator.pageIndex = 0;
+    sessionStorage.setItem('paginaExpedientes', '0');
+  }
 
   this.actualizarTabla(filtrados);
-  this.dataSource.paginator = this.paginator;
+  if (this.paginator) {
+    this.dataSource.paginator = this.paginator;
+  }
   this.commonService.showSnackBar('Expedientes filtrados correctamente ✅');
   this.loading = false;
 }
@@ -216,7 +235,8 @@ aplicarFiltro(event: Event): void {
 }
 
 limpiarFiltros(): void {
-  this.form.reset();
+  this.form.get('tipoTramite')?.reset();
+  this.form.get('situacion')?.reset();
   sessionStorage.removeItem('filtroConvocatoria');
   sessionStorage.removeItem('filtroTipoTramite');
   this.paginator.pageIndex = 0;
@@ -270,4 +290,5 @@ switch (key) {
       return 'st-desconocido'; // ❓ Estado no reconocido
   }
 }
+
 }
