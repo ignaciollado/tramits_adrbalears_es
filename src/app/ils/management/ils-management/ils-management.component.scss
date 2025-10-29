@@ -40,6 +40,13 @@ table {
     padding: 0.75rem;
   }
 
+  td.linea-ils {
+    background-color: #365446;
+    color: #fff;
+    border-radius: .5rem;
+    text-align: center;
+  }
+
   tr.mat-row:nth-child(even) {
     background-color: #f5f5f5;
   }
