@@ -64,10 +64,7 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
 
 ngOnInit(): void {
   const currentYear = new Date().getFullYear();
-/*   sessionStorage.setItem('filtroConvocatoria', currentYear.toString());
-  sessionStorage.setItem('filtroTipoTramite', 'null');
-  sessionStorage.setItem('filtroSituacion', 'null');
- */
+
   this.form = this.fb.group({
     convocatoria: [currentYear],
     tipoTramite: [[]],
