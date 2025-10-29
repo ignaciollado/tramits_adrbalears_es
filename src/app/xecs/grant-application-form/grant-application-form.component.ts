@@ -99,7 +99,7 @@ export class GrantApplicationFormComponent implements OnInit {
   consentimiento_certificadoSegSoc!: boolean;
   consentimiento_certificadoATIB!: boolean;
 
-  actualLang: string = sessionStorage.getItem('preferredLang')!;
+  actualLang: string = sessionStorage.getItem('preferredLang') || 'es-ES';
 
   ibanLength!: number;
 
@@ -289,6 +289,7 @@ export class GrantApplicationFormComponent implements OnInit {
     this.getResponsabilityDeclarations()
     this.getDocumentationAndAuthorizations()
     this.getLineDetail(2026)
+    this.changeLanguage(this.actualLang)
   }
 
   changeLanguage(value: string) {
@@ -1069,7 +1070,6 @@ export class GrantApplicationFormComponent implements OnInit {
   get memoriaTecnicaFileNames(): string {
     return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
   }
-  
   onFileMemoriaTecnicaChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {

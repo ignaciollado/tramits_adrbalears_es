@@ -83,7 +83,7 @@ export class IsbaGrantApplicationFormComponent {
 
   nameDocGenerado!: string;
 
-  actualLang: string = sessionStorage.getItem('preferredLang')!;
+  actualLang: string = sessionStorage.getItem('preferredLang') || 'es-ES';
 
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService,
@@ -201,6 +201,7 @@ export class IsbaGrantApplicationFormComponent {
     this.loadZipcodes()
     this.loadActividadesCNAE()
     this.generateIdExp()
+    this.changeLanguage(this.actualLang)
   }
 
   twoDecimalValidator(): ValidatorFn {
