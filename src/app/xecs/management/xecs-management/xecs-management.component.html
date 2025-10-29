@@ -45,7 +45,7 @@
   <input matInput (keyup)="aplicarFiltro($event)" placeholder="Filtrar por solicitante, importe, etc.">
 </mat-form-field>
 
-<div class="form-actions">
+<section class="form-actions">
   <button mat-raised-button color="accent" type="submit">{{'FORM.BUSCAR' | translate}}</button> 
    <button
     mat-raised-button
@@ -53,7 +53,7 @@
     type="button"
     (click)="limpiarFiltros()"
   >{{'FORM.LIMPIARFILTROS' | translate}}</button>
-</div>
+</section>
 
 </form>
 
