@@ -51,7 +51,6 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   private commonService = inject(CommonService)
   uniqueConvocatorias: number[] = [2025, 2024, 2023, 2022, 2021];
   uniqueTiposTramite: string[] = [];
-  // uniqueSituaciones: string[] = [];
   uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = []
   filtrosAplicados:boolean = false;
@@ -139,8 +138,7 @@ loadAllExpedientes(): void {
       if (err.status === 404 && err.error?.messages?.error) {
         this.commonService.showSnackBar(err.error.messages.error)
       } else {
-        console.error('Error inesperado:', err);
-        this.commonService.showSnackBar('Ocurrió un error inesperado ❌')
+        this.commonService.showSnackBar('Ocurrió un error inesperado ❌'+err)
       }
     },
 
@@ -165,14 +163,10 @@ loadExpedientes(): void {
   sessionStorage.setItem('filtroTipoTramite', tipoTramite || '');
   sessionStorage.setItem('filtroSituacion', situacion || '');
 
-  console.log (this.expedientesFiltrados)
-
   // Filtrar sobre los expedientes ya cargados
   let filtrados = this.expedientesFiltrados.filter(
     (e: any) => Number(e.convocatoria) === Number(convocatoria)
   );
-
-  console.log (convocatoria, filtrados)
 
   if (tipoTramite?.length) {
     filtrados = filtrados.filter((e: any) =>
@@ -186,7 +180,7 @@ loadExpedientes(): void {
     );
   }
 
-    // Marcar que hay filtros aplicados si alguno está activo
+  // Marcar que hay filtros aplicados si alguno está activo
   this.filtrosAplicados = (convocatoria !== new Date().getFullYear()) 
     || (tipoTramite?.length > 0) 
     || (situacion?.length > 0);
@@ -238,6 +232,7 @@ limpiarFiltros(): void {
   sessionStorage.removeItem('filtroTipoTramite')
   sessionStorage.removeItem('filtroSituacion')
   this.loadAllExpedientes()
+  this.filtrosAplicados = false
 }
 
 situacionClass(value: string): string {
