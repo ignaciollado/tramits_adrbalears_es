@@ -39,7 +39,12 @@ table {
   td.mat-cell, th.mat-header-cell {
     padding: 0.75rem;
   }
-
+  td.linea-xecs {
+    background-color: #013749;
+    color: #fff;
+    border-radius: .5rem;
+    text-align: center;
+  }
   tr.mat-row:nth-child(even) {
     background-color: #f5f5f5;
   }

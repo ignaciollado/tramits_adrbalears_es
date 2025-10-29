@@ -130,10 +130,6 @@ loadAllExpedientes(): void {
         ...new Set<string>(this.expedientesFiltrados.map((e: any) => e.tipo_tramite))
       ];
 
-      // this.uniqueSituaciones = [
-      //   ...new Set(this.expedientesFiltrados.map((e: any) => e.situacion).filter(Boolean))
-      // ];
-
       this.commonService.showSnackBar('XECS: expedientes cargados correctamente ✅')
     },
 

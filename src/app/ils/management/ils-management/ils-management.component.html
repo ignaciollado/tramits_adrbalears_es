@@ -49,7 +49,7 @@
 
   <ng-container matColumnDef="tipo_tramite">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Línea de trámite </th>
-    <td mat-cell *matCellDef="let item"> {{ item.tipo_tramite }} </td>
+    <td mat-cell *matCellDef="let item" ngClass="linea-ils"> {{ item.tipo_tramite }} </td>
   </ng-container>
 
   <ng-container matColumnDef="idExp">
