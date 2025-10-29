@@ -34,8 +34,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private translate: TranslateService, 
     private fb: FormBuilder, 
-    private expedienteService: ExpedienteService,
-    private authService: AuthService, private router: Router,
+    public authService: AuthService, private router: Router,
     private languageService: LanguageService) {
     this.translate.addLangs (['es-ES', 'ca-ES', 'en-EN']);
     this.translate.setDefaultLang ('es-ES');
