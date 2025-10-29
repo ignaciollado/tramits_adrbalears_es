@@ -85,6 +85,8 @@ export class IsbaGrantApplicationFormComponent {
 
   actualLang: string = sessionStorage.getItem('preferredLang') || 'es-ES';
 
+  submitting: boolean = false;
+
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService,
     private documentosExpedienteService: ExpedienteDocumentoService,
@@ -259,6 +261,7 @@ export class IsbaGrantApplicationFormComponent {
   }
 
   onSubmit(): void {
+    this.submitting = true;
     const timeStamp = this.commonService.generateCustomTimestamp();
     const convocatoria = new Date().getFullYear();
     const rawValues = this.isbaForm.getRawValue();
@@ -375,6 +378,7 @@ export class IsbaGrantApplicationFormComponent {
           msg += `⚠️ No se pudo interpretar el error: ${err}`;
         }
         this.commonService.showSnackBar(msg);
+        this.submitting = false;
       }
     });
   }
@@ -1105,7 +1109,7 @@ export class IsbaGrantApplicationFormComponent {
         }
 
         const pdfBlob = doc.output('blob');
-        
+
         const formData = new FormData();
         const fileName = `${data.nif}_declaracion_responsable_idi_isba.pdf`;
         formData.append('file', pdfBlob, fileName);

@@ -105,6 +105,8 @@ export class GrantApplicationFormComponent implements OnInit {
 
   fixedResponsibilityDeclarations: ResponsabilityDeclarationDTO[] = [];
 
+  submitting: boolean = false;
+
   constructor(private fb: FormBuilder, private documentoGeneradoService: DocumentosGeneradosService,
     private commonService: CommonService, private actoAdminService: ActoAdministrativoService,
     private expedienteService: ExpedienteService, private viafirmaService: ViafirmaService,
@@ -335,6 +337,7 @@ export class GrantApplicationFormComponent implements OnInit {
   file_certificadoSegSocToUpload: File[] = []           // OPC
 
   onSubmit(): void {
+    this.submitting = true;
     const datos = this.xecsForm.getRawValue();
     const timeStamp = this.commonService.generateCustomTimestamp();
     const convocatoria = new Date().getFullYear();
@@ -472,6 +475,8 @@ export class GrantApplicationFormComponent implements OnInit {
             msg += `⚠️ No se pudo interpretar el error: ${err}`;
           }
           this.commonService.showSnackBar(msg);
+          
+          this.submitting = false;
         }
       });
     });

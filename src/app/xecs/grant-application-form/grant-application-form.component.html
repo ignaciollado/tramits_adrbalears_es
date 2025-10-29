@@ -419,7 +419,7 @@
       </section>
   </mat-expansion-panel>
 </mat-accordion>
-<button mat-raised-button color="accent" type="submit" [disabled]="xecsForm.invalid">{{ 'FORM.SEND' | translate }}</button>
+<button mat-raised-button color="accent" type="submit" [disabled]="xecsForm.invalid || submitting">{{ 'FORM.SEND' | translate }}</button>
 </form>
 
 <!-- <section ngClass="info-container">

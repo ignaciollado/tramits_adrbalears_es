@@ -93,6 +93,8 @@ export class IlsGrantApplicationFormComponent {
 
   actualLang!: string;
 
+  submitting: boolean = false;
+
   accordion = viewChild.required(MatAccordion)
   constructor(private commonService: CommonService, private expedienteService: ExpedienteService,
     private documentService: DocumentService,
@@ -245,6 +247,7 @@ export class IlsGrantApplicationFormComponent {
   }
 
   onSubmit(): void {
+    this.submitting = true;
     const timeStamp = this.commonService.generateCustomTimestamp()
     const convocatoria = new Date().getFullYear();
 
@@ -363,6 +366,7 @@ export class IlsGrantApplicationFormComponent {
           msg += `⚠️ No se pudo interpretar el error: ${err}`
         }
         this.showSnackBar(msg)
+        this.submitting = false;
       }
     });
   }

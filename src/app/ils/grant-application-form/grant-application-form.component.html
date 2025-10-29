@@ -358,5 +358,5 @@
     <mat-form-field style="display:none">
         <input matInput type="text" formControlName="tipo_tramite">
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="ilsForm.invalid">{{'FORM.SEND' | translate}}</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="ilsForm.invalid || submitting">{{'FORM.SEND' | translate}}</button>
 </form>
