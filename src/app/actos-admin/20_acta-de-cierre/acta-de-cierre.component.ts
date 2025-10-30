@@ -144,10 +144,10 @@ export class ActaDeCierreComponent {
     if (!fecha_reunion_cierre?.trim() || fecha_reunion_cierre?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.fecha_reunion_cierre');
     }
-    /* ????????????????????????????????????? */
-    if (!fecha_limite_justificacion?.trim() || fecha_limite_justificacion?.trim() === "0000-00-00") {
+    /* No hace falta esta comprobación ya que, al 'Enviar el formulario de justificación' esta fecha se generará automaticamente: fecha actual + 20 días */
+/*     if (!fecha_limite_justificacion?.trim() || fecha_limite_justificacion?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.fecha_limite_justificacion');
-    }
+    } */
 
     this.faltanCampos = this.camposVacios.length > 0;
 
