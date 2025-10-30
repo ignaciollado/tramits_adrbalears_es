@@ -527,8 +527,9 @@ export class ResolDesestimientoNoEnmendarComponent {
   }
 
   getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      this.dGerente = globalConfig[0].directorGerenteIDI
+    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
+      const globalConfig = globalConfigArr[0];
+      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
     })
   }
 }

@@ -506,9 +506,10 @@ export class InformeFavorableConRequerimientoAdrIsbaComponent {
     })
   }
 
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      this.nomPresidenteIdi = globalConfig[0]['respresidente'];
+    getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
+      const globalConfig = globalConfigArr[0];
+      this.nomPresidenteIdi = globalConfig?.respresidente;
     })
   }
 

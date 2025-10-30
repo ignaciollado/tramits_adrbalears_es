@@ -473,12 +473,10 @@ export class InformeFavorableConRequerimientoIlsComponent {
   }
 
   getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      if (globalConfig.length > 0) {
-        // this.emailConseller = globalConfig[0].eMailPresidente || 'jose.luis@idi.es'
-
+    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
+      const globalConfig = globalConfigArr[0];
+        // this.emailConseller = globalConfig.eMailPresidente || 'jose.luis@idi.es'
         this.emailConseller = 'jose.luis@idi.es'
-      }
     })
   }
 

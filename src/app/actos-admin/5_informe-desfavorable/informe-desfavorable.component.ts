@@ -555,7 +555,6 @@ export class InformeDesfavorableComponent {
         this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
           return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
         });
-        console.log ("lineDetail", this.lineDetail)
         this.num_BOIB = this.lineDetail[0]['num_BOIB']
         this.codigoSIA = this.lineDetail[0]['codigoSIA']
         this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
@@ -563,9 +562,10 @@ export class InformeDesfavorableComponent {
     })
   }
 
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      this.dGerente = globalConfig[0].directorGerenteIDI
+    getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
+      const globalConfig = globalConfigArr[0];
+      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
     })
   }
 }

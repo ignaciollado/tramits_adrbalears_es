@@ -505,13 +505,11 @@ export class ResolDenegacionConRequerimientoIlsComponent {
   }
 
   getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      if (globalConfig.length > 0) {
-        this.nomPresidenteIdi = globalConfig[0].respresidente;
-        // this.emailConseller = globalConfig[0].eMailPresidente || 'jose.luis@idi.es'
-
+    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
+      const globalConfig = globalConfigArr[0];
+        this.nomPresidenteIdi = globalConfig.respresidente;
+        // this.emailConseller = globalConfig.eMailPresidente || 'jose.luis@idi.es'
         this.emailConseller = 'jose.luis@idi.es'
-      }
     })
   }
 }

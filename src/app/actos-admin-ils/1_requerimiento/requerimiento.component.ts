@@ -451,7 +451,7 @@ export class RequerimientoIlsComponent {
   getGlobalConfig(): void {
     this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
       if (globalConfig.length > 0) {
-        // this.emailConseller = globalConfig[0].eMailPresidente || 'jose.luis@idi.es'
+        // this.emailConseller = globalConfig[0],data.eMailPresidente || 'jose.luis@idi.es'
         this.emailConseller = 'jose.luis@idi.es'
       }
     })

@@ -30,8 +30,8 @@ export class DialogCierreComponent {
   ngOnInit(): void {
     this.cierreForm = this.fb.group({
       actaNumCierre: [{ value: '', disabled: false }, [Validators.required]],
-      fecha_reunion_cierre: [{ value: '', disabled: false }, [Validators.required]],
-      fecha_limite_justificacion: [{ value: '', disabled: false }, [Validators.required]],
+      fecha_reunion_cierre: [{ value: '', disabled: true }, [Validators.required]],
+      fecha_limite_justificacion: [{ value: '', disabled: true }, [Validators.required]],
       horaInicioActaCierre: [{ value: '', disabled: false }, [Validators.required]],
       horaFinActaCierre: [{ value: '', disabled: false }, [Validators.required]],
       lugarActaCierre: [{ value: '', disabled: false }, [Validators.required]],

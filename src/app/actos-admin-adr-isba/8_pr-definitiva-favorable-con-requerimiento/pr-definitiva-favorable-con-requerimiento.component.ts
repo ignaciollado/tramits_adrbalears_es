@@ -551,12 +551,11 @@ export class PrDefinitivaFavorableConRequerimientoAdrIsbaComponent {
     })
   }
 
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      this.dGerente = globalConfig[0].directorGerenteIDI;
-      this.nomPresidenteIdi = globalConfig[0].respresidente;
+    getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
+      const globalConfig = globalConfigArr[0];
+      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
+      this.nomPresidenteIdi = globalConfig?.respresidente;
     })
   }
-
-
 }

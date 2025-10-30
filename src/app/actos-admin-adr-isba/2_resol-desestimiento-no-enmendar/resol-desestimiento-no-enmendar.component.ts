@@ -528,9 +528,10 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
     })
   }
 
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      this.dGerente = globalConfig[0].directorGerenteIDI;
+    getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
+      const globalConfig = globalConfigArr[0];
+      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
     })
   }
 

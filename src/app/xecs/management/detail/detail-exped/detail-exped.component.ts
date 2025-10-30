@@ -282,10 +282,10 @@ ngOnInit(): void {
     if (!value || isNaN(new Date(value).getTime())) {
       return;
     };
-  /* No es ahora, es cuando se envía al solicitante el formulario de justificación
+ 
   const fecha_limite_justificacion = new Date(value);
     fecha_limite_justificacion.setDate(fecha_limite_justificacion.getDate() + 20);
-    this.form.get('fecha_limite_justificacion')?.setValue(fecha_limite_justificacion.toISOString().split('T')[0]); */
+    this.form.get('fecha_limite_justificacion')?.setValue(fecha_limite_justificacion.toISOString().split('T')[0]);
   })
 }
 
@@ -332,29 +332,31 @@ getExpedDetail(id: number) {
 }
 
 enableEdit(): void {
-  Object.keys(this.form.controls).forEach(controlName => {
-    const control = this.form.get(controlName);
+  // Lista de campos que deben permanecer bloqueados al activar el EDIT del detalle de la solicitud
+  const readOnlyFields = [
+    'nif',
+    'tipo_tramite',
+    'importeAyuda',
+    'fecha_solicitud',
+    'ordenDePago',
+    'fecha_limite_justificacion',
+    'fecha_limite_consultoria'
+  ];
 
-    // Solo deshabilitamos 'nif' y 'tipo_tramite'
-    if (controlName !== 'nif' && controlName !== 'tipo_tramite' && controlName !== 'importeAyuda' && controlName !== 'fecha_solicitud' && controlName !== 'ordenDePago') {
-      control?.enable();
+  Object.entries(this.form.controls).forEach(([controlName, control]) => {
+    const isReadOnly = readOnlyFields.includes(controlName);
+    const element = document.querySelector<HTMLInputElement>(`[formControlName="${controlName}"]`);
 
-      // Eliminar completamente el atributo readonly si existe
-      const element = document.querySelector(`[formControlName="${controlName}"]`) as HTMLInputElement;
-      if (element && element.hasAttribute('readonly')) {
-        element.removeAttribute('readonly');
-      }
+    if (isReadOnly) {
+      control.disable({ emitEvent: false });
+      element?.setAttribute('readonly', 'true');
     } else {
-      control?.disable();
-
-      // Asegurar que el campo quede en readonly
-      const element = document.querySelector(`[formControlName="${controlName}"]`) as HTMLInputElement;
-      if (element) {
-        element.setAttribute('readonly', 'true');
-      }
+      control.enable({ emitEvent: false });
+      element?.removeAttribute('readonly');
     }
   });
 }
+
 
 saveExpediente(): void {
   const expedienteActualizado = this.form.getRawValue();

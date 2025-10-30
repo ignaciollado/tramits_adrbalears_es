@@ -1,6 +1,6 @@
 // To parse this data:
 //
-//   import { Convert } from "./file";
+//   import { Convert, ConfigurationModelDTO } from "./file";
 //
 //   const configurationModelDTO = Convert.toConfigurationModelDTO(json);
 //
@@ -34,19 +34,19 @@ export interface ConfigurationModelDTO {
     emisorDIR3:                  string;
     codigoSIA:                   string;
     created_at:                  Date;
-    deleted_at:                  Date;
-    updated_at:                  Date;
+    deleted_at:                  string;
+    updated_at:                  string;
 }
 
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export class Convert {
-    public static toConfigurationModelDTO(json: string): ConfigurationModelDTO[] {
-        return cast(JSON.parse(json), a(r("ConfigurationModelDTO")));
+    public static toConfigurationModelDTO(json: string): ConfigurationModelDTO {
+        return cast(JSON.parse(json), r("ConfigurationModelDTO"));
     }
 
-    public static configurationModelDTOToJson(value: ConfigurationModelDTO[]): string {
-        return JSON.stringify(uncast(value, a(r("ConfigurationModelDTO"))), null, 2);
+    public static configurationModelDTOToJson(value: ConfigurationModelDTO): string {
+        return JSON.stringify(uncast(value, r("ConfigurationModelDTO")), null, 2);
     }
 }
 
