@@ -99,7 +99,13 @@ export class GrantApplicationFormComponent implements OnInit {
   consentimiento_certificadoSegSoc!: boolean;
   consentimiento_certificadoATIB!: boolean;
 
-  actualLang: string = sessionStorage.getItem('preferredLang')!;
+  actualLang: string = sessionStorage.getItem('preferredLang') || 'es-ES';
+
+  ibanLength!: number;
+
+  fixedResponsibilityDeclarations: ResponsabilityDeclarationDTO[] = [];
+
+  submitting: boolean = false;
 
   constructor(private fb: FormBuilder, private documentoGeneradoService: DocumentosGeneradosService,
     private commonService: CommonService, private actoAdminService: ActoAdministrativoService,
@@ -208,6 +214,8 @@ export class GrantApplicationFormComponent implements OnInit {
           Validators.pattern(/^ES\d{22}$/)
         ]);
 
+        this.ibanLength = 24
+
         ccControl?.valueChanges.subscribe((inputValue: string) => {
           if (inputValue && !inputValue.startsWith('ES')) {
             ccControl?.setValue(inputValue.toUpperCase(), { emitEvent: false });
@@ -221,6 +229,8 @@ export class GrantApplicationFormComponent implements OnInit {
           Validators.maxLength(25),
           Validators.pattern(/^\S+$/)
         ]);
+
+        this.ibanLength = 25
       }
       ccControl?.updateValueAndValidity();
     });
@@ -281,12 +291,16 @@ export class GrantApplicationFormComponent implements OnInit {
     this.getResponsabilityDeclarations()
     this.getDocumentationAndAuthorizations()
     this.getLineDetail(2026)
+    this.changeLanguage(this.actualLang)
   }
 
   changeLanguage(value: string) {
     this.actualLang = value;
     sessionStorage.setItem('preferredLang', this.actualLang);
     this.translate.use(this.actualLang)
+
+    // Cambio de forma dinámica sin volver a cargar las declaraciones responsables
+    this.changeLangResponsabilityDeclarations()
   }
 
   setStep(index: number) {
@@ -323,6 +337,7 @@ export class GrantApplicationFormComponent implements OnInit {
   file_certificadoSegSocToUpload: File[] = []           // OPC
 
   onSubmit(): void {
+    this.submitting = true;
     const datos = this.xecsForm.getRawValue();
     const timeStamp = this.commonService.generateCustomTimestamp();
     const convocatoria = new Date().getFullYear();
@@ -460,6 +475,8 @@ export class GrantApplicationFormComponent implements OnInit {
             msg += `⚠️ No se pudo interpretar el error: ${err}`;
           }
           this.commonService.showSnackBar(msg);
+          
+          this.submitting = false;
         }
       });
     });
@@ -1058,7 +1075,6 @@ export class GrantApplicationFormComponent implements OnInit {
   get memoriaTecnicaFileNames(): string {
     return this.file_memoriaTecnicaToUpload.map(f => f.name).join(', ')
   }
-  
   onFileMemoriaTecnicaChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
@@ -1233,13 +1249,17 @@ export class GrantApplicationFormComponent implements OnInit {
 
   private getResponsabilityDeclarations() {
     this.commonService.getResponsabilityDeclarations().subscribe((responsibilityDeclarations: ResponsabilityDeclarationDTO[]) => {
-      responsibilityDeclarations.map((item: ResponsabilityDeclarationDTO) => {
-        if (localStorage.getItem('preferredLang') === 'ca-ES') {
-          item.label = item.label_ca
-        }
-      })
-      this.responsibilityDeclarations = responsibilityDeclarations
+      this.fixedResponsibilityDeclarations = responsibilityDeclarations
+      this.changeLangResponsabilityDeclarations() // Una vez cargado, aplico la traducción correspondiente
     })
+  }
+
+  // Traducción dinámica declaraciones responsables
+  private changeLangResponsabilityDeclarations() {
+    this.responsibilityDeclarations = this.fixedResponsibilityDeclarations.map((item: ResponsabilityDeclarationDTO) => ({
+      ...item,
+      label: this.actualLang === 'ca-ES' ? item.label : item.label_ca
+    }));
   }
 
   private getDocumentationAndAuthorizations() {

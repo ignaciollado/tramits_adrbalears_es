@@ -259,7 +259,7 @@
                     <input #file_escritura_empresa formControlName="file_escritura_empresa" type="file" (change)="onfile_escritura_empresaChange($event)" accept=".pdf" multiple>
                     <mat-error *ngIf="ilsForm.get('file_escritura_empresa')?.errors && ilsForm.get('file_escritura_empresa')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_escritura_empresaToUpload.length > 0">
-                        <li *ngFor="let file of file_escritura_empresaToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_escritura_empresaToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
                 
@@ -268,7 +268,7 @@
                     <input #file_certificadoIAE formControlName="file_certificadoIAE" type="file" (change)="onfile_certificadoIAEChange($event)" accept=".pdf" multiple>
                     <mat-error *ngIf="ilsForm.get('file_certificadoIAE')?.errors && ilsForm.get('file_certificadoIAE')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_certificadoIAEToUpload.length > 0">
-                        <li *ngFor="let file of file_certificadoIAEToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_certificadoIAEToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
             
@@ -282,7 +282,7 @@
                             <input #file_informeResumenIls formControlName="file_informeResumenIls" type="file" (change)="onfile_informeResumenIlsChange($event)" accept=".pdf" multiple>
                             <mat-error *ngIf="ilsForm.get('file_informeResumenIls')?.errors && ilsForm.get('file_informeResumenIls')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             <ul *ngIf="file_informeResumenIlsToUpload.length > 0">
-                                <li *ngFor="let file of file_informeResumenIlsToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                                <li *ngFor="let file of file_informeResumenIlsToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                             </ul>
                         </section>
                         <section ngClass="file-upload">
@@ -290,7 +290,7 @@
                             <input #file_informeInventarioIls formControlName="file_informeInventarioIls" type="file" (change)="onfile_informeInventarioIlsChange($event)" accept=".pdf" multiple>
                             <mat-error *ngIf="ilsForm.get('file_informeInventarioIls')?.errors && ilsForm.get('file_informeInventarioIls')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                             <ul *ngIf="file_informeInventarioIlsToUpload.length > 0">
-                                <li *ngFor="let file of file_informeInventarioIlsToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                                <li *ngFor="let file of file_informeInventarioIlsToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                             </ul>
                         </section>
                         <mat-radio-button value="option2">{{'ILS.INPUTRADIO2' | translate}}</mat-radio-button>
@@ -300,7 +300,7 @@
                         <input #file_certificado_verificacion_ISO formControlName="file_certificado_verificacion_ISO" type="file" (change)="onfile_certificado_verificacion_ISOChange($event)" accept=".pdf" multiple>
                         <mat-error *ngIf="ilsForm.get('file_certificado_verificacion_ISO')?.errors && ilsForm.get('file_certificado_verificacion_ISO')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                         <ul *ngIf="file_certificado_verificacion_ISOToUpload.length > 0">
-                            <li *ngFor="let file of file_certificado_verificacion_ISOToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                            <li *ngFor="let file of file_certificado_verificacion_ISOToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                         </ul>
                     </section>
                 </section>
@@ -310,7 +310,7 @@
                     <input #file_modeloEjemploIls formControlName="file_modeloEjemploIls" type="file" (change)="onfile_modeloEjemploIlsChange($event)" accept=".pdf" multiple>
                     <mat-error *ngIf="ilsForm.get('file_modeloEjemploIls')?.errors && ilsForm.get('file_modeloEjemploIls')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_modeloEjemploIlsToUpload.length > 0">
-                        <li *ngFor="let file of file_modeloEjemploIlsToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_modeloEjemploIlsToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -319,7 +319,7 @@
                     <input #file_certificado_itinerario_formativo formControlName="file_certificado_itinerario_formativo" type="file" (change)="onfile_certificado_itinerario_formativoChange($event)" accept=".pdf" multiple>
                     <mat-error *ngIf="ilsForm.get('file_certificado_itinerario_formativo')?.errors && ilsForm.get('file_certificado_itinerario_formativo')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_certificado_itinerario_formativoToUpload.length > 0">
-                        <li *ngFor="let file of file_certificado_itinerario_formativoToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_certificado_itinerario_formativoToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
             </section>
@@ -331,7 +331,7 @@
                     <input #file_memoriaTecnica formControlName="file_memoriaTecnica" type="file" (change)="onfile_memoriaTecnicaChange($event)" accept=".pdf" multiple>
                     <mat-error *ngIf="ilsForm.get('file_memoriaTecnica')?.errors && ilsForm.get('file_memoriaTecnica')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
-                        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -340,7 +340,7 @@
                     <input #file_nifEmpresa formControlName="file_nifEmpresa" type="file" (change)="onfile_nifEmpresaChange($event)" accept=".pdf" multiple>
                     <mat-error *ngIf="ilsForm.get('file_nifEmpresa')?.errors && ilsForm.get('file_nifEmpresa')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_nifEmpresaToUpload.length > 0">
-                        <li *ngFor="let file of file_nifEmpresaToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_nifEmpresaToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -349,7 +349,7 @@
                     <input #file_logotipoEmpresaIls formControlName="file_logotipoEmpresaIls" type="file" (change)="onfile_logotipoEmpresaIlsChange($event)" accept=".webp, .jpeg, .svg" multiple>
                     <mat-error *ngIf="ilsForm.get('file_logotipoEmpresaIls')?.errors && ilsForm.get('file_logotipoEmpresaIls')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_logotipoEmpresaIlsToUpload.length > 0">
-                        <li *ngFor="let file of file_logotipoEmpresaIlsToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_logotipoEmpresaIlsToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
             </section>
@@ -358,5 +358,5 @@
     <mat-form-field style="display:none">
         <input matInput type="text" formControlName="tipo_tramite">
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="ilsForm.invalid">{{'FORM.SEND' | translate}}</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="ilsForm.invalid || submitting">{{'FORM.SEND' | translate}}</button>
 </form>

@@ -38,7 +38,7 @@
                 <section>
                     <mat-checkbox formControlName="acceptRGPD">
                         <label>
-                            {{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.RGPD.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.RGPD.ACRONYM' | translate}}.</abbr><mat-icon data-icon="rgpd-icon" (click)="openDialog('300ms', '300ms', 'Sobre el RGPD', '../../../assets/data/clausulaProteccionDatos.html', '', '')">info</mat-icon>{{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-2' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-3' | translate}}<mat-icon data-icon="rgpd-info" (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')">info</mat-icon>
+                            {{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-1' | translate}}<abbr title="{{'COMMON.ACRONYMS.RGPD.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.RGPD.ACRONYM' | translate}}.</abbr><mat-icon data-icon="rgpd-icon" (click)="openDialog('300ms', '300ms', 'Sobre el RGPD', '../../../assets/data/clausulaProteccionDatos-es.html', '', '')">info</mat-icon>{{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-2' | translate}}<abbr title="{{'COMMON.ACRONYMS.ADR.FULL-PHRASE' | translate}}">{{'COMMON.ACRONYMS.ADR.ACRONYM' | translate}}</abbr>{{'COMMON.RGPD-INFO.READ-AND-ACCEPTS.PART-3' | translate}}<mat-icon data-icon="rgpd-info" (click)="openDialog('300ms', '300ms', 'Nuestra política de privacidad', '../../../assets/data/politica_privacidad.html', '', '')">info</mat-icon>
                         </label>
                     </mat-checkbox>
                     <section>
@@ -356,7 +356,7 @@
                     <input #file_memoriaTecnica formControlName="file_memoriaTecnica" type="file" (change)="onFileMemoriaTecnicaChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_memoriaTecnica')?.errors && isbaForm.get('file_memoriaTecnica')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_memoriaTecnicaToUpload.length > 0">
-                        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_memoriaTecnicaToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -365,7 +365,7 @@
                     <input #file_document_veracidad_datos_bancarios formControlName="file_document_veracidad_datos_bancarios" type="file" (change)="onfile_document_veracidad_datos_bancariosChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_document_veracidad_datos_bancarios')?.errors && isbaForm.get('file_document_veracidad_datos_bancarios')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_document_veracidad_datos_bancariosToUpload.length > 0">
-                        <li *ngFor="let file of file_document_veracidad_datos_bancariosToUpload">{{ file.name }} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_document_veracidad_datos_bancariosToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -374,7 +374,7 @@
                     <input #file_certificadoIAE formControlName="file_certificadoIAE" type="file" (change)="onfile_certificadoIAEChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_certificadoIAE')?.errors && isbaForm.get('file_certificadoIAE')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_certificadoIAEToUpload.length > 0">
-                        <li *ngFor="let file of file_certificadoIAEToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_certificadoIAEToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -385,7 +385,7 @@
                     <input #file_altaAutonomos formControlName="file_altaAutonomos" type="file" (change)="onfile_altaAutonomosChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_altaAutonomos')?.errors && isbaForm.get('file_altaAutonomos')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_altaAutonomosToUpload.length > 0">
-                        <li *ngFor="let file of file_altaAutonomosToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_altaAutonomosToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -400,7 +400,7 @@
                     <input #file_escrituraConstitucion formControlName="file_escrituraConstitucion" type="file" (change)="onfile_escrituraConstitucionChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_escrituraConstitucion')?.errors && isbaForm.get('file_escrituraConstitucion')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_escrituraConstitucionToUpload.length > 0">
-                        <li *ngFor="let file of file_escrituraConstitucionToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_escrituraConstitucionToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -411,7 +411,7 @@
                     <input #file_nifRepresentante formControlName="file_nifRepresentante" type="file" (change)="onfile_nifRepresentanteChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_nifRepresentante')?.errors && isbaForm.get('file_nifRepresentante')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_nifRepresentanteToUpload.length > 0">
-                        <li *ngFor="let file of file_nifRepresentanteToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_nifRepresentanteToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -422,7 +422,7 @@
                     <input #file_certificadoATIB formControlName="file_certificadoATIB" type="file" (change)="onfile_certificadoATIBChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_certificadoATIB')?.errors && isbaForm.get('file_certificadoATIB')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_certificadoATIBToUpload.length > 0">
-                        <li *ngFor="let file of file_certificadoATIBToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_certificadoATIBToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -431,7 +431,7 @@
                     <input #file_certificadoAEAT formControlName="file_certificadoAEAT" type="file" (change)="onfile_certificadoAEATChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_certificadoAEAT')?.errors && isbaForm.get('file_certificadoAEAT')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_certificadoAEATToUpload.length > 0">
-                        <li *ngFor="let file of file_certificadoAEATToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_certificadoAEATToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -440,7 +440,7 @@
                     <input #file_certificadoLey382003 formControlName="file_certificadoLey382003" type="file" (change)="onfile_certificadoLey382003Change($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_certificadoLey382003')?.errors && isbaForm.get('file_certificadoLey382003')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_certificadoLey382003ToUpload.length > 0">
-                        <li *ngFor="let file of file_certificadoLey382003ToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_certificadoLey382003ToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -449,7 +449,7 @@
                     <input #file_certificadoSGR formControlName="file_certificadoSGR" type="file" (change)="onfile_certificadoSGRChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_certificadoSGR')?.errors && isbaForm.get('file_certificadoSGR')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_certificadoSGRToUpload.length > 0">
-                        <li *ngFor="let file of file_certificadoSGRToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_certificadoSGRToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -458,7 +458,7 @@
                     <input #file_contratoOperFinanc formControlName="file_contratoOperFinanc" type="file" (change)="onfile_contratoOperFinancChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_contratoOperFinanc')?.errors && isbaForm.get('file_contratoOperFinanc')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_contratoOperFinancToUpload.length > 0">
-                        <li *ngFor="let file of file_contratoOperFinancToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_contratoOperFinancToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
 
@@ -467,7 +467,7 @@
                     <input #file_avalOperFinanc formControlName="file_avalOperFinanc" type="file" (change)="onfile_avalOperFinancChange($event)" multiple accept=".pdf">
                     <mat-error *ngIf="isbaForm.get('file_avalOperFinanc')?.errors && isbaForm.get('file_avalOperFinanc')?.dirty">{{'FORMERRORS.COMMON.FILE' | translate}}</mat-error>
                     <ul *ngIf="file_avalOperFinancToUpload.length > 0">
-                        <li *ngFor="let file of file_avalOperFinancToUpload">{{file.name}} ({{file.size/1000}} KB)</li>
+                        <li *ngFor="let file of file_avalOperFinancToUpload">{{ file.name }} ({{file.size/1024 | number:'1.2-2':'es-ES'}} KB)</li>
                     </ul>
                 </section>
                 <section ngClass="file-input">
@@ -478,6 +478,6 @@
         <mat-form-field style="display: none">
             <input matInput type="text" formControlName="tipo_tramite">
         </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" [disabled]="isbaForm.invalid">{{'APP.SEND' | translate}}</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="isbaForm.invalid || submitting">{{'APP.SEND' | translate}}</button>
     </form>
 </section>
