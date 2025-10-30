@@ -11,7 +11,7 @@
   <mat-tab-group  animationDuration="500ms" mat-stretch-tabs mat-align-tabs="center" dynamicHeight
     [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
 
-    <mat-tab>
+    <mat-tab><!-- Detalle -->
       <ng-template mat-tab-label>
       <span ngClass="exped-tab detail-tab">{{ 'APP.DETAIL' | translate }}</span>
       </ng-template> 
@@ -185,7 +185,7 @@
     </mat-card>  
     </mat-tab>
 
-    <mat-tab> 
+    <mat-tab><!-- Solicitud -->
       <ng-template mat-tab-label>
         <span ngClass="exped-tab solicitud-tab">{{ 'APP.REQUEST' | translate }}</span>
       </ng-template>
@@ -232,7 +232,7 @@
       </mat-card>   
     </mat-tab>
 
-    <mat-tab> 
+    <mat-tab><!-- Validación -->
       <ng-template mat-tab-label>
         <span ngClass="exped-tab validacion-tab">{{ 'APP.VALIDATION' | translate }}</span>
       </ng-template>
@@ -326,11 +326,11 @@
     </mat-card>
     </mat-tab>
 
-    <mat-tab>
-    <ng-template mat-tab-label>
-      <span ngClass="exped-tab ejecucion-tab">{{ 'APP.EXECUTION' | translate }}</span>
-    </ng-template>
-    <mat-card ngClass="mat-card-ejecucion">
+    <mat-tab><!-- ejecución -->
+      <ng-template mat-tab-label>
+        <span ngClass="exped-tab ejecucion-tab">{{ 'APP.EXECUTION' | translate }}</span>
+      </ng-template>
+      <mat-card ngClass="mat-card-ejecucion">
       <section>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_kick_off' | translate}}</mat-label>
@@ -376,10 +376,10 @@
         <h4>Documentos del expediente</h4>
         <app-document [idSol]="idExpediente" [requiredDocs]="'NO'" [faseExped]="'Ejecucion'"></app-document>
       </section>
-    </mat-card>  
+      </mat-card>  
     </mat-tab>
 
-    <mat-tab>
+    <mat-tab><!-- justificación -->
     <ng-template mat-tab-label>
       <span ngClass="exped-tab justificacion-tab">{{ 'APP.JUSTIFICATION' | translate }}</span>
     </ng-template>
@@ -443,7 +443,7 @@
     </mat-card>  
     </mat-tab>
 
-    <mat-tab>
+    <mat-tab><!-- Desestimiento o renuncia -->
     <ng-template mat-tab-label>
       <span ngClass="exped-tab desestimiento-tab">{{ 'APP.DISCLAIMER' | translate }}</span>
     </ng-template>    
@@ -482,6 +482,5 @@
       </section>         
     </mat-card>
     </mat-tab>
-  
   </mat-tab-group>
 </form>

@@ -144,6 +144,7 @@ export class ActaDeCierreComponent {
     if (!fecha_reunion_cierre?.trim() || fecha_reunion_cierre?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.fecha_reunion_cierre');
     }
+    /* ????????????????????????????????????? */
     if (!fecha_limite_justificacion?.trim() || fecha_limite_justificacion?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.fecha_limite_justificacion');
     }

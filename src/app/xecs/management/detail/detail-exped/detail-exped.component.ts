@@ -168,7 +168,7 @@ export class XecsDetailExpedComponent {
 
   motivoDesestimientoRenuncia: string = "";
 
-  constructor(  private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
+  constructor( private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
               ) {
       this.adapter.setLocale('es')
@@ -282,9 +282,10 @@ ngOnInit(): void {
     if (!value || isNaN(new Date(value).getTime())) {
       return;
     };
-    const fecha_limite_justificacion = new Date(value);
+  /* No es ahora, es cuando se envía al solicitante el formulario de justificación
+  const fecha_limite_justificacion = new Date(value);
     fecha_limite_justificacion.setDate(fecha_limite_justificacion.getDate() + 20);
-    this.form.get('fecha_limite_justificacion')?.setValue(fecha_limite_justificacion.toISOString().split('T')[0]);
+    this.form.get('fecha_limite_justificacion')?.setValue(fecha_limite_justificacion.toISOString().split('T')[0]); */
   })
 }
 
@@ -297,6 +298,7 @@ getExpedDetail(id: number) {
       })
     )
     .subscribe(expediente => {
+      console.log ("expediente", expediente)
       if (expediente) {
         expediente.fecha_reunion_cierre = expediente.fecha_reunion_cierre.split(" ")[0];
         expediente.fecha_limite_consultoria = expediente.fecha_limite_consultoria.split(" ")[0];
