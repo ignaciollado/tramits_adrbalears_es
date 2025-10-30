@@ -116,6 +116,7 @@ export class ActaDeCierreComponent {
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin20 = false;
+          console.log ("docActoAdmin.length", docActoAdmin.length)
           if (docActoAdmin.length === 1) {
             this.actoAdmin20 = true;
             this.nifDocGenerado = docActoAdmin[0].cifnif_propietario;
