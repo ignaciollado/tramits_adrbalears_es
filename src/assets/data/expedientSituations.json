@@ -4,7 +4,8 @@
         "options": [
             {
                 "label": "SITUATIONS.GENERAL.nohapasadoREC",
-                "value": "nohapasadoREC"
+                "value": "nohapasadoREC",
+                "class": ""
             },
             {
                 "label": "SITUATIONS.GENERAL.pendiente",

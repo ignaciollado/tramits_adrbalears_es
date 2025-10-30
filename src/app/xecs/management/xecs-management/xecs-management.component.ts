@@ -185,7 +185,6 @@ loadExpedientes(): void {
     || (tipoTramite?.length > 0) 
     || (situacion?.length > 0);
 
-
   // Esperar a que paginator exista antes de usarlo
   if (this.paginator) {
     this.paginator.pageIndex = 0;
@@ -236,23 +235,24 @@ limpiarFiltros(): void {
 }
 
 situacionClass(value: string): string {
+  
   const key = value?.toLowerCase().trim();
-
+console.log (value)
 switch (key) {
     case 'encurso':
       return 'st-en-curso'; // 🔵 Estado activo o en desarrollo
     case 'pendientejustificar':
-      return 'st-pendiente-justificar'; // 🟡 Esperando justificación
+      return 'st-pendiente-justificar'; // 🟡 Pendiente de justificar
     case 'pendiente':
-      return 'st-pendiente'; // 🟡 Pendiente general
+      return 'st-pendiente'; // 🟡 Pendiente de validar                         OK
     case 'pendienterecjustificar':
-      return 'st-pendiente-rec'; // 🟠 Pendiente de REC para justificar
+      return 'st-pendiente-rec'; // 🟠 Pendiente justificante SEU
     case 'aprobado':
       return 'st-aprobado'; // 🟢 Aprobado formalmente
     case 'denegado':
-      return 'st-denegado'; // 🔴 Denegado oficialmente
+      return 'st-denegado'; // 🔴 Denegado oficialmente                         OK
     case 'justificado':
-      return 'st-justificado'; // 🟣 Justificación completada
+      return 'st-justificado'; // 🟣 Justificación completada                   OK
     case 'enmienda':
       return 'st-enmienda'; // 🟤 En proceso de subsanación o corrección
     case 'desestimiento':
@@ -276,7 +276,13 @@ switch (key) {
     case 'inicioconsultoria':
       return 'st-consultoria'; // 🧠 Consultoría en marcha
     case 'nohapasadorec':
-      return 'st-rechazado'; // ⛔ Rechazado por no pasar REC
+      return 'st-nohapasadorec'; // ⛔ Rechazado por no pasar REC                    OK
+    case 'emitirrespagoyjust':
+      return 'st-emitirResPagoyJust'; // Emitir resolución de pago y justificación    OK
+    case 'emitidorespagoyjust':
+      return 'st-emitidoResPagoyJust'; // Emitida resolución de pago y justificación  OK
+    case 'emitidodesenmienda':
+      return 'st-emitidoDesEnmienda'; // Emitido desestimiento por enmienda           OK                     
     default:
       return 'st-desconocido'; // ❓ Estado no reconocido
   }

@@ -103,40 +103,50 @@ p {
 
 td {
   &.st-en-curso {
-    background-color: #bbdefb; // azul claro brillante
+    background-color: #bbdefb;
     color: #0d47a1;
   }
 
   &.st-pendiente {
-    background-color: #fff59d; // amarillo más intenso
-    color: #f57f17;
+    background-color: #080080;
+    color: #51f905;
     font-weight: bold;
+    border: 5px solid #51f905;
+    border-radius: 2px;
   }
 
   &.st-pendiente-justificar {
-    background-color: #ffe082;
-    color: #e65100;
+    background-color: #d9e90d;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 1px;
   }
 
   &.st-pendiente-rec {
-    background-color: #ffcc80;
+    background-color: #d9e90d;
     color: #bf360c;
+    border: 2px solid #000;
+    border-radius: 1px;
   }
 
   &.st-aprobado {
-    background-color: #a5d6a7; // verde fresco
+    background-color: #a5d6a7;
     color: #1b5e20;
   }
 
   &.st-denegado {
-    background-color: #ef9a9a;
-    color: #b71c1c;
+    background-color: #1ecbe1;
+    color: #fff;
     font-weight: bold;
+    border: 5px solid #fff;
+    border-radius: 2px;
   }
 
   &.st-justificado {
-    background-color: #80cbc4;
-    color: #004d40;
+    background-color: #d9e90d;
+    color: #000;
+    border: 5px solid #fff;
+    border-radius: 2px;
   }
 
   &.st-enmienda {
@@ -145,14 +155,19 @@ td {
   }
 
   &.st-desestimiento {
-    background-color: #ffe082;
-    color: #e65100;
+    background-color: #080080;
+    color: #51f905;
+    border: 5px solid #51f905;
+    border-radius: 2px;
     font-weight: bold;
   }
 
   &.st-finalizado {
-    background-color: #bcaaa4;
-    color: #3e2723;
+    background-color: #04c935;
+    color: #000;
+    border: 5px solid #fff;
+    border-radius: 2px;
+    font-weight: bold;
   }
 
   &.st-emitido-rc {
@@ -207,10 +222,36 @@ td {
     color: #33691e;
   }
 
-  &.st-rechazado {
-    background-color: #ef9a9a;
-    color: #b71c1c;
+  &.st-nohapasadorec {
+    background-color: #080080;
+    color: #e87c0a;
     font-weight: bold;
+    border: 2px solid #e87c0a;
+    border-radius: 5px;
+  }
+
+  &.st-emitirResPagoyJust {
+    background-color: #d9e90d;
+    color: #000;
+    font-weight: bold;
+    border: 2px solid #fff;
+    border-radius: 5px;
+  }
+
+  &.st-emitidoResPagoyJust {
+    background-color: #d9e90d;
+    color: #000;
+    font-weight: bold;
+    border: 2px solid #000;
+    border-radius: 5px;
+  }
+
+  &.st-emitidoDesEnmienda {
+    background-color: #080080;
+    color: #e87c0a;
+    font-weight: 300;
+    border: 2px solid #e87c0a;
+    border-radius: 5px;
   }
 
   &.st-desconocido {

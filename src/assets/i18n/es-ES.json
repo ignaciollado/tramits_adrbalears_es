@@ -476,7 +476,7 @@
     },
     "REASONS": {
       "REQUERIMENT": "Motivo del requerimiento",
-      "ABANDONMENT": "Motivo de la dejación",
+      "ABANDONMENT": "Motivo del desestimiento",
       "DENIAL": "Motivo de la denegación",
       "REVOCATION": "Motivo de la revocación"
     }
@@ -529,9 +529,9 @@
       "emitirReq": "Emitir requerimiento",
       "firmadoReq": "Requerimiento firmado pendiente de notificar",
       "notificadoReq": "Requerimiento notificado",
-      "emitirDesEnmienda": "Emitir dejación por enmienda",
-      "emitidoDesEnmienda": "Dejación por enmienda emitido",
-      "Desestimiento": "Dejación",
+      "emitirDesEnmienda": "Emitir desestimiento por enmienda",
+      "emitidoDesEnmienda": "Desestimiento por enmienda emitido",
+      "Desestimiento": "Desestimiento",
       "emitirIFPRProvPago": "Emitir IF + PR provisional",
       "emitidoIFPRProvPago": "IF + PR provisional emitida",
       "firmadoIFPRProvPago": "PR Prov. firmada PENDIENTE de notificar",
