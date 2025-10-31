@@ -166,7 +166,8 @@ export class XecsDetailExpedComponent {
 
   situations: any[] = [];
 
-  motivoDesestimientoRenuncia: string = "";
+  motivoDesestimientoRenuncia: string = ""
+  justificationSendedMail!: Date
 
   constructor( private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
@@ -241,6 +242,7 @@ ngOnInit(): void {
     fecha_REC_amp_termino: [{ value: '', disabled: true }],
     ref_REC_amp_termino: [{ value: '', disabled: true }],
     fecha_amp_termino: [{ value: '', disabled: true }],
+    justificationSendedMail: [{ value: '', disabled: false}, []],
     /* Justificación */
     fecha_REC_justificacion: [{ value: '', disabled: true }],
     ref_REC_justificacion: [{ value: '', disabled: true }],
@@ -298,7 +300,6 @@ getExpedDetail(id: number) {
       })
     )
     .subscribe(expediente => {
-      console.log ("expediente", expediente)
       if (expediente) {
         expediente.fecha_reunion_cierre = expediente.fecha_reunion_cierre.split(" ")[0];
         expediente.fecha_limite_consultoria = expediente.fecha_limite_consultoria.split(" ")[0];
@@ -321,7 +322,7 @@ getExpedDetail(id: number) {
         this.motivoRequerimiento = expediente.motivoRequerimiento
         this.motivoDenegacion = expediente.motivoDenegacion
         this.motivoDesestimientoRenuncia = expediente.motivoDesestimientoRenuncia
-
+        this.justificationSendedMail = expediente.justificationSendedMail
         this.checkViafirmaSign(this.publicAccessId)
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)

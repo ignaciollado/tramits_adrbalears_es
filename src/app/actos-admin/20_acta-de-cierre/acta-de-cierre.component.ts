@@ -23,6 +23,8 @@ import { DialogCierreComponent } from '../dialogs/cierre/cierre.component';
 import jsPDF from 'jspdf';
 import { MailService } from '../../Services/mail.service';
 import { PindustExpedienteJustificacionDto } from '../../Models/pindust-expediente-justificacion-dto';
+import { switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-acta-de-cierre',
@@ -44,7 +46,6 @@ export class ActaDeCierreComponent {
   signatureDocState: string = "";
   nifDocGenerado: string = ""
   nameDocGenerado: string = ""
-  justificationSendedMail!: Date
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
@@ -91,6 +92,7 @@ export class ActaDeCierreComponent {
   @Input() actualNif: string = "";
   @Input() actualConvocatoria!: number;
   @Input() actualTipoTramite!: string;
+  @Input() justificationSendedMail!: Date;
   @Input() actualEmpresa: string = "";
   @Input() form!: FormGroup;
 
@@ -487,27 +489,32 @@ export class ActaDeCierreComponent {
     })
   }
 
-  sendJustificationFormEmail(): void {
-    this.mailService.sendJustification({idAdv: this.actualID, tipo: 'justificacion'})
-    .subscribe({
-      next: (res: PindustExpedienteJustificacionDto) => {
+sendJustificationFormEmail(): void {
+  this.mailService.sendJustification({ idAdv: this.actualID, tipo: 'justificacion' })
+    .pipe(
+      switchMap((res: PindustExpedienteJustificacionDto) => {
         if (res.correosEnviados && res.correosEnviados > 0) {
           this.justificationSendedMail = res.justificationSendedMail;
         }
 
         this.commonService.showSnackBar(res.message);
+
+        // Ejecutamos ambas actualizaciones en paralelo
+        return forkJoin([
+          this.expedienteService.updateDocFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar'),
+          this.expedienteService.updateDocFieldExpediente(this.actualID, 'justificationSendedMail', this.justificationSendedMail)
+        ]);
+      })
+    )
+    .subscribe({
+      next: () => {
+        this.commonService.showSnackBar('✅ Expediente actualizado correctamente.');
       },
       error: (err) => {
         console.error(err);
-        this.commonService.showSnackBar('Error al enviar el correo');
+        this.commonService.showSnackBar('Error al enviar el correo o actualizar expediente');
       }
     });
-
-    this.expedienteService.updateDocFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar').subscribe({
-      next: (resp: any) => {
-        this.commonService.showSnackBar('✅ Situación actualizada correctamente.');
-      }
-    })
-  }
+}
 
 }

@@ -451,6 +451,9 @@
     "RENOVACIONINFORMEFAVORABLECONREQUERIMIENTO": "Renovación informe favorable con requerimiento",
     "RENOVACIONINFORMEDESFAVORABLECONREQUERIMIENTO": "Renovación informe desfavorable con requerimiento",
     "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulario de justificación",
+    "VOLVERAENVIARFORMULARIOJUSTIFICACION": "Vuelve a enviar el formulario de justificación",
+    "FORMULARIODEJUSTIFICACIONENVIADOEL": "Formulario de justificación enviado el",
+
     "GENERAL": {
       "SAVEREASON": "Guardar motivo",
       "GENERATEACTO": "Generar documento",
