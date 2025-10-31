@@ -237,8 +237,7 @@ limpiarFiltros(): void {
 situacionClass(value: string): string {
   
   const key = value?.toLowerCase().trim();
-console.log (value)
-switch (key) {
+  switch (key) {
     case 'encurso':
       return 'st-en-curso'; // 🔵 Estado activo o en desarrollo
     case 'pendientejustificar':

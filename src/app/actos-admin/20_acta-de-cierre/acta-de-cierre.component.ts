@@ -21,6 +21,8 @@ import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { finalize } from 'rxjs';
 import { DialogCierreComponent } from '../dialogs/cierre/cierre.component';
 import jsPDF from 'jspdf';
+import { MailService } from '../../Services/mail.service';
+import { PindustExpedienteJustificacionDto } from '../../Models/pindust-expediente-justificacion-dto';
 
 @Component({
   selector: 'app-acta-de-cierre',
@@ -31,6 +33,7 @@ import jsPDF from 'jspdf';
 })
 export class ActaDeCierreComponent {
   private expedienteService = inject(ExpedienteService);
+  private mailService = inject(MailService)
   private fb = inject(FormBuilder);
   formCierre!: FormGroup;
   actoAdmin20: boolean = false;
@@ -41,6 +44,7 @@ export class ActaDeCierreComponent {
   signatureDocState: string = "";
   nifDocGenerado: string = ""
   nameDocGenerado: string = ""
+  justificationSendedMail!: Date
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
     id_sol: 0,
@@ -89,6 +93,7 @@ export class ActaDeCierreComponent {
   @Input() actualTipoTramite!: string;
   @Input() actualEmpresa: string = "";
   @Input() form!: FormGroup;
+
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService,
@@ -111,6 +116,7 @@ export class ActaDeCierreComponent {
       this.getLineDetail(this.actualConvocatoria);
     }
   }
+
   getActoAdminDetail(): void {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_acta_cierre')
       .subscribe({
@@ -145,7 +151,7 @@ export class ActaDeCierreComponent {
     if (!fecha_reunion_cierre?.trim() || fecha_reunion_cierre?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.fecha_reunion_cierre');
     }
-    /* No hace falta esta comprobación ya que, al 'Enviar el formulario de justificación' esta fecha se generará automaticamente: fecha actual + 20 días */
+    /* No hace falta esta comprobación ya que, al poner 'Fecha Reunión de Cierre' esta fecha se generará automaticamente: fecha actual + 20 días */
     /*     if (!fecha_limite_justificacion?.trim() || fecha_limite_justificacion?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.fecha_limite_justificacion');
     } */
@@ -482,15 +488,26 @@ export class ActaDeCierreComponent {
   }
 
   sendJustificationFormEmail(): void {
-    console.log(this.actualID, this.actualNif, this.form.get('tipo_tramite')?.value, this.actualConvocatoria)
-    console.log('Pending...')
-    
+    this.mailService.sendJustification({idAdv: this.actualID, tipo: 'justificacion'})
+    .subscribe({
+      next: (res: PindustExpedienteJustificacionDto) => {
+        if (res.correosEnviados && res.correosEnviados > 0) {
+          this.justificationSendedMail = res.justificationSendedMail;
+        }
+
+        this.commonService.showSnackBar(res.message);
+      },
+      error: (err) => {
+        console.error(err);
+        this.commonService.showSnackBar('Error al enviar el correo');
+      }
+    });
+
     this.expedienteService.updateDocFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar').subscribe({
       next: (resp: any) => {
         this.commonService.showSnackBar('✅ Situación actualizada correctamente.');
       }
     })
-
   }
 
 }
