@@ -77,6 +77,15 @@ export class ActaDeCierreComponent {
   faltanCampos!: boolean;
   camposVacios: string[] = [];
 
+  @Input() actualID!: number;
+  @Input() actualIdExp!: number;
+  @Input() actualNif: string = "";
+  @Input() actualConvocatoria!: number;
+  @Input() actualTipoTramite!: string;
+  @Input() justificationSendedMail!: Date;
+  @Input() actualEmpresa: string = "";
+  @Input() form!: FormGroup;
+
   get stateClass(): string {
     const map: Record<string, string> = {
       NOT_STARTED: 'req-state--not-started',
@@ -86,15 +95,6 @@ export class ActaDeCierreComponent {
     };
     return map[this.signatureDocState ?? ''] ?? 'req-state--not-started';
   }
-
-  @Input() actualID!: number;
-  @Input() actualIdExp!: number;
-  @Input() actualNif: string = "";
-  @Input() actualConvocatoria!: number;
-  @Input() actualTipoTramite!: string;
-  @Input() justificationSendedMail!: Date;
-  @Input() actualEmpresa: string = "";
-  @Input() form!: FormGroup;
 
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
