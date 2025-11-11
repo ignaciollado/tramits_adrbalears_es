@@ -235,10 +235,10 @@ limpiarFiltros(): void {
   this.filtrosAplicados = false
 }
 
-getSituacionSuffix(item: any): string {
+getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
   if (item.situacion === 'emitirIFPRProvPago') {
     const reqNotif = item.fecha_requerimiento_notif && item.fecha_requerimiento_notif !== '0000-00-00';
-    return ' -> ' + (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO');
+    return { text: ' -> ' + (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO'), isDayDiffNegative: false };
   }
 
   if (item.situacion === 'pendienteJustificar') {
@@ -247,13 +247,15 @@ getSituacionSuffix(item: any): string {
       const fechaHoy = new Date();
       const diffDias = Math.ceil((fechaLimite.getTime() - fechaHoy.getTime()) / (1000 * 60 * 60 * 24));
       const fechaFormateada = this.commonService.formatDate(fechaLimite);
-      return ` -> ${diffDias} días naturales. [Fecha máxima de justificación: ${fechaFormateada}]`;
+      return {
+        text: ` ${diffDias} días naturales\n[Fecha máxima de justificación:\n${fechaFormateada}]`,
+        isDayDiffNegative: diffDias < 0
+      };
     }
   }
 
-  return '';
+  return { text: '', isDayDiffNegative: false };
 }
-
 
 
 situacionClass(value: string): string {
