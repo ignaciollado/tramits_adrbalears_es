@@ -33,7 +33,7 @@ import { CommonService } from '../../../Services/common.service';
     MatFormFieldModule,
     MatInputModule, TranslateModule,
     HttpClientModule,
-    MatSnackBarModule, RouterModule,
+    MatSnackBarModule, RouterModule, 
     MatSelectModule, MatButtonModule
   ],
   templateUrl: './xecs-management.component.html',
@@ -49,6 +49,7 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
   private commonService = inject(CommonService)
+
   uniqueConvocatorias: number[] = [2025, 2024, 2023, 2022, 2021];
   uniqueTiposTramite: string[] = [];
   uniqueSituaciones: any[] = [];
@@ -245,7 +246,8 @@ getSituacionSuffix(item: any): string {
       const fechaLimite = new Date(item.fecha_limite_justificacion);
       const fechaHoy = new Date();
       const diffDias = Math.ceil((fechaLimite.getTime() - fechaHoy.getTime()) / (1000 * 60 * 60 * 24));
-      return ' -> ' + diffDias + ' días';
+      const fechaFormateada = this.commonService.formatDate(fechaLimite);
+      return ` -> ${diffDias} días naturales. [Fecha máxima de justificación: ${fechaFormateada}]`;
     }
   }
 
