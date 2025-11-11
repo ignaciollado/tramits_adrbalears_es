@@ -68,7 +68,6 @@ import { PrRevocacionPorNoJustificarComponent } from '../../../../actos-admin/26
 import { ResolRevocacionPorNoJustificarComponent } from '../../../../actos-admin/27_resolucion-revocacion-por-no-justificar/resol-revocacion-por-no-justificar.component';
 import { DeclaracionResponsableComponent } from '../../../../actos-admin/28_declaracion-responsable/declaracion-responsable.component';
 
-
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
   override getFirstDayOfWeek(): number {
@@ -358,7 +357,6 @@ enableEdit(): void {
   });
 }
 
-
 saveExpediente(): void {
   const expedienteActualizado = this.form.getRawValue();
   this.expedienteService.updateExpediente(this.idExpediente, expedienteActualizado)
@@ -588,4 +586,27 @@ calculateAidAmount() {
 onTabChange(event: MatTabChangeEvent) {
   sessionStorage.setItem('currentContactTab', event.index.toString());
 }
+
+changeExpedSituation(event: any) {
+  const fecha = (event.target as HTMLInputElement).value;
+  console.log('Notificació proposta resolució provisional:', fecha);
+
+  if (fecha) {
+    // Actualizamos la situación a 'emitirIFPRProvPago'
+    this.expedienteService
+      .updateDocFieldExpediente(this.actualID, 'situacion', 'emitirIFPRProvPago')
+      .subscribe({
+        next: (newState: any) => {
+          console.log('Situación actualizada en el backend:', newState);
+          // Opcional: actualizar también el formulario si quieres reflejar el valor
+          this.form.patchValue({ situacion: 'emitirIFPRProvPago' });
+        },
+        error: (err) => {
+          console.error('Error al actualizar situación:', err);
+        }
+      });
+  }
+}
+
+
 }

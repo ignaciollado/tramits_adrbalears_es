@@ -248,7 +248,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_not_propuesta_resolucion_prov' | translate}}</mat-label>
-      <input matInput formControlName="fecha_not_propuesta_resolucion_prov" type="date" readonly>
+      <input matInput formControlName="fecha_not_propuesta_resolucion_prov" type="date" readonly (change)="changeExpedSituation($event)">
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_firma_propuesta_resolucion_def' | translate}}</mat-label>
