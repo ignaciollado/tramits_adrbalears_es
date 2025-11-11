@@ -234,6 +234,26 @@ limpiarFiltros(): void {
   this.filtrosAplicados = false
 }
 
+getSituacionSuffix(item: any): string {
+  if (item.situacion === 'emitirIFPRProvPago') {
+    const reqNotif = item.fecha_requerimiento_notif && item.fecha_requerimiento_notif !== '0000-00-00';
+    return ' -> ' + (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO');
+  }
+
+  if (item.situacion === 'pendienteJustificar') {
+    if (item.fecha_limite_justificacion && item.fecha_limite_justificacion !== '0000-00-00') {
+      const fechaLimite = new Date(item.fecha_limite_justificacion);
+      const fechaHoy = new Date();
+      const diffDias = Math.ceil((fechaLimite.getTime() - fechaHoy.getTime()) / (1000 * 60 * 60 * 24));
+      return ' -> ' + diffDias + ' días';
+    }
+  }
+
+  return '';
+}
+
+
+
 situacionClass(value: string): string {
   
   const key = value?.toLowerCase().trim();

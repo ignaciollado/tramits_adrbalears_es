@@ -114,17 +114,11 @@
 <ng-container matColumnDef="situacion">
   <th mat-header-cell *matHeaderCellDef mat-sort-header> Situación </th>
   <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">
-    {{ 
-      ('SITUATIONS.GENERAL.' + item.situacion) | translate 
-      }}{{ 
-        item.situacion === 'emitirIFPRProvPago' ? 
-        ' - ' + ((item.fecha_requerimiento_notif && item.fecha_requerimiento_notif !== '0000-00-00') 
-                  ? ('CONREQUERIMIENTO' | translate) 
-                  : ('SINREQUERIMIENTO' | translate)) 
-        : '' 
-      }}
+    {{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}{{ getSituacionSuffix(item) }}
   </td>
 </ng-container>
+
+
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
