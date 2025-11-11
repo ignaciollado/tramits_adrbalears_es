@@ -124,7 +124,6 @@ export class ActaDeCierreComponent {
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin20 = false;
-          console.log ("docActoAdmin.length", docActoAdmin.length)
           if (docActoAdmin.length === 1) {
             this.actoAdmin20 = true;
             this.nifDocGenerado = docActoAdmin[0].cifnif_propietario;
@@ -499,7 +498,7 @@ sendJustificationFormEmail(): void {
 
         this.commonService.showSnackBar(res.message);
 
-        // Ejecutamos ambas actualizaciones en paralelo
+        // Ejecuto ambas actualizaciones en paralelo
         return forkJoin([
           this.expedienteService.updateDocFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar'),
           this.expedienteService.updateDocFieldExpediente(this.actualID, 'justificationSendedMail', this.justificationSendedMail)
