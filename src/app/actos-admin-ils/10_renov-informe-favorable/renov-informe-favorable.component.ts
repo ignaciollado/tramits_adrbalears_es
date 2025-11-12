@@ -37,7 +37,7 @@ export class RenovInformeFavorableIlsComponent {
   timeStampDocGenerado: string = "";
   nameDocGenerado: string = "";
   userLoginEmail: string = "";
-  ceoEmail: string = "jose.luis@idi.es";
+  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   loading: boolean = false;
@@ -463,8 +463,8 @@ export class RenovInformeFavorableIlsComponent {
   getGlobalConfig() {
     this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
       if (globalConfig.length > 0) {
-        // this.emailConseller = globalConfig[0].eMailPresidente || 'jose.luis@idi.es'
-        this.emailConseller = 'jose.luis@idi.es'
+        // this.emailConseller = globalConfig[0].eMailPresidente || ''
+        this.emailConseller = ''
       }
     })
   }

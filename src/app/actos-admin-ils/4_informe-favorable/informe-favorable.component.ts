@@ -36,7 +36,7 @@ export class InformeFavorableIlsComponent {
   nifDocGenerado: string = "";
   timeStampDocGenerado: string = "";
   userLoginEmail: string = "";
-  ceoEmail: string = "jose.luis@idi.es";
+  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   nameDocGenerado: string = "";
@@ -456,8 +456,8 @@ export class InformeFavorableIlsComponent {
   getGlobalConfig() {
     this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
       const globalConfig = globalConfigArr[0];
-        // this.emailConseller = globalConfig.eMailPresidente || 'jose.luis@idi.es'
-        this.emailConseller = 'jose.luis@idi.es'
+        // this.emailConseller = globalConfig.eMailPresidente || ''
+        this.emailConseller = ''
     })
   }
 }

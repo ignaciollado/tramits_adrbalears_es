@@ -42,7 +42,7 @@ export class RequerimientoIlsComponent {
   signatureDocState: string = "";
   nifDocGenerado: string = "";
   userLoginEmail: string = "";
-  ceoEmail: string = "jose.luis@idi.es";
+  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   nameDocGenerado: string = "";
@@ -451,8 +451,8 @@ export class RequerimientoIlsComponent {
   getGlobalConfig(): void {
     this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
       if (globalConfig.length > 0) {
-        // this.emailConseller = globalConfig[0],data.eMailPresidente || 'jose.luis@idi.es'
-        this.emailConseller = 'jose.luis@idi.es'
+        // this.emailConseller = globalConfig[0],data.eMailPresidente || ''
+        this.emailConseller = ''
       }
     })
   }

@@ -38,7 +38,7 @@ export class ResolDePagoComponent {
   nifDocGenerado: string = "";
   timeStampDocGenerado: string = "";
   userLoginEmail: string = "";
-  ceoEmail: string = "jose.luis@idi.es";
+  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   imageUrl: SafeUrl | undefined;
   showPdfViewer: boolean = false;

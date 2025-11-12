@@ -37,7 +37,7 @@ export class ResolucionRevocacionIlsComponent {
   timeStampDocGenerado: string = "";
   nameDocGenerado: string = "";
   userLoginEmail: string = "";
-  ceoEmail: string = "jose.luis@idi.es";
+  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   loading: boolean = false;
@@ -481,8 +481,8 @@ export class ResolucionRevocacionIlsComponent {
     getGlobalConfig() {
     this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
       const globalConfig = globalConfigArr[0];
-        // this.emailConseller = globalConfig.eMailPresidente || 'jose.luis@idi.es'
-        this.emailConseller = 'jose.luis@idi.es'
+        // this.emailConseller = globalConfig.eMailPresidente || ''
+        this.emailConseller = ''
         this.nomPresidenteIdi = globalConfig.respresidente;
     })
   }
