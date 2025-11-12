@@ -568,12 +568,10 @@ export class PrDefinitivaFavorableComponent {
                 if (resp.status) {
                   console.log ("resp", resp, this.commonService.convertUnixToHumanDate(resp.sendDate, true))
                   this.signatureDocState = resp.status;
-                  this.expedienteService.updateFieldExpediente(this.actualID, 'fechaFirmaPropuestaResolucionDef', this.commonService.convertUnixToHumanDate(resp.sendDate, true))
-                    .subscribe((result: any)=> {
-                        console.log ("result", result)
+                  this.expedienteService.updateFieldExpediente(this.actualID, 'fecha_firma_propuesta_resolucion_def', this.commonService.convertUnixToHumanDate(resp.sendDate, true))
+                    .subscribe(() => {
+                      this.form.patchValue({fecha_firma_propuesta_resolucion_def: this.commonService.convertUnixToHumanDate(resp.sendDate, true)})                        
                     })
-                  this.form.patchValue({fechaFirmaPropuestaResolucionDef: this.commonService.convertUnixToHumanDate(resp.sendDate, true)}  )
-
                   this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
                   this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
                   const sendedDateToSign = resp.creationDate;

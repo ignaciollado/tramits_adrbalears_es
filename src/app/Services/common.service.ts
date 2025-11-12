@@ -125,7 +125,7 @@ export class CommonService {
     const minutos = String(fecha.getMinutes()).padStart(2, '0');
     const segundos = String(fecha.getSeconds()).padStart(2, '0');
     if (shortMode) {
-      return `${dia}/${mes}/${anio}`;
+      return `${anio}-${mes}-${dia}`;
     }
     return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
   }
