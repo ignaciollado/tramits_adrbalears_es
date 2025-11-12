@@ -1,6 +1,6 @@
 <form [formGroup]="formInformDesfConReq">
 <mat-accordion [ngClass]="['detalle-formulario', 'req-state', stateClass]">
-   <mat-expansion-panel>
+   <mat-expansion-panel [disabled]="!fechaRequerimiento ? true : false">
     <mat-expansion-panel-header>
       <mat-panel-title> 6. {{'ACTOSADMINISTRATIVOS.INFORMEDESFAVORABLECONREQUERIMIENTO' | translate}} </mat-panel-title>
     </mat-expansion-panel-header>

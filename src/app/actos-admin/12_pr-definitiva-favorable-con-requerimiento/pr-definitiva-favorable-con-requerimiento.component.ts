@@ -74,6 +74,7 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
   codigoSIA: string = ""
   fechaResPresidente: string = ""
   dGerente: string = ""
+  fechaRequerimiento: string | null = null
 
   get stateClass(): string {
     const map: Record<string, string> = {
@@ -123,6 +124,13 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
   ngOnInit(): void { }
   
   getActoAdminDetail() {
+    if (this.form.get("fecha_requerimiento_notif")?.value === '0000-00-00' || this.form.get("fecha_requerimiento_notif")?.value === '0000-00-00 00:00:00')
+    {
+      this.fechaRequerimiento = ""
+    } else {
+      this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
+    }
+
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
@@ -146,35 +154,43 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+    let todoOK: boolean = true
+    let errorMessage: string = "Falta indicar:\n"
+
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Falta indicar la fecha SEU sol·licitud")
-      return
+      errorMessage += "- Falta indicar la fecha SEU sol·licitud"
+      todoOK = false
     }
     if (!this.form.get('ref_REC')?.value) {
-      alert ("Falta indicar la Referència SEU de la sol·licitud")
-      return
+      errorMessage += "- Falta indicar la Referència SEU de la sol·licitud"
+      todoOK = false
     }
     if (this.form.get('fecha_requerimiento')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento')?.value === '0000-00-00' || this.form.get('fecha_requerimiento')?.value === null) {
-      alert ("Falta indicar la Data firma requeriment")
-      return
+      errorMessage += "- Falta indicar la Data firma requeriment"
+      todoOK = false
     }
     if (this.form.get('fecha_REC_enmienda')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC_enmienda')?.value === null) {
-      alert ("Falta indicar la Data SEU esmena")
-      return
+      errorMessage += "- Falta indicar la Data SEU esmena"
+      todoOK = false
     }
 
     if (this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
-      alert ("Falta indicar la fecha Firma informe favorable / desfavorable")
-      return
+      errorMessage += "- Falta indicar la fecha Firma informe favorable / desfavorable"
+      todoOK = false
     }    
 
     if (this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === null) {
-      alert ("Falta indicar la fecha Data firma proposta resolució provisional")
-      return      
+      errorMessage += "- Falta indicar la fecha Data firma proposta resolució provisional"
+      todoOK = false      
     }
     if (this.form.get('fecha_not_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === null) {
-      alert ("Falta indicar la fecha Data notificació proposta resolució provisional")
-      return      
+      errorMessage += "- Falta indicar la fecha Data notificació proposta resolució provisional"
+      todoOK = false      
+    }
+
+    if (!todoOK) {
+      alert (errorMessage)
+      return
     }
 
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS

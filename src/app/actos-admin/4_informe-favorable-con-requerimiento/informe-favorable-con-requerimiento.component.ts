@@ -72,6 +72,7 @@ export class InformeFavorableConRequerimientoComponent {
   codigoSIA: string = ""
   fechaResPresidente: string = ""
   dGerente: string = ""
+  fechaRequerimiento: string | null = null
 
   get stateClass(): string {
     const map: Record<string, string> = {
@@ -119,6 +120,12 @@ export class InformeFavorableConRequerimientoComponent {
   }
 
   getActoAdminDetail() {
+    if (this.form.get("fecha_requerimiento_notif")?.value === '0000-00-00' || this.form.get("fecha_requerimiento_notif")?.value === '0000-00-00 00:00:00')
+    {
+      this.fechaRequerimiento = ""
+    } else {
+      this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
+    }    
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {

@@ -74,6 +74,7 @@ export class PrDefinitivaFavorableComponent {
   codigoSIA: string = ""
   fechaResPresidente: string = ""
   dGerente: string = ""
+  fechaRequerimiento: string | null = null
 
   get stateClass(): string {
     const map: Record<string, string> = {
@@ -124,6 +125,12 @@ export class PrDefinitivaFavorableComponent {
   ngOnInit(): void { }
   
   getActoAdminDetail() {
+    if (this.form.get("fecha_requerimiento_notif")?.value === '0000-00-00' || this.form.get("fecha_requerimiento_notif")?.value === '0000-00-00 00:00:00')
+    {
+      this.fechaRequerimiento = ""
+    } else {
+      this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
+    }
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
@@ -566,9 +573,9 @@ export class PrDefinitivaFavorableComponent {
             next: (resp) => {
               if (resp) {
                 if (resp.status) {
-                  console.log ("resp", resp, this.commonService.convertUnixToHumanDate(resp.sendDate, true))
                   this.signatureDocState = resp.status;
                   this.expedienteService.updateFieldExpediente(this.actualID, 'fecha_firma_propuesta_resolucion_def', this.commonService.convertUnixToHumanDate(resp.sendDate, true))
+                  //this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar')
                     .subscribe(() => {
                       this.form.patchValue({fecha_firma_propuesta_resolucion_def: this.commonService.convertUnixToHumanDate(resp.sendDate, true)})                        
                     })

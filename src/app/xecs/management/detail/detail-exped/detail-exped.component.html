@@ -121,8 +121,8 @@
             <!-- Con subgrupos -->
            <ng-container *ngIf="group.subgroup">
             <mat-optgroup [label]="group.name | translate" style="font-weight: bolder;">
-              <ng-container *ngFor="let subgroup of group.subgroup" style="text-decoration: underline;">
-                <mat-optgroup [label]="subgroup.name | translate">
+              <ng-container *ngFor="let subgroup of group.subgroup">
+                <mat-optgroup [label]="subgroup.name | translate" style="color: rgba(28, 4, 245, 0.363);text-decoration: underline;">
                   <mat-option *ngFor="let option of subgroup.options" [value]="option.value">
                     {{option.label | translate}}
                   </mat-option>
@@ -182,7 +182,7 @@
       [actualConvocatoria]="actualConvocatoria"></app-declaracion-responsable>
     </section>
 
-    </mat-card>  
+    </mat-card>
     </mat-tab>
 
     <mat-tab><!-- Solicitud -->
