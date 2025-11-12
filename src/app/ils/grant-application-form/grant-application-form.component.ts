@@ -947,7 +947,7 @@ export class IlsGrantApplicationFormComponent {
           this.lastInsertId = resp?.id;
           if (this.lastInsertId) {
             this.expedienteService
-              .updateDocFieldExpediente(data.id_sol, 'doc_declaracion_responsable_ils', String(this.lastInsertId))
+              .updateFieldExpediente(data.id_sol, 'doc_declaracion_responsable_ils', String(this.lastInsertId))
               .subscribe({
                 next: (response: any) => {
                   const mensaje = response?.message || '✅ Declaración generada y subida';

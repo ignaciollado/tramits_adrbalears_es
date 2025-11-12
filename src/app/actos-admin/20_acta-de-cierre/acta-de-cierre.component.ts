@@ -363,7 +363,7 @@ export class ActaDeCierreComponent {
         this.lastInsertId = resp?.id;
         if (this.lastInsertId) {
           this.expedienteService
-            .updateDocFieldExpediente(this.actualID, `doc_${docFieldToUpdate}`, String(this.lastInsertId))
+            .updateFieldExpediente(this.actualID, `doc_${docFieldToUpdate}`, String(this.lastInsertId))
             .subscribe({
               next: (response: any) => {
                 const mensaje =
@@ -500,8 +500,8 @@ sendJustificationFormEmail(): void {
 
         // Ejecuto ambas actualizaciones en paralelo
         return forkJoin([
-          this.expedienteService.updateDocFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar'),
-          this.expedienteService.updateDocFieldExpediente(this.actualID, 'justificationSendedMail', this.justificationSendedMail)
+          this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar'),
+          this.expedienteService.updateFieldExpediente(this.actualID, 'justificationSendedMail', this.justificationSendedMail)
         ]);
       })
     )

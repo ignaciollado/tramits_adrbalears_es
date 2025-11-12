@@ -94,6 +94,7 @@ export class PrDefinitivaFavorableComponent {
   @Input() actualImporteSolicitud!: number 
   @Input() form!: FormGroup;
   @Input() motivoDenegacion!: string
+  @Input() actualFechaFirmaPropuestaResolucionDef!: Date
 
   constructor( private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
@@ -146,28 +147,36 @@ export class PrDefinitivaFavorableComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+    let todoOK: boolean = true
+    let errorMessage: string = "Falta indicar:\n"
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Falta indicar la Data SEU sol·licitud")
-      return
+      errorMessage += "- Data SEU sol·licitud\n"
+      todoOK = false
     }
     if (!this.form.get('ref_REC')?.value) {
-      alert ("Falta indicar la Referència SEU de la sol·licitud")
-      return
+      errorMessage += "- Referència SEU de la sol·licitud\n"
+      todoOK = false      
     }
 
     if (this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
-      alert ("Falta indicar la Data Firma informe favorable / desfavorable")
-      return
+      errorMessage += "- Firma informe favorable / desfavorable\n"
+      todoOK = false      
     }    
 
     if (this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === null) {
-      alert ("Falta indicar la Data firma proposta resolució provisional")
-      return      
+      errorMessage += "- Firma proposta resolució provisional\n"
+      todoOK = false            
     }
     if (this.form.get('fecha_not_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === null) {
-      alert ("Falta indicar la Data notificació proposta resolució provisional")
-      return      
+      errorMessage += "- Notificació proposta resolució provisional\n"
+      todoOK = false            
     }
+
+    if (!todoOK) {
+      alert (errorMessage)
+      return
+    }
+
 
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
@@ -232,7 +241,6 @@ export class PrDefinitivaFavorableComponent {
       tap(() => {
         try {
           rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
-          console.log ("rawTexto", rawTexto)
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {
@@ -433,7 +441,7 @@ export class PrDefinitivaFavorableComponent {
       this.lastInsertId = resp?.id;
       if (this.lastInsertId) {
         this.expedienteService
-          .updateDocFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
+          .updateFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
           .subscribe({
             next: (response: any) => {
               const mensaje =
@@ -513,7 +521,7 @@ export class PrDefinitivaFavorableComponent {
         const payload: CreateSignatureRequest = {
       adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
-      : this.ceoEmail,                // correo de coe,
+      : this.ceoEmail,                // correo de ceo,
       //telefono_cont: this.telefono_rep ?? '',
       nombreDocumento: filename,
       nif: nif,
@@ -558,7 +566,14 @@ export class PrDefinitivaFavorableComponent {
             next: (resp) => {
               if (resp) {
                 if (resp.status) {
+                  console.log ("resp", resp, this.commonService.convertUnixToHumanDate(resp.sendDate, true))
                   this.signatureDocState = resp.status;
+                  this.expedienteService.updateFieldExpediente(this.actualID, 'fechaFirmaPropuestaResolucionDef', this.commonService.convertUnixToHumanDate(resp.sendDate, true))
+                    .subscribe((result: any)=> {
+                        console.log ("result", result)
+                    })
+                  this.form.patchValue({fechaFirmaPropuestaResolucionDef: this.commonService.convertUnixToHumanDate(resp.sendDate, true)}  )
+
                   this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
                   this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
                   const sendedDateToSign = resp.creationDate;

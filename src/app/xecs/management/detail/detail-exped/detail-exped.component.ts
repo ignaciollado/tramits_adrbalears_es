@@ -171,7 +171,7 @@ export class XecsDetailExpedComponent {
   constructor( private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
               ) {
-      this.adapter.setLocale('es')
+    this.adapter.setLocale('es')
   }
 
 ngOnInit(): void {
@@ -340,7 +340,7 @@ enableEdit(): void {
     'fecha_solicitud',
     'ordenDePago',
     'fecha_limite_justificacion',
-    'fecha_limite_consultoria'
+    'fecha_limite_consultoria', 'fecha_firma_propuesta_resolucion_def'
   ];
 
   Object.entries(this.form.controls).forEach(([controlName, control]) => {
@@ -594,7 +594,7 @@ changeExpedSituation(event: any) {
   if (fecha) {
     // Actualizamos la situación a 'emitirIFPRProvPago'
     this.expedienteService
-      .updateDocFieldExpediente(this.actualID, 'situacion', 'emitirIFPRProvPago')
+      .updateFieldExpediente(this.actualID, 'situacion', 'emitirIFPRProvPago')
       .subscribe({
         next: (newState: any) => {
           console.log('Situación actualizada en el backend:', newState);

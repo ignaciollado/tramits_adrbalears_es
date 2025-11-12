@@ -251,7 +251,7 @@
       <input matInput formControlName="fecha_not_propuesta_resolucion_prov" type="date" readonly (change)="changeExpedSituation($event)">
       </mat-form-field>
       <mat-form-field appearance="outline">
-      <mat-label>{{'FORM.fecha_firma_propuesta_resolucion_def' | translate}}</mat-label>
+      <mat-label>{{'FORM.fecha_firma_propuesta_resolucion_def' | translate}} [al firmar la PR Definitiva (11 ó 12)]</mat-label>
       <input matInput formControlName="fecha_firma_propuesta_resolucion_def" type="date" readonly>
       </mat-form-field>
       <mat-form-field appearance="outline">
@@ -294,12 +294,15 @@
           <app-pr-provisional-desfavorable-con-requerimiento [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite" [motivoDenegacion] = "motivoDenegacion"></app-pr-provisional-desfavorable-con-requerimiento>
+          
           <app-pr-definitiva-favorable [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite"></app-pr-definitiva-favorable>
+
           <app-pr-definitiva-favorable-con-requerimiento [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite"></app-pr-definitiva-favorable-con-requerimiento>
+
           <app-pr-definitiva-desfavorable [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
           [actualConvocatoria]="actualConvocatoria" [actualImporteSolicitud]="actualImporteSolicitud"
           [actualTipoTramite]="actualTipoTramite" [motivoDenegacion] = "motivoDenegacion"></app-pr-definitiva-desfavorable>

@@ -116,6 +116,20 @@ export class CommonService {
     return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
   }
 
+  convertUnixToHumanDate(unixDate: number, shortMode:boolean): string {
+    const fecha = new Date(unixDate); // convertir a Date
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Enero = 0
+    const anio = fecha.getFullYear();
+    const horas = String(fecha.getHours()).padStart(2, '0');
+    const minutos = String(fecha.getMinutes()).padStart(2, '0');
+    const segundos = String(fecha.getSeconds()).padStart(2, '0');
+    if (shortMode) {
+      return `${dia}/${mes}/${anio}`;
+    }
+    return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
+  }
+
   showSnackBar(error: string): void {
     this.snackBar.open(error, 'Close', {
       duration: 5000,

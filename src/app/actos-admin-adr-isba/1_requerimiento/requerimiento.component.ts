@@ -155,7 +155,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   saveReasonRequest(): void {
     const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value;
     if (this.formRequerimiento.valid) {
-      this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe();
+      this.expedienteService.updateFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe();
       this.noRequestReasonText = false;
       this.reqGenerado = false;
     }
@@ -310,7 +310,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         this.lastInsertId = resp?.id;
         if (this.lastInsertId) {
           this.expedienteService
-            .updateDocFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId))
+            .updateFieldExpediente(this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId))
             .subscribe({
               next: (response: any) => {
                 const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';

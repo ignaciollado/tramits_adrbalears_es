@@ -323,7 +323,7 @@ export class RenovInformeFavorableConRequerimientoIlsComponent {
         this.lastInsertId = resp?.id;
         if (this.lastInsertId) {
           this.expedienteService
-            .updateDocFieldExpediente(this.actualID, `doc_${docFieldToUpdate}`, String(this.lastInsertId))
+            .updateFieldExpediente(this.actualID, `doc_${docFieldToUpdate}`, String(this.lastInsertId))
             .subscribe({
               next: (response: any) => {
                 const mensaje =

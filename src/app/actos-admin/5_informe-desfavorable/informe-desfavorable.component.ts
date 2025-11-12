@@ -161,7 +161,7 @@ export class InformeDesfavorableComponent {
 
   saveReasonRequest(): void {
     const motivo = this.formInformDesf.get('motivoDenegacion')?.value
-    this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoDenegacion', motivo).subscribe(() => {
+    this.expedienteService.updateFieldExpediente(this.actualID, 'motivoDenegacion', motivo).subscribe(() => {
       this.noDenegationReasonText = false
       this.actoAdmin5 = false
     })
@@ -404,7 +404,7 @@ export class InformeDesfavorableComponent {
       this.lastInsertId = resp?.id;
       if (this.lastInsertId) {
         this.expedienteService
-          .updateDocFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
+          .updateFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
           .subscribe({
             next: (response: any) => {
               const mensaje =

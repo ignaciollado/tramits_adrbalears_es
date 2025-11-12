@@ -1145,7 +1145,7 @@ export class IsbaGrantApplicationFormComponent {
         this.lastInsertId = resp?.id;
         if (this.lastInsertId) {
           this.expedienteService
-            .updateDocFieldExpediente(data.id_sol, 'doc_declaracion_responsable_idi_isba', String(this.lastInsertId))
+            .updateFieldExpediente(data.id_sol, 'doc_declaracion_responsable_idi_isba', String(this.lastInsertId))
             .subscribe({
               next: (response: any) => {
                 const mensaje = response?.message || '✅ Declaración generada y subida';

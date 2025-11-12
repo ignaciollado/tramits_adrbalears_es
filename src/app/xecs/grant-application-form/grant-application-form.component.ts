@@ -1033,7 +1033,7 @@ export class GrantApplicationFormComponent implements OnInit {
         this.lastInsertId = resp?.id;
         if (this.lastInsertId) {
           this.expedienteService
-            .updateDocFieldExpediente(datos.id_sol, 'doc_dec_res_solicitud', String(this.lastInsertId))
+            .updateFieldExpediente(datos.id_sol, 'doc_dec_res_solicitud', String(this.lastInsertId))
             .subscribe({
               next: (response: any) => {
                 const mensaje = response?.message || '✅ Declaración generada y subida';

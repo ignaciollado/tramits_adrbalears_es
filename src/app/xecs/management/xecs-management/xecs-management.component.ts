@@ -248,7 +248,7 @@ getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
       const diffDias = Math.ceil((fechaLimite.getTime() - fechaHoy.getTime()) / (1000 * 60 * 60 * 24));
       const fechaFormateada = this.commonService.formatDate(fechaLimite);
       return {
-        text: ` ${diffDias} días naturales\n[Fecha máxima de justificación:\n${fechaFormateada}]`,
+        text: `${diffDias} días naturales\n[Fecha máxima de justificación:\n${fechaFormateada}]`,
         isDayDiffNegative: diffDias < 0
       };
     }

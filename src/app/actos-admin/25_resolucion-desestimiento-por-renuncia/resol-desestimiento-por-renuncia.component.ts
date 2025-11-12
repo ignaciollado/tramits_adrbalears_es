@@ -143,7 +143,7 @@ export class ResolDesestimientoPorRenunciaComponent {
   saveDesestimientoReason(): void {
     const motivo = this.formDesestimiento.get('motivoDesestimientoRenuncia')?.value;
     if (this.formDesestimiento.valid) {
-      this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoDesestimientoRenuncia', motivo).subscribe();
+      this.expedienteService.updateFieldExpediente(this.actualID, 'motivoDesestimientoRenuncia', motivo).subscribe();
       this.noDesestimientoReasonText = false;
       this.actoAdmin25 = false;
     }
@@ -417,7 +417,7 @@ export class ResolDesestimientoPorRenunciaComponent {
         this.lastInsertId = resp?.id;
         if (this.lastInsertId) {
           this.expedienteService
-            .updateDocFieldExpediente(this.actualID, `doc_${docFieldToUpdate}`, String(this.lastInsertId))
+            .updateFieldExpediente(this.actualID, `doc_${docFieldToUpdate}`, String(this.lastInsertId))
             .subscribe({
               next: (response: any) => {
                 const mensaje =

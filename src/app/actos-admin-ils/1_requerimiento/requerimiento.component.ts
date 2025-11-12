@@ -134,7 +134,7 @@ export class RequerimientoIlsComponent {
   saveRequerimientoReason(): void {
     const reason = this.formRequerimiento.get('motivoRequerimiento')?.value;
     if (this.formRequerimiento.valid) {
-      this.expedienteService.updateDocFieldExpediente(this.actualID, 'motivoRequerimiento', reason).subscribe();
+      this.expedienteService.updateFieldExpediente(this.actualID, 'motivoRequerimiento', reason).subscribe();
       this.noRequerimientoReasonText = false;
       this.actoAdmin1 = false;
     }
@@ -317,7 +317,7 @@ export class RequerimientoIlsComponent {
         this.lastInsertId = resp?.id;
         if (this.lastInsertId) {
           this.expedienteService
-            .updateDocFieldExpediente(this.actualID, `doc_${docFieldToUpdate}`, String(this.lastInsertId))
+            .updateFieldExpediente(this.actualID, `doc_${docFieldToUpdate}`, String(this.lastInsertId))
             .subscribe({
               next: (response: any) => {
                 const mensaje =
