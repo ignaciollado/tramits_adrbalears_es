@@ -1,10 +1,10 @@
 <form [formGroup]="ilsForm" ngClass="form" (ngSubmit)="onSubmit()">
-    <div class="example-action-buttons">
+    <section class="example-action-buttons">
         <button matButton type="button" ngClass="btn-green btn" (click)="accordion().openAll()">{{ 'APP.EXPANDALL' | translate }}</button>
         <button matButton type="button" ngClass="btn-green btn" (click)="accordion().closeAll()">{{ 'APP.COLAPSEALL' | translate }}</button>
-    </div>
+    </section>
     <mat-accordion ngClass="example-headers-align" multi>
-        <!-- RGPD -->
+        <!-- 1. RGPD -->
         <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -51,7 +51,7 @@
             </section>
         </mat-expansion-panel>
 
-        <!-- Tipo de solicitante -->
+        <!-- 2. Tipo de solicitante -->
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -74,7 +74,7 @@
             </section>
         </mat-expansion-panel>
 
-        <!-- Datos personales -->
+        <!-- 3. DADES GENERALS -->
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -125,6 +125,7 @@
                 <mat-form-field>
                     <mat-label>{{'FORM.SELECTIAE' | translate}}</mat-label>
                     <mat-select formControlName="iae">
+                        <mat-option value="000.0">***NO DESEO INDICAR/ESCOGER UN IAE***</mat-option>
                         <mat-option *ngFor="let cnae of actividadesCNAE;"
                             [value]="cnae.cnae">{{cnae.label_cas}}</mat-option>
                     </mat-select>
@@ -156,7 +157,7 @@
             </section>
         </mat-expansion-panel>
 
-        <!-- Canal de notificaciones-->
+        <!-- 5. Canal de notificaciones-->
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -188,7 +189,7 @@
             </section>
         </mat-expansion-panel>
 
-        <!-- Autorizaciones-->
+        <!-- 6. Autorizaciones-->
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -221,7 +222,7 @@
             </section>
         </mat-expansion-panel>
 
-        <!-- Declaración responsable-->
+        <!-- 7. Declaración responsable-->
         <mat-expansion-panel [disabled]="!rgpdAccepted" [expanded]="rgpdAccepted">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -251,9 +252,9 @@
                         <li [innerHTML]="'FORM.DOCUMENTATIONINFOCTRL' | translate"></li>
                         <li [innerHTML]="'FORM.DOCUMENTATIONINFOSHIFT' | translate"></li>
                     </ol>
-            </section>
+                </section>
             <section ngClass="form documentation">
-                <h4>{{'ILS.REQUIREDDOCUMENTATIONINFO' | translate}}</h4>
+                <h3>{{'ILS.REQUIREDDOCUMENTATIONINFO' | translate}}</h3>
                 <section ngClass="file-upload">
                     <label for="file_escritura_empresa">{{'ILS.CONSTITUTION' | translate}}</label>
                     <input #file_escritura_empresa formControlName="file_escritura_empresa" type="file" (change)="onfile_escritura_empresaChange($event)" accept=".pdf" multiple>
@@ -324,7 +325,7 @@
                 </section>
             </section>
             <section>
-                <h4>{{'ILS.OPTIONALDOCUMENTATIONINFO' | translate}}</h4>
+                <h3>{{'ILS.OPTIONALDOCUMENTATIONINFO' | translate}}</h3>
 
                 <section ngClass="file-upload">
                     <label for="file_memoriaTecnica">{{'ILS.TECHNICALMEMORY' | translate}}</label>

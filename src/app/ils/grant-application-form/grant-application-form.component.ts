@@ -115,7 +115,7 @@ export class IlsGrantApplicationFormComponent {
       cpostal: this.fb.control<string>('', [Validators.required, Validators.minLength(5), Validators.maxLength(5)]),
       localidad: this.fb.control<string>({ value: '', disabled: true }),
       telefono: this.fb.control<string>('', [Validators.required, Validators.pattern('[0-9]{9}'), Validators.maxLength(9), Validators.minLength(9)]),
-      iae: this.fb.control<string>('', [Validators.required]),
+      iae: this.fb.control<string>(''),
       sitio_web_empresa: this.fb.control<string>('', [this.customValidator.xssProtectorValidator()]),
       video_empresa: this.fb.control<string>('', [this.customValidator.xssProtectorValidator()]),
       nombre_rep: this.fb.control<string>('', [Validators.required, this.customValidator.xssProtectorValidator()]),
@@ -135,7 +135,7 @@ export class IlsGrantApplicationFormComponent {
 
       // Documentación
       file_escritura_empresa: this.fb.control<File | null>(null, [Validators.required]),
-      file_certificadoIAE: this.fb.control<File | null>(null, [Validators.required]),
+      file_certificadoIAE: this.fb.control<File | null>(null),
       radioGroupFile: this.fb.control(null, []),
       file_informeResumenIls: this.fb.control<File | null>({ value: null, disabled: true }, []), // Primera opción radio
       file_informeInventarioIls: this.fb.control<File | null>({ value: null, disabled: true }, []), // Primera opción radio
