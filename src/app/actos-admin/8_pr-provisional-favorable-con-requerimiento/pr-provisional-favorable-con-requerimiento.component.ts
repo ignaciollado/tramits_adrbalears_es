@@ -148,24 +148,31 @@ export class PrProvisionalFavorableConRequerimientoComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+    let todoOK: boolean = true
+    let errorMessage: string = "Falta indicar:\n"
+
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Falta indicar la fecha SEU sol·licitud")
-      return
+      errorMessage += "- Data SEU sol·licitud"
+      todoOK = false
     }
     if (!this.form.get('ref_REC')?.value) {
-      alert ("Falta indicar la Referència SEU de la sol·licitud")
-      return
+      errorMessage += "- Referència SEU de la sol·licitud"
+      todoOK = false
     }
     if(this.form.get('fecha_REC_enmienda')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC_enmienda')?.value === null) {
-      alert ("Falta indicar la fecha de Data SEU esmena")
-      return
+      errorMessage += "- Data SEU esmena"
+      todoOK = false
     }    
     if(this.form.get('fecha_requerimiento_notif')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento_notif')?.value === '0000-00-00' || this.form.get('fecha_requerimiento_notif')?.value === null) {
-      alert ("Falta indicar la fecha de Notificació requeriment")
-      return
+      errorMessage += "- Fecha de Notificació requeriment"
+      todoOK = false
     }
     if(this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
-      alert ("Falta indicar la fecha de Notificació requeriment")
+      errorMessage += "- Fecha de Informe favorable/desfavorable"
+      todoOK = false
+    }
+    if (!todoOK) {
+      alert (errorMessage)
       return
     }    
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
@@ -431,8 +438,7 @@ export class PrProvisionalFavorableConRequerimientoComponent {
     next: (resp: any) => {
       this.lastInsertId = resp?.id;
       if (this.lastInsertId) {
-        this.expedienteService
-          .updateFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
+        this.expedienteService.updateFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
           .subscribe({
             next: (response: any) => {
               const mensaje =
@@ -447,7 +453,11 @@ export class PrProvisionalFavorableConRequerimientoComponent {
                 '⚠️ Documento generado, pero error al actualizar el expediente.';
               this.commonService.showSnackBar(updateErrorMsg);
             }
-          });
+          })
+          this.expedienteService.updateFieldExpediente(this.actualID, 'propuesta_resolucion_favorable', '1')
+           .subscribe(()=> {
+            this.form.patchValue({propuesta_resolucion_favorable: '1'}) 
+          })
       } else {
         this.commonService.showSnackBar(
           '⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.'

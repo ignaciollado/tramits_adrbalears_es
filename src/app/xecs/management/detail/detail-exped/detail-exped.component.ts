@@ -29,6 +29,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import {MatRadioModule} from '@angular/material/radio';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { SignatureResponse } from '../../../../Models/signature.dto';
@@ -91,7 +92,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
     ResolConcesionFavorableConRequerimientoComponent, ResolDenegacionComponent, ResolDenegacionConRequerimientoComponent, ActaDeKickOffComponent, ActaDeCierreComponent,
     InformeInicioReqJustificacionComponent, ReqEnmiendaJustificacionComponent, InformePostEnmiendaJustificacionComponent, ResolDePagoComponent,
     ResolDesestimientoPorRenunciaComponent, PrRevocacionPorNoJustificarComponent, ResolRevocacionPorNoJustificarComponent,
-    ReactiveFormsModule, MatButtonModule, MatCheckboxModule,
+    ReactiveFormsModule, MatButtonModule, MatCheckboxModule, MatRadioModule,
     MatFormFieldModule, MatTabsModule,
     MatInputModule, TranslateModule, MatSelectModule, MatExpansionModule,
     MatCardModule, MatSnackBarModule, MatDatepickerModule,
@@ -228,6 +229,7 @@ ngOnInit(): void {
     fecha_infor_fav_desf: [{ value: '', disabled: true }],
     fecha_firma_propuesta_resolucion_prov: [{ value: '', disabled: true }],
     fecha_not_propuesta_resolucion_prov: [{ value: '', disabled: true }],
+    propuesta_resolucion_favorable: [{ disabled: true }],
     fecha_firma_propuesta_resolucion_def: [{ value: '', disabled: true }],
     fecha_not_propuesta_resolucion_def: [{ value: '', disabled: true }],
     fecha_firma_res: [{ value: '', disabled: true }],

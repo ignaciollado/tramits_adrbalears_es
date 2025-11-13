@@ -249,6 +249,10 @@
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_not_propuesta_resolucion_prov' | translate}}</mat-label>
       <input matInput formControlName="fecha_not_propuesta_resolucion_prov" type="date" readonly (change)="changeExpedSituation($event)">
+      <mat-radio-group formControlName="propuesta_resolucion_favorable" aria-label="Select an option">
+        <mat-radio-button value="1">Favorable</mat-radio-button>
+        <mat-radio-button value="0">Desfavorable</mat-radio-button>
+      </mat-radio-group>
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{'FORM.fecha_firma_propuesta_resolucion_def' | translate}} [al firmar la PR Definitiva (11 ó 12)]</mat-label>

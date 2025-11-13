@@ -174,19 +174,24 @@ export class PrProvisionalDesfavorableComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+    let todoOK: boolean = true
+    let errorMessage: string = "Falta indicar:\n"
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Falta indicar la fecha SEU sol·licitud")
-      return
+      errorMessage += "- Fecha SEU sol·licitud"
+      todoOK = false
     }
     if (!this.form.get('ref_REC')?.value) {
-      alert ("Falta indicar la Referència SEU de la sol·licitud")
-      return
+      errorMessage += "- Referència SEU de la sol·licitud"
+      todoOK = false
     }
     if (this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
-      alert ("Falta indicar la fecha Firma informe favorable / desfavorable")
-      return
+      errorMessage += "- Fecha Firma informe favorable / desfavorable"
+      todoOK = false
     }      
-
+    if (!todoOK) {
+      alert (errorMessage)
+      return
+    } 
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
@@ -437,8 +442,7 @@ export class PrProvisionalDesfavorableComponent {
     next: (resp: any) => {
       this.lastInsertId = resp?.id;
       if (this.lastInsertId) {
-        this.expedienteService
-          .updateFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
+        this.expedienteService.updateFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
           .subscribe({
             next: (response: any) => {
               const mensaje =
@@ -453,7 +457,11 @@ export class PrProvisionalDesfavorableComponent {
                 '⚠️ Documento generado, pero error al actualizar el expediente.';
               this.commonService.showSnackBar(updateErrorMsg);
             }
-          });
+          })
+          this.expedienteService.updateFieldExpediente(this.actualID, 'propuesta_resolucion_favorable', '0')
+          .subscribe(()=> {
+            this.form.patchValue({propuesta_resolucion_favorable: '0'}) 
+          })
       } else {
         this.commonService.showSnackBar(
           '⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.'
