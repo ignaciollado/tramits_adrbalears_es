@@ -285,13 +285,16 @@ td {
 .positive-diff {
   background-color: green;
   color: #fff;          // Color verde para indicar algo positivo o dentro del plazo
-  font-weight: 600;      // Ligero aumento de peso para destacar
+    font-size: .7rem;
+  font-weight: 400;
   padding: .5rem;
   border-radius: .5rem;
 }
 .negative-diff {
   background-color: red;
   color: #fff;
+    font-size: .7rem;
+  font-weight: 400;
   padding: .5rem;
   border-radius: .5rem;
 }
@@ -299,7 +302,8 @@ td {
   background-color: gray;
   color: black;           // Color neutro para indicar incertidumbre
   font-style: italic;    // Texto en cursiva para resaltar que es indeterminado
-  font-weight: 500;      // Peso intermedio, opcional
+    font-size: .7rem;
+  font-weight: 400;
     padding: .5rem;
   border-radius: .5rem;
 }

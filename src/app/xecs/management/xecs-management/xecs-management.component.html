@@ -113,10 +113,10 @@
     <ng-container [ngSwitch]="item.situacion">
       <!-- Caso notificadoIFPRProvPago -->
       <ng-container *ngSwitchCase="'PR Provisional'">
-        {{item.situacion}}<br>
-         {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}<br>
-        Notificada el {{ item.fecha_not_propuesta_resolucion_prov }}<br>
-        <span class="small-text">La PR Definitiva<br> s'enviarà el {{ item.PRDefinitivaDate }}</span><br><br>
+        <span ngClass="small-text">{{item.situacion}}</span><br>
+        <span ngClass="small-text">{{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}</span><br>
+        <span ngClass="small-text">Notificada el {{ item.fecha_not_propuesta_resolucion_prov }}</span><br>
+        <span ngClass="small-text">La PR Definitiva<br> s'enviarà el {{ item.PRDefinitivaDate }}</span><br>
         <span [ngClass]="{
           'positive-diff': item.PRDefinitivarestingDays > 0,
           'negative-diff': item.PRDefinitivarestingDays < 0,
@@ -125,19 +125,19 @@
           {{ item.PRDefinitivarestingDays !== null && item.PRDefinitivarestingDays !== undefined 
                 ? 'Resten '+item.PRDefinitivarestingDays +' dies naturals'
                 : '**Indeterminat**' }}
-        </span><br><br>
-        <span>Notificará {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}</span><br>
-        <span [innerHTML]="documentoSended"></span>
+        </span><br>
+        <span ngClass="small-text">Notificará {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}</span><br>
+        <span ngClass="small-text" [innerHTML]="documentoSended"></span>
       </ng-container>
 
       <!-- Caso pendienteJustificar -->
       <ng-container *ngSwitchCase="'pendienteJustificar'">
         <strong>{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong><br>
-        <span class="small-text">
+        <span ngClass="small-text">
           Data max. justificació: {{ item.fecha_not_propuesta_resolucion_def !== '' ? item.fecha_limite_justificacion : 'No indicada' }}
         </span><br><br>
 
-        <span [ngClass]="{
+        <span [ngClass]="  { 
           'positive-diff': item.justificacionRestingDays > 0,
           'negative-diff': item.justificacionRestingDays < 0,
           'indeterminate-diff': item.fecha_limite_justificacion === ''
