@@ -114,9 +114,8 @@
       <!-- Caso emitirIFPRProvPago -->
       <ng-container *ngSwitchCase="'emitirIFPRProvPago'">
         <strong>{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong><br>
-        {{(getSituacionSuffix(item).text) | translate}}<br>
         Notificada el {{ item.fecha_not_propuesta_resolucion_prov }}<br>
-        <span class="small-text">La PR Definitiva s'enviarà el {{ item.PRDefinitivaDate }}</span><br><br>
+        <span class="small-text">La PR Definitiva  {{(getSituacionSuffix(item).text) | translate}}<br> s'enviarà el {{ item.PRDefinitivaDate }}</span><br><br>
         <span [ngClass]="{
           'positive-diff': item.PRDefinitivarestingDays > 0,
           'negative-diff': item.PRDefinitivarestingDays < 0,
@@ -147,10 +146,8 @@
       <!-- Caso notificadoIFPRProvPago -->
       <ng-container *ngSwitchCase="'notificadoIFPRProvPago'">
         <strong>{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong><br>
-        <span class="small-text">
-          el: {{ item.fecha_not_propuesta_resolucion_prov !== '' ? item.fecha_not_propuesta_resolucion_prov : 'No indicada' }}
-        </span><br>
-        **{{(getSituacionSuffix(item).text) | translate}}**<br><br>
+         **{{(getSituacionSuffix(item).text) | translate}}**<br>
+        <span class="small-text">el: {{ item.fecha_not_propuesta_resolucion_prov !== '' ? item.fecha_not_propuesta_resolucion_prov : 'No indicada' }}</span><br>
         <span [ngClass]="{
           'positive-diff': item.fechaNotPRDefRestingDays > 0,
           'negative-diff': item.fechaNotPRDefRestingDays < 0,
