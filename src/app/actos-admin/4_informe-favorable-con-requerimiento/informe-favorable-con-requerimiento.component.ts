@@ -149,31 +149,36 @@ export class InformeFavorableConRequerimientoComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+    let todoOK: boolean = true
+    let errorMessage: string = "Falta indicar:\n" 
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Data SEU sol·licitud")
-      return
+      errorMessage += "- Data SEU sol·licitud"
+      todoOK = false
     }
 
     if (!this.form.get('ref_REC')?.value) {
-      alert ("Referència SEU de la sol·licitud")
-      return
+      errorMessage += "- Referència SEU de la sol·licitud"
+      todoOK = false
     }
 
     if (this.form.get('fecha_REC_enmienda')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC_enmienda')?.value === null) {
-      alert ("Data SEU esmena")
-      return
+      errorMessage += "- Data SEU esmena"
+      todoOK = false
     }
 
     if (this.form.get('fecha_REC_enmienda')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC_enmienda')?.value === null) {
-      alert ("Data SEU esmena")
-      return
+      errorMessage += "- Data SEU esmena"
+      todoOK = false
     }
 
     if (!this.form.get('ref_REC_enmienda')?.value) {
-      alert ("Referència SEU esmena")
+      errorMessage += "- Referència SEU esmena"
+      todoOK = false
+    }
+    if (!todoOK) {
+      alert (errorMessage)
       return
     }
-
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0

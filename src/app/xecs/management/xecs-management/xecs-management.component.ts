@@ -113,11 +113,24 @@ loadAllExpedientes(): void {
 
   this.expedienteService.getAllLineExpedientes('XECS', this.currentYear).subscribe({
     next: (res) => {
-      // Excluir expedientes con tipo_tramite 'ILS' o 'ADR-ISBA', 'company', 'FELIB'
-/*       const expedientesFiltrados = res.filter(
-        (e: any) => e.tipo_tramite !== 'ILS' && e.tipo_tramite !== 'ADR-ISBA' && e.tipo_tramite !== 'company' && e.tipo_tramite !== 'FELIB'
-      ); */
-      this.expedientesFiltrados = res
+      res = res.map((item: any) => {
+        if (item.fecha_not_propuesta_resolucion_prov === '0000-00-00') {
+          item.fecha_not_propuesta_resolucion_prov = ''
+        }
+        if (item.fecha_not_propuesta_resolucion_prov) {
+          item.PRDefinitivaDate = this.commonService.calculateDueDate(item.fecha_not_propuesta_resolucion_prov, 10);
+          item.PRDefinitivarestingDays = this.commonService.calculateRestingDays(item.PRDefinitivaDate)
+        }
+        if (item.fecha_limite_justificacion === '0000-00-00') {
+          item.fecha_limite_justificacion = ''
+        }
+        if (item.fecha_limite_justificacion) {
+          item.justificacionRestingDays = this.commonService.calculateRestingDays(item.fecha_limite_justificacion)
+        }
+        return item;
+      });
+
+      this.expedientesFiltrados = res;
 
       this.actualizarTabla(this.expedientesFiltrados);
 
@@ -137,9 +150,9 @@ loadAllExpedientes(): void {
     error: (err) => {
       this.dataSource.data = [];
       if (err.status === 404 && err.error?.messages?.error) {
-        this.commonService.showSnackBar(err.error.messages.error)
+        this.commonService.showSnackBar(err.error.messages.error);
       } else {
-        this.commonService.showSnackBar('Ocurrió un error inesperado ❌'+err)
+        this.commonService.showSnackBar('Ocurrió un error inesperado ❌' + err);
       }
     },
 
@@ -148,6 +161,7 @@ loadAllExpedientes(): void {
     }
   });
 }
+
 
 loadExpedientes(): void {
   const { convocatoria, tipoTramite, situacion } = this.form.value;
@@ -238,7 +252,7 @@ limpiarFiltros(): void {
 getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
   if (item.situacion === 'emitirIFPRProvPago') {
     const reqNotif = item.fecha_requerimiento_notif && item.fecha_requerimiento_notif !== '0000-00-00';
-    return { text: ' -> ' + (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO'), isDayDiffNegative: false };
+    return { text: (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO'), isDayDiffNegative: false };
   }
 
   if (item.situacion === 'pendienteJustificar') {
@@ -257,11 +271,12 @@ getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
   return { text: '', isDayDiffNegative: false };
 }
 
-
 situacionClass(value: string): string {
   
   const key = value?.toLowerCase().trim();
   switch (key) {
+    case 'nohapasadorec':
+      return 'st-nohapasadorec'; // ⛔ Rechazado por no pasar REC               OK
     case 'encurso':
       return 'st-en-curso'; // 🔵 Estado activo o en desarrollo
     case 'pendientejustificar':
@@ -298,14 +313,14 @@ situacionClass(value: string): string {
       return 'st-emitir-idpd'; // ⏳ Pendiente de emisión para IDPD
     case 'inicioconsultoria':
       return 'st-consultoria'; // 🧠 Consultoría en marcha
-    case 'nohapasadorec':
-      return 'st-nohapasadorec'; // ⛔ Rechazado por no pasar REC                    OK
     case 'emitirrespagoyjust':
       return 'st-emitirResPagoyJust'; // Emitir resolución de pago y justificación    OK
     case 'emitidorespagoyjust':
       return 'st-emitidoResPagoyJust'; // Emitida resolución de pago y justificación  OK
     case 'emitidodesenmienda':
-      return 'st-emitidoDesEnmienda'; // Emitido desestimiento por enmienda           OK                     
+      return 'st-emitidoDesEnmienda'; // Emitido desestimiento por enmienda           OK   
+    case 'emitirifprprovpago':
+      return 'st-emitirIFPRProvPago'; // Emitir informe Favorable propuesta resolución provisional OK                  
     default:
       return 'st-desconocido'; // ❓ Estado no reconocido
   }

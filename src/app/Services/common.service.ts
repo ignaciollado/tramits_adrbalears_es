@@ -130,6 +130,53 @@ export class CommonService {
     return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos}`;
   }
 
+/**
+ * Calcula la cantidad de días laborables entre hoy y la fecha dada+10 días.
+ * Devuelve un número positivo si la fecha es futura, negativo si es pasada.
+ */
+  calculateDueDate(fechaInicial: string | Date, dias: number): string {
+  // Convertimos a Date si es un string
+  const fecha = typeof fechaInicial === 'string' ? new Date(fechaInicial) : new Date(fechaInicial.getTime());
+  let diasHabiles = 0;
+
+  while (diasHabiles < dias) {
+    // Avanzamos un día
+    fecha.setDate(fecha.getDate() + 1);
+
+    const diaSemana = fecha.getDay(); // 0 = domingo, 6 = sábado
+    if (diaSemana !== 0 && diaSemana !== 6) {
+      diasHabiles++;
+    }
+  }
+
+  // Formateamos la fecha a 'YYYY-MM-DD'
+  const yyyy = fecha.getFullYear();
+  const mm = String(fecha.getMonth() + 1).padStart(2, '0');
+  const dd = String(fecha.getDate()).padStart(2, '0');
+
+  return `${yyyy}-${mm}-${dd}`;
+  }
+
+  /**
+ * Calcula los días de diferencia entre la fecha actual y una fecha dada.
+ * Si la fecha ya pasó, devuelve un número negativo.
+ * 
+ * @param dueDate Fecha de vencimiento (string o Date)
+ * @returns Número de días restantes
+ */
+calculateRestingDays(dueDate: string | Date): number {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalizamos a medianoche
+
+  const targetDate = typeof dueDate === 'string' ? new Date(dueDate) : new Date(dueDate);
+  targetDate.setHours(0, 0, 0, 0); // Normalizamos a medianoche
+
+  const diffMs = targetDate.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24)); // Convertimos ms a días
+  return diffDays;
+}
+
+
   showSnackBar(error: string): void {
     this.snackBar.open(error, 'Close', {
       duration: 5000,

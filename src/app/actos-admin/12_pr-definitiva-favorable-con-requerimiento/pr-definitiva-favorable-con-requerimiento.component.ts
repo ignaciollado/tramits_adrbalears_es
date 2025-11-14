@@ -156,35 +156,32 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
     let todoOK: boolean = true
     let errorMessage: string = "Falta indicar:\n"
-
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      errorMessage += "- Falta indicar la fecha SEU sol·licitud"
+      errorMessage += "- Data SEU sol·licitud"
       todoOK = false
     }
     if (!this.form.get('ref_REC')?.value) {
-      errorMessage += "- Falta indicar la Referència SEU de la sol·licitud"
+      errorMessage += "- Referència SEU de la sol·licitud"
       todoOK = false
     }
     if (this.form.get('fecha_requerimiento')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_requerimiento')?.value === '0000-00-00' || this.form.get('fecha_requerimiento')?.value === null) {
-      errorMessage += "- Falta indicar la Data firma requeriment"
+      errorMessage += "- Data firma requeriment"
       todoOK = false
     }
     if (this.form.get('fecha_REC_enmienda')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC_enmienda')?.value === '0000-00-00' || this.form.get('fecha_REC_enmienda')?.value === null) {
-      errorMessage += "- Falta indicar la Data SEU esmena"
+      errorMessage += "- Data SEU esmena"
       todoOK = false
     }
-
     if (this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
-      errorMessage += "- Falta indicar la fecha Firma informe favorable / desfavorable"
+      errorMessage += "- Firma informe favorable / desfavorable"
       todoOK = false
     }    
-
     if (this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === null) {
-      errorMessage += "- Falta indicar la fecha Data firma proposta resolució provisional"
+      errorMessage += "- Data firma proposta resolució provisional"
       todoOK = false      
     }
     if (this.form.get('fecha_not_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === null) {
-      errorMessage += "- Falta indicar la fecha Data notificació proposta resolució provisional"
+      errorMessage += "- Data notificació proposta resolució provisional"
       todoOK = false      
     }
 

@@ -298,6 +298,10 @@ section {
   }
 }
 
+.small-text {
+  font-size: small;
+}
+
 @media screen and (max-width: 992px) {
   .mat-expansion-panel {
     padding: 1rem;

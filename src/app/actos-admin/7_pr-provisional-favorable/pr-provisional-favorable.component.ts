@@ -151,7 +151,6 @@ export class PrProvisionalFavorableComponent {
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
     let todoOK: boolean = true
     let errorMessage: string = "Falta indicar:\n"
-
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
       errorMessage += "- Data SEU sol·licitud"
       todoOK = false

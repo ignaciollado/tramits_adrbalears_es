@@ -109,8 +109,46 @@
   <ng-container matColumnDef="situacion">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Situación</th>
     <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">
-      <strong>{{('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong>
-      <pre [ngClass]="{'negative-diff': getSituacionSuffix(item).isDayDiffNegative}">{{getSituacionSuffix(item).text}}</pre>
+
+    <ng-container [ngSwitch]="item.situacion">
+    <!-- Caso emitirIFPRProvPago -->
+    <ng-container *ngSwitchCase="'emitirIFPRProvPago'">
+      <strong>{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong><br>
+        Notificada el {{ item.fecha_not_propuesta_resolucion_prov }}<br>
+        <span class="small-text">La PR Definitiva s'enviarà el {{ item.PRDefinitivaDate }}</span><br><br>
+        <span [ngClass]="{
+          'positive-diff': item.PRDefinitivarestingDays > 0,
+          'negative-diff': item.PRDefinitivarestingDays < 0,
+          'indeterminate-diff': !item.PRDefinitivarestingDays && item.PRDefinitivarestingDays !== 0
+          }">
+          {{ item.PRDefinitivarestingDays !== null && item.PRDefinitivarestingDays !== undefined 
+                ? 'Resten '+item.PRDefinitivarestingDays +' dies naturals'
+                : '**Indeterminat**' }}
+        </span>
+    </ng-container>
+
+      <!-- Caso pendienteJustificar -->
+      <ng-container *ngSwitchCase="'pendienteJustificar'">
+        <strong>{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong><br>
+        <span class="small-text">
+          Data max. justificació: {{ item.fecha_limite_justificacion !== '' ? item.fecha_limite_justificacion : 'No indicada' }}
+        </span><br><br>
+
+        <span [ngClass]="{
+          'positive-diff': item.justificacionRestingDays > 0,
+          'negative-diff': item.justificacionRestingDays < 0,
+          'indeterminate-diff': item.fecha_limite_justificacion === ''
+          }">
+          {{ item.fecha_limite_justificacion !== '' ? 'Resten '+item.justificacionRestingDays+' dies naturals' : '**Indeterminat**' }}
+        </span>
+      </ng-container>
+
+      <!-- Caso por defecto -->
+      <ng-container *ngSwitchDefault>
+       <strong>{{('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong>
+      </ng-container>      
+
+    </ng-container>
     </td>
   </ng-container>
 

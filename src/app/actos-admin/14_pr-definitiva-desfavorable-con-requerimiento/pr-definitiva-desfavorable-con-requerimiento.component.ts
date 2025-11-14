@@ -153,28 +153,33 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+    let todoOK: boolean = true
+    let errorMessage: string = "Falta indicar:\n"    
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert("Falta indicar la fecha SEU sol·licitud")
-      return
+      errorMessage += "- Data SEU sol·licitud"
+      todoOK = false
     }
     if (!this.form.get('ref_REC')?.value) {
-      alert("Falta indicar la Referència SEU de la sol·licitud")
-      return
+      errorMessage += "- Referència SEU de la sol·licitud"
+      todoOK = false
     }
 
     if (this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === null) {
-      alert("Falta indicar la fecha Data firma proposta resolució provisional")
-      return
+      errorMessage += "- Firma proposta resolució provisional"
+      todoOK = false
     }
     if (this.form.get('fecha_not_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === null) {
-      alert("Falta indicar la fecha Data notificació proposta resolució provisional")
-      return
+      errorMessage += "- Notificació proposta resolució provisional"
+      todoOK = false
     }
     if (this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
-      alert("Falta indicar la fecha Firma informe favorable / desfavorable")
+      errorMessage += "- Firma informe favorable / desfavorable"
+      todoOK = false
+    }
+    if (!todoOK) {
+      alert (errorMessage)
       return
     }
-
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
