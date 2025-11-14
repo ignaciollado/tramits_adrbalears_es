@@ -143,8 +143,10 @@
         </span>
       </ng-container>
 
+
+
       <!-- Caso por defecto -->
-      <ng-container *ngSwitchDefault>
+      <ng-container *ngSwitchDefault>{{item.situacion}}
        <strong>{{('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong>
       </ng-container>      
 
