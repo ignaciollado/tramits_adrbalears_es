@@ -155,10 +155,11 @@ td {
 
   &.st-desestimiento {
     background-color: #080080;
-    color: #51f905;
-    border: 5px solid #51f905;
+    color: orangered;
+    border: 5px solid orangered;
     border-radius: 2px;
     font-weight: bold;
+    text-align: center;
   }
 
   &.st-finalizado {
