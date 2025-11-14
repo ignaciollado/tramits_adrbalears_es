@@ -565,7 +565,9 @@
       "emitidoPropRevocacion": "Propuesta de revocación emitida",
       "emitirResRevocacion": "Emitir resolución de revocación",
       "emitidoResRevocacion": "Resolución de revocación emitida",
-      "revocado": "Revocado"
+      "revocado": "Revocado",
+      "CONREQUERIMIENTO": "con requerimiento",
+      "SINREQUERIMIENTO": "sin requerimiento"
     },
     "ILS": {
       "reqFirmado": "Requerimiento firmado",

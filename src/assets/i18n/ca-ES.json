@@ -565,7 +565,9 @@
       "emitidoPropRevocacion": "Proposta de revocació emesa",
       "emitirResRevocacion": "Emetre resolució de revocació",
       "emitidoResRevocacion": "Resolució de revocació emesa",
-      "revocado": "Revocat"
+      "revocado": "Revocat",
+      "CONREQUERIMIENTO": "amb requeriment",
+      "SINREQUERIMIENTO": "sense requeriment"
     },
     "ILS": {
       "reqFirmado": "Requeriment signat",
