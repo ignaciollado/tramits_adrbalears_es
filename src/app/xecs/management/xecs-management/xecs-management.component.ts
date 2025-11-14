@@ -251,7 +251,7 @@ limpiarFiltros(): void {
 }
 
 getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
-  if (item.situacion === 'emitirIFPRProvPago') {
+  if (item.situacion === 'emitirIFPRProvPago' || item.situacion === 'notificadoIFPRProvPago') {
     const reqNotif = item.fecha_requerimiento_notif && item.fecha_requerimiento_notif !== '0000-00-00';
     return { text: (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO'), isDayDiffNegative: false };
   }
