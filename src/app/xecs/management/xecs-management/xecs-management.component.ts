@@ -62,6 +62,7 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
     'ordenDePago', 'empresa_consultor', 'nom_consultor', 'fecha_not_propuesta_resolucion_def',
      'situacion'];
   loading = false;
+  documentoSended: string = ""
 
 ngOnInit(): void {
   
@@ -127,6 +128,14 @@ loadAllExpedientes(): void {
         }
         if (item.fecha_limite_justificacion) {
           item.justificacionRestingDays = this.commonService.calculateRestingDays(item.fecha_limite_justificacion)
+        }
+        if (item.situacion === 'notificadoIFPRProvPago') {
+          item.situacion = 'PR Provisional'
+        }
+        if (item.fecha_requerimiento_sended) {
+          this.documentoSended = `<span class='badge bg-success'><small>Enviat<br>${item.fecha_requerimiento_sended}</small></span>`
+        } else  {
+					this.documentoSended = "<span class='badge bg-secondary'><small>Document pendent d'enviament</small></span>";
         }
         return item;
       });
@@ -250,7 +259,7 @@ limpiarFiltros(): void {
 }
 
 getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
-  if (item.situacion === 'emitirIFPRProvPago' || item.situacion === 'notificadoIFPRProvPago') {
+  if (item.situacion === 'emitirIFPRProvPago' || item.situacion === 'notificadoIFPRProvPago' || item.situacion === 'PR Provisional') {
     const reqNotif = item.fecha_requerimiento_notif && item.fecha_requerimiento_notif !== '0000-00-00';
     return { text: (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO'), isDayDiffNegative: false };
   }
@@ -322,6 +331,7 @@ situacionClass(value: string): string {
     case 'emitirifprprovpago':
       return 'st-emitirIFPRProvPago'; // Emitir informe Favorable propuesta resolución provisional OK
     case 'notificadoifprprovpago':
+    case 'pr provisional':
       return 'st-notificadoIFPRProvPago';  // Emitido informe Favorable propuesta resolución provisional OK             
     default:
       return 'st-desconocido'; // ❓ Estado no reconocido

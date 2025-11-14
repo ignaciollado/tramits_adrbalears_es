@@ -112,10 +112,11 @@
 
     <ng-container [ngSwitch]="item.situacion">
       <!-- Caso notificadoIFPRProvPago -->
-      <ng-container *ngSwitchCase="'notificadoIFPRProvPago'">
-        <strong>{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong><br>
+      <ng-container *ngSwitchCase="'PR Provisional'">
+        {{item.situacion}}<br>
+         {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}<br>
         Notificada el {{ item.fecha_not_propuesta_resolucion_prov }}<br>
-        <span class="small-text">La PR Definitiva  {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}<br> s'enviarà el {{ item.PRDefinitivaDate }}</span><br><br>
+        <span class="small-text">La PR Definitiva<br> s'enviarà el {{ item.PRDefinitivaDate }}</span><br><br>
         <span [ngClass]="{
           'positive-diff': item.PRDefinitivarestingDays > 0,
           'negative-diff': item.PRDefinitivarestingDays < 0,
@@ -124,7 +125,9 @@
           {{ item.PRDefinitivarestingDays !== null && item.PRDefinitivarestingDays !== undefined 
                 ? 'Resten '+item.PRDefinitivarestingDays +' dies naturals'
                 : '**Indeterminat**' }}
-        </span>
+        </span><br><br>
+        <span>Notificará {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}</span><br>
+        <span [innerHTML]="documentoSended"></span>
       </ng-container>
 
       <!-- Caso pendienteJustificar -->
