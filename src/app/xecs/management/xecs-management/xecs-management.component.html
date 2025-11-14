@@ -111,8 +111,8 @@
     <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">
 
     <ng-container [ngSwitch]="item.situacion">
-      <!-- Caso emitirIFPRProvPago -->
-      <ng-container *ngSwitchCase="'emitirIFPRProvPago'">
+      <!-- Caso notificadoIFPRProvPago -->
+      <ng-container *ngSwitchCase="item.situacion === 'notificadoIFPRProvPago'">
         <strong>{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong><br>
         Notificada el {{ item.fecha_not_propuesta_resolucion_prov }}<br>
         <span class="small-text">La PR Definitiva  {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}<br> s'enviarà el {{ item.PRDefinitivaDate }}</span><br><br>

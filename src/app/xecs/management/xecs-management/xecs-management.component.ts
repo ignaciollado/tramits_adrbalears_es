@@ -163,7 +163,6 @@ loadAllExpedientes(): void {
   });
 }
 
-
 loadExpedientes(): void {
   const { convocatoria, tipoTramite, situacion } = this.form.value;
 

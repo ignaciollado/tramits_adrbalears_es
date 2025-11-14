@@ -537,8 +537,9 @@
       "Desestimiento": "Desestimiento",
       "emitirIFPRProvPago": "Emitir IF + PR provisional",
       "emitidoIFPRProvPago": "IF + PR provisional emitida",
+
       "firmadoIFPRProvPago": "PR Prov. firmada PENDIENTE de notificar",
-      "notificadoIFPRProvPago": "PR Provisional NOTIFICADA",
+      "notificadoIFPRProvPago": "PR Provisional NOTIFICADA  (DATA) AUT",
       "emitirPRDefinitiva": "PR definitiva enviada a firma",
       "emitidaPRDefinitiva": "PR definitiva firmada PENDIENTE de notificar",
       "emitidaPRDefinitivaNotificada": "PR definitiva NOTIFICADA",

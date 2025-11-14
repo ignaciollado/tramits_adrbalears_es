@@ -596,12 +596,12 @@ changeExpedSituation(event: any) {
   if (fecha) {
     // Actualizamos la situación a 'emitirIFPRProvPago'
     this.expedienteService
-      .updateFieldExpediente(this.actualID, 'situacion', 'emitirIFPRProvPago')
+      .updateFieldExpediente(this.actualID, 'situacion', 'notificadoIFPRProvPago')
       .subscribe({
         next: (newState: any) => {
           console.log('Situación actualizada en el backend:', newState);
           // Opcional: actualizar también el formulario si quieres reflejar el valor
-          this.form.patchValue({ situacion: 'emitirIFPRProvPago' });
+          this.form.patchValue({ situacion: 'notificadoIFPRProvPago' });
         },
         error: (err) => {
           console.error('Error al actualizar situación:', err);

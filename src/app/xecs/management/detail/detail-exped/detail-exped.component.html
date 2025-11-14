@@ -111,17 +111,17 @@
     <mat-form-field appearance="outline">
       <mat-label>Situación</mat-label>
       <mat-select formControlName="situacion" readonly>
-        <ng-container *ngFor="let group of situations">
+        <ng-container *ngFor="let situationGroup of situations">
           <!-- Sin subgrupos -->
-           <mat-optgroup *ngIf="!group.subgroup" [label]="group.name | translate" style="font-weight: bolder;">
-            <mat-option *ngFor="let option of group.options" [value]="option.value">
+           <mat-optgroup *ngIf="!situationGroup.subgroup" [label]="situationGroup.name | translate" style="font-weight: bolder;">
+            <mat-option *ngFor="let option of situationGroup.options" [value]="option.value">
               {{option.label | translate}}
             </mat-option>
            </mat-optgroup>
             <!-- Con subgrupos -->
-           <ng-container *ngIf="group.subgroup">
-            <mat-optgroup [label]="group.name | translate" style="font-weight: bolder;">
-              <ng-container *ngFor="let subgroup of group.subgroup">
+           <ng-container *ngIf="situationGroup.subgroup">
+            <mat-optgroup [label]="situationGroup.name | translate" style="font-weight: bolder;">
+              <ng-container *ngFor="let subgroup of situationGroup.subgroup">
                 <mat-optgroup [label]="subgroup.name | translate" style="color: rgba(28, 4, 245, 0.363);text-decoration: underline;">
                   <mat-option *ngFor="let option of subgroup.options" [value]="option.value">
                     {{option.label | translate}}
