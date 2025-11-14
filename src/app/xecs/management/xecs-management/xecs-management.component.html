@@ -146,7 +146,7 @@
       <!-- Caso notificadoIFPRProvPago -->
       <ng-container *ngSwitchCase="'notificadoIFPRProvPago'">
         <strong>{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong><br>
-         **{{(getSituacionSuffix(item).text) | translate}}**<br>
+        {{(getSituacionSuffix(item).text) | translate}}<br>
         <span class="small-text">el: {{ item.fecha_not_propuesta_resolucion_prov !== '' ? item.fecha_not_propuesta_resolucion_prov : 'No indicada' }}</span><br>
         <span [ngClass]="{
           'positive-diff': item.fechaNotPRDefRestingDays > 0,
