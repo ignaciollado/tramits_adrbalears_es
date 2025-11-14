@@ -121,19 +121,13 @@ loadAllExpedientes(): void {
           item.PRDefinitivaDate = this.commonService.calculateDueDate(item.fecha_not_propuesta_resolucion_prov, 10);
           item.PRDefinitivarestingDays = this.commonService.calculateRestingDays(item.PRDefinitivaDate)
         }
+
         if (item.fecha_limite_justificacion === '0000-00-00') {
           item.fecha_limite_justificacion = ''
         }
         if (item.fecha_limite_justificacion) {
           item.justificacionRestingDays = this.commonService.calculateRestingDays(item.fecha_limite_justificacion)
         }
-        if (item.fecha_not_propuesta_resolucion_def === '0000-00-00') {
-          item.fecha_not_propuesta_resolucion_def = ''
-        }
-        if (item.fecha_not_propuesta_resolucion_def) {
-          item.fechaNotPRDefRestingDays = this.commonService.calculateRestingDays(item.fecha_not_propuesta_resolucion_def)
-        }       
-
         return item;
       });
 
