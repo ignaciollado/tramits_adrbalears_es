@@ -321,7 +321,9 @@ situacionClass(value: string): string {
     case 'emitidodesenmienda':
       return 'st-emitidoDesEnmienda'; // Emitido desestimiento por enmienda           OK   
     case 'emitirifprprovpago':
-      return 'st-emitirIFPRProvPago'; // Emitir informe Favorable propuesta resolución provisional OK                  
+      return 'st-emitirIFPRProvPago'; // Emitir informe Favorable propuesta resolución provisional OK
+    case 'notificadoifprprovpago':
+      return 'st-notificadoIFPRProvPago';  // Emitido informe Favorable propuesta resolución provisional OK             
     default:
       return 'st-desconocido'; // ❓ Estado no reconocido
   }

@@ -265,6 +265,15 @@ td {
   text-align: center;
   }
 
+  &.st-notificadoIFPRProvPago {
+  background-color: #2196f3; // azul para indicar "notificado"
+  color: #fff;               // texto blanco
+  font-weight: bold;
+  border: 2px solid #1565c0; // azul oscuro para el borde
+  border-radius: 5px;
+  }
+
+
   &.st-desconocido {
     background-color: #f5f5f5;
     color: #757575;
