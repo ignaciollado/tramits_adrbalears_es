@@ -201,10 +201,11 @@ private expedienteService = inject(ExpedienteService)
       rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.form.get('fecha_solicitud')?.value));
       rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
       rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
-      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
-      rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
-      rawTexto = rawTexto.replace(/%FECHAPROPUESTARESOLUCION_PROVISIONAL%/g, this.commonService.formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value));
-      rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PROP_RESOL_PROVISIONAL%/g, this.commonService.formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value));
+      //rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
+      //rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
+
+      //rawTexto = rawTexto.replace(/%FECHAPROPUESTARESOLUCION_PROVISIONAL%/g, this.commonService.formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value));
+      //rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PROP_RESOL_PROVISIONAL%/g, this.commonService.formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value));
       rawTexto = rawTexto.replace(/%FECHA_FIRMA_INFORME%/g, this.commonService.formatDate(this.form.get('fecha_infor_fav_desf')?.value));      
       rawTexto = rawTexto.replace(/%TEXTOLIBRE%/g, this.motivoDenegacion);
       rawTexto = rawTexto.replace(/%FECHAPRPROVISIONAL%/g, this.commonService.formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value));

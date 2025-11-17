@@ -178,7 +178,7 @@ export class InformeFavorableComponent {
       }
     // Voy a crear el Texto que luego servirá para generar el archivo PDF
     // Reemplazo las variables que hay en el template por su valor correspondiente
-    rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
+    //rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
     rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
     rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente))
     rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
@@ -190,7 +190,7 @@ export class InformeFavorableComponent {
     rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
     rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
     rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
-    rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
+    //rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
 
     // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)

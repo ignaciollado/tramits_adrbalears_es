@@ -30,6 +30,7 @@ import { PindustConfiguracionService } from '../../Services/pindust-configuracio
   templateUrl: './pr-definitiva-favorable.component.html',
   styleUrl: './pr-definitiva-favorable.component.scss'
 })
+
 export class PrDefinitivaFavorableComponent {
   private expedienteService = inject(ExpedienteService)
   noDenegationReasonText:boolean = true
@@ -164,12 +165,10 @@ export class PrDefinitivaFavorableComponent {
       errorMessage += "- Referència SEU de la sol·licitud\n"
       todoOK = false      
     }
-
     if (this.form.get('fecha_infor_fav_desf')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) {
       errorMessage += "- Firma informe favorable / desfavorable\n"
       todoOK = false      
-    }    
-
+    }
     if (this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === null) {
       errorMessage += "- Firma proposta resolució provisional\n"
       todoOK = false            
@@ -183,7 +182,6 @@ export class PrDefinitivaFavorableComponent {
       alert (errorMessage)
       return
     }
-
 
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
@@ -199,7 +197,7 @@ export class PrDefinitivaFavorableComponent {
       // Reemplazo las variables que hay en el template por su valor correspondiente
       rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
       rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
-      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente))
+      //rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente))
       rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
       rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
@@ -207,11 +205,12 @@ export class PrDefinitivaFavorableComponent {
       rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(this.form.get('fecha_solicitud')?.value));
       rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(this.actualImporteSolicitud));
       rawTexto = rawTexto.replace(/%PROGRAMA%/g, this.actualTipoTramite);
-      rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
-      rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
+      //rawTexto = rawTexto.replace(/%FECHAREC%/g, this.commonService.formatDate(this.form.get('fecha_REC')?.value));
+      //rawTexto = rawTexto.replace(/%NUMREC%/g, this.form.get('ref_REC')?.value.toUpperCase());
+      
       rawTexto = rawTexto.replace(/%FECHAPROPUESTARESOLUCION_PROVISIONAL%/g, this.commonService.formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value));
       rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PROP_RESOL_PROVISIONAL%/g, this.commonService.formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value));
-      rawTexto = rawTexto.replace(/%FECHAREQ%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
+      //rawTexto = rawTexto.replace(/%FECHAREQ%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
       rawTexto = rawTexto.replace(/%FECHA_FIRMA_INFORME%/g, this.commonService.formatDate(this.form.get('fecha_infor_fav_desf')?.value));
       rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
 
@@ -244,16 +243,16 @@ export class PrDefinitivaFavorableComponent {
             rawTexto = rawTexto.replace(/%DDD%/g, String("10. "))
           return of(null);
         }
-      }),
-      tap(() => {
+        }),
+        tap(() => {
         try {
-          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
+          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito posibles saltos de línea introducidos con el INTRO */
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {
           console.error('Error al parsear JSON:', error);
         }
-      })
+        })
     )
     .subscribe();
   })
@@ -443,12 +442,12 @@ export class PrDefinitivaFavorableComponent {
 
   // Método auxiliar para no repetir el bloque de creación
   InsertDocumentoGenerado(docFieldToUpdate: string): void {
-  this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
+  this.documentosGeneradosService.create(this.docGeneradoInsert)
+  .subscribe({
     next: (resp: any) => {
       this.lastInsertId = resp?.id;
       if (this.lastInsertId) {
-        this.expedienteService
-          .updateFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
+        this.expedienteService.updateFieldExpediente( this.actualID, 'doc_' + docFieldToUpdate, String(this.lastInsertId) )
           .subscribe({
             next: (response: any) => {
               const mensaje =

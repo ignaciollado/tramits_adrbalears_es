@@ -63,6 +63,8 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
      'situacion'];
   loading = false;
   documentoSended: string = ""
+  hayRequerimiento: boolean = false
+
 
 ngOnInit(): void {
   
@@ -111,7 +113,6 @@ ngAfterViewInit(): void {
 
 loadAllExpedientes(): void {
   this.loading = true;
-
   this.expedienteService.getAllLineExpedientes('XECS', this.currentYear).subscribe({
     next: (res) => {
       res = res.map((item: any) => {
@@ -122,7 +123,6 @@ loadAllExpedientes(): void {
           item.PRDefinitivaDate = this.commonService.calculateDueDate(item.fecha_not_propuesta_resolucion_prov, 10);
           item.PRDefinitivarestingDays = this.commonService.calculateRestingDays(item.PRDefinitivaDate)
         }
-
         if (item.fecha_limite_justificacion === '0000-00-00') {
           item.fecha_limite_justificacion = ''
         }
@@ -132,10 +132,23 @@ loadAllExpedientes(): void {
         if (item.situacion === 'notificadoIFPRProvPago') {
           item.situacion = 'PR Provisional'
         }
-        if (item.fecha_requerimiento_sended) {
-          this.documentoSended = `<span class='badge bg-success'><small>Enviat<br>${item.fecha_requerimiento_sended}</small></span>`
-        } else  {
-					this.documentoSended = "<span class='badge bg-secondary'><small>Document pendent d'enviament</small></span>";
+        if (item.fecha_not_propuesta_resolucion_def_sended) {
+          if (!item['fecha_not_propuesta_resolucion_def_sended'] && item.PRDefinitivarestingDays <= 0) {/* falta añadir la lógica para que envie o no el acto administrativo */}
+					this.documentoSended = "<span><small>acte administratiu:<br>";
+          if (this.hayRequerimiento) {
+            if (item.propuesta_resolucion_favorable === '1') {
+              this.documentoSended += "plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
+            } else {
+              this.documentoSended += "plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf"
+            }
+          } else {
+            if (item.propuesta_resolucion_favorable === '1') {
+              this.documentoSended += "plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf"
+            } else {
+              this.documentoSended += "plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
+            }            
+          }
+          this.documentoSended += "</small></span>"
         }
         return item;
       });
@@ -261,6 +274,7 @@ limpiarFiltros(): void {
 getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
   if (item.situacion === 'emitirIFPRProvPago' || item.situacion === 'notificadoIFPRProvPago' || item.situacion === 'PR Provisional') {
     const reqNotif = item.fecha_requerimiento_notif && item.fecha_requerimiento_notif !== '0000-00-00';
+    this.hayRequerimiento = reqNotif ? true : false
     return { text: (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO'), isDayDiffNegative: false };
   }
 
