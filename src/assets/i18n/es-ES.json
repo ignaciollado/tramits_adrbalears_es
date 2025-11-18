@@ -48,7 +48,9 @@
     "GLOBALCONFIGURATION": "Configuración global",
     "LINECONFIGURATION": "Configuración de la convocatoria",
     "CONVODATA": "Destino: AGENCIA DE DESARROLLO REGIONAL DE LES ILLES BALEARS<br>Emisor (DIR3): A04003714<br>Código SIA: %CODIGOSIA%<br>Convocatoria: %CONVO%",
-    "CONVODETAILS": "Convocatoria para la concesión de ayudas de cheques de consultoría para impulsar a la industria de Baleares en materia de digitalización, internacionalización, sostenibilidad y gestión avanzada."
+    "CONVODETAILS": "Convocatoria para la concesión de ayudas de cheques de consultoría para impulsar a la industria de Baleares en materia de digitalización, internacionalización, sostenibilidad y gestión avanzada.",
+    "OPENISSUEORREQUEST": "Reportar una incidencia o petición informática"
+
   },
   "FORM": {
     "ACCEPTTERMS1": "He leído y acepto la política de privacidad",
