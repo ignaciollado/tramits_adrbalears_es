@@ -240,7 +240,7 @@ export class ResolDesestimientoNoEnmendarComponent {
   const lineHeight = 4;
   const pageHeight = doc.internal.pageSize.getHeight();
   let lines = footerText.split('\n');
-  const xHeader = marginLeft + 110
+  const xHeader = marginLeft + 109
   const yHeader = 54;
   const pageWidth = doc.internal.pageSize.getWidth();
     
@@ -259,13 +259,13 @@ export class ResolDesestimientoNoEnmendarComponent {
   if (this.actualEmpresa.length > maxCharsPerLine) {
     const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
     const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
-    doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
+    doc.text(`Sol·licitant: ${firstLine}`, xHeader, yHeader);
     doc.text(secondLine, xHeader, yHeader + 3);
     doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
     doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
     doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
   } else {
-    doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
+    doc.text(`Sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
     doc.text(`NIF: ${this.actualNif}`, xHeader, 57);
     doc.text("Emissor (DIR3): A04003714", xHeader, 60);
     doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, 63);

@@ -217,9 +217,9 @@ private fb = inject(FormBuilder)
       }
       // Voy a crear el Texto que luego servirá para generar el archivo PDF
       // Reemplazo las variables que hay en el template por su valor correspondiente
-      rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
+      rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB, true))
       rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
-      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente))
+      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente, true))
       rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
       rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
@@ -303,13 +303,13 @@ private fb = inject(FormBuilder)
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     
-    const maxCharsPerLine = 20;
+    const maxCharsPerLine = 21;
     const marginLeft = 25;
     const maxTextWidth = 160;
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     let lines = footerText.split('\n');
-    const xHeader = marginLeft + 110
+    const xHeader = marginLeft + 109
     const yHeader = 58;
     const pageWidth = doc.internal.pageSize.getWidth();
     
@@ -328,13 +328,13 @@ private fb = inject(FormBuilder)
     if (this.actualEmpresa.length > maxCharsPerLine) {
       const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
       const secondLine = this.actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
-      doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
+      doc.text(`Sol·licitant: ${firstLine}`, xHeader, yHeader);
       doc.text(secondLine, xHeader, yHeader + 3);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
       doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
     } else {
-      doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
+      doc.text(`Sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 3);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 6);
       doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 9);

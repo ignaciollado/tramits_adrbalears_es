@@ -216,7 +216,7 @@ export class RequerimientoComponent implements OnChanges {
       doc.text("Document: requeriment", marginLeft+110, 45);
       doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft+110, 48);
       doc.text(`Programa: ${doc.splitTextToSize(this.actualTipoTramite, maxTextWidth)}`, marginLeft+110, 51);
-      doc.text(`Nom sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);
+      doc.text(`Sol·licitant: ${doc.splitTextToSize(this.actualEmpresa, maxTextWidth)}`, marginLeft+110, 54);
       doc.text(`NIF: ${this.actualNif}`, marginLeft+110, 57); 
       doc.text("Emissor (DIR3): A04003714", marginLeft+110, 60); 
       doc.text(`Codi SIA: ${this.codigoSIA}`, marginLeft+110, 63); 

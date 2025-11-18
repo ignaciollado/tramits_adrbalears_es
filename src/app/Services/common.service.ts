@@ -245,7 +245,8 @@ calculateRestingDays(dueDate: string | Date): number {
     doc.save(`certificado_${dataToRender.firstName + '_' + dataToRender.lastName}.pdf`);
   }
 
-  formatDate(fecha: string | Date): string {
+  formatDate(fecha: string | Date, shortMode?: boolean): string {
+    let dateToReturn: string = ""
     // Convertir string a Date si es necesario
     const dateObj = (typeof fecha === 'string') ? new Date(fecha) : fecha;
 
@@ -258,7 +259,13 @@ calculateRestingDays(dueDate: string | Date): number {
     const horas = pad(dateObj.getHours());
     const minutos = pad(dateObj.getMinutes());
 
-    return `${dia}/${mes}/${anio} ${horas}:${minutos}`;
+    if (shortMode) {
+      dateToReturn = `${dia}/${mes}/${anio}`
+    } else {
+      dateToReturn = `${dia}/${mes}/${anio} ${horas}:${minutos}`
+    }
+
+    return dateToReturn;
   }
 
   formatCurrency(importe: number | string): string {

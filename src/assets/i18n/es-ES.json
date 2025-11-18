@@ -202,7 +202,8 @@
     "FECHA_NOT_PR_REVOCACION": "Fecha notificación propuesta de resolución de revocación",
     "FECHA_RESOLUCION_REV": "Fecha resolución de revocación",
     "FECHA_NOT_R_REVOCACION": "Fecha notificación resolución de revocación",
-    "FECHA_MAXIMA_ENMIENDA_ISBA": "Fecha máxima para enmendar (fecha notificación requerimiento + 10 días naturales)"
+    "FECHA_MAXIMA_ENMIENDA_ISBA": "Fecha máxima para enmendar (fecha notificación requerimiento + 10 días naturales)",
+    "action": "Acción"
   },
   "FORMERRORS": {
     "COMMON": {
@@ -412,6 +413,11 @@
     "DOC12": "Contrato de la operación financiera. [.pdf]",
     "DOC13": "Contrato o documento de aval de la operación financiera. [.pdf]",
     "DOC14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente, la cual se genera al enviar esta solicitud."
+  },
+   "MEJORAS": {
+    "mejora": "Mejora",
+    "fechaRecMejora": "Fecha SEU",
+    "refRecMejora": "Ref. SEU"
   },
   "ACTOSADMINISTRATIVOS": {
     "TITLE": "Actos administrativos",

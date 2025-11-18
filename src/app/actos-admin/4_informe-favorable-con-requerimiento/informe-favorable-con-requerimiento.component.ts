@@ -192,9 +192,9 @@ export class InformeFavorableConRequerimientoComponent {
       }
       // Voy a crear el Texto que luego servirá para generar el archivo PDF
       // Reemplazo las variables que hay en el template por su valor correspondiente
-      rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
+      //rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
       rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
-      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente))
+      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente, true))
       rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
       rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
@@ -207,7 +207,7 @@ export class InformeFavorableConRequerimientoComponent {
       rawTexto = rawTexto.replace(/%FECHAREQUERIMIENTO%/g, this.commonService.formatDate(this.form.get('fecha_requerimiento_notif')?.value));
       rawTexto = rawTexto.replace(/%FECHAENMIENDA%/g, this.commonService.formatDate(this.form.get('fecha_REC_enmienda')?.value));
       rawTexto = rawTexto.replace(/%NUMRECENMIENDA%/g, this.form.get('ref_REC_enmienda')?.value.toUpperCase());
-      rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
+      //rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
 
       // Averiguo si hay mejoras en la solicitud
       this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
@@ -269,13 +269,13 @@ export class InformeFavorableConRequerimientoComponent {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     
-    const maxCharsPerLine = 20;
+    const maxCharsPerLine = 21;
     const marginLeft = 25;
     const maxTextWidth = 160;
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     let lines = footerText.split('\n');
-    const xHeader = marginLeft + 110
+    const xHeader = marginLeft + 109
     const yHeader = 58;
     const pageWidth = doc.internal.pageSize.getWidth();
     
@@ -294,13 +294,13 @@ export class InformeFavorableConRequerimientoComponent {
     if (this.actualEmpresa.length > maxCharsPerLine) {
       const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
       const secondLine = this.actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
-      doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
+      doc.text(`Sol·licitant: ${firstLine}`, xHeader, yHeader);
       doc.text(secondLine, xHeader, yHeader + 3);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
       doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
     } else {
-      doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
+      doc.text(`Sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 3);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 6);
       doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 9);
@@ -314,9 +314,9 @@ export class InformeFavorableConRequerimientoComponent {
     doc.text(doc.splitTextToSize(jsonObject.hechos_1_2, maxTextWidth - 5), marginLeft + 5, 120);
     if (hayMejoras > 0) {
       doc.text(doc.splitTextToSize(jsonObject.hechos_3_m, maxTextWidth - 5), marginLeft + 5, 156);
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_7, maxTextWidth - 5), marginLeft + 5, 172);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_7, maxTextWidth - 5), marginLeft + 5, 180);
     } else {
-      doc.text(doc.splitTextToSize(jsonObject.hechos_4_7, maxTextWidth - 5), marginLeft + 5, 160);
+      doc.text(doc.splitTextToSize(jsonObject.hechos_4_7, maxTextWidth - 5), marginLeft + 5, 163);
     }
 
     // Salto de página

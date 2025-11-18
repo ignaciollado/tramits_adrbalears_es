@@ -201,7 +201,8 @@
     "FECHA_NOT_PR_REVOCACION": "Data notificació proposta de resolució de revocació",
     "FECHA_RESOLUCION_REV": "Data resolució de revocació",
     "FECHA_NOT_R_REVOCACION": "Data notificació resolució de revocació",
-    "FECHA_MAXIMA_ENMIENDA_ISBA": "Data màxima per esmenar (data notificació requeriment + 10 dies naturals)"
+    "FECHA_MAXIMA_ENMIENDA_ISBA": "Data màxima per esmenar (data notificació requeriment + 10 dies naturals)",
+    "action": "Acció"
   },
   "FORMERRORS": {
     "COMMON": {
@@ -411,6 +412,11 @@
     "DOC12": "Contracte de l'operació financera. [.pdf]",
     "DOC13": "Contracte o document d'aval de l'operació financera. [.pdf]",
     "DOC14": "Una Declaració responsable, inclosa en el model normalitzat de sol·licitud, de la persona titular de l'empresa o de qui la representa legalment, la qual es genera en enviar aquesta sol·licitud."
+  },
+  "MEJORAS": {
+    "mejora": "Millora",
+    "fechaRecMejora": "Data SEU",
+    "refRecMejora": "Ref. SEU"
   },
   "ACTOSADMINISTRATIVOS": {
     "TITLE": "Actes administratius",

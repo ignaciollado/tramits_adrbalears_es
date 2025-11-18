@@ -270,13 +270,13 @@ export class ResolucionConcesionConRequerimientoAdrIsbaComponent {
         if (this.actualEmpresa.length > maxCharsPerLine) {
           const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
           const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
-          doc.text(`Nom sol·licitant: ${firstLine}`, x, y);
+          doc.text(`Sol·licitant: ${firstLine}`, x, y);
           doc.text(secondLine, x, y + 3);
           doc.text(`NIF: ${this.actualNif}`, x, y + 6);
           doc.text("Emissor (DIR3): A04003714", x, y + 9);
           doc.text(`Codi SIA: ${this.codigoSIA}`, x, y + 12);
         } else {
-          doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, x, y);
+          doc.text(`Sol·licitant: ${this.actualEmpresa}`, x, y);
           doc.text(`NIF: ${this.actualNif}`, x, 54);
           doc.text("Emissor (DIR3): A04003714", x, 57);
           doc.text(`Codi SIA: ${this.codigoSIA}`, x, 60);

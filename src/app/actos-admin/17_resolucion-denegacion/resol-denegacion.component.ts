@@ -153,28 +153,32 @@ private expedienteService = inject(ExpedienteService)
   }
 
   generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+    let todoOK: boolean = true
+    let errorMessage: string = "Falta indicar:\n"  
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
-      alert ("Falta indicar la fecha SEU sol·licitud")
-      return
+      errorMessage += "- Data SEU sol·licitud"
+      todoOK = false
     }
     if (!this.form.get('ref_REC')?.value) {
-      alert ("Falta indicar la Referència SEU de la sol·licitud")
-      return
+      errorMessage += "- Referència SEU de la sol·licitud"
+      todoOK = false
     }
-
     if(this.form.get('fecha_infor_fav_desf.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_infor_fav_desf')?.value === '0000-00-00' || this.form.get('fecha_infor_fav_desf')?.value === null) { 
-			alert ("Data firma informe favorable / desfavorable")
-			return
+			errorMessage += "- Data firma informe favorable / desfavorable"
+			todoOK = false
 		}
 		if(this.form.get('fecha_firma_propuesta_resolucion_prov.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === null) { 
-			alert ("Data firma proposta resolució provisional")
-			return
+			errorMessage += "- Data firma proposta resolució provisional"
+			todoOK = false
 		}
 		if(this.form.get('fecha_not_propuesta_resolucion_prov.value')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_not_propuesta_resolucion_prov')?.value === null) { 
-			alert ("Data notificació proposta resolució provisional")
-			return
+			errorMessage += "- Data notificació proposta resolució provisional"
+			todoOK = false
 		}			
- 
+    if (!todoOK) {
+      alert (errorMessage)
+      return
+    }  
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
@@ -187,9 +191,9 @@ private expedienteService = inject(ExpedienteService)
       }
       // Voy a crear el Texto que luego servirá para generar el archivo PDF
       // Reemplazo las variables que hay en el template por su valor correspondiente
-      rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB))
+      rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB, true))
       rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
-      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente))
+      rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente, true))
       rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
       rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
       rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(this.actualIdExp));
@@ -274,13 +278,13 @@ private expedienteService = inject(ExpedienteService)
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     
-    const maxCharsPerLine = 20;
+    const maxCharsPerLine = 21;
     const marginLeft = 25;
     const maxTextWidth = 160;
     const lineHeight = 4;
     const pageHeight = doc.internal.pageSize.getHeight();
     let lines = footerText.split('\n');
-    const xHeader = marginLeft + 110
+    const xHeader = marginLeft + 109
     const yHeader = 58;
     const pageWidth = doc.internal.pageSize.getWidth();
     
@@ -299,13 +303,13 @@ private expedienteService = inject(ExpedienteService)
     if (this.actualEmpresa.length > maxCharsPerLine) {
       const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
       const secondLine = this.actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
-      doc.text(`Nom sol·licitant: ${firstLine}`, xHeader, yHeader);
+      doc.text(`Sol·licitant: ${firstLine}`, xHeader, yHeader);
       doc.text(secondLine, xHeader, yHeader + 3);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 6);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
       doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
     } else {
-      doc.text(`Nom sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
+      doc.text(`Sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
       doc.text(`NIF: ${this.actualNif}`, xHeader, yHeader + 3);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 6);
       doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 9);

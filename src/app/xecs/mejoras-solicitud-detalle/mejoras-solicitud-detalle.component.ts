@@ -13,11 +13,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../../confirm-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mejoras-solicitud-detalle',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatTableModule, MatFormFieldModule,
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, MatTableModule, MatFormFieldModule,
     MatInputModule, MatButtonModule],
   templateUrl: './mejoras-solicitud-detalle.component.html',
   styleUrls: ['./mejoras-solicitud-detalle.component.scss']
@@ -99,8 +100,7 @@ export class MejorasSolicitudDetalleComponent implements OnChanges {
   });
 
   }
-
-  delete(item: any): void {
+delete(item: any): void {
   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
     width: '300px',
     data: {
@@ -111,12 +111,30 @@ export class MejorasSolicitudDetalleComponent implements OnChanges {
 
   dialogRef.afterClosed().subscribe(result => {
     if (result === true) {
-      // la llamada al servicio para eliminar
-      this.mejorasSolicitudService.deleteMejoraSolicitud(item.id_sol)
-      this.snackBar.open('Mejora eliminada', 'Cerrar', { duration: 3000 });
-      // Opcional: eliminar del dataSource localmente
-      this.dataSource.data = this.dataSource.data.filter(i => i !== item);
+
+      this.mejorasSolicitudService.deleteMejoraSolicitud(item.id)
+        .subscribe({
+          next: (result: any) => {
+            // Si el backend devuelve un error dentro del propio "result"
+            if (result?.status === 404 || result?.error === 404) {
+              const msg = result?.messages?.error || 'Error desconocido';
+              this.snackBar.open(msg, 'Cerrar', { duration: 30000 });
+              return;
+            }
+
+            // Caso OK
+            this.snackBar.open('Mejora eliminada', 'Cerrar', { duration: 30000 });
+            this.dataSource.data = this.dataSource.data.filter(i => i !== item);
+          },
+
+          error: (error: any) => {
+            // Si viene como error HTTP normal
+            const msg = error?.error?.messages?.error || 'Error al eliminar la mejora';
+            this.snackBar.open(msg, 'Cerrar', { duration: 30000 });
+          }
+        });
     }
   });
-  }
+}
+
 }
