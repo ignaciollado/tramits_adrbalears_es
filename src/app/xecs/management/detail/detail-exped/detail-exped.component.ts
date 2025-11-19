@@ -302,8 +302,10 @@ getExpedDetail(id: number) {
     )
     .subscribe(expediente => {
       if (expediente) {
-        expediente.fecha_reunion_cierre = expediente.fecha_reunion_cierre.split(" ")[0];
+        expediente.fecha_reunion_cierre = expediente.fecha_reunion_cierre.split(" ")[0]; // quitar la parte '00:00:00' que aparece en entorno producción
         expediente.fecha_limite_consultoria = expediente.fecha_limite_consultoria.split(" ")[0];
+        expediente.fecha_requerimiento = expediente.fecha_requerimiento.split(" ")[0];
+        expediente.fecha_requerimiento_notif = expediente.fecha_requerimiento_notif.split(" ")[0];
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
         this.actualID = expediente.id
@@ -324,7 +326,11 @@ getExpedDetail(id: number) {
         this.motivoDenegacion = expediente.motivoDenegacion
         this.motivoDesestimientoRenuncia = expediente.motivoDesestimientoRenuncia
         this.justificationSendedMail = expediente.justificationSendedMail
-        this.checkViafirmaSign(this.publicAccessId)
+        console.log (this.publicAccessId, this.form.get("fecha_requerimiento")?.value, this.form.get("fecha_requerimiento_notif")?.value)
+        if (this.publicAccessId) {
+          this.checkViafirmaSign(this.publicAccessId)
+        }
+        
         this.commonService.showSnackBar('✅ Expediente cargado correctamente.');
         this.getTotalNumberOfApplications(this.actualNif, this.actualTipoTramite, this.actualConvocatoria)
       } else {
@@ -419,7 +425,6 @@ checkViafirmaSign(publicKey: string) {
       // Éxito
       this.commonService.showSnackBar('✅ Documento firmado recibido correctamente: ' + (resp.errorMessage || ''));
       this.signedDocData = resp;
-      console.log ("signedDocData", this.signedDocData, this.signedDocData.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode)
       this.sendedUserToSign =  this.signedDocData.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
       const sendedDateToSign = this.signedDocData.creationDate
       this.sendedDateToSign = new Date(sendedDateToSign)
@@ -446,7 +451,6 @@ checkViafirmaSign(publicKey: string) {
 showSignedDocument(publicKey: string) {
   this.viafirmaService.viewDocument(publicKey).subscribe(
     (resp: DocSignedDTO) => {
-      console.log ("publicKey", publicKey, resp)
       if (!resp || !resp.base64 || !resp.filename) {
         this.commonService.showSnackBar('⚠️ Respuesta inválida del servidor.');
         return;
@@ -478,7 +482,6 @@ showSignedDocument(publicKey: string) {
       } else {
         const errorMsg = error.error?.message || error.message || 'Error desconocido';
         this.commonService.showSnackBar(`📡 Error HTTP ${error.status}: ${errorMsg}`);
-        console.log ("error", error.status, error.message)
         this.commonService.showSnackBar(`Ha ocurrido un error al consultar documento de la firma.\nCódigo: ${error.status}\nMensaje: ${errorMsg}`);
       }
     }
@@ -591,15 +594,13 @@ onTabChange(event: MatTabChangeEvent) {
 
 changeExpedSituation(event: any) {
   const fecha = (event.target as HTMLInputElement).value;
-  console.log('Notificació proposta resolució provisional:', fecha);
-
   if (fecha) {
     // Actualizamos la situación a 'emitirIFPRProvPago'
     this.expedienteService
       .updateFieldExpediente(this.actualID, 'situacion', 'notificadoIFPRProvPago')
       .subscribe({
         next: (newState: any) => {
-          console.log('Situación actualizada en el backend:', newState);
+          this.commonService.showSnackBar('Situación actualizada: ' + newState);
           // Opcional: actualizar también el formulario si quieres reflejar el valor
           this.form.patchValue({ situacion: 'notificadoIFPRProvPago' });
         },

@@ -268,7 +268,7 @@ export class PrDefinitivaFavorableComponent {
     }) */
   }
 
-/*   generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
+  /*   generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
     const doc = new jsPDF({
       orientation: 'p',
@@ -451,7 +451,7 @@ export class PrDefinitivaFavorableComponent {
   } */
 
   // Método auxiliar para no repetir el bloque de creación
-/*   InsertDocumentoGenerado(docFieldToUpdate: string): void {
+  /*   InsertDocumentoGenerado(docFieldToUpdate: string): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert)
   .subscribe({
     next: (resp: any) => {
