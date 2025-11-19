@@ -29,7 +29,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { SignatureResponse } from '../../../../Models/signature.dto';
@@ -104,7 +104,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
 
 export class XecsDetailExpedComponent {
   private route = inject(ActivatedRoute);
-  private fb = inject(FormBuilder);
+  public fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
   noRequestReasonText:boolean = true
   selectedIndex: number | undefined;

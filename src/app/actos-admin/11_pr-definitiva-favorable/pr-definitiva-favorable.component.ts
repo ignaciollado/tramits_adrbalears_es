@@ -1,6 +1,6 @@
 import { Component, inject, Input, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,14 +10,15 @@ import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
-import { jsPDF } from 'jspdf';
+import { ActoAdministrativoPrDevinitivaFavorableService } from '../../Services/acto-administrativo-pr-definitiva-favorable.service';
+
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
-import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
+
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
@@ -101,7 +102,7 @@ export class PrDefinitivaFavorableComponent {
   constructor( private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
     private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
-    private actoAdminService: ActoAdministrativoService ) { 
+    private actoAdminService: ActoAdministrativoService, private actoAdminPRDefinitivaFavorable: ActoAdministrativoPrDevinitivaFavorableService ) { 
     this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
   }
 
@@ -132,7 +133,7 @@ export class PrDefinitivaFavorableComponent {
     } else {
       this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
     }
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_prop_res_definitiva_sin_req")
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin11 = false
@@ -154,7 +155,7 @@ export class PrDefinitivaFavorableComponent {
       });
   }
 
-  generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+  generateActoAdmin(actoAdministrivoName: string, lineaAyuda: string, docFieldToUpdate: string = 'doc_prop_res_definitiva_sin_req'): void {
     let todoOK: boolean = true
     let errorMessage: string = "Falta indicar:\n"
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
@@ -183,8 +184,17 @@ export class PrDefinitivaFavorableComponent {
       return
     }
 
+   this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
+      actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
+      this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
+      this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.dGerente, this.actualIdExp, 
+      'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud
+    ).subscribe((result:any) => {console.log ("result", result)})
+    
+
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
-    this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
+
+    /*  this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
       let rawTexto = docDataString.texto
       this.signedBy = docDataString.signedBy
@@ -246,7 +256,7 @@ export class PrDefinitivaFavorableComponent {
         }),
         tap(() => {
         try {
-          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito posibles saltos de línea introducidos con el INTRO */
+          rawTexto = this.commonService.cleanRawText(rawTexto) // quito posibles saltos de línea introducidos con el INTRO
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
         } catch (error) {
@@ -255,10 +265,10 @@ export class PrDefinitivaFavorableComponent {
         })
     )
     .subscribe();
-  })
+    }) */
   }
 
-  generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
+/*   generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
     const doc = new jsPDF({
       orientation: 'p',
@@ -438,10 +448,10 @@ export class PrDefinitivaFavorableComponent {
         this.commonService.showSnackBar(errorMsg);
         }
     });   
-  }
+  } */
 
   // Método auxiliar para no repetir el bloque de creación
-  InsertDocumentoGenerado(docFieldToUpdate: string): void {
+/*   InsertDocumentoGenerado(docFieldToUpdate: string): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert)
   .subscribe({
     next: (resp: any) => {
@@ -476,7 +486,7 @@ export class PrDefinitivaFavorableComponent {
       this.commonService.showSnackBar(insertErrorMsg);
     }
   });
-  }
+  } */
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
     const entorno = sessionStorage.getItem("entorno")
@@ -557,7 +567,7 @@ export class PrDefinitivaFavorableComponent {
   this.viafirmaService.getDocumentStatus(publicAccessId)
     .pipe(
       catchError((error) => {
-        console.error('Error al obtener el estado del documento:', error);
+        this.commonService.showSnackBar('Error al obtener el estado del documento:'+ error);
         // Aquí puedes manejar el error como desees, por ejemplo:
         this.signatureDocState = 'ERROR';
         this.externalSignUrl = '';

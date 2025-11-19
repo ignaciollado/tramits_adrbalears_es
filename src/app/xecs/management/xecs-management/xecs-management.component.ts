@@ -116,6 +116,12 @@ loadAllExpedientes(): void {
   this.expedienteService.getAllLineExpedientes('XECS', this.currentYear).subscribe({
     next: (res) => {
       res = res.map((item: any) => {
+        if (item.tipo_tramite === "Programa III actuacions corporatives") {
+          item.tipo_tramite = "Programa III a.c."
+        }
+        if (item.tipo_tramite === "Programa III actuacions producte") {
+          item.tipo_tramite = "Programa III a.p."
+        }        
         if (item.fecha_not_propuesta_resolucion_prov === '0000-00-00') {
           item.fecha_not_propuesta_resolucion_prov = ''
         }

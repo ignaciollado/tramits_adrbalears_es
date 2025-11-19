@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from '../../confirm-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateModule } from '@ngx-translate/core';
+import { CommonService } from '../../Services/common.service';
 
 @Component({
   selector: 'app-mejoras-solicitud-detalle',
@@ -44,7 +45,7 @@ export class MejorasSolicitudDetalleComponent implements OnChanges {
   mejoraOriginal: MejoraSolicitudDTO | null = null;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: FormBuilder, private commonService: CommonService,
     private mejorasSolicitudService: MejorasSolicitudService,
     private dialog: MatDialog, private snackBar: MatSnackBar
   ) {
@@ -100,7 +101,8 @@ export class MejorasSolicitudDetalleComponent implements OnChanges {
   });
 
   }
-delete(item: any): void {
+
+  delete(item: any): void {
   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
     width: '300px',
     data: {
@@ -118,23 +120,23 @@ delete(item: any): void {
             // Si el backend devuelve un error dentro del propio "result"
             if (result?.status === 404 || result?.error === 404) {
               const msg = result?.messages?.error || 'Error desconocido';
-              this.snackBar.open(msg, 'Cerrar', { duration: 30000 });
+              this.commonService.showSnackBar(msg);
               return;
             }
 
             // Caso OK
-            this.snackBar.open('Mejora eliminada', 'Cerrar', { duration: 30000 });
+            this.commonService.showSnackBar('Mejora eliminada');
             this.dataSource.data = this.dataSource.data.filter(i => i !== item);
           },
 
           error: (error: any) => {
             // Si viene como error HTTP normal
             const msg = error?.error?.messages?.error || 'Error al eliminar la mejora';
-            this.snackBar.open(msg, 'Cerrar', { duration: 30000 });
+            this.commonService.showSnackBar(msg);
           }
         });
     }
   });
-}
+  }
 
 }
