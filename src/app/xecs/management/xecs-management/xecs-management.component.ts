@@ -121,16 +121,25 @@ loadAllExpedientes(): void {
         }
         if (item.tipo_tramite === "Programa III actuacions producte") {
           item.tipo_tramite = "Programa III a.p."
-        }        
-        if (item.fecha_not_propuesta_resolucion_prov === '0000-00-00') {
-          item.fecha_not_propuesta_resolucion_prov = ''
+        }
+        if (item.fecha_requerimiento_notif === '0000-00-00' || item.fecha_requerimiento_notif === '0000-00-00 00:00:00') {
+          item.fecha_requerimiento_notif = null
+        }
+        if (item.fecha_requerimiento_notif) {
+          this.hayRequerimiento = true
+        } else  {
+          this.hayRequerimiento = false
+        }
+        console.log ("item.fecha_requerimiento_notif", this.hayRequerimiento, item.fecha_requerimiento_notif, item.id)
+        if (item.fecha_not_propuesta_resolucion_prov === '0000-00-00' || item.fecha_not_propuesta_resolucion_prov === '0000-00-00 00:00:00') {
+          item.fecha_not_propuesta_resolucion_prov = null
         }
         if (item.fecha_not_propuesta_resolucion_prov) {
           item.PRDefinitivaDate = this.commonService.calculateDueDate(item.fecha_not_propuesta_resolucion_prov, 10);
           item.PRDefinitivarestingDays = this.commonService.calculateRestingDays(item.PRDefinitivaDate)
         }
-        if (item.fecha_limite_justificacion === '0000-00-00') {
-          item.fecha_limite_justificacion = ''
+        if (item.fecha_limite_justificacion === '0000-00-00' || item.fecha_limite_justificacion === '0000-00-00 00:00:00') {
+          item.fecha_limite_justificacion = null
         }
         if (item.fecha_limite_justificacion) {
           item.justificacionRestingDays = this.commonService.calculateRestingDays(item.fecha_limite_justificacion)
@@ -138,24 +147,25 @@ loadAllExpedientes(): void {
         if (item.situacion === 'notificadoIFPRProvPago') {
           item.situacion = 'PR Provisional'
         }
-        if (item.fecha_not_propuesta_resolucion_def_sended) {
-          if (!item['fecha_not_propuesta_resolucion_def_sended'] && item.PRDefinitivarestingDays <= 0) {/* falta añadir la lógica para que envie o no el acto administrativo */}
-					this.documentoSended = "<span><small>acte administratiu:<br>";
-          if (this.hayRequerimiento) {
-            if (item.propuesta_resolucion_favorable === '1') {
-              this.documentoSended += "plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
-            } else {
-              this.documentoSended += "plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf"
-            }
-          } else {
-            if (item.propuesta_resolucion_favorable === '1') {
-              this.documentoSended += "plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf"
-            } else {
-              this.documentoSended += "plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
-            }            
-          }
-          this.documentoSended += "</small></span>"
+        if ( item.fecha_not_propuesta_resolucion_def_sended === '0000-00-00' || item.fecha_not_propuesta_resolucion_def_sended === '0000-00-00 00:00:00') {
+          item.fecha_not_propuesta_resolucion_def_sended = null
         }
+          if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0) {/* falta añadir la lógica para que envie o no el acto administrativo */}
+					
+          item.message = "<small>s'enviará l'acte administratiu:<br>"
+          if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
+            item.message +="plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
+          } 
+          if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
+            item.message +="plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf"
+          }
+          if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
+            item.message +="plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf"
+          }
+          if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
+            item.message +="plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
+          }            
+          this.documentoSended += "</small>"
         return item;
       });
 

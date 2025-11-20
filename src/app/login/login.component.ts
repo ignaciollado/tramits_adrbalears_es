@@ -66,16 +66,18 @@ export class LoginComponent {
             sessionStorage.setItem('access_token', item.access_token)
             sessionStorage.setItem("preferredLang", "ca-ES")
             sessionStorage.setItem("days_to_expire_pwd", item.days_to_expire_pwd)
-            console.log (decodedToken)
             this.authService.setUserInfo(decodedToken.name, decodedToken.role, +item.days_to_expire_pwd);
-
-            this.commonService.showSnackBar(errorResponse + " as " + this.jwtHelper.decodeToken(item.access_token).name)
-           
+            this.commonService.showSnackBar(errorResponse + " as " + this.jwtHelper.decodeToken(item.access_token).name + "\n"+`${item.days_to_expire_pwd} DAYS to expire your password`)
             if (decodedToken.role === 'admin') {
               this.isSuperUser = true;
             }
 
-            this.router.navigate(['/body'])
+            if (Number(item.days_to_expire_pwd) <= 0) {
+              this.commonService.showSnackBar("Your password has expired, please, recover it!!!")
+              this.router.navigate(['/recover-password'])
+            } else {
+              this.router.navigate(['/body'])
+            }
             },
 (error: any) => {
   let message = '❌ Ha ocurrido un error inesperado.';

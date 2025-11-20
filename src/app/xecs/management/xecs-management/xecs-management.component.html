@@ -122,16 +122,15 @@
           'indeterminate-diff': !item.PRDefinitivarestingDays && item.PRDefinitivarestingDays !== 0
           }">
           {{ item.PRDefinitivarestingDays !== null && item.PRDefinitivarestingDays !== undefined 
-                ? 'Resten '+item.PRDefinitivarestingDays +' dies naturals per enviar'
+                ? 'Resten '+item.PRDefinitivarestingDays +' dies naturals'
                 : '**Indeterminat**' }}
         </span><br>
-        <span *ngIf ="item.PRDefinitivarestingDays > 0; else prDefinitivaEnviada" ngClass="small-text">la PR Definitiva.<br>Data d'enviament: {{ item.PRDefinitivaDate }}</span><br>
+        <span *ngIf ="item.PRDefinitivarestingDays > 0; else prDefinitivaEnviada">per enviar la PR Definitiva.<br>Data d'enviament: {{ item.PRDefinitivaDate }}</span><br>        
         <ng-template #prDefinitivaEnviada>
-          <span class="small-text indeterminate-diff">
-            PR Definitiva enviada
-          </span>
+          <span class="small-text indeterminate-diff">PR Definitiva enviada</span>
         </ng-template>
-        <span ngClass="small-text" [innerHTML]="documentoSended"></span><br>
+       <!--  <span ngClass="small-text" [innerHTML]="documentoSended"></span><br> -->
+        <span [innerHTML]="item.message"></span><br>
         <span *ngIf="item.fecha_not_propuesta_resolucion_def_sended  && item.fecha_not_propuesta_resolucion_def_sended !== '0000-00-00'">
           Document enviat el: {{ item.fecha_not_propuesta_resolucion_def_sended }}
         </span>

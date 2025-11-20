@@ -181,8 +181,8 @@ export class CommonService {
   }
 
 
-  showSnackBar(error: string): void {
-    this.snackBar.open(error, 'Close', {
+  showSnackBar(message: string): void {
+    this.snackBar.open(message, 'Close', {
       duration: 5000,
       verticalPosition: 'bottom',
       horizontalPosition: 'center',

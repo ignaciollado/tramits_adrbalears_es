@@ -305,7 +305,6 @@ ngOnInit(): void {
 
         if (parteFiltrada) {
           const objFiltrado = JSON.parse(parteFiltrada.replace(/'/g, '"'));
-
           // Convertir intervalo a número
           const mesesSumar = parseInt(objFiltrado.intervalo, 10);
           if (!isNaN(mesesSumar)) {
@@ -313,12 +312,9 @@ ngOnInit(): void {
           } else {
             console.warn('Intervalo no es un número válido:', objFiltrado.intervalo);
           }
-
           // Convertir a yyyy-MM-dd para el input type="date"
           const iso = fecha.toISOString().substring(0, 10);
           this.form.get('fecha_limite_consultoria')?.setValue(iso, { emitEvent: false });
-
-          console.log('Fecha kick-off:', value, 'Intervalo meses:', mesesSumar, 'Fecha límite consultoría:', iso);
         } else {
           console.log('No se encontró el programa', this.actualTipoTramite);
         }

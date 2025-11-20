@@ -268,7 +268,8 @@ td {
   &.st-notificadoIFPRProvPago {
   background-color: #2196f3; // azul para indicar "notificado"
   color: #fff;               // texto blanco
-  font-weight: bold;
+  font-weight: 300;
+  font-size: .7rem;
   border: 2px solid #1565c0; // azul oscuro para el borde
   border-radius: 5px;
   text-align: center;
