@@ -2,7 +2,7 @@ import { Component, inject, Injectable } from '@angular/core';
 import { NativeDateAdapter } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DocumentComponent } from '../../../../document/document.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -241,23 +241,23 @@ ngOnInit(): void {
     fecha_limite_justificacion: [{ value: '', disabled: true }],
     fecha_max_desp_ampliacion: [{ value: '', disabled: true }],
     fecha_REC_amp_termino: [{ value: '', disabled: true }],
-    ref_REC_amp_termino: [{ value: '', disabled: true }],
+    ref_REC_amp_termino: [{ value: '', disabled: true }, [Validators.minLength(16), Validators.maxLength(16)]],
     fecha_amp_termino: [{ value: '', disabled: true }],
     justificationSendedMail: [{ value: '', disabled: false}, []],
     /* Justificación */
     fecha_REC_justificacion: [{ value: '', disabled: true }],
-    ref_REC_justificacion: [{ value: '', disabled: true }],
+    ref_REC_justificacion: [{ value: '', disabled: true }, [Validators.minLength(16), Validators.maxLength(16)]],
     fecha_firma_res_pago_just: [{ value: '', disabled: true }],
     fecha_not_res_pago: [{ value: '', disabled: true }],
     fecha_firma_requerimiento_justificacion: [{ value: '', disabled: true }],
     fecha_not_req_just: [{ value: '', disabled: true }],
     fecha_REC_requerimiento_justificacion: [{ value: '', disabled: true }],
-    ref_REC_requerimiento_justificacion: [{ value: '', disabled: true }],
+    ref_REC_requerimiento_justificacion: [{ value: '', disabled: true }, [Validators.minLength(16), Validators.maxLength(16)]],
     fecha_propuesta_rev: [{ value: '', disabled: true }],
     fecha_resolucion_rev: [{ value: '', disabled: true }],
     /* Desestimiento o renuncia */
     fecha_REC_desestimiento: [{ value: '', disabled: true }],
-    ref_REC_desestimiento: [{ value: '', disabled: true }],
+    ref_REC_desestimiento: [{ value: '', disabled: true }, [Validators.minLength(16), Validators.maxLength(16)]],
     fecha_firma_resolucion_desestimiento: [{ value: '', disabled: true }],
     fecha_notificacion_desestimiento: [{ value: '', disabled: true }],   
     motivoDesestimientoRenuncia: [{ value: '', disabled: false}, []]
@@ -269,9 +269,7 @@ ngOnInit(): void {
     this.situations = situations;
   })
 
-  this.getExpedDetail(this.idExpediente)
-
-  // Observo los cambios en 'fecha_de_pago'
+  // Si se añade 'fecha_de_pago' cambia a SI el valor del campo ordenDePago
   this.form.get('fecha_de_pago')?.valueChanges.subscribe(value => {
     const ordenDePagoControl = this.form.get('ordenDePago');
     if (value) {
@@ -280,7 +278,55 @@ ngOnInit(): void {
       ordenDePagoControl?.setValue('NO');
     }
   });
+  
+  // Actualizar fecha_limite_consultoria según 'Meses Fecha límite consultoría'
+  this.form.get('fecha_kick_off')?.valueChanges.subscribe(value => {
+  if (value) {
+    const fecha = new Date(value);
 
+    this.commonService.getLineDetail(this.actualConvocatoria)
+      .subscribe((meses: string | undefined) => {
+        if (!meses) {
+          console.log('No hay meses límite consultoría disponibles');
+          return;
+        }
+
+        const partes = meses.split('#');
+
+        const parteFiltrada = partes.find(parte => {
+          try {
+            const obj = JSON.parse(parte.replace(/'/g, '"'));
+            return obj.programa === this.actualTipoTramite;
+          } catch (e) {
+            console.error('Error parsing JSON:', parte, e);
+            return false;
+          }
+        });
+
+        if (parteFiltrada) {
+          const objFiltrado = JSON.parse(parteFiltrada.replace(/'/g, '"'));
+
+          // Convertir intervalo a número
+          const mesesSumar = parseInt(objFiltrado.intervalo, 10);
+          if (!isNaN(mesesSumar)) {
+            fecha.setMonth(fecha.getMonth() + mesesSumar);
+          } else {
+            console.warn('Intervalo no es un número válido:', objFiltrado.intervalo);
+          }
+
+          // Convertir a yyyy-MM-dd para el input type="date"
+          const iso = fecha.toISOString().substring(0, 10);
+          this.form.get('fecha_limite_consultoria')?.setValue(iso, { emitEvent: false });
+
+          console.log('Fecha kick-off:', value, 'Intervalo meses:', mesesSumar, 'Fecha límite consultoría:', iso);
+        } else {
+          console.log('No se encontró el programa', this.actualTipoTramite);
+        }
+      });
+  }
+  });
+
+  // Se actualiza fecha_limite_justificacion sumando 20 días 
   this.form.get('fecha_reunion_cierre')?.valueChanges.subscribe(value => {
     if (!value || isNaN(new Date(value).getTime())) {
       return;
@@ -290,6 +336,8 @@ ngOnInit(): void {
     fecha_limite_justificacion.setDate(fecha_limite_justificacion.getDate() + 20);
     this.form.get('fecha_limite_justificacion')?.setValue(fecha_limite_justificacion.toISOString().split('T')[0]);
   })
+  
+  this.getExpedDetail(this.idExpediente)
 }
 
 getExpedDetail(id: number) {
@@ -302,10 +350,21 @@ getExpedDetail(id: number) {
     )
     .subscribe(expediente => {
       if (expediente) {
-        expediente.fecha_reunion_cierre = expediente.fecha_reunion_cierre.split(" ")[0]; // quitar la parte '00:00:00' que aparece en entorno producción
+        // quitar la parte '00:00:00' que aparece en algunas fechas del entorno producción
+        expediente.fecha_reunion_cierre = expediente.fecha_reunion_cierre.split(" ")[0]; 
         expediente.fecha_limite_consultoria = expediente.fecha_limite_consultoria.split(" ")[0];
         expediente.fecha_requerimiento = expediente.fecha_requerimiento.split(" ")[0];
         expediente.fecha_requerimiento_notif = expediente.fecha_requerimiento_notif.split(" ")[0];
+        expediente.fecha_notificacion_resolucion = expediente.fecha_notificacion_resolucion.split(" ")[0];
+        expediente.fecha_max_desp_ampliacion = expediente.fecha_max_desp_ampliacion.split(" ")[0];
+        expediente.fecha_amp_termino = expediente.fecha_amp_termino.split(" ")[0];
+        expediente.fecha_infor_fav_desf = expediente.fecha_infor_fav_desf.split(" ")[0];
+        expediente.fecha_de_pago = expediente.fecha_de_pago.split(" ")[0];
+        expediente.fecha_limite_justificacion = expediente.fecha_limite_justificacion.split(" ")[0];
+        expediente.fecha_firma_requerimiento_justificacion = expediente.fecha_firma_requerimiento_justificacion.split(" ")[0];
+        expediente.fecha_firma_resolucion_desestimiento = expediente.fecha_firma_resolucion_desestimiento.split(" ")[0];
+        expediente.fecha_notificacion_desestimiento = expediente.fecha_notificacion_desestimiento.split(" ")[0];
+        
         this.form.patchValue(expediente);
         this.actualNif = expediente.nif
         this.actualID = expediente.id
@@ -326,7 +385,6 @@ getExpedDetail(id: number) {
         this.motivoDenegacion = expediente.motivoDenegacion
         this.motivoDesestimientoRenuncia = expediente.motivoDesestimientoRenuncia
         this.justificationSendedMail = expediente.justificationSendedMail
-        console.log (this.publicAccessId, this.form.get("fecha_requerimiento")?.value, this.form.get("fecha_requerimiento_notif")?.value)
         if (this.publicAccessId) {
           this.checkViafirmaSign(this.publicAccessId)
         }
@@ -600,7 +658,8 @@ changeExpedSituation(event: any) {
       .updateFieldExpediente(this.actualID, 'situacion', 'notificadoIFPRProvPago')
       .subscribe({
         next: (newState: any) => {
-          this.commonService.showSnackBar('Situación actualizada: ' + newState);
+          console.log (newState)
+          this.commonService.showSnackBar('Situación actualizada a: ' + newState.data.situacion);
           // Opcional: actualizar también el formulario si quieres reflejar el valor
           this.form.patchValue({ situacion: 'notificadoIFPRProvPago' });
         },

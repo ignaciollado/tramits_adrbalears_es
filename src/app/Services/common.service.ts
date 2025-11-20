@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { ZipCodesIBDTO } from '../Models/zip-codes-ib.dto';
 import { CnaeDTO } from '../Models/cnae.dto';
 import { XecsProgramsDTO } from '../Models/xecs-programs-dto';
@@ -9,6 +9,10 @@ import jsPDF from 'jspdf';
 import { ResponsabilityDeclarationDTO } from '../Models/responsability-declaration-dto';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment';
+import { PindustLineaAyudaService } from './linea-ayuda.service';
+import { PindustConfiguracionService } from './pindust-configuracion.service';
+import { PindustLineaAyudaDTO } from '../Models/linea-ayuda-dto';
+import { ConfigurationModelDTO } from '../Models/configuration.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +24,7 @@ export class CommonService {
   private urlAPIMock: string
 
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) {
+  constructor(private http: HttpClient, private snackBar: MatSnackBar, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,) {
     this.urlAPIMock = '../../assets/data/';
     this.ibrelleuAPI = "https://data.ibrelleu.es/public/index.php"
 
@@ -164,7 +168,7 @@ export class CommonService {
  * @param dueDate Fecha de vencimiento (string o Date)
  * @returns Número de días restantes
  */
-calculateRestingDays(dueDate: string | Date): number {
+  calculateRestingDays(dueDate: string | Date): number {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Normalizamos a medianoche
 
@@ -174,7 +178,7 @@ calculateRestingDays(dueDate: string | Date): number {
   const diffMs = targetDate.getTime() - today.getTime();
   const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24)); // Convertimos ms a días
   return diffDays;
-}
+  }
 
 
   showSnackBar(error: string): void {
@@ -294,6 +298,27 @@ calculateRestingDays(dueDate: string | Date): number {
       }
     }
     return rawText;
+  }
+
+  getLineDetail(convocatoria: number): Observable<string | undefined> {
+  return this.lineaAyuda.getAll().pipe(
+    map((items: PindustLineaAyudaDTO[]) => {
+      const foundItem = items.find(item =>
+        item.convocatoria === convocatoria &&
+        item.lineaAyuda === "XECS" &&
+        item.activeLineData === "SI"
+      );
+
+      // Devuelve solo la propiedad meses_fecha_lim_consultoria si se encuentra el item
+      return foundItem?.meses_fecha_lim_consultoria;
+    })
+  );
+  }
+
+  getGlobalConfig(): Observable<ConfigurationModelDTO> {
+  return this.configGlobal.getActive().pipe(
+    map((globalConfigArr: ConfigurationModelDTO[]) => globalConfigArr[0])
+  );
   }
 
   private handleError(error: HttpErrorResponse) {

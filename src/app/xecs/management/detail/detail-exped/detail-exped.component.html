@@ -364,7 +364,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{"FORM.ref_REC_amp_termino" | translate}}</mat-label>
-      <input matInput formControlName="ref_REC_amp_termino" readonly>
+      <input matInput formControlName="ref_REC_amp_termino" readonly [minlength]="16" [maxLength]="16">
       </mat-form-field>
       <mat-form-field appearance="outline">
       <mat-label>{{"FORM.fecha_amp_termino" | translate}}</mat-label>
@@ -397,7 +397,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.REF_REC_JUSTIFICACION' | translate}}</mat-label>
-        <input matInput formControlName="ref_REC_justificacion" readonly>
+        <input matInput formControlName="ref_REC_justificacion" readonly [minLength]="16" [maxLength]="16">
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.FECHA_FIRMA_RES_PAGO_JUST' | translate}}</mat-label>
@@ -421,7 +421,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{"FORM.REF_REC_REQUERIMIENTO_JUSTIFICACION" | translate}}</mat-label>
-        <input matInput formControlName="ref_REC_requerimiento_justificacion" readonly>
+        <input matInput formControlName="ref_REC_requerimiento_justificacion" readonly [minLength]="16" [maxLength]="16">
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{"FORM.FECHA_PROPUESTA_REV" | translate}}</mat-label>
@@ -461,7 +461,7 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.REF_REC_DESESTIMIENTO' | translate}}</mat-label>
-        <input matInput formControlName="ref_REC_desestimiento" readonly>
+        <input matInput formControlName="ref_REC_desestimiento" readonly [minLength]="16" [maxLength]="16">
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>{{'FORM.FECHA_FIRMA_RESOLUCION_DESESTIMIENTO' | translate}}</mat-label>
