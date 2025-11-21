@@ -93,7 +93,7 @@ export class DeclaracionResponsableIlsComponent {
   }
 
   viewDocumento(nif: string, folder: string, filename: string, extension: string) {
-    const entorno = environment.apiUrl
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualNif}_${filename}`;
     const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
