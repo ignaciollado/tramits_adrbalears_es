@@ -206,12 +206,13 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   }
 
   limpiarFiltros(): void {
-    this.form.get('situacion')?.reset();
-    sessionStorage.removeItem('filtroConvocatoria');
-    sessionStorage.removeItem('filtroSituacion');
-    this.loadAllExpedientes();
-    this.filtrosAplicados = false;
-
+    this.form.get('convocatoria')?.setValue(new Date().getFullYear())
+    this.form.get('situacion')?.reset()
+    sessionStorage.removeItem('filtroConvocatoria')
+    sessionStorage.removeItem('filtroTipoTramite')
+    sessionStorage.removeItem('filtroSituacion')
+    this.loadAllExpedientes()
+    this.filtrosAplicados = false
   }
 
   situacionClass(value: string): string {
