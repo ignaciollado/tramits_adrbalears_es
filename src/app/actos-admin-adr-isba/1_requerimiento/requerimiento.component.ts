@@ -20,6 +20,9 @@ import { ExpedienteService } from '../../Services/expediente.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
+import { environment } from '../../../environments/environment';
+import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 
 @Component({
   selector: 'app-requerimiento-adr-isba',
@@ -35,9 +38,8 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   formRequerimiento!: FormGroup;
   noRequestReasonText: boolean = true;
 
-  userLoginEmail: string = "";
   signatureDocState: string = "";
-  reqGenerado: boolean = false;
+  actoAdmin1: boolean = false;
   nifDocgenerado: string = "";
   timeStampDocGenerado: string = "";
   nameDocgenerado: string = "";
@@ -66,10 +68,15 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   response?: SignatureResponse;
   loading: boolean = false;
   error?: string;
-  ceoEmail: string = "jldejesus@adrbalears.caib.es";
   signedBy!: string;
 
   lineDetail: PindustLineaAyudaDTO[] = [];
+  docDataString!: ActoAdministrativoDTO;
+
+  // Emails de envío de firma
+  ceoEmail!: string;
+  consellerEmail!: string;
+  technicianEmail!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -79,12 +86,13 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   @Input() actualEmpresa!: string;
   @Input() motivoRequerimiento!: string;
   @Input() form!: FormGroup;
-  
+
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private documentosGeneradosService: DocumentosGeneradosService,
-    private actoAdminService: ActoAdministrativoService, private lineaAyuda: PindustLineaAyudaService
-  ) { this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""; };
+    private actoAdminService: ActoAdministrativoService, private lineaAyuda: PindustLineaAyudaService,
+    private configGlobal: PindustConfiguracionService
+  ) { this.technicianEmail = sessionStorage.getItem("tramits_user_email") || ""; };
 
   get stateClass(): string {
     const map: Record<string, string> = {
@@ -97,15 +105,41 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     return map[this.signatureDocState ?? ''] ?? 'req-state--not-started';
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnInit(): void {
+    this.formRequerimiento = this.fb.group({
+      motivoRequerimiento: [{ value: '', disabled: false }]
+    });
+
+    this.actoAdminService.getByNameAndTipoTramite('isba_1_requerimiento', 'ADR-ISBA')
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
+        this.docDataString = docDataString;
+        this.signedBy = this.docDataString.signedBy;
+      });
+  }
+
+  ngOnChanges(): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
+      this.getGlobalConfig();
     }
 
     if (this.formRequerimiento && this.motivoRequerimiento) {
       this.formRequerimiento.get('motivoRequerimiento')
         ?.setValue(this.motivoRequerimiento)
+        this.noRequestReasonText = false;
+    }
+  }
+
+  saveReasonRequest(): void {
+    const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value;
+    if (this.formRequerimiento.valid) {
+      this.expedienteService.updateFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe();
+      this.noRequestReasonText = false;
+      this.actoAdmin1 = false;
+      
+      // Añado borrado automático de documento si cambia el motivo
+      this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.nifDocgenerado, this.actualConvocatoria, 'doc_requeriment_adr_isba').subscribe();
     }
   }
 
@@ -118,22 +152,13 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     );
   }
 
-  ngOnInit(): void {
-    this.formRequerimiento = this.fb.group({
-      motivoRequerimiento: [{ value: '', disabled: false }]
-    });
-
-    this.actoAdminService.getByNameAndTipoTramite('isba_1_requerimiento', 'ADR-ISBA').subscribe((docDataString: ActoAdministrativoDTO) => {
-      this.signedBy = docDataString.signedBy;
-    })
-  }
-
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment_adr_isba')
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
+          this.actoAdmin1 = false;
           if (docGenerado.length === 1) {
-            this.reqGenerado = true;
+            this.actoAdmin1 = true;
             this.nifDocgenerado = docGenerado[0].cifnif_propietario;
             this.timeStampDocGenerado = docGenerado[0].selloDeTiempo;
             this.nameDocgenerado = docGenerado[0].name;
@@ -147,21 +172,13 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.reqGenerado = false;
+          this.actoAdmin1 = false;
         }
       })
   }
 
-  saveReasonRequest(): void {
-    const motivo = this.formRequerimiento.get('motivoRequerimiento')?.value;
-    if (this.formRequerimiento.valid) {
-      this.expedienteService.updateFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe();
-      this.noRequestReasonText = false;
-      this.reqGenerado = false;
-    }
-  }
 
-  generateActoAdmin(actoAdministrativoName: string, tipoTramite: string, docFieldToUpdate: string): void {
+  generateActoAdmin(docFieldToUpdate: string): void {
     const timeStamp = this.commonService.generateCustomTimestamp();
     const doc = new jsPDF({
       orientation: 'p',
@@ -200,108 +217,110 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
       doc.text(line, marginLeft, y);
     })
 
-    this.actoAdminService.getByNameAndTipoTramite(actoAdministrativoName, tipoTramite)
-      .subscribe((docDataString: ActoAdministrativoDTO) => {
-        let rawTexto = docDataString.texto;
-        this.signedBy = docDataString.signedBy;
+    let rawTexto = this.docDataString.texto;
+    this.signedBy = this.docDataString.signedBy;
 
-        let jsonObject;
-        // Limpieza de texto
-        try {
-          rawTexto = this.commonService.cleanRawText(rawTexto);
-        } catch (error) {
-          console.error('Error al parsear JSON: ', error);
-        } finally {
-          jsonObject = JSON.parse(rawTexto);
-        }
+    if (!rawTexto) {
+      this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
+      return;
+    }
 
-        doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 'PNG', 25, 20, 75, 15);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(8);
-        doc.text("Document: requeriment", marginLeft + 110, 45);
-        doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft + 110, 48);
-        if (this.actualEmpresa.length > maxCharsPerLine) {
-          const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-          const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
-          doc.text(`Sol·licitant: ${firstLine}`, x, y);
-          doc.text(secondLine, x, y + 3);
-          doc.text(`NIF: ${this.actualNif}`, x, y + 6);
-          doc.text("Emissor (DIR3): A04003714", x, y + 9);
-          doc.text(`Codi SIA: ${this.codigoSIA}`, x, y + 12);
-        } else {
-          doc.text(`Sol·licitant: ${this.actualEmpresa}`, x, y);
-          doc.text(`NIF: ${this.actualNif}`, x, 54);
-          doc.text("Emissor (DIR3): A04003714", x, 57);
-          doc.text(`Codi SIA: ${this.codigoSIA}`, x, 60);
-        }
+    let jsonObject;
+    // Limpieza de texto
+    try {
+      rawTexto = this.commonService.cleanRawText(rawTexto);
+    } catch (error) {
+      console.error('Error al parsear JSON: ', error);
+    } finally {
+      jsonObject = JSON.parse(rawTexto);
+    }
 
-        doc.setFontSize(10);
-        doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
-        doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft, 100);
-        doc.text(doc.splitTextToSize(`    • ${this.formRequerimiento.get('motivoRequerimiento')?.value}`, maxTextWidth), marginLeft, 130);
-        doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, 140);
-        doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 155);
-        doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+    doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 'PNG', 25, 20, 75, 15);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.text("Document: requeriment", marginLeft + 110, 45);
+    doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft + 110, 48);
+    if (this.actualEmpresa.length > maxCharsPerLine) {
+      const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
+      const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+      doc.text(`Sol·licitant: ${firstLine}`, x, y);
+      doc.text(secondLine, x, y + 3);
+      doc.text(`NIF: ${this.actualNif}`, x, y + 6);
+      doc.text("Emissor (DIR3): A04003714", x, y + 9);
+      doc.text(`Codi SIA: ${this.codigoSIA}`, x, y + 12);
+    } else {
+      doc.text(`Sol·licitant: ${this.actualEmpresa}`, x, y);
+      doc.text(`NIF: ${this.actualNif}`, x, 54);
+      doc.text("Emissor (DIR3): A04003714", x, 57);
+      doc.text(`Codi SIA: ${this.codigoSIA}`, x, 60);
+    }
 
-        const totalPages = doc.getNumberOfPages();
-        for (let i = 1; i <= totalPages; i++) {
-          doc.setPage(i);
-          doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
-        }
+    doc.setFontSize(10);
+    doc.text(doc.splitTextToSize(jsonObject.asunto, maxTextWidth), marginLeft, 90);
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft, 100);
+    doc.text(doc.splitTextToSize(`    • ${this.formRequerimiento.get('motivoRequerimiento')?.value}`, maxTextWidth), marginLeft, 130);
+    doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft, 140);
+    doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft, 155);
+    doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+    }
 
 
-        const pdfBlob = doc.output('blob');
+    const pdfBlob = doc.output('blob');
 
-        // Crear FormData
-        const formData = new FormData();
-        const fileName = `${this.actualIdExp}_${this.actualConvocatoria}_${docFieldToUpdate}.pdf`;
-        formData.append('file', pdfBlob, fileName);
-        formData.append('id_sol', String(this.actualID));
-        formData.append('convocatoria', String(this.actualConvocatoria));
-        formData.append('nifcif_propietario', String(this.actualNif))
-        formData.append('timeStamp', String(timeStamp));
+    // Crear FormData
+    const formData = new FormData();
+    const fileName = `${this.actualIdExp}_${this.actualConvocatoria}_${docFieldToUpdate}.pdf`;
+    formData.append('file', pdfBlob, fileName);
+    formData.append('id_sol', String(this.actualID));
+    formData.append('convocatoria', String(this.actualConvocatoria));
+    formData.append('nifcif_propietario', String(this.actualNif))
+    formData.append('timeStamp', String(timeStamp));
 
-        // Enviar al backend usando el servicio
-        this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
-          next: (response) => {
-            this.docGeneradoInsert.id_sol = this.actualID;
-            this.docGeneradoInsert.cifnif_propietario = this.actualNif;
-            this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria);
-            this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`;
-            this.docGeneradoInsert.type = 'application/pdf';
-            this.docGeneradoInsert.created_at = response.path;
-            this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite;
-            this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`;
-            this.docGeneradoInsert.selloDeTiempo = timeStamp;
+    // Enviar al backend usando el servicio
+    this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
+      next: (response) => {
+        this.docGeneradoInsert.id_sol = this.actualID;
+        this.docGeneradoInsert.cifnif_propietario = this.actualNif;
+        this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria);
+        this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`;
+        this.docGeneradoInsert.type = 'application/pdf';
+        this.docGeneradoInsert.created_at = response.path;
+        this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite;
+        this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`;
+        this.docGeneradoInsert.selloDeTiempo = timeStamp;
 
-            this.nameDocgenerado = `doc_${docFieldToUpdate}.pdf`;
+        this.nameDocgenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment_adr_isba')
-              .subscribe({
-                next: () => {
-                  this.crearDocumentoGenerado(docFieldToUpdate);
-                },
-                error: (deleteErr) => {
-                  const status = deleteErr?.status;
-                  const msg = deleteErr?.error?.message || '';
-                  if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
-                    this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                    this.crearDocumentoGenerado(docFieldToUpdate);
-                  } else {
-                    // Otros errores si se notifican y no continúan
-                    const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
-                    this.commonService.showSnackBar(deleteErrMsg);
-                  }
-                }
-              });
-          },
-          error: (err) => {
-            const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
-            this.commonService.showSnackBar(errorMsg);
-          }
-        })
-      })
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment_adr_isba')
+          .subscribe({
+            next: () => {
+              this.crearDocumentoGenerado(docFieldToUpdate);
+            },
+            error: (deleteErr) => {
+              const status = deleteErr?.status;
+              const msg = deleteErr?.error?.message || '';
+              if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
+                this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
+                this.crearDocumentoGenerado(docFieldToUpdate);
+              } else {
+                // Otros errores si se notifican y no continúan
+                const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
+                this.commonService.showSnackBar(deleteErrMsg);
+              }
+            }
+          });
+      },
+      error: (err) => {
+        const errorMsg = err?.error?.message || '❌ Error al guardar el Acto administrativo.';
+        this.commonService.showSnackBar(errorMsg);
+      }
+    })
   }
 
   crearDocumentoGenerado(docFieldToUpdate: string): void {
@@ -314,7 +333,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
             .subscribe({
               next: (response: any) => {
                 const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                this.reqGenerado = true;
+                this.actoAdmin1 = true;
                 this.commonService.showSnackBar(mensaje);
               },
               error: (updateErr) => {
@@ -336,18 +355,12 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     });
   }
 
-
+  // Cambio. Fuera hardcode
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
-    const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp + '_' + this.actualConvocatoria + '_' + filename}`;
-    let url = "";
-
-    if (entorno === 'tramits') {
-      url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
-    } else {
-      url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
-    }
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
@@ -371,16 +384,39 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     this.pdfUrl = null;
   }
 
-  sendActoAdminToSign(nif: string, folder: string, filename: string, extension: string): void {
+  // Modificado. Añado el switch para que tenga todos los casos cubiertos
+  sendActoAdminToSign(nif: string, filename: string): void {
     // Limpiar estados previos
     this.error = undefined;
     this.response = undefined;
     this.loading = true;
+
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
 
+    let email: string = "";
+
+    switch (this.signedBy) {
+      case 'technician':
+        email = this.technicianEmail;
+        break;
+
+      case 'ceo':
+        email = this.ceoEmail;
+        break;
+        
+      case 'conseller':
+        // ToDo
+        email = this.consellerEmail;
+        break;
+
+      case 'applicant':
+        email = this.form.get('email_rep')?.value;
+        break;
+    }
+
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'technician' ? this.userLoginEmail : this.ceoEmail,
+      adreca_mail: email,
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
@@ -422,6 +458,19 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
       });
       if (this.lineDetail.length > 0) {
         this.codigoSIA = this.lineDetail[0]['codigoSIA'];
+      }
+    })
+  }
+
+  getGlobalConfig(): void {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      if (globalConfig.length > 0) {
+        /* Quitar hardcodeo de emails */
+        // this.ceoEmail = globalConfig[0].eMailDGerente;
+        // this.consellerEmail = globalConfig[0].eMailPresidente;
+
+        this.ceoEmail = "jose.luis@idi.es";
+        this.consellerEmail = "jldejesusramon@adrbalears.caib.es"
       }
     })
   }
