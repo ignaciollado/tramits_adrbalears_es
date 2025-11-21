@@ -97,6 +97,7 @@ export class IlsDetailExpedComponent {
 
     this.form = this.fb.group({
       /* Detalle */
+      publicar_en_web: [],
       id: [{ value: '', disabled: true }, []],
       empresa: [{ value: '', disabled: true }, []],
       nif: [{ value: '', disabled: true }, []],
@@ -171,6 +172,7 @@ export class IlsDetailExpedComponent {
       )
       .subscribe(expediente => {
         if (expediente) {
+          expediente.publicar_en_web = expediente.publicar_en_web == 1;
           this.form.patchValue(expediente)
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;
@@ -290,5 +292,19 @@ export class IlsDetailExpedComponent {
         },
         error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
       })
+  }
+
+  publishInWeb(event: any): void {
+    // const transformedBoolean = event.checked === true ? 1 : 0;
+    const status: string = event.checked === true ? 'publicado' : 'despublicado';
+
+    this.expedienteService.updateFieldExpediente(this.idExpediente, 'publicar_en_web', event.checked).subscribe({
+      next: () => {
+        this.commonService.showSnackBar(`✅ Expediente ILS ${status} correctamente.`);
+      },
+      error: () => {
+        this.commonService.showSnackBar('❌ Error al intentar actualizar el estado de publicación,')
+      }
+    })
   }
 }

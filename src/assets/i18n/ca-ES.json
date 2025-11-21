@@ -318,7 +318,8 @@
     "CIFPART1": "El ",
     "CIFPART2": " de l'empresa. [.pdf]",
     "LOGO": "Logotip de l'empresa que apareixerà en el nostre apartat d'empreses adherides. [.webp, .jpeg, .svg]",
-    "CHOOSEOPTION": "Tria una opció:"
+    "CHOOSEOPTION": "Tria una opció:",
+    "PUBLISHINWEB": "Publicat en la web de ILS"
   },
   "ISBA": {
     "TITLE": "Ajuts a les despeses financeres a través de l'aval d'ISBA",
@@ -460,7 +461,6 @@
     "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulari de justificació",
     "VOLVERAENVIARFORMULARIOJUSTIFICACION": "Torna a enviar el formulari de justificació",
     "FORMULARIODEJUSTIFICACIONENVIADOEL": "Formulari de justificació enviat el",
-
     "GENERAL": {
       "SAVEREASON": "Guardar motiu",
       "GENERATEACTO": "Generar document",
@@ -544,7 +544,6 @@
       "Desestimiento": "Desistiment",
       "emitirIFPRProvPago": "Emetre IF + PR Provisional",
       "emitidoIFPRProvPago": "IF + PR Provisional emesa",
-
       "firmadoIFPRProvPago": "PR Prov. signada PENDENT de notificar",
       "notificadoIFPRProvPago": "PR Provisonal NOTIFICADA (DATA) AUT",
       "emitirPRDefinitiva": "PR definitiva enviada a firma",

@@ -50,7 +50,6 @@
     "CONVODATA": "Destino: AGENCIA DE DESARROLLO REGIONAL DE LES ILLES BALEARS<br>Emisor (DIR3): A04003714<br>Código SIA: %CODIGOSIA%<br>Convocatoria: %CONVO%",
     "CONVODETAILS": "Convocatoria para la concesión de ayudas de cheques de consultoría para impulsar a la industria de Baleares en materia de digitalización, internacionalización, sostenibilidad y gestión avanzada.",
     "OPENISSUEORREQUEST": "Reportar una incidencia o petición informática"
-
   },
   "FORM": {
     "ACCEPTTERMS1": "He leído y acepto la política de privacidad",
@@ -319,7 +318,8 @@
     "CIFPART1": "El ",
     "CIFPART2": " de la empresa. [.pdf]",
     "LOGO": "Logotipo de la empresa que aparecerá en nuestro apartado de empresas adheridas. [.webp, .jpeg, .svg]",
-    "CHOOSEOPTION": "Escoge una opción:"
+    "CHOOSEOPTION": "Escoge una opción:",
+    "PUBLISHINWEB": "Publicado en la web de ILS"
   },
   "ISBA": {
     "TITLE": "Ayudas a los gastos financieros a través del aval de ISBA",
@@ -414,7 +414,7 @@
     "DOC13": "Contrato o documento de aval de la operación financiera. [.pdf]",
     "DOC14": "Una Declaración responsable, incluida en el modelo normalizado de solicitud, de la persona titular de la empresa o de quien la representa legalmente, la cual se genera al enviar esta solicitud."
   },
-   "MEJORAS": {
+  "MEJORAS": {
     "mejora": "Mejora",
     "fechaRecMejora": "Fecha SEU",
     "refRecMejora": "Ref. SEU"
@@ -461,7 +461,6 @@
     "ENVIARFORMULARIOJUSTIFICACION": "Enviar el formulario de justificación",
     "VOLVERAENVIARFORMULARIOJUSTIFICACION": "Vuelve a enviar el formulario de justificación",
     "FORMULARIODEJUSTIFICACIONENVIADOEL": "Formulario de justificación enviado el",
-
     "GENERAL": {
       "SAVEREASON": "Guardar motivo",
       "GENERATEACTO": "Generar documento",
@@ -545,7 +544,6 @@
       "Desestimiento": "Desestimiento",
       "emitirIFPRProvPago": "Emitir IF + PR provisional",
       "emitidoIFPRProvPago": "IF + PR provisional emitida",
-
       "firmadoIFPRProvPago": "PR Prov. firmada PENDIENTE de notificar",
       "notificadoIFPRProvPago": "PR Provisional NOTIFICADA  (DATA) AUT",
       "emitirPRDefinitiva": "PR definitiva enviada a firma",
