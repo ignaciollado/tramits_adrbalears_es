@@ -39,7 +39,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
   noRequestReasonText: boolean = true;
 
   signatureDocState: string = "";
-  actoAdmin1: boolean = false;
+  actoAdmin: boolean = false;
   nifDocgenerado: string = "";
   timeStampDocGenerado: string = "";
   nameDocgenerado: string = "";
@@ -136,7 +136,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     if (this.formRequerimiento.valid) {
       this.expedienteService.updateFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe();
       this.noRequestReasonText = false;
-      this.actoAdmin1 = false;
+      this.actoAdmin = false;
       
       // Añado borrado automático de documento si cambia el motivo
       this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.nifDocgenerado, this.actualConvocatoria, 'doc_requeriment_adr_isba').subscribe();
@@ -156,9 +156,9 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment_adr_isba')
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin1 = false;
+          this.actoAdmin = false;
           if (docGenerado.length === 1) {
-            this.actoAdmin1 = true;
+            this.actoAdmin = true;
             this.nifDocgenerado = docGenerado[0].cifnif_propietario;
             this.timeStampDocGenerado = docGenerado[0].selloDeTiempo;
             this.nameDocgenerado = docGenerado[0].name;
@@ -172,7 +172,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin1 = false;
+          this.actoAdmin = false;
         }
       })
   }
@@ -333,7 +333,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
             .subscribe({
               next: (response: any) => {
                 const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                this.actoAdmin1 = true;
+                this.actoAdmin = true;
                 this.commonService.showSnackBar(mensaje);
               },
               error: (updateErr) => {
