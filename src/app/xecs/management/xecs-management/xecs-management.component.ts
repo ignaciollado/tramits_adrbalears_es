@@ -19,6 +19,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { CommonService } from '../../../Services/common.service';
+import { ActoAdministrativoPrDevinitivaFavorableService } from '../../../Services/acto-administrativo-pr-definitiva-favorable.service';
 
 @Component({
   selector: 'app-xecs-management',
@@ -45,6 +46,8 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(private actoAdminPRDefinitivaFavorable: ActoAdministrativoPrDevinitivaFavorableService) {}
 
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
@@ -150,9 +153,7 @@ loadAllExpedientes(): void {
         if ( item.fecha_not_propuesta_resolucion_def_sended === '0000-00-00' || item.fecha_not_propuesta_resolucion_def_sended === '0000-00-00 00:00:00') {
           item.fecha_not_propuesta_resolucion_def_sended = null
         }
-          if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0) {/* falta añadir la lógica para que envie o no el acto administrativo */}
-					
-          item.message = "<small>s'enviará l'acte administratiu:<br>"
+        item.message = "<small>s'enviará l'acte administratiu:<br>"
           if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
             item.message +="plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
           } 
@@ -165,8 +166,17 @@ loadAllExpedientes(): void {
           if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
             item.message +="plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
           }            
-          this.documentoSended += "</small>"
-        return item;
+          item.message += "</small>"
+          if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0) {
+            // envio del acto administrativo correspondiente
+            this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
+              actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
+              this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
+              this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.dGerente, this.actualIdExp, 
+              'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud
+            ).subscribe((result:any) => {console.log ("result", result)})
+          }
+          return item;
       });
 
       this.expedientesFiltrados = res;

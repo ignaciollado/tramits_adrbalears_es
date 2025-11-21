@@ -189,7 +189,7 @@ export class PrDefinitivaFavorableComponent {
       this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
       this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.dGerente, this.actualIdExp, 
       'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud
-    ).subscribe((result:any) => {console.log ("result", result)})
+    ).subscribe((result:any) => {this.actoAdmin11 = result})
     
 
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
