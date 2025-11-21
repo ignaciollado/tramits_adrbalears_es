@@ -47,10 +47,11 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
   private commonService = inject(CommonService)
-  uniqueConvocatorias: number[] = []
-  // uniqueSituaciones: string[] = [];
+  uniqueConvocatorias: number[] = [2026, 2025, 2024, 2023, 2022, 2021]
   uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = [];
+  filtrosAplicados: boolean = false;
+  currentYear!: string;
 
   form!: FormGroup;
   displayedColumns: string[] = ['fecha_solicitud', 'tipo_tramite', 'idExp', 'empresa', 'importeAyuda',
@@ -59,23 +60,26 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
   loading = false;
 
   ngOnInit(): void {
+    this.currentYear = new Date().getFullYear().toString();
+
     this.form = this.fb.group({
-      convocatoria: [null],
+      convocatoria: [new Date().getFullYear()],
       situacion: [[]]
     });
 
+    this.limpiarFiltros();
+
     this.commonService.getIlsSituations().subscribe((situations: any[]) => {
       this.uniqueSituaciones = situations;
-      console.log(this.uniqueSituaciones)
     })
 
     // Verifica si hay filtros guardados y si los valores son válidos
-    const savedConv = sessionStorage.getItem('filtroConvocatoria');
-    const savedSit = sessionStorage.getItem('filtroSituacion');
+    let savedConv = sessionStorage.getItem('filtroConvocatoria');
+    let savedSit = sessionStorage.getItem('filtroSituacion');
 
-    if (savedConv) {
+    if (savedConv || savedSit) {
       this.form.patchValue({
-        convocatoria: +savedConv,
+        convocatoria: savedConv ? +savedConv : this.currentYear,
         situacion: savedSit ? JSON.parse(savedSit) : []
       });
       this.loadExpedientes();
@@ -87,6 +91,7 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+
     this.paginator.page.subscribe(() => {
       sessionStorage.setItem('paginaExpedientes', this.paginator.pageIndex.toString());
     });
@@ -99,11 +104,9 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
 
   loadAllExpedientes(): void {
     this.loading = true;
-
-    this.expedienteService.getAllLineExpedientes('ILS').subscribe({
+    this.expedienteService.getAllLineExpedientes('ILS', this.currentYear).subscribe({
       next: (res) => {
         this.expedientesFiltrados = res;
-
         this.actualizarTabla(this.expedientesFiltrados)
 
         const paginaGuardada = sessionStorage.getItem('paginaExpedientes')
@@ -112,10 +115,6 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
         }
         this.dataSource.paginator = this.paginator;
 
-        this.uniqueConvocatorias = [
-          ...new Set<number>(this.expedientesFiltrados.map((e: any) => Number(e.convocatoria)))
-        ];
-        
         this.commonService.showSnackBar('ILS: expedientes cargados correctamente ✅')
       },
 
@@ -156,11 +155,18 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
       filtrados = filtrados.filter((e: any) => situacion.includes(e.situacion))
     }
 
-    this.paginator.pageIndex = 0;
-    sessionStorage.setItem('paginaExpedientes', '0');
+    this.filtrosAplicados = (convocatoria !== new Date().getFullYear())
+      || (situacion?.length > 0)
+
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+      sessionStorage.setItem('paginaExpedientes', '0');
+    }
 
     this.actualizarTabla(filtrados);
-    this.dataSource.paginator = this.paginator;
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
     this.commonService.showSnackBar('Expedientes filtrados correctamente ✅');
     this.loading = false;
   }
@@ -192,12 +198,13 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
   }
 
   limpiarFiltros(): void {
-    this.form.reset();
-    sessionStorage.removeItem('filtroConvocatoria');
-    sessionStorage.removeItem('filtroTipoTramite');
-    this.paginator.pageIndex = 0;
-    sessionStorage.setItem('paginaExpedientes', '0');
-    this.loadAllExpedientes();
+    this.form.get('convocatoria')?.setValue(new Date().getFullYear())
+    this.form.get('situacion')?.reset()
+    sessionStorage.removeItem('filtroConvocatoria')
+    sessionStorage.removeItem('filtroTipoTramite')
+    sessionStorage.removeItem('filtroSituacion')
+    this.loadAllExpedientes()
+    this.filtrosAplicados = false
   }
 
   situacionClass(value: string): string {
