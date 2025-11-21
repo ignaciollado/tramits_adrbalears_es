@@ -257,6 +257,10 @@ export class IlsGrantApplicationFormComponent {
     rawValues.convocatoria = convocatoria
     rawValues.cpostal = this.ilsForm.get('cpostal')?.value['zipCode']
 
+    if (rawValues.file_certificado_verificacion_ISO === null) {
+      rawValues.file_certificado_verificacion_ISO = "";
+    }
+
     const filesToUpload = [
       { files: this.file_escritura_empresaToUpload, type: 'file_escritura_empresa' },
       { files: this.file_certificadoIAEToUpload, type: 'file_certificadoIAE' },
@@ -276,6 +280,10 @@ export class IlsGrantApplicationFormComponent {
       { files: this.file_logotipoEmpresaIlsToUpload, type: 'file_logotipoEmpresaIls' }
     ]
 
+    delete rawValues.acceptRGPD;
+    delete rawValues.checkboxID;
+    delete rawValues.checkboxATIB;
+    delete rawValues.radioGroupFile;
 
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {

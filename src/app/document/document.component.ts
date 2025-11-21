@@ -16,6 +16,7 @@ import { CommonService } from '../Services/common.service';
 import { ExpedienteDocumentoService } from '../Services/expediente.documento.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 /* import { PdfViewerModule } from 'ng2-pdf-viewer'; */
 
 export interface Documento {
@@ -177,14 +178,10 @@ export class DocumentComponent implements OnInit {
     }
   }
 
+  // Cambio este método para que coja el environment
   viewDocument(nif: string, folder: string, filename: string, extension: string) {
-    const entorno = sessionStorage.getItem("entorno")
-    let url = ""
-    if (entorno === 'tramits') {
-       url = `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
-    } else {
-     url = `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
-    }
+    const entorno = environment.apiUrl;
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
   
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 

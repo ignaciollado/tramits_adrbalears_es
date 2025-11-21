@@ -6,13 +6,6 @@
     </mat-select>
   </mat-form-field>
 
-  <!-- <mat-form-field appearance="outline">
-    <mat-label>Tipo de Trámite</mat-label>
-    <mat-select formControlName="tipoTramite" multiple>
-      <mat-option *ngFor="let tipo of uniqueTiposTramite" [value]="tipo">{{ tipo }}</mat-option>
-    </mat-select>
-  </mat-form-field> -->
-
   <!-- Nuevo situaciones -->
   <mat-form-field appearance="outline">
     <mat-label>{{'FORM.SITUACION' | translate}}</mat-label>
@@ -30,10 +23,10 @@
   <input matInput (keyup)="aplicarFiltro($event)" placeholder="Filtrar por solicitante, localidad, etc.">
   </mat-form-field>
 
-<div class="form-actions">
+<section class="form-actions">
   <button mat-raised-button color="accent" type="submit">{{'FORM.BUSCAR' | translate}}</button>
-  <button mat-stroked-button color="warn" type="button" (click)="limpiarFiltros()">{{'FORM.LIMPIARFILTROS' | translate}}</button>
-</div>
+  <button mat-raised-button [color]="filtrosAplicados ? 'primary' : ''" type="button" (click)="limpiarFiltros()">{{'FORM.LIMPIARFILTROS' | translate}}</button>
+</section>
 
 </form>
 

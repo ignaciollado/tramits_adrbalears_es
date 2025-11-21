@@ -10,6 +10,7 @@ import { DocumentosGeneradosService } from '../../Services/documentos-generados.
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-declaracion-responsable-ils',
@@ -92,13 +93,10 @@ export class DeclaracionResponsableIlsComponent {
   }
 
   viewDocumento(nif: string, folder: string, filename: string, extension: string) {
-    const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualNif}_${filename}`;
-    let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
