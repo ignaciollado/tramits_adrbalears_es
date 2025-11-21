@@ -10,6 +10,7 @@ import { DocumentosGeneradosService } from '../../Services/documentos-generados.
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-declaracion-responsable-adr-isba',
@@ -91,14 +92,16 @@ export class DeclaracionResponsableAdrIsbaComponent {
       })
   }
 
+  // Lo cambio para poder visualizar correctamente la declaración responsable
   viewDocumento(nif: string, folder: string, filename: string, extension: string) {
-    const entorno = sessionStorage.getItem('entorno');
+    // const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualNif}_${filename}`;
-    let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    let url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
+    // url = entorno === "tramits" ?
+    //   `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
+    //   `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 

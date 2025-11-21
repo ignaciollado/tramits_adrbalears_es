@@ -46,12 +46,13 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
   private commonService = inject(CommonService)
-  uniqueConvocatorias: number[] = [];
-  uniqueTiposTramite: string[] = [];
-  // uniqueSituaciones: string[] = [];
+
+  uniqueConvocatorias: number[] = [2026, 2025, 2024, 2023, 2022, 2021];
+  // uniqueTiposTramite: string[] = [];
   uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = [];
-
+  filtrosAplicados: boolean = false;
+  currentYear!: string;
 
   form!: FormGroup;
   displayedColumns: string[] = ['fecha_solicitud', 'tipo_tramite', 'idExp', 'empresa', 'importe_ayuda_solicita_idi_isba',
@@ -60,29 +61,28 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   loading = false;
 
   ngOnInit(): void {
+
+    this.currentYear = new Date().getFullYear().toString();
+
     this.form = this.fb.group({
-      convocatoria: [null],
-      // tipoTramite: [[]],
+      convocatoria: [new Date().getFullYear()],
       situacion: [[]]
     });
+
+    this.limpiarFiltros();
 
     this.commonService.getSituations().subscribe((situations: any[]) => {
       this.uniqueSituaciones = situations
     })
 
-    // Verifica si hay filtros guardados y si los valores son válidos
-    const savedConv = sessionStorage.getItem('filtroConvocatoria');
-    // const savedTipo = sessionStorage.getItem('filtroTipoTramite');
-    const savedSit = sessionStorage.getItem('filtroSituacion');
+    // Verifica filtros ya existentes
+    let savedConv = sessionStorage.getItem('filtroConvocatoria');
+    let savedSit = sessionStorage.getItem('filtroSituacion');
 
-    /* Cuando hay una convocatoria guardada, da error debido a que
-    no se llega a guardar los expedientes filtrados en la variable correspondiente.
-    Esto pasa también en xecs
-    */
-    if (savedConv) {
+    if (savedConv || savedSit) {
+      this.filtrosAplicados = true;
       this.form.patchValue({
-        convocatoria: +savedConv,
-        // tipoTramite: savedTipo ? JSON.parse(savedTipo) : [],
+        convocatoria: savedConv ? +savedConv : this.currentYear,
         situacion: savedSit ? JSON.parse(savedSit) : []
       });
       this.loadExpedientes();
@@ -107,8 +107,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
 
   loadAllExpedientes(): void {
     this.loading = true;
-
-    this.expedienteService.getAllLineExpedientes('ADR-ISBA').subscribe({
+    this.expedienteService.getAllLineExpedientes('ADR-ISBA', this.currentYear).subscribe({
       next: (res) => {
         // Excluir expedientes con tipo_tramite 'ILS' o 'XECS'...
         this.expedientesFiltrados = res;
@@ -121,10 +120,6 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
         }
 
         this.dataSource.paginator = this.paginator;
-
-        this.uniqueConvocatorias = [
-          ...new Set<number>(this.expedientesFiltrados.map((e: any) => Number(e.convocatoria)))
-        ];
 
         this.commonService.showSnackBar('ADR-ISBA: expedientes cargados correctamente ✅')
       },
@@ -168,11 +163,18 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
       );
     }
 
-    this.paginator.pageIndex = 0;
-    sessionStorage.setItem('paginaExpedientes', '0')
+    this.filtrosAplicados = (convocatoria !== new Date().getFullYear())
+      || (situacion?.length > 0)
+
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+      sessionStorage.setItem('paginaExpedientes', '0')
+    }
 
     this.actualizarTabla(filtrados);
-    this.dataSource.paginator = this.paginator;
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
     this.commonService.showSnackBar('Expedientes filtrados correctamente ✅');
     this.loading = false;
   }
@@ -204,12 +206,12 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   }
 
   limpiarFiltros(): void {
-    this.form.reset();
+    this.form.get('situacion')?.reset();
     sessionStorage.removeItem('filtroConvocatoria');
-    sessionStorage.removeItem('filtroTipoTramite');
-    this.paginator.pageIndex = 0;
-    sessionStorage.setItem('paginaExpedientes', '0');
+    sessionStorage.removeItem('filtroSituacion');
     this.loadAllExpedientes();
+    this.filtrosAplicados = false;
+
   }
 
   situacionClass(value: string): string {
