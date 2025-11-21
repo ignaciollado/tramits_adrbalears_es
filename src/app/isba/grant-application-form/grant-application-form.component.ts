@@ -289,6 +289,11 @@ export class IsbaGrantApplicationFormComponent {
       { files: this.file_certificadoLey382003ToUpload, type: 'file_certificadoLey382003' }
     ];
 
+    // Borro datos que pueden generar un error
+    delete rawValues.dni_no_consent;
+    delete rawValues.atib_no_consent;
+    delete rawValues.acceptRGPD;
+
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
         rawValues.id_sol = respuesta.id_sol;
@@ -649,7 +654,6 @@ export class IsbaGrantApplicationFormComponent {
   }
 
   private generateIdExp(): void {
-    sessionStorage.setItem('entorno', 'tramits');
     this.expedienteService.getLastExpedienteIdByProgram('ADR-ISBA').subscribe((id: any) => {
       this.idExp = (+id.last_id + 1).toString()
     }, error => { this.commonService.showSnackBar(error) })
