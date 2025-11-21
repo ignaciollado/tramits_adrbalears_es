@@ -169,12 +169,12 @@ loadAllExpedientes(): void {
           item.message += "</small>"
           if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0) {
             // envio del acto administrativo correspondiente
-            this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
+/*             this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
               actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
               this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
               this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.dGerente, this.actualIdExp, 
               'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud
-            ).subscribe((result:any) => {console.log ("result", result)})
+            ).subscribe((result:any) => {console.log ("result", result)}) */
           }
           return item;
       });
