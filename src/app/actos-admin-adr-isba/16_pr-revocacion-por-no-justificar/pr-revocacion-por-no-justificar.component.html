@@ -3,9 +3,9 @@
         <mat-expansion-panel-header>
             <mat-panel-title>16. {{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONREVOCACIONNOJUSTIFICAR' | translate}}</mat-panel-title>
         </mat-expansion-panel-header>
-        <button mat-raised-button color="primary" (click)="generateActoAdmin('isba_16_propuesta_resolucion_revocacion_no_justificar', 'ADR-ISBA', 'prop_res_revocacion_por_no_justificar')">{{'ACTOSADMINISTRATIVOS.GENERAL.GENERATEACTO' | translate}}</button>
-        <button mat-raised-button color="accent" (click)="actoAdmin16 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_16_propuesta_resolucion_revocacion_no_justificar', 'ADR-ISBA', 'prop_res_revocacion_por_no_justificar')" [disabled]="!actoAdmin16">{{'ACTOSADMINISTRATIVOS.GENERAL.VIEWACTO' | translate}}</button>
-        <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')" [disabled]="!actoAdmin16">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOCEO' | translate}}</button>
+        <button mat-raised-button color="primary" (click)="generateActoAdmin('prop_res_revocacion_por_no_justificar')">{{'ACTOSADMINISTRATIVOS.GENERAL.GENERATEACTO' | translate}}</button>
+        <button mat-raised-button color="accent" (click)="actoAdmin ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('prop_res_revocacion_por_no_justificar')" [disabled]="!actoAdmin">{{'ACTOSADMINISTRATIVOS.GENERAL.VIEWACTO' | translate}}</button>
+        <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, nameDocGenerado)" [disabled]="!actoAdmin">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOCEO' | translate}}</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClassActAdmin16]">
             <section *ngIf="signatureDocState === 'COMPLETED'">
                 <a href="{{externalSignUrl}}" target="_blank">{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.VIEWSIGNEDDOC' | translate}}</a>
@@ -15,7 +15,7 @@
                 <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDING' | translate}}</span>
                 <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDINGEMAIL' | translate}} <strong>{{sendedUserToSign | lowercase}}</strong></span><br>
                 <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDINGDATE' | translate}} <strong>{{sendedDateToSign | date: 'dd/MM/yyyy HH:mm:ss'}}</strong></span>
-                <button mat-raised-button color="warn" [disabled]="!actoAdmin16" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOSIGNAGAIN' | translate}}</button>            
+                <button mat-raised-button color="warn" [disabled]="!actoAdmin" (click)="sendActoAdminToSign(actualNif, nameDocGenerado)">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOSIGNAGAIN' | translate}}</button>            
             </section>
             <section *ngIf="signatureDocState === 'IN_PROCESS'">
                 <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PROGRESS' | translate}}</span>
