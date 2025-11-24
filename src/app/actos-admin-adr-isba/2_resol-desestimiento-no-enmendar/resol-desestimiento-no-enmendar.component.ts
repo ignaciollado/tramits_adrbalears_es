@@ -443,8 +443,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string): void {
-    // const entorno = environment.apiUrl;
-    const entorno = "https://tramits.idi.es/public/index.php"
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
     const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`
