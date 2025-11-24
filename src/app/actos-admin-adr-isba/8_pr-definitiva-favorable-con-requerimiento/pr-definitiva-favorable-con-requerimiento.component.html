@@ -1,5 +1,5 @@
 <mat-accordion [ngClass]="['detalle-formulario', 'req-state', stateClassActAdmin8]">
-    <mat-expansion-panel>
+    <mat-expansion-panel [disabled]="form.get('fecha_requerimiento')?.value === '0000-00-00 00:00:00'">
         <mat-expansion-panel-header>
             <mat-panel-title>8. {{'ACTOSADMINISTRATIVOS.PROPUESTARESOLUCIONDEFINITIVAFAVORABLECONREQUERIMIENTO' | translate}}</mat-panel-title>
         </mat-expansion-panel-header>
