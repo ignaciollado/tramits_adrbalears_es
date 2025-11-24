@@ -9,8 +9,10 @@
                 <textarea matInput formControlName="motivoResolucionRevocacionPorNoJustificar" required rows="5"></textarea>
             </mat-form-field>
             <button mat-raised-button color="primary" type="submit" (click)="saveReasonRevocation()" [disabled]="!formRevocacion.valid">{{'ACTOSADMINISTRATIVOS.GENERAL.SAVEREASON' | translate}}</button>
-            <button mat-raised-button color="accent" (click)="actoAdmin17 ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('isba_17_resolucion_revocacion_no_justificar', 'ADR-ISBA', 'resolucion_revocacion_no_justificar')" [disabled]="!actoAdmin17 && noRevocationReasonText">{{actoAdmin17 ? ('ACTOSADMINISTRATIVOS.GENERAL.VIEWACTO' | translate) : ('ACTOSADMINISTRATIVOS.GENERAL.GENERATEACTO' | translate)}}</button>
-            <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')" [disabled]="!actoAdmin17">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOCEO' | translate}}</button>
+            <button mat-raised-button color="accent" (click)="actoAdmin ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('resolucion_revocacion_no_justificar')" [disabled]="!actoAdmin && noRevocationReasonText">
+                {{actoAdmin ? ('ACTOSADMINISTRATIVOS.GENERAL.VIEWACTO' | translate) : ('ACTOSADMINISTRATIVOS.GENERAL.GENERATEACTO' | translate)}}
+            </button>
+            <button *ngIf="!publicAccessId" mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, nameDocGenerado)" [disabled]="!actoAdmin">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOCEO' | translate}}</button>
             <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClassActoAdmin17]">
                 <section *ngIf="signatureDocState === 'COMPLETED'">
                   <a  href='{{externalSignUrl}}' target="_blank">{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.VIEWSIGNEDDOC' | translate}}</a>
@@ -20,7 +22,7 @@
                   <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDING' | translate}}</span><br>
                   <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDINGEMAIL' | translate}} <strong>{{sendedUserToSign | lowercase}}</strong></span><br>
                   <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDINGDATE' | translate}} <strong>{{sendedDateToSign | date:'dd/MM/yyyy HH:mm:ss'}}</strong></span>
-                  <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, 'informes', nameDocGenerado, 'pdf')" [disabled]="!actoAdmin17">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOSIGNAGAIN' | translate}}</button>
+                  <button mat-raised-button color="warn" (click)="sendActoAdminToSign(actualNif, nameDocGenerado)" [disabled]="!actoAdmin">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOSIGNAGAIN' | translate}}</button>
                 </section>
                 <section *ngIf="signatureDocState === 'IN_PROCESS'">
                   <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PROGRESS' | translate}}</span>
