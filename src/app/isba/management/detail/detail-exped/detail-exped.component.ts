@@ -203,6 +203,11 @@ export class IsbaDetailExpedComponent {
           if (expediente.motivoResolucionRevocacionPorNoJustificar) {
             this.noRevocationReasonText = false;
           }
+
+
+          // Arreglo a fecha que no aparecía. Arregla también la comparativa para el bloqueo de generación de actos por campos requeridos
+          expediente.fecha_infor_fav_desf = expediente.fecha_infor_fav_desf.split(" ")[0];
+          
           this.form.patchValue(expediente);
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;

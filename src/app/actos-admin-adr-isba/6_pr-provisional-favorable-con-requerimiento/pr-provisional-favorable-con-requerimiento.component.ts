@@ -395,7 +395,7 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaComponent {
     if (!fecha_REC?.trim() || fecha_REC?.trim() === "0000-00-00 00:00:00") {
       this.camposVacios.push('FORM.FECHA_REC')
     }
-    if (!fecha_infor_fav_desf?.trim() || fecha_infor_fav_desf?.trim() === "0000-00-00 00:00:00") {
+    if (!fecha_infor_fav_desf?.trim() || fecha_infor_fav_desf?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.FECHA_INFOR_FAV_DESF')
     }
     if (!fecha_REC_enmienda?.trim() || fecha_REC_enmienda?.trim() === "0000-00-00 00:00:00") {
