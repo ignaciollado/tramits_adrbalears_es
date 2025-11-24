@@ -45,7 +45,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row 
           *matRowDef="let row; columns: displayedColumns;" 
-          [ngClass]="{'tr-highlight-finalizado': row.situacion === 'Finalizado'}">
+          [ngClass]="{'tr-highlight-finalizado': row.situacion.trim() === 'Finalizado'}">
       </tr>
 
       <!-- Footer Totals -->
