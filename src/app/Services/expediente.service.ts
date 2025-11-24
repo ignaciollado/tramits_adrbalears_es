@@ -69,6 +69,12 @@ export class ExpedienteService {
     return this.http.delete<void>(`${this.apiUrl}/pindustexpediente/delete/${id}`).pipe(catchError(this.handleError));
   }
 
+  estadisticaExpediente(convocatoria?: number, situacion?: string, tipoTramite?: string): Observable<any> {
+    const situacionParam = situacion ?? '';
+    const tipoTramiteParam = tipoTramite ?? '';
+    return this.http.get<any>(`${this.apiUrl}/pindustexpediente/estadisticas?convocatoria=${convocatoria}&situacion=${situacionParam}&tipo_tramite=${tipoTramiteParam}`).pipe(catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Error desconocido';
 

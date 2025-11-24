@@ -9,3 +9,57 @@
   </ul>
   <!-- <a routerLink="/solicitud" class="btn">Iniciar Solicitud</a> -->
 </section>
+
+<section>
+<div *ngIf="loading">Cargando estadísticas...</div>
+<div *ngIf="error" class="error">{{ error }}</div>
+
+<div *ngIf="!loading && !error">
+  <mat-card *ngFor="let conv of estadisticas" class="convocatoria-card">
+    <mat-card-header>
+      <mat-card-title>XECS Consultoria: convocatoria {{ conv.convocatoria }}</mat-card-title>
+    </mat-card-header>
+
+<mat-card-content>
+  <div *ngFor="let prog of conv.programas">
+    <h3>{{ prog.tipo_tramite }}</h3>
+    <table mat-table [dataSource]="prog.dataSource" class="mat-elevation-z8">
+      <!-- Situación Column -->
+      <ng-container matColumnDef="situacion">
+        <th ngClass="th-mat-header-cell" mat-header-cell *matHeaderCellDef>Situación</th>
+        <td ngClass="td-mat-cell" mat-cell *matCellDef="let element">{{('SITUATIONS.GENERAL.' + element.situacion) | translate}}</td>
+      </ng-container>
+
+      <!-- Total Column -->
+      <ng-container matColumnDef="total">
+        <th ngClass="th-mat-header-cell" mat-header-cell *matHeaderCellDef>Total</th>
+        <td ngClass="td-mat-cell" mat-cell *matCellDef="let element">{{ element.total }}</td>
+      </ng-container>
+
+      <!-- Total Importe Column -->
+      <ng-container matColumnDef="total_importe">
+        <th ngClass="th-mat-header-cell" mat-header-cell *matHeaderCellDef>Total Importe</th>
+        <td ngClass="td-mat-cell" mat-cell *matCellDef="let element">{{ element.total_importe | number:'1.2-2' }} €</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row 
+          *matRowDef="let row; columns: displayedColumns;" 
+          [ngClass]="{'tr-highlight-finalizado': row.situacion.trim() === 'Finalizado'}">
+      </tr>
+
+      <!-- Footer Totals -->
+      <tr ngClass="tr-totals-row">
+        <td ngClass="td-mat-cell">Total</td>
+        <td ngClass="td-mat-cell">{{ getTotal(prog.dataSource.data, 'total') }}</td>
+        <td ngClass="td-mat-cell">{{ getTotal(prog.dataSource.data, 'total_importe') | number:'1.2-2' }}</td>
+      </tr>
+    </table>
+    <hr>
+  </div>
+</mat-card-content>
+
+  </mat-card>
+</div>
+
+</section>
