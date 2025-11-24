@@ -17,7 +17,7 @@
 <div *ngIf="!loading && !error">
   <mat-card *ngFor="let conv of estadisticas" class="convocatoria-card">
     <mat-card-header>
-      <mat-card-title>Convocatoria {{ conv.convocatoria }}</mat-card-title>
+      <mat-card-title>XECS Consultoria: convocatoria {{ conv.convocatoria }}</mat-card-title>
     </mat-card-header>
 
 <mat-card-content>
@@ -26,33 +26,33 @@
     <table mat-table [dataSource]="prog.dataSource" class="mat-elevation-z8">
       <!-- Situación Column -->
       <ng-container matColumnDef="situacion">
-        <th mat-header-cell *matHeaderCellDef>Situación</th>
-        <td mat-cell *matCellDef="let element">{{('SITUATIONS.GENERAL.' + element.situacion) | translate}}</td>
+        <th ngClass="th-mat-header-cell" mat-header-cell *matHeaderCellDef>Situación</th>
+        <td ngClass="td-mat-cell" mat-cell *matCellDef="let element">{{('SITUATIONS.GENERAL.' + element.situacion) | translate}}</td>
       </ng-container>
 
       <!-- Total Column -->
       <ng-container matColumnDef="total">
-        <th mat-header-cell *matHeaderCellDef>Total</th>
-        <td mat-cell *matCellDef="let element">{{ element.total }}</td>
+        <th ngClass="th-mat-header-cell" mat-header-cell *matHeaderCellDef>Total</th>
+        <td ngClass="td-mat-cell" mat-cell *matCellDef="let element">{{ element.total }}</td>
       </ng-container>
 
       <!-- Total Importe Column -->
       <ng-container matColumnDef="total_importe">
-        <th mat-header-cell *matHeaderCellDef>Total Importe</th>
-        <td mat-cell *matCellDef="let element">{{ element.total_importe | number:'1.2-2' }} €</td>
+        <th ngClass="th-mat-header-cell" mat-header-cell *matHeaderCellDef>Total Importe</th>
+        <td ngClass="td-mat-cell" mat-cell *matCellDef="let element">{{ element.total_importe | number:'1.2-2' }} €</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row 
           *matRowDef="let row; columns: displayedColumns;" 
-          [ngClass]="{'highlight-finalizado': row.situacion === 'Finalizado'}">
+          [ngClass]="{'tr-highlight-finalizado': row.situacion === 'Finalizado'}">
       </tr>
 
       <!-- Footer Totals -->
-      <tr class="totals-row">
-        <td>Total</td>
-        <td>{{ getTotal(prog.dataSource.data, 'total') }}</td>
-        <td>{{ getTotal(prog.dataSource.data, 'total_importe') | number:'1.2-2' }}</td>
+      <tr ngClass="tr-totals-row">
+        <td ngClass="td-mat-cell">Total</td>
+        <td ngClass="td-mat-cell">{{ getTotal(prog.dataSource.data, 'total') }}</td>
+        <td ngClass="td-mat-cell">{{ getTotal(prog.dataSource.data, 'total_importe') | number:'1.2-2' }}</td>
       </tr>
     </table>
     <hr>

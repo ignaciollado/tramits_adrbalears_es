@@ -111,18 +111,18 @@ table {
   border-collapse: collapse;
   margin-bottom: 16px;
 
-  th.mat-header-cell {
+  .th-mat-header-cell {
     background-color: #e3f2fd;
     color: #1976d2;
     font-weight: 500;
     text-align: left;
   }
 
-  td.mat-cell {
-    padding: 12px 8px;
+  .td-mat-cell {
+    padding: 8px 12px;
   }
 
-  tr.totals-row {
+  .tr-totals-row {
     font-weight: bold;
     background-color: #f0f4f8;
   }
@@ -133,17 +133,28 @@ table {
 }
 
 /* Resaltar columnas de totales */
-td.mat-cell:nth-child(2),
-td.mat-cell:nth-child(3),
-tr.totals-row td {
-  text-align: right;
+.td-mat-cell:nth-child(2),
+.td-mat-cell:nth-child(3),
+.tr-totals-row td {
+  text-align: left;
+  
 }
 
 /* Resaltar fila Finalizado */
-tr.highlight-finalizado {
+.tr-highlight-finalizado {
   background-color: #c8e6c9; /* Verde claro */
   font-weight: bold;
 }
+
+/* Responsive: reducir padding en pantallas pequeñas */
+@media (max-width: 768px) {
+  th.mat-header-cell,
+  td.mat-cell {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
+
 
 
 /* Separador */
