@@ -20,6 +20,7 @@ import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import jsPDF from 'jspdf';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-resolucion-concesion-adr-isba',
@@ -30,13 +31,11 @@ import jsPDF from 'jspdf';
 })
 export class ResolucionConcesionAdrIsbaComponent {
   private expedienteService = inject(ExpedienteService);
-  actoAdmin9: boolean = false;
+  actoAdmin: boolean = false;
   sendedToSign: boolean = false;
   signatureDocState: string = "";
   nifDocGenerado: string = "";
   timeStampDocGenerado: string = "";
-  userLoginEmail: string = "";
-  ceoEmail: string = "jldejesus@adrbalears.caib.es"; // Temporal
   pdfUrl: SafeResourceUrl | null = null;
   imageUrl: SafeUrl | undefined;
   showPdfViewer: boolean = false;
@@ -75,6 +74,12 @@ export class ResolucionConcesionAdrIsbaComponent {
   camposVacios: string[] = [];
   signedBy!: string;
 
+  docDataString!: ActoAdministrativoDTO;
+
+  technicianEmail!: string;
+  ceoEmail!: string;
+  consellerEmail!: string;
+
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
   @Input() actualNif: string = "";
@@ -91,7 +96,7 @@ export class ResolucionConcesionAdrIsbaComponent {
     private lineaAyuda: PindustLineaAyudaService,
     private configGlobal: PindustConfiguracionService
   ) {
-    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
+    this.technicianEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
 
   get stateClassActAdmin9(): string {
@@ -107,11 +112,12 @@ export class ResolucionConcesionAdrIsbaComponent {
   ngOnInit(): void {
     this.actoAdminService.getByNameAndTipoTramite('isba_9_resolucion_concesion', 'ADR-ISBA')
       .subscribe((docDataString: ActoAdministrativoDTO) => {
-        this.signedBy = docDataString.signedBy;
+        this.docDataString = docDataString;
+        this.signedBy = this.docDataString.signedBy;
       });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
@@ -133,9 +139,9 @@ export class ResolucionConcesionAdrIsbaComponent {
     this.documentoGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_concesion_adr_isba')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin9 = false;
+          this.actoAdmin = false;
           if (docActoAdmin.length === 1) {
-            this.actoAdmin9 = true;
+            this.actoAdmin = true;
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo;
             this.nameDocGenerado = docActoAdmin[0].name;
             this.lastInsertId = docActoAdmin[0].id;
@@ -147,12 +153,12 @@ export class ResolucionConcesionAdrIsbaComponent {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin9 = false;
+          this.actoAdmin = false;
         }
       })
   }
 
-  generateActoAdmin(actoAdministrativoName: string, tipoTramite: string, docFieldToUpdate: string): void {
+  generateActoAdmin(docFieldToUpdate: string): void {
     this.tieneTodosLosCamposRequeridos();
     if (this.faltanCampos) { return; }
 
@@ -188,213 +194,209 @@ export class ResolucionConcesionAdrIsbaComponent {
       doc.text(line, marginLeft, y);
     });
 
-    this.actoAdminService.getByNameAndTipoTramite(actoAdministrativoName, tipoTramite)
-      .subscribe((docDataString: ActoAdministrativoDTO) => {
-        let rawTexto = docDataString.texto;
-        this.signedBy = docDataString.signedBy;
+    let rawTexto = this.docDataString.texto;
+    this.signedBy = this.docDataString.signedBy;
 
-        if (!rawTexto) {
-          this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
-          return;
-        }
+    if (!rawTexto) {
+      this.commonService.showSnackBar('❌ No se encontró el texto del acto administrativo.');
+      return;
+    }
 
-        /* Fechas formateadas */
-        const formattedfecha_solicitud = formatDate(this.form.get('fecha_solicitud')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
-        const formattedFecha_infor = formatDate(this.form.get('fecha_infor_fav_desf')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_aval_idi_isba = formatDate(this.form.get('fecha_aval_idi_isba')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_firma_propuesta_resolucion_prov = formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_not_propuesta_resolucion_prov = formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
-        const formattedFecha_firma_propuesta_resolucion_def = formatDate(this.form.get('fecha_firma_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES')
-        const formattedFecha_not_propuesta_resolucion_def = formatDate(this.form.get('fecha_not_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES')
-        const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
+    /* Fechas formateadas */
+    const formattedfecha_solicitud = formatDate(this.form.get('fecha_solicitud')?.value, 'dd/MM/yyyy HH:mm:ss', 'es-ES');
+    const formattedFecha_infor = formatDate(this.form.get('fecha_infor_fav_desf')?.value, 'dd/MM/yyyy', 'es-ES');
+    const formattedFecha_aval_idi_isba = formatDate(this.form.get('fecha_aval_idi_isba')?.value, 'dd/MM/yyyy', 'es-ES');
+    const formattedFecha_firma_propuesta_resolucion_prov = formatDate(this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
+    const formattedFecha_not_propuesta_resolucion_prov = formatDate(this.form.get('fecha_not_propuesta_resolucion_prov')?.value, 'dd/MM/yyyy', 'es-ES');
+    const formattedFecha_firma_propuesta_resolucion_def = formatDate(this.form.get('fecha_firma_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES')
+    const formattedFecha_not_propuesta_resolucion_def = formatDate(this.form.get('fecha_not_propuesta_resolucion_def')?.value, 'dd/MM/yyyy', 'es-ES')
+    const formattedFecha_BOIB = formatDate(this.fecha_BOIB, 'dd/MM/yyyy', 'es-ES');
 
-        /* Importes monetarios formateados */
-        const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
-        const formattedImporte_intereses = this.commonService.formatCurrency(this.form.get('intereses_ayuda_solicita_idi_isba')?.value);
-        const formattedImporte_aval = this.commonService.formatCurrency(this.form.get('coste_aval_solicita_idi_isba')?.value);
-        const formattedImporte_estudios = this.commonService.formatCurrency(this.form.get('gastos_aval_solicita_idi_isba')?.value);
-        const formattedImporte_prestamo = this.commonService.formatCurrency(this.form.get('importe_prestamo')?.value);
+    /* Importes monetarios formateados */
+    const formattedImporte_ayuda = this.commonService.formatCurrency(this.form.get('importe_ayuda_solicita_idi_isba')?.value);
+    const formattedImporte_intereses = this.commonService.formatCurrency(this.form.get('intereses_ayuda_solicita_idi_isba')?.value);
+    const formattedImporte_aval = this.commonService.formatCurrency(this.form.get('coste_aval_solicita_idi_isba')?.value);
+    const formattedImporte_estudios = this.commonService.formatCurrency(this.form.get('gastos_aval_solicita_idi_isba')?.value);
+    const formattedImporte_prestamo = this.commonService.formatCurrency(this.form.get('importe_prestamo')?.value);
 
-        rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
-        rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
-        rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedfecha_solicitud);
-        rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, formattedImporte_ayuda);
-        rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, formattedImporte_intereses);
-        rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, formattedImporte_aval);
-        rawTexto = rawTexto.replace(/%IMPORTE_ESTUDIO%/g, formattedImporte_estudios);
-        rawTexto = rawTexto.replace(/%NOMBRE_BANCO%/g, this.form.get('nom_entidad')?.value);
-        rawTexto = rawTexto.replace(/%IMPORTE_PRESTAMO%/g, formattedImporte_prestamo);
-        rawTexto = rawTexto.replace(/%FECHAINFORME%/g, formattedFecha_infor);
-        rawTexto = rawTexto.replace(/%FECHA_AVAL%/g, formattedFecha_aval_idi_isba);
-        rawTexto = rawTexto.replace(/%ANYOS_DURACION_AVAL%/g, this.form.get('plazo_aval_idi_isba')?.value);
-        rawTexto = rawTexto.replace(/%FECHA_PROPUESTA_RESOLUCION_PROVISIONAL%/g, formattedFecha_firma_propuesta_resolucion_prov);
-        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PR_PROV%/g, formattedFecha_not_propuesta_resolucion_prov);
-        rawTexto = rawTexto.replace(/%FECHA_PROPUESTA_RESOLUCION_DEFINITIVA%/g, formattedFecha_firma_propuesta_resolucion_def);
-        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_P_RESOL_DEFINITIVA%/g, formattedFecha_not_propuesta_resolucion_def);
-        rawTexto = rawTexto.replace(/%BOIBFECHA%/g, formattedFecha_BOIB);
-        rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
-        rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
-        rawTexto = rawTexto.replace(/%NOMBREPRESIDENTEIDI%/g, this.nomPresidenteIdi);
+    rawTexto = rawTexto.replace(/%SOLICITANTE%/g, this.actualEmpresa);
+    rawTexto = rawTexto.replace(/%NIF%/g, this.actualNif);
+    rawTexto = rawTexto.replace(/%FECHASOLICITUD%/g, formattedfecha_solicitud);
+    rawTexto = rawTexto.replace(/%IMPORTEAYUDA%/g, formattedImporte_ayuda);
+    rawTexto = rawTexto.replace(/%IMPORTE_INTERESES%/g, formattedImporte_intereses);
+    rawTexto = rawTexto.replace(/%IMPORTE_AVAL%/g, formattedImporte_aval);
+    rawTexto = rawTexto.replace(/%IMPORTE_ESTUDIO%/g, formattedImporte_estudios);
+    rawTexto = rawTexto.replace(/%NOMBRE_BANCO%/g, this.form.get('nom_entidad')?.value);
+    rawTexto = rawTexto.replace(/%IMPORTE_PRESTAMO%/g, formattedImporte_prestamo);
+    rawTexto = rawTexto.replace(/%FECHAINFORME%/g, formattedFecha_infor);
+    rawTexto = rawTexto.replace(/%FECHA_AVAL%/g, formattedFecha_aval_idi_isba);
+    rawTexto = rawTexto.replace(/%ANYOS_DURACION_AVAL%/g, this.form.get('plazo_aval_idi_isba')?.value);
+    rawTexto = rawTexto.replace(/%FECHA_PROPUESTA_RESOLUCION_PROVISIONAL%/g, formattedFecha_firma_propuesta_resolucion_prov);
+    rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PR_PROV%/g, formattedFecha_not_propuesta_resolucion_prov);
+    rawTexto = rawTexto.replace(/%FECHA_PROPUESTA_RESOLUCION_DEFINITIVA%/g, formattedFecha_firma_propuesta_resolucion_def);
+    rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_P_RESOL_DEFINITIVA%/g, formattedFecha_not_propuesta_resolucion_def);
+    rawTexto = rawTexto.replace(/%BOIBFECHA%/g, formattedFecha_BOIB);
+    rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB);
+    rawTexto = rawTexto.replace(/%DGERENTE%/g, this.dGerente);
+    rawTexto = rawTexto.replace(/%NOMBREPRESIDENTEIDI%/g, this.nomPresidenteIdi);
 
-        let jsonObject;
+    let jsonObject;
 
-        // Limpieza de texto
-        try {
-          rawTexto = this.commonService.cleanRawText(rawTexto);
-        } catch (error) {
-          console.error('Error al parsear JSON: ', error);
-        } finally {
-          jsonObject = JSON.parse(rawTexto)
-        }
+    // Limpieza de texto
+    try {
+      rawTexto = this.commonService.cleanRawText(rawTexto);
+    } catch (error) {
+      console.error('Error al parsear JSON: ', error);
+    } finally {
+      jsonObject = JSON.parse(rawTexto)
+    }
 
-        const maxCharsPerLine = 21;
-        const marginLeft = 25;
-        const maxTextWidth = 160;
-        const x = marginLeft + 110;
-        const y = 51;
+    const maxCharsPerLine = 21;
+    const maxTextWidth = 160;
+    const x = marginLeft + 110;
+    const y = 51;
 
-        // Primera página
-        doc.setFont('helvetica', 'bold');
-        doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 25, 20, 75, 15);
-        doc.setFontSize(8);
-        doc.text(doc.splitTextToSize("Document: resolució de concessió", maxTextWidth), x, 45);
-        doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, x, 48);
-        if (this.actualEmpresa.length > maxCharsPerLine) {
-          const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-          const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
-          doc.text(`Sol·licitant: ${firstLine}`, x, y);
-          doc.text(secondLine, x, y + 3);
-          doc.text(`NIF: ${this.actualNif}`, x, y + 6);
-          doc.text("Emissor (DIR3): A04003714", x, y + 9);
-          doc.text(`Codi SIA: ${this.codigoSIA}`, x, y + 12);
-        } else {
-          doc.text(`Sol·licitant: ${this.actualEmpresa}`, x, y);
-          doc.text(`NIF: ${this.actualNif}`, x, 54);
-          doc.text("Emissor (DIR3): A04003714", x, 57);
-          doc.text(`Codi SIA: ${this.codigoSIA}`, x, 60);
-        }
+    // Primera página
+    doc.setFont('helvetica', 'bold');
+    doc.addImage('../../../assets/images/logo-adrbalears-ceae-byn.png', 25, 20, 75, 15);
+    doc.setFontSize(8);
+    doc.text(doc.splitTextToSize("Document: resolució de concessió", maxTextWidth), x, 45);
+    doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, x, 48);
+    if (this.actualEmpresa.length > maxCharsPerLine) {
+      const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
+      const secondLine = this.actualEmpresa.slice(maxCharsPerLine);
+      doc.text(`Sol·licitant: ${firstLine}`, x, y);
+      doc.text(secondLine, x, y + 3);
+      doc.text(`NIF: ${this.actualNif}`, x, y + 6);
+      doc.text("Emissor (DIR3): A04003714", x, y + 9);
+      doc.text(`Codi SIA: ${this.codigoSIA}`, x, y + 12);
+    } else {
+      doc.text(`Sol·licitant: ${this.actualEmpresa}`, x, y);
+      doc.text(`NIF: ${this.actualNif}`, x, 54);
+      doc.text("Emissor (DIR3): A04003714", x, 57);
+      doc.text(`Codi SIA: ${this.codigoSIA}`, x, 60);
+    }
 
-        doc.setFontSize(10);
-        doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80);
-        doc.text(doc.splitTextToSize(jsonObject.fets_tit, maxTextWidth), marginLeft, 100);
-        doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.fets_1_2_3_4_5, maxTextWidth), marginLeft + 5, 110);
+    doc.setFontSize(10);
+    doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80);
+    doc.text(doc.splitTextToSize(jsonObject.fets_tit, maxTextWidth), marginLeft, 100);
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(jsonObject.fets_1_2_3_4_5, maxTextWidth), marginLeft + 5, 110);
 
-        // Segunda página
-        doc.addPage();
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        lines.forEach((line, index) => {
-          const y = pageHeight - 10 - (index * lineHeight);
-          doc.text(line, marginLeft, y);
-        })
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
+    // Segunda página
+    doc.addPage();
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    lines.forEach((line, index) => {
+      const y = pageHeight - 10 - (index * lineHeight);
+      doc.text(line, marginLeft, y);
+    })
+    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
-        doc.setFontSize(10);
-        doc.text(doc.splitTextToSize(jsonObject.antecedentes_6, maxTextWidth), marginLeft + 5, 60);
-        doc.text(doc.splitTextToSize(jsonObject.antecedentes_14_15, maxTextWidth), marginLeft + 5, 243);
+    doc.setFontSize(10);
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_6, maxTextWidth), marginLeft + 5, 60);
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_14_15, maxTextWidth), marginLeft + 5, 243);
 
-        // Tercera página
-        doc.addPage();
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        lines.forEach((line, index) => {
-          const y = pageHeight - 10 - (index * lineHeight);
-          doc.text(line, marginLeft, y);
-        })
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
+    // Tercera página
+    doc.addPage();
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    lines.forEach((line, index) => {
+      const y = pageHeight - 10 - (index * lineHeight);
+      doc.text(line, marginLeft, y);
+    })
+    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
 
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
-        doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft + 5, 70);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerecho_tit, maxTextWidth), marginLeft, 60);
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(jsonObject.fundamentosDeDerechoTxt, maxTextWidth), marginLeft + 5, 70);
 
-        // Cuarta página
-        doc.addPage();
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        lines.forEach((line, index) => {
-          const y = pageHeight - 10 - (index * lineHeight);
-          doc.text(line, marginLeft, y);
-        })
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 60);
-        doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 70);
-        doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft + 5, 80);
+    // Cuarta página
+    doc.addPage();
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    lines.forEach((line, index) => {
+      const y = pageHeight - 10 - (index * lineHeight);
+      doc.text(line, marginLeft, y);
+    })
+    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(doc.splitTextToSize(jsonObject.dicto, maxTextWidth), marginLeft, 60);
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 70);
+    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft + 5, 80);
 
-        // Quinta página
-        doc.addPage();
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(8);
-        lines.forEach((line, index) => {
-          const y = pageHeight - 10 - (index * lineHeight);
-          doc.text(line, marginLeft, y);
-        })
-        doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
-        doc.setFontSize(10);
-        doc.setFont('helvetica', 'bold');
-        doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 60);
-        doc.setFont('helvetica', 'normal');
-        doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 70);
-        doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
+    // Quinta página
+    doc.addPage();
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    lines.forEach((line, index) => {
+      const y = pageHeight - 10 - (index * lineHeight);
+      doc.text(line, marginLeft, y);
+    })
+    doc.addImage("../../../assets/images/logoVertical.png", "PNG", 25, 20, 17, 22);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text(doc.splitTextToSize(jsonObject.recursos_tit, maxTextWidth), marginLeft, 60);
+    doc.setFont('helvetica', 'normal');
+    doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 70);
+    doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220);
 
-        const totalPages = doc.getNumberOfPages();
-        for (let i = 1; i <= totalPages; i++) {
-          doc.setPage(i);
-          doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
-        }
+    const totalPages = doc.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
+    }
 
-        // Convertir a Blob
-        const pdfBlob = doc.output('blob');
+    // Convertir a Blob
+    const pdfBlob = doc.output('blob');
 
-        const formData = new FormData();
-        const fileName = `${this.actualIdExp}_${this.actualConvocatoria}_${docFieldToUpdate}.pdf`;
-        formData.append('file', pdfBlob, fileName);
-        formData.append('id_sol', String(this.actualID));
-        formData.append('convocatoria', String(this.actualConvocatoria));
-        formData.append('nifcif_propietario', String(this.actualNif));
-        formData.append('timeStamp', String(timeStamp));
+    const formData = new FormData();
+    const fileName = `${this.actualIdExp}_${this.actualConvocatoria}_${docFieldToUpdate}.pdf`;
+    formData.append('file', pdfBlob, fileName);
+    formData.append('id_sol', String(this.actualID));
+    formData.append('convocatoria', String(this.actualConvocatoria));
+    formData.append('nifcif_propietario', String(this.actualNif));
+    formData.append('timeStamp', String(timeStamp));
 
-        this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
-          next: (response) => {
-            this.docGeneradoInsert.id_sol = this.actualID;
-            this.docGeneradoInsert.cifnif_propietario = this.actualNif;
-            this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria);
-            this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`;
-            this.docGeneradoInsert.type = 'application/pdf';
-            this.docGeneradoInsert.created_at = response.path;
-            this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite;
-            this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`;
-            this.docGeneradoInsert.selloDeTiempo = timeStamp;
+    this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
+      next: (response) => {
+        this.docGeneradoInsert.id_sol = this.actualID;
+        this.docGeneradoInsert.cifnif_propietario = this.actualNif;
+        this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria);
+        this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`;
+        this.docGeneradoInsert.type = 'application/pdf';
+        this.docGeneradoInsert.created_at = response.path;
+        this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite;
+        this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`;
+        this.docGeneradoInsert.selloDeTiempo = timeStamp;
 
-            this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
+        this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-            this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_concesion_adr_isba')
-              .subscribe({
-                next: () => {
-                  this.insertDocumentoGenerado(docFieldToUpdate);
-                },
-                error: (deleteErr) => {
-                  const status = deleteErr?.status;
-                  const msg = deleteErr?.error?.message || '';
-                  // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
-                  if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
-                    this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                    this.insertDocumentoGenerado(docFieldToUpdate);
-                  } else {
-                    // Otros errores sí se notifican y no continúan
-                    const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
-                    this.commonService.showSnackBar(deleteErrMsg);
-                  }
-                }
-              });
-          }
-        });
-      });
+        this.documentoGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_concesion_adr_isba')
+          .subscribe({
+            next: () => {
+              this.insertDocumentoGenerado(docFieldToUpdate);
+            },
+            error: (deleteErr) => {
+              const status = deleteErr?.status;
+              const msg = deleteErr?.error?.message || '';
+              // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
+              if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
+                this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
+                this.insertDocumentoGenerado(docFieldToUpdate);
+              } else {
+                // Otros errores sí se notifican y no continúan
+                const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
+                this.commonService.showSnackBar(deleteErrMsg);
+              }
+            }
+          });
+      }
+    });
   }
 
   private tieneTodosLosCamposRequeridos(): void {
@@ -451,7 +453,7 @@ export class ResolucionConcesionAdrIsbaComponent {
               next: (response: any) => {
                 const mensaje =
                   response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                this.actoAdmin9 = true;
+                this.actoAdmin = true;
                 this.commonService.showSnackBar(mensaje);
               },
               error: (updateErr) => {
@@ -477,13 +479,10 @@ export class ResolucionConcesionAdrIsbaComponent {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string): void {
-    const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
-    let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
@@ -506,7 +505,7 @@ export class ResolucionConcesionAdrIsbaComponent {
     this.pdfUrl = null;
   }
 
-  sendActoAdminToSign(nif: string, folder: string, filename: string, extension: string): void {
+  sendActoAdminToSign(nif: string, filename: string): void {
     // Limpiar estados previos
     this.response = undefined;
     this.error = undefined;
@@ -514,8 +513,28 @@ export class ResolucionConcesionAdrIsbaComponent {
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
 
+    let email: string = "";
+
+    switch (this.signedBy) {
+      case 'technician':
+        email = this.technicianEmail;
+        break;
+      case 'ceo':
+        email = this.ceoEmail;
+        break;
+
+      case 'conseller':
+        // ToDo
+        email = this.consellerEmail;
+        break;
+
+      case 'applicant':
+        email = this.form.get('email_rep')?.value;
+        break;
+    }
+
     const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === "ceo" ? this.ceoEmail : this.userLoginEmail,
+      adreca_mail: email,
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
@@ -561,11 +580,17 @@ export class ResolucionConcesionAdrIsbaComponent {
     })
   }
 
-    getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
-      this.nomPresidenteIdi = globalConfig?.respresidente;
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      /* Quitar hardcodeo de emails */
+      // this.ceoEmail = globalConfig[0].eMailDGerente;
+      // this.consellerEmail = globalConfig[0].eMailPresidente;
+
+      this.dGerente = globalConfig[0]?.directorGerenteIDI ?? '';
+      this.nomPresidenteIdi = globalConfig[0]?.respresidente;
+
+      this.ceoEmail = 'jose.luis@idi.es'
+      this.consellerEmail = 'jldejesus@adrbalears.caib.es'
     })
   }
 }
