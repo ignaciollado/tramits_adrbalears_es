@@ -514,7 +514,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         // this.consellerEmail = globalConfig[0].eMailPresidente;
 
         this.ceoEmail = "jose.luis@idi.es";
-        this.consellerEmail = "jldejesusramon@adrbalears.caib.es"
+        this.consellerEmail = "jldejesus@adrbalears.caib.es"
       }
     })
   }
