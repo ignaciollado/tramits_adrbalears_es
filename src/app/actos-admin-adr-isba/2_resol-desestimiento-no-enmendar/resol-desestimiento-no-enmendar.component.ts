@@ -1,5 +1,5 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, inject, Input, SimpleChange } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -7,20 +7,20 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { TranslateModule } from '@ngx-translate/core';
 import { jsPDF } from 'jspdf';
 import { finalize } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { CommonService } from '../../Services/common.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { ExpedienteService } from '../../Services/expediente.service';
-import { ViafirmaService } from '../../Services/viafirma.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
-import { ConfigurationModelDTO } from '../../Models/configuration.dto';
-import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
-import { environment } from '../../../environments/environment';
+import { ViafirmaService } from '../../Services/viafirma.service';
 
 @Component({
   selector: 'app-resol-desestimiento-no-enmendar-adr-isba',
@@ -550,7 +550,7 @@ export class ResolDesestimientoNoEnmendarAdrIsbaComponent {
       /* Quitar hardcodeo de emails */
       // this.ceoEmail = globalConfig[0].eMailDGerente;
       // this.consellerEmail = globalConfig[0].eMailPresidente;
-      
+
       this.dGerente = globalConfig[0].directorGerenteIDI;
 
       this.ceoEmail = 'jose.luis@idi.es'

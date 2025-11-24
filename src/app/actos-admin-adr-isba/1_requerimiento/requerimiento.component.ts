@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -9,20 +9,20 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { TranslateModule } from '@ngx-translate/core';
 import { jsPDF } from 'jspdf';
 import { finalize } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { CommonService } from '../../Services/common.service';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { ExpedienteService } from '../../Services/expediente.service';
-import { ViafirmaService } from '../../Services/viafirma.service';
-import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
-import { environment } from '../../../environments/environment';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
-import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { ViafirmaService } from '../../Services/viafirma.service';
 
 @Component({
   selector: 'app-requerimiento-adr-isba',
@@ -127,7 +127,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
     if (this.formRequerimiento && this.motivoRequerimiento) {
       this.formRequerimiento.get('motivoRequerimiento')
         ?.setValue(this.motivoRequerimiento)
-        this.noRequestReasonText = false;
+      this.noRequestReasonText = false;
     }
   }
 
@@ -137,7 +137,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
       this.expedienteService.updateFieldExpediente(this.actualID, 'motivoRequerimiento', motivo).subscribe();
       this.noRequestReasonText = false;
       this.actoAdmin = false;
-      
+
       // Añado borrado automático de documento si cambia el motivo
       this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.nifDocgenerado, this.actualConvocatoria, 'doc_requeriment_adr_isba').subscribe();
     }
@@ -404,7 +404,7 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
       case 'ceo':
         email = this.ceoEmail;
         break;
-        
+
       case 'conseller':
         // ToDo
         email = this.consellerEmail;
