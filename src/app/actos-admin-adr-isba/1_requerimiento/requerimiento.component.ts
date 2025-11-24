@@ -139,8 +139,22 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
       this.actoAdmin = false;
 
       // Añado borrado automático de documento si cambia el motivo
-      this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.nifDocgenerado, this.actualConvocatoria, 'doc_requeriment_adr_isba').subscribe();
+      this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.nifDocgenerado, this.actualConvocatoria, 'doc_requeriment_adr_isba').subscribe({
+        // Hago que no salte el error si se actualiza 2 veces seguidas el motivo
+        error: () => { }
+      });
     }
+
+    // Actualización expediente tras guardar motivo de requerimiento
+    this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'emitirReq').subscribe({
+      next: () => {
+        this.form.patchValue({ situacion: 'emitirReq' });
+        this.commonService.showSnackBar('✅ Situación de expediente actualizada correctamente')
+      },
+      error: () => {
+        this.commonService.showSnackBar('⚠️ No se ha podido actualizar la situación del expediente')
+      }
+    })
   }
 
   private tieneTodosLosValores(): boolean {
@@ -447,7 +461,37 @@ export class RequerimientoAdrIsbaComponent implements OnChanges {
         this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
         this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
         const sendedDateToSign = resp.creationDate;
-        this.sendedDateToSign = new Date(sendedDateToSign)
+        this.sendedDateToSign = new Date(sendedDateToSign);
+
+        // Actualización si está firmado y si la fecha de requerimiento no es igual a la fecha de la nueva firma
+        if (this.signatureDocState === "COMPLETED") {
+          if (this.form.get('fecha_requerimiento')?.value.split(" ")[0] !== this.commonService.convertUnixToHumanDate(resp.endDate, true)) {
+            // Actualizo el expediente
+            this.expedienteService.updateFieldExpediente(this.actualID, 'fecha_requerimiento', this.commonService.convertUnixToHumanDate(resp.endDate, true))
+              .subscribe({
+                next: () => {
+                  this.commonService.showSnackBar('✅ Fecha requerimiento actualizada correctamente')
+                  this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'firmadoReq').subscribe({
+                    next: () => {
+                      this.commonService.showSnackBar('✅ Situación de expediente actualizada correctamente')
+                      this.form.patchValue(
+                        {
+                          fecha_requerimiento: this.commonService.convertUnixToHumanDate(resp.endDate, true),
+                          situacion: 'firmadoReq'
+                        }
+                      );
+                    },
+                    error: () => {
+                      this.commonService.showSnackBar('⚠️ No se ha podido actualizar la situación del expediente')
+                    }
+                  })
+                },
+                error: () => {
+                  this.commonService.showSnackBar('⚠️ No se ha podido actualizar la fecha de requerimiento')
+                }
+              });
+          }
+        }
       })
   }
 
