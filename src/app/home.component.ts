@@ -36,8 +36,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     const currentYear = new Date().getFullYear();
-    const years: number[] = Array.from({ length: 5 }, (_, i) => currentYear - i);
-
+    const years: number[] = Array.from({ length: 1 }, (_, i) => currentYear - i); // convocatoria actual, asignar a length el número de convocatorias que se desean visualizar
     const observables = [];
 
     for (const year of years) {
