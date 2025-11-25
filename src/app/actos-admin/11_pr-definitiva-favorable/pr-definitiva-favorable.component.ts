@@ -580,10 +580,10 @@ export class PrDefinitivaFavorableComponent {
               if (resp) {
                 if (resp.status) {
                   this.signatureDocState = resp.status;
-                  this.expedienteService.updateFieldExpediente(this.actualID, 'fecha_firma_propuesta_resolucion_def', this.commonService.convertUnixToHumanDate(resp.sendDate, true))
+                  this.expedienteService.updateFieldExpediente(this.actualID, 'fecha_firma_propuesta_resolucion_def', this.commonService.convertUnixToHumanDate(resp.endDate, true))
                   //this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar')
                     .subscribe(() => {
-                      this.form.patchValue({fecha_firma_propuesta_resolucion_def: this.commonService.convertUnixToHumanDate(resp.sendDate, true)})                        
+                      this.form.patchValue({fecha_firma_propuesta_resolucion_def: this.commonService.convertUnixToHumanDate(resp.endDate, true)})                        
                     })
                   this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl;
                   this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;

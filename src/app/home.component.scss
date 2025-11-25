@@ -105,6 +105,47 @@ mat-card-content h3 {
   color: #1976d2;
 }
 
+
+.user-details {
+ 
+  color: #fff; // tono corporativo oscuro
+  background-color: #2c3e50; // fondo claro elegante
+  padding: 0.5rem 1rem;
+  border: 1px solid #dcdcdc;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  max-width: 800px;
+  // Efecto hover para interacción elegante
+  &:hover {
+    background-color: #0098ce;
+    border-color: #000;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+
+  // Si el texto es largo, controlamos overflow
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  // Tipografía corporativa
+  strong {
+    font-weight: 600;
+    color: #007bff; // azul corporativo
+  }
+
+  em {
+    font-style: italic;
+    color: #6c757d; // gris elegante
+  }
+
+  .days-to-expire {
+    color: red;
+  }
+}
+
+
 /* Tabla */
 table {
   width: 100%;
@@ -155,8 +196,6 @@ table {
     font-size: 0.85rem;
   }
 }
-
-
 
 /* Separador */
 hr {

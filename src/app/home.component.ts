@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
   if (this.authService.isAuthenticated()) {
-      this.currentUserDetails = "actual user: " + sessionStorage.getItem("tramits_user_email") + " (<strong>" + sessionStorage.getItem("days_to_expire_pwd") + "</strong> days until password expires)"
+      this.currentUserDetails = "Actual user: " + sessionStorage.getItem("tramits_user_email") + " (<strong>" + sessionStorage.getItem("days_to_expire_pwd") + "</strong> days until your password expires)"
       this.isAuthenticated = true
     }
     const currentYear = new Date().getFullYear();

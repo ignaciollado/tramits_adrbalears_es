@@ -413,10 +413,10 @@ export class RequerimientoComponent implements OnChanges {
     this.viafirmaService.getDocumentStatus(publicAccessId)
     .subscribe((resp:DocSignedDTO) => {
       this.signatureDocState = resp.status
-      if (resp.sendDate) {
-        this.expedienteService.updateFieldExpediente(this.actualID, "fecha_requerimiento", this.commonService.convertUnixToHumanDate(resp.sendDate, true))
+      if (resp.endDate) {
+        this.expedienteService.updateFieldExpediente(this.actualID, "fecha_requerimiento", this.commonService.convertUnixToHumanDate(resp.endDate, true))
         .subscribe(()=> {
-          this.form.patchValue({fecha_requerimiento: this.commonService.convertUnixToHumanDate(resp.sendDate, true)})
+          this.form.patchValue({fecha_requerimiento: this.commonService.convertUnixToHumanDate(resp.endDate, true)})
           this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'firmadoReq')
         })
 
