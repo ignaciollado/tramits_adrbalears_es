@@ -431,14 +431,12 @@ export class ActaDeKickOffComponent {
     this.loading = true;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
-
     const payload: CreateSignatureRequest = {
       adreca_mail: this.signedBy === 'technician' ? this.userLoginEmail : this.ceoEmail,
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
     };
-
     this.viafirmaService.createSignatureRequest(payload)
       .pipe(finalize(() => { this.loading = false; }))
       .subscribe({
@@ -476,5 +474,4 @@ export class ActaDeKickOffComponent {
       this.codigoSIA = this.lineDetail[0]['codigoSIA'];
     })
   }
-
 }

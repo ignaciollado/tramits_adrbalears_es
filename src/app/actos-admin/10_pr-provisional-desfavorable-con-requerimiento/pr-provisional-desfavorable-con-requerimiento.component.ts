@@ -10,6 +10,7 @@ import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { jsPDF } from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
@@ -129,6 +130,10 @@ private fb = inject(FormBuilder)
   }
 
   ngOnInit(): void {
+    this.actoAdminService.getByNameAndTipoTramite('10_propuesta_resolucion_provisional_desfavorable_con_requerimiento', 'XECS')
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
+        this.signedBy = docDataString.signedBy;
+    })     
     this.formPRProvDesfConReq = this.fb.group({
       motivoDenegacion:[{ value: '', disabled: false }],
     })
@@ -530,14 +535,7 @@ private fb = inject(FormBuilder)
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    this.actoAdminService.getByNameAndTipoTramite('10_propuesta_resolucion_provisional_desfavorable_con_requerimiento', 'XECS')
-      .subscribe((docDataString: any) => {
-        this.signedBy = docDataString.signedBy
-        if (!this.signedBy) {
-          alert("Falta indicar quien firma el acto administrativo")
-          return
-        }
-        const payload: CreateSignatureRequest = {
+    const payload: CreateSignatureRequest = {
       adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
@@ -545,7 +543,7 @@ private fb = inject(FormBuilder)
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-        };
+    };
 
         this.viafirmaService.createSignatureRequest(payload)
           .pipe(finalize(() => { this.loading = false; }))
@@ -563,7 +561,6 @@ private fb = inject(FormBuilder)
               this.commonService.showSnackBar(msg);
             }
           });
-      })
   }
   
   getSignState(publicAccessId: string) {

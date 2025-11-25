@@ -14,6 +14,7 @@ import { ExpedienteService } from '../../Services/expediente.service';
 import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { jsPDF } from 'jspdf';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -123,6 +124,13 @@ export class ResolDesestimientoNoEnmendarComponent {
       !!this.actualTipoTramite
     );
   }
+
+  ngOnInit(): void {
+    this.actoAdminService.getByNameAndTipoTramite('2_resolucion_desestimiento_por_no_enmendar', 'XECS')
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
+        this.signedBy = docDataString.signedBy;
+    })
+  }   
 
   getActoAdminDetail() {
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_res_desestimiento_por_no_enmendar')
@@ -467,22 +475,14 @@ export class ResolDesestimientoNoEnmendarComponent {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    this.actoAdminService.getByNameAndTipoTramite('3_informe_favorable_con_requerimiento', 'XECS')
-      .subscribe((docDataString: any) => {
-        this.signedBy = docDataString.signedBy
-        if (!this.signedBy) {
-          alert("Falta indicar quien firma el acto administrativo")
-          return
-        }
-        const payload: CreateSignatureRequest = {
-        adreca_mail: this.signedBy === 'technician'
-        ? this.userLoginEmail           // correo del usuario logeado
-        : this.ceoEmail,                // correo de coe,
-        //telefono_cont: this.telefono_rep ?? '',
-        nombreDocumento: filename,
-        nif: nif,
-        last_insert_id: this.lastInsertId
-        };
+    const payload: CreateSignatureRequest = {
+      adreca_mail: this.signedBy === 'technician'
+      ? this.userLoginEmail           // correo del usuario logeado
+      : this.ceoEmail,                // correo de coe,
+      nombreDocumento: filename,
+      nif: nif,
+      last_insert_id: this.lastInsertId
+    };
 
         this.viafirmaService.createSignatureRequest(payload)
           .pipe(finalize(() => { this.loading = false; }))
@@ -500,7 +500,6 @@ export class ResolDesestimientoNoEnmendarComponent {
               this.commonService.showSnackBar(msg);
             }
           });
-      })
   }
 
   getSignState(publicAccessId: string) {

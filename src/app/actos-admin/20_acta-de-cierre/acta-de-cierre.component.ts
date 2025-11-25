@@ -488,7 +488,7 @@ export class ActaDeCierreComponent {
     })
   }
 
-sendJustificationFormEmail(): void {
+  sendJustificationFormEmail(): void {
   this.mailService.sendJustification({ idAdv: this.actualID, tipo: 'justificacion' })
     .pipe(
       switchMap((res: PindustExpedienteJustificacionDto) => {
@@ -514,6 +514,6 @@ sendJustificationFormEmail(): void {
         this.commonService.showSnackBar('Error al enviar el correo o actualizar expediente');
       }
     });
-}
+  }
 
 }

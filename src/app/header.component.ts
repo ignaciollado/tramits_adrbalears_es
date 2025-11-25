@@ -8,9 +8,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { RouterModule } from '@angular/router'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatIconModule } from '@angular/material/icon'
-import { AuthService } from './Services/auth.service'
 import { Router } from '@angular/router'
-import { ExpedienteService } from './Services/expediente.service'
+import { AuthService } from './Services/auth.service'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -25,8 +24,9 @@ import { MatSelectModule } from '@angular/material/select';
 })
 
 export class HeaderComponent implements OnInit {
-  actualLang!: string;
-
+  actualLang!: string
+  currentUserDetails!: string
+  isAuthenticated: boolean = false
   languageForm = this.fb.group({
     preferredLang: ['es-ES'],
     entorno: [false] // valor por defecto
@@ -46,7 +46,10 @@ export class HeaderComponent implements OnInit {
   const entornoGuardado = sessionStorage.getItem('entorno');
   const isTramits = entornoGuardado === 'tramits';
   this.languageForm.patchValue({ entorno: isTramits });
-  /*   this.expedienteService.setEntorno(isTramits ? 'tramits' : 'pre-tramits'); */
+  if (this.authService.isAuthenticated()) {
+      this.currentUserDetails = "actual user: " + sessionStorage.getItem("tramits_user_email") + " (<strong>" + sessionStorage.getItem("days_to_expire_pwd") + "</strong> days until password expires)"
+      this.isAuthenticated = true
+    }
   // Leer idioma desde sessionStorage
   const storedLang = sessionStorage.getItem('preferredLang') || 'es-ES';
   this.actualLang = sessionStorage.getItem('preferredLang') || 'es-ES';
@@ -57,7 +60,6 @@ export class HeaderComponent implements OnInit {
   this.languageForm.get('entorno')?.valueChanges.subscribe((value: boolean | null) => {
     const entorno = value ? 'tramits' : 'pre-tramits';
     sessionStorage.setItem('entorno', entorno);
-  /*     this.expedienteService.setEntorno(entorno); */
     window.location.reload();
   });
   }

@@ -10,6 +10,7 @@ import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { jsPDF } from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
@@ -121,7 +122,12 @@ private expedienteService = inject(ExpedienteService)
     );
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.actoAdminService.getByNameAndTipoTramite('17_resolucion_denegacion_con_requerimiento', 'XECS')
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
+          this.signedBy = docDataString.signedBy;
+      })
+   }
   
   getActoAdminDetail() {
     if (this.form.get("fecha_requerimiento_notif")?.value === '0000-00-00' || this.form.get("fecha_requerimiento_notif")?.value === '0000-00-00 00:00:00')
@@ -514,21 +520,13 @@ private expedienteService = inject(ExpedienteService)
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    this.actoAdminService.getByNameAndTipoTramite('17_resolucion_denegacion_con_requerimiento', 'XECS')
-      .subscribe((docDataString: any) => {
-        this.signedBy = docDataString.signedBy
-        if (!this.signedBy) {
-          alert("Falta indicar quien firma el acto administrativo")
-          return
-        }
         const payload: CreateSignatureRequest = {
-      adreca_mail: this.signedBy === 'technician'
-      ? this.userLoginEmail           // correo del usuario logeado
-      : this.ceoEmail,                // correo de coe,
-      //telefono_cont: this.telefono_rep ?? '',
-      nombreDocumento: filename,
-      nif: nif,
-      last_insert_id: this.lastInsertId
+          adreca_mail: this.signedBy === 'technician'
+          ? this.userLoginEmail           // correo del usuario logeado
+          : this.ceoEmail,                // correo de coe,
+          nombreDocumento: filename,
+          nif: nif,
+          last_insert_id: this.lastInsertId
         };
 
         this.viafirmaService.createSignatureRequest(payload)
@@ -547,7 +545,6 @@ private expedienteService = inject(ExpedienteService)
               this.commonService.showSnackBar(msg);
             }
           });
-      })
   }
   
   getSignState(publicAccessId: string) {

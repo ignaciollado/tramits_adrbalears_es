@@ -1,0 +1,115 @@
+/* Card de cada convocatoria */
+.convocatoria-card {
+  margin-bottom: 24px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0px 4px 16px rgba(0,0,0,0.25);
+  }
+
+  mat-card-header {
+    background-color: #1976d2;
+    color: #fff;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  mat-card-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+}
+
+/* Programa dentro de la convocatoria */
+mat-card-content h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  color: #1976d2;
+}
+
+/* Tabla */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+
+  .th-mat-header-cell {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .td-mat-cell {
+    padding: 8px 16px;
+  }
+
+  .tr-totals-row {
+    font-weight: bold;
+    background-color: #f0f4f8;
+  }
+
+  tr:nth-child(even):not(.totals-row) {
+    background-color: #fafafa;
+  }
+}
+
+/* Resaltar columnas de totales */
+.td-mat-cell:nth-child(2),
+.td-mat-cell:nth-child(3),
+.tr-totals-row td {
+  text-align: left;
+  
+}
+
+/* Resaltar fila Finalizado */
+.tr-highlight-finalizado {
+  background-color: #198754!important; /* Verde claro */
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Responsive: reducir padding en pantallas pequeñas */
+@media (max-width: 768px) {
+  th.mat-header-cell,
+  td.mat-cell {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+
+
+/* Separador */
+hr {
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  margin: 16px 0 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  :host {
+    padding: 16px;
+  }
+
+  mat-card-content h3 {
+    font-size: 1rem;
+  }
+
+  td.mat-cell, th.mat-header-cell {
+    padding: 8px 4px;
+  }
+}
+
+
+@media screen and (max-width: 992px) {
+  .home-container {
+    padding: .5rem;
+  }
+}

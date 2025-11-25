@@ -10,6 +10,7 @@ import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { jsPDF } from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
@@ -130,6 +131,10 @@ export class PrProvisionalDesfavorableComponent {
   }
 
   ngOnInit(): void {
+    this.actoAdminService.getByNameAndTipoTramite('9_propuesta_resolucion_provisional_desfavorable_sin_requerimiento', 'XECS')
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
+        this.signedBy = docDataString.signedBy;
+    })       
     this.formPRProvDesf = this.fb.group({
       motivoDenegacion:[{ value: '', disabled: false }],
     })
@@ -516,22 +521,14 @@ export class PrProvisionalDesfavorableComponent {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    this.actoAdminService.getByNameAndTipoTramite('9_propuesta_resolucion_provisional_desfavorable_sin_requerimiento', 'XECS')
-      .subscribe((docDataString: any) => {
-        this.signedBy = docDataString.signedBy
-        if (!this.signedBy) {
-          alert("Falta indicar quien firma el acto administrativo")
-          return
-        }
-        const payload: CreateSignatureRequest = {
+    const payload: CreateSignatureRequest = {
       adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
-      //telefono_cont: this.telefono_rep ?? '',
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-        };
+    };
 
         this.viafirmaService.createSignatureRequest(payload)
           .pipe(finalize(() => { this.loading = false; }))
@@ -549,7 +546,6 @@ export class PrProvisionalDesfavorableComponent {
               this.commonService.showSnackBar(msg);
             }
           });
-      })
   }
   
   getSignState(publicAccessId: string) {

@@ -10,6 +10,7 @@ import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { jsPDF } from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
@@ -122,6 +123,10 @@ export class InformeDesfavorableComponent {
   }
 
   ngOnInit(): void {
+    this.actoAdminService.getByNameAndTipoTramite('6_informe_desfavorable_sin_requerimiento', 'XECS')
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
+        this.signedBy = docDataString.signedBy;
+    })       
     this.formInformDesf = this.fb.group({
       motivoDenegacion:[{ value: '', disabled: false }],
     })
@@ -486,14 +491,7 @@ export class InformeDesfavorableComponent {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    this.actoAdminService.getByNameAndTipoTramite('3_informe_favorable_con_requerimiento', 'XECS')
-      .subscribe((docDataString: any) => {
-        this.signedBy = docDataString.signedBy
-        if (!this.signedBy) {
-          alert("Falta indicar quien firma el acto administrativo")
-          return
-        }
-        const payload: CreateSignatureRequest = {
+    const payload: CreateSignatureRequest = {
       adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
@@ -501,7 +499,7 @@ export class InformeDesfavorableComponent {
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-        };
+    };
 
         this.viafirmaService.createSignatureRequest(payload)
           .pipe(finalize(() => { this.loading = false; }))
@@ -519,7 +517,6 @@ export class InformeDesfavorableComponent {
               this.commonService.showSnackBar(msg);
             }
           });
-      })
   }
   
   getSignState(publicAccessId: string) {

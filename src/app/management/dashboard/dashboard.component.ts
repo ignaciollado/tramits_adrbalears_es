@@ -2,27 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ExpedienteService } from './Services/expediente.service';
+import { ExpedienteService } from '../../Services/expediente.service';
 import { forkJoin } from 'rxjs';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatTableDataSource } from '@angular/material/table';
-import { DashboardComponent } from "./management/dashboard/dashboard.component";
-import { AuthService } from './Services/auth.service';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, MatCardModule, MatTableModule, DashboardComponent],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  imports: [CommonModule, RouterModule, TranslateModule, MatCardModule, MatTableModule],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss'
 })
-export class HomeComponent implements OnInit {
-  preferredLang: string | null = localStorage.getItem("preferredLang")
-  estadisticas: any[] = []
-  isAuthenticated: boolean = false
-  loading: boolean = true
-  error: string | null = null
+export class DashboardComponent {
+  estadisticas: any[] = [];
+  loading: boolean = true;
+  error: string | null = null;
 
   programas: string[] = [
     'Programa I',
@@ -31,15 +27,11 @@ export class HomeComponent implements OnInit {
     'Programa III actuacions producte',
     'Programa IV'
   ];
-
   displayedColumns: string[] = ['situacion', 'total', 'total_importe'];
 
-  constructor(private expedienteService: ExpedienteService, private authService: AuthService) {}
+  constructor(private expedienteService: ExpedienteService) {}
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
-      this.isAuthenticated = true
-    }
     const currentYear = new Date().getFullYear();
     const years: number[] = Array.from({ length: 1 }, (_, i) => currentYear - i); // convocatoria actual, asignar a length el número de convocatorias que se desean visualizar
     const observables = [];
@@ -87,4 +79,5 @@ export class HomeComponent implements OnInit {
   getTotal(data: any[], field: string): number {
     return data.reduce((acc, item) => acc + Number(item[field] || 0), 0);
   }
+
 }

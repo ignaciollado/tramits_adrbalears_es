@@ -16,6 +16,7 @@ import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { jsPDF } from 'jspdf';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -85,6 +86,8 @@ export class RequerimientoComponent implements OnChanges {
   @Input() actualTipoTramite!: string
   @Input() actualEmpresa!: string
   @Input() motivoRequerimiento!: string
+  @Input() form!: FormGroup;
+
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
               private viafirmaService: ViafirmaService,
@@ -126,6 +129,10 @@ export class RequerimientoComponent implements OnChanges {
   }
 
   ngOnInit(): void {
+    this.actoAdminService.getByNameAndTipoTramite('1_requerimiento', 'XECS')
+      .subscribe((docDataString: ActoAdministrativoDTO) => {
+        this.signedBy = docDataString.signedBy;
+    })    
     this.formRequerimiento = this.fb.group({
       motivoRequerimiento:[{ value: '', disabled: false }],
     })
@@ -375,22 +382,14 @@ export class RequerimientoComponent implements OnChanges {
     this.loading = true;
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`
-    this.actoAdminService.getByNameAndTipoTramite('3_informe_favorable_con_requerimiento', 'XECS')
-      .subscribe((docDataString: any) => {
-        this.signedBy = docDataString.signedBy
-        if (!this.signedBy) {
-          alert("Falta indicar quien firma el acto administrativo")
-          return
-        }
-        const payload: CreateSignatureRequest = {
+    const payload: CreateSignatureRequest = {
       adreca_mail: this.signedBy === 'technician'
       ? this.userLoginEmail           // correo del usuario logeado
       : this.ceoEmail,                // correo de coe,
-      //telefono_cont: this.telefono_rep ?? '',
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-        };
+    };
 
         this.viafirmaService.createSignatureRequest(payload)
           .pipe(finalize(() => { this.loading = false; }))
@@ -408,13 +407,20 @@ export class RequerimientoComponent implements OnChanges {
               this.commonService.showSnackBar(msg);
             }
           });
-      })
   }
 
   getSignState(publicAccessId: string) {
     this.viafirmaService.getDocumentStatus(publicAccessId)
     .subscribe((resp:DocSignedDTO) => {
       this.signatureDocState = resp.status
+      if (resp.sendDate) {
+        this.expedienteService.updateFieldExpediente(this.actualID, "fecha_requerimiento", this.commonService.convertUnixToHumanDate(resp.sendDate, true))
+        .subscribe(()=> {
+          this.form.patchValue({fecha_requerimiento: this.commonService.convertUnixToHumanDate(resp.sendDate, true)})
+          this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'firmadoReq')
+        })
+
+      }
       this.externalSignUrl = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].externalSignUrl
       this.sendedUserToSign =  resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
       const sendedDateToSign = resp.creationDate
