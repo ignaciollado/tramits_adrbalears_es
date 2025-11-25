@@ -25,7 +25,6 @@ import { MatSelectModule } from '@angular/material/select';
 
 export class HeaderComponent implements OnInit {
   actualLang!: string
-  currentUserDetails!: string
   isAuthenticated: boolean = false
   languageForm = this.fb.group({
     preferredLang: ['es-ES'],
@@ -46,10 +45,7 @@ export class HeaderComponent implements OnInit {
   const entornoGuardado = sessionStorage.getItem('entorno');
   const isTramits = entornoGuardado === 'tramits';
   this.languageForm.patchValue({ entorno: isTramits });
-  if (this.authService.isAuthenticated()) {
-      this.currentUserDetails = "actual user: " + sessionStorage.getItem("tramits_user_email") + " (<strong>" + sessionStorage.getItem("days_to_expire_pwd") + "</strong> days until password expires)"
-      this.isAuthenticated = true
-    }
+
   // Leer idioma desde sessionStorage
   const storedLang = sessionStorage.getItem('preferredLang') || 'es-ES';
   this.actualLang = sessionStorage.getItem('preferredLang') || 'es-ES';

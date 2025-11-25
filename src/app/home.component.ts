@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   preferredLang: string | null = localStorage.getItem("preferredLang")
   estadisticas: any[] = []
   isAuthenticated: boolean = false
+  currentUserDetails!: string
   loading: boolean = true
   error: string | null = null
 
@@ -37,7 +38,8 @@ export class HomeComponent implements OnInit {
   constructor(private expedienteService: ExpedienteService, private authService: AuthService) {}
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
+  if (this.authService.isAuthenticated()) {
+      this.currentUserDetails = "actual user: " + sessionStorage.getItem("tramits_user_email") + " (<strong>" + sessionStorage.getItem("days_to_expire_pwd") + "</strong> days until password expires)"
       this.isAuthenticated = true
     }
     const currentYear = new Date().getFullYear();

@@ -8,7 +8,7 @@
       <mat-card-title>XECS Consultoria: convocatoria {{ conv.convocatoria }}</mat-card-title>
     </mat-card-header>
 
-<mat-card-content>
+    <mat-card-content>
   <div *ngFor="let prog of conv.programas">
     <h3>{{ prog.tipo_tramite }}</h3>
     <table mat-table [dataSource]="prog.dataSource" class="mat-elevation-z8">
@@ -45,8 +45,7 @@
     </table>
     <hr>
   </div>
-</mat-card-content>
-
+    </mat-card-content>
   </mat-card>
 </div>
 
