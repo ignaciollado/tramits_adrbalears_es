@@ -120,7 +120,7 @@
         </ng-template>
         <span></span><br>
           <span *ngIf="item.fecha_not_propuesta_resolucion_def_sended && item.fecha_not_propuesta_resolucion_def_sended !== '0000-00-00'">
-            Prop. Definitiva Favorable amb requeriment generat i enviat a signar el <strong>{{item.fecha_not_propuesta_resolucion_def_sended | date: 'dd/MM/yyyy'}}</strong>
+            Prop. Definitiva Favorable {{item.fecha_requerimiento === "0000-00-00" ? 'sense' : 'amb'}} requeriment generat i enviat a signar el <strong>{{item.fecha_not_propuesta_resolucion_def_sended | date: 'dd/MM/yyyy'}}</strong>
           </span>
         </ng-container>
         

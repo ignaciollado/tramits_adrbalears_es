@@ -333,8 +333,10 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
 
   // Generador PR Definitiva con o sin requerimiento.
   generatePrDefinitiva(item: any) {
-    if (item.fecha_requerimiento) {
+    if (item.fecha_requerimiento !== "0000-00-00") {
       this.prDefinitivaFavorableConRequerimientoService.init(item);
+    } else {
+      this.prDefinitivaFavorableService.init(item);
     }
   }
 }
