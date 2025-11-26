@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of } from 'rxjs';
@@ -68,6 +68,8 @@ export class IsbaDetailExpedComponent {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
   private customValidatorService = inject(CustomValidatorsService)
+  selectedIndex: number | undefined;
+
   noRequestReasonText: boolean = true;
   noRevocationReasonText: boolean = true;
 
@@ -176,6 +178,8 @@ export class IsbaDetailExpedComponent {
       fecha_not_r_revocacion: [{ value: '', disabled: true }, []],
       motivoResolucionRevocacionPorNoJustificar: [{ value: '', disabled: false }, []]
     });
+    const tabIndex = sessionStorage.getItem('currentIsbaTab');
+    this.selectedIndex = tabIndex !== null ? Number(tabIndex) : undefined;
 
     this.commonService.getSituations().subscribe((situations: any[]) => {
       this.situations = situations;
@@ -190,6 +194,10 @@ export class IsbaDetailExpedComponent {
       const regex = /^\d+([.,]\d{2})$/;
       return value && !regex.test(value) ? { invalidDecimal: true } : null;
     };
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    sessionStorage.setItem('currentIsbaTab', event.index.toString());
   }
 
   getExpedDetail(id: number) {
