@@ -443,31 +443,4 @@ export class PrDefinitivaFavorableConRequerimientoService {
         }
       })
   }
-
-  getLineDetail(convocatoria: number) {
-    this.lineaAyuda.getAll().subscribe({
-      next: (lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-        const lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-          return item.convocatoria === convocatoria && item.lineaAyuda === "ADR-ISBA" && item.activeLineData === "SI";
-        })
-        this.num_BOIB = lineDetail[0]['num_BOIB'];
-        this.codigoSIA = lineDetail[0]['codigoSIA'];
-        this.fecha_BOIB = lineDetail[0]['fecha_BOIB'];
-      }
-    })
-  }
-
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      /* Quitar hardcodeo de emails */
-      // this.ceoEmail = globalConfig[0].eMailDGerente;
-      // this.consellerEmail = globalConfig[0].eMailPresidente;
-
-      this.dGerente = globalConfig[0]?.directorGerenteIDI ?? '';
-      this.nomPresidenteIdi = globalConfig[0]?.respresidente;
-
-      this.ceoEmail = 'jose.luis@idi.es'
-      this.consellerEmail = 'jldejesus@adrbalears.caib.es'
-    })
-  }
 }
