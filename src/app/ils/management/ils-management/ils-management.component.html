@@ -84,7 +84,6 @@
   <ng-container matColumnDef="situacion">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Situación </th>
     <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">
-      {{item.situacion}}
       @if (item.situacion === 'nohapasadoREC' || item.situacion === "pendiente" || item.situacion === "pendienteJustificar" || item.situacion === "emitirReq") {
         {{('SITUATIONS.GENERAL.' + item.situacion) | translate}}
       } @else {
