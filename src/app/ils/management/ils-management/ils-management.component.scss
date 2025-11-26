@@ -13,11 +13,10 @@ form {
     flex: 1 1 250px;
   }
 
-button[type="submit"],
-button[type="button"] {
-  height: 56px;
-}
-
+  button[type="submit"],
+  button[type="button"] {
+    height: 56px;
+  }
 }
 
 mat-progress-bar {
@@ -30,20 +29,21 @@ table {
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
+
   th.mat-header-cell {
     background-color: #e0e0e0;
     font-weight: bold;
   }
 
-  td.mat-cell, th.mat-header-cell {
+  td.mat-cell,
+  th.mat-header-cell {
     padding: 0.75rem;
   }
 
   td.linea-ils {
     background-color: #365446;
     color: #fff;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     text-align: center;
   }
 
@@ -101,118 +101,79 @@ p {
   }
 }
 
-
-
 td {
-  &.st-en-curso {
-    background-color: #bbdefb; // azul claro brillante
-    color: #0d47a1;
+  &.st-nohapasadorec {
+    background-color: #080080;
+    color: #e87c0a;
+    font-weight: bold;
+    border: 2px solid #e87c0a;
+    border-radius: 5px;
+    text-align: center;
   }
 
   &.st-pendiente {
-    background-color: #fff59d; // amarillo más intenso
-    color: #f57f17;
+    background-color: #080080;
+    color: #51f905;
     font-weight: bold;
+    border: 5px solid #51f905;
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  // ToDo
+  &.st-reqfirmado {
+    
+  }
+
+  &.st-reqnotificado {
+
+  }
+  
+  &.st-ifresolucionemitida {
+
+  }
+
+  &.st-ifresolucionenviada {
+
+  }
+
+  &.st-ifresolucionnotificada {
+
+  }
+
+  &.st-empresaadherida {
+
+  }
+
+  &.st-idresoluciondenegacionemitida {
+
+  }
+
+  &.st-idresoluciondenegacionenviada {
+
+  }
+
+  &.st-idresoluciondenegacionnotificada ´
+
+
+  &.st-empresadenegada {
+
   }
 
   &.st-pendiente-justificar {
-    background-color: #ffe082;
-    color: #e65100;
+    background-color: #d9e90d;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 1px;
+    text-align: center;
   }
 
-  &.st-pendiente-rec {
-    background-color: #ffcc80;
-    color: #bf360c;
+  &.st-justificantgoib {
+
   }
 
-  &.st-aprobado {
-    background-color: #a5d6a7; // verde fresco
-    color: #1b5e20;
-  }
+  &.st-adhesionrenovada {
 
-  &.st-denegado {
-    background-color: #ef9a9a;
-    color: #b71c1c;
-    font-weight: bold;
-  }
-
-  &.st-justificado {
-    background-color: #80cbc4;
-    color: #004d40;
-  }
-
-  &.st-enmienda {
-    background-color: #ce93d8;
-    color: #6a1b9a;
-  }
-
-  &.st-desestimiento {
-    background-color: #ffe082;
-    color: #e65100;
-    font-weight: bold;
-  }
-
-  &.st-finalizado {
-    background-color: #bcaaa4;
-    color: #3e2723;
-  }
-
-  &.st-emitido-rc {
-    background-color: #aed581;
-    color: #33691e;
-    font-weight: 500;
-  }
-
-  &.st-emitido-rd {
-    background-color: #c5e1a5;
-    color: #558b2f;
-  }
-
-  &.st-emitido-idpd {
-    background-color: #b9f6ca;
-    color: #1b5e20;
-  }
-
-  &.st-emitido-ifps {
-    background-color: #ccff90;
-    color: #33691e;
-  }
-
-  &.st-emitir-rc {
-    background-color: #e1bee7;
-    color: #4a148c;
-  }
-
-  &.st-emitir-rd {
-    background-color: #f48fb1;
-    color: #880e4f;
-  }
-
-  &.st-emitir-idpd {
-    background-color: #e1bee7;
-    color: #6a1b9a;
-  }
-
-  &.st-emitido {
-    background-color: #dcedc8;
-    color: #2e7d32;
-    font-weight: 500;
-  }
-
-  &.st-emitir {
-    background-color: #f3e5f5;
-    color: #6a1b9a;
-  }
-
-  &.st-consultoria {
-    background-color: #dcedc8;
-    color: #33691e;
-  }
-
-  &.st-rechazado {
-    background-color: #ef9a9a;
-    color: #b71c1c;
-    font-weight: bold;
   }
 
   &.st-desconocido {

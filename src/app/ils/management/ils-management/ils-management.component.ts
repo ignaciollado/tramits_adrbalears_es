@@ -67,8 +67,6 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
       situacion: [[]]
     });
 
-    this.limpiarFiltros();
-
     this.commonService.getIlsSituations().subscribe((situations: any[]) => {
       this.uniqueSituaciones = situations;
     })
@@ -78,14 +76,13 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
     let savedSit = sessionStorage.getItem('filtroSituacion');
 
     if (savedConv || savedSit) {
+      this.filtrosAplicados = true;
       this.form.patchValue({
         convocatoria: savedConv ? +savedConv : this.currentYear,
         situacion: savedSit ? JSON.parse(savedSit) : []
       });
-      this.loadExpedientes();
-    } else {
-      this.loadAllExpedientes();
     }
+    this.loadAllExpedientes();
   }
 
   ngAfterViewInit(): void {
@@ -102,38 +99,62 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
 
   }
 
+  // Mejoro la primera carga de expedientes
   loadAllExpedientes(): void {
     this.loading = true;
     this.expedienteService.getAllLineExpedientes('ILS', this.currentYear).subscribe({
       next: (res) => {
-        this.expedientesFiltrados = res;
-        this.actualizarTabla(this.expedientesFiltrados)
 
-        const paginaGuardada = sessionStorage.getItem('paginaExpedientes')
-        if (paginaGuardada) {
+        // Guardado de expedientes
+        this.expedientesFiltrados = res;
+
+        // Aplicar filtros si requiere;
+
+        if (this.filtrosAplicados) {
+          const convocatoriaAFiltrar = Number(this.form.value.convocatoria);
+          const situacionesAFiltrar: string[] = this.form.value.situacion || [];
+
+          const filtrados = this.expedientesFiltrados.filter((item: any) => {
+            const matchConvocatoria = Number(item.convocatoria) === convocatoriaAFiltrar;
+            const matchSituacion = !situacionesAFiltrar.length || situacionesAFiltrar.includes(item.situacion);
+
+            return matchConvocatoria && matchSituacion;
+          });
+
+          this.actualizarTabla(filtrados);
+        } else {
+          this.actualizarTabla(this.expedientesFiltrados);
+        }
+
+        // Aplicar página guardada
+        const paginaGuardada = sessionStorage.getItem('paginaExpedientes');
+
+        if (paginaGuardada && this.paginator) {
           this.paginator.pageIndex = +paginaGuardada;
         }
-        this.dataSource.paginator = this.paginator;
+
+        if (this.paginator) {
+          this.dataSource.paginator = this.paginator;
+        }
 
         this.commonService.showSnackBar('ILS: expedientes cargados correctamente ✅')
       },
-
       error: (err) => {
         this.dataSource.data = [];
         if (err.status === 404 && err.error?.messages?.error) {
-          this.commonService.showSnackBar(err.error.messages.error)
+          this.commonService.showSnackBar(err.error.messages.error);
         } else {
-          console.error('Error inesperado:', err);
-          this.commonService.showSnackBar('Ocurrió un error inesperado ❌')
+          console.error("Error inesperado:", err);
+          this.commonService.showSnackBar("Ocurrió un error inesperado ❌");
         }
       },
-
       complete: () => {
         this.loading = false;
       }
     })
   }
 
+  // Necesario para cargar aquellos expedientes que cumplan con los filtros
   loadExpedientes(): void {
     const { convocatoria, situacion } = this.form.value
 
@@ -145,7 +166,7 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     sessionStorage.setItem('filtroConvocatoria', convocatoria.toString());
-    sessionStorage.setItem('filtroSituacion', situacion || '');
+    sessionStorage.setItem('filtroSituacion', JSON.stringify(situacion));
 
     let filtrados = this.expedientesFiltrados.filter(
       (e: any) => Number(e.convocatoria) === Number(convocatoria)
@@ -176,14 +197,20 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
     this.dataSource.data = res;
 
     const ordenGuardado = sessionStorage.getItem('tablaOrden');
-    if (ordenGuardado) {
+    if (ordenGuardado && this.sort) {
       const { active, direction } = JSON.parse(ordenGuardado);
       this.sort.active = active;
       this.sort.direction = direction;
       this.sort.sortChange.emit({ active, direction });
     }
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
 
     // 👇 Aquí colocas tu filtro personalizado
     this.dataSource.filterPredicate = (data, filter) => {
@@ -207,48 +234,57 @@ export class IlsManagementComponent implements OnInit, AfterViewInit {
     this.filtrosAplicados = false
   }
 
-  situacionClass(value: string): string {
-    const key = value?.toLowerCase().trim();
 
+  // ToDo estilos
+  situacionClass(value: string): string {
+
+    const key = value?.toLowerCase().trim();
     switch (key) {
-      case 'encurso':
-        return 'st-en-curso'; // 🔵 Estado activo o en desarrollo
-      case 'pendientejustificar':
-        return 'st-pendiente-justificar'; // 🟡 Esperando justificación
-      case 'pendiente':
-        return 'st-pendiente'; // 🟡 Pendiente general
-      case 'pendienterecjustificar':
-        return 'st-pendiente-rec'; // 🟠 Pendiente de REC para justificar
-      case 'aprobado':
-        return 'st-aprobado'; // 🟢 Aprobado formalmente
-      case 'denegado':
-        return 'st-denegado'; // 🔴 Denegado oficialmente
-      case 'justificado':
-        return 'st-justificado'; // 🟣 Justificación completada
-      case 'enmienda':
-        return 'st-enmienda'; // 🟤 En proceso de subsanación o corrección
-      case 'desestimiento':
-        return 'st-desestimiento'; // ⚪ Retirado por el solicitante
-      case 'finalizado':
-        return 'st-finalizado'; // ✅ Trámite cerrado/completado
-      case 'emitidorc':
-        return 'st-emitido-rc'; // 🔷 Emitido resolución con requerimiento
-      case 'emitidord':
-        return 'st-emitido-rd'; // 🔷 Emitido resolución definitiva
-      case 'emitidoidpd':
-        return 'st-emitido-idpd'; // 🔷 Emitido para IDPD
-      case 'emitidoifps':
-        return 'st-emitido-ifps'; // 🔷 Emitido IFPS
-      case 'emitirrc':
-        return 'st-emitir-rc'; // ⏳ Listo para emitir resolución con requerimiento
-      case 'emitirrd':
-        return 'st-emitir-rd'; // ⏳ Listo para emitir resolución definitiva
-      case 'emitiridpd':
-        return 'st-emitir-idpd'; // ⏳ Pendiente de emisión para IDPD
-      case 'inicioconsultoria':
-        return 'st-consultoria'; // 🧠 Consultoría en marcha
       case 'nohapasadorec':
-        return 'st-rechazado'; // ⛔ Rechazado por no pasar REC
+        return 'st-nohapasadorec'; // ⛔ Rechazado por no pasar REC               OK
+
+      case 'pendiente':
+        return 'st-pendiente'; // Pendiente de validar                            OK
+
+      case 'reqfirmado':
+        return 'st-reqfirmado'; // Requerimiento firmado
+
+      case 'reqnotificado':
+        return 'st-reqnotificado'; // Requerimiento notificado + 30 días para subsanar
+
+      case 'ifresolucionemitida':
+        return 'st-ifresolucionemitida'; // IF + resolución emitida
+
+      case 'ifresolucionenviada':
+        return 'st-ifresolucionenviada'; // IF + resolución enviada
+
+      case 'ifresolucionnotificada':
+        return 'st-ifresolucionnotificada'; // IF + resolución notificada
+
+      case 'empresaadherida':
+        return 'st-empresaadherida'; // Empresa Adherida
+
+      case 'idresoluciondenegacionemitida':
+        return 'st-idresoluciondenegacionemitida'; // ID + resolución denegación emitida
+
+      case 'idresoluciondenegacionenviada':
+        return 'st-idresoluciondenegacionenviada'; // ID + resolución denegación enviada
+
+      case 'idresoluciondenegacionnotificada':
+        return 'st-idresoluciondenegacionnotificada'; // ID + resolución denegación notificada
+
+      case 'empresadenegada':
+        return 'st-empresadenegada'; // Empresa denegada
+
+      case 'pendientejustificar':
+        return 'st-pendiente-justificar'; // Pendiente de justificar              OK
+
+      case 'justificantgoib':
+        return 'st-justificantgoib'; // Recibido justificante de distribución GOIB
+
+      case 'adhesionrenovada':
+        return 'st-adhesionrenovada'; // Adhesión renovada
+
       default:
         return 'st-desconocido'; // ❓ Estado no reconocido
     }
