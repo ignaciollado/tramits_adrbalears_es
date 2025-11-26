@@ -15,6 +15,8 @@ import { RouterModule } from '@angular/router';
 import { CommonService } from '../../../Services/common.service';
 import { ExpedienteService } from '../../../Services/expediente.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { PrDefinitivaFavorableConRequerimientoService } from '../../../Services/actos-admin-adr-isba/pr-definitiva-favorable-con-requerimiento.service';
+import { PrDefinitivaFavorableService } from '../../../Services/actos-admin-adr-isba/pr-definitiva-favorable.service';
 
 @Component({
   selector: 'app-xecs-management',
@@ -47,8 +49,10 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   private expedienteService = inject(ExpedienteService);
   private commonService = inject(CommonService)
 
+  private prDefinitivaFavorableConRequerimientoService = inject(PrDefinitivaFavorableConRequerimientoService)
+  private prDefinitivaFavorableService = inject(PrDefinitivaFavorableService)
+
   uniqueConvocatorias: number[] = [2026, 2025, 2024, 2023, 2022, 2021];
-  // uniqueTiposTramite: string[] = [];
   uniqueSituaciones: any[] = [];
   expedientesFiltrados: any[] = [];
   filtrosAplicados: boolean = false;
@@ -60,16 +64,15 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
     'situacion'];
   loading = false;
 
-  ngOnInit(): void {
+  hayRequerimiento!: boolean;
 
+  ngOnInit(): void {
     this.currentYear = new Date().getFullYear().toString();
 
     this.form = this.fb.group({
       convocatoria: [new Date().getFullYear()],
       situacion: [[]]
     });
-
-    this.limpiarFiltros();
 
     this.commonService.getSituations().subscribe((situations: any[]) => {
       this.uniqueSituaciones = situations
@@ -85,10 +88,8 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
         convocatoria: savedConv ? +savedConv : this.currentYear,
         situacion: savedSit ? JSON.parse(savedSit) : []
       });
-      this.loadExpedientes();
-    } else {
-      this.loadAllExpedientes();
     }
+    this.loadAllExpedientes();
   }
 
   ngAfterViewInit(): void {
@@ -102,42 +103,83 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
     this.sort.sortChange.subscribe(sort => {
       sessionStorage.setItem('tablaOrden', JSON.stringify(sort));
     });
-
   }
 
+  // Primera carga
   loadAllExpedientes(): void {
     this.loading = true;
     this.expedienteService.getAllLineExpedientes('ADR-ISBA', this.currentYear).subscribe({
       next: (res) => {
-        // Excluir expedientes con tipo_tramite 'ILS' o 'XECS'...
+
+        // Transformación de datos y añadidos.
+        res = res.map((item: any) => {
+          if (item.situacion === "notificadoIFPRProvPago") {
+            item.situacion = "PR Provisional";
+            if (item.fecha_not_propuesta_resolucion_prov) {
+              item.PRDefinitivaDate = this.commonService.calculateDueDate(item.fecha_not_propuesta_resolucion_prov, 10);
+              item.PRDefinitivarestingDays = this.commonService.calculateRestingDays(item.PRDefinitivaDate);
+            }
+          }
+          return item;
+        });
+
+        // Generación PR Definitiva
+        res.forEach((item: any) => {
+          if (item.situacion === "PR Provisional" && item.PRDefinitivarestingDays <= 0 && !item._prDefinitivaEjecutada) {
+            this.generatePrDefinitiva(item);
+            item._prDefinitivaEjecutada = true; // Flag para evitar ejecuciones duplicadas
+          }
+        });
+
+        // Guardado de expedientes
         this.expedientesFiltrados = res;
-        this.actualizarTabla(this.expedientesFiltrados)
 
-        const paginaGuardada = sessionStorage.getItem('paginaExpedientes');
+        // Aplicar filtros si requiere
+        if (this.filtrosAplicados) {
+          const convocatoriaAFiltrar = Number(this.form.value.convocatoria);
+          const situacionesAFiltrar: string[] = this.form.value.situacion || [];
 
-        if (paginaGuardada) {
+          const filtrados = this.expedientesFiltrados.filter((item: any) => {
+            const matchConvocatoria = Number(item.convocatoria) === convocatoriaAFiltrar;
+            const matchSituacion = !situacionesAFiltrar.length || situacionesAFiltrar.includes(item.situacion);
+
+            return matchConvocatoria && matchSituacion;
+          });
+
+          this.actualizarTabla(filtrados);
+        } else {
+          this.actualizarTabla(this.expedientesFiltrados);
+        }
+
+        // Aplicar página guardada
+        const paginaGuardada = sessionStorage.getItem("paginaExpedientes");
+
+        if (paginaGuardada && this.paginator) {
           this.paginator.pageIndex = +paginaGuardada;
         }
 
-        this.dataSource.paginator = this.paginator;
+        if (this.paginator) {
+          this.dataSource.paginator = this.paginator;
+        }
 
         this.commonService.showSnackBar('ADR-ISBA: expedientes cargados correctamente ✅')
       },
       error: (err) => {
         this.dataSource.data = [];
         if (err.status === 404 && err.error?.messages?.error) {
-          this.commonService.showSnackBar(err.error.messages.error)
+          this.commonService.showSnackBar(err.error.messages.error);
         } else {
-          console.error('Error inesperado:', err);
-          this.commonService.showSnackBar('Ocurrió un error inesperado ❌')
+          console.error("Error inesperado:", err);
+          this.commonService.showSnackBar("Ocurrió un error inesperado ❌");
         }
       },
       complete: () => {
         this.loading = false;
       }
-    })
+    });
   }
 
+  // Necesario para cargar aquellos que cumplan con los filtros
   loadExpedientes(): void {
     const { convocatoria, situacion } = this.form.value
 
@@ -150,7 +192,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
 
     // Guardar filtros en sessionStorage
     sessionStorage.setItem('filtroConvocatoria', convocatoria.toString())
-    sessionStorage.setItem('filtroSituacion', situacion || '')
+    sessionStorage.setItem('filtroSituacion', JSON.stringify(situacion));
 
     // Filtrar sobre los expedientes ya cargados
     let filtrados = this.expedientesFiltrados.filter(
@@ -184,14 +226,20 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
     this.dataSource.data = res;
 
     const ordenGuardado = sessionStorage.getItem('tablaOrden');
-    if (ordenGuardado) {
+    if (ordenGuardado && this.sort) {
       const { active, direction } = JSON.parse(ordenGuardado);
       this.sort.active = active;
       this.sort.direction = direction;
       this.sort.sortChange.emit({ active, direction });
     }
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+
+    if (this.sort) {
+      this.dataSource.sort = this.sort;
+    }
+
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
 
     // 👇 Aquí colocas tu filtro personalizado
     this.dataSource.filterPredicate = (data, filter) => {
@@ -211,28 +259,40 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
     sessionStorage.removeItem('filtroConvocatoria')
     sessionStorage.removeItem('filtroTipoTramite')
     sessionStorage.removeItem('filtroSituacion')
-    this.loadAllExpedientes()
+    this.loadAllExpedientes();
     this.filtrosAplicados = false
   }
 
-  situacionClass(value: string): string {
-    const key = value?.toLowerCase().trim();
+  getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
+    if (item.situacion === 'emitirIFPRProvPago' || item.situacion === "notificadoIFPRProvPago" || item.situacion === "PR Provisional") {
+      const reqNotif = item.fecha_requerimiento_notif && item.fecha_requerimiento_notif !== "0000-00-00";
+      this.hayRequerimiento = reqNotif ? true : false;
+      return { text: (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO'), isDayDiffNegative: false }
+    }
 
+    return { text: '', isDayDiffNegative: false }
+  }
+
+  situacionClass(value: string): string {
+
+    const key = value?.toLowerCase().trim();
     switch (key) {
+      case 'nohapasadorec':
+        return 'st-nohapasadorec'; // ⛔ Rechazado por no pasar REC               OK
       case 'encurso':
         return 'st-en-curso'; // 🔵 Estado activo o en desarrollo
       case 'pendientejustificar':
-        return 'st-pendiente-justificar'; // 🟡 Esperando justificación
+        return 'st-pendiente-justificar'; // 🟡 Pendiente de justificar
       case 'pendiente':
-        return 'st-pendiente'; // 🟡 Pendiente general
+        return 'st-pendiente'; // 🟡 Pendiente de validar                         OK
       case 'pendienterecjustificar':
-        return 'st-pendiente-rec'; // 🟠 Pendiente de REC para justificar
+        return 'st-pendiente-rec'; // 🟠 Pendiente justificante SEU
       case 'aprobado':
         return 'st-aprobado'; // 🟢 Aprobado formalmente
       case 'denegado':
-        return 'st-denegado'; // 🔴 Denegado oficialmente
+        return 'st-denegado'; // 🔴 Denegado oficialmente                         OK
       case 'justificado':
-        return 'st-justificado'; // 🟣 Justificación completada
+        return 'st-justificado'; // 🟣 Justificación completada                   OK
       case 'enmienda':
         return 'st-enmienda'; // 🟤 En proceso de subsanación o corrección
       case 'desestimiento':
@@ -255,10 +315,26 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
         return 'st-emitir-idpd'; // ⏳ Pendiente de emisión para IDPD
       case 'inicioconsultoria':
         return 'st-consultoria'; // 🧠 Consultoría en marcha
-      case 'nohapasadorec':
-        return 'st-rechazado'; // ⛔ Rechazado por no pasar REC
+      case 'emitirrespagoyjust':
+        return 'st-emitirResPagoyJust'; // Emitir resolución de pago y justificación    OK
+      case 'emitidorespagoyjust':
+        return 'st-emitidoResPagoyJust'; // Emitida resolución de pago y justificación  OK
+      case 'emitidodesenmienda':
+        return 'st-emitidoDesEnmienda'; // Emitido desestimiento por enmienda           OK   
+      case 'emitirifprprovpago':
+        return 'st-emitirIFPRProvPago'; // Emitir informe Favorable propuesta resolución provisional OK
+      case 'notificadoifprprovpago':
+      case 'pr provisional':
+        return 'st-notificadoIFPRProvPago';  // Emitido informe Favorable propuesta resolución provisional OK             
       default:
         return 'st-desconocido'; // ❓ Estado no reconocido
+    }
+  }
+
+  // Generador PR Definitiva con o sin requerimiento.
+  generatePrDefinitiva(item: any) {
+    if (item.fecha_requerimiento) {
+      this.prDefinitivaFavorableConRequerimientoService.init(item);
     }
   }
 }

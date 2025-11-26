@@ -92,6 +92,8 @@ export class IsbaDetailExpedComponent {
 
   situations: any[] = [];
 
+  expediente!: any;
+
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
   ngOnInit(): void {
@@ -200,15 +202,15 @@ export class IsbaDetailExpedComponent {
       )
       .subscribe(expediente => {
         if (expediente) {
+          this.expediente = expediente;
           if (expediente.motivoResolucionRevocacionPorNoJustificar) {
             this.noRevocationReasonText = false;
           }
 
-
           // Arreglo a las fechas que no aparecen. Arregla también la comparativa para el bloqueo de generación de actos por campos requeridos
           expediente.fecha_infor_fav_desf = expediente.fecha_infor_fav_desf.split(" ")[0];
           expediente.fecha_requerimiento = expediente.fecha_requerimiento.split(" ")[0];
-          
+
           this.form.patchValue(expediente);
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;
@@ -320,13 +322,26 @@ export class IsbaDetailExpedComponent {
     })
   }
 
+  // Lo refactorizo teniendo en cuenta posibles automatismos iguales o parecidos
   saveExpediente(): void {
-    const expedienteActualizado = this.form.getRawValue()
+    let situacionActual = "";
+
+    if (this.expediente.fecha_not_propuesta_resolucion_prov != this.form.get('fecha_not_propuesta_resolucion_prov')?.value && this.form.get('fecha_not_propuesta_resolucion_prov')?.value !== "0000-00-00") {
+      situacionActual = "notificadoIFPRProvPago";
+    }
+
+    if (situacionActual) {
+      this.form.patchValue({ situacion: situacionActual })
+      this.commonService.showSnackBar(`Se ha actualizado automáticamente la situación a ${situacionActual}`);
+    }
+
+    const expedienteActualizado = this.form.getRawValue();
+
     this.expedienteService.updateExpediente(this.idExpediente, expedienteActualizado)
       .subscribe({
         next: () => {
           this.commonService.showSnackBar('✅ Expediente guardado correctamente.');
-          this.enableEdit()
+          this.enableEdit();
         },
         error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
       })

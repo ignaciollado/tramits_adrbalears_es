@@ -88,12 +88,47 @@
 
   <ng-container matColumnDef="fecha_not_propuesta_resolucion_def">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Res. de concesión </th>
-    <td mat-cell *matCellDef="let item">{{ item.fecha_not_propuesta_resolucion_def | date:'yyyy/MM/dd' }}</td>
+    <td mat-cell *matCellDef="let item">{{ item.fecha_not_propuesta_resolucion_def | date:'dd/MM/yyyy' }}</td>
   </ng-container>
 
-  <ng-container matColumnDef="situacion">
+  <!-- <ng-container matColumnDef="situacion">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Situación </th>
     <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</td>
+  </ng-container> -->
+
+  <ng-container matColumnDef="situacion">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Situación</th>
+    <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">
+      <ng-container [ngSwitch]="item.situacion">
+        <!-- Caso notificadoIFPRProvPago -->
+         <ng-container *ngSwitchCase="'PR Provisional'">
+          <span ngClass="small-text">{{item.situacion}}</span><br>
+          <span ngClass="small-text">{{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}</span><br>
+          <span ngClass="small-text">Notificada el {{item.fecha_not_propuesta_resolucion_prov | date:'dd/MM/yyyy'}}</span><br>
+          <span [ngClass]="{
+            'positive-diff': item.PRDefinitivarestingDays > 0,
+            'negative-diff': item.PRDefinitivarestingDays <= 0,
+            'indeterminate-diff': !item.PRDefinitivarestingDays && item.PRDefinitivarestingDays !== 0
+          }">
+        {{ item.PRDefinitivarestingDays !== null && item.PRDefinitivarestingDays !== undefined
+        ? 'Resten ' + item.PRDefinitivarestingDays + ' dies naturals'
+      : '**Indeterminat**'}}  
+        </span><br>
+        <span *ngIf="item.PRDefinitivarestingDays > 0; else prDefinitivaEnviada">per enviar la PR Definitiva.</span>
+        <ng-template #prDefinitivaEnviada>
+          <span class="small-text indeterminate-diff">PR Definitiva enviada</span>
+        </ng-template>
+        <span></span><br>
+          <span *ngIf="item.fecha_not_propuesta_resolucion_def_sended && item.fecha_not_propuesta_resolucion_def_sended !== '0000-00-00'">
+            Prop. Definitiva Favorable amb requeriment generat i enviat a signar el <strong>{{item.fecha_not_propuesta_resolucion_def_sended | date: 'dd/MM/yyyy'}}</strong>
+          </span>
+        </ng-container>
+        
+        <ng-container *ngSwitchDefault>
+          <strong>{{('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong>
+        </ng-container>
+      </ng-container>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
