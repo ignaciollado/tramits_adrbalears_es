@@ -540,6 +540,36 @@ export class PrDefinitivaFavorableAdrIsbaComponent {
         this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
         const sendedDateToSign = resp.creationDate;
         this.sendedDateToSign = new Date(sendedDateToSign);
+
+        // Actualización si está firmado y si la fecha de firma de la propuesta previamente guardada no es igual a la fecha de firma
+        if (this.signatureDocState === "COMPLETED") {
+          if (this.form.get('fecha_firma_propuesta_resolucion_def')?.value !== this.commonService.convertUnixToHumanDate(resp.endDate, true)) {
+            // Actualizo el expediente
+            this.expedienteService.updateFieldExpediente(this.actualID, 'fecha_firma_propuesta_resolucion_def', this.commonService.convertUnixToHumanDate(resp.endDate, true))
+              .subscribe({
+                next: () => {
+                  this.commonService.showSnackBar('✅ Fecha firma propuesta resolución definitiva actualizada correctamente');
+                  this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'emitidaPRDefinitiva').subscribe({
+                    next: () => {
+                      this.commonService.showSnackBar('✅ Situación de expediente actualizada correctamente');
+                      this.form.patchValue(
+                        {
+                          fecha_firma_propuesta_resolucion_def: this.commonService.convertUnixToHumanDate(resp.endDate, true),
+                          situacion: 'emitidaPRDefinitiva'
+                        }
+                      )
+                    },
+                    error: () => {
+                      this.commonService.showSnackBar('⚠️ No se ha podido actualizar la situación del expediente')
+                    }
+                  })
+                },
+                error: () => {
+                  this.commonService.showSnackBar('⚠️ No se ha podido actualizar la fecha de firma de la propuesta definitiva')
+                }
+              })
+          }
+        }
       })
   }
   getLineDetail(convocatoria: number) {

@@ -10,7 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of } from 'rxjs';
@@ -68,6 +68,8 @@ export class IsbaDetailExpedComponent {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
   private customValidatorService = inject(CustomValidatorsService)
+  selectedIndex: number | undefined;
+
   noRequestReasonText: boolean = true;
   noRevocationReasonText: boolean = true;
 
@@ -91,6 +93,8 @@ export class IsbaDetailExpedComponent {
   sendedDateToSign!: Date;
 
   situations: any[] = [];
+
+  expediente!: any;
 
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
@@ -174,6 +178,8 @@ export class IsbaDetailExpedComponent {
       fecha_not_r_revocacion: [{ value: '', disabled: true }, []],
       motivoResolucionRevocacionPorNoJustificar: [{ value: '', disabled: false }, []]
     });
+    const tabIndex = sessionStorage.getItem('currentIsbaTab');
+    this.selectedIndex = tabIndex !== null ? Number(tabIndex) : undefined;
 
     this.commonService.getSituations().subscribe((situations: any[]) => {
       this.situations = situations;
@@ -190,6 +196,10 @@ export class IsbaDetailExpedComponent {
     };
   }
 
+  onTabChange(event: MatTabChangeEvent) {
+    sessionStorage.setItem('currentIsbaTab', event.index.toString());
+  }
+
   getExpedDetail(id: number) {
     this.expedienteService.getOneExpediente(id)
       .pipe(
@@ -200,15 +210,15 @@ export class IsbaDetailExpedComponent {
       )
       .subscribe(expediente => {
         if (expediente) {
+          this.expediente = expediente;
           if (expediente.motivoResolucionRevocacionPorNoJustificar) {
             this.noRevocationReasonText = false;
           }
 
-
           // Arreglo a las fechas que no aparecen. Arregla también la comparativa para el bloqueo de generación de actos por campos requeridos
           expediente.fecha_infor_fav_desf = expediente.fecha_infor_fav_desf.split(" ")[0];
           expediente.fecha_requerimiento = expediente.fecha_requerimiento.split(" ")[0];
-          
+
           this.form.patchValue(expediente);
           this.businessType = expediente.tipo_solicitante
           this.actualNif = expediente.nif;
@@ -320,13 +330,26 @@ export class IsbaDetailExpedComponent {
     })
   }
 
+  // Lo refactorizo teniendo en cuenta posibles automatismos iguales o parecidos
   saveExpediente(): void {
-    const expedienteActualizado = this.form.getRawValue()
+    let situacionActual = "";
+
+    if (this.expediente.fecha_not_propuesta_resolucion_prov != this.form.get('fecha_not_propuesta_resolucion_prov')?.value && this.form.get('fecha_not_propuesta_resolucion_prov')?.value !== "0000-00-00") {
+      situacionActual = "notificadoIFPRProvPago";
+    }
+
+    if (situacionActual) {
+      this.form.patchValue({ situacion: situacionActual })
+      this.commonService.showSnackBar(`Se ha actualizado automáticamente la situación a ${situacionActual}`);
+    }
+
+    const expedienteActualizado = this.form.getRawValue();
+
     this.expedienteService.updateExpediente(this.idExpediente, expedienteActualizado)
       .subscribe({
         next: () => {
           this.commonService.showSnackBar('✅ Expediente guardado correctamente.');
-          this.enableEdit()
+          this.enableEdit();
         },
         error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
       })
