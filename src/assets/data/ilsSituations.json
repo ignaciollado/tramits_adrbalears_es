@@ -11,6 +11,10 @@
                 "value": "pendiente"
             },
             {
+                "label": "SITUATIONS.GENERAL.emitirReq",
+                "value": "emitirReq"
+            },
+            {
                 "label": "SITUATIONS.ILS.reqFirmado",
                 "value": "reqFirmado"
             },
