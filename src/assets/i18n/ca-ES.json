@@ -239,9 +239,9 @@
   "FILES": {
     "VIEW": "Visualitzar",
     "DELETE": "Eliminar",
-    "APROVED": "Aprovat",
-    "PENDING": "Pendent",
-    "REGRET": "Rebutjat",
+    "Aprovat": "Aprovat",
+    "Pendent": "Pendent",
+    "Rebutjat": "Rebutjat",
     "FILEINADR": "Aquest document ja es troba en poder de l'ADR Balears i no ha sofert modificacions (en aquest cas no cal aportar-lo).",
     "UPLOADFILES": "Carregar documents",
     "LOADFILESFORSENDING": "Carregui la documentació requerida per a l'enviament. A continuació, s'indiquen els documents que ha de remetre.",
@@ -252,7 +252,8 @@
     "FILESESCRITPUB": "Escriptura pública i estatuts, degudament inscrits en el registre corresponent",
     "FILEDOCACREDREPRESENTANTE": "Document fefaent que acrediti la representació de la persona que actua en nom de l'entitat sol·licitant",
     "FILECERTIFICADOAEAT": "Certificat d’estar al corrent de les obligacions tributàries amb l’Agència Estatal de l’Administració Tributària (AEAT)",
-    "NOTAUTHORIZED": "No don el meu consentiment / M’opòs a / No concedesc / Deneg la meva autorització perquè es consultin les dades i documents necessaris per la tramitació d’aquesta sol·licitud. Per això, present el document."
+    "NOTAUTHORIZED": "No don el meu consentiment / M’opòs a / No concedesc / Deneg la meva autorització perquè es consultin les dades i documents necessaris per la tramitació d’aquesta sol·licitud. Per això, present el document.",
+    "ACTIONS": "Acció"
   },
   "XECS": {
     "RGPD": "RGPD i documentació",
@@ -577,7 +578,7 @@
       "SINREQUERIMIENTO": "sense requeriment"
     },
     "ILS": {
-      "reqFirmado": "Requeriment signat",
+      "reqFirmado": "Requeriment signat PENDENT de notificar",
       "reqNotificado": "Requeriment notificat + 30 dies per subsanar",
       "ifResolucionEmitida": "IF + resolució emesa",
       "ifResolucionEnviada": "IF + resolució enviada",

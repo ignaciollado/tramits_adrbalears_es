@@ -239,9 +239,9 @@
   "FILES": {
     "VIEW": "Visualizar",
     "DELETE": "Eliminar",
-    "APROVED": "Aprobado",
-    "PENDING": "Pendiente",
-    "REGRET": "Rechazado",
+    "Aprovat": "Aprobado",
+    "Pendent": "Pendiente",
+    "Rebutjat": "Rechazado",
     "FILEINADR": "Este documento ya se encuentra en poder de la ADR Balears y no ha sufrido modificaciones (en este caso no hace falta aportarlo).",
     "UPLOADFILES": "Cargar documentos",
     "FILES": "Seleccione los documentos (PDF o imagen)",
@@ -252,7 +252,8 @@
     "FILESESCRITPUB": "Escritura pública y estatutos, debidamente inscritos en el registro correspondiente",
     "FILEDOCACREDREPRESENTANTE": "Documento fehaciente que acredite la representación de la persona que actúa en nombre de la entidad solicitante",
     "FILECERTIFICADOAEAT": "Certificado de estar al corriente de las obligaciones tributarias con la Agencia Estatal de la Administración Tributaria (AEAT)",
-    "NOTAUTHORIZED": "No doy mi consentimiento / Me opongo / No concedo / Deniego mi autorización para que se consulten los datos y documentos necesarios para la tramitación de esta solicitud. Por eso, presento el documento."
+    "NOTAUTHORIZED": "No doy mi consentimiento / Me opongo / No concedo / Deniego mi autorización para que se consulten los datos y documentos necesarios para la tramitación de esta solicitud. Por eso, presento el documento.",
+    "ACTIONS": "Acción"
   },
   "XECS": {
     "RGPD": "RGPD y documentación",
@@ -577,7 +578,7 @@
       "SINREQUERIMIENTO": "sin requerimiento"
     },
     "ILS": {
-      "reqFirmado": "Requerimiento firmado",
+      "reqFirmado": "Requerimiento firmado PENDIENTE de notificar",
       "reqNotificado": "Requerimiento notificado + 30 días para subsanar",
       "ifResolucionEmitida": "IF + resolución emitida",
       "ifResolucionEnviada": "IF + resolución enviada",
