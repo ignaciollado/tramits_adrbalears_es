@@ -22,6 +22,7 @@ import { ExpedienteService } from "../../Services/expediente.service";
 import { PindustLineaAyudaService } from "../../Services/linea-ayuda.service";
 import { PindustConfiguracionService } from "../../Services/pindust-configuracion.service";
 import { ViafirmaService } from "../../Services/viafirma.service";
+import { environment } from "../../../environments/environment";
 
 
 @Component({
@@ -37,12 +38,10 @@ export class RequerimientoIlsComponent {
   formRequerimiento!: FormGroup;
   noRequerimientoReasonText: boolean = true;
 
-  actoAdmin1: boolean = false;
+  actoAdmin: boolean = false;
   sendedToSign: boolean = false;
   signatureDocState: string = "";
   nifDocGenerado: string = "";
-  userLoginEmail: string = "";
-  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   nameDocGenerado: string = "";
@@ -50,7 +49,6 @@ export class RequerimientoIlsComponent {
   timeStampDocGenerado: string = "";
   response?: SignatureResponse;
   error?: string;
-  lineDetail: PindustLineaAyudaDTO[] = [];
   codigoSIA: string = "";
 
   docGeneradoInsert: DocumentoGeneradoDTO = {
@@ -73,8 +71,13 @@ export class RequerimientoIlsComponent {
   sendedDateToSign!: Date;
   signedBy!: string;
 
+  lineDetail: PindustLineaAyudaDTO[] = [];
   docDataString!: ActoAdministrativoDTO;
-  emailConseller!: string;
+
+  // Emails de envío de firma
+  ceoEmail!: string;
+  consellerEmail!: string;
+  technicianEmail!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -93,7 +96,7 @@ export class RequerimientoIlsComponent {
     private lineaAyuda: PindustLineaAyudaService,
     private configGlobal: PindustConfiguracionService,
   ) {
-    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
+    this.technicianEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
 
   get stateClass(): string {
@@ -128,6 +131,7 @@ export class RequerimientoIlsComponent {
     if (this.formRequerimiento && this.motivoRequerimiento) {
       this.formRequerimiento.get('motivoRequerimiento')
         ?.setValue(this.motivoRequerimiento);
+      this.noRequerimientoReasonText = false;
     }
   }
 
@@ -136,8 +140,25 @@ export class RequerimientoIlsComponent {
     if (this.formRequerimiento.valid) {
       this.expedienteService.updateFieldExpediente(this.actualID, 'motivoRequerimiento', reason).subscribe();
       this.noRequerimientoReasonText = false;
-      this.actoAdmin1 = false;
+      this.actoAdmin = false;
+
+      // Añado borrado automático de documento si cambia el motivo
+      this.documentosGeneradoService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.nifDocGenerado, this.actualConvocatoria, 'doc_requeriment_ils').subscribe({
+        error: () => { } // Hago que no salte el error si se actualiza 2 veces seguidas
+      })
     }
+
+    // Actualización expediente tras guardar motivo de requerimiento
+    this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'emitirReq')
+      .subscribe({
+        next: () => {
+          this.form.patchValue({ situacion: 'emitirReq' });
+          this.commonService.showSnackBar('✅ Situación de expediente actualizada correctamente')
+        },
+        error: () => {
+          this.commonService.showSnackBar('⚠️ No se ha podido actualizar la situación del expediente')
+        }
+      })
   }
 
   private tieneTodosLosValores(): boolean {
@@ -151,9 +172,9 @@ export class RequerimientoIlsComponent {
     this.documentosGeneradoService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_requeriment_ils')
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
-          this.actoAdmin1 = false;
+          this.actoAdmin = false;
           if (docActoAdmin.length === 1) {
-            this.actoAdmin1 = true;
+            this.actoAdmin = true;
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo;
             this.nameDocGenerado = docActoAdmin[0].name;
             this.lastInsertId = docActoAdmin[0].id;
@@ -165,7 +186,7 @@ export class RequerimientoIlsComponent {
         },
         error: (err) => {
           console.error('Error obteniendo documentos', err);
-          this.actoAdmin1 = false;
+          this.actoAdmin = false;
         }
       })
   }
@@ -322,7 +343,7 @@ export class RequerimientoIlsComponent {
               next: (response: any) => {
                 const mensaje =
                   response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
-                this.actoAdmin1 = true;
+                this.actoAdmin = true;
                 this.commonService.showSnackBar(mensaje);
               },
               error: (updateErr) => {
@@ -350,13 +371,10 @@ export class RequerimientoIlsComponent {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string): void {
-    const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
-    let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
@@ -387,17 +405,20 @@ export class RequerimientoIlsComponent {
 
     switch (this.signedBy) {
       case 'technician':
-        email = this.userLoginEmail;
+        email = this.technicianEmail;
         break;
+
       case 'ceo':
         email = this.ceoEmail;
         break;
-      case 'applicant':
-        email = this.form.get('email_rep')?.value;
-        break;
+
       case 'conseller':
         // ToDo
-        email = this.emailConseller;
+        email = this.consellerEmail;
+        break;
+
+      case 'applicant':
+        email = this.form.get('email_rep')?.value;
         break;
     }
 
@@ -406,7 +427,7 @@ export class RequerimientoIlsComponent {
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-    }
+    };
 
     this.viafirmaService.createSignatureRequest(payload)
       .pipe(finalize(() => { this.loading = false; }))
@@ -434,6 +455,36 @@ export class RequerimientoIlsComponent {
         this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
         const sendedDateToSign = resp.creationDate;
         this.sendedDateToSign = new Date(sendedDateToSign);
+
+        // Actualización si está firmado y si la fecha de requerimiento no es igual a la fecha de la nueva firma;
+        if (this.signatureDocState === "COMPLETED") {
+          if (this.form.get('fecha_requerimiento')?.value !== this.commonService.convertUnixToHumanDate(resp.endDate, true)) {
+            // Actualizo el expediente
+            this.expedienteService.updateFieldExpediente(this.actualID, 'fecha_requerimiento', this.commonService.convertUnixToHumanDate(resp.endDate, true))
+              .subscribe({
+                next: () => {
+                  this.commonService.showSnackBar('✅ Fecha requerimiento actualizada correctamente');
+                  this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'reqFirmado')
+                    .subscribe({
+                      next: () => {
+                        this.commonService.showSnackBar('✅ Situación de expediente actualizada correctamente');
+                        this.form.patchValue({
+                          fecha_requerimiento: this.commonService.convertUnixToHumanDate(resp.endDate, true),
+                          situacion: 'reqFirmado'
+                        }
+                        );
+                      },
+                      error: () => {
+                        this.commonService.showSnackBar('⚠️ No se ha podido actualizar la situación del expediente');
+                      }
+                    })
+                },
+                error: () => {
+                  this.commonService.showSnackBar('⚠️ No se ha podido actualizar la fecha de requerimiento');
+                }
+              })
+          }
+        }
       })
   }
 
@@ -451,8 +502,12 @@ export class RequerimientoIlsComponent {
   getGlobalConfig(): void {
     this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
       if (globalConfig.length > 0) {
-        // this.emailConseller = globalConfig[0],data.eMailPresidente || ''
-        this.emailConseller = ''
+        /* Quitar hardcodeo de emails */
+        // this.ceoEmail = globalConfig[0].eMailDGerente;
+        // this.consellerEmail = globalConfig[0].eMailPresidente;
+
+        this.ceoEmail = "jose.luis@idi.es";
+        this.consellerEmail = "jldejesus@adrbalears.caib.es"
       }
     })
   }
