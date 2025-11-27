@@ -8,7 +8,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of } from 'rxjs';
@@ -68,6 +68,7 @@ export class IlsDetailExpedComponent {
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService)
   private customValidatorService = inject(CustomValidatorsService)
+  selectedIndex: number | undefined;
 
   form!: FormGroup
   idExpediente!: number
@@ -156,10 +157,17 @@ export class IlsDetailExpedComponent {
 
     });
 
+    const tabIndex = sessionStorage.getItem('currentIlsTab');
+    this.selectedIndex = tabIndex !== null ? Number(tabIndex) : undefined;
+
     this.commonService.getIlsSituations().subscribe((situations: any[]) => {
       this.situations = situations
     })
     this.getExpedDetail(this.idExpediente)
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    sessionStorage.setItem('currentIlsTab', event.index.toString())
   }
 
   getExpedDetail(id: number) {
@@ -272,7 +280,13 @@ export class IlsDetailExpedComponent {
   enableEdit(): void {
     this.isEditing = !this.isEditing;
     Object.keys(this.form.controls).forEach(controlName => {
-      if ((controlName !== 'nif') && (controlName !== 'tipo_tramite') && (controlName !== "fecha_solicitud") && (controlName !== "motivoRequerimiento")) {
+      if (
+        controlName !== 'nif' && 
+        controlName !== 'tipo_tramite' && 
+        controlName !== "fecha_solicitud" && 
+        controlName !== "motivoRequerimiento" &&
+        controlName !== "publicar_en_web" // Debe estar activo en cualquier momento
+      ) {
         if (this.isEditing) {
           this.form.get(controlName)?.enable();
         } else {

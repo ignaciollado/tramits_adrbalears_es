@@ -2,7 +2,12 @@
     <h3>{{ 'FORM.EXPEDIENT' | translate }}: {{actualIdExp}}/{{actualConvocatoria}} ({{actualTipoTramite}}) {{actualEmpresa}} - {{actualNif}}</h3>
 </section>
 <form [formGroup]="form" ngClass="detalle-formulario">
-    <mat-tab-group mat-stretch-tabs>
+    <section>
+        <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
+        <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid || !isEditing">Guardar</button>
+    </section>
+    <mat-tab-group animationDuration="500ms" mat-stretch-tabs mat-align-tabs="center" dynamicHeight
+    [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
         <mat-tab>
             <ng-template mat-tab-label>
                 <span ngClass="exped-tab detail-tab">{{'APP.DETAIL' | translate}}</span>
@@ -253,7 +258,7 @@
                     <mat-accordion ngClass="example-headers-align" multi>
                         <mat-expansion-panel>
                             <mat-expansion-panel-header>
-                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.MODELOSEGUIMIENTO' | translate}}</mat-panel-title>
+                                <mat-panel-title>{{'ACTOSADMINISTRATIVOS.MODELOSEGUIMIENTO' | translate}} (pendiente)</mat-panel-title>
                             </mat-expansion-panel-header>
                         </mat-expansion-panel>
                     </mat-accordion>
@@ -357,8 +362,4 @@
             </mat-card>
         </mat-tab>
     </mat-tab-group>
-    <section>
-        <button mat-raised-button color="primary" type="submit" (click)="enableEdit()">Editar</button>
-        <button mat-raised-button color="accent" (click)="saveExpediente()" [disabled]="!form.valid || !isEditing">Guardar</button>
-    </section>
 </form>
