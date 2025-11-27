@@ -20,6 +20,7 @@ import { ExpedienteService } from '../../Services/expediente.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-resolucion-revocacion-ils',
@@ -36,8 +37,6 @@ export class ResolucionRevocacionIlsComponent {
   nifDocGenerado: string = "";
   timeStampDocGenerado: string = "";
   nameDocGenerado: string = "";
-  userLoginEmail: string = "";
-  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   loading: boolean = false;
@@ -68,9 +67,13 @@ export class ResolucionRevocacionIlsComponent {
   camposVacios: string[] = [];
   signedBy!: string;
 
-  docDataString!: ActoAdministrativoDTO;
-  emailConseller!: string;
   nomPresidenteIdi!: string;
+
+  docDataString!: ActoAdministrativoDTO;
+
+  technicianEmail!: string;
+  ceoEmail!: string;
+  consellerEmail!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -88,7 +91,7 @@ export class ResolucionRevocacionIlsComponent {
     private lineaAyuda: PindustLineaAyudaService,
     private configGlobal: PindustConfiguracionService
   ) {
-    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
+    this.technicianEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
 
   get stateClass(): string {
@@ -109,7 +112,7 @@ export class ResolucionRevocacionIlsComponent {
       })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
@@ -221,14 +224,14 @@ export class ResolucionRevocacionIlsComponent {
 
     doc.setFontSize(10);
     doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80);
-    doc.text(doc.splitTextToSize(jsonObject.antecedents_tit, maxTextWidth), marginLeft, 92);
+    doc.text(doc.splitTextToSize(jsonObject.antecedents_tit, maxTextWidth), marginLeft, 96);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.antecedents_1_2_3_4, maxTextWidth), marginLeft + 5, 100);
+    doc.text(doc.splitTextToSize(jsonObject.antecedents_1_2_3_4, maxTextWidth), marginLeft + 5, 104);
 
     doc.setFont('helvetica', 'bold')
-    doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 164);
+    doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 168);
     doc.setFont('helvetica', 'normal')
-    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft + 5, 172);
+    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft + 5, 176);
 
     // Segunda página
     doc.addPage();
@@ -380,13 +383,10 @@ export class ResolucionRevocacionIlsComponent {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string): void {
-    const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
-    let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
@@ -428,16 +428,19 @@ export class ResolucionRevocacionIlsComponent {
 
     switch (this.signedBy) {
       case 'technician':
-        email = this.userLoginEmail;
+        email = this.technicianEmail;
         break;
       case 'ceo':
         email = this.ceoEmail;
         break;
+
+      case 'conseller':
+        // ToDo
+        email = this.consellerEmail;
+        break;
+
       case 'applicant':
         email = this.form.get('email_rep')?.value;
-        break;
-      case 'conseller':
-        email = this.emailConseller;
         break;
     }
 
@@ -446,7 +449,7 @@ export class ResolucionRevocacionIlsComponent {
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-    }
+    };
 
     this.viafirmaService.createSignatureRequest(payload)
       .pipe(finalize(() => { this.loading = false; }))
@@ -478,12 +481,16 @@ export class ResolucionRevocacionIlsComponent {
     })
   }
 
-    getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-        // this.emailConseller = globalConfig.eMailPresidente || ''
-        this.emailConseller = ''
-        this.nomPresidenteIdi = globalConfig.respresidente;
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      /* Quitar hardcodeo de emails */
+      // this.ceoEmail = globalConfig[0].eMailDGerente;
+      // this.consellerEmail = globalConfig[0].eMailPresidente;
+
+      this.nomPresidenteIdi = globalConfig[0].respresidente;
+
+      this.ceoEmail = 'jose.luis@idi.es'
+      this.consellerEmail = 'jldejesus@adrbalears.caib.es'
     })
   }
 }
