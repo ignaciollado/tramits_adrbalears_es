@@ -20,6 +20,7 @@ import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import jsPDF from 'jspdf';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-renov-informe-desfavorable-con-requerimiento-ils',
@@ -36,8 +37,6 @@ export class RenovInformeDesfavorableConRequerimientoIlsComponent {
   nifDocGenerado: string = "";
   timeStampDocGenerado: string = "";
   nameDocGenerado: string = "";
-  userLoginEmail: string = "";
-  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   loading: boolean = false;
@@ -69,7 +68,10 @@ export class RenovInformeDesfavorableConRequerimientoIlsComponent {
   signedBy!: string;
 
   docDataString!: ActoAdministrativoDTO;
-  emailConseller!: string;
+
+  technicianEmail!: string;
+  ceoEmail!: string;
+  consellerEmail!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -87,7 +89,7 @@ export class RenovInformeDesfavorableConRequerimientoIlsComponent {
     private lineaAyuda: PindustLineaAyudaService,
     private configGlobal: PindustConfiguracionService
   ) {
-    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
+    this.technicianEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
 
   get stateClass(): string {
@@ -108,7 +110,7 @@ export class RenovInformeDesfavorableConRequerimientoIlsComponent {
       })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
@@ -357,13 +359,10 @@ export class RenovInformeDesfavorableConRequerimientoIlsComponent {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string): void {
-    const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
-    let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
@@ -405,16 +404,19 @@ export class RenovInformeDesfavorableConRequerimientoIlsComponent {
 
     switch (this.signedBy) {
       case 'technician':
-        email = this.userLoginEmail;
+        email = this.technicianEmail;
         break;
       case 'ceo':
         email = this.ceoEmail;
         break;
+
+      case 'conseller':
+        // ToDo
+        email = this.consellerEmail;
+        break;
+
       case 'applicant':
         email = this.form.get('email_rep')?.value;
-        break;
-      case 'conseller':
-        email = this.emailConseller;
         break;
     }
 
@@ -423,7 +425,8 @@ export class RenovInformeDesfavorableConRequerimientoIlsComponent {
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-    }
+    };
+
 
     this.viafirmaService.createSignatureRequest(payload)
       .pipe(finalize(() => { this.loading = false; }))
@@ -457,10 +460,12 @@ export class RenovInformeDesfavorableConRequerimientoIlsComponent {
 
   getGlobalConfig() {
     this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      if (globalConfig.length > 0) {
-        // this.emailConseller = globalConfig[0].eMailPresidente || ''
-        this.emailConseller = ''
-      }
+      /* Quitar hardcodeo de emails */
+      // this.ceoEmail = globalConfig[0].eMailDGerente;
+      // this.consellerEmail = globalConfig[0].eMailPresidente;
+
+      this.ceoEmail = 'jose.luis@idi.es'
+      this.consellerEmail = 'jldejesus@adrbalears.caib.es'
     })
   }
 
