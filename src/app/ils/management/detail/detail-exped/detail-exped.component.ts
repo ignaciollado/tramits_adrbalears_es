@@ -140,7 +140,7 @@ export class IlsDetailExpedComponent {
       /* Entre fecha_adhesion_ils hasta fecha_seguimiento_adhesion_ils, hay 1 año de diferencia */
       fecha_limite_presentacion: [{ value: '', disabled: true }, []],
       fecha_rec_informe_seguimiento: [{ value: '', disabled: true }, []],
-      ref_REC_informe_seguimiento: [{ value: '', disabled: true }, []],
+      ref_REC_informe_seguimiento: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
 
       /* Renovación */
       fecha_renovacion: [{ value: '', disabled: true }, []],
@@ -150,7 +150,7 @@ export class IlsDetailExpedComponent {
       fecha_notif_req_renov: [{ value: '', disabled: true }, []],
       fecha_REC_enmienda_renov: [{ value: '', disabled: true }, []],
       fecha_REC_justificacion_renov: [{ value: '', disabled: true }, []],
-      ref_REC_justificacion_renov: [{ value: '', disabled: true }, []],
+      ref_REC_justificacion_renov: [{ value: '', disabled: true }, [Validators.maxLength(16)]],
       fecha_resolucion_renov: [{ value: '', disabled: true }, []],
       fecha_notificacion_renov: [{ value: '', disabled: true }, []],
       fecha_res_revocacion_marca: [{ value: '', disabled: true }, []]
