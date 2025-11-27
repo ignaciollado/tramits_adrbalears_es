@@ -1,26 +1,26 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, inject, Input, SimpleChanges } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TranslateModule } from '@ngx-translate/core';
-import { ExpedienteDocumentoService } from '../../Services/expediente.documento.service';
-import { ExpedienteService } from '../../Services/expediente.service';
-import { FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
-import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
-import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { CommonService } from '../../Services/common.service';
-import { ViafirmaService } from '../../Services/viafirma.service';
-import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
-import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
-import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
-import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
+import { TranslateModule } from '@ngx-translate/core';
+import jsPDF from 'jspdf';
 import { finalize } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
-import jsPDF from 'jspdf';
+import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
+import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { CommonService } from '../../Services/common.service';
+import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
+import { ExpedienteService } from '../../Services/expediente.service';
+import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
+import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
+import { ViafirmaService } from '../../Services/viafirma.service';
 
 @Component({
   selector: 'app-resol-concesion-adhesion-ils',
@@ -32,14 +32,13 @@ import jsPDF from 'jspdf';
 
 export class ResolConcesionAdhesionIlsComponent {
   private expedienteService = inject(ExpedienteService);
+
   actoAdmin: boolean = false;
   sendedToSign: boolean = false;
   signatureDocState: string = "";
   nifDocGenerado: string = "";
   timeStampDocGenerado: string = "";
   nameDocGenerado: string = "";
-  userLoginEmail: string = "";
-  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   loading: boolean = false;
@@ -69,10 +68,13 @@ export class ResolConcesionAdhesionIlsComponent {
   faltanCampos: boolean = false;
   camposVacios: string[] = [];
   signedBy!: string;
+  nomPresidenteIdi!: string;
 
   docDataString!: ActoAdministrativoDTO;
-  emailConseller!: string;
-  nomPresidenteIdi!: string;
+
+  technicianEmail!: string;
+  ceoEmail!: string;
+  consellerEmail!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -90,7 +92,7 @@ export class ResolConcesionAdhesionIlsComponent {
     private lineaAyuda: PindustLineaAyudaService,
     private configGlobal: PindustConfiguracionService
   ) {
-    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
+    this.technicianEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
 
   get stateClass(): string {
@@ -111,7 +113,7 @@ export class ResolConcesionAdhesionIlsComponent {
       })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
@@ -230,9 +232,7 @@ export class ResolConcesionAdhesionIlsComponent {
     doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80);
     doc.text(doc.splitTextToSize(jsonObject.antecedentes, maxTextWidth), marginLeft, 92);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft + 5, 100);
-    doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft + 5, 116);
-    doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft + 5, 128);
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2_3, maxTextWidth), marginLeft + 5, 100);
 
     doc.setFont('helvetica', 'bold');
     doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 152);
@@ -267,6 +267,7 @@ export class ResolConcesionAdhesionIlsComponent {
     }
 
     const pdfBlob = doc.output('blob');
+
     const formData = new FormData();
     const fileName = `${this.actualIdExp}_${this.actualConvocatoria}_${docFieldToUpdate}.pdf`;
 
@@ -397,13 +398,10 @@ export class ResolConcesionAdhesionIlsComponent {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string): void {
-    const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
-    let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
@@ -445,16 +443,19 @@ export class ResolConcesionAdhesionIlsComponent {
 
     switch (this.signedBy) {
       case 'technician':
-        email = this.userLoginEmail;
+        email = this.technicianEmail;
         break;
       case 'ceo':
         email = this.ceoEmail;
         break;
+
+      case 'conseller':
+        // ToDo
+        email = this.consellerEmail;
+        break;
+
       case 'applicant':
         email = this.form.get('email_rep')?.value;
-        break;
-      case 'conseller':
-        email = this.emailConseller;
         break;
     }
 
@@ -463,7 +464,7 @@ export class ResolConcesionAdhesionIlsComponent {
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-    }
+    };
 
     this.viafirmaService.createSignatureRequest(payload)
       .pipe(finalize(() => { this.loading = false; }))
@@ -495,12 +496,16 @@ export class ResolConcesionAdhesionIlsComponent {
     })
   }
 
-    getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-        this.nomPresidenteIdi = globalConfig.respresidente;
-        // this.emailConseller = globalConfig.eMailPresidente || ''
-        this.emailConseller = ''
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      /* Quitar hardcodeo de emails */
+      // this.ceoEmail = globalConfig[0].eMailDGerente;
+      // this.consellerEmail = globalConfig[0].eMailPresidente;
+
+      this.nomPresidenteIdi = globalConfig[0].respresidente;
+
+      this.ceoEmail = 'jose.luis@idi.es'
+      this.consellerEmail = 'jldejesus@adrbalears.caib.es'
     })
   }
 }
