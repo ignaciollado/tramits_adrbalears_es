@@ -1,11 +1,16 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { Component, inject, Input, SimpleChanges } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import jsPDF from 'jspdf';
+import { finalize } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
@@ -16,10 +21,6 @@ import { ExpedienteService } from '../../Services/expediente.service';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
-import { finalize } from 'rxjs';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
-import { ConfigurationModelDTO } from '../../Models/configuration.dto';
-import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-renov-informe-favorable-ils',
@@ -36,8 +37,6 @@ export class RenovInformeFavorableIlsComponent {
   nifDocGenerado: string = "";
   timeStampDocGenerado: string = "";
   nameDocGenerado: string = "";
-  userLoginEmail: string = "";
-  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   loading: boolean = false;
@@ -69,7 +68,10 @@ export class RenovInformeFavorableIlsComponent {
   signedBy!: string;
 
   docDataString!: ActoAdministrativoDTO;
-  emailConseller!: string;
+
+  technicianEmail!: string;
+  ceoEmail!: string;
+  consellerEmail!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -87,7 +89,7 @@ export class RenovInformeFavorableIlsComponent {
     private lineaAyuda: PindustLineaAyudaService,
     private configGlobal: PindustConfiguracionService
   ) {
-    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
+    this.technicianEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
 
   get stateClass(): string {
@@ -108,7 +110,7 @@ export class RenovInformeFavorableIlsComponent {
       })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
@@ -246,41 +248,41 @@ export class RenovInformeFavorableIlsComponent {
     formData.append('nifcif_propietario', String(this.actualNif));
     formData.append('timeStamp', String(timeStamp));
 
-     this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
-       next: (response) => {
-         this.docGeneradoInsert.id_sol = this.actualID;
-         this.docGeneradoInsert.cifnif_propietario = this.actualNif;
-         this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria);
-         this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`;
-         this.docGeneradoInsert.type = 'application/pdf';
-         this.docGeneradoInsert.created_at = response.path;
-         this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite;
-         this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`;
-         this.docGeneradoInsert.selloDeTiempo = timeStamp;
+    this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
+      next: (response) => {
+        this.docGeneradoInsert.id_sol = this.actualID;
+        this.docGeneradoInsert.cifnif_propietario = this.actualNif;
+        this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria);
+        this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`;
+        this.docGeneradoInsert.type = 'application/pdf';
+        this.docGeneradoInsert.created_at = response.path;
+        this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite;
+        this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`;
+        this.docGeneradoInsert.selloDeTiempo = timeStamp;
 
-         this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
+        this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-         this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, String(this.actualConvocatoria), 'doc_renovacion_informe_favorable_ils')
-           .subscribe({
-             next: () => {
-               this.insertDocumentoGenerado(docFieldToUpdate);
-             },
-             error: (deleteErr) => {
-               const status = deleteErr?.status;
-               const msg = deleteErr?.error?.message || '';
-               // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
-               if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
-                 this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                 this.insertDocumentoGenerado(docFieldToUpdate);
-               } else {
-                 // Otros errores sí se notifican y no continúan
-                 const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
-                 this.commonService.showSnackBar(deleteErrMsg);
-               }
-             }
-           })
-       }
-     })
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, String(this.actualConvocatoria), 'doc_renovacion_informe_favorable_ils')
+          .subscribe({
+            next: () => {
+              this.insertDocumentoGenerado(docFieldToUpdate);
+            },
+            error: (deleteErr) => {
+              const status = deleteErr?.status;
+              const msg = deleteErr?.error?.message || '';
+              // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
+              if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
+                this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
+                this.insertDocumentoGenerado(docFieldToUpdate);
+              } else {
+                // Otros errores sí se notifican y no continúan
+                const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
+                this.commonService.showSnackBar(deleteErrMsg);
+              }
+            }
+          })
+      }
+    })
   }
 
   private tieneTodosLosCamposRequeridos(): void {
@@ -362,13 +364,10 @@ export class RenovInformeFavorableIlsComponent {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string): void {
-    const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
-    let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
@@ -410,16 +409,19 @@ export class RenovInformeFavorableIlsComponent {
 
     switch (this.signedBy) {
       case 'technician':
-        email = this.userLoginEmail;
+        email = this.technicianEmail;
         break;
       case 'ceo':
         email = this.ceoEmail;
         break;
+
+      case 'conseller':
+        // ToDo
+        email = this.consellerEmail;
+        break;
+
       case 'applicant':
         email = this.form.get('email_rep')?.value;
-        break;
-      case 'conseller':
-        email = this.emailConseller;
         break;
     }
 
@@ -428,7 +430,7 @@ export class RenovInformeFavorableIlsComponent {
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-    }
+    };
 
     this.viafirmaService.createSignatureRequest(payload)
       .pipe(finalize(() => { this.loading = false; }))
@@ -462,10 +464,12 @@ export class RenovInformeFavorableIlsComponent {
 
   getGlobalConfig() {
     this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
-      if (globalConfig.length > 0) {
-        // this.emailConseller = globalConfig[0].eMailPresidente || ''
-        this.emailConseller = ''
-      }
+      /* Quitar hardcodeo de emails */
+      // this.ceoEmail = globalConfig[0].eMailDGerente;
+      // this.consellerEmail = globalConfig[0].eMailPresidente;
+
+      this.ceoEmail = 'jose.luis@idi.es'
+      this.consellerEmail = 'jldejesus@adrbalears.caib.es'
     })
   }
 
