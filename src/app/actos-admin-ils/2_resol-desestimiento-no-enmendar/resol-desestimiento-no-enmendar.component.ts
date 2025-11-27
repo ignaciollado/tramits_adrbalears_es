@@ -20,6 +20,7 @@ import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { DocSignedDTO } from '../../Models/docsigned.dto';
 import { finalize } from 'rxjs';
 import jsPDF from 'jspdf';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-resol-desestimiento-no-enmendar-ils',
@@ -30,13 +31,12 @@ import jsPDF from 'jspdf';
 })
 export class ResolDesestimientoNoEnmendarIlsComponent {
   private expedienteService = inject(ExpedienteService);
+
   actoAdmin: boolean = false;
   sendedToSign: boolean = false;
   signatureDocState: string = "";
   nifDocGenerado: string = "";
   timeStampDocGenerado: string = "";
-  userLoginEmail: string = "";
-  ceoEmail: string = "";
   pdfUrl: SafeResourceUrl | null = null;
   showPdfViewer: boolean = false;
   nameDocGenerado: string = "";
@@ -69,8 +69,12 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
   camposVacios: string[] = [];
   signedBy!: string;
 
+
   docDataString!: ActoAdministrativoDTO;
-  emailConseller!: string;
+
+  technicianEmail!: string;
+  ceoEmail!: string;
+  consellerEmail!: string;
 
   @Input() actualID!: number;
   @Input() actualIdExp!: number;
@@ -87,7 +91,7 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
     private lineaAyuda: PindustLineaAyudaService,
     private configGlobal: PindustConfiguracionService
   ) {
-    this.userLoginEmail = sessionStorage.getItem('tramits_user_email') || '';
+    this.technicianEmail = sessionStorage.getItem('tramits_user_email') || '';
   }
 
   get stateClass(): string {
@@ -108,7 +112,7 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
       })
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
       this.getLineDetail(this.actualConvocatoria);
@@ -243,20 +247,17 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
     }
 
     doc.setFontSize(10);
-    doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80)
-    doc.text(doc.splitTextToSize(jsonObject.antecedentes, maxTextWidth), marginLeft, 92)
+    doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 90)
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes, maxTextWidth), marginLeft, 110)
+
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.p1, maxTextWidth), marginLeft + 5, 100);
-    doc.text(doc.splitTextToSize(jsonObject.p2, maxTextWidth), marginLeft + 5, 116);
-    doc.text(doc.splitTextToSize(jsonObject.p3, maxTextWidth), marginLeft + 5, 128);
-    doc.text(doc.splitTextToSize(jsonObject.p4, maxTextWidth), marginLeft + 5, 140);
+    doc.text(doc.splitTextToSize(jsonObject.antecedentes_1_2_3_4, maxTextWidth), marginLeft + 5, 118);
 
     doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 160);
+    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 190);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.resolucion_1, maxTextWidth), marginLeft + 5, 168);
-    doc.text(doc.splitTextToSize(jsonObject.resolucion_2, maxTextWidth), marginLeft + 5, 180);
-    doc.text(doc.splitTextToSize(jsonObject.resolucion_3, maxTextWidth), marginLeft + 5, 188);
+    doc.text(doc.splitTextToSize(jsonObject.resolucion_1_2_3, maxTextWidth), marginLeft + 5, 198);
+
 
 
     // Segunda página
@@ -285,6 +286,7 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
     }
 
     const pdfBlob = doc.output('blob');
+
     const formData = new FormData();
     const fileName = `${this.actualIdExp}_${this.actualConvocatoria}_${docFieldToUpdate}.pdf`;
     formData.append('file', pdfBlob, fileName);
@@ -382,13 +384,10 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
   }
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string): void {
-    const entorno = sessionStorage.getItem('entorno');
+    const entorno = environment.apiUrl;
     filename = filename.replace(/^doc_/, "");
     filename = `${this.actualIdExp}_${this.actualConvocatoria}_${filename}`;
-    let url = "";
-    url = entorno === "tramits" ?
-      `https://tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}` :
-      `https://pre-tramits.idi.es/public/index.php/documents/view/${nif}/${folder}/${filename}`;
+    const url = `${entorno}/documents/view/${nif}/${folder}/${filename}`;
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 
@@ -430,17 +429,19 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
 
     switch (this.signedBy) {
       case 'technician':
-        email = this.userLoginEmail;
+        email = this.technicianEmail;
         break;
       case 'ceo':
         email = this.ceoEmail;
         break;
-      case 'applicant':
-        email = this.form.get('email_rep')?.value;
-        break;
+
       case 'conseller':
         // ToDo
-        email = this.emailConseller;
+        email = this.consellerEmail;
+        break;
+
+      case 'applicant':
+        email = this.form.get('email_rep')?.value;
         break;
     }
 
@@ -449,7 +450,7 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
       nombreDocumento: filename,
       nif: nif,
       last_insert_id: this.lastInsertId
-    }
+    };
 
     this.viafirmaService.createSignatureRequest(payload)
       .pipe(finalize(() => { this.loading = false; }))
@@ -482,11 +483,15 @@ export class ResolDesestimientoNoEnmendarIlsComponent {
   }
 
   getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-        // this.emailConseller = globalConfig.eMailPresidente || ''
-        this.emailConseller = ''
-        this.nomPresidenteIdi = globalConfig.respresidente;
+    this.configGlobal.getActive().subscribe((globalConfig: ConfigurationModelDTO[]) => {
+      /* Quitar hardcodeo de emails */
+      // this.ceoEmail = globalConfig[0].eMailDGerente;
+      // this.consellerEmail = globalConfig[0].eMailPresidente;
+
+      this.nomPresidenteIdi = globalConfig[0].respresidente;
+
+      this.ceoEmail = 'jose.luis@idi.es';
+      this.consellerEmail = 'jldejesus@adrbalears.caib.es';
     })
   }
 }
