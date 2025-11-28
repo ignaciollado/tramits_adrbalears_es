@@ -190,7 +190,10 @@ loadAllExpedientes(): void {
             }
             if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
               //"plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
-              //this.prDefinitivaDesfavorable.create().subscribe()
+              this.prDefinitivaDesfavorable.generateActoAdmin(item.id, item.nif, item.convocatoria,  '13_propuesta_resolucion_definitiva_desfavorable_sin_requerimiento', 'XECS', item.tipo_tramite,
+                'prop_res_def_desfavorable_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, item.fecha_not_propuesta_resolucion_prov,
+                item.fecha_infor_fav_desf, item.motivo_denegacion, item.idExp, 'prop_res_def_desfavorable_sin_req', item.empresa, 
+                item.importeAyuda, item.fecha_requerimiento, item.fecha_REC_enmienda).subscribe()
             }
             // enviar del acto administrativo correspondiente
               /*             this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
