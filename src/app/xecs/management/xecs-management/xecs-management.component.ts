@@ -19,7 +19,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { CommonService } from '../../../Services/common.service';
-import { ActoAdministrativoPrDevinitivaFavorableService } from '../../../Services/acto-administrativo-pr-definitiva-favorable.service';
+import { PrDevinitivaDESFavorable_ConReqService } from '../../../Services/xecs-actos-admin/pr-definitiva-desfavorable-con-req.service';
+import { PrDevinitivaDESFavorableService } from '../../../Services/xecs-actos-admin/pr-definitiva-desfavorable.service';
+import { PrDevinitivaFavorable_ConReqService } from '../../../Services/xecs-actos-admin/pr-definitiva-favorable-con-req.service';
+import { PrDevinitivaFavorableService } from '../../../Services/xecs-actos-admin/pr-definitiva-favorable.service';
 
 @Component({
   selector: 'app-xecs-management',
@@ -47,7 +50,11 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private actoAdminPRDefinitivaFavorable: ActoAdministrativoPrDevinitivaFavorableService) {}
+
+  constructor(private prDefinitivaFavorable: PrDevinitivaFavorableService,
+              private prDefinitivaFavorableConReq: PrDevinitivaFavorable_ConReqService,
+              private prDefinitivaDesfavorable: PrDevinitivaDESFavorableService,
+              private prDefinitivaDesfavorableConReq: PrDevinitivaDESFavorable_ConReqService) {}
 
   private fb = inject(FormBuilder);
   private expedienteService = inject(ExpedienteService);
@@ -133,7 +140,6 @@ loadAllExpedientes(): void {
         } else  {
           this.hayRequerimiento = false
         }
-        console.log ("item.fecha_requerimiento_notif", this.hayRequerimiento, item.fecha_requerimiento_notif, item.id)
         if (item.fecha_not_propuesta_resolucion_prov === '0000-00-00' || item.fecha_not_propuesta_resolucion_prov === '0000-00-00 00:00:00') {
           item.fecha_not_propuesta_resolucion_prov = null
         }
@@ -153,7 +159,7 @@ loadAllExpedientes(): void {
         if ( item.fecha_not_propuesta_resolucion_def_sended === '0000-00-00' || item.fecha_not_propuesta_resolucion_def_sended === '0000-00-00 00:00:00') {
           item.fecha_not_propuesta_resolucion_def_sended = null
         }
-        item.message = "<small>s'enviará l'acte administratiu:<br>"
+        item.message = "<small>s'enviará a firma l'acte administratiu:<br>"
           if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
             item.message +="plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
           } 
@@ -168,8 +174,26 @@ loadAllExpedientes(): void {
           }            
           item.message += "</small>"
           if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0) {
-            // envio del acto administrativo correspondiente
-/*             this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
+            if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
+              //"plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
+              //this.prDefinitivaFavorableConReq.generateActoAdmin().subscribe()
+            }
+            if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
+              //"plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf"
+              //this.prDefinitivaDesfavorableConReq.create().subscribe()
+            }
+            if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
+              //"plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf"
+             /*  this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 'XECS', item.tipo_tramite,
+                'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, item.fecha_not_propuesta_resolucion_prov,
+                item.fecha_infor_fav_desfg, dGerente, actualIdExp, docNametoCreate, actualEmpresa, actualImporteSolicitud).subscribe() */
+            }
+            if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
+              //"plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
+              //this.prDefinitivaDesfavorable.create().subscribe()
+            }
+            // enviar del acto administrativo correspondiente
+              /*             this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
               actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
               this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
               this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.dGerente, this.actualIdExp, 

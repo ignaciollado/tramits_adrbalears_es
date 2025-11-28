@@ -99,6 +99,11 @@ p {
   }
 }
 
+.sin-notificar {
+  color: #d9534f;     // rojo suave
+  font-weight: bold;  // resalta el texto
+}
+
 td {
   &.st-en-curso {
     background-color: #bbdefb;

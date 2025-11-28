@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ActoAdministrativoDTO } from '../Models/acto-administrativo-dto';
 import { environment } from '../../environments/environment';
+import { PindustLineaAyudaService } from './linea-ayuda.service';
+import { PindustConfiguracionService } from './pindust-configuracion.service';
+import { PindustLineaAyudaDTO } from '../Models/linea-ayuda-dto';
+import { ConfigurationModelDTO } from '../Models/configuration.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +21,7 @@ export class ActoAdministrativoService {
     })
   };
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private http: HttpClient, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,) {  }
 
   getAll(): Observable<ActoAdministrativoDTO[]> {
     return this.http.get<ActoAdministrativoDTO[]>(`${this.apiUrl}/api/pindust/acto`);
@@ -59,4 +62,22 @@ export class ActoAdministrativoService {
   sendDecRespSolPDFToBackEnd(formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}/api/pindust/pdf/upload-dec-resp-sol`, formData);
   }
+  
+  getLineDetail(convocatoria: number): Observable<string> {
+    return this.lineaAyuda.getAll().pipe(
+      map((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
+        const filtered = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
+          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
+        });
+        return filtered.length > 0 ? filtered[0].lineaAyuda : '';
+      })
+    );
+  }
+  
+  getGlobalConfig() {
+    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
+      const globalConfig = globalConfigArr[0];
+      //this.dGerente = globalConfig?.directorGerenteIDI ?? '';
+    })
+  } 
 }

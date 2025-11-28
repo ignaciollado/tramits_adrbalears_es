@@ -11,7 +11,7 @@ import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { ActoAdministrativoPrDevinitivaFavorableService } from '../../Services/acto-administrativo-pr-definitiva-favorable.service';
+import { PrDevinitivaFavorableService } from '../../Services/xecs-actos-admin/pr-definitiva-favorable.service';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
@@ -103,7 +103,7 @@ export class PrDefinitivaFavorableComponent {
   constructor( private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
     private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
-    private actoAdminService: ActoAdministrativoService, private actoAdminPRDefinitivaFavorable: ActoAdministrativoPrDevinitivaFavorableService ) { 
+    private actoAdminService: ActoAdministrativoService, private prDefinitivaFavorableService: PrDevinitivaFavorableService ) { 
     this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
   }
 
@@ -190,12 +190,12 @@ export class PrDefinitivaFavorableComponent {
       return
     }
 
-   this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
+   this.prDefinitivaFavorableService.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
       actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
       this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
       this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.dGerente, this.actualIdExp, 
-      'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud
-    ).subscribe((result:any) => {this.actoAdmin11 = result})
+      'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud)
+        .subscribe((result:any) => {this.actoAdmin11 = result})
     
 
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
@@ -579,7 +579,7 @@ export class PrDefinitivaFavorableComponent {
             next: (resp) => {
               if (resp) {
                 if (resp.status) {
-                  this.signatureDocState = resp.status;
+                  this.signatureDocState = resp.status
                   this.expedienteService.updateFieldExpediente(this.actualID, 'fecha_firma_propuesta_resolucion_def', this.commonService.convertUnixToHumanDate(resp.endDate, true))
                   //this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'pendienteJustificar')
                     .subscribe(() => {

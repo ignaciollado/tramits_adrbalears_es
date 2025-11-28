@@ -1,17 +1,16 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { ActoAdministrativoService } from './acto-administrativo.service';
-import { CommonService } from './common.service';
-import { MejorasSolicitudService } from './mejoras-solicitud.service';
-import { MejoraSolicitudDTO } from '../Models/mejoras-solicitud-dto';
+import { environment } from '../../../environments/environment';
+import { ActoAdministrativoService } from '../acto-administrativo.service';
+import { CommonService } from '../common.service';
+import { MejorasSolicitudService } from '../mejoras-solicitud.service';
+import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 import { Observable, of, switchMap, tap, map, catchError } from 'rxjs';
 import { jsPDF } from 'jspdf';
-import { DocumentoGeneradoDTO } from '../Models/documentos-generados-dto';
-import { DocumentosGeneradosService } from '../Services/documentos-generados.service';
-import { ExpedienteService } from '../Services/expediente.service';
-import { PindustLineaAyudaService } from './linea-ayuda.service';
-import { PindustLineaAyudaDTO } from '../Models/linea-ayuda-dto';
+import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
+import { DocumentosGeneradosService } from '../documentos-generados.service';
+import { ExpedienteService } from '../expediente.service';
+import { PindustLineaAyudaService } from '../linea-ayuda.service';
+import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 
 
 /* 
@@ -22,26 +21,26 @@ desde el detalle del expediente (ACTO ADMINISTRATIVO 11 - 'PR definitiva favorab
 @Injectable({
   providedIn: 'root'
 })
-export class ActoAdministrativoPrDevinitivaFavorableService {
+export class PrDevinitivaFavorableService {
   private apiUrl = environment.apiUrl;
   private expedienteService = inject(ExpedienteService)
-  actoAdmin11: boolean = false
-  signedBy: string = ""
-  num_BOIB: string = ""
-  fecha_BOIB: string = ""
-  codigoSIA: string = ""
-  fechaResPresidente: string = ""
-  totalAmount: number = 0
-  lineDetail: PindustLineaAyudaDTO[] = []
+  private actoAdmin11: boolean = false
+  private signedBy: string = ""
+  private num_BOIB: string = ""
+  private fecha_BOIB: string = ""
+  private codigoSIA: string = ""
+  private fechaResPresidente: string = ""
+  private totalAmount: number = 0
+  private lineDetail: PindustLineaAyudaDTO[] = []
 
-  actualEmpresa: string = ""
+  private actualEmpresa: string = ""
 
-  actualImporteSolicitud!: number
+  private actualImporteSolicitud!: number
 
-  actualID!: number
-  nameDocgenerado: string = ""
+  private actualID!: number
+  private nameDocgenerado: string = ""
 
-  docGeneradoInsert: DocumentoGeneradoDTO = {
+  private docGeneradoInsert: DocumentoGeneradoDTO = {
                       id_sol: 0,
                       cifnif_propietario: '',
                       convocatoria: '',
@@ -53,18 +52,20 @@ export class ActoAdministrativoPrDevinitivaFavorableService {
                       selloDeTiempo: '',
                       publicAccessId: ''
   }
-  lastInsertId: number | undefined
+  private lastInsertId: number | undefined
 
-  constructor(private http: HttpClient, private actoAdminService: ActoAdministrativoService, 
+  constructor( private actoAdminService: ActoAdministrativoService, 
     private commonService: CommonService, private mejorasSolicitudService: MejorasSolicitudService, 
     private lineaAyuda: PindustLineaAyudaService,
-    private documentosGeneradosService: DocumentosGeneradosService) {
+    private documentosGeneradosService: DocumentosGeneradosService ) {
 
   }
 
+  // Primero se genera el acto administrativo
   generateActoAdmin(actualID: number, actualNif: string, actualConvocatoria: number, actoAdministrivoName: string, lineaAyuda: string, tipoTramite: string,
       docFieldToUpdate: string, fecha_solicitud: string, fecha_firma_propuesta_resolucion_prov: string, fecha_not_propuesta_resolucion_prov: string,
-      fecha_infor_fav_desf: string, dGerente: string, actualIdExp: number, docNametoCreate: string, actualEmpresa: string, actualImporteSolicitud: number): Observable<boolean> {
+      fecha_infor_fav_desf: string, dGerente: string, actualIdExp: number, docNametoCreate: string, actualEmpresa: string, 
+      actualImporteSolicitud: number): Observable<boolean> {
     
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS
     return this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, lineaAyuda).pipe(
@@ -92,10 +93,6 @@ export class ActoAdministrativoPrDevinitivaFavorableService {
           rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
           rawTexto = rawTexto.replace(/%IMPORTETOTALCONVOCATORIA%/g, this.commonService.formatCurrency(this.totalAmount))
         })
-        /*  rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB, true))
-         rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
-         rawTexto = rawTexto.replace(/%IMPORTETOTALCONVOCATORIA%/g, this.commonService.formatCurrency(this.totalAmount)) */
-
          rawTexto = rawTexto.replace(/%NIF%/g, actualNif);
          rawTexto = rawTexto.replace(/%SOLICITANTE%/g, actualEmpresa);
          rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(actualIdExp));
@@ -111,7 +108,8 @@ export class ActoAdministrativoPrDevinitivaFavorableService {
          rawTexto = rawTexto.replace(/%DGERENTE%/g, dGerente);
    
          // Averiguo si hay mejoras en la solicitud
-         return this.mejorasSolicitudService.countMejorasSolicitud(actualID).pipe(
+         return this.mejorasSolicitudService.countMejorasSolicitud(actualID)
+         .pipe(
            switchMap((nMejoras: any) => {
            if (nMejoras.total_mejoras > 0) {
              hayMejoras = nMejoras.total_mejoras;
@@ -158,6 +156,7 @@ export class ActoAdministrativoPrDevinitivaFavorableService {
      );
   }
 
+  // luego se genera el pdf del acto administrativo
   generarPDF(actualID: number, actualNif: string, actualConvocatoria: number, tipoTramite: string, jsonObject: any, 
     docFieldToUpdate: string, hayMejoras: number, actualIdExp: number, docNametoCreate: string): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
@@ -341,7 +340,7 @@ export class ActoAdministrativoPrDevinitivaFavorableService {
     });   
   }
 
-  // Método auxiliar para no repetir el bloque de creación
+  // Método auxiliar para no repetir el bloque de creación insertando en bbdd el acto administrativo que se ha creado
   InsertDocumentoGenerado(actualID: number): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert)
   .subscribe({

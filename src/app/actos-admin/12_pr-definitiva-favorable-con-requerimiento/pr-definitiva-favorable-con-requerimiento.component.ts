@@ -23,7 +23,7 @@ import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
-
+import { PrDevinitivaFavorable_ConReqService } from '../../Services/xecs-actos-admin/pr-definitiva-favorable-con-req.service';
 @Component({
   selector: 'app-pr-definitiva-favorable-con-requerimiento',
   standalone: true,
@@ -100,7 +100,7 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
     private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
-    private actoAdminService: ActoAdministrativoService ) { 
+    private actoAdminService: ActoAdministrativoService, private prDefinitivaFavorableConReqService: PrDevinitivaFavorable_ConReqService ) { 
     this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
   }
 
@@ -159,7 +159,7 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
       });
   }
 
-  generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+  generateActoAdmin(actoAdministrivoName: string, lineaAyuda: string, docFieldToUpdate: string = 'doc_prop_res_definitiva_con_req'): void {
     let todoOK: boolean = true
     let errorMessage: string = "Falta indicar:\n"
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
@@ -196,8 +196,15 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
       return
     }
 
+    this.prDefinitivaFavorableConReqService.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
+      actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
+      this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
+      this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.dGerente, this.actualIdExp, 
+      'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud, this.form.get('fecha_requerimiento')?.value, this.form.get('fecha_REC_enmienda')?.value)
+        .subscribe((result:any) => { this.actoAdmin12 = result})
+
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
-    this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
+    /*     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
       let rawTexto = docDataString.texto
       this.signedBy = docDataString.signedBy
@@ -264,7 +271,7 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
       }),
       tap(() => {
         try {
-          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
+          rawTexto = this.commonService.cleanRawText(rawTexto) // quito saltos de línea introducidos con el INTRO 
           console.log ("rawTexto", rawTexto)
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
@@ -274,10 +281,10 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
       })
     )
     .subscribe();
-  })
+  }) */
   }
 
-  generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
+  /*   generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
     const doc = new jsPDF({
       orientation: 'p',
@@ -457,10 +464,10 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
         this.commonService.showSnackBar(errorMsg);
         }
     });   
-  }
+  } */
 
   // Método auxiliar para no repetir el bloque de creación
-  InsertDocumentoGenerado(docFieldToUpdate: string): void {
+  /*   InsertDocumentoGenerado(docFieldToUpdate: string): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
     next: (resp: any) => {
       this.lastInsertId = resp?.id;
@@ -495,7 +502,7 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
       this.commonService.showSnackBar(insertErrorMsg);
     }
   });
-  }
+  } */
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
     const entorno = sessionStorage.getItem("entorno")
