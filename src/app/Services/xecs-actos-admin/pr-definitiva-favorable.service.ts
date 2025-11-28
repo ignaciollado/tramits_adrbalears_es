@@ -33,14 +33,10 @@ export class PrDevinitivaFavorableService {
   private dGerente: string = ""
   private totalAmount: number = 0
   private lineDetail: PindustLineaAyudaDTO[] = []
-
   private actualEmpresa: string = ""
-
   private actualImporteSolicitud!: number
-
   private actualID!: number
   private nameDocgenerado: string = ""
-
   private docGeneradoInsert: DocumentoGeneradoDTO = {
                       id_sol: 0,
                       cifnif_propietario: '',
@@ -57,15 +53,14 @@ export class PrDevinitivaFavorableService {
 
   constructor( private actoAdminService: ActoAdministrativoService, 
     private commonService: CommonService, private mejorasSolicitudService: MejorasSolicitudService, 
-    private documentosGeneradosService: DocumentosGeneradosService ) {
-
-  }
+    private documentosGeneradosService: DocumentosGeneradosService ) { }
 
   // Primero se genera el acto administrativo
   generateActoAdmin(actualID: number, actualNif: string, actualConvocatoria: number, actoAdministrivoName: string, lineaAyuda: string, tipoTramite: string,
       docFieldToUpdate: string, fecha_solicitud: string, fecha_firma_propuesta_resolucion_prov: string, fecha_not_propuesta_resolucion_prov: string,
       fecha_infor_fav_desf: string, actualIdExp: number, docNametoCreate: string, actualEmpresa: string, 
-      actualImporteSolicitud: number): Observable<boolean> {
+      actualImporteSolicitud: number ): Observable<boolean> {
+
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS
     return this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, lineaAyuda).pipe(
        switchMap((docDataString: any) => {
@@ -94,10 +89,8 @@ export class PrDevinitivaFavorableService {
          rawTexto = rawTexto.replace(/%FECHASOL%/g, this.commonService.formatDate(fecha_solicitud));
          rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(actualImporteSolicitud));
          rawTexto = rawTexto.replace(/%PROGRAMA%/g, tipoTramite);
-
          rawTexto = rawTexto.replace(/%FECHAPROPUESTARESOLUCION_PROVISIONAL%/g, this.commonService.formatDate(fecha_firma_propuesta_resolucion_prov));
          rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PROP_RESOL_PROVISIONAL%/g, this.commonService.formatDate(fecha_not_propuesta_resolucion_prov));
-    
          rawTexto = rawTexto.replace(/%FECHA_FIRMA_INFORME%/g, this.commonService.formatDate(fecha_infor_fav_desf));
          this.actoAdminService.getGlobalConfig()
           .subscribe((globalConfig: ConfigurationModelDTO) => {
@@ -167,7 +160,7 @@ export class PrDevinitivaFavorableService {
     doc.setProperties({
       title: `${actualIdExp + '_' + actualConvocatoria + '_' + docNametoCreate}`,
       subject: 'Tràmits administratius',
-      author: 'ADR Balears',
+      author: 'ADRBalears',
       keywords: 'ayudas, subvenciones, xecs, ils, adr-isba',
       creator: 'Angular App'
     });
