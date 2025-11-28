@@ -584,6 +584,35 @@ export class ResolucionConcesionConRequerimientoAdrIsbaComponent {
         this.sendedUserToSign = resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode;
         const sendedDateToSign = resp.creationDate;
         this.sendedDateToSign = new Date(sendedDateToSign);
+
+        // Actualización automática si está firmada y si la fecha de firma no coincide con la fecha previamente guardada
+        if (this.signatureDocState === "COMPLETED") {
+          if (this.form.get('fecha_firma_res')?.value !== this.commonService.convertUnixToHumanDate(resp.endDate, true)) {
+            // Actualizo el expediente
+            this.expedienteService.updateFieldExpediente(this.actualID, 'fecha_firma_res', this.commonService.convertUnixToHumanDate(resp.endDate, true))
+              .subscribe({
+                next: () => {
+                  this.commonService.showSnackBar('✅ Fecha firma resolución actualizada correctamente');
+                  this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'emitidaResConcesion')
+                    .subscribe({
+                      next: () => {
+                        this.form.patchValue({
+                          fecha_firma_res: this.commonService.convertUnixToHumanDate(resp.endDate, true),
+                          situacion: 'emitidaResConcesion'
+                        })
+                      },
+                      error: () => {
+                        this.commonService.showSnackBar('⚠️ No se ha podido actualizar la situación del expediente')
+                      }
+                    })
+
+                },
+                error: () => {
+                  this.commonService.showSnackBar('⚠️ No se ha podido actualizar la fecha de firma de la propuesta definitiva')
+                }
+              })
+          }
+        }
       })
   }
 

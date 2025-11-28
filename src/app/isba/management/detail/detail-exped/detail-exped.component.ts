@@ -36,6 +36,7 @@ import { CommonService } from '../../../../Services/common.service';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
+import { ResolucionConcesionConRequerimientoService } from '../../../../Services/actos-admin-adr-isba/resolucion-concesion-con-requerimiento.service';
 
 @Component({
   selector: 'app-detail-exped',
@@ -68,6 +69,9 @@ export class IsbaDetailExpedComponent {
   private fb = inject(FormBuilder)
   private expedienteService = inject(ExpedienteService)
   private customValidatorService = inject(CustomValidatorsService)
+
+  private resolucionConcesionConRequerimientoService = inject(ResolucionConcesionConRequerimientoService);
+
   selectedIndex: number | undefined;
 
   noRequestReasonText: boolean = true;
@@ -96,9 +100,18 @@ export class IsbaDetailExpedComponent {
 
   expediente!: any;
 
+  resConcesionConRequerimientoAutomatico: boolean = false;
+  resConcesionSinRequerimientoAutomatico: boolean = false;
+
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
   ngOnInit(): void {
+    // Subscripción al Subject del servicio Res Concesion Con Requerimiento
+    this.resolucionConcesionConRequerimientoService.flujoTerminado$
+    .subscribe((estado: boolean) => {
+      this.resConcesionConRequerimientoAutomatico = estado;
+    })
+
     this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
 
     this.form = this.fb.group({
@@ -333,9 +346,15 @@ export class IsbaDetailExpedComponent {
   // Lo refactorizo teniendo en cuenta posibles automatismos iguales o parecidos
   saveExpediente(): void {
     let situacionActual = "";
+    let generateRes: boolean = false;
 
-    if (this.expediente.fecha_not_propuesta_resolucion_prov != this.form.get('fecha_not_propuesta_resolucion_prov')?.value && this.form.get('fecha_not_propuesta_resolucion_prov')?.value !== "0000-00-00") {
+    if (this.form.get('fecha_not_propuesta_resolucion_prov')?.value && this.expediente.fecha_not_propuesta_resolucion_prov != this.form.get('fecha_not_propuesta_resolucion_prov')?.value && this.form.get('fecha_not_propuesta_resolucion_prov')?.value !== "0000-00-00") {
       situacionActual = "notificadoIFPRProvPago";
+    }
+
+    if (this.form.get('fecha_not_propuesta_resolucion_def')?.value && this.expediente.fecha_not_propuesta_resolucion_def !== this.form.get('fecha_not_propuesta_resolucion_def')?.value && this.form.get('fecha_not_propuesta_resolucion_def')?.value !== "0000-00-00") {
+      this.expediente.fecha_not_propuesta_resolucion_def = this.form.get('fecha_not_propuesta_resolucion_def')?.value;
+      generateRes = true;
     }
 
     if (situacionActual) {
@@ -350,8 +369,31 @@ export class IsbaDetailExpedComponent {
         next: () => {
           this.commonService.showSnackBar('✅ Expediente guardado correctamente.');
           this.enableEdit();
+          if (generateRes) {
+            this.generateResConcesion(this.expediente);
+          }
+
         },
         error: () => this.commonService.showSnackBar('❌ Error al guardar el expediente.')
       })
+  }
+
+  generateResConcesion(expediente: any): void {
+    if (expediente.fecha_requerimiento !== "0000-00-00") {
+      // Inicio flujo
+      this.resolucionConcesionConRequerimientoService.init(expediente);
+    } else {
+      console.log('No requerimiento')
+      // this.resConcesionSinRequerimientoAutomatico = true;
+    }
+
+    this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'emitirResConcesion').subscribe({
+      next: () => {
+        this.commonService.showSnackBar('Se ha actualizado la situación del expediente a emitirResConcesion');
+        this.form.patchValue({
+          situacion: 'emitirResConcesion'
+        })
+      }
+    });
   }
 }
