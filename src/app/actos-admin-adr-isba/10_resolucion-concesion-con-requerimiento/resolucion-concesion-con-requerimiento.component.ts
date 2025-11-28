@@ -88,8 +88,6 @@ export class ResolucionConcesionConRequerimientoAdrIsbaComponent {
   @Input() actualEmpresa: string = "";
   @Input() form!: FormGroup;
 
-  @Input() automaticGeneration?: boolean;
-
   constructor(
     private commonService: CommonService, private sanitizer: DomSanitizer,
     private viafirmaService: ViafirmaService,
