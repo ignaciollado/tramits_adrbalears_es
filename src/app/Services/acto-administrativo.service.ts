@@ -63,21 +63,23 @@ export class ActoAdministrativoService {
     return this.http.post(`${this.apiUrl}/api/pindust/pdf/upload-dec-resp-sol`, formData);
   }
   
-  getLineDetail(convocatoria: number): Observable<string> {
+  getLineDetail(convocatoria: number): Observable<any> {
     return this.lineaAyuda.getAll().pipe(
       map((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
         const filtered = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
           return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
         });
-        return filtered.length > 0 ? filtered[0].lineaAyuda : '';
+        return filtered.length > 0 ? filtered[0] : '';
       })
     );
   }
   
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-      //this.dGerente = globalConfig?.directorGerenteIDI ?? '';
-    })
+  getGlobalConfig(): Observable<any> {
+    return this.configGlobal.getActive().pipe(
+      map((globalConfigArr: ConfigurationModelDTO[]) => {
+        const globalConfig = globalConfigArr[0];
+        return globalConfig ?? '';
+      })
+    );
   } 
 }

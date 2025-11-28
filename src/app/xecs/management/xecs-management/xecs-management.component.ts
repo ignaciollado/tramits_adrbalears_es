@@ -184,9 +184,9 @@ loadAllExpedientes(): void {
             }
             if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
               //"plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf"
-             /*  this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 'XECS', item.tipo_tramite,
+              this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 'XECS', item.tipo_tramite,
                 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, item.fecha_not_propuesta_resolucion_prov,
-                item.fecha_infor_fav_desfg, dGerente, actualIdExp, docNametoCreate, actualEmpresa, actualImporteSolicitud).subscribe() */
+                item.fecha_infor_fav_desfg, item.IdExp, 'prop_res_def_favorable_sin_req', item.empresa, item.ImporteSolicitud).subscribe()
             }
             if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
               //"plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"

@@ -110,8 +110,17 @@ export class ResolDesestimientoNoEnmendarComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail()
-      this.getLineDetail(this.actualConvocatoria)
-      this.getGlobalConfig()
+      this.actoAdminService.getLineDetail(this.actualConvocatoria)
+        .subscribe((lineaAyudaItems: PindustLineaAyudaDTO) => {
+        this.num_BOIB = lineaAyudaItems['num_BOIB']
+        this.codigoSIA = lineaAyudaItems['codigoSIA']
+        this.fecha_BOIB = lineaAyudaItems['fecha_BOIB']
+        this.fechaResPresidente = lineaAyudaItems['fechaResPresidIDI'] ?? '' 
+        })
+      this.actoAdminService.getGlobalConfig()
+        .subscribe((globalConfig: ConfigurationModelDTO) => {
+          this.dGerente = globalConfig?.directorGerenteIDI ?? '';
+        })
     }
   }
 
@@ -510,25 +519,6 @@ export class ResolDesestimientoNoEnmendarComponent {
       this.sendedUserToSign =  resp.addresseeLines[0].addresseeGroups[0].userEntities[0].userCode
       const sendedDateToSign = resp.creationDate
       this.sendedDateToSign = new Date(sendedDateToSign)
-    })
-  }
-
-  getLineDetail(convocatoria: number) {
-      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
-        });
-        this.num_BOIB = this.lineDetail[0]['num_BOIB']
-        this.codigoSIA = this.lineDetail[0]['codigoSIA']
-        this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
-        this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
-    })
-  }
-
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
     })
   }
 }

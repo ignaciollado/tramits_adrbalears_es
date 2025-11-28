@@ -11,6 +11,7 @@ import { DocumentosGeneradosService } from '../documentos-generados.service';
 import { ExpedienteService } from '../expediente.service';
 import { PindustLineaAyudaService } from '../linea-ayuda.service';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 
 
 /* 
@@ -29,7 +30,7 @@ export class PrDevinitivaFavorableService {
   private num_BOIB: string = ""
   private fecha_BOIB: string = ""
   private codigoSIA: string = ""
-  private fechaResPresidente: string = ""
+  private dGerente: string = ""
   private totalAmount: number = 0
   private lineDetail: PindustLineaAyudaDTO[] = []
 
@@ -56,7 +57,6 @@ export class PrDevinitivaFavorableService {
 
   constructor( private actoAdminService: ActoAdministrativoService, 
     private commonService: CommonService, private mejorasSolicitudService: MejorasSolicitudService, 
-    private lineaAyuda: PindustLineaAyudaService,
     private documentosGeneradosService: DocumentosGeneradosService ) {
 
   }
@@ -64,9 +64,8 @@ export class PrDevinitivaFavorableService {
   // Primero se genera el acto administrativo
   generateActoAdmin(actualID: number, actualNif: string, actualConvocatoria: number, actoAdministrivoName: string, lineaAyuda: string, tipoTramite: string,
       docFieldToUpdate: string, fecha_solicitud: string, fecha_firma_propuesta_resolucion_prov: string, fecha_not_propuesta_resolucion_prov: string,
-      fecha_infor_fav_desf: string, dGerente: string, actualIdExp: number, docNametoCreate: string, actualEmpresa: string, 
+      fecha_infor_fav_desf: string, actualIdExp: number, docNametoCreate: string, actualEmpresa: string, 
       actualImporteSolicitud: number): Observable<boolean> {
-    
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS
     return this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, lineaAyuda).pipe(
        switchMap((docDataString: any) => {
@@ -80,19 +79,14 @@ export class PrDevinitivaFavorableService {
          }
          // Voy a crear el Texto que luego servirá para generar el archivo PDF
          // Reemplazo las variables que hay en el template por su valor correspondiente
-        this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-          this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-            return item.convocatoria === actualConvocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
-          });
-          this.num_BOIB = this.lineDetail[0]['num_BOIB']
-          this.codigoSIA = this.lineDetail[0]['codigoSIA']
-          this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
-          this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
-          this.totalAmount = this.lineDetail[0]['totalAmount']
-          rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB, true))
-          rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
-          rawTexto = rawTexto.replace(/%IMPORTETOTALCONVOCATORIA%/g, this.commonService.formatCurrency(this.totalAmount))
-        })
+
+         this.actoAdminService.getLineDetail(actualConvocatoria)
+          .subscribe((lineaAyudaItems: PindustLineaAyudaDTO) => {
+            this.codigoSIA = lineaAyudaItems['codigoSIA']
+            rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(lineaAyudaItems['fecha_BOIB'], true))
+            rawTexto = rawTexto.replace(/%BOIBNUM%/g, lineaAyudaItems['num_BOIB'])
+            rawTexto = rawTexto.replace(/%IMPORTETOTALCONVOCATORIA%/g, this.commonService.formatCurrency(lineaAyudaItems['totalAmount']))            
+          })
          rawTexto = rawTexto.replace(/%NIF%/g, actualNif);
          rawTexto = rawTexto.replace(/%SOLICITANTE%/g, actualEmpresa);
          rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(actualIdExp));
@@ -105,8 +99,10 @@ export class PrDevinitivaFavorableService {
          rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PROP_RESOL_PROVISIONAL%/g, this.commonService.formatDate(fecha_not_propuesta_resolucion_prov));
     
          rawTexto = rawTexto.replace(/%FECHA_FIRMA_INFORME%/g, this.commonService.formatDate(fecha_infor_fav_desf));
-         rawTexto = rawTexto.replace(/%DGERENTE%/g, dGerente);
-   
+         this.actoAdminService.getGlobalConfig()
+          .subscribe((globalConfig: ConfigurationModelDTO) => {
+            rawTexto = rawTexto.replace(/%DGERENTE%/g, globalConfig?.directorGerenteIDI ?? '');
+          })
          // Averiguo si hay mejoras en la solicitud
          return this.mejorasSolicitudService.countMejorasSolicitud(actualID)
          .pipe(
