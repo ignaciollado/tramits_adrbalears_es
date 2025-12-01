@@ -32,11 +32,11 @@ import { ResolucionConcesionAdrIsbaComponent } from '../../../../actos-admin-adr
 import { AddDocumentComponent } from '../../../../add-document/add-document.component';
 import { DocumentComponent } from '../../../../document/document.component';
 import { DocSignedDTO } from '../../../../Models/docsigned.dto';
+import { ResolucionConcesionConRequerimientoAdrIsbaService } from '../../../../Services/adr-isba-actos-admin/10-resolucion-concesion-con-requerimiento/resolucion-concesion-con-requerimiento.service';
 import { CommonService } from '../../../../Services/common.service';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
-import { ResolucionConcesionConRequerimientoService } from '../../../../Services/actos-admin-adr-isba/resolucion-concesion-con-requerimiento.service';
 
 @Component({
   selector: 'app-detail-exped',
@@ -70,7 +70,7 @@ export class IsbaDetailExpedComponent {
   private expedienteService = inject(ExpedienteService)
   private customValidatorService = inject(CustomValidatorsService)
 
-  private resolucionConcesionConRequerimientoService = inject(ResolucionConcesionConRequerimientoService);
+  private resolucionConcesionConRequerimientoService = inject(ResolucionConcesionConRequerimientoAdrIsbaService);
 
   selectedIndex: number | undefined;
 
@@ -381,7 +381,7 @@ export class IsbaDetailExpedComponent {
   generateResConcesion(expediente: any): void {
     if (expediente.fecha_requerimiento !== "0000-00-00") {
       // Inicio flujo
-      this.resolucionConcesionConRequerimientoService.init(expediente);
+      this.resolucionConcesionConRequerimientoService.init(expediente, this.form, true);
     } else {
       console.log('No requerimiento')
       // this.resConcesionSinRequerimientoAutomatico = true;
