@@ -10,6 +10,7 @@ import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
+import { PrDevinitivaDESFavorable_ConReqService } from '../../Services/xecs-actos-admin/pr-definitiva-desfavorable-con-req.service';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { jsPDF } from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -32,9 +33,8 @@ import { PindustConfiguracionService } from '../../Services/pindust-configuracio
   styleUrl: './pr-definitiva-desfavorable-con-requerimiento.component.scss'
 })
 export class PrDefinitivaDesfavorableConRequerimientoComponent {
-  private expedienteService = inject(ExpedienteService)
+
   noDenegationReasonText: boolean = true
-  actoAdminName: string = "prop_res_def_desfavorable_con_req"
   actoAdmin14: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -98,8 +98,8 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
   @Input() motivoDenegacion!: string
 
   constructor(private commonService: CommonService, private sanitizer: DomSanitizer,
-    private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
-    private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
+    private viafirmaService: ViafirmaService, 
+    private documentosGeneradosService: DocumentosGeneradosService, private prDefinitivaDesfavorableConReqService: PrDevinitivaDESFavorable_ConReqService,
     private actoAdminService: ActoAdministrativoService) {
     this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
   }
@@ -147,7 +147,7 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
     }
     if (!this.fechaRequerimiento) {return} //no hay requerimiento, entonces no hace falta busque con requerimiento
 
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_" + this.actoAdminName)
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_prop_res_definitiva_con_req")
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin14 = false
@@ -169,7 +169,7 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
       });
   }
 
-  generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+  generateActoAdmin(actoAdministrivoName: string, lineaAyuda: string, docFieldToUpdate: string = 'doc_prop_res_definitiva_con_req'): void {
     let todoOK: boolean = true
     let errorMessage: string = "Falta indicar:\n"    
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
@@ -180,7 +180,6 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
       errorMessage += "- Referència SEU de la sol·licitud"
       todoOK = false
     }
-
     if (this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === '0000-00-00' || this.form.get('fecha_firma_propuesta_resolucion_prov')?.value === null) {
       errorMessage += "- Firma proposta resolució provisional"
       todoOK = false
@@ -197,7 +196,18 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
       alert (errorMessage)
       return
     }
-    // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
+    this.actoAdmin14 = false
+
+    this.prDefinitivaDesfavorableConReqService.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
+      actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
+      this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
+      this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.motivoDenegacion, this.actualIdExp, 
+      this.actualEmpresa, this.actualImporteSolicitud, this.form.get('fecha_requerimiento')?.value, this.form.get('fecha_REC_enmienda')?.value)
+        .subscribe((result:boolean) => { 
+          this.actoAdmin14 = result
+          })
+
+    /*   // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
       let rawTexto = docDataString.texto
@@ -262,7 +272,7 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
           }),
           tap(() => {
             try {
-              rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
+              rawTexto = this.commonService.cleanRawText(rawTexto) // quito saltos de línea introducidos con el INTRO
               console.log("rawTexto", rawTexto)
               jsonObject = JSON.parse(rawTexto);
               this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
@@ -272,10 +282,10 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
           })
         )
         .subscribe();
-    })
+    }) */
   }
 
-  generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
+  /*   generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
     const doc = new jsPDF({
       orientation: 'p',
@@ -456,9 +466,10 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
       }
     });
   }
-
+ */
+ 
   // Método auxiliar para no repetir el bloque de creación
-  InsertDocumentoGenerado(docFieldToUpdate: string): void {
+  /*   InsertDocumentoGenerado(docFieldToUpdate: string): void {
     this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
       next: (resp: any) => {
         this.lastInsertId = resp?.id;
@@ -493,7 +504,7 @@ export class PrDefinitivaDesfavorableConRequerimientoComponent {
         this.commonService.showSnackBar(insertErrorMsg);
       }
     });
-  }
+  } */
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
     const entorno = sessionStorage.getItem("entorno")

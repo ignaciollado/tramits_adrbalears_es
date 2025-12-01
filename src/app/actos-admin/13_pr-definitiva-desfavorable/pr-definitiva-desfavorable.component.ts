@@ -1,4 +1,4 @@
-import { Component, inject, Input, SimpleChanges} from '@angular/core';
+import { Component, Input, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
-import { ExpedienteService } from '../../Services/expediente.service';
+
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -16,12 +16,9 @@ import { CreateSignatureRequest, SignatureResponse } from '../../Models/signatur
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { catchError, finalize, of } from 'rxjs';
-import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
 import { PrDevinitivaDESFavorableService } from '../../Services/xecs-actos-admin/pr-definitiva-desfavorable.service';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
-import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
-import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 
 @Component({
   selector: 'app-pr-definitiva-desfavorable',
@@ -31,9 +28,8 @@ import { PindustConfiguracionService } from '../../Services/pindust-configuracio
   styleUrl: './pr-definitiva-desfavorable.component.scss'
 })
 export class PrDefinitivaDesfavorableComponent {
-private expedienteService = inject(ExpedienteService)
+
   noDenegationReasonText:boolean = true
-  actoAdminName:string = "prop_res_def_desfavorable_sin_req"
   actoAdmin13: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -157,10 +153,10 @@ private expedienteService = inject(ExpedienteService)
             this.nameDocgenerado = docActoAdmin[0].name
             this.lastInsertId = docActoAdmin[0].id
             this.publicAccessId = docActoAdmin[0].publicAccessId
+
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId)
             }
-            console.log ("this.actoAdmin13", this.actoAdmin13)
           }
         },
         error: (err) => {
@@ -198,15 +194,15 @@ private expedienteService = inject(ExpedienteService)
       return
     }
 
+    this.actoAdmin13 = false
+
     this.prDefinitivaDesfavorableService.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
       actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
       this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
-      this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.form.get('motivo_denegacion')?.value, this.actualIdExp, 
-      `${docFieldToUpdate}.pdf`, this.actualEmpresa, this.actualImporteSolicitud, this.form.get('fecha_requerimiento')?.value, this.form.get('fecha_REC_enmienda')?.value)
+      this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.motivoDenegacion, this.actualIdExp, 
+      this.actualEmpresa, this.actualImporteSolicitud)
         .subscribe((result:boolean) => { 
-          console.log ("result", result, this.actoAdmin13)
           this.actoAdmin13 = result
-          console.log ("result", result, this.actoAdmin13)
           })
 
 

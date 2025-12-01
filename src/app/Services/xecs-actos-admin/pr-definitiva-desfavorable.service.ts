@@ -1,8 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { environment } from '../../../environments/environment';
 import { ActoAdministrativoService } from '../acto-administrativo.service';
 import { CommonService } from '../common.service';
 import { MejorasSolicitudService } from '../mejoras-solicitud.service';
@@ -18,17 +15,12 @@ import jsPDF from 'jspdf';
   providedIn: 'root'
 })
 export class PrDevinitivaDESFavorableService {
-  private apiUrl = environment.apiUrl;
+  
   private expedienteService = inject(ExpedienteService)
   private signedBy: string = ""
   private num_BOIB: string = ""
   private fecha_BOIB: string = ""
   private codigoSIA: string = ""
-  private dGerente: string = ""
-  private totalAmount: number = 0
-  private lineDetail: PindustLineaAyudaDTO[] = []
-  private actualEmpresa: string = ""
-  private actualImporteSolicitud!: number
 
   private docGeneradoInsert: DocumentoGeneradoDTO = {
                       id_sol: 0,
@@ -50,10 +42,10 @@ export class PrDevinitivaDESFavorableService {
 
    generateActoAdmin(actualID: number, actualNif: string, actualConvocatoria: number, actoAdministrivoName: string, lineaAyuda: string, tipoTramite: string,
       docFieldToUpdate: string, fecha_solicitud: string, fecha_firma_propuesta_resolucion_prov: string, fecha_not_propuesta_resolucion_prov: string,
-      fecha_infor_fav_desf: string, motivoDenegacion:string, actualIdExp: number, docNametoCreate: string, actualEmpresa: string, 
-      actualImporteSolicitud: number, fecha_requerimiento: string, fecha_REC_enmienda: string ): Observable<boolean> {
+      fecha_infor_fav_desf: string, motivoDenegacion:string, actualIdExp: number, actualEmpresa: string, 
+      actualImporteSolicitud: number ): Observable<boolean> {
      
-        // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS
+    // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS
      return this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, lineaAyuda).pipe(
        switchMap((docDataString: any) => {
          let hayMejoras = 0;
@@ -105,9 +97,6 @@ export class PrDevinitivaDESFavorableService {
                      rawTexto = rawTexto.replace(/%YYY%/g, String("6. "));
                      rawTexto = rawTexto.replace(/%ZZZ%/g, String("7. "));
                      rawTexto = rawTexto.replace(/%AAA%/g, String("8. "));
-                     rawTexto = rawTexto.replace(/%BBB%/g, String("9. "));
-                     rawTexto = rawTexto.replace(/%CCC%/g, String("10. "));
-                     rawTexto = rawTexto.replace(/%DDD%/g, String("11. "));
                    })
                  );
                } else {
@@ -115,9 +104,6 @@ export class PrDevinitivaDESFavorableService {
                  rawTexto = rawTexto.replace(/%YYY%/g, String("5. "));
                  rawTexto = rawTexto.replace(/%ZZZ%/g, String("6. "));
                  rawTexto = rawTexto.replace(/%AAA%/g, String("7. "));
-                 rawTexto = rawTexto.replace(/%BBB%/g, String("8. "));
-                 rawTexto = rawTexto.replace(/%CCC%/g, String("9. "));
-                 rawTexto = rawTexto.replace(/%DDD%/g, String("10. "));
                  return of(null);
                }
              }),
@@ -125,7 +111,7 @@ export class PrDevinitivaDESFavorableService {
                try {
                  rawTexto = this.commonService.cleanRawText(rawTexto); /* quito saltos de línea introducidos con el INTRO */
                  jsonObject = JSON.parse(rawTexto);
-                 this.generarPDF(actualID, actualNif, actualConvocatoria, tipoTramite, jsonObject, docFieldToUpdate, hayMejoras, actualIdExp, docNametoCreate);
+                 this.generarPDF(actualID, actualNif, actualConvocatoria, tipoTramite, jsonObject, docFieldToUpdate, hayMejoras, actualIdExp, actualEmpresa);
                } catch (error) {
                  console.error('Error al parsear JSON:', error);
                }
@@ -141,8 +127,8 @@ export class PrDevinitivaDESFavorableService {
     }
  
    generarPDF(actualID: number, actualNif: string, actualConvocatoria: number, tipoTramite: string, jsonObject: any, 
-    docFieldToUpdate: string, hayMejoras: number, actualIdExp: number, docNametoCreate: string): void {
-     console.log ("actualID, actualIdExp, docFieldToUpdate", actualID, actualIdExp, docFieldToUpdate) 
+    docFieldToUpdate: string, hayMejoras: number, actualIdExp: number, actualEmpresa: string): void {
+
      const timeStamp = this.commonService.generateCustomTimestamp()
      const doc = new jsPDF({
        orientation: 'p',
@@ -186,16 +172,16 @@ export class PrDevinitivaDESFavorableService {
      doc.text(`Núm. Expedient: ${actualIdExp}/${actualConvocatoria}`, xHeader, 52);
      doc.text(`Programa: ${doc.splitTextToSize(tipoTramite, maxTextWidth)}`, xHeader, 55);
  
-     if (this.actualEmpresa.length > maxCharsPerLine) {
-       const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-       const secondLine = this.actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
+     if (actualEmpresa.length > maxCharsPerLine) {
+       const firstLine = actualEmpresa.slice(0, maxCharsPerLine);
+       const secondLine = actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
        doc.text(`Sol·licitant: ${firstLine}`, xHeader, yHeader);
        doc.text(secondLine, xHeader, yHeader + 3);
        doc.text(`NIF: ${actualNif}`, xHeader, yHeader + 6);
        doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
        doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
      } else {
-       doc.text(`Sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
+       doc.text(`Sol·licitant: ${actualEmpresa}`, xHeader, yHeader);
        doc.text(`NIF: ${actualNif}`, xHeader, yHeader + 3);
        doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 6);
        doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 9);
