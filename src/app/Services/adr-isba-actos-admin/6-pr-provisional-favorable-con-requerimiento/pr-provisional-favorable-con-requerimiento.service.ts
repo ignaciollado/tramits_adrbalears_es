@@ -183,7 +183,7 @@ export class PrProvisionalFavorableConRequerimientoAdrIsbaService {
           this.signedBy = this.docDataString.signedBy;
           this.getActoAdminDetail(); // Carga de expediente previamente generado
         },
-        error: (err) => console.error('Error inicializando requerimiento', err)
+        error: (err) => console.error('Error inicializando Pr. provisional favorable con requerimiento', err)
       })
     }
   }
