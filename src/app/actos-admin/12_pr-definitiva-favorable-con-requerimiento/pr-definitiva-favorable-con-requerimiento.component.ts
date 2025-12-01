@@ -98,8 +98,8 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
   @Input() motivoDenegacion!: string
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
-    private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
-    private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
+    private viafirmaService: ViafirmaService,
+    private documentosGeneradosService: DocumentosGeneradosService, 
     private actoAdminService: ActoAdministrativoService, private prDefinitivaFavorableConReqService: PrDevinitivaFavorable_ConReqService ) { 
     this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
   }
@@ -206,12 +206,17 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
       return
     }
 
+    this.actoAdmin12 = false
+
     this.prDefinitivaFavorableConReqService.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
       actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
       this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
       this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.actualIdExp, 
-      'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud, this.form.get('fecha_requerimiento')?.value, this.form.get('fecha_REC_enmienda')?.value)
-        .subscribe((result:any) => { this.actoAdmin12 = result})
+      'prop_res_def_favorable_con_req', this.actualEmpresa, this.actualImporteSolicitud, this.form.get('fecha_requerimiento')?.value, this.form.get('fecha_REC_enmienda')?.value)
+        .subscribe((result:any) => { 
+          this.actoAdmin12 = result
+          console.log("this.actoAdmin12", this.actoAdmin12)
+        })
 
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     /*     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {

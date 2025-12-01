@@ -1,5 +1,4 @@
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { ActoAdministrativoService } from '../acto-administrativo.service';
 import { CommonService } from '../common.service';
 import { MejorasSolicitudService } from '../mejoras-solicitud.service';
@@ -9,7 +8,6 @@ import { jsPDF } from 'jspdf';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { DocumentosGeneradosService } from '../documentos-generados.service';
 import { ExpedienteService } from '../expediente.service';
-import { PindustLineaAyudaService } from '../linea-ayuda.service';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 
@@ -23,20 +21,14 @@ desde el detalle del expediente (ACTO ADMINISTRATIVO 11 - 'PR definitiva favorab
   providedIn: 'root'
 })
 export class PrDevinitivaFavorableService {
-  private apiUrl = environment.apiUrl;
+
   private expedienteService = inject(ExpedienteService)
-  private actoAdmin11: boolean = false
+
   private signedBy: string = ""
   private num_BOIB: string = ""
   private fecha_BOIB: string = ""
   private codigoSIA: string = ""
-  private dGerente: string = ""
-  private totalAmount: number = 0
-  private lineDetail: PindustLineaAyudaDTO[] = []
-  private actualEmpresa: string = ""
-  private actualImporteSolicitud!: number
-  private actualID!: number
-  private nameDocgenerado: string = ""
+ 
   private docGeneradoInsert: DocumentoGeneradoDTO = {
                       id_sol: 0,
                       cifnif_propietario: '',
@@ -130,7 +122,8 @@ export class PrDevinitivaFavorableService {
            try {
              rawTexto = this.commonService.cleanRawText(rawTexto) // quito posibles saltos de línea introducidos con el INTRO
              jsonObject = JSON.parse(rawTexto);
-             this.generarPDF(actualID, actualNif, actualConvocatoria, tipoTramite, jsonObject, docFieldToUpdate, hayMejoras, actualIdExp, docNametoCreate);
+             this.generarPDF(actualID, actualNif, actualConvocatoria, tipoTramite, jsonObject, docFieldToUpdate, hayMejoras, actualIdExp, 
+              docNametoCreate, actualEmpresa);
            } catch (error) {
              console.error('Error al parsear JSON:', error);
            }
@@ -147,7 +140,7 @@ export class PrDevinitivaFavorableService {
 
   // luego se genera el pdf del acto administrativo
   generarPDF(actualID: number, actualNif: string, actualConvocatoria: number, tipoTramite: string, jsonObject: any, 
-    docFieldToUpdate: string, hayMejoras: number, actualIdExp: number, docNametoCreate: string): void {
+    docFieldToUpdate: string, hayMejoras: number, actualIdExp: number, docNametoCreate: string, actualEmpresa: string): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
     const doc = new jsPDF({
       orientation: 'p',
@@ -191,16 +184,16 @@ export class PrDevinitivaFavorableService {
     doc.text(`Núm. Expedient: ${actualIdExp}/${actualConvocatoria}`, xHeader, 52);
     doc.text(`Programa: ${doc.splitTextToSize(tipoTramite, maxTextWidth)}`, xHeader, 55);
 
-    if (this.actualEmpresa.length > maxCharsPerLine) {
-      const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-      const secondLine = this.actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
+    if (actualEmpresa.length > maxCharsPerLine) {
+      const firstLine = actualEmpresa.slice(0, maxCharsPerLine);
+      const secondLine = actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
       doc.text(`Sol·licitant: ${firstLine}`, xHeader, yHeader);
       doc.text(secondLine, xHeader, yHeader + 3);
       doc.text(`NIF: ${actualNif}`, xHeader, yHeader + 6);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
       doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
     } else {
-      doc.text(`Sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
+      doc.text(`Sol·licitant: ${actualEmpresa}`, xHeader, yHeader);
       doc.text(`NIF: ${actualNif}`, xHeader, yHeader + 3);
       doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 6);
       doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 9);
@@ -299,7 +292,6 @@ export class PrDevinitivaFavorableService {
         this.docGeneradoInsert.corresponde_documento = `${docFieldToUpdate}`
         this.docGeneradoInsert.selloDeTiempo = timeStamp
 
-        this.nameDocgenerado =  `doc_${docNametoCreate}.pdf`
         // delete documentos generados antes del insert para evitar duplicados
         this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( actualID, actualNif, actualConvocatoria, 'doc_prop_res_definitiva_sin_req')
           .subscribe({

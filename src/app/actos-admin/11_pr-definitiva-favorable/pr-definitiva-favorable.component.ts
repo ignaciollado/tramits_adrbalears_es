@@ -201,6 +201,8 @@ export class PrDefinitivaFavorableComponent {
       return
     }
 
+    this.actoAdmin11 = false
+
    this.prDefinitivaFavorableService.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
       actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
       this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
