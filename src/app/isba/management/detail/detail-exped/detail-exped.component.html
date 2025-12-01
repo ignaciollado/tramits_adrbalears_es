@@ -229,11 +229,8 @@
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
                     <app-requerimiento-adr-isba [expediente]="expediente" [form]="form"></app-requerimiento-adr-isba>
                     <app-resol-desestimiento-no-enmendar-adr-isba
-                    [form]="form"
-                    [actualID]="actualID" [actualIdExp]="actualIdExp" 
-                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria" 
-                    [actualTipoTramite]="actualTipoTramite" 
-                    [actualEmpresa]="actualEmpresa"></app-resol-desestimiento-no-enmendar-adr-isba>
+                    [expediente]="expediente"
+                    [form]="form"></app-resol-desestimiento-no-enmendar-adr-isba>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>

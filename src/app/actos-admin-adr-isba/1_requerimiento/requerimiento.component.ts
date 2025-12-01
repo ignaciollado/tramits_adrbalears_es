@@ -56,7 +56,7 @@ export class RequerimientoAdrIsbaComponent {
     })
 
 
-    // BehaviourSubject
+    // BehaviorSubject
     this.requerimientoService.actoAdmin$.subscribe(actoAdmin => { this.actoAdmin = actoAdmin })
     this.requerimientoService.noRequestReasonText$.subscribe(noRequestReasonText => { this.noRequestReasonText = noRequestReasonText });
     this.requerimientoService.publicAccessId$.subscribe(publicAccessId => { this.publicAccessId = publicAccessId });
