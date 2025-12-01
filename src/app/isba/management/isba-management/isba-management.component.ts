@@ -12,11 +12,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { PrDefinitivaFavorableService } from '../../../Services/actos-admin-adr-isba/pr-definitiva-favorable.service';
+import { PrDefinitivaFavorableConRequerimientoAdrIsbaService } from '../../../Services/adr-isba-actos-admin/8-pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.service';
 import { CommonService } from '../../../Services/common.service';
 import { ExpedienteService } from '../../../Services/expediente.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { PrDefinitivaFavorableConRequerimientoService } from '../../../Services/actos-admin-adr-isba/pr-definitiva-favorable-con-requerimiento.service';
-import { PrDefinitivaFavorableService } from '../../../Services/actos-admin-adr-isba/pr-definitiva-favorable.service';
 
 @Component({
   selector: 'app-xecs-management',
@@ -49,7 +49,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   private expedienteService = inject(ExpedienteService);
   private commonService = inject(CommonService)
 
-  private prDefinitivaFavorableConRequerimientoService = inject(PrDefinitivaFavorableConRequerimientoService)
+  private prDefinitivaFavorableConRequerimientoService = inject(PrDefinitivaFavorableConRequerimientoAdrIsbaService);
   private prDefinitivaFavorableService = inject(PrDefinitivaFavorableService)
 
   uniqueConvocatorias: number[] = [2026, 2025, 2024, 2023, 2022, 2021];
@@ -125,7 +125,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
 
         // Generación PR Definitiva
         res.forEach((item: any) => {
-          if (item.situacion === "PR Provisional" && item.PRDefinitivarestingDays <= 0 && !item._prDefinitivaEjecutada) {
+          if (item.situacion === "PR Provisional" && item.PRDefinitivarestingDays <= 0 && !item._prDefinitivaEjecutada && (!item.fecha_not_propuesta_resolucion_def_sended || item.fecha_not_propuesta_resolucion_def_sended === "0000-00-00")) {
             this.generatePrDefinitiva(item);
             item._prDefinitivaEjecutada = true; // Flag para evitar ejecuciones duplicadas
           }
@@ -334,7 +334,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   // Generador PR Definitiva con o sin requerimiento.
   generatePrDefinitiva(item: any) {
     if (item.fecha_requerimiento !== "0000-00-00") {
-      this.prDefinitivaFavorableConRequerimientoService.init(item);
+      this.prDefinitivaFavorableConRequerimientoService.init(item, true);
     } else {
       this.prDefinitivaFavorableService.init(item);
     }
