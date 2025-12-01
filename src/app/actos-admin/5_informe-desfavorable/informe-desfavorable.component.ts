@@ -157,7 +157,9 @@ export class InformeDesfavorableComponent {
       this.fechaRequerimiento = ""
     } else {
       this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
-    } 
+    }
+    if (this.fechaRequerimiento) {return} //Hay requerimiento, entonces no hace falta busque sin requerimiento
+
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {

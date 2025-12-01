@@ -148,6 +148,8 @@ export class PrDefinitivaFavorableComponent {
     } else {
       this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
     }
+    if (this.fechaRequerimiento) {return} //Hay requerimiento, entonces no hace falta busque sin requerimiento
+
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_prop_res_definitiva_sin_req")
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {

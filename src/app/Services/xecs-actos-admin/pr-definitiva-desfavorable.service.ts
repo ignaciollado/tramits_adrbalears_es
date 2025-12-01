@@ -20,7 +20,6 @@ import jsPDF from 'jspdf';
 export class PrDevinitivaDESFavorableService {
   private apiUrl = environment.apiUrl;
   private expedienteService = inject(ExpedienteService)
-  private actoAdmin11: boolean = false
   private signedBy: string = ""
   private num_BOIB: string = ""
   private fecha_BOIB: string = ""
@@ -30,8 +29,7 @@ export class PrDevinitivaDESFavorableService {
   private lineDetail: PindustLineaAyudaDTO[] = []
   private actualEmpresa: string = ""
   private actualImporteSolicitud!: number
-  private actualID!: number
-  private nameDocgenerado: string = ""
+
   private docGeneradoInsert: DocumentoGeneradoDTO = {
                       id_sol: 0,
                       cifnif_propietario: '',
@@ -56,7 +54,7 @@ export class PrDevinitivaDESFavorableService {
       actualImporteSolicitud: number, fecha_requerimiento: string, fecha_REC_enmienda: string ): Observable<boolean> {
      
         // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS
-     return this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).pipe(
+     return this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, lineaAyuda).pipe(
        switchMap((docDataString: any) => {
          let hayMejoras = 0;
          let rawTexto = docDataString.texto;
@@ -94,12 +92,12 @@ export class PrDevinitivaDESFavorableService {
            });
 
          // Averiguo si hay mejoras en la solicitud
-         return this.mejorasSolicitudService.countMejorasSolicitud(this.actualID)
+         return this.mejorasSolicitudService.countMejorasSolicitud(actualID)
            .pipe(
              switchMap((nMejoras: any) => {
                if (nMejoras.total_mejoras > 0) {
                  hayMejoras = nMejoras.total_mejoras;
-                 return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(this.actualID).pipe(
+                 return this.mejorasSolicitudService.obtenerUltimaMejoraSolicitud(actualID).pipe(
                    tap((ultimaMejora: MejoraSolicitudDTO) => {
                      rawTexto = rawTexto.replace(/%FECHARECM%/g, this.commonService.formatDate(String(ultimaMejora.fecha_rec_mejora)));
                      rawTexto = rawTexto.replace(/%NUMRECM%/g, String(ultimaMejora.ref_rec_mejora));
@@ -144,6 +142,7 @@ export class PrDevinitivaDESFavorableService {
  
    generarPDF(actualID: number, actualNif: string, actualConvocatoria: number, tipoTramite: string, jsonObject: any, 
     docFieldToUpdate: string, hayMejoras: number, actualIdExp: number, docNametoCreate: string): void {
+     console.log ("actualID, actualIdExp, docFieldToUpdate", actualID, actualIdExp, docFieldToUpdate) 
      const timeStamp = this.commonService.generateCustomTimestamp()
      const doc = new jsPDF({
        orientation: 'p',
@@ -272,9 +271,9 @@ export class PrDevinitivaDESFavorableService {
  
      // Crear FormData
      const formData = new FormData();
-     const fileName = `${actualIdExp + '_' + actualConvocatoria+'_'+docFieldToUpdate}.pdf`;
+     const fileName = `${actualIdExp + '_' + actualConvocatoria + '_prop_res_def_desfavorable_sin_req.pdf'}`;
      formData.append('file', pdfBlob, fileName);
-     formData.append('id_sol', String(this.actualID));
+     formData.append('id_sol', String(actualID));
      formData.append('convocatoria', String(actualConvocatoria));
      formData.append('nifcif_propietario', String(actualNif));
      formData.append('timeStamp', String(timeStamp));
@@ -285,23 +284,22 @@ export class PrDevinitivaDESFavorableService {
          // ToDo: al haberse generado con éxito, ahora hay que:
          // Hacer un INSERT en la tabla pindust_documentos_generados y recoger el id asignado al registro creado: 'last_insert_id'. 
          // y antes eliminar los documentos generados para evitar duplicados.
-         this.docGeneradoInsert.id_sol = this.actualID
+         this.docGeneradoInsert.id_sol = actualID
          this.docGeneradoInsert.cifnif_propietario = actualNif
          this.docGeneradoInsert.convocatoria = String(actualConvocatoria)
-         this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`
+         this.docGeneradoInsert.name = 'doc_prop_res_def_desfavorable_sin_req.pdf'
          this.docGeneradoInsert.type = 'application/pdf'
          this.docGeneradoInsert.created_at = response.path
          this.docGeneradoInsert.tipo_tramite = tipoTramite
-         this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`
+         this.docGeneradoInsert.corresponde_documento = `${docFieldToUpdate}`
          this.docGeneradoInsert.selloDeTiempo = timeStamp
- 
-         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
+
          // delete documentos generados antes del insert para evitar duplicados
-         this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( this.actualID, actualNif, actualConvocatoria, 'doc_prop_res_definitiva_sin_req')
+         this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( actualID, actualNif, actualConvocatoria, docFieldToUpdate)
            .subscribe({
              next: () => {
                // Eliminado correctamente, o no había nada que eliminar
-               this.InsertDocumentoGenerado(docFieldToUpdate);
+               this.InsertDocumentoGenerado(actualID, docFieldToUpdate);
              },
              error: (deleteErr) => {
                const status = deleteErr?.status;
@@ -309,7 +307,7 @@ export class PrDevinitivaDESFavorableService {
                // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
                if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
                  this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                 this.InsertDocumentoGenerado(docFieldToUpdate);
+                 this.InsertDocumentoGenerado(actualID, docFieldToUpdate);
                } else {
                // Otros errores sí se notifican y no continúan
                  const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
@@ -326,13 +324,13 @@ export class PrDevinitivaDESFavorableService {
    }
  
    // Método auxiliar para no repetir el bloque de creación
-   InsertDocumentoGenerado(docFieldToUpdate: string): void {
+   InsertDocumentoGenerado(actualID: number, docFieldToUpdate: string): void {
    this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
      next: (resp: any) => {
        this.lastInsertId = resp?.id;
        if (this.lastInsertId) {
          this.expedienteService
-           .updateFieldExpediente( this.actualID, 'doc_prop_res_definitiva_sin_req', String(this.lastInsertId) )
+           .updateFieldExpediente( actualID, docFieldToUpdate, String(this.lastInsertId) )
            .subscribe({
              next: (response: any) => {
                const mensaje =
@@ -340,7 +338,6 @@ export class PrDevinitivaDESFavorableService {
                  '✅ Acto administrativo generado y expediente actualizado correctamente.';
                 this.commonService.showSnackBar(mensaje);
                 return true;
-
              },
              error: (updateErr) => {
                const updateErrorMsg =

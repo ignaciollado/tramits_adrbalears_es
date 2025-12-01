@@ -144,10 +144,13 @@ private expedienteService = inject(ExpedienteService)
     } else {
       this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
     }
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
+    if (this.fechaRequerimiento) {return} //Hay requerimiento, entonces no hace falta busque sin requerimiento
+
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_prop_res_definitiva_sin_req")
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin13 = false
+
           if (docActoAdmin.length === 1) {
             this.actoAdmin13 = true
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo
@@ -157,6 +160,7 @@ private expedienteService = inject(ExpedienteService)
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId)
             }
+            console.log ("this.actoAdmin13", this.actoAdmin13)
           }
         },
         error: (err) => {
@@ -198,12 +202,16 @@ private expedienteService = inject(ExpedienteService)
       actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
       this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
       this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.form.get('motivo_denegacion')?.value, this.actualIdExp, 
-      'prop_res_def_desfavorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud, this.form.get('fecha_requerimiento')?.value, this.form.get('fecha_REC_enmienda')?.value)
-        .subscribe((result:any) => { this.actoAdmin13 = result})
+      `${docFieldToUpdate}.pdf`, this.actualEmpresa, this.actualImporteSolicitud, this.form.get('fecha_requerimiento')?.value, this.form.get('fecha_REC_enmienda')?.value)
+        .subscribe((result:boolean) => { 
+          console.log ("result", result, this.actoAdmin13)
+          this.actoAdmin13 = result
+          console.log ("result", result, this.actoAdmin13)
+          })
 
 
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
-    /*     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
+    /* this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
       let rawTexto = docDataString.texto
       this.signedBy = docDataString.signedBy
@@ -280,7 +288,7 @@ private expedienteService = inject(ExpedienteService)
     }) */
   }
 
-/*   generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
+    /* generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
     const doc = new jsPDF({
       orientation: 'p',
@@ -462,8 +470,8 @@ private expedienteService = inject(ExpedienteService)
     });   
   } */
 
-  // Método auxiliar para no repetir el bloque de creación
-/*   InsertDocumentoGenerado(docFieldToUpdate: string): void {
+    // Método auxiliar para no repetir el bloque de creación
+    /* InsertDocumentoGenerado(docFieldToUpdate: string): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
     next: (resp: any) => {
       this.lastInsertId = resp?.id;

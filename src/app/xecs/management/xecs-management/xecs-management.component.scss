@@ -99,8 +99,43 @@ p {
   }
 }
 
+.custom-link {
+  color: #1976d2;              // azul base
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  transition: color 0.3s ease;
+
+  // efecto de subrayado animado
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: #1976d2;
+    transition: width 0.3s ease;
+  }
+
+  &:hover {
+    color: #0d47a1;            // azul más intenso
+    cursor: pointer;
+
+    &::after {
+      width: 100%;             // subrayado se expande al hover
+    }
+  }
+
+  // opcional: efecto de "glow" al pasar el ratón
+  &:hover {
+    text-shadow: 0 0 6px rgba(25, 118, 210, 0.6);
+  }
+}
+
+
 .sin-notificar {
-  color: #d9534f;     // rojo suave
+  color: #d9534f;   // rojo suave
   font-weight: bold;  // resalta el texto
 }
 
