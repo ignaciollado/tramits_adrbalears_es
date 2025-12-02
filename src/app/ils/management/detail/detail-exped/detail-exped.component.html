@@ -148,10 +148,7 @@
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
                     <app-requerimiento-ils 
-                    [form]="form"
-                    [actualID]="actualID" [actualIdExp]="actualIdExp"
-                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
-                    [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite" [motivoRequerimiento]="motivoRequerimiento"></app-requerimiento-ils>
+                    [form]="form" [expediente]="expediente"></app-requerimiento-ils>
                     <app-resol-desestimiento-no-enmendar-ils
                     [form]="form"
                     [actualID]="actualID" [actualIdExp]="actualIdExp"

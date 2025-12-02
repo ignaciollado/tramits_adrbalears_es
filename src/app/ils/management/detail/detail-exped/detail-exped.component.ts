@@ -91,6 +91,8 @@ export class IlsDetailExpedComponent {
 
   situations: any[] = [];
 
+  expediente!: any;
+
   constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
 
   ngOnInit(): void {
@@ -180,6 +182,8 @@ export class IlsDetailExpedComponent {
       )
       .subscribe(expediente => {
         if (expediente) {
+          this.expediente = expediente;
+
           expediente.publicar_en_web = expediente.publicar_en_web == 1;
           this.form.patchValue(expediente)
           this.businessType = expediente.tipo_solicitante
