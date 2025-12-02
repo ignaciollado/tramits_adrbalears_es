@@ -23,6 +23,7 @@ import { PrDevinitivaDESFavorable_ConReqService } from '../../../Services/xecs-a
 import { PrDevinitivaDESFavorableService } from '../../../Services/xecs-actos-admin/pr-definitiva-desfavorable.service';
 import { PrDevinitivaFavorable_ConReqService } from '../../../Services/xecs-actos-admin/pr-definitiva-favorable-con-req.service';
 import { PrDevinitivaFavorableService } from '../../../Services/xecs-actos-admin/pr-definitiva-favorable.service';
+import { take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-xecs-management',
@@ -46,7 +47,8 @@ import { PrDevinitivaFavorableService } from '../../../Services/xecs-actos-admin
 export class XecsManagementComponent implements OnInit, AfterViewInit {
 
   dataSource = new MatTableDataSource<any>([]);
-  
+  generatedActo13: boolean = false
+  count: number = 0;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -108,37 +110,28 @@ ngOnInit(): void {
 }
 
 ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  this.dataSource.sort = this.sort;
+  this.dataSource.paginator = this.paginator;
 
-    this.paginator.page.subscribe(() => {
-      sessionStorage.setItem('paginaExpedientes', this.paginator.pageIndex.toString());
-    });
+  this.paginator.page.subscribe(() => {
+    sessionStorage.setItem('paginaExpedientes', this.paginator.pageIndex.toString());
+  });
 
   this.sort.sortChange.subscribe(sort => {
     sessionStorage.setItem('tablaOrden', JSON.stringify(sort));
-  });
-    
+  });  
 }
 
 loadAllExpedientes(): void {
+
   this.loading = true;
-  this.expedienteService.getAllLineExpedientes('XECS', this.currentYear).subscribe({
+
+  this.expedienteService.getAllLineExpedientes('XECS', this.currentYear)
+  .subscribe({
     next: (res) => {
       res = res.map((item: any) => {
-        if (item.tipo_tramite === "Programa III actuacions corporatives") {
-          item.tipo_tramite = "Programa III a.c."
-        }
-        if (item.tipo_tramite === "Programa III actuacions producte") {
-          item.tipo_tramite = "Programa III a.p."
-        }
         if (item.fecha_requerimiento_notif === '0000-00-00' || item.fecha_requerimiento_notif === '0000-00-00 00:00:00') {
           item.fecha_requerimiento_notif = null
-        }
-        if (item.fecha_requerimiento_notif) {
-          this.hayRequerimiento = true
-        } else  {
-          this.hayRequerimiento = false
         }
         if (item.fecha_not_propuesta_resolucion_prov === '0000-00-00' || item.fecha_not_propuesta_resolucion_prov === '0000-00-00 00:00:00') {
           item.fecha_not_propuesta_resolucion_prov = null
@@ -160,56 +153,52 @@ loadAllExpedientes(): void {
           item.fecha_not_propuesta_resolucion_def_sended = null
         }
         item.message = "<small>s'enviará a firma l'acte administratiu:<br>"
-          if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
-            item.message +="plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
-          } 
-          if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
-            item.message +="plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf"
-          }
-          if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
-            item.message +="plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf"
-          }
-          if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
-            item.message +="plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
-          }            
-          item.message += "</small>"
-          if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0) {
-            if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') { //PR definitiva favorable con requerimiento
-              //"plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
+        if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '1') {
+          item.message +="plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
+        } 
+        if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '0') {
+          item.message +="plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf"
+        }
+        if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '1') {
+          item.message +="plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf"
+        }
+        if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '0') {
+          item.message +="plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
+        }            
+        item.message += "</small>"
+        if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0) {
+            console.log ("item.fecha_requerimiento_notif && item.propuesta_resolucion_favorable", item.fecha_requerimiento_notif, item.propuesta_resolucion_favorable, item.situacion, item.id, item.idExp)
+            if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '1') { //PR definitiva favorable con requerimiento (12)
               //this.prDefinitivaFavorableConReq.generateActoAdmin().subscribe()
             }
-            if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') { //PR definitiva desfavorable con requerimiento
-              //"plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf"
-              //this.prDefinitivaDesfavorableConReq.create().subscribe()
+            if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '0') { //PR definitiva desfavorable con requerimiento (14)
+              //this.prDefinitivaDesfavorableConReq.generateActoAdmin().subscribe()
             }
-            if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') { //PR definitiva favorable sin requerimiento
-              //"plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf"
-              this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 'XECS', item.tipo_tramite,
-                'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, item.fecha_not_propuesta_resolucion_prov,
+            if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '1') { //PR definitiva favorable sin requerimiento (11)
+              this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 
+                'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, item.fecha_not_propuesta_resolucion_prov,
                 item.fecha_infor_fav_desfg, item.IdExp, 'prop_res_def_favorable_sin_req', item.empresa, item.ImporteSolicitud).subscribe()
             }
-            if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') { //PR definitiva desfavorable sin requerimiento
-              //"plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
-              this.prDefinitivaDesfavorable.generateActoAdmin(item.id, item.nif, item.convocatoria,  '13_propuesta_resolucion_definitiva_desfavorable_sin_requerimiento', 'XECS', item.tipo_tramite,
-                'prop_res_def_desfavorable_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, item.fecha_not_propuesta_resolucion_prov,
-                item.fecha_infor_fav_desf, item.motivo_denegacion, item.idExp, item.empresa, 
-                item.importeAyuda).subscribe()
+            if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '0' && (!this.generatedActo13)) { //PR definitiva desfavorable sin requerimiento (13)
+              console.log ("estoy en 13",item.fecha_requerimiento_notif, item.propuesta_resolucion_favorable, item.id, this.generatedActo13)
+              this.prDefinitivaDesfavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '13_propuesta_resolucion_definitiva_desfavorable_sin_requerimiento', 
+                'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, 
+                item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.motivoDenegacion, item.idExp, 
+                item.empresa, item.importeAyuda)
+                .subscribe((result:boolean) => {})
             }
-            // enviar del acto administrativo correspondiente
-              /*             this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
-              actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
-              this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
-              this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.dGerente, this.actualIdExp, 
-              'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud
-            ).subscribe((result:any) => {console.log ("result", result)}) */
-          }
-          return item;
+        }
+        if (item.tipo_tramite === "Programa III actuacions corporatives") {
+          item.tipo_tramite = "Programa III a.c."
+        }
+        if (item.tipo_tramite === "Programa III actuacions producte") {
+          item.tipo_tramite = "Programa III a.p."
+        }
+        return item;
       });
 
       this.expedientesFiltrados = res;
-
       this.actualizarTabla(this.expedientesFiltrados);
-
       const paginaGuardada = sessionStorage.getItem('paginaExpedientes');
       if (paginaGuardada) {
         this.paginator.pageIndex = +paginaGuardada;
@@ -222,7 +211,6 @@ loadAllExpedientes(): void {
 
       this.commonService.showSnackBar('XECS: expedientes cargados correctamente ✅')
     },
-
     error: (err) => {
       this.dataSource.data = [];
       if (err.status === 404 && err.error?.messages?.error) {
@@ -231,16 +219,15 @@ loadAllExpedientes(): void {
         this.commonService.showSnackBar('Ocurrió un error inesperado ❌' + err);
       }
     },
-
     complete: () => {
-      this.loading = false;
+      this.loading = false
+      this.generatedActo13 = true // está hardcodeado. Aquí no sé si realmente se ha ejecutado con éxito el observable
     }
   });
 }
 
 loadExpedientes(): void {
   const { convocatoria, tipoTramite, situacion } = this.form.value;
-
   if (!convocatoria) {
     this.commonService.showSnackBar('Selecciona una convocatoria 🧐');
     return;
@@ -330,7 +317,6 @@ getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
     this.hayRequerimiento = reqNotif ? true : false
     return { text: (reqNotif ? 'CONREQUERIMIENTO' : 'SINREQUERIMIENTO'), isDayDiffNegative: false };
   }
-
   if (item.situacion === 'pendienteJustificar') {
     if (item.fecha_limite_justificacion && item.fecha_limite_justificacion !== '0000-00-00') {
       const fechaLimite = new Date(item.fecha_limite_justificacion);
@@ -343,7 +329,6 @@ getSituacionSuffix(item: any): { text: string, isDayDiffNegative: boolean } {
       };
     }
   }
-
   return { text: '', isDayDiffNegative: false };
 }
 
