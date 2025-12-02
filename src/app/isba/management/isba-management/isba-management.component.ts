@@ -17,6 +17,7 @@ import { PrDefinitivaFavorableService } from '../../../Services/actos-admin-adr-
 import { PrDefinitivaFavorableConRequerimientoAdrIsbaService } from '../../../Services/adr-isba-actos-admin/8-pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.service';
 import { CommonService } from '../../../Services/common.service';
 import { ExpedienteService } from '../../../Services/expediente.service';
+import { PrDefinitivaFavorableAdrIsbaService } from '../../../Services/adr-isba-actos-admin/7-pr-definitiva-favorable/pr-definitiva-favorable.service';
 
 @Component({
   selector: 'app-xecs-management',
@@ -50,7 +51,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   private commonService = inject(CommonService)
 
   private prDefinitivaFavorableConRequerimientoService = inject(PrDefinitivaFavorableConRequerimientoAdrIsbaService);
-  private prDefinitivaFavorableService = inject(PrDefinitivaFavorableService)
+  private prDefinitivaFavorableService = inject(PrDefinitivaFavorableAdrIsbaService);
 
   uniqueConvocatorias: number[] = [2026, 2025, 2024, 2023, 2022, 2021];
   uniqueSituaciones: any[] = [];
@@ -336,7 +337,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
     if (item.fecha_requerimiento !== "0000-00-00") {
       this.prDefinitivaFavorableConRequerimientoService.init(item, true);
     } else {
-      this.prDefinitivaFavorableService.init(item);
+      this.prDefinitivaFavorableService.init(item, true);
     }
   }
 }
