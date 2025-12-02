@@ -154,9 +154,6 @@ export class InformeFavorableIlsService {
 
             this.ceoEmail = 'jose.luis@idi.es'
             this.consellerEmail = 'jldejesus@adrbalears.caib.es'
-
-            console.log(globalConfig[0].eMailDGerente)
-            console.log(globalConfig[0].eMailPresidente)
           }
         }),
         switchMap(() => this.lineaAyuda.getAll()),
