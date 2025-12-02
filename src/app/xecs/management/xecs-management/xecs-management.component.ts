@@ -174,23 +174,26 @@ loadAllExpedientes(): void {
           }            
           item.message += "</small>"
           if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0) {
-            if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
+            if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') { //PR definitiva favorable con requerimiento
               //"plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf"
               //this.prDefinitivaFavorableConReq.generateActoAdmin().subscribe()
             }
-            if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
+            if (this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') { //PR definitiva desfavorable con requerimiento
               //"plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf"
               //this.prDefinitivaDesfavorableConReq.create().subscribe()
             }
-            if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') {
+            if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '1') { //PR definitiva favorable sin requerimiento
               //"plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf"
-             /*  this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 'XECS', item.tipo_tramite,
+              this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento', 'XECS', item.tipo_tramite,
                 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, item.fecha_not_propuesta_resolucion_prov,
-                item.fecha_infor_fav_desfg, dGerente, actualIdExp, docNametoCreate, actualEmpresa, actualImporteSolicitud).subscribe() */
+                item.fecha_infor_fav_desfg, item.IdExp, 'prop_res_def_favorable_sin_req', item.empresa, item.ImporteSolicitud).subscribe()
             }
-            if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') {
+            if (!this.hayRequerimiento && item.propuesta_resolucion_favorable === '0') { //PR definitiva desfavorable sin requerimiento
               //"plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf"
-              //this.prDefinitivaDesfavorable.create().subscribe()
+              this.prDefinitivaDesfavorable.generateActoAdmin(item.id, item.nif, item.convocatoria,  '13_propuesta_resolucion_definitiva_desfavorable_sin_requerimiento', 'XECS', item.tipo_tramite,
+                'prop_res_def_desfavorable_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, item.fecha_not_propuesta_resolucion_prov,
+                item.fecha_infor_fav_desf, item.motivo_denegacion, item.idExp, item.empresa, 
+                item.importeAyuda).subscribe()
             }
             // enviar del acto administrativo correspondiente
               /*             this.actoAdminPRDefinitivaFavorable.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 

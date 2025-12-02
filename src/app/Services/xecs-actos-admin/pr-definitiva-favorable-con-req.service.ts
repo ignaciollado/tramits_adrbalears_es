@@ -1,33 +1,28 @@
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { environment } from '../../../environments/environment';
+
 import { ActoAdministrativoService } from '../acto-administrativo.service';
 import { CommonService } from '../common.service';
 import { MejorasSolicitudService } from '../mejoras-solicitud.service';
-import { PindustLineaAyudaService } from '../linea-ayuda.service';
+
 import { DocumentosGeneradosService } from '../documentos-generados.service';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import jsPDF from 'jspdf';
 import { ExpedienteService } from '../expediente.service';
+import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PrDevinitivaFavorable_ConReqService {
-  private apiUrl = environment.apiUrl;
+
   private expedienteService = inject(ExpedienteService)
   private signedBy: string = ""
   private num_BOIB: string = ""
   private fecha_BOIB: string = ""
   private codigoSIA: string = ""
-  private fechaResPresidente: string = ""
-  private totalAmount: number = 0
-  private lineDetail: PindustLineaAyudaDTO[] = []
-  private actualEmpresa: string = ""
-  private nameDocgenerado: string = ""
 
   private docGeneradoInsert: DocumentoGeneradoDTO = {
                         id_sol: 0,
@@ -45,13 +40,12 @@ export class PrDevinitivaFavorable_ConReqService {
 
   constructor( private actoAdminService: ActoAdministrativoService,
     private commonService: CommonService, private mejorasSolicitudService: MejorasSolicitudService, 
-      private lineaAyuda: PindustLineaAyudaService,
-      private documentosGeneradosService: DocumentosGeneradosService ) { }
+    private documentosGeneradosService: DocumentosGeneradosService ) { }
 
    // Primero se genera el acto administrativo
    generateActoAdmin(actualID: number, actualNif: string, actualConvocatoria: number, actoAdministrivoName: string, lineaAyuda: string, tipoTramite: string,
     docFieldToUpdate: string, fecha_solicitud: string, fecha_firma_propuesta_resolucion_prov: string, fecha_not_propuesta_resolucion_prov: string,
-    fecha_infor_fav_desf: string, dGerente: string, actualIdExp: number, docNametoCreate: string, actualEmpresa: string, actualImporteSolicitud: number,
+    fecha_infor_fav_desf: string, actualIdExp: number, docNametoCreate: string, actualEmpresa: string, actualImporteSolicitud: number,
     fecha_requerimiento: string, fecha_REC_enmienda: string): Observable<boolean> {
       
      // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS
@@ -67,20 +61,14 @@ export class PrDevinitivaFavorable_ConReqService {
         }
         // Voy a crear el Texto que luego servirá para generar el archivo PDF
         // Reemplazo las variables que hay en el template por su valor correspondiente
-        this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-          this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-            return item.convocatoria === actualConvocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
-          });
-          this.num_BOIB = this.lineDetail[0]['num_BOIB']
-          this.codigoSIA = this.lineDetail[0]['codigoSIA']
-          this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
-          this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
-          this.totalAmount = this.lineDetail[0]['totalAmount']
-          rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(this.fecha_BOIB, true))
-          rawTexto = rawTexto.replace(/%BOIBNUM%/g, this.num_BOIB)
-          rawTexto = rawTexto.replace(/%IMPORTETOTALCONVOCATORIA%/g, this.commonService.formatCurrency(this.totalAmount))
+        this.actoAdminService.getLineDetail(actualConvocatoria)
+          .subscribe((lineaAyudaItems: PindustLineaAyudaDTO) => {
+            this.codigoSIA = lineaAyudaItems['codigoSIA']
+            rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(lineaAyudaItems['fecha_BOIB'], true))
+            rawTexto = rawTexto.replace(/%BOIBNUM%/g, lineaAyudaItems['num_BOIB'])
+            rawTexto = rawTexto.replace(/%IMPORTETOTALCONVOCATORIA%/g, this.commonService.formatCurrency(lineaAyudaItems['totalAmount']))            
         })
-        //rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(this.fechaResPresidente));
+        
         rawTexto = rawTexto.replace(/%NIF%/g, actualNif);
         rawTexto = rawTexto.replace(/%SOLICITANTE%/g, actualEmpresa);
         rawTexto = rawTexto.replace(/%EXPEDIENTE%/g, String(actualIdExp));
@@ -94,7 +82,10 @@ export class PrDevinitivaFavorable_ConReqService {
         rawTexto = rawTexto.replace(/%FECHAREQ%/g, this.commonService.formatDate(fecha_requerimiento));
         rawTexto = rawTexto.replace(/%FECHAESMENA%/g, fecha_REC_enmienda);
         rawTexto = rawTexto.replace(/%FECHA_FIRMA_INFORME%/g, this.commonService.formatDate(fecha_infor_fav_desf));
-        rawTexto = rawTexto.replace(/%DGERENTE%/g, dGerente)
+        this.actoAdminService.getGlobalConfig()
+          .subscribe((globalConfig: ConfigurationModelDTO) => {
+            rawTexto = rawTexto.replace(/%DGERENTE%/g, globalConfig?.directorGerenteIDI ?? '');
+        })
 
         // Averiguo si hay mejoras en la solicitud
         return this.mejorasSolicitudService.countMejorasSolicitud(actualID)
@@ -133,9 +124,9 @@ export class PrDevinitivaFavorable_ConReqService {
            tap(() => {
            try {
             rawTexto = this.commonService.cleanRawText(rawTexto); /* quito saltos de línea introducidos con el INTRO */
-            console.log("rawTexto", rawTexto);
             jsonObject = JSON.parse(rawTexto);
-            this.generarPDF(actualID, actualNif, actualConvocatoria, tipoTramite, jsonObject, docFieldToUpdate, hayMejoras, actualIdExp, docNametoCreate);
+            this.generarPDF(actualID, actualNif, actualConvocatoria, tipoTramite, jsonObject, docFieldToUpdate, hayMejoras, actualIdExp, 
+              docNametoCreate, actualEmpresa);
            } catch (error) {
             console.error('Error al parsear JSON:', error);
            }
@@ -151,7 +142,7 @@ export class PrDevinitivaFavorable_ConReqService {
   }
  
   generarPDF(actualID: number, actualNif: string, actualConvocatoria: number, tipoTramite: string, jsonObject: any, 
-    docFieldToUpdate: string, hayMejoras: number, actualIdExp: number, docNametoCreate: string): void {
+    docFieldToUpdate: string, hayMejoras: number, actualIdExp: number, docNametoCreate: string, actualEmpresa: string): void {
      const timeStamp = this.commonService.generateCustomTimestamp()
      const doc = new jsPDF({
        orientation: 'p',
@@ -162,7 +153,7 @@ export class PrDevinitivaFavorable_ConReqService {
      });
  
      doc.setProperties({
-       title: `${actualIdExp + '_' + actualConvocatoria + '_' + docFieldToUpdate}`,
+       title: `${actualIdExp + '_' + actualConvocatoria + '_' + docNametoCreate}`,
        subject: 'Tràmits administratius',
        author: 'ADR Balears',
        keywords: 'ayudas, subvenciones, xecs, ils, adr-isba',
@@ -195,16 +186,16 @@ export class PrDevinitivaFavorable_ConReqService {
      doc.text(`Núm. Expedient: ${actualIdExp}/${actualConvocatoria}`, xHeader, 52);
      doc.text(`Programa: ${doc.splitTextToSize(tipoTramite, maxTextWidth)}`, xHeader, 55);
  
-     if (this.actualEmpresa.length > maxCharsPerLine) {
-       const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
-       const secondLine = this.actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
+     if (actualEmpresa.length > maxCharsPerLine) {
+       const firstLine = actualEmpresa.slice(0, maxCharsPerLine);
+       const secondLine = actualEmpresa.slice(maxCharsPerLine).replace(/^\s+/, '');
        doc.text(`Sol·licitant: ${firstLine}`, xHeader, yHeader);
        doc.text(secondLine, xHeader, yHeader + 3);
        doc.text(`NIF: ${actualNif}`, xHeader, yHeader + 6);
        doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 9);
        doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 12);
      } else {
-       doc.text(`Sol·licitant: ${this.actualEmpresa}`, xHeader, yHeader);
+       doc.text(`Sol·licitant: ${actualEmpresa}`, xHeader, yHeader);
        doc.text(`NIF: ${actualNif}`, xHeader, yHeader + 3);
        doc.text("Emissor (DIR3): A04003714", xHeader, yHeader + 6);
        doc.text(`Codi SIA: ${this.codigoSIA}`, xHeader, yHeader + 9);
@@ -280,7 +271,7 @@ export class PrDevinitivaFavorable_ConReqService {
  
      // Crear FormData
      const formData = new FormData();
-     const fileName = `${actualIdExp + '_' + actualConvocatoria+'_'+docFieldToUpdate}.pdf`;
+     const fileName = `${actualIdExp + '_' + actualConvocatoria+'_'+docNametoCreate}.pdf`;
      formData.append('file', pdfBlob, fileName);
      formData.append('id_sol', String(actualID));
      formData.append('convocatoria', String(actualConvocatoria));
@@ -296,14 +287,13 @@ export class PrDevinitivaFavorable_ConReqService {
          this.docGeneradoInsert.id_sol = actualID
          this.docGeneradoInsert.cifnif_propietario = actualNif
          this.docGeneradoInsert.convocatoria = String(actualConvocatoria)
-         this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`
+         this.docGeneradoInsert.name = `doc_${docNametoCreate}.pdf`
          this.docGeneradoInsert.type = 'application/pdf'
          this.docGeneradoInsert.created_at = response.path
          this.docGeneradoInsert.tipo_tramite = tipoTramite
-         this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`
+         this.docGeneradoInsert.corresponde_documento = `${docFieldToUpdate}`
          this.docGeneradoInsert.selloDeTiempo = timeStamp
  
-         this.nameDocgenerado =  `doc_${docFieldToUpdate}.pdf`
          // delete documentos generados antes del insert para evitar duplicados
          this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( actualID, actualNif, actualConvocatoria, 'doc_prop_res_definitiva_con_req')
            .subscribe({

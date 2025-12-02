@@ -98,8 +98,8 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
   @Input() motivoDenegacion!: string
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
-    private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
-    private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
+    private viafirmaService: ViafirmaService,
+    private documentosGeneradosService: DocumentosGeneradosService, 
     private actoAdminService: ActoAdministrativoService, private prDefinitivaFavorableConReqService: PrDevinitivaFavorable_ConReqService ) { 
     this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
   }
@@ -107,8 +107,17 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
-      this.getLineDetail(this.actualConvocatoria)
-      this.getGlobalConfig()
+      this.actoAdminService.getLineDetail(this.actualConvocatoria)
+        .subscribe((lineaAyudaItems: PindustLineaAyudaDTO) => {
+        this.num_BOIB = lineaAyudaItems['num_BOIB']
+        this.codigoSIA = lineaAyudaItems['codigoSIA']
+        this.fecha_BOIB = lineaAyudaItems['fecha_BOIB']
+        this.fechaResPresidente = lineaAyudaItems['fechaResPresidIDI'] ?? '' 
+        })
+      this.actoAdminService.getGlobalConfig()
+        .subscribe((globalConfig: ConfigurationModelDTO) => {
+          this.dGerente = globalConfig?.directorGerenteIDI ?? '';
+        })
     }   
   }
   
@@ -136,6 +145,7 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
     } else {
       this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
     }
+    if (!this.fechaRequerimiento) {return} //NO hay requerimiento, entonces no hace falta busque CON requerimiento
 
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
       .subscribe({
@@ -196,12 +206,17 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
       return
     }
 
+    this.actoAdmin12 = false
+
     this.prDefinitivaFavorableConReqService.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
       actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
       this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
-      this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.dGerente, this.actualIdExp, 
-      'prop_res_def_favorable_sin_req', this.actualEmpresa, this.actualImporteSolicitud, this.form.get('fecha_requerimiento')?.value, this.form.get('fecha_REC_enmienda')?.value)
-        .subscribe((result:any) => { this.actoAdmin12 = result})
+      this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.actualIdExp, 
+      'prop_res_def_favorable_con_req', this.actualEmpresa, this.actualImporteSolicitud, this.form.get('fecha_requerimiento')?.value, this.form.get('fecha_REC_enmienda')?.value)
+        .subscribe((result:any) => { 
+          this.actoAdmin12 = result
+          console.log("this.actoAdmin12", this.actoAdmin12)
+        })
 
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
     /*     this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
@@ -610,22 +625,4 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
     });
   }
 
-  getLineDetail(convocatoria: number) {
-      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
-        });
-        this.num_BOIB = this.lineDetail[0]['num_BOIB']
-        this.codigoSIA = this.lineDetail[0]['codigoSIA']
-        this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
-        this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
-    })
-  }
-
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
-    })
-  }
 }

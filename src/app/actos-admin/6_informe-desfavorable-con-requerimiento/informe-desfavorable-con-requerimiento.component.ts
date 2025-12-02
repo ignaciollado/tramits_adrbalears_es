@@ -113,8 +113,17 @@ export class InformeDesfavorableConRequerimientoComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
-      this.getLineDetail(this.actualConvocatoria)
-      this.getGlobalConfig()
+      this.actoAdminService.getLineDetail(this.actualConvocatoria)
+        .subscribe((lineaAyudaItems: PindustLineaAyudaDTO) => {
+        this.num_BOIB = lineaAyudaItems['num_BOIB']
+        this.codigoSIA = lineaAyudaItems['codigoSIA']
+        this.fecha_BOIB = lineaAyudaItems['fecha_BOIB']
+        this.fechaResPresidente = lineaAyudaItems['fechaResPresidIDI'] ?? '' 
+        })
+      this.actoAdminService.getGlobalConfig()
+        .subscribe((globalConfig: ConfigurationModelDTO) => {
+          this.dGerente = globalConfig?.directorGerenteIDI ?? '';
+        })
     }
     if (this.formInformDesfConReq && this.motivoDenegacion) {
       this.formInformDesfConReq
@@ -150,6 +159,8 @@ export class InformeDesfavorableConRequerimientoComponent {
     } else {
       this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
     } 
+    if (!this.fechaRequerimiento) {return} //NO hay requerimiento, entonces no hace falta busque CON requerimiento
+
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
@@ -573,25 +584,6 @@ export class InformeDesfavorableConRequerimientoComponent {
     });
   }
 
-  getLineDetail(convocatoria: number) {
-      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
-        });
-        this.num_BOIB = this.lineDetail[0]['num_BOIB']
-        this.codigoSIA = this.lineDetail[0]['codigoSIA']
-        this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
-        this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
-    })
-  }
-
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
-    })
-  }
-  
   /* Es una prueba, ignorar... cuento el número de peticiones realizadas entre dos fechas dadas */
   getCreatedRequests() {
    

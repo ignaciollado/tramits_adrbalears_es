@@ -115,7 +115,10 @@ export class ActaDeCierreComponent {
   ngOnChanges(changes: SimpleChange): void {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
-      this.getLineDetail(this.actualConvocatoria);
+      this.actoAdminService.getLineDetail(this.actualConvocatoria)
+        .subscribe((lineaAyudaItems: PindustLineaAyudaDTO) => {
+        this.codigoSIA = lineaAyudaItems['codigoSIA']
+        })
     }
   }
 
@@ -477,15 +480,6 @@ export class ActaDeCierreComponent {
         const sendedDateToSign = resp.creationDate
         this.sendedDateToSign = new Date(sendedDateToSign)
       })
-  }
-
-  getLineDetail(convocatoria: number) {
-    this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-      this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-        return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
-      });
-      this.codigoSIA = this.lineDetail[0]['codigoSIA'];
-    })
   }
 
   sendJustificationFormEmail(): void {

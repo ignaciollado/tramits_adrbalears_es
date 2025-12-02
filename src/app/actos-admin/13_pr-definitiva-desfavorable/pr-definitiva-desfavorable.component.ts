@@ -1,4 +1,4 @@
-import { Component, inject, Input, SimpleChanges} from '@angular/core';
+import { Component, Input, SimpleChanges} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -8,21 +8,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
-import { ExpedienteService } from '../../Services/expediente.service';
+
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { jsPDF } from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { catchError, finalize, of, switchMap, tap } from 'rxjs';
-import { MejorasSolicitudService } from '../../Services/mejoras-solicitud.service';
-import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
+import { catchError, finalize, of } from 'rxjs';
+import { PrDevinitivaDESFavorableService } from '../../Services/xecs-actos-admin/pr-definitiva-desfavorable.service';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
-import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
-import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
 
 @Component({
   selector: 'app-pr-definitiva-desfavorable',
@@ -32,9 +28,8 @@ import { PindustConfiguracionService } from '../../Services/pindust-configuracio
   styleUrl: './pr-definitiva-desfavorable.component.scss'
 })
 export class PrDefinitivaDesfavorableComponent {
-private expedienteService = inject(ExpedienteService)
+
   noDenegationReasonText:boolean = true
-  actoAdminName:string = "prop_res_def_desfavorable_sin_req"
   actoAdmin13: boolean = false
   signedBy: string = ""
   timeStampDocGenerado: string = ""
@@ -98,8 +93,8 @@ private expedienteService = inject(ExpedienteService)
   @Input() motivoDenegacion!: string
 
   constructor(  private commonService: CommonService, private sanitizer: DomSanitizer,
-    private viafirmaService: ViafirmaService, private lineaAyuda: PindustLineaAyudaService, private configGlobal: PindustConfiguracionService,
-    private documentosGeneradosService: DocumentosGeneradosService, private mejorasSolicitudService: MejorasSolicitudService,
+    private viafirmaService: ViafirmaService, private prDefinitivaDesfavorableService: PrDevinitivaDESFavorableService,
+    private documentosGeneradosService: DocumentosGeneradosService, 
     private actoAdminService: ActoAdministrativoService ) { 
     this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || ""
   }
@@ -107,8 +102,17 @@ private expedienteService = inject(ExpedienteService)
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
-      this.getLineDetail(this.actualConvocatoria)
-      this.getGlobalConfig()
+      this.actoAdminService.getLineDetail(this.actualConvocatoria)
+        .subscribe((lineaAyudaItems: PindustLineaAyudaDTO) => {
+        this.num_BOIB = lineaAyudaItems['num_BOIB']
+        this.codigoSIA = lineaAyudaItems['codigoSIA']
+        this.fecha_BOIB = lineaAyudaItems['fecha_BOIB']
+        this.fechaResPresidente = lineaAyudaItems['fechaResPresidIDI'] ?? '' 
+        })
+      this.actoAdminService.getGlobalConfig()
+        .subscribe((globalConfig: ConfigurationModelDTO) => {
+          this.dGerente = globalConfig?.directorGerenteIDI ?? '';
+        })
     }   
   }
   
@@ -136,16 +140,20 @@ private expedienteService = inject(ExpedienteService)
     } else {
       this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
     }
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
+    if (this.fechaRequerimiento) {return} //Hay requerimiento, entonces no hace falta busque sin requerimiento
+
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_prop_res_definitiva_sin_req")
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin13 = false
+
           if (docActoAdmin.length === 1) {
             this.actoAdmin13 = true
             this.timeStampDocGenerado = docActoAdmin[0].selloDeTiempo
             this.nameDocgenerado = docActoAdmin[0].name
             this.lastInsertId = docActoAdmin[0].id
             this.publicAccessId = docActoAdmin[0].publicAccessId
+
             if (this.publicAccessId) {
               this.getSignState(this.publicAccessId)
             }
@@ -158,7 +166,7 @@ private expedienteService = inject(ExpedienteService)
       });
   }
 
-  generateActoAdmin(actoAdministrivoName: string, tipoTramite: string, docFieldToUpdate: string = this.actoAdminName): void {
+  generateActoAdmin(actoAdministrivoName: string, lineaAyuda: string, docFieldToUpdate: string = 'doc_prop_res_definitiva_sin_req'): void {
     let todoOK: boolean = true
     let errorMessage: string = "Falta indicar:\n"
     if (this.form.get('fecha_REC')?.value === "0000-00-00 00:00:00" || this.form.get('fecha_REC')?.value === '0000-00-00' || this.form.get('fecha_REC')?.value === null) {
@@ -185,8 +193,21 @@ private expedienteService = inject(ExpedienteService)
       alert (errorMessage)
       return
     }
+
+    this.actoAdmin13 = false
+
+    this.prDefinitivaDesfavorableService.generateActoAdmin(this.actualID, this.actualNif, this.actualConvocatoria, 
+      actoAdministrivoName, lineaAyuda, this.form.get('tipo_tramite')?.value, docFieldToUpdate, 
+      this.form.get('fecha_solicitud')?.value, this.form.get('fecha_firma_propuesta_resolucion_prov')?.value, 
+      this.form.get('fecha_not_propuesta_resolucion_prov')?.value, this.form.get('fecha_infor_fav_desf')?.value, this.motivoDenegacion, this.actualIdExp, 
+      this.actualEmpresa, this.actualImporteSolicitud)
+        .subscribe((result:boolean) => { 
+          this.actoAdmin13 = result
+          })
+
+
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS, ADR-ISBA o ILS
-    this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
+    /* this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, tipoTramite).subscribe((docDataString: any) => {
       let hayMejoras = 0
       let rawTexto = docDataString.texto
       this.signedBy = docDataString.signedBy
@@ -250,7 +271,7 @@ private expedienteService = inject(ExpedienteService)
       }),
       tap(() => {
         try {
-          rawTexto = this.commonService.cleanRawText(rawTexto) /* quito saltos de línea introducidos con el INTRO */
+          rawTexto = this.commonService.cleanRawText(rawTexto) // quito saltos de línea introducidos con el INTRO
           console.log ("rawTexto", rawTexto)
           jsonObject = JSON.parse(rawTexto);
           this.generarPDF(jsonObject, docFieldToUpdate, hayMejoras);
@@ -260,10 +281,10 @@ private expedienteService = inject(ExpedienteService)
       })
     )
     .subscribe();
-  })
+    }) */
   }
 
-  generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
+    /* generarPDF(jsonObject: any, docFieldToUpdate: string, hayMejoras: number): void {
     const timeStamp = this.commonService.generateCustomTimestamp()
     const doc = new jsPDF({
       orientation: 'p',
@@ -443,10 +464,10 @@ private expedienteService = inject(ExpedienteService)
         this.commonService.showSnackBar(errorMsg);
         }
     });   
-  }
+  } */
 
-  // Método auxiliar para no repetir el bloque de creación
-  InsertDocumentoGenerado(docFieldToUpdate: string): void {
+    // Método auxiliar para no repetir el bloque de creación
+    /* InsertDocumentoGenerado(docFieldToUpdate: string): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
     next: (resp: any) => {
       this.lastInsertId = resp?.id;
@@ -481,7 +502,7 @@ private expedienteService = inject(ExpedienteService)
       this.commonService.showSnackBar(insertErrorMsg);
     }
   });
-  }
+  } */
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
     const entorno = sessionStorage.getItem("entorno")
@@ -590,22 +611,4 @@ private expedienteService = inject(ExpedienteService)
     });
   }
 
-  getLineDetail(convocatoria: number) {
-      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
-        });
-        this.num_BOIB = this.lineDetail[0]['num_BOIB']
-        this.codigoSIA = this.lineDetail[0]['codigoSIA']
-        this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
-        this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
-    })
-  }
-
-  getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
-    })
-  } 
 }

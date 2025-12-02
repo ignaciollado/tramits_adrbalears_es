@@ -112,8 +112,17 @@ export class InformeDesfavorableComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (this.tieneTodosLosValores()) {
       this.getActoAdminDetail();
-      this.getLineDetail(this.actualConvocatoria)
-      this.getGlobalConfig()
+      this.actoAdminService.getLineDetail(this.actualConvocatoria)
+        .subscribe((lineaAyudaItems: PindustLineaAyudaDTO) => {
+        this.num_BOIB = lineaAyudaItems['num_BOIB']
+        this.codigoSIA = lineaAyudaItems['codigoSIA']
+        this.fecha_BOIB = lineaAyudaItems['fecha_BOIB']
+        this.fechaResPresidente = lineaAyudaItems['fechaResPresidIDI'] ?? '' 
+        })
+      this.actoAdminService.getGlobalConfig()
+        .subscribe((globalConfig: ConfigurationModelDTO) => {
+          this.dGerente = globalConfig?.directorGerenteIDI ?? '';
+        })
     }
     if (this.formInformDesf && this.motivoDenegacion) {
       this.formInformDesf
@@ -148,7 +157,9 @@ export class InformeDesfavorableComponent {
       this.fechaRequerimiento = ""
     } else {
       this.fechaRequerimiento = this.form.get("fecha_requerimiento_notif")?.value
-    } 
+    }
+    if (this.fechaRequerimiento) {return} //Hay requerimiento, entonces no hace falta busque sin requerimiento
+
     this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
@@ -557,24 +568,5 @@ export class InformeDesfavorableComponent {
               this.commonService.showSnackBar(msg);
             }
     });
-  }
-
-  getLineDetail(convocatoria: number) {
-      this.lineaAyuda.getAll().subscribe((lineaAyudaItems: PindustLineaAyudaDTO[]) => {
-        this.lineDetail = lineaAyudaItems.filter((item: PindustLineaAyudaDTO) => {
-          return item.convocatoria === convocatoria && item.lineaAyuda === "XECS" && item.activeLineData === "SI";
-        });
-        this.num_BOIB = this.lineDetail[0]['num_BOIB']
-        this.codigoSIA = this.lineDetail[0]['codigoSIA']
-        this.fecha_BOIB = this.lineDetail[0]['fecha_BOIB']
-        this.fechaResPresidente = this.lineDetail[0]['fechaResPresidIDI'] ?? ''
-    })
-  }
-
-    getGlobalConfig() {
-    this.configGlobal.getActive().subscribe((globalConfigArr: ConfigurationModelDTO[]) => {
-      const globalConfig = globalConfigArr[0];
-      this.dGerente = globalConfig?.directorGerenteIDI ?? '';
-    })
   }
 }
