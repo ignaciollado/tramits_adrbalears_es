@@ -185,7 +185,7 @@ loadAllExpedientes(): void {
                 'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov, 
                 item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.motivoDenegacion, item.idExp, 
                 item.empresa, item.importeAyuda)
-                .subscribe((result:boolean) => {})
+                .subscribe(() => {})
             }
         }
         if (item.tipo_tramite === "Programa III actuacions corporatives") {
