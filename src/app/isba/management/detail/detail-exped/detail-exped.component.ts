@@ -37,6 +37,7 @@ import { CommonService } from '../../../../Services/common.service';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { ExpedienteService } from '../../../../Services/expediente.service';
 import { ViafirmaService } from '../../../../Services/viafirma.service';
+import { ResolucionConcesionAdrIsbaService } from '../../../../Services/adr-isba-actos-admin/9-resolucion-concesion/resolucion-concesion.service';
 
 @Component({
   selector: 'app-detail-exped',
@@ -71,6 +72,7 @@ export class IsbaDetailExpedComponent {
   private customValidatorService = inject(CustomValidatorsService)
 
   private resolucionConcesionConRequerimientoService = inject(ResolucionConcesionConRequerimientoAdrIsbaService);
+  private resolucionConcesionService = inject(ResolucionConcesionAdrIsbaService);
 
   selectedIndex: number | undefined;
 
@@ -383,8 +385,7 @@ export class IsbaDetailExpedComponent {
       // Inicio flujo
       this.resolucionConcesionConRequerimientoService.init(expediente, this.form, true);
     } else {
-      console.log('No requerimiento')
-      // this.resConcesionSinRequerimientoAutomatico = true;
+      this.resolucionConcesionService.init(expediente, this.form, true);
     }
 
     this.expedienteService.updateFieldExpediente(this.actualID, 'situacion', 'emitirResConcesion').subscribe({

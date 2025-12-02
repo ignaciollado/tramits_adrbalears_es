@@ -1,26 +1,10 @@
-import { CommonModule, formatDate } from '@angular/common';
-import { Component, inject, Input, SimpleChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, Input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import jsPDF from 'jspdf';
-import { finalize } from 'rxjs';
-import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { ConfigurationModelDTO } from '../../Models/configuration.dto';
-import { DocSignedDTO } from '../../Models/docsigned.dto';
-import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
-import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
-import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
-import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
-import { CommonService } from '../../Services/common.service';
-import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
-import { ExpedienteService } from '../../Services/expediente.service';
-import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
-import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
-import { ViafirmaService } from '../../Services/viafirma.service';
-import { environment } from '../../../environments/environment';
 import { PrProvisionalFavorableConRequerimientoAdrIsbaService } from '../../Services/adr-isba-actos-admin/6-pr-provisional-favorable-con-requerimiento/pr-provisional-favorable-con-requerimiento.service';
 
 @Component({

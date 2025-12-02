@@ -13,11 +13,10 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { PrDefinitivaFavorableService } from '../../../Services/actos-admin-adr-isba/pr-definitiva-favorable.service';
+import { PrDefinitivaFavorableAdrIsbaService } from '../../../Services/adr-isba-actos-admin/7-pr-definitiva-favorable/pr-definitiva-favorable.service';
 import { PrDefinitivaFavorableConRequerimientoAdrIsbaService } from '../../../Services/adr-isba-actos-admin/8-pr-definitiva-favorable-con-requerimiento/pr-definitiva-favorable-con-requerimiento.service';
 import { CommonService } from '../../../Services/common.service';
 import { ExpedienteService } from '../../../Services/expediente.service';
-import { PrDefinitivaFavorableAdrIsbaService } from '../../../Services/adr-isba-actos-admin/7-pr-definitiva-favorable/pr-definitiva-favorable.service';
 
 @Component({
   selector: 'app-xecs-management',
