@@ -417,14 +417,14 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
 
     doc.setFontSize(10);
     doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80);
-    doc.text(doc.splitTextToSize(jsonObject.antecedents_tit, maxTextWidth), marginLeft, 92);
+    doc.text(doc.splitTextToSize(jsonObject.antecedents_tit, maxTextWidth), marginLeft, 96);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.antecedents_1_2_3_4_5_6, maxTextWidth), marginLeft + 5, 100);
+    doc.text(doc.splitTextToSize(jsonObject.antecedents_1_2_3_4_5_6, maxTextWidth), marginLeft + 5, 104);
 
     doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 188);
+    doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 192);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 196);
+    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 200);
 
     // Segunda página
     doc.addPage();
@@ -450,52 +450,54 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
       doc.text(`${i}/${totalPages}`, pageWidth - 20, pageHeight - 10);
     }
 
-    const pdfBlob = doc.output('blob');
+    const pdfBlob = doc.output('bloburl');
 
-    const formData = new FormData();
-    const fileName = `${this.actualIdExp}_${this.actualConvocatoria}_${docFieldToUpdate}.pdf`;
+    window.open(pdfBlob)
 
-    formData.append('file', pdfBlob, fileName);
-    formData.append('id_sol', String(this.actualID));
-    formData.append('convocatoria', String(this.actualConvocatoria));
-    formData.append('nifcif_propietario', String(this.actualNif));
-    formData.append('timeStamp', String(timeStamp));
+    // const formData = new FormData();
+    // const fileName = `${this.actualIdExp}_${this.actualConvocatoria}_${docFieldToUpdate}.pdf`;
 
-    this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
-      next: (response) => {
-        this.docGeneradoInsert.id_sol = this.actualID;
-        this.docGeneradoInsert.cifnif_propietario = this.actualNif;
-        this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria);
-        this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`;
-        this.docGeneradoInsert.type = 'application/pdf';
-        this.docGeneradoInsert.created_at = response.path;
-        this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite;
-        this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`;
-        this.docGeneradoInsert.selloDeTiempo = timeStamp;
+    // formData.append('file', pdfBlob, fileName);
+    // formData.append('id_sol', String(this.actualID));
+    // formData.append('convocatoria', String(this.actualConvocatoria));
+    // formData.append('nifcif_propietario', String(this.actualNif));
+    // formData.append('timeStamp', String(timeStamp));
 
-        this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
+    // this.actoAdminService.sendPDFToBackEnd(formData).subscribe({
+    //   next: (response) => {
+    //     this.docGeneradoInsert.id_sol = this.actualID;
+    //     this.docGeneradoInsert.cifnif_propietario = this.actualNif;
+    //     this.docGeneradoInsert.convocatoria = String(this.actualConvocatoria);
+    //     this.docGeneradoInsert.name = `doc_${docFieldToUpdate}.pdf`;
+    //     this.docGeneradoInsert.type = 'application/pdf';
+    //     this.docGeneradoInsert.created_at = response.path;
+    //     this.docGeneradoInsert.tipo_tramite = this.actualTipoTramite;
+    //     this.docGeneradoInsert.corresponde_documento = `doc_${docFieldToUpdate}`;
+    //     this.docGeneradoInsert.selloDeTiempo = timeStamp;
 
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, String(this.actualConvocatoria), 'doc_renovacion_resolucion_renovacion_marca_con_req_ils')
-          .subscribe({
-            next: () => {
-              this.insertDocumentoGenerado(docFieldToUpdate);
-            },
-            error: (deleteErr) => {
-              const status = deleteErr?.status;
-              const msg = deleteErr?.error?.message || '';
-              // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
-              if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
-                this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                this.insertDocumentoGenerado(docFieldToUpdate);
-              } else {
-                // Otros errores sí se notifican y no continúan
-                const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
-                this.commonService.showSnackBar(deleteErrMsg);
-              }
-            }
-          })
-      }
-    })
+    //     this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
+
+    //     this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, String(this.actualConvocatoria), 'doc_renovacion_resolucion_renovacion_marca_con_req_ils')
+    //       .subscribe({
+    //         next: () => {
+    //           this.insertDocumentoGenerado(docFieldToUpdate);
+    //         },
+    //         error: (deleteErr) => {
+    //           const status = deleteErr?.status;
+    //           const msg = deleteErr?.error?.message || '';
+    //           // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
+    //           if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
+    //             this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
+    //             this.insertDocumentoGenerado(docFieldToUpdate);
+    //           } else {
+    //             // Otros errores sí se notifican y no continúan
+    //             const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
+    //             this.commonService.showSnackBar(deleteErrMsg);
+    //           }
+    //         }
+    //       })
+    //   }
+    // })
   }
   // Comprobación campos vacíos
   private tieneTodosLosCamposRequeridos(): void {
