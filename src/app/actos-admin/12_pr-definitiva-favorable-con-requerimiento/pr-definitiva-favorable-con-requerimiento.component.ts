@@ -147,7 +147,7 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
     }
     if (!this.fechaRequerimiento) {return} //NO hay requerimiento, entonces no hace falta busque CON requerimiento
 
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_"+this.actoAdminName)
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, "doc_prop_res_definitiva_con_req")
       .subscribe({
         next: (docActoAdmin: DocumentoGeneradoDTO[]) => {
           this.actoAdmin12 = false
@@ -520,6 +520,7 @@ export class PrDefinitivaFavorableConRequerimientoComponent {
   } */
 
   viewActoAdmin(nif: string, folder: string, filename: string, extension: string) {
+     console.log ("viewActoAdmin",nif, folder, filename, extension)
     const entorno = sessionStorage.getItem("entorno")
     filename = filename.replace(/^doc_/, "")
     filename = `${this.actualIdExp+'_'+this.actualConvocatoria+'_'+filename}`

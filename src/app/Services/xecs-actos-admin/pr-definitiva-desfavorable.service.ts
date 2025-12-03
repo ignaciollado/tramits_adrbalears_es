@@ -124,7 +124,7 @@ export class PrDevinitivaDESFavorableService {
          return of(false);
        })
      );
-    }
+   }
  
    generarPDF(actualID: number, actualNif: string, actualConvocatoria: number, tipoTramite: string, jsonObject: any, 
     docFieldToUpdate: string, hayMejoras: number, actualIdExp: number, actualEmpresa: string): void {
@@ -242,7 +242,6 @@ export class PrDevinitivaDESFavorableService {
      doc.setFont('helvetica', 'normal');
      doc.text(doc.splitTextToSize(jsonObject.propuesta_cab, maxTextWidth), marginLeft, 70);
      doc.text(doc.splitTextToSize(jsonObject.propuesta_txt, maxTextWidth), marginLeft + 5, 80);
-  
      doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 240);
  
      const totalPages = doc.getNumberOfPages();
@@ -284,8 +283,9 @@ export class PrDevinitivaDESFavorableService {
          this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc( actualID, actualNif, actualConvocatoria, docFieldToUpdate)
            .subscribe({
              next: () => {
-               // Eliminado correctamente, o no había nada que eliminar
-               this.InsertDocumentoGenerado(actualID, docFieldToUpdate);
+              // Eliminado correctamente, o no había nada que eliminar
+              console.log ("en next")
+              this.InsertDocumentoGenerado(actualID, docFieldToUpdate);
              },
              error: (deleteErr) => {
                const status = deleteErr?.status;
@@ -293,11 +293,12 @@ export class PrDevinitivaDESFavorableService {
                // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
                if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
                  this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                 this.InsertDocumentoGenerado(actualID, docFieldToUpdate);
+                  console.log ("en error")
+                  this.InsertDocumentoGenerado(actualID, docFieldToUpdate);
                } else {
                // Otros errores sí se notifican y no continúan
-                 const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
-                 this.commonService.showSnackBar(deleteErrMsg);
+                  const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
+                  this.commonService.showSnackBar(deleteErrMsg);
                }
              }
            });

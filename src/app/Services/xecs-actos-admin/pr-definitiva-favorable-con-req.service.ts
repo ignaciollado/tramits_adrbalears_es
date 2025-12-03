@@ -66,6 +66,7 @@ export class PrDevinitivaFavorable_ConReqService {
             this.codigoSIA = lineaAyudaItems['codigoSIA']
             rawTexto = rawTexto.replace(/%BOIBFECHA%/g, this.commonService.formatDate(lineaAyudaItems['fecha_BOIB'], true))
             rawTexto = rawTexto.replace(/%BOIBNUM%/g, lineaAyudaItems['num_BOIB'])
+            rawTexto = rawTexto.replace(/%FECHARESPRESIDI%/g, this.commonService.formatDate(lineaAyudaItems['fechaResPresidIDI'] ?? '', true));
             rawTexto = rawTexto.replace(/%IMPORTETOTALCONVOCATORIA%/g, this.commonService.formatCurrency(lineaAyudaItems['totalAmount']))            
         })
         
@@ -77,10 +78,10 @@ export class PrDevinitivaFavorable_ConReqService {
         rawTexto = rawTexto.replace(/%IMPORTE%/g, this.commonService.formatCurrency(actualImporteSolicitud));
         rawTexto = rawTexto.replace(/%PROGRAMA%/g, tipoTramite);
 
-        rawTexto = rawTexto.replace(/%FECHAPROPUESTARESOLUCION_PROVISIONAL%/g, fecha_firma_propuesta_resolucion_prov);
-        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PROP_RESOL_PROVISIONAL%/g, fecha_not_propuesta_resolucion_prov);
+        rawTexto = rawTexto.replace(/%FECHAPROPUESTARESOLUCION_PROVISIONAL%/g, this.commonService.formatDate(fecha_firma_propuesta_resolucion_prov));
+        rawTexto = rawTexto.replace(/%FECHA_NOTIFICACION_PROP_RESOL_PROVISIONAL%/g, this.commonService.formatDate(fecha_not_propuesta_resolucion_prov));
         rawTexto = rawTexto.replace(/%FECHAREQ%/g, this.commonService.formatDate(fecha_requerimiento));
-        rawTexto = rawTexto.replace(/%FECHAESMENA%/g, fecha_REC_enmienda);
+        rawTexto = rawTexto.replace(/%FECHAESMENA%/g, this.commonService.formatDate(fecha_REC_enmienda));
         rawTexto = rawTexto.replace(/%FECHA_FIRMA_INFORME%/g, this.commonService.formatDate(fecha_infor_fav_desf));
         this.actoAdminService.getGlobalConfig()
           .subscribe((globalConfig: ConfigurationModelDTO) => {
