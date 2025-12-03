@@ -300,10 +300,7 @@
                 <section>
                     <h4>{{'ACTOSADMINISTRATIVOS.TITLE' | translate}}</h4>
                     <app-renov-informe-favorable-ils
-                    [form]="form"
-                    [actualID]="actualID" [actualIdExp]="actualIdExp"
-                    [actualNif]="actualNif" [actualConvocatoria]="actualConvocatoria"
-                    [actualEmpresa]="actualEmpresa" [actualTipoTramite]="actualTipoTramite"></app-renov-informe-favorable-ils>
+                    [form]="form" [expediente]="expediente"></app-renov-informe-favorable-ils>
                     <app-renov-informe-favorable-con-requerimiento-ils
                     [form]="form" [expediente]="expediente"></app-renov-informe-favorable-con-requerimiento-ils>
                     <app-renov-informe-desfavorable-con-requerimiento-ils
