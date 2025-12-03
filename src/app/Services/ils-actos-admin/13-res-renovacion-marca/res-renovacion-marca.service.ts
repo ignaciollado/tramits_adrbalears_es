@@ -22,7 +22,7 @@ import jsPDF from 'jspdf';
 @Injectable({
   providedIn: 'root'
 })
-export class ResRenovacionMarcaConRequerimientoIlsService {
+export class ResRenovacionMarcaIlsService {
   private expedienteService = inject(ExpedienteService);
 
   expediente!: any;
@@ -171,14 +171,14 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
             this.codigoSIA = lineDetail[0]['codigoSIA']
           }
         }),
-        switchMap(() => this.actoAdminService.getByNameAndTipoTramite('ILS_14_renovacion_resolucion_renovacion_con_requerimiento', 'ILS'))
+        switchMap(() => this.actoAdminService.getByNameAndTipoTramite('ILS_13_renovacion_resolucion_renov_sin_requerimiento', 'ILS'))
       ).subscribe({
         next: (docDataString: ActoAdministrativoDTO) => {
           this.docDataString = docDataString;
           this.signedBy = this.docDataString.signedBy;
           this.getActoAdminDetail(); // Carga de expediente previamente generado
         },
-        error: (err) => console.error('Error inicializando Res. Renovación de marca con requerimiento', err)
+        error: (err) => console.error('Error inicializando Resolución Renovación Marca', err)
       })
 
     }
@@ -197,7 +197,7 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
 
   // Cargado de documento ya generado
   getActoAdminDetail(): void {
-    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_renovacion_resolucion_renovacion_marca_con_req_ils')
+    this.documentosGeneradosService.getDocumentosGenerados(this.actualID, this.actualNif, this.actualConvocatoria, 'doc_renovacion_resolucion_renovacion_marca_ils')
       .subscribe({
         next: (docGenerado: DocumentoGeneradoDTO[]) => {
           if (docGenerado.length === 1) {
@@ -258,7 +258,7 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
   // Envío a firma
   sendActoAdminToSign(): void {
     const nif = this.actualNif;
-    const filename = `${this.actualIdExp}_${this.actualConvocatoria}_renovacion_resolucion_renovacion_marca_con_req_ils.pdf`;
+    const filename = `${this.actualIdExp}_${this.actualConvocatoria}_renovacion_resolucion_renovacion_marca_ils.pdf`;
 
     let email: string = "";
 
@@ -313,7 +313,7 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
       return;
     }
 
-    const docFieldToUpdate: string = "renovacion_resolucion_renovacion_marca_con_req_ils";
+    const docFieldToUpdate: string = "renovacion_resolucion_renovacion_marca_ils";
 
     const timeStamp = this.commonService.generateCustomTimestamp()
     const doc = new jsPDF({
@@ -363,7 +363,6 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
     const formattedFecha_resolucion = formatDate(this.form.get('fecha_resolucion')?.value, 'dd/MM/yyyy', 'es-ES');
     const formattedFecha_REC_justificacion_renov = formatDate(this.form.get('fecha_REC_justificacion_renov')?.value, 'dd/MM/yyyy HH:mm', 'es-ES');
     const formattedFecha_infor_fav_renov = formatDate(this.form.get('fecha_infor_fav_renov')?.value, 'dd/MM/yyyy', 'es-ES');
-    const formattedFecha_notif_req_renov = formatDate(this.form.get('fecha_notif_req_renov')?.value, 'dd/MM/yyyy', 'es-ES');
 
     /* Suma de 2 años para HASTAFECHANOTRESRENOVACION */
     const hastaFechaNotResRenovacion = new Date(this.form.get('fecha_infor_fav_renov')?.value);
@@ -376,12 +375,10 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
     rawTexto = rawTexto.replace(/%FECHARESOLUCION%/g, formattedFecha_resolucion);
     rawTexto = rawTexto.replace(/%FECHARECJUSTIFRENOVACION%/g, formattedFecha_REC_justificacion_renov);
     rawTexto = rawTexto.replace(/%REFRECRENOVACION%/g, this.form.get('ref_REC_justificacion_renov')?.value);
-    rawTexto = rawTexto.replace(/%FECHANOTREQ%/g, formattedFecha_notif_req_renov);
     rawTexto = rawTexto.replace(/%FECHAINFORMEFAVRENOVACION%/g, formattedFecha_infor_fav_renov);
     rawTexto = rawTexto.replace(/%DESDEFECHANOTRESRENOVACION%/g, formattedFecha_infor_fav_renov);
     rawTexto = rawTexto.replace(/%HASTAFECHANOTRESRENOVACION%/g, formattedHastaFechaNotResRenovacion);
-    rawTexto = rawTexto.replace(/%NOMPRESIDENTEIDI%/g, this.nomPresidenteIdi);
-
+    rawTexto = rawTexto.replace(/%NOMPRESIDENTIDI%/g, this.nomPresidenteIdi);
 
     let jsonObject;
 
@@ -398,7 +395,7 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
     doc.addImage('../../../assets/images/logo-adrbalears-ils.png', 'PNG', 25, 20, 70, 10);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8);
-    doc.text("Document: resolució renovació de marca", marginLeft + 110, 45);
+    doc.text("Document: resolució de renovació marca", marginLeft + 110, 45);
     doc.text(`Núm. Expedient: ${this.actualIdExp}/${this.actualConvocatoria}`, marginLeft + 110, 48);
     if (this.actualEmpresa.length > maxCharsPerLine) {
       const firstLine = this.actualEmpresa.slice(0, maxCharsPerLine);
@@ -417,14 +414,15 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
 
     doc.setFontSize(10);
     doc.text(doc.splitTextToSize(jsonObject.intro, maxTextWidth), marginLeft, 80);
-    doc.text(doc.splitTextToSize(jsonObject.antecedents_tit, maxTextWidth), marginLeft, 96);
+    doc.text(doc.splitTextToSize(jsonObject.fets_tit, maxTextWidth), marginLeft, 96);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.antecedents_1_2_3_4_5_6, maxTextWidth), marginLeft + 5, 104);
+    doc.text(doc.splitTextToSize(jsonObject.antecedents_1_2_3_4, maxTextWidth), marginLeft + 5, 104);
+
 
     doc.setFont('helvetica', 'bold');
-    doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 192);
+    doc.text(doc.splitTextToSize(jsonObject.resolucion_tit, maxTextWidth), marginLeft, 172);
     doc.setFont('helvetica', 'normal');
-    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft, 200);
+    doc.text(doc.splitTextToSize(jsonObject.resolucion, maxTextWidth), marginLeft + 5, 180);
 
     // Segunda página
     doc.addPage();
@@ -443,6 +441,7 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
     doc.text(doc.splitTextToSize(jsonObject.recursos, maxTextWidth), marginLeft, 68);
 
     doc.text(doc.splitTextToSize(jsonObject.firma, maxTextWidth), marginLeft, 220)
+
 
     const totalPages = doc.getNumberOfPages();
     for (let i = 1; i <= totalPages; i++) {
@@ -475,7 +474,7 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
 
         this.nameDocGenerado = `doc_${docFieldToUpdate}.pdf`;
 
-        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, String(this.actualConvocatoria), 'doc_renovacion_resolucion_renovacion_marca_con_req_ils')
+        this.documentosGeneradosService.deleteByIdSolNifConvoTipoDoc(this.actualID, this.actualNif, String(this.actualConvocatoria), 'doc_renovacion_resolucion_renovacion_marca_ils')
           .subscribe({
             next: () => {
               this.insertDocumentoGenerado(docFieldToUpdate);
@@ -496,7 +495,9 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
           })
       }
     })
+
   }
+
   // Comprobación campos vacíos
   private tieneTodosLosCamposRequeridos(): void {
     this.camposVacios = [];
@@ -509,7 +510,6 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
     const fecha_REC_justificacion_renov = this.form.get('fecha_REC_justificacion_renov')?.value;
     const ref_REC_justificacion_renov = this.form.get('ref_REC_justificacion_renov')?.value;
     const fecha_infor_fav_renov = this.form.get('fecha_infor_fav_renov')?.value;
-    const fecha_notif_req_renov = this.form.get('fecha_notif_req_renov')?.value;
 
     if (!fecha_resolucion?.trim() || fecha_resolucion?.trim() === "0000-00-00") {
       this.camposVacios.push('FORM.RESOLUTION-DATE')
@@ -525,10 +525,6 @@ export class ResRenovacionMarcaConRequerimientoIlsService {
 
     if (!ref_REC_justificacion_renov?.trim()) {
       this.camposVacios.push('FORM.REC-JUSTIFICATION-REF')
-    }
-
-    if (!fecha_notif_req_renov?.trim() || fecha_notif_req_renov?.trim() === "0000-00-00") {
-      this.camposVacios.push('FORM.REQUIREMENT-RENOVATION-SIGNATURE-DATE')
     }
 
     this.faltanCampos = this.camposVacios.length > 0;
