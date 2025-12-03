@@ -3,9 +3,9 @@
         <mat-expansion-panel-header>
             <mat-panel-title>15. {{'ACTOSADMINISTRATIVOS.RESOLUCIONREVOCACION' | translate}}</mat-panel-title>
         </mat-expansion-panel-header>
-        <button mat-raised-button color="primary" (click)="generateActoAdmin('renovacion_resolucion_revocacion_ils')">{{'ACTOSADMINISTRATIVOS.GENERAL.GENERATEACTO' | translate}}</button>
-        <button mat-raised-button color="accent" (click)="actoAdmin ? viewActoAdmin(actualNif, 'informes', nameDocGenerado, 'pdf') : generateActoAdmin('renovacion_resolucion_revocacion_ils')" [disabled]="!actoAdmin">{{'ACTOSADMINISTRATIVOS.GENERAL.VIEWACTO' | translate}}</button>
-        <button mat-raised-button color="warn" *ngIf="!publicAccessId" (click)="sendActoAdminToSign(actualNif, nameDocGenerado)" [disabled]="!actoAdmin">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOCONSELLER' | translate}}</button>
+        <button mat-raised-button color="primary" (click)="generateActoAdmin()">{{'ACTOSADMINISTRATIVOS.GENERAL.GENERATEACTO' | translate}}</button>
+        <button mat-raised-button color="accent" (click)="actoAdmin ? viewActoAdmin() : generateActoAdmin()" [disabled]="!actoAdmin">{{'ACTOSADMINISTRATIVOS.GENERAL.VIEWACTO' | translate}}</button>
+        <button mat-raised-button color="warn" *ngIf="!publicAccessId" (click)="sendActoAdminToSign()" [disabled]="!actoAdmin">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOCONSELLER' | translate}}</button>
         <section *ngIf="publicAccessId" [ngClass]="['detalle-formulario', 'req-state', stateClass]">
             <section *ngIf="signatureDocState === 'COMPLETED'">
                 <a href="{{externalSignUrl}}" target="_blank">{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.VIEWSIGNEDDOC' | translate}}</a>
@@ -15,7 +15,7 @@
                 <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDING' | translate}}</span><br>
                 <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDINGEMAIL' | translate}} <strong>{{sendedUserToSign | lowercase}}</strong></span><br>
                 <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PENDINGDATE' | translate}} <strong>{{sendedDateToSign | date: 'dd/MM/yyyy HH:mm:ss'}}</strong></span>
-                <button mat-raised-button color="warn" [disabled]="!actoAdmin" (click)="sendActoAdminToSign(actualNif, nameDocGenerado)">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOSIGNAGAIN' | translate}}</button>
+                <button mat-raised-button color="warn" [disabled]="!actoAdmin" (click)="sendActoAdminToSign()">{{'ACTOSADMINISTRATIVOS.GENERAL.SENDTOSIGNAGAIN' | translate}}</button>
             </section>
             <section *ngIf="signatureDocState === 'IN_PROCESS'">
                 <span>{{'ACTOSADMINISTRATIVOS.SIGNATURESTATUS.PROGRESS' | translate}}</span>
