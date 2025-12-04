@@ -303,13 +303,17 @@ private generateActAdmin12(item:any) {
 }
 
 private generateActAdmin13(item:any) {
-  if (!this.generatedActo13) {
-    this.generatedActo13 = true
+ /*  if (!this.generatedActo13) { */
+    /* this.generatedActo13 = true */
     return this.prDefinitivaDesfavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '13_propuesta_resolucion_definitiva_desfavorable_sin_requerimiento',
       'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
-      item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.motivoDenegacion, item.idExp, item.empresa, item.importeAyuda).subscribe();
-  }
-  return false
+      item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.motivoDenegacion, item.idExp, item.empresa, item.importeAyuda).subscribe(
+        (result:boolean) => {
+          this.generatedActo13 = result
+        }
+      );
+/*   }
+  return false */
 }
 
 private generateActAdmin14(item:any) {
