@@ -23,7 +23,7 @@ import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { PindustLineaAyudaService } from '../../Services/linea-ayuda.service';
 import { PindustConfiguracionService } from '../../Services/pindust-configuracion.service';
-import { PrDevinitivaFavorable_ConReqService } from '../../Services/xecs-actos-admin/pr-definitiva-favorable-con-req.service';
+import { PrDevinitivaFavorable_ConReqService } from '../../Services/xecs-actos-admin/12-pr-definitiva-favorable-con-req.service';
 @Component({
   selector: 'app-pr-definitiva-favorable-con-requerimiento',
   standalone: true,

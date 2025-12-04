@@ -130,11 +130,11 @@
                 ? 'Resten '+item.PRDefinitivarestingDays +' dies naturals'
                 : '**Indeterminat**' }}
         </span><br>
+
         <span *ngIf ="item.PRDefinitivarestingDays > 0; else prDefinitivaEnviada">per enviar la PR Definitiva.<br>Data d'enviament: {{ item.PRDefinitivaDate }}</span><br>        
         <ng-template #prDefinitivaEnviada>
           <span class="small-text indeterminate-diff">PR Definitiva enviada</span>
         </ng-template>
-       <!--  <span ngClass="small-text" [innerHTML]="documentoSended"></span><br> -->
         <span [innerHTML]="item.message"></span><br>
         <span *ngIf="item.fecha_not_propuesta_resolucion_def_sended  && item.fecha_not_propuesta_resolucion_def_sended !== '0000-00-00'">
           Document enviat el: {{ item.fecha_not_propuesta_resolucion_def_sended }}
@@ -156,21 +156,6 @@
           {{ item.fecha_limite_justificacion !== '' ? 'Resten '+item.justificacionRestingDays+' dies naturals' : '**Indeterminat**' }}
         </span>
       </ng-container>
-
-      <!-- Caso notificadoIFPRProvPago -->
-     <!--  <ng-container *ngSwitchCase="'notificadoIFPRProvPago'">
-        <strong>{{ ('SITUATIONS.GENERAL.' + item.situacion) | translate }}</strong><br>
-        {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}<br>
-        <span class="small-text">el: {{ item.fecha_not_propuesta_resolucion_prov !== '' ? item.fecha_not_propuesta_resolucion_prov : 'No indicada' }}</span><br>
-        <span [ngClass]="{
-          'positive-diff': item.fechaNotPRDefRestingDays > 0,
-          'negative-diff': item.fechaNotPRDefRestingDays < 0,
-          'indeterminate-diff': item.fecha_not_propuesta_resolucion_prov === ''
-          }">
-          {{ item.fecha_not_propuesta_resolucion_prov !== '' ? 'Resten '+item.fechaNotPRDefRestingDays+' dies naturals' : '**Indeterminat**' }}
-        </span>
-      </ng-container> -->
-
       <!-- Caso notificación -->
       <ng-container *ngSwitchCase="'emitirResConcesion'">
         <ng-container *ngIf="item.PRDefinitivarestingDays <= 0">

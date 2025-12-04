@@ -17,7 +17,6 @@ button[type="submit"],
 button[type="button"] {
   height: 56px;
 }
-
 }
 
 mat-progress-bar {
@@ -100,7 +99,7 @@ p {
 }
 
 .custom-link {
-  color: #1976d2;              // azul base
+  color: #013749;
   text-decoration: none;
   font-weight: 600;
   position: relative;
@@ -114,16 +113,16 @@ p {
     bottom: -2px;
     width: 0;
     height: 2px;
-    background-color: #1976d2;
+    background-color: #0098ce;
     transition: width 0.3s ease;
   }
 
   &:hover {
-    color: #0d47a1;            // azul más intenso
+    color: #0098ce;
     cursor: pointer;
 
     &::after {
-      width: 100%;             // subrayado se expande al hover
+      width: 100%;
     }
   }
 
@@ -135,8 +134,8 @@ p {
 
 
 .sin-notificar {
-  color: #d9534f;   // rojo suave
-  font-weight: bold;  // resalta el texto
+  color: #d9534f;
+  font-weight: bold;
 }
 
 td {
@@ -297,20 +296,20 @@ td {
   }
 
   &.st-emitirIFPRProvPago {
-  background-color: #4caf50; // verde suave para indicar "emitido"
-  color: #fff;               // texto blanco
+  background-color: #4caf50;
+  color: #fff;
   font-weight: bold;
-  border: 2px solid #388e3c; // verde oscuro para el borde
+  border: 2px solid #388e3c;
   border-radius: 5px;
   text-align: center;
   }
 
   &.st-notificadoIFPRProvPago {
-  background-color: #2196f3; // azul para indicar "notificado"
-  color: #fff;               // texto blanco
+  background-color: #2196f3;
+  color: #fff;
   font-weight: 300;
   font-size: .7rem;
-  border: 2px solid #1565c0; // azul oscuro para el borde
+  border: 2px solid #1565c0;
   border-radius: 5px;
   text-align: center;
   }
@@ -322,10 +321,9 @@ td {
     font-style: italic;
   }
 }
-
 .positive-diff {
   background-color: #000;
-  color: #fff;          // Color verde para indicar algo positivo o dentro del plazo
+  color: #fff;
     font-size: .7rem;
   font-weight: 400;
   padding: .5rem;
@@ -341,8 +339,8 @@ td {
 }
 .indeterminate-diff {
   background-color: gray;
-  color: black;           // Color neutro para indicar incertidumbre
-  font-style: italic;    // Texto en cursiva para resaltar que es indeterminado
+  color: black;
+  font-style: italic;
     font-size: .7rem;
   font-weight: 400;
     padding: .5rem;

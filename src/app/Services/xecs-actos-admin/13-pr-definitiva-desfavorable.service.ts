@@ -44,7 +44,7 @@ export class PrDevinitivaDESFavorableService {
       docFieldToUpdate: string, fecha_solicitud: string, fecha_firma_propuesta_resolucion_prov: string, fecha_not_propuesta_resolucion_prov: string,
       fecha_infor_fav_desf: string, motivoDenegacion:string, actualIdExp: number, actualEmpresa: string, 
       actualImporteSolicitud: number ): Observable<boolean> {
-     
+     console.log ("estoy en 13-generateActoAdmin")
     // Obtengo, desde bbdd, el template json del acto adiministrativo y para la línea: XECS
      return this.actoAdminService.getByNameAndTipoTramite(actoAdministrivoName, lineaAyuda).pipe(
        switchMap((docDataString: any) => {

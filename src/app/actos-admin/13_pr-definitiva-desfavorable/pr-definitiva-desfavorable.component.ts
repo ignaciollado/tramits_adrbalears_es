@@ -16,7 +16,7 @@ import { CreateSignatureRequest, SignatureResponse } from '../../Models/signatur
 import { DocumentosGeneradosService } from '../../Services/documentos-generados.service';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { catchError, finalize, of } from 'rxjs';
-import { PrDevinitivaDESFavorableService } from '../../Services/xecs-actos-admin/pr-definitiva-desfavorable.service';
+import { PrDevinitivaDESFavorableService } from '../../Services/xecs-actos-admin/13-pr-definitiva-desfavorable.service';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 

@@ -11,7 +11,7 @@ import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
-import { PrDevinitivaFavorableService } from '../../Services/xecs-actos-admin/pr-definitiva-favorable.service';
+import { PrDevinitivaFavorableService } from '../../Services/xecs-actos-admin/11-pr-definitiva-favorable.service';
 
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';

@@ -10,7 +10,7 @@ import { CommonService } from '../../Services/common.service';
 import { ViafirmaService } from '../../Services/viafirma.service';
 import { ExpedienteService } from '../../Services/expediente.service';
 import { ActoAdministrativoService } from '../../Services/acto-administrativo.service';
-import { PrDevinitivaDESFavorable_ConReqService } from '../../Services/xecs-actos-admin/pr-definitiva-desfavorable-con-req.service';
+import { PrDevinitivaDESFavorable_ConReqService } from '../../Services/xecs-actos-admin/14-pr-definitiva-desfavorable-con-req.service';
 import { ActoAdministrativoDTO } from '../../Models/acto-administrativo-dto';
 import { jsPDF } from 'jspdf';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
