@@ -133,12 +133,10 @@
 
         <span *ngIf ="item.PRDefinitivarestingDays > 0; else prDefinitivaEnviada">per enviar la PR Definitiva.<br>Data d'enviament: {{ item.PRDefinitivaDate }}</span><br>        
         <ng-template #prDefinitivaEnviada>
-          <span class="small-text indeterminate-diff">PR Definitiva enviada</span>
+          <span class="small-text indeterminate-diff" [innerHTML]="item.message">Document enviat el: {{ item.fecha_not_propuesta_resolucion_def_sended}}</span>
         </ng-template>
-        <span [innerHTML]="item.message"></span><br>
-        <span *ngIf="item.fecha_not_propuesta_resolucion_def_sended  && item.fecha_not_propuesta_resolucion_def_sended !== '0000-00-00'">
-          Document enviat el: {{ item.fecha_not_propuesta_resolucion_def_sended }}
-        </span>
+        <span [innerHTML]="item.message" *ngIf="!item.fecha_not_propuesta_resolucion_def_sended"></span><br>
+       
       </ng-container>
 
       <!-- Caso pendienteJustificar -->

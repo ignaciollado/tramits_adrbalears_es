@@ -23,7 +23,6 @@ import { PrDevinitivaDESFavorable_ConReqService } from '../../../Services/xecs-a
 import { PrDevinitivaDESFavorableService } from '../../../Services/xecs-actos-admin/13-pr-definitiva-desfavorable.service';
 import { PrDevinitivaFavorable_ConReqService } from '../../../Services/xecs-actos-admin/12-pr-definitiva-favorable-con-req.service';
 import { PrDevinitivaFavorableService } from '../../../Services/xecs-actos-admin/11-pr-definitiva-favorable.service';
-import { finalize, forkJoin, mergeMap, of, take, tap } from 'rxjs';
 
 @Component({
   selector: 'app-xecs-management',
@@ -47,10 +46,6 @@ import { finalize, forkJoin, mergeMap, of, take, tap } from 'rxjs';
 export class XecsManagementComponent implements OnInit, AfterViewInit {
 
   dataSource = new MatTableDataSource<any>([]);
-  generatedActo11: boolean = false
-  generatedActo12: boolean = false
-  generatedActo13: boolean = false
-  generatedActo14: boolean = false
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -88,7 +83,6 @@ ngOnInit(): void {
     tipoTramite: [[]],
     situacion: [[]]
   });
-  this.limpiarFiltros()
   this.commonService.getSituations().subscribe((situations: any[]) => {
     this.uniqueSituaciones = situations;
   })
@@ -106,9 +100,8 @@ ngOnInit(): void {
       situacion: savedSit ? JSON.parse(savedSit) : []
     });
     //this.loadExpedientes();
-  } else {
-    this.loadAllExpedientes();
-  }
+  } 
+  this.loadAllExpedientes();
 }
 
 ngAfterViewInit(): void {
@@ -126,90 +119,104 @@ ngAfterViewInit(): void {
 
 loadAllExpedientes(): void {
   this.loading = true;
-  this.expedienteService.getAllLineExpedientes('XECS', this.currentYear).subscribe((expedientes) =>{
-        expedientes.map ((item:any) => {
-          // Limpio campos de fecha
-          const invalidDates = ['0000-00-00', '0000-00-00 00:00:00'];
-          if (invalidDates.includes(item.fecha_requerimiento_notif)) item.fecha_requerimiento_notif = null;
-          if (invalidDates.includes(item.fecha_not_propuesta_resolucion_prov)) item.fecha_not_propuesta_resolucion_prov = null;
-          if (invalidDates.includes(item.fecha_limite_justificacion)) item.fecha_limite_justificacion = null;
-          if (invalidDates.includes(item.fecha_not_propuesta_resolucion_def_sended)) item.fecha_not_propuesta_resolucion_def_sended = null;
+  this.expedienteService.getAllLineExpedientes('XECS', this.currentYear).subscribe({
+   next: (expedientes: any) => {
 
-          // Calculo días restantes y fecha vencimiento
-          if (item.fecha_not_propuesta_resolucion_prov) {
-            item.PRDefinitivaDate = this.commonService.calculateDueDate(item.fecha_not_propuesta_resolucion_prov, 10);
-            item.PRDefinitivarestingDays = this.commonService.calculateRestingDays(item.PRDefinitivaDate);
-          }
-          if (item.fecha_limite_justificacion) {
-            item.justificacionRestingDays = this.commonService.calculateRestingDays(item.fecha_limite_justificacion);
-          }
-          if (item.situacion === 'notificadoIFPRProvPago') {
-            item.situacion = 'PR Provisional';
-          }
-          // --- Mensajes en la Vista ---
-          item.message = "<small>s'enviará a firma l'acte administratiu:<br>";
-          if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '1') {
-            item.message += "plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf";
-          } else if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '0') {
-            item.message += "plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf";
-          } else if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '1') {
-            item.message += "plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf";
-          } else if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '0') {
-            item.message += "plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf";
-          }
-          item.message += "</small>";
+    expedientes.map ((item:any) => {
+      // Limpio campos de fecha
+      const invalidDates = ['0000-00-00', '0000-00-00 00:00:00'];
+      if (invalidDates.includes(item.fecha_requerimiento_notif)) item.fecha_requerimiento_notif = null;
+      if (invalidDates.includes(item.fecha_not_propuesta_resolucion_prov)) item.fecha_not_propuesta_resolucion_prov = null;
+      if (invalidDates.includes(item.fecha_limite_justificacion)) item.fecha_limite_justificacion = null;
+      if (invalidDates.includes(item.fecha_not_propuesta_resolucion_def_sended)) item.fecha_not_propuesta_resolucion_def_sended = null;
 
-          // Acorto texto de tipo_tramite
-          if (item.tipo_tramite === "Programa III actuacions corporatives") item.tipo_tramite = "Programa III a.c.";
-          if (item.tipo_tramite === "Programa III actuacions producte") item.tipo_tramite = "Programa III a.p.";
+      // Calculo días restantes y fecha vencimiento
+      if (item.fecha_not_propuesta_resolucion_prov) {
+        item.PRDefinitivaDate = this.commonService.calculateDueDate(item.fecha_not_propuesta_resolucion_prov, 10);
+        item.PRDefinitivarestingDays = this.commonService.calculateRestingDays(item.PRDefinitivaDate);
+      }
+      if (item.fecha_limite_justificacion) {
+        item.justificacionRestingDays = this.commonService.calculateRestingDays(item.fecha_limite_justificacion);
+      }
+      if (item.situacion === 'notificadoIFPRProvPago') {
+        item.situacion = 'PR Provisional';
+      }
+      // --- Mensajes en la Vista ---
+      if (!item.fecha_not_propuesta_resolucion_def_sended) 
+      {item.message = "<small>s'enviará a signatura l'acte administratiu:<br>";}
+      else
+      {item.message = "<small>S’ha enviat a signatura l’acte administratiu:<br>";}
+      
+      if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '1') {
+        item.message += "plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf";
+      } else if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '0') {
+        item.message += "plt-propuesta-resolucion-definitiva-desfavorable-con-requerimiento.pdf";
+      } else if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '1') {
+        item.message += "plt-propuesta-resolucion-definitiva-favorable-sin-requerimiento.pdf";
+      } else if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '0') {
+        item.message += "plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf";
+      }
+      item.message += "</small>";
 
-          if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0 && !this.generatedActo12 &&
-              item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '1') {
-            // Caso 12: PR definitiva favorable con requerimiento
-            console.log ("Caso 12: PR definitiva favorable con requerimiento", item.propuesta_resolucion_favorable, item.id)
-            this.generateActAdmin12(item)
-          } else
-          if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0 && !this.generatedActo14 &&
-              item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '0') {
-            // Caso 14: PR definitiva desfavorable con requerimiento
-            console.log ("Caso 14: PR definitiva desfavorable con requerimiento", item.propuesta_resolucion_favorable, item.id)
-            this.generateActAdmin14(item)
-          } else
-          if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0 && !this.generatedActo11 &&
-              item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '1') {
-            // Caso 11: PR definitiva favorable sin requerimiento
-            console.log ("Caso 11: PR definitiva favorable sin requerimiento", item.propuesta_resolucion_favorable, item.id)
-            this.generateActAdmin11(item)
-          } else
-          if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0 && !this.generatedActo13 && 
-              item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '0') {
-              // Caso 13: PR definitiva desfavorable sin requerimiento
-              console.log ("Caso 13: PR definitiva desfavorable sin requerimiento", item.propuesta_resolucion_favorable, item.id)
-              this.generateActAdmin13(item)
-          }
+      // Acorto texto de tipo_tramite
+      if (item.tipo_tramite === "Programa III actuacions corporatives") item.tipo_tramite = "Programa III a.c.";
+      if (item.tipo_tramite === "Programa III actuacions producte") item.tipo_tramite = "Programa III a.p.";
+      item.generatedActo13 = false // flag
+    })
 
-          return item;
-        }
-        )
-  
-        this.expedientesFiltrados = expedientes;
-        this.actualizarTabla(expedientes);
+    expedientes.forEach((expediente:any) => {
+      if (expediente.fecha_not_propuesta_resolucion_def_sended === null && expediente.PRDefinitivarestingDays <= 0 && !expediente.generatedActo12 &&
+        expediente.fecha_requerimiento_notif !== null && expediente.propuesta_resolucion_favorable === '1') {
+        // Caso 12: PR definitiva favorable con requerimiento
+        // console.log ("Caso 12: PR definitiva favorable con requerimiento", expediente.propuesta_resolucion_favorable, expediente.id)
+        //this.generateActAdmin12(expediente)
+      } 
+      if (expediente.fecha_not_propuesta_resolucion_def_sended === null && expediente.PRDefinitivarestingDays <= 0 && !expediente.generatedActo14 &&
+        expediente.fecha_requerimiento_notif !== null && expediente.propuesta_resolucion_favorable === '0') {
+        // Caso 14: PR definitiva desfavorable con requerimiento
+        // console.log ("Caso 14: PR definitiva desfavorable con requerimiento", expediente.propuesta_resolucion_favorable, expediente.id)
+        //this.generateActAdmin14(expediente)
+      } 
+      if (expediente.fecha_not_propuesta_resolucion_def_sended === null && expediente.PRDefinitivarestingDays <= 0 && !expediente.generatedActo11 &&
+        expediente.fecha_requerimiento_notif === null && expediente.propuesta_resolucion_favorable === '1') {
+        // Caso 11: PR definitiva favorable sin requerimiento
+        // console.log ("Caso 11: PR definitiva favorable sin requerimiento", expediente.propuesta_resolucion_favorable, expediente.id)
+        //this.generateActAdmin11(expediente)
+      } 
+      if (expediente.fecha_not_propuesta_resolucion_def_sended === null && expediente.PRDefinitivarestingDays <= 0 && !expediente.generatedActo13 && 
+        expediente.fecha_requerimiento_notif === null && expediente.propuesta_resolucion_favorable === '0') {
+        // Caso 13: PR definitiva desfavorable sin requerimiento
+        console.log ("expediente.generatedActo13", expediente.generatedActo13)
+        //console.log ("Caso 13: PR definitiva desfavorable sin requerimiento", expediente.propuesta_resolucion_favorable, expediente.id)
+        
+        this.generateActAdmin13(expediente)
 
-        const paginaGuardada = sessionStorage.getItem('paginaExpedientes');
-        if (paginaGuardada) {
-          this.paginator.pageIndex = +paginaGuardada;
-        }
-        this.dataSource.paginator = this.paginator;
+      }
+    })
 
-        this.uniqueTiposTramite = [
-          ...new Set<string>(expedientes.map((e: any) => e.tipo_tramite))
-        ];
-
-        this.commonService.showSnackBar('XECS: expedientes cargados correctamente ✅');
-      },
-     err => console.log (err),
-     () => this.loading = false
-     ) 
+    this.expedientesFiltrados = expedientes;
+    this.actualizarTabla(expedientes);
+    const paginaGuardada = sessionStorage.getItem('paginaExpedientes');
+    if (paginaGuardada) {
+      this.paginator.pageIndex = +paginaGuardada;
+    }
+    this.dataSource.paginator = this.paginator;
+    this.uniqueTiposTramite = [...new Set<string>(expedientes.map((e: any) => e.tipo_tramite))];
+    this.commonService.showSnackBar('XECS: expedientes cargados correctamente ✅');
+    },
+    error: (err) => {
+      this.dataSource.data = [];
+      if (err.status === 404 && err.error?.messages?.error) {
+        this.commonService.showSnackBar(err.error.messages.error);
+      } else {
+        console.error("Error inesperado:", err);
+        this.commonService.showSnackBar("Ocurrió un error inesperado ❌");
+      }
+    },
+    complete: () => {
+      this.loading = false;
+    }
+    });
 }
 
 loadExpedientes(): void {
@@ -283,47 +290,39 @@ private actualizarTabla(res: any[]): void {
 }
 
 private generateActAdmin11(item:any) {
-  if (!this.generatedActo11) {
-    this.generatedActo13 = true
-    return this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento',
-      'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
-      item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desfg, item.idExp, 'prop_res_def_favorable_sin_req', item.empresa, item.ImporteSolicitud).subscribe();
-  }
-  return false
+this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento',
+  'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
+  item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desfg, item.idExp, 'prop_res_def_favorable_sin_req', item.empresa, item.ImporteSolicitud)
+  .subscribe()
+item.generatedActo11 = true
 }
 
 private generateActAdmin12(item:any) {
-  if (!this.generateActAdmin12) {
-    this.generatedActo12 = true
-    return this.prDefinitivaFavorableConReq.generateActoAdmin(item.id, item.nif, item.convocatoria, '12_propuesta_resolucion_definitiva_favorable_con_requerimiento',
-      'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_con_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
-      item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desfg, item.idExp, 'prop_res_def_favorable_con_req', item.empresa, item.ImporteSolicitud, '', '');
-  }
-  return false
+  this.prDefinitivaFavorableConReq.generateActoAdmin(item.id, item.nif, item.convocatoria, '12_propuesta_resolucion_definitiva_favorable_con_requerimiento',
+    'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_con_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
+    item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desfg, item.idExp, 'prop_res_def_favorable_con_req', item.empresa, item.ImporteSolicitud, '', '')
+    .subscribe()
+  item.generatedActo12 = true
 }
 
 private generateActAdmin13(item:any) {
- /*  if (!this.generatedActo13) { */
-    /* this.generatedActo13 = true */
-    return this.prDefinitivaDesfavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '13_propuesta_resolucion_definitiva_desfavorable_sin_requerimiento',
-      'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
-      item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.motivoDenegacion, item.idExp, item.empresa, item.importeAyuda).subscribe(
-        (result:boolean) => {
-          this.generatedActo13 = result
-        }
-      );
-/*   }
-  return false */
+  this.prDefinitivaDesfavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '13_propuesta_resolucion_definitiva_desfavorable_sin_requerimiento',
+    'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
+    item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.motivoDenegacion, item.idExp, item.empresa, item.importeAyuda)
+    .subscribe((result:boolean)=>{ 
+      item.generatedActo13 = result
+      
+     })
+    
+  
 }
 
 private generateActAdmin14(item:any) {
-  if (!this.generatedActo14) {
-    this.generatedActo14 = true
-    return this.prDefinitivaDesfavorableConReq.generateActoAdmin(item.id, item.nif, item.convocatoria, '14_propuesta_resolucion_definitiva_desfavorable_con_requerimiento',
-      'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_con_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
-      item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.motivoDenegacion, item.idExp, item.empresa, item.importeAyuda, '', '');
-  }
-  return false
+  this.prDefinitivaDesfavorableConReq.generateActoAdmin(item.id, item.nif, item.convocatoria, '14_propuesta_resolucion_definitiva_desfavorable_con_requerimiento',
+    'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_con_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
+    item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.motivoDenegacion, item.idExp, item.empresa, item.importeAyuda, '', '')
+    .subscribe()
+  item.generatedActo14 = true
 }
 
 aplicarFiltro(event: Event): void {

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, finalize, map, Observable, of, switchMap, tap } from 'rxjs';
 import { ActoAdministrativoService } from '../acto-administrativo.service';
 import { CommonService } from '../common.service';
 import { MejorasSolicitudService } from '../mejoras-solicitud.service';
@@ -10,6 +10,8 @@ import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
 import jsPDF from 'jspdf';
+import { CreateSignatureRequest, SignatureResponse } from '../../Models/signature.dto';
+import { ViafirmaService } from '../viafirma.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +23,8 @@ export class PrDevinitivaDESFavorableService {
   private num_BOIB: string = ""
   private fecha_BOIB: string = ""
   private codigoSIA: string = ""
-
+  private userLoginEmail: string = ""
+  private ceoEmail: string = "nachollv@hotmail.com"
   private docGeneradoInsert: DocumentoGeneradoDTO = {
                       id_sol: 0,
                       cifnif_propietario: '',
@@ -36,9 +39,11 @@ export class PrDevinitivaDESFavorableService {
   }
   private lastInsertId: number | undefined
 
-  constructor( private actoAdminService: ActoAdministrativoService, 
+  constructor( private actoAdminService: ActoAdministrativoService, private viafirmaService: ViafirmaService,
       private commonService: CommonService, private mejorasSolicitudService: MejorasSolicitudService, 
-      private documentosGeneradosService: DocumentosGeneradosService ) { }
+      private documentosGeneradosService: DocumentosGeneradosService) { 
+        this.userLoginEmail = sessionStorage.getItem("tramits_user_email") || "" 
+      }
 
    generateActoAdmin(actualID: number, actualNif: string, actualConvocatoria: number, actoAdministrivoName: string, lineaAyuda: string, tipoTramite: string,
       docFieldToUpdate: string, fecha_solicitud: string, fecha_firma_propuesta_resolucion_prov: string, fecha_not_propuesta_resolucion_prov: string,
@@ -284,8 +289,7 @@ export class PrDevinitivaDESFavorableService {
            .subscribe({
              next: () => {
               // Eliminado correctamente, o no había nada que eliminar
-              console.log ("en next")
-              this.InsertDocumentoGenerado(actualID, docFieldToUpdate);
+              this.InsertDocumentoGenerado(actualID, docFieldToUpdate, actualNif, fileName, actualIdExp);
              },
              error: (deleteErr) => {
                const status = deleteErr?.status;
@@ -294,7 +298,7 @@ export class PrDevinitivaDESFavorableService {
                if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
                  this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
                   console.log ("en error")
-                  this.InsertDocumentoGenerado(actualID, docFieldToUpdate);
+                  this.InsertDocumentoGenerado(actualID, docFieldToUpdate, actualNif, fileName, actualIdExp);
                } else {
                // Otros errores sí se notifican y no continúan
                   const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
@@ -311,40 +315,60 @@ export class PrDevinitivaDESFavorableService {
    }
  
    // Método auxiliar para no repetir el bloque de creación
-   InsertDocumentoGenerado(actualID: number, docFieldToUpdate: string): void {
+   InsertDocumentoGenerado(actualID: number, docFieldToUpdate: string, actualNif: string, filename: string, actualIdExp: number): void {
    this.documentosGeneradosService.create(this.docGeneradoInsert).subscribe({
      next: (resp: any) => {
-       this.lastInsertId = resp?.id;
-       if (this.lastInsertId) {
-         this.expedienteService
-           .updateFieldExpediente( actualID, docFieldToUpdate, String(this.lastInsertId) )
+      this.lastInsertId = resp?.id;
+      if (this.lastInsertId) {
+         this.expedienteService.updateFieldExpediente( actualID, docFieldToUpdate, String(this.lastInsertId) )
            .subscribe({
              next: (response: any) => {
-               const mensaje =
-                 response?.message ||
-                 '✅ Acto administrativo generado y expediente actualizado correctamente.';
+               const mensaje = response?.message || '✅ Acto administrativo generado y expediente actualizado correctamente.';
                 this.commonService.showSnackBar(mensaje);
+                this.sendActoAdminToSign(actualNif, filename, actualID)
                 return true;
              },
              error: (updateErr) => {
-               const updateErrorMsg =
-                 updateErr?.error?.message ||
-                 '⚠️ Documento generado, pero error al actualizar el expediente.';
+               const updateErrorMsg = updateErr?.error?.message || '⚠️ Documento generado, pero error al actualizar el expediente.';
                this.commonService.showSnackBar(updateErrorMsg);
              }
            });
-       } else {
-         this.commonService.showSnackBar(
-           '⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.'
-         );
-       }
+      } else {
+        this.commonService.showSnackBar('⚠️ Documento generado, pero no se recibió el ID para actualizar el expediente.');
+      }
      },
      error: (insertErr) => {
-       const insertErrorMsg =
-         insertErr?.error?.message ||
-         '❌ Error al guardar el documento generado.';
+       const insertErrorMsg = insertErr?.error?.message || '❌ Error al guardar el documento generado.';
        this.commonService.showSnackBar(insertErrorMsg);
      }
    });
    }
+
+  sendActoAdminToSign(actualNif: string, filename: string, actualID: number): void {
+    // Limpiar estados previos
+    filename = `${filename}`
+    const payload: CreateSignatureRequest = {
+      adreca_mail: this.signedBy === 'technician' ? this.userLoginEmail : this.ceoEmail,   
+      nombreDocumento: filename,
+      nif: actualNif,
+      last_insert_id: this.lastInsertId
+    };
+    this.viafirmaService.createSignatureRequest(payload)
+      .pipe(finalize(() => {}))
+      .subscribe({
+      next: (res: any) => {
+        const id = res?.publicAccessId;
+        const fecha = new Date();
+        const fechaFormateada = fecha.toISOString().split('T')[0];
+        this.expedienteService.updateFieldExpediente( actualID, 'fecha_not_propuesta_resolucion_def_sended', fechaFormateada ).subscribe(
+          ()=> { this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');}
+        )
+       
+      },
+      error: (err) => {
+        const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+        this.commonService.showSnackBar(msg);
+      }
+      });
+  }
 }

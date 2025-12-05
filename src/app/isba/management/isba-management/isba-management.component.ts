@@ -62,7 +62,7 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['fecha_solicitud', 'tipo_tramite', 'idExp', 'empresa', 'importe_ayuda_solicita_idi_isba',
     'ordenDePago', 'empresa_consultor', 'nom_consultor', 'fecha_not_propuesta_resolucion_def',
     'situacion'];
-  loading = false;
+  loading:boolean = false;
 
   hayRequerimiento!: boolean;
 
@@ -110,7 +110,6 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.expedienteService.getAllLineExpedientes('ADR-ISBA', this.currentYear).subscribe({
       next: (res) => {
-
         // Transformación de datos y añadidos.
         res = res.map((item: any) => {
           if (item.situacion === "notificadoIFPRProvPago") {
@@ -122,10 +121,10 @@ export class IsbaManagementComponent implements OnInit, AfterViewInit {
           }
           return item;
         });
-
         // Generación PR Definitiva
         res.forEach((item: any) => {
-          if (item.situacion === "PR Provisional" && item.PRDefinitivarestingDays <= 0 && !item._prDefinitivaEjecutada && (!item.fecha_not_propuesta_resolucion_def_sended || item.fecha_not_propuesta_resolucion_def_sended === "0000-00-00")) {
+          if (item.situacion === "PR Provisional" && item.PRDefinitivarestingDays <= 0 && !item._prDefinitivaEjecutada
+             && (!item.fecha_not_propuesta_resolucion_def_sended || item.fecha_not_propuesta_resolucion_def_sended === "0000-00-00")) {
             this.generatePrDefinitiva(item);
             item._prDefinitivaEjecutada = true; // Flag para evitar ejecuciones duplicadas
           }
