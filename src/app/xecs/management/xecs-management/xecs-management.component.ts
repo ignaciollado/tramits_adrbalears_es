@@ -82,7 +82,6 @@ export class XecsManagementComponent implements OnInit, AfterViewInit {
 
 
 ngOnInit(): void {
-  
   this.currentYear = new Date().getFullYear().toString();
   this.form = this.fb.group({
     convocatoria: [new Date().getFullYear()],
@@ -106,7 +105,7 @@ ngOnInit(): void {
       tipoTramite: savedTipo ? JSON.parse(savedTipo) : [],
       situacion: savedSit ? JSON.parse(savedSit) : []
     });
-    this.loadExpedientes();
+    //this.loadExpedientes();
   } else {
     this.loadAllExpedientes();
   }
@@ -163,28 +162,29 @@ loadAllExpedientes(): void {
           // Acorto texto de tipo_tramite
           if (item.tipo_tramite === "Programa III actuacions corporatives") item.tipo_tramite = "Programa III a.c.";
           if (item.tipo_tramite === "Programa III actuacions producte") item.tipo_tramite = "Programa III a.p.";
+
           if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0 && !this.generatedActo12 &&
               item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '1') {
             // Caso 12: PR definitiva favorable con requerimiento
-            console.log ("Caso 12: PR definitiva favorable con requerimiento")
+            console.log ("Caso 12: PR definitiva favorable con requerimiento", item.propuesta_resolucion_favorable, item.id)
             this.generateActAdmin12(item)
-          }
+          } else
           if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0 && !this.generatedActo14 &&
               item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '0') {
             // Caso 14: PR definitiva desfavorable con requerimiento
-            console.log ("Caso 14: PR definitiva desfavorable con requerimiento")
+            console.log ("Caso 14: PR definitiva desfavorable con requerimiento", item.propuesta_resolucion_favorable, item.id)
             this.generateActAdmin14(item)
-          }
+          } else
           if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0 && !this.generatedActo11 &&
               item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '1') {
             // Caso 11: PR definitiva favorable sin requerimiento
-            console.log ("Caso 11: PR definitiva favorable sin requerimiento")
+            console.log ("Caso 11: PR definitiva favorable sin requerimiento", item.propuesta_resolucion_favorable, item.id)
             this.generateActAdmin11(item)
-          }
+          } else
           if (item.fecha_not_propuesta_resolucion_def_sended === null && item.PRDefinitivarestingDays <= 0 && !this.generatedActo13 && 
               item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '0') {
               // Caso 13: PR definitiva desfavorable sin requerimiento
-              console.log ("Caso 13: PR definitiva desfavorable sin requerimiento")
+              console.log ("Caso 13: PR definitiva desfavorable sin requerimiento", item.propuesta_resolucion_favorable, item.id)
               this.generateActAdmin13(item)
           }
 
