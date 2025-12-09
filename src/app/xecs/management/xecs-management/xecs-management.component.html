@@ -62,7 +62,7 @@
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" >
   <ng-container matColumnDef="fecha_completado">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha completado </th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header scope="col" ngClass="table-header"> Fecha completado </th>
     <td mat-cell *matCellDef="let item">{{ item.fecha_completado || item.fecha_solicitud | date: 'yyyy/MM/dd HH:mm:ss' }}</td>
   </ng-container>
 
@@ -112,7 +112,7 @@
 </ng-container>
 
   <ng-container matColumnDef="situacion">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Situación</th>
+    <th mat-header-cell *matHeaderCellDef mat-sort-header ngClass="table-header">Situación</th>
     <td mat-cell *matCellDef="let item" [ngClass]="situacionClass(item.situacion)">
 
     <ng-container [ngSwitch]="item.situacion">
@@ -126,7 +126,7 @@
           'negative-diff': item.PRDefinitivarestingDays <= 0,
           'indeterminate-diff': !item.PRDefinitivarestingDays && item.PRDefinitivarestingDays !== 0
           }">
-          {{ item.PRDefinitivarestingDays !== null && item.PRDefinitivarestingDays !== undefined ? 'Resten '+item.PRDefinitivarestingDays +' dies naturals' : '**Indeterminat**' }}
+          {{ item.PRDefinitivarestingDays !== null && item.PRDefinitivarestingDays !== undefined ? 'Resten '+ item.PRDefinitivarestingDays +' dies naturals' : '**Indeterminat**' }}
         </span><br>
         <span *ngIf ="item.PRDefinitivarestingDays > 0; else prDefinitivaEnviada">per enviar la PR Definitiva.<br>Data d'enviament: {{ item.PRDefinitivaDate }}</span><br>        
         <ng-template #prDefinitivaEnviada>

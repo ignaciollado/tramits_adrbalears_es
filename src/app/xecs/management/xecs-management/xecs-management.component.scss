@@ -23,38 +23,76 @@ mat-progress-bar {
   margin-bottom: 1rem;
 }
 
-table {
-  width: 100%;
-  background: white;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
-  th {
-    font-weight: bold;
-    background-color: #0098ce;
-    color: #fff;
-  }
+// Filas
+.mat-row {
+  transition: background-color 0.2s ease-in-out;
 
-  .mdc-data-table__cell, .mdc-data-table__header-cell {
-    padding: 0 0 0 .25rem;
-  }
-
-  td.linea-xecs {
-    background-color: #013749;
-    color: #fff;
-    border-radius: .5rem;
-    text-align: center;
-  }
-  tr.mat-row:nth-child(even) {
-    background-color: #f5f5f5;
+  &:hover {
+    background-color: #f9fafb; // efecto hover suave
   }
 }
 
-p {
-  text-align: center;
-  color: #888;
-  margin-top: 1rem;
+// Celdas
+.mat-cell {
+  text-align: left;
+  justify-content: flex-start;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+// Enlaces personalizados
+.custom-link {
+  color: #1976d2; // azul corporativo
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    color: #0d47a1;
+  }
+}
+
+// Estados de notificación
+.sin-notificar {
+  color: #d32f2f; // rojo corporativo
+  font-style: italic;
+}
+
+.alerta {
+  color: #f57c00; // naranja alerta
+  font-weight: bold;
+}
+
+// Texto auxiliar
+.small-text {
+  font-size: 0.8rem;
+}
+
+// Diferencias de días
+.positive-diff {
+  color: #2e7d32; // verde positivo
+  font-weight: 500;
+}
+
+.negative-diff {
+  color: #d32f2f; // rojo negativo
+  font-weight: 500;
+}
+
+.indeterminate-diff {
+  color: #757575; // gris indeterminado
+  font-style: italic;
+}
+
+// Cabecera destacada
+th {
+  background-color: #00405e!important;
+  color: #fff;
+  font-weight: 700;
+}
+
+tr:nth-child(odd) {
+  background-color: lightgray;
 }
 
 ::ng-deep .snack-success {
@@ -101,7 +139,7 @@ p {
 }
 
 .custom-link {
-  color: #013749;
+  color: #00405e;
   text-decoration: none;
   font-weight: 600;
   position: relative;
@@ -141,6 +179,11 @@ p {
 }
 
 td {
+  font-size: .8rem;
+  &.linea-xecs {
+    color: #0098ce;
+  }
+
   &.st-en-curso {
     background-color: #bbdefb;
     color: #0d47a1;
@@ -150,23 +193,23 @@ td {
     background-color: #080080;
     color: #51f905;
     font-weight: bold;
-    border: 5px solid #51f905;
+    border: 2px solid #51f905;
     border-radius: 2px;
   }
 
   &.st-pendiente-justificar {
     background-color: #d9e90d;
     color: #000;
-    border: 2px solid #000;
-    border-radius: 1px;
+    border: 2px solid #fff;
+    border-radius: 2px;
     text-align: center;
   }
 
   &.st-pendiente-rec {
     background-color: #d9e90d;
     color: #bf360c;
-    border: 2px solid #000;
-    border-radius: 1px;
+    border: 2px solid #fff;
+    border-radius: 2px;
   }
 
   &.st-aprobado {
@@ -178,14 +221,15 @@ td {
     background-color: #1ecbe1;
     color: #fff;
     font-weight: bold;
-    border: 5px solid #fff;
+    border: 2px solid #fff;
     border-radius: 2px;
+    text-align: center;
   }
 
   &.st-justificado {
     background-color: #d9e90d;
     color: #000;
-    border: 5px solid #fff;
+    border: 2px solid #fff;
     border-radius: 2px;
   }
 
@@ -197,7 +241,7 @@ td {
   &.st-desestimiento {
     background-color: #080080;
     color: orangered;
-    border: 5px solid orangered;
+    border: 2px solid orangered;
     border-radius: 2px;
     font-weight: bold;
     text-align: center;
@@ -206,7 +250,7 @@ td {
   &.st-finalizado {
     background-color: #04c935;
     color: #fff;
-    border: 5px solid #fff;
+    border: 2px solid #fff;
     border-radius: 2px;
     font-weight: bold;
     text-align: center;
@@ -267,26 +311,24 @@ td {
   &.st-nohapasadorec {
     background-color: #080080;
     color: #e87c0a;
-    font-weight: bold;
-    border: 2px solid #e87c0a;
-    border-radius: 5px;
+    border: 2px solid #fff;
+    border-radius: 2px;
     text-align: center;
   }
 
   &.st-emitirResPagoyJust {
     background-color: #d9e90d;
     color: #000;
-    font-weight: bold;
     border: 2px solid #fff;
-    border-radius: 5px;
+    border-radius: 2px;
   }
 
   &.st-emitidoResPagoyJust {
     background-color: #d9e90d;
     color: #000;
     font-weight: bold;
-    border: 2px solid #000;
-    border-radius: 5px;
+    border: 2px solid #fff;
+    border-radius: 2px;
   }
 
   &.st-emitidoDesEnmienda {
@@ -294,7 +336,7 @@ td {
     color: #e87c0a;
     font-weight: 300;
     border: 2px solid #e87c0a;
-    border-radius: 5px;
+    border-radius: 2px;
   }
 
   &.st-emitirIFPRProvPago {
@@ -302,7 +344,7 @@ td {
   color: #fff;
   font-weight: bold;
   border: 2px solid #388e3c;
-  border-radius: 5px;
+  border-radius: 2px;
   text-align: center;
   }
 
@@ -311,8 +353,8 @@ td {
   color: #fff;
   font-weight: 300;
   font-size: .7rem;
-  border: 2px solid #1565c0;
-  border-radius: 5px;
+  border: 2px solid #fff;
+  border-radius: 2px;
   text-align: center;
   }
 
@@ -324,7 +366,7 @@ td {
   }
 }
 .positive-diff {
-  background-color: #000;
+  background-color: #03581c;
   color: #fff;
   font-size: .7rem;
   font-weight: 400;
