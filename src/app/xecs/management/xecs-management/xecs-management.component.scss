@@ -30,14 +30,16 @@ table {
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
-  th.mat-header-cell {
-    background-color: #e0e0e0;
+  th {
     font-weight: bold;
+    background-color: #0098ce;
+    color: #fff;
   }
 
-  td.mat-cell, th.mat-header-cell {
-    padding: 0.75rem;
+  .mdc-data-table__cell, .mdc-data-table__header-cell {
+    padding: 0 0 0 .25rem;
   }
+
   td.linea-xecs {
     background-color: #013749;
     color: #fff;
@@ -324,7 +326,7 @@ td {
 .positive-diff {
   background-color: #000;
   color: #fff;
-    font-size: .7rem;
+  font-size: .7rem;
   font-weight: 400;
   padding: .5rem;
   border-radius: .5rem;
@@ -332,7 +334,7 @@ td {
 .negative-diff {
   background-color: red;
   color: #fff;
-    font-size: .7rem;
+  font-size: .7rem;
   font-weight: 400;
   padding: .5rem;
   border-radius: .5rem;
@@ -341,8 +343,8 @@ td {
   background-color: gray;
   color: black;
   font-style: italic;
-    font-size: .7rem;
+  font-size: .7rem;
   font-weight: 400;
-    padding: .5rem;
+  padding: .5rem;
   border-radius: .5rem;
 }

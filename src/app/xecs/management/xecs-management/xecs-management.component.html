@@ -118,9 +118,9 @@
     <ng-container [ngSwitch]="item.situacion">
       <!-- Caso notificadoIFPRProvPago -->
       <ng-container *ngSwitchCase="'PR Provisional'">
-        <span ngClass="small-text">{{item.situacion}}</span><br>
-        <span ngClass="small-text">{{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}</span><br>
-        <span ngClass="small-text">Notificada el {{ item.fecha_not_propuesta_resolucion_prov }}</span><br>
+        {{item.situacion}}
+        {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}<br>
+        Notificada el {{ item.fecha_not_propuesta_resolucion_prov }}<br>
         <span [ngClass]="{
           'positive-diff': item.PRDefinitivarestingDays > 0,
           'negative-diff': item.PRDefinitivarestingDays <= 0,
@@ -130,10 +130,9 @@
         </span><br>
         <span *ngIf ="item.PRDefinitivarestingDays > 0; else prDefinitivaEnviada">per enviar la PR Definitiva.<br>Data d'enviament: {{ item.PRDefinitivaDate }}</span><br>        
         <ng-template #prDefinitivaEnviada>
-          <span class="small-text indeterminate-diff" [innerHTML]="item.message">Document enviat el: {{ item.fecha_not_propuesta_resolucion_def_sended}}</span>
+          <span ngClass="small-text" [innerHTML]="item.message">Document enviat el: {{ item.fecha_not_propuesta_resolucion_def_sended}}</span>
         </ng-template>
         <span [innerHTML]="item.message" *ngIf="!item.fecha_not_propuesta_resolucion_def_sended"></span><br>
-       
       </ng-container>
 
       <!-- Caso pendienteJustificar -->

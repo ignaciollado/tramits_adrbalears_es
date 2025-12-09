@@ -143,9 +143,9 @@ loadAllExpedientes(): void {
       }
       // --- Mensajes en la Vista ---
       if (!item.fecha_not_propuesta_resolucion_def_sended) 
-      {item.message = "<small>s'enviará a signatura l'acte administratiu:<br>";}
+      {item.message = "s'enviará a signatura l'acte administratiu:<br>";}
       else
-      {item.message = "<small>S’ha enviat a signatura l’acte administratiu:<br>";}
+      {item.message = "S’ha enviat a signatura l’acte administratiu:<br>";}
       
       if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '1') {
         item.message += "plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf";
@@ -156,7 +156,7 @@ loadAllExpedientes(): void {
       } else if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '0') {
         item.message += "plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf";
       }
-      item.message += "</small>";
+      item.message += `<br><strong>en data: ${item.fecha_not_propuesta_resolucion_def_sended}</strong>`
 
       // Acorto texto de tipo_tramite
       if (item.tipo_tramite === "Programa III actuacions corporatives") item.tipo_tramite = "Programa III a.c.";
@@ -188,7 +188,6 @@ loadAllExpedientes(): void {
         // Caso 13: PR definitiva desfavorable sin requerimiento
         console.log ("expediente.generatedActo13", expediente.generatedActo13)
         //console.log ("Caso 13: PR definitiva desfavorable sin requerimiento", expediente.propuesta_resolucion_favorable, expediente.id)
-        
         this.generateActAdmin13(expediente)
 
       }
@@ -311,10 +310,7 @@ private generateActAdmin13(item:any) {
     item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.motivoDenegacion, item.idExp, item.empresa, item.importeAyuda)
     .subscribe((result:boolean)=>{ 
       item.generatedActo13 = result
-      
      })
-    
-  
 }
 
 private generateActAdmin14(item:any) {
