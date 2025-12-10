@@ -52,17 +52,6 @@ mat-progress-bar {
   }
 }
 
-// Estados de notificación
-.sin-notificar {
-  color: #d32f2f; // rojo corporativo
-  font-style: italic;
-}
-
-.alerta {
-  color: #f57c00; // naranja alerta
-  font-weight: bold;
-}
-
 // Texto auxiliar
 .small-text {
   font-size: 0.8rem;
@@ -175,17 +164,13 @@ tr:nth-child(odd) {
   }
 }
 
-.sin-notificar {
-  color: #d9534f;
-  font-weight: bold;
-}
-
 td {
   font-size: .8rem;
   &.linea-xecs {
     background-color: #013749;
     color: #fff;
-    border-radius: 0.5rem;
+    border-radius: 0.3rem;
+    font-size: .7rem;
   }
 
   &.st-en-curso {
