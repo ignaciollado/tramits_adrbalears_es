@@ -86,7 +86,7 @@ mat-progress-bar {
 
 // Cabecera destacada
 th {
-  background-color: #00405e!important;
+  background-color: #0098ce!important;
   color: #fff;
   font-weight: 700;
 }
@@ -95,36 +95,40 @@ tr:nth-child(odd) {
   background-color: lightgray;
 }
 
-::ng-deep .snack-success {
-  background-color: #4caf50;
-  color: white;
+// Clase para indicar que se enviará en futuro
+.future-send {
+  background-color: #e3f2fd;   // azul muy claro
+  color: #0d47a1;              // azul corporativo
+  font-weight: 600;
+  border-left: 4px solid #1976d2;
+  padding: 8px 12px;
+  border-radius: 4px;
+
+  &::before {
+    content: "⏳ ";            // icono reloj de arena
+  }
 }
 
-::ng-deep .snack-warning {
-  background-color: #ffa000;
-  color: black;
+// Clase para indicar que ya se ha enviado en pasado
+.past-send {
+  background-color: #e8f5e9;   // verde muy claro
+  color: #2e7d32;              // verde corporativo
+  font-weight: 600;
+  border-left: 4px solid #43a047;
+  padding: 8px 12px;
+  border-radius: 4px;
+
+  &::before {
+    content: "✔️ ";            // icono check
+  }
 }
 
-::ng-deep .snack-error {
-  background-color: #e53935;
-  color: white;
-}
 
 .filtros-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   align-items: stretch;
-
-  mat-form-field {
-    flex: 1 1 200px;
-    min-width: 180px;
-    height: 56px;
-
-    .mat-form-field-flex {
-      height: 100%;
-    }
-  }
 
   .form-actions {
     display: flex;
@@ -160,7 +164,6 @@ tr:nth-child(odd) {
   &:hover {
     color: #0098ce;
     cursor: pointer;
-
     &::after {
       width: 100%;
     }
@@ -172,7 +175,6 @@ tr:nth-child(odd) {
   }
 }
 
-
 .sin-notificar {
   color: #d9534f;
   font-weight: bold;
@@ -181,7 +183,9 @@ tr:nth-child(odd) {
 td {
   font-size: .8rem;
   &.linea-xecs {
-    color: #0098ce;
+    background-color: #013749;
+    color: #fff;
+    border-radius: 0.5rem;
   }
 
   &.st-en-curso {
@@ -349,15 +353,14 @@ td {
   }
 
   &.st-notificadoIFPRProvPago {
-  background-color: #2196f3;
-  color: #fff;
+  background-color: #a0f2f5;
+  color: #000;
   font-weight: 300;
   font-size: .7rem;
   border: 2px solid #fff;
   border-radius: 2px;
   text-align: center;
   }
-
 
   &.st-desconocido {
     background-color: #f5f5f5;

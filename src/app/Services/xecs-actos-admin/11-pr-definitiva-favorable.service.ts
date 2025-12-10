@@ -3,13 +3,15 @@ import { ActoAdministrativoService } from '../acto-administrativo.service';
 import { CommonService } from '../common.service';
 import { MejorasSolicitudService } from '../mejoras-solicitud.service';
 import { MejoraSolicitudDTO } from '../../Models/mejoras-solicitud-dto';
-import { Observable, of, switchMap, tap, map, catchError } from 'rxjs';
+import { Observable, of, switchMap, tap, map, catchError, finalize } from 'rxjs';
 import { jsPDF } from 'jspdf';
 import { DocumentoGeneradoDTO } from '../../Models/documentos-generados-dto';
 import { DocumentosGeneradosService } from '../documentos-generados.service';
 import { ExpedienteService } from '../expediente.service';
 import { PindustLineaAyudaDTO } from '../../Models/linea-ayuda-dto';
 import { ConfigurationModelDTO } from '../../Models/configuration.dto';
+import { CreateSignatureRequest } from '../../Models/signature.dto';
+import { ViafirmaService } from '../viafirma.service';
 
 
 /* 
@@ -28,7 +30,8 @@ export class PrDevinitivaFavorableService {
   private num_BOIB: string = ""
   private fecha_BOIB: string = ""
   private codigoSIA: string = ""
- 
+  private userLoginEmail: string = ""
+  private ceoEmail: string = "nachollv@hotmail.com" 
   private docGeneradoInsert: DocumentoGeneradoDTO = {
                       id_sol: 0,
                       cifnif_propietario: '',
@@ -43,7 +46,7 @@ export class PrDevinitivaFavorableService {
   }
   private lastInsertId: number | undefined
 
-  constructor( private actoAdminService: ActoAdministrativoService, 
+  constructor( private actoAdminService: ActoAdministrativoService, private viafirmaService: ViafirmaService,
     private commonService: CommonService, private mejorasSolicitudService: MejorasSolicitudService, 
     private documentosGeneradosService: DocumentosGeneradosService ) { }
 
@@ -297,7 +300,7 @@ export class PrDevinitivaFavorableService {
           .subscribe({
             next: () => {
               // Eliminado correctamente, o no había nada que eliminar
-              this.InsertDocumentoGenerado(actualID);
+              this.InsertDocumentoGenerado(actualID, docFieldToUpdate, actualNif, fileName, actualIdExp);
             },
             error: (deleteErr) => {
               const status = deleteErr?.status;
@@ -305,7 +308,7 @@ export class PrDevinitivaFavorableService {
               // Si es "no encontrado" (por ejemplo, 404) seguimos el flujo normal
               if (status === 404 || msg.includes('no se encontró') || msg.includes('No existe')) {
                 this.commonService.showSnackBar('ℹ️ No había documento previo que eliminar.');
-                this.InsertDocumentoGenerado(actualID);
+                this.InsertDocumentoGenerado(actualID, docFieldToUpdate, actualNif, fileName, actualIdExp);
               } else {
               // Otros errores sí se notifican y no continúan
                 const deleteErrMsg = msg || '❌ Error al eliminar el documento previo.';
@@ -322,20 +325,21 @@ export class PrDevinitivaFavorableService {
   }
 
   // Método auxiliar para no repetir el bloque de creación insertando en bbdd el acto administrativo que se ha creado
-  InsertDocumentoGenerado(actualID: number): void {
+  InsertDocumentoGenerado(actualID: number, docFieldToUpdate: string, actualNif: string, filename: string, actualIdExp: number): void {
   this.documentosGeneradosService.create(this.docGeneradoInsert)
   .subscribe({
     next: (resp: any) => {
       this.lastInsertId = resp?.id;
       if (this.lastInsertId) {
-        this.expedienteService.updateFieldExpediente( actualID, `doc_prop_res_definitiva_sin_req`, String(this.lastInsertId) )
+        this.expedienteService.updateFieldExpediente(  actualID, docFieldToUpdate, String(this.lastInsertId) )
           .subscribe({
             next: (response: any) => {
               const mensaje =
                 response?.message ||
                 '✅ Acto administrativo generado y expediente actualizado correctamente.';
               this.commonService.showSnackBar(mensaje);
-              return true; // set component this.actoAdmin11 = true ????
+              this.sendActoAdminToSign(actualNif, filename, actualID)
+              return true; 
             },
             error: (updateErr) => {
               const updateErrorMsg =
@@ -358,4 +362,32 @@ export class PrDevinitivaFavorableService {
     }
   });
   }
+
+  sendActoAdminToSign(actualNif: string, filename: string, actualID: number): void {
+    // Limpiar estados previos
+    filename = `${filename}`
+    const payload: CreateSignatureRequest = {
+      adreca_mail: this.signedBy === 'technician' ? this.userLoginEmail : this.ceoEmail,   
+      nombreDocumento: filename,
+      nif: actualNif,
+      last_insert_id: this.lastInsertId
+    };
+    this.viafirmaService.createSignatureRequest(payload)
+      .pipe(finalize(() => {}))
+      .subscribe({
+      next: (res: any) => {
+        const id = res?.publicAccessId;
+        const fecha = new Date();
+        const fechaFormateada = fecha.toISOString().split('T')[0];
+        this.expedienteService.updateFieldExpediente( actualID, 'fecha_not_propuesta_resolucion_def_sended', fechaFormateada ).subscribe(
+          ()=> { this.commonService.showSnackBar( id ? `Solicitud de firma creada. ID: ${id} y enviada a la dirección: ${payload.adreca_mail}` : 'Solicitud de firma creada correctamente');}
+        )
+       
+      },
+      error: (err) => {
+        const msg = err?.error?.message || err?.message || 'No se pudo enviar la solicitud de firma';
+        this.commonService.showSnackBar(msg);
+      }
+      });
+  }  
 }

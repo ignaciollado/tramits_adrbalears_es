@@ -344,7 +344,7 @@ export class PrDevinitivaDESFavorableService {
    });
    }
 
-  sendActoAdminToSign(actualNif: string, filename: string, actualID: number): void {
+   sendActoAdminToSign(actualNif: string, filename: string, actualID: number): void {
     // Limpiar estados previos
     filename = `${filename}`
     const payload: CreateSignatureRequest = {
@@ -370,5 +370,5 @@ export class PrDevinitivaDESFavorableService {
         this.commonService.showSnackBar(msg);
       }
       });
-  }
+   }
 }

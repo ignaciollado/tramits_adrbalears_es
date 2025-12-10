@@ -142,10 +142,10 @@ loadAllExpedientes(): void {
         item.situacion = 'PR Provisional';
       }
       // --- Mensajes en la Vista ---
-      if (!item.fecha_not_propuesta_resolucion_def_sended) 
-      {item.message = "s'enviará a signatura l'acte administratiu:<br>";}
+      if (!item.fecha_not_propuesta_resolucion_def_sended && item.fecha_not_propuesta_resolucion_def_sended !== '0000-00-00') 
+      {item.message = `En data: ${item.PRDefinitivaDate}<br>s'enviará a signatura l'acte administratiu:<br>`;}
       else
-      {item.message = "S’ha enviat a signatura l’acte administratiu:<br>";}
+      {item.message = `En data: ${item.fecha_not_propuesta_resolucion_def_sended}<br>s'ha enviat a signatura l'acte administratiu:<br> `;}
       
       if (item.fecha_requerimiento_notif !== null && item.propuesta_resolucion_favorable === '1') {
         item.message += "plt-propuesta-resolucion-definitiva-favorable-con-requerimiento.pdf";
@@ -156,7 +156,6 @@ loadAllExpedientes(): void {
       } else if (item.fecha_requerimiento_notif === null && item.propuesta_resolucion_favorable === '0') {
         item.message += "plt-propuesta-resolucion-definitiva-desfavorable-sin-requerimiento.pdf";
       }
-      item.message += `<br><strong>en data: ${item.fecha_not_propuesta_resolucion_def_sended}</strong>`
 
       // Acorto texto de tipo_tramite
       if (item.tipo_tramite === "Programa III actuacions corporatives") item.tipo_tramite = "Programa III a.c.";
@@ -180,8 +179,8 @@ loadAllExpedientes(): void {
       if (expediente.fecha_not_propuesta_resolucion_def_sended === null && expediente.PRDefinitivarestingDays <= 0 && !expediente.generatedActo11 &&
         expediente.fecha_requerimiento_notif === null && expediente.propuesta_resolucion_favorable === '1') {
         // Caso 11: PR definitiva favorable sin requerimiento
-        // console.log ("Caso 11: PR definitiva favorable sin requerimiento", expediente.propuesta_resolucion_favorable, expediente.id)
-        //this.generateActAdmin11(expediente)
+        console.log ("expediente.generatedActo11", expediente.generatedActo11)
+        this.generateActAdmin11(expediente)
       } 
       if (expediente.fecha_not_propuesta_resolucion_def_sended === null && expediente.PRDefinitivarestingDays <= 0 && !expediente.generatedActo13 && 
         expediente.fecha_requerimiento_notif === null && expediente.propuesta_resolucion_favorable === '0') {
@@ -291,9 +290,10 @@ private actualizarTabla(res: any[]): void {
 private generateActAdmin11(item:any) {
 this.prDefinitivaFavorable.generateActoAdmin(item.id, item.nif, item.convocatoria, '11_propuesta_resolucion_definitiva_favorable_sin_requerimiento',
   'XECS', item.tipo_tramite, 'doc_prop_res_definitiva_sin_req', item.fecha_solicitud, item.fecha_firma_propuesta_resolucion_prov,
-  item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desfg, item.idExp, 'prop_res_def_favorable_sin_req', item.empresa, item.ImporteSolicitud)
-  .subscribe()
-item.generatedActo11 = true
+  item.fecha_not_propuesta_resolucion_prov, item.fecha_infor_fav_desf, item.idExp, 'prop_res_def_favorable_sin_req', item.empresa, item.ImporteSolicitud)
+   .subscribe((result:boolean)=>{ 
+      item.generatedActo11 = result
+     })
 }
 
 private generateActAdmin12(item:any) {

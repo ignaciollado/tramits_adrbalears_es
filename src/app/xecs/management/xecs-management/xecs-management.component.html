@@ -58,7 +58,7 @@
 </form>
 
 <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
-<mat-paginator [pageSizeOptions]="[75, 100, 150]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[150, 200, 250]" showFirstLastButtons></mat-paginator>
 
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" >
   <ng-container matColumnDef="fecha_completado">
@@ -71,10 +71,15 @@
     <td mat-cell *matCellDef="let item" ngClass="linea-xecs"> {{ item.tipo_tramite }} </td>
   </ng-container>
 
-  <ng-container matColumnDef="idExp">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Expediente </th>
-    <td mat-cell *matCellDef="let item"><a ngClass="custom-link" [routerLink]="['/xecs-detail-exped', item.id]">{{ item.idExp }}/{{ item.convocatoria }}</a></td>
-  </ng-container>
+<ng-container matColumnDef="idExp">
+  <th mat-header-cell *matHeaderCellDef mat-sort-header> Expediente </th>
+  <td mat-cell *matCellDef="let item">
+    <a ngClass="custom-link" [routerLink]="['/xecs-detail-exped', item.id]">
+      {{ (item.idExp?.toString().length === 1 ? '0' + item.idExp : item.idExp) }}/{{ item.convocatoria }}
+    </a>
+  </td>
+</ng-container>
+
 
   <ng-container matColumnDef="empresa">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Solicitante </th>
@@ -88,7 +93,7 @@
 
   <ng-container matColumnDef="ordenDePago">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Orden de pago</th>
-    <td mat-cell *matCellDef="let item"> {{ item.ordenDePago }} </td>
+    <td mat-cell *matCellDef="let item" style="text-align: center;"> {{ item.ordenDePago }} </td>
   </ng-container>
 
   <ng-container matColumnDef="empresa_consultor">
@@ -120,19 +125,20 @@
       <ng-container *ngSwitchCase="'PR Provisional'">
         {{item.situacion}}
         {{('SITUATIONS.GENERAL.' + getSituacionSuffix(item).text) | translate}}<br>
-        Notificada el {{ item.fecha_not_propuesta_resolucion_prov }}<br>
+        Notificada el: {{ item.fecha_not_propuesta_resolucion_prov }}<br>
         <span [ngClass]="{
-          'positive-diff': item.PRDefinitivarestingDays > 0,
-          'negative-diff': item.PRDefinitivarestingDays <= 0,
-          'indeterminate-diff': !item.PRDefinitivarestingDays && item.PRDefinitivarestingDays !== 0
+          'positive-diff': item.PRDefinitivarestingDays > 0 && !item.fecha_not_propuesta_resolucion_def_sended,
+          'negative-diff': item.PRDefinitivarestingDays <= 0 && !item.fecha_not_propuesta_resolucion_def_sended,
+          'indeterminate-diff': !item.PRDefinitivarestingDays && item.PRDefinitivarestingDays !== 0 && !item.fecha_not_propuesta_resolucion_def_sended
           }">
-          {{ item.PRDefinitivarestingDays !== null && item.PRDefinitivarestingDays !== undefined ? 'Resten '+ item.PRDefinitivarestingDays +' dies naturals' : '**Indeterminat**' }}
+          {{ item.PRDefinitivarestingDays !== null && item.PRDefinitivarestingDays !== undefined && !item.fecha_not_propuesta_resolucion_def_sended ? 'Resten '+ item.PRDefinitivarestingDays +' dies naturals' : '' }}
         </span><br>
-        <span *ngIf ="item.PRDefinitivarestingDays > 0; else prDefinitivaEnviada">per enviar la PR Definitiva.<br>Data d'enviament: {{ item.PRDefinitivaDate }}</span><br>        
+        <span ngClass="future-send" *ngIf ="item.PRDefinitivarestingDays > 0; else prDefinitivaEnviada" [innerHTML]="item.message"></span><br>
+        
         <ng-template #prDefinitivaEnviada>
-          <span ngClass="small-text" [innerHTML]="item.message">Document enviat el: {{ item.fecha_not_propuesta_resolucion_def_sended}}</span>
+          <span ngClass="past-send" [innerHTML]="item.message"></span>
         </ng-template>
-        <span [innerHTML]="item.message" *ngIf="!item.fecha_not_propuesta_resolucion_def_sended"></span><br>
+
       </ng-container>
 
       <!-- Caso pendienteJustificar -->
