@@ -58,20 +58,6 @@ p {
   margin-top: 1rem;
 }
 
-::ng-deep .snack-success {
-  background-color: #4caf50;
-  color: white;
-}
-
-::ng-deep .snack-warning {
-  background-color: #ffa000;
-  color: black;
-}
-
-::ng-deep .snack-error {
-  background-color: #e53935;
-  color: white;
-}
 
 .filtros-grid {
   display: flex;
@@ -98,87 +84,5 @@ p {
       height: 56px;
       white-space: nowrap;
     }
-  }
-}
-
-td {
-  &.st-nohapasadorec {
-    background-color: #080080;
-    color: #e87c0a;
-    font-weight: bold;
-    border: 2px solid #e87c0a;
-    border-radius: 5px;
-    text-align: center;
-  }
-
-  &.st-pendiente {
-    background-color: #080080;
-    color: #51f905;
-    font-weight: bold;
-    border: 5px solid #51f905;
-    border-radius: 2px;
-    text-align: center;
-  }
-
-  // ToDo
-  &.st-reqfirmado {
-    
-  }
-
-  &.st-reqnotificado {
-
-  }
-  
-  &.st-ifresolucionemitida {
-
-  }
-
-  &.st-ifresolucionenviada {
-
-  }
-
-  &.st-ifresolucionnotificada {
-
-  }
-
-  &.st-empresaadherida {
-
-  }
-
-  &.st-idresoluciondenegacionemitida {
-
-  }
-
-  &.st-idresoluciondenegacionenviada {
-
-  }
-
-  &.st-idresoluciondenegacionnotificada ´
-
-
-  &.st-empresadenegada {
-
-  }
-
-  &.st-pendiente-justificar {
-    background-color: #d9e90d;
-    color: #000;
-    border: 2px solid #000;
-    border-radius: 1px;
-    text-align: center;
-  }
-
-  &.st-justificantgoib {
-
-  }
-
-  &.st-adhesionrenovada {
-
-  }
-
-  &.st-desconocido {
-    background-color: #f5f5f5;
-    color: #757575;
-    font-style: italic;
   }
 }
