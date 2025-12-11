@@ -242,6 +242,7 @@
     "Aprovat": "Aprobado",
     "Pendent": "Pendiente",
     "Rebutjat": "Rechazado",
+    "CLASSIFY_SELECTED": "Clasifica",
     "FILEINADR": "Este documento ya se encuentra en poder de la ADR Balears y no ha sufrido modificaciones (en este caso no hace falta aportarlo).",
     "UPLOADFILES": "Cargar documentos",
     "FILES": "Seleccione los documentos (PDF o imagen)",

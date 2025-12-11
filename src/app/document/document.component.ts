@@ -199,6 +199,36 @@ export class DocumentComponent implements OnInit {
     }
   }
 
+
+/** ✅ Clasifica el documento existente en backend identificándolo por: nif, timeStamp, name, extension */
+  
+
+/**
+   * Clasifica el documento ya existente en backend.
+   * Recibe los 4 parámetros tal y como los pasas desde el template.
+   */
+  onClassifySelected(nif: string, timeStamp: string, name: string, extension: string): void {
+    this.isLoading = true;
+    this.progress = 0;
+
+    // ✅ URL de descarga del documento en tu backend
+    // Ajusta esta línea a tu ruta real:
+    //   Opción A (si tu API usa nif/timeStamp):  .../view/${nif}/${timeStamp}/${name}
+    //   Opción B (si usa origin/id):            .../view/${this.origin}/${this.id}/${name}
+ 
+  this.documentService.classifyDocument(nif, timeStamp, name, extension)
+    .subscribe({
+      next: (res) => {
+        // Aquí puedes abrir un MatDialog o pintar res.keyFields en una tabla
+        console.log('Clasificación OK:', res);
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Error clasificando el documento: ' + (err?.message || err));
+      }
+    });
+  }
+
   closePdf() {
     this.showPdfViewer = false;
     this.pdfUrl = null;
@@ -273,13 +303,23 @@ export class DocumentComponent implements OnInit {
   }
 
   getButtonIcon(state: string): string {
+   
+  if (!state) return 'help_outline';
+
+  // Normalizamos: quitamos espacios y pasamos a minúsculas
+  const key = state.trim().toLowerCase();
+ 
   switch (state) {
-    case 'Aprovat':
+    case 'aprovat':
       return 'check_circle'; // ✅
-    case 'Rebutjat':
+    case 'rebutjat':
       return 'cancel'; // ❌
-    case 'Pendent':
+    case 'pendent':
       return 'hourglass_empty'; // ⏳
+    case 'view':
+      return 'eye_tracking';
+    case 'classify': 
+      return 'category';
     default:
       return 'help_outline'; // ?
   }

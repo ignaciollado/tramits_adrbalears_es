@@ -1,8 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map, retry } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+
+
+export interface ClassificationResponse {
+  classification: string;
+  confidence: number;
+  keyFields: Record<string, unknown>;
+  meta: {
+    pages?: number | null;
+    bytes?: number;
+    mime?: string;
+    filename?: string;
+  };
+}
 
 @Injectable({
   providedIn: 'root'
@@ -48,10 +61,38 @@ export class DocumentService {
   }
 
   viewDocument(nif: string, timeStamp: string, docName: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/documents/view/${nif}/${timeStamp}/${docName}`)
+    return this.http.get<any>(`${this.apiUrl}/documents/view/${nif}/${timeStamp}/${docName}`)
       .pipe(catchError(this.handleError));
   }
 
+  classifyDocument(nif:string, timeStamp: string, name: string, extension: string): Observable<ClassificationResponse> {
+    const form = new FormData();
+    form.append('nif', nif);
+    form.append('timeStamp', timeStamp);
+    form.append('name', name);
+    form.append('extension', extension);
+
+    return this.http.post<ClassificationResponse>(this.apiUrl, form).pipe(
+      // Reintenta errores transitorios (p.ej., 502/503). Ajusta el número de reintentos.
+      retry({ count: 1, delay: 300 }),
+      // Si quieres transformar o validar la respuesta antes de exponerla:
+      map(res => {
+        // Validación ligera
+        if (!res || typeof res.classification !== 'string') {
+          throw new Error('Respuesta inválida del servidor');
+        }
+        return res;
+      }),
+      catchError((err: HttpErrorResponse | Error) => {
+               // Normaliza el error a un mensaje entendible
+        const message =
+          err instanceof HttpErrorResponse
+            ? `[${err.status}] ${err.statusText || 'Error HTTP'}: ${err.error?.message ?? err.message}`
+            : err.message;
+        return throwError(() => new Error(message));
+      })
+    );
+  }
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = '¡Error desconocido!';

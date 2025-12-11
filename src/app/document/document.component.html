@@ -4,7 +4,7 @@
       <button *ngIf="showConfirmation" (click)="uploadDocuments('SI')" mat-raised-button color="accent">{{'upload' | translate}}</button>
     </section>
 
-    <mat-progress-bar mode="determinate" [value]="progress" *ngIf="isLoading"></mat-progress-bar>{{idSol}} {{requiredDocs}} {{nif}} {{convocatoria}} {{documentType}}
+    <mat-progress-bar mode="determinate" [value]="progress" *ngIf="isLoading"></mat-progress-bar>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
     <mat-table [dataSource]="selectedFiles" ngClass="mat-elevation-z8 tablecontainer">
       <ng-container matColumnDef="name">
@@ -24,7 +24,7 @@
     <mat-table [dataSource]="documents" ngClass="mat-elevation-z8 tablecontainer">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef> {{'FORM.DOCUMENTNAME' | translate}} </mat-header-cell>
-          <mat-cell *matCellDef="let document">
+          <mat-cell *matCellDef="let document" ngClass="document-name">
             <ng-container >
               <img *ngIf="document.extension !== 'pdf' && document.extension !== 'doc' && document.extension !== 'docx' && document.extension !== 'xls' && document.extension !== 'xlsx' && document.extension !== 'jpg' && document.extension !== 'jpeg' && document.extension !== 'zip'  && document.extension !== 'svg'" width="40px" src='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{ document.name }}' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
               <img *ngIf="document.extension == 'pdf'"  width="40px" src='../../assets/images/logo-2-pdf.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
@@ -35,7 +35,7 @@
             </ng-container>
             {{document.name}}
           </mat-cell>
-          <mat-cell *matCellDef="let document">
+          <mat-cell *matCellDef="let document" ngClass="document-name">
             <img *ngIf="document.extension !== 'pdf'" width="40px" src='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{ document.name }}' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
             <img *ngIf="document.extension == 'pdf'" width="40px" src='../../assets/images/logo-2-pdf.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
             <img *ngIf="document.extension == 'docx'" width="40px" src='../../assets/images/logo-docx.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
@@ -45,9 +45,10 @@
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef> {{'FILES.ACTIONS' | translate}} </mat-header-cell>
         <mat-cell *matCellDef="let document">
-          <button (click)="viewDocument(document.nif, document.timeStamp, document.name, document.extension)" mat-raised-button>{{'FILES.VIEW' | translate}}</button>
-          <button  *ngIf="faseExped === 'Solicitud' || faseExped === 'Validacion' || faseExped === 'Ejecucion' || faseExped === 'Justificacion' || faseExped === 'Desestimiento'" (click)="deleteDocument(document.nif, document.timeStamp, document.name)" mat-raised-button color="warn">{{'FILES.DELETE' | translate}}</button>
+          <button (click)="viewDocument(document.nif, document.timeStamp, document.name, document.extension)" mat-raised-button><mat-icon>{{ getButtonIcon('View') }}</mat-icon>{{'FILES.VIEW' | translate}}</button>
+          <button  *ngIf="faseExped === 'Solicitud' || faseExped === 'Validacion' || faseExped === 'Ejecucion' || faseExped === 'Justificacion' || faseExped === 'Desestimiento'" (click)="deleteDocument(document.nif, document.timeStamp, document.name)" mat-raised-button color="warn"><mat-icon>{{ getButtonIcon('Delete') }}</mat-icon>{{'FILES.DELETE' | translate}}</button>
           <button (click)="changeDocumentState(document)" mat-raised-button [color]="getButtonColor(document.estado)"><mat-icon>{{ getButtonIcon(document.estado) }}</mat-icon>{{ 'FILES.' + document.estado | translate }}</button>
+          <button *ngIf="documents?.length" (click)="onClassifySelected(document.nif, document.timeStamp, document.name, document.extension)" mat-raised-button color="primary" style="margin-left: 8px;"><mat-icon>{{ getButtonIcon('Classify') }}</mat-icon>{{'FILES.CLASSIFY_SELECTED' | translate : { default: 'Clasificar seleccionado' } }}</button>
         </mat-cell>
       </ng-container>
       <mat-header-row *matHeaderRowDef="['name', 'actions']"></mat-header-row>
