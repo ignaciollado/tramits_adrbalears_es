@@ -96,6 +96,7 @@ export class DocumentComponent implements OnInit {
   
   this.documentService.listDocuments(idSol, isRequiredDoc, faseExped).subscribe(
     (response: any) => {
+      console.log ("response", response)
       if (response.status === 'success') {
         const documentosConId = response.data.map((doc: any) => ({
           ...doc,
@@ -207,7 +208,7 @@ export class DocumentComponent implements OnInit {
    * Clasifica el documento ya existente en backend.
    * Recibe los 4 parámetros tal y como los pasas desde el template.
    */
-  onClassifySelected(nif: string, timeStamp: string, name: string, extension: string): void {
+  classifySelected(nif: string, timeStamp: string, name: string, extension: string): void {
     this.isLoading = true;
     this.progress = 0;
 
