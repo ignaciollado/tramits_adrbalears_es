@@ -72,7 +72,7 @@ export class DocumentService {
     form.append('name', name);
     form.append('extension', extension);
 
-    return this.http.post<ClassificationResponse>(this.apiUrl, form).pipe(
+    return this.http.post<ClassificationResponse>(`${this.apiUrl}/api/documents/classify`, form).pipe(
       // Reintenta errores transitorios (p.ej., 502/503). Ajusta el número de reintentos.
       retry({ count: 1, delay: 300 }),
       // Si quieres transformar o validar la respuesta antes de exponerla:
