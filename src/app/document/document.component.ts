@@ -212,21 +212,37 @@ export class DocumentComponent implements OnInit {
     this.isLoading = true;
     this.progress = 0;
 
-    // ✅ URL de descarga del documento en tu backend
-    // Ajusta esta línea a tu ruta real:
-    //   Opción A (si tu API usa nif/timeStamp):  .../view/${nif}/${timeStamp}/${name}
-    //   Opción B (si usa origin/id):            .../view/${this.origin}/${this.id}/${name}
- 
   this.documentService.classifyDocument(nif, timeStamp, name, extension)
     .subscribe({
       next: (res) => {
-        // Aquí puedes abrir un MatDialog o pintar res.keyFields en una tabla
-        console.log('Clasificación OK:', res, documentType);
+
+        // Normalizamos para comparación robusta (ignora mayúsculas/minúsculas y espacios)
+        const classified   = (res?.classification ?? '').trim().toLowerCase();
+        const expectedType = (documentType ?? '').trim().toLowerCase();
+
+const matches = classified === expectedType;
+
+        // (Opcional) guarda el resultado para usarlo en la vista
+        (this as any).classificationMatches = matches;
+
+        console.log('Clasificación OK:', res);
+        console.log('DocumentType:', documentType);
+        console.log('Matches? ', matches);
+
+        // Actualiza estado UI
+        this.progress = 100;
+        this.isLoading = false;
+
+        // Si quieres actuar según el resultado:
+        // if (matches) { /* marcar como validado / cambiar estado */ }
+        // else { /* notificar discrepancia */ }
       },
       error: (err) => {
         console.error(err);
         alert('Error clasificando el documento: ' + (err?.message || err));
+        this.isLoading = false;
       }
+
     });
   }
 
