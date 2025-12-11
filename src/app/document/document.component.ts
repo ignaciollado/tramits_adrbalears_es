@@ -208,7 +208,7 @@ export class DocumentComponent implements OnInit {
    * Clasifica el documento ya existente en backend.
    * Recibe los 4 parámetros tal y como los pasas desde el template.
    */
-  classifySelected(nif: string, timeStamp: string, name: string, extension: string): void {
+  classifySelected(nif: string, timeStamp: string, name: string, extension: string, documentType: string): void {
     this.isLoading = true;
     this.progress = 0;
 
@@ -221,7 +221,7 @@ export class DocumentComponent implements OnInit {
     .subscribe({
       next: (res) => {
         // Aquí puedes abrir un MatDialog o pintar res.keyFields en una tabla
-        console.log('Clasificación OK:', res);
+        console.log('Clasificación OK:', res, documentType);
       },
       error: (err) => {
         console.error(err);
