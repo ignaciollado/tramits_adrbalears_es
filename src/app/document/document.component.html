@@ -33,13 +33,13 @@
               <img *ngIf="document.extension == 'jpg' || document.extension == 'jpeg' || document.extension == 'svg'" width="40px" src='../../assets/images/logo-jpeg.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
               <img *ngIf="document.extension == 'zip'" width="40px" src='../../assets/images/logo-zip.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
             </ng-container>
-            {{document.name}}
+            {{document.name}} {{document.corresponde_documento}}
           </mat-cell>
           <mat-cell *matCellDef="let document" ngClass="document-name">
             <img *ngIf="document.extension !== 'pdf'" width="40px" src='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{ document.name }}' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
             <img *ngIf="document.extension == 'pdf'" width="40px" src='../../assets/images/logo-2-pdf.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
             <img *ngIf="document.extension == 'docx'" width="40px" src='../../assets/images/logo-docx.jpg' alt='https://pre-tramits.idi.es/public/index.php/api/documents/view/{{origin}}/{{id}}/{{document.name}}' title="{{document.name}}">
-            {{document.name}}
+            {{document.name}} {{document.corresponde_documento}}
           </mat-cell>
       </ng-container>
       <ng-container matColumnDef="actions">
