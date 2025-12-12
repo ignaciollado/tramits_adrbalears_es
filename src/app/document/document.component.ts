@@ -96,7 +96,6 @@ export class DocumentComponent implements OnInit {
   
   this.documentService.listDocuments(idSol, isRequiredDoc, faseExped).subscribe(
     (response: any) => {
-      console.log ("response", response)
       if (response.status === 'success') {
         const documentosConId = response.data.map((doc: any) => ({
           ...doc,
