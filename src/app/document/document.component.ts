@@ -220,7 +220,7 @@ export class DocumentComponent implements OnInit {
         const classified   = (res?.classification ?? '').trim().toLowerCase();
         const expectedType = (documentType ?? '').trim().toLowerCase();
 
-const matches = classified === expectedType;
+        const matches = classified === expectedType;
 
         // (Opcional) guarda el resultado para usarlo en la vista
         (this as any).classificationMatches = matches;
