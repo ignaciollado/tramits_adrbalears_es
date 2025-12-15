@@ -280,17 +280,22 @@ export class IlsGrantApplicationFormComponent {
       { files: this.file_logotipoEmpresaIlsToUpload, type: 'file_logotipoEmpresaIls' }
     ]
 
+    this.checkboxID = rawValues.checkboxID;
+    this.checkboxATIB = rawValues.checkboxATIB;
+
     delete rawValues.acceptRGPD;
     delete rawValues.checkboxID;
     delete rawValues.checkboxATIB;
     delete rawValues.radioGroupFile;
 
+    
     this.expedienteService.createExpediente(rawValues).subscribe({
       next: (respuesta) => {
         rawValues.id_sol = respuesta.id_sol
         this.showSnackBar('✔️ Expediente creado con éxito ' + respuesta.message + ' ' + respuesta.id_sol)
-        this.generateDeclaracionResponsable(rawValues, filesToUpload, opcFilesToUpload);
 
+        this.generateDeclaracionResponsable(rawValues, filesToUpload, opcFilesToUpload);
+        
         const archivosValidos = filesToUpload.flatMap(({ files, type }) => {
           if (!files || files.length === 0) return [];
 
@@ -823,7 +828,7 @@ export class IlsGrantApplicationFormComponent {
 
         printBorder(doc, jsonObject.autorizaciones_solicitud_ils, marginLeft, 56, fontSize, pageWidth)
 
-        if (data.checkboxID === true) {
+        if (this.checkboxID === true) {
           doc.text(doc.splitTextToSize(jsonObject.consentimiento_identificacion_solicitante_si, maxTextWidth), marginLeft, 66);
         } else {
           doc.text(doc.splitTextToSize(jsonObject.consentimiento_identificacion_solicitante_no, maxTextWidth), marginLeft, 66);
@@ -832,7 +837,7 @@ export class IlsGrantApplicationFormComponent {
         }
 
         doc.setFont('helvetica', 'normal');
-        if (data.checkboxATIB === true) {
+        if (this.checkboxATIB === true) {
           doc.text(doc.splitTextToSize(jsonObject.doy_mi_consentimiento_aeat_atib_si, maxTextWidth), marginLeft, 80);
         } else {
           doc.text(doc.splitTextToSize(jsonObject.doy_mi_consentimiento_aeat_atib_no, maxTextWidth), marginLeft, 80);
