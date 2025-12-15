@@ -325,7 +325,7 @@ export class DocumentComponent implements OnInit {
   // Normalizamos: quitamos espacios y pasamos a minúsculas
   const key = state.trim().toLowerCase();
  
-  switch (state) {
+  switch (key) {
     case 'aprovat':
       return 'check_circle'; // ✅
     case 'rebutjat':
@@ -333,7 +333,7 @@ export class DocumentComponent implements OnInit {
     case 'pendent':
       return 'hourglass_empty'; // ⏳
     case 'view':
-      return 'eye_tracking';
+      return 'eyeglasses';
     case 'classify': 
       return 'category';
     default:

@@ -25,7 +25,10 @@
     "NOFAVORABLEEXPEDIENTS": "Expedients NO favorables",
     "PAYMENTJUSTIFICATIONPHASE": "Justificació pagament",
     "CORRECTJUSTIFICATION": "Justificació correcta",
-    "JUSTIFICATIONREQUIREMENT": "En cas de requeriment"
+    "JUSTIFICATIONREQUIREMENT": "En cas de requeriment",
+    "FORMJUSTIFICATIONXECS": "Enviar el formulari per a la justificació",
+    "FORMRENOVACIONMARCAILS": "Enviar el formulari per a la renovació de la marca"
+
   },
   "HOME": {
     "WELCOME": "Benvingut a iTràmits, la plataforma oficial de ADR Balears per a la gestió d'ajudes i subvencions",

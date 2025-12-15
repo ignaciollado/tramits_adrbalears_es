@@ -68,6 +68,7 @@ import { ResolDesestimientoPorRenunciaComponent } from '../../../../actos-admin/
 import { PrRevocacionPorNoJustificarComponent } from '../../../../actos-admin/26_pr-revocacion-por-no-justificar/pr-revocacion-por-no-justificar.component';
 import { ResolRevocacionPorNoJustificarComponent } from '../../../../actos-admin/27_resolucion-revocacion-por-no-justificar/resol-revocacion-por-no-justificar.component';
 import { DeclaracionResponsableComponent } from '../../../../actos-admin/28_declaracion-responsable/declaracion-responsable.component';
+import { MailService } from '../../../../Services/mail.service';
 
 @Injectable()
 export class CustomDateAdapter extends NativeDateAdapter {
@@ -170,7 +171,7 @@ export class XecsDetailExpedComponent {
   justificationSendedMail!: Date
 
   constructor( private commonService: CommonService, private adapter: DateAdapter<any>,  private sanitizer: DomSanitizer,
-              private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService,
+              private viafirmaService: ViafirmaService, private lineaXecsService: PindustLineaAyudaService, private mailService: MailService
               ) {
     this.adapter.setLocale('es')
   }
@@ -665,6 +666,29 @@ changeExpedSituation(event: any) {
       });
   }
 }
+
+sendJustificationMail(expediente: any): void {
+
+  const confirmed = window.confirm("¿Quieres enviar el correo electrónico para la justificación de XECS?");
+
+  if (!confirmed) {
+    this.commonService.showSnackBar("Envío cancelado");
+    return;
+  }
+
+  // ✅ Usuario confirmó → enviar correo
+  this.mailService.sendJustificationMail(expediente)
+    .subscribe({
+      next: (response: any) => {
+          console.log("response", response);
+          this.commonService.showSnackBar(response.message);
+      },
+      error: (err) => {
+        console.error("Error enviando correo", err);
+        this.commonService.showSnackBar('Error enviando el correo');
+        }
+      });
+  }
 
 
 }

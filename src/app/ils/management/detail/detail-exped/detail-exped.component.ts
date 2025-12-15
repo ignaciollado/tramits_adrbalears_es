@@ -19,7 +19,9 @@ import { DocSignedDTO } from '../../../../Models/docsigned.dto';
 import { CommonService } from '../../../../Services/common.service';
 import { CustomValidatorsService } from '../../../../Services/custom-validators.service';
 import { ExpedienteService } from '../../../../Services/expediente.service';
+
 import { ViafirmaService } from '../../../../Services/viafirma.service';
+import { MailService } from '../../../../Services/mail.service';
 import { InformeFavorableConRequerimientoIlsComponent } from '../../../../actos-admin-ils/3_informe-favorable-con-requerimiento/informe-favorable-con-requerimiento.component';
 import { InformeFavorableIlsComponent } from '../../../../actos-admin-ils/4_informe-favorable/informe-favorable.component';
 import { InformeDesfavorableConRequerimientoIlsComponent } from '../../../../actos-admin-ils/5_informe-desfavorable-con-requerimiento/informe-desfavorable-con-requerimiento.component';
@@ -93,7 +95,7 @@ export class IlsDetailExpedComponent {
 
   expediente!: any;
 
-  constructor(private commonService: CommonService, private viafirmaService: ViafirmaService) { }
+  constructor(private commonService: CommonService, private viafirmaService: ViafirmaService, private mailService: MailService) { }
 
   ngOnInit(): void {
     this.idExpediente = +this.route.snapshot.paramMap.get('id')!;
@@ -324,5 +326,28 @@ export class IlsDetailExpedComponent {
         this.commonService.showSnackBar('❌ Error al intentar actualizar el estado de publicación,')
       }
     })
+  }
+
+sendRenovationMail(expediente: any): void {
+
+  const confirmed = window.confirm("¿Quieres enviar el correo electrónico de renovación de la marca ILS?");
+
+  if (!confirmed) {
+    this.commonService.showSnackBar("Envío cancelado");
+    return;
+  }
+
+  // ✅ Usuario confirmó → enviar correo
+  this.mailService.sendILSRenovationMail(expediente)
+    .subscribe({
+      next: (response: any) => {
+          console.log("response", response);
+          this.commonService.showSnackBar(response.message);
+      },
+      error: (err) => {
+        console.error("Error enviando correo", err);
+        this.commonService.showSnackBar('Error enviando el correo');
+        }
+      });
   }
 }

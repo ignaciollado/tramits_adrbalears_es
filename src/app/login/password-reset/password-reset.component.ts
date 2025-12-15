@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, ValidationErrors } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -10,7 +10,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-password-reset',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule],
+  imports: [CommonModule, ReactiveFormsModule, MatSnackBarModule, RouterLink],
   templateUrl: './password-reset.component.html',
   styleUrls: ['./password-reset.component.scss']
 })
@@ -20,11 +20,12 @@ export class PasswordResetComponent {
   email: string | null = null
   errorMessage: string | null = null
   successMessage: string | null = null
+  changedCorrectly: boolean = false
 
   constructor(private fb: FormBuilder, 
     private route: ActivatedRoute, private authService: AuthService, private snackBar: MatSnackBar) {
     this.resetForm = this.fb.group({
-      password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/)]], confirmPassword: ['']}, 
+      password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{12,}$/)]], confirmPassword: ['']}, 
       { validators: this.passwordsMatchValidator });
     }
 
@@ -70,6 +71,7 @@ export class PasswordResetComponent {
               duration: 8000,
               panelClass: 'snack-success'
             });
+            this.changedCorrectly = true
             this.resetForm.reset();
           }
         });

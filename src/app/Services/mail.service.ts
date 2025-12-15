@@ -1,6 +1,6 @@
 // src/app/services/mail.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -71,6 +71,22 @@ export class MailService {
     return this.http.post<PindustExpedienteJustificacionDto>(endpoint, JSON.stringify(body), { headers: this.headers }).pipe(
       catchError(this.handleError)
     );
+  }
+
+  sendILSRenovationMail(expediente: any): Observable<any> {
+    const URL_API_SEND = 'https://pre-tramits.idi.es/public/assets/utils/enviaCorreoElectronicoRenovacionMarcaNew.php';
+    const params = new HttpParams()
+      .set('id', expediente.id)
+      .set('subject', "Formulari per a la renovació de la marca ILS - ADRBalears")
+    return this.http.get<any>(URL_API_SEND, { params });
+  }
+
+  sendJustificationMail(idExp: number): Observable<any> {
+    const URL_API_SEND = 'https://pre-tramits.idi.es/public/assets/utils/enviaCorreoElectronicoJustificacionNew.php';
+    const params = new HttpParams()
+      .set('id', idExp)
+      .set('subject', "Formulari per a la justificació XECS - ADRBalears")
+    return this.http.get<any>(URL_API_SEND, { params });
   }
 
   /**

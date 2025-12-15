@@ -8,7 +8,7 @@
     </section>
     <mat-tab-group animationDuration="500ms" mat-stretch-tabs mat-align-tabs="center" dynamicHeight
     [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-        <mat-tab>
+        <mat-tab> <!-- Detalle -->
             <ng-template mat-tab-label>
                 <span ngClass="exped-tab detail-tab">{{'APP.DETAIL' | translate}}</span>
             </ng-template>
@@ -110,7 +110,7 @@
                 </section>
             </mat-card>
         </mat-tab>
-        <mat-tab>
+        <mat-tab> <!-- Solicitud -->
             <ng-template mat-tab-label>
                 <span ngClass="exped-tab solicitud-tab">{{'APP.REQUEST' | translate}}</span>
             </ng-template>
@@ -158,7 +158,7 @@
                 </section>
             </mat-card>
         </mat-tab>
-        <mat-tab>
+        <mat-tab> <!-- Adhesión -->
             <ng-template mat-tab-label>
                 <span ngClass="exped-tab adhesion-tab">{{'APP.ADHESION' | translate}}</span>
             </ng-template>
@@ -202,7 +202,7 @@
                 </section>
             </mat-card>
         </mat-tab>
-        <mat-tab>
+        <mat-tab> <!-- Seguimiento -->
             <ng-template mat-tab-label>
                 <span ngClass="exped-tab seguimiento-tab">{{'APP.TRACKING' | translate}}</span>
             </ng-template>
@@ -246,7 +246,7 @@
                 </section>
             </mat-card>
         </mat-tab>
-        <mat-tab>
+        <mat-tab><!-- Renovación -->
             <ng-template mat-tab-label>
                 <span ngClass="exped-tab renovacion-tab">{{'APP.RENOVATION' | translate}}</span>
             </ng-template>
@@ -311,6 +311,7 @@
                     [form]="form" [expediente]="expediente"></app-res-renovacion-marca-con-requerimiento-ils>
                     <app-resolucion-revocacion-ils
                     [form]="form" [expediente]="expediente"></app-resolucion-revocacion-ils>
+                    <button mat-raised-button color="primary" (click)="sendRenovationMail(expediente)">{{'APP.FORMRENOVACIONMARCAILS' | translate}}</button>
                 </section>
                 <section>
                     <h4 [innerHTML]="'FORM.REQUESTDOCUMENTATION' | translate"></h4>
