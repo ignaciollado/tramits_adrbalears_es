@@ -668,9 +668,7 @@ changeExpedSituation(event: any) {
 }
 
 sendJustificationMail(expediente: any): void {
-
   const confirmed = window.confirm("¿Quieres enviar el correo electrónico para la justificación de XECS?");
-
   if (!confirmed) {
     this.commonService.showSnackBar("Envío cancelado");
     return;
@@ -688,7 +686,5 @@ sendJustificationMail(expediente: any): void {
         this.commonService.showSnackBar('Error enviando el correo');
         }
       });
-  }
-
-
+}
 }

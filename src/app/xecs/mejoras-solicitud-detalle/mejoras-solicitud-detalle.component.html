@@ -7,7 +7,6 @@
     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'MEJORAS.fechaRecMejora' | translate}}</th>
     <td mat-cell *matCellDef="let item">{{ item.fecha_rec_mejora | date: 'yyyy/MM/dd HH:mm:ss' }}</td>
   </ng-container>
-
   <ng-container matColumnDef="ref_rec_mejora">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'MEJORAS.refRecMejora' | translate}}</th>
     <td mat-cell *matCellDef="let item"> {{ item.ref_rec_mejora }} </td>
@@ -15,7 +14,7 @@
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'FORM.action' | translate}}</th>
     <td mat-cell *matCellDef="let item">
-    <button mat-button color="warn" (click)="delete(item)">{{'delete' | translate}}</button>
+    <button mat-button color="warn" (click)="delete(item)">{{'FORM.delete' | translate}}</button>
   </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
