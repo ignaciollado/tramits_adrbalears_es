@@ -551,6 +551,7 @@ calculateAidAmount() {
       });
     const rawImporte = this.form.get('importeAyuda')?.value
     const importe = Number(rawImporte) || 0
+    console.log ("importe, this.actualTipoTramite", importe, (this.actualTipoTramite).trim().toLowerCase())
     if (importe === 0) {
       switch ((this.actualTipoTramite).trim().toLowerCase()) {
         case 'programa i':
@@ -587,53 +588,53 @@ calculateAidAmount() {
         case 'programa iii': /* Mantengo esta opción por compatibilidad con las CONVOS anteriores a 2024 */
             switch(this.totalSolicitudesPrevias) {
                 case 1:
-                    //this.importeAyuda = $objs->Programa_III->edicion->Primera[0]*($objs->Programa_III->edicion->Primera[1]/100);
-                    this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Primera[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Primera[1]/100)
-                    this.form.patchValue({ importeAyuda: this.newAidAmount })
-                    break;
+                  //this.importeAyuda = $objs->Programa_III->edicion->Primera[0]*($objs->Programa_III->edicion->Primera[1]/100);
+                  this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Primera[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Primera[1]/100)
+                  this.form.patchValue({ importeAyuda: this.newAidAmount })
+                  break;
                 default:
-                    //this.importeAyuda = $objs->Programa_III->edicion->Segunda[0]*($objs->Programa_III->edicion->Segunda[1]/100);
-                    this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[1]/100)
-                    this.form.patchValue({ importeAyuda: this.newAidAmount })
+                  //this.importeAyuda = $objs->Programa_III->edicion->Segunda[0]*($objs->Programa_III->edicion->Segunda[1]/100);
+                  this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III.edicion.Segunda[1]/100)
+                  this.form.patchValue({ importeAyuda: this.newAidAmount })
             }
             break;
         case 'programa iii actuacions producte':
             switch(this.totalSolicitudesPrevias) {
                 case 1:
-                    //this.importeAyuda = $objs->Programa_III_ap->edicion->Primera[0]*($objs->Programa_III_ap->edicion->Primera[1]/100);
-                    this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ap.edicion.Primera[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ap.edicion.Primera[1]/100)
-                    this.form.patchValue({ importeAyuda: this.newAidAmount })
-                    break;
+                  //this.importeAyuda = $objs->Programa_III_ap->edicion->Primera[0]*($objs->Programa_III_ap->edicion->Primera[1]/100);
+                  this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ap.edicion.Primera[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ap.edicion.Primera[1]/100)
+                  this.form.patchValue({ importeAyuda: this.newAidAmount })
+                  break;
                 default:
-                    //this.importeAyuda = $objs->Programa_III_ap->edicion->Segunda[0]*($objs->Programa_III_ap->edicion->Segunda[1]/100);
-                    this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ap.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ap.edicion.Segunda[1]/100)
-                    this.form.patchValue({ importeAyuda: this.newAidAmount })
+                  //this.importeAyuda = $objs->Programa_III_ap->edicion->Segunda[0]*($objs->Programa_III_ap->edicion->Segunda[1]/100);
+                  this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ap.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ap.edicion.Segunda[1]/100)
+                  this.form.patchValue({ importeAyuda: this.newAidAmount })
             }
             break;
         case 'programa iii actuacions corporatives':
             switch(this.totalSolicitudesPrevias) {
                 case 1:
-                    //this.importeAyuda = $objs->Programa_III_ac->edicion->Primera[0]*($objs->Programa_III_ac->edicion->Primera[1]/100);
-                    this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ac.edicion.Primera[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ac.edicion.Primera[1]/100)
-                    this.form.patchValue({ importeAyuda: this.newAidAmount })
-                    break;
+                  //this.importeAyuda = $objs->Programa_III_ac->edicion->Primera[0]*($objs->Programa_III_ac->edicion->Primera[1]/100);
+                  this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ac.edicion.Primera[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ac.edicion.Primera[1]/100)
+                  this.form.patchValue({ importeAyuda: this.newAidAmount })
+                  break;
                 default:
-                    //this.importeAyuda = $objs->Programa_III_ac->edicion->Segunda[0]*($objs->Programa_III_ac->edicion->Segunda[1]/100);
-                    this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ac.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ac.edicion.Segunda[1]/100)
-                    this.form.patchValue({ importeAyuda: this.newAidAmount })
+                  //this.importeAyuda = $objs->Programa_III_ac->edicion->Segunda[0]*($objs->Programa_III_ac->edicion->Segunda[1]/100);
+                  this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ac.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_III_ac.edicion.Segunda[1]/100)
+                  this.form.patchValue({ importeAyuda: this.newAidAmount })
             }
             break;
         case 'programa iv':
             switch(this.totalSolicitudesPrevias) {
                 case 1:
-                    //this.importeAyuda = $objs->Programa_IV->edicion->Primera[0]*($objs->Programa_IV->edicion->Primera[1]/100);
-                    this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_IV.edicion.Primera[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_IV.edicion.Primera[1]/100)
-                    this.form.patchValue({ importeAyuda: this.newAidAmount })
-                    break;
+                  //this.importeAyuda = $objs->Programa_IV->edicion->Primera[0]*($objs->Programa_IV->edicion->Primera[1]/100);
+                  this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_IV.edicion.Primera[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_IV.edicion.Primera[1]/100)
+                  this.form.patchValue({ importeAyuda: this.newAidAmount })
+                  break;
                 default:
-                    //this.importeAyuda = $objs->Programa_IV->edicion->Segunda[0]*($objs->Programa_IV->edicion->Segunda[1]/100);
-                    this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_IV.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_IV.edicion.Segunda[1]/100)
-                    this.form.patchValue({ importeAyuda: this.newAidAmount })
+                  //this.importeAyuda = $objs->Programa_IV->edicion->Segunda[0]*($objs->Programa_IV->edicion->Segunda[1]/100);
+                  this.newAidAmount = JSON.parse(this.lineaXecsConfig[0].programa).Programa_IV.edicion.Segunda[0] *(JSON.parse(this.lineaXecsConfig[0].programa).Programa_IV.edicion.Segunda[1]/100)
+                  this.form.patchValue({ importeAyuda: this.newAidAmount })
             }
             break;
       }
@@ -655,7 +656,6 @@ changeExpedSituation(event: any) {
       .updateFieldExpediente(this.actualID, 'situacion', 'notificadoIFPRProvPago')
       .subscribe({
         next: (newState: any) => {
-          console.log (newState)
           this.commonService.showSnackBar('Situación actualizada a: ' + newState.data.situacion);
           // Opcional: actualizar también el formulario si quieres reflejar el valor
           this.form.patchValue({ situacion: 'notificadoIFPRProvPago' });
@@ -668,7 +668,7 @@ changeExpedSituation(event: any) {
 }
 
 sendJustificationMail(expediente: any): void {
-  const confirmed = window.confirm("¿Quieres enviar el correo electrónico para la justificación de XECS?");
+  const confirmed = window.confirm("¿ Quieres enviar el correo electrónico \npara que hagan la justificación de la ayuda de XECS ?");
   if (!confirmed) {
     this.commonService.showSnackBar("Envío cancelado");
     return;
@@ -678,7 +678,6 @@ sendJustificationMail(expediente: any): void {
   this.mailService.sendJustificationMail(expediente)
     .subscribe({
       next: (response: any) => {
-          console.log("response", response);
           this.commonService.showSnackBar(response.message);
       },
       error: (err) => {

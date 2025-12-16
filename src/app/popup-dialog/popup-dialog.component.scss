@@ -1,29 +1,37 @@
 section {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  padding: 0.5rem 0;
+  padding: 1.5rem;
+  color: #2a2a2a;
+  font-family: "Roboto", sans-serif;
 
+  // Título del diálogo
   h2[mat-dialog-title] {
     font-size: 1.4rem;
     font-weight: 600;
-    color: #333;
-    margin-bottom: 0.5rem;
+    color: #1a237e; // Azul corporativo
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 0.5rem;
   }
 
+  // Contenido del diálogo
   mat-dialog-content {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 1.5rem;
     max-height: 60vh;
     overflow-y: auto;
     padding-right: 0.5rem;
 
     .dialog-title {
       font-size: 1rem;
-      color: #555;
-      line-height: 1.4;
-      padding: 0.5rem 0;
+      color: #424242;
+      line-height: 1.5;
+      background: #f5f7fa;
+      padding: 1rem;
+      border-left: 4px solid #1a237e;
+      border-radius: 4px;
     }
 
     section {
@@ -32,13 +40,17 @@ section {
       gap: 1rem;
 
       a {
-        color: #1976d2;
+        color: #0d47a1;
         font-weight: 500;
         text-decoration: none;
         word-break: break-all;
+        padding: 0.4rem 0.6rem;
+        background: #e3f2fd;
+        border-radius: 4px;
+        transition: 0.2s ease;
 
         &:hover {
-          text-decoration: underline;
+          background: #bbdefb;
         }
       }
 
@@ -46,29 +58,61 @@ section {
         max-width: 100%;
         border-radius: 6px;
         border: 1px solid #ddd;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
       }
     }
   }
 
+  // Acciones del diálogo
   mat-dialog-actions {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
     padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
 
     button[mat-raised-button] {
       min-width: 110px;
-      font-weight: 500;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
 
       &.mat-primary {
-        background-color: #1976d2;
+        background-color: #1a237e;
         color: white;
+
+        &:hover {
+          background-color: #283593;
+        }
       }
 
       &.mat-warn {
-        background-color: #d32f2f;
+        background-color: #b71c1c;
         color: white;
+
+        &:hover {
+          background-color: #c62828;
+        }
+      }
+    }
+  }
+}
+
+/* 📱 Responsive */
+@media (max-width: 480px) {
+  section {
+    padding: 1rem;
+
+    h2[mat-dialog-title] {
+      font-size: 1.2rem;
+    }
+
+    mat-dialog-actions {
+      flex-direction: column;
+      align-items: stretch;
+
+      button {
+        width: 100%;
       }
     }
   }

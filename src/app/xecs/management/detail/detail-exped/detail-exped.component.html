@@ -332,7 +332,7 @@
     </mat-card>
     </mat-tab>
 
-    <mat-tab><!-- ejecución -->
+    <mat-tab><!-- Ejecución -->
       <ng-template mat-tab-label>
         <span ngClass="exped-tab ejecucion-tab">{{ 'APP.EXECUTION' | translate }}</span>
       </ng-template>
@@ -377,7 +377,7 @@
         [actualConvocatoria]="actualConvocatoria"[actualTipoTramite]="actualTipoTramite"></app-acta-de-kick-off>
         <app-acta-de-cierre [form]="form" [actualID]="actualID" [actualEmpresa]="actualEmpresa" [actualIdExp]="actualIdExp" [actualNif]="actualNif" 
         [actualConvocatoria]="actualConvocatoria" [actualTipoTramite]="actualTipoTramite" [justificationSendedMail] = "justificationSendedMail"></app-acta-de-cierre>
-        <button mat-raised-button color="primary" (click)="sendJustificationMail(actualIdExp)">{{'APP.FORMJUSTIFICATIONXECS' | translate}}</button>
+        <button mat-raised-button color="primary" (click)="sendJustificationMail(actualID)">{{'APP.FORMJUSTIFICATIONXECS' | translate}}</button>
       </section>
       <section>
         <h4>Documentos del expediente</h4>

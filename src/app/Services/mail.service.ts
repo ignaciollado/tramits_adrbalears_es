@@ -74,7 +74,7 @@ export class MailService {
   }
 
   sendILSRenovationMail(expediente: any): Observable<any> {
-    const URL_API_SEND = 'https://pre-tramits.idi.es/public/assets/utils/enviaCorreoElectronicoRenovacionMarcaNew.php';
+    const URL_API_SEND = 'https://tramits.idi.es/public/assets/utils/enviaCorreoElectronicoRenovacionMarcaNew.php';
     const params = new HttpParams()
       .set('id', expediente.id)
       .set('subject', "Formulari per a la renovació de la marca ILS - ADRBalears")
@@ -82,10 +82,10 @@ export class MailService {
   }
 
   sendJustificationMail(idExp: number): Observable<any> {
-    const URL_API_SEND = 'https://pre-tramits.idi.es/public/assets/utils/enviaCorreoElectronicoJustificacionNew.php';
+    const URL_API_SEND = 'https://tramits.idi.es/public/assets/utils/enviaCorreoElectronicoJustificacionNew.php';
     const params = new HttpParams()
       .set('id', idExp)
-      .set('subject', "Formulari per a la justificació XECS - ADRBalears")
+      .set('subject', "Formulari per a la justificació de XECS - ADRBalears")
     return this.http.get<any>(URL_API_SEND, { params });
   }
 

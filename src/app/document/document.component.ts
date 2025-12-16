@@ -17,7 +17,7 @@ import { ExpedienteDocumentoService } from '../Services/expediente.documento.ser
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-/* import { PdfViewerModule } from 'ng2-pdf-viewer'; */
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface Documento {
   id_sol: number;
@@ -40,7 +40,7 @@ export interface Documento {
     MatTableModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
-    MatIconModule,
+    MatIconModule, MatTooltipModule,
     TranslateModule
   ],
   templateUrl: './document.component.html',
@@ -333,7 +333,7 @@ export class DocumentComponent implements OnInit {
     case 'pendent':
       return 'hourglass_empty'; // ⏳
     case 'view':
-      return 'eyeglasses';
+      return 'visibility';
     case 'classify': 
       return 'category';
     default:

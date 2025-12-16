@@ -1,0 +1,89 @@
+:host {
+  display: block;
+  font-family: "Roboto", sans-serif;
+}
+
+section {
+  padding: 3rem 1rem;
+}
+
+/* Contenedor principal del diálogo */
+h2[mat-dialog-title] {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #0098ce; /* Azul corporativo */
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+/* Contenido del mensaje */
+mat-dialog-content {
+  font-size: 1rem;
+  color: #424242;
+  line-height: 1.5;
+  padding: 0.5rem 0 1rem 0;
+  background: #f8f9fc;
+  border-left: 4px solid #00405e;
+  border-radius: 4px;
+}
+
+/* Acciones del diálogo */
+mat-dialog-actions {
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+
+  button[mat-button] {
+    min-width: 110px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  /* Botón cancelar */
+  button:not(.mat-warn) {
+    color: #0098ce;
+
+    &:hover {
+      background-color: rgba(26, 35, 126, 0.08);
+    }
+  }
+
+  /* Botón eliminar */
+  .mat-warn {
+    background-color: #c62828;
+    color: white;
+
+    &:hover {
+      background-color: #b71c1c;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  h2[mat-dialog-title] {
+    font-size: 1.2rem;
+  }
+
+  mat-dialog-content {
+    font-size: 0.95rem;
+  }
+
+  mat-dialog-actions {
+    flex-direction: column;
+    align-items: stretch;
+
+    button {
+      width: 100%;
+    }
+  }
+}

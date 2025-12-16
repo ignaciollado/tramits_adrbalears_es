@@ -5,14 +5,15 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogContent, MatDialogActions } fro
 @Component({
   selector: 'app-confirm-dialog',
   standalone: true,
-  template: `
+  template: `<section>
     <h2 mat-dialog-title>{{ data.title }}</h2>
     <mat-dialog-content>{{ data.message }}</mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button (click)="onCancel()">Cancelar</button>
       <button mat-button color="warn" (click)="onConfirm()">Eliminar</button>
     </mat-dialog-actions>
-  `,
+    </section>`,
+  styleUrls: ['./confirm-dialog.component.scss'],
   imports: [MatDialogContent, MatDialogActions]
 })
 export class ConfirmDialogComponent {
